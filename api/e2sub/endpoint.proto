@@ -1,0 +1,102 @@
+/*
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+*/
+
+syntax = "proto3";
+
+// Package ricapi.e2.registry.v1beta1 defines the interior gRPC interface for E2 termination registry service
+package e2sub.endpoint;
+
+option go_package = "api/e2sub/endpoint";
+
+import "gogoproto/gogo.proto";
+
+// E2RegistryService manages subscription and subscription delete requests
+service E2RegistryService {
+    // AddTermination registers new E2 termination end-point.
+    rpc AddTermination (AddTerminationRequest) returns (AddTerminationResponse);
+
+    // GetTermination retrieves information about a specific end-point
+    rpc GetTermination (GetTerminationRequest) returns (GetTerminationResponse);
+
+    // RemoveTermination removes the specified E2 termination end-point.
+    rpc RemoveTermination (RemoveTerminationRequest) returns (RemoveTerminationResponse);
+
+    // ListTerminations returns the list of currently registered E2 terminations.
+    rpc ListTerminations (ListTerminationsRequest) returns (ListTerminationsResponse);
+
+    // WatchTerminations returns a stream of changes in the set of available E2 terminations.
+    rpc WatchTerminations (WatchTerminationsRequest) returns (stream WatchTerminationsResponse);
+}
+
+// Termination is a record identifying the IP address and TCP port coordinates where the E2 termination
+// service is available.
+message TerminationEndpoint {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+    uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
+    string ip = 3 [(gogoproto.customname) = "IP", (gogoproto.casttype) = "IP"];
+    uint32 port = 4 [(gogoproto.customname) = "Port", (gogoproto.casttype) = "Port"];
+}
+
+// Type of change
+enum EventType {
+    NONE = 0;
+    ADDED = 1;
+    REMOVED = 3;
+}
+
+// Event is an end-point event
+message Event {
+    EventType type = 1;
+    TerminationEndpoint endpoint = 2 [(gogoproto.nullable) = false];
+}
+
+
+// AddTerminationRequest is a request for adding a new termination point
+message AddTerminationRequest {
+    TerminationEndpoint endpoint = 1;
+}
+
+// AddTerminationResponse is a response to adding a new termination point
+message AddTerminationResponse {
+}
+
+// GetTerminationRequest is a request for getting existing termination point
+message GetTerminationRequest {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+}
+
+// GetTerminationResponse is a response with invormation about a requested termination point
+message GetTerminationResponse {
+    TerminationEndpoint endpoint = 1;
+}
+
+// RemoveTerminationRequest is a request for removing termination point
+message RemoveTerminationRequest {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+}
+
+// RemoveTerminationResponse is a response to removing a termination point
+message RemoveTerminationResponse {
+}
+
+// ListTerminationsRequest is a request to list all available E2 terminations
+message ListTerminationsRequest {
+}
+
+// ListTerminationsResponse is a response to list all available E2 terminations
+message ListTerminationsResponse {
+    repeated TerminationEndpoint endpoints = 1 [(gogoproto.nullable) = false];
+}
+
+// WatchTerminationsRequest is a request to receive a stream of all E2 termination changes.
+message WatchTerminationsRequest {
+    bool noreplay = 1;
+}
+
+// WatchTerminationsResponse is a response indicating a change in the available E2 termination end-points.
+message WatchTerminationsResponse {
+    Event event = 1 [(gogoproto.nullable) = false];
+}

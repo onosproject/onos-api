@@ -19,7 +19,7 @@ license_check: # @HELP examine and ensure license headers exist
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 	docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-api \
-		-w /go/src/github.com/onosproject/onos-api/api \
+		-w /go/src/github.com/onosproject/onos-api \
 		bufbuild/buf:${BUF_VERSION} check lint
 
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
