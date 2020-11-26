@@ -16,7 +16,7 @@ limitations under the License.
 
 syntax = "proto3";
 
-// Package e2sub.subscription defines the interior gRPC interface for subscription service
+// Package ricapi.subscription.v1beta1 defines the interior gRPC interface for subscription service
 package e2sub.subscription;
 
 option go_package = "api/e2sub/subscription";
@@ -66,13 +66,11 @@ message Event {
     Subscription subscription = 2 [(gogoproto.nullable) = false];
 }
 
-enum EncodingType {
-    PROTO = 0;
-    ASN1_PER = 1;
-    ASN1_XER = 2;
-    JSON = 3;
+// Encoding indicates a payload encoding
+enum Encoding {
+    ENCODING_ASN1 = 0;
+    ENCODING_PROTO = 1;
 }
-
 
 // ServiceModel is a service model definition
 message ServiceModel {
@@ -81,7 +79,7 @@ message ServiceModel {
 
 // Payload is a subscription payload
 message Payload {
-    EncodingType encoding_type = 1;
+    Encoding encoding = 1;
     bytes bytes = 2;
 }
 

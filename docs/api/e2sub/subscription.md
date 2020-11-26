@@ -20,7 +20,7 @@
     - [WatchSubscriptionsRequest](#e2sub.subscription.WatchSubscriptionsRequest)
     - [WatchSubscriptionsResponse](#e2sub.subscription.WatchSubscriptionsResponse)
   
-    - [EncodingType](#e2sub.subscription.EncodingType)
+    - [Encoding](#e2sub.subscription.Encoding)
     - [EventType](#e2sub.subscription.EventType)
     - [Status](#e2sub.subscription.Status)
   
@@ -161,7 +161,7 @@ Payload is a subscription payload
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| encoding_type | [EncodingType](#e2sub.subscription.EncodingType) |  |  |
+| encoding | [Encoding](#e2sub.subscription.Encoding) |  |  |
 | bytes | [bytes](#bytes) |  |  |
 
 
@@ -262,17 +262,15 @@ Subscription is a subscription state
  
 
 
-<a name="e2sub.subscription.EncodingType"></a>
+<a name="e2sub.subscription.Encoding"></a>
 
-### EncodingType
-
+### Encoding
+Encoding indicates a payload encoding
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PROTO | 0 |  |
-| ASN1_PER | 1 |  |
-| ASN1_XER | 2 |  |
-| JSON | 3 |  |
+| ENCODING_ASN1 | 0 |  |
+| ENCODING_PROTO | 1 |  |
 
 
 

@@ -16,7 +16,7 @@ limitations under the License.
 
 syntax = "proto3";
 
-// Package e2.task defines the interior gRPC interface for E2 termination registry service
+// Package e2sub.task defines the interior gRPC interface for E2 termination registry service
 package e2sub.task;
 
 option go_package = "api/e2sub/task";
