@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 // Copyright 2019-present Open Networking Foundation.
-=======
-// Copyright 2020-present Open Networking Foundation.
->>>>>>> use orginal subscription.proto
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,13 +14,10 @@
 
 package topo
 
-<<<<<<< HEAD
 import (
-	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc"
 )
 
-=======
->>>>>>> use orginal subscription.proto
 // ID ...
 type ID string
 
@@ -33,7 +26,6 @@ const NullID = ""
 
 // Revision is an object revision
 type Revision uint64
-<<<<<<< HEAD
 
 // Attribute keys
 const (
@@ -62,5 +54,3 @@ var TopoClientFactory = func(cc *grpc.ClientConn) TopoClient {
 func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 	return TopoClientFactory(cc)
 }
-=======
->>>>>>> use orginal subscription.proto
