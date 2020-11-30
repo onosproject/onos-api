@@ -1,0 +1,126 @@
+/*
+Copyright 2020-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package e2sub.task defines the interior gRPC interface for E2 termination registry service
+package e2sub.task;
+
+option go_package = "api/e2sub/task";
+
+import "gogoproto/gogo.proto";
+
+// E2SubscriptionTaskService manages subscription tasks between E2 termination points and E2 nodes
+service E2SubscriptionTaskService {
+    // GetSubscriptionTask retrieves information about a specific task
+    rpc GetSubscriptionTask (GetSubscriptionTaskRequest) returns (GetSubscriptionTaskResponse);
+
+    // ListSubscriptionTasks returns the list of currently registered E2 Tasks.
+    rpc ListSubscriptionTasks (ListSubscriptionTasksRequest) returns (ListSubscriptionTasksResponse);
+
+    // WatchSubscriptionTasks returns a stream of changes in the set of available E2 Tasks.
+    rpc WatchSubscriptionTasks (WatchSubscriptionTasksRequest) returns (stream WatchSubscriptionTasksResponse);
+
+    // UpdateSubscriptionTask updates a task status
+    rpc UpdateSubscriptionTask (UpdateSubscriptionTaskRequest) returns (UpdateSubscriptionTaskResponse);
+}
+
+// Lifecycle is a subscription task status
+message Lifecycle {
+    Phase phase = 1;
+    Status status = 2;
+}
+
+// Phase is a subscription task phase
+enum Phase {
+    // OPEN is a subscription task open phase
+    OPEN = 0;
+    // CLOSE is a subscription task close phase
+    CLOSE = 1;
+}
+
+// Status is a subscription task status
+enum Status {
+    // PENDING indicates the subscription task phase is pending
+    PENDING = 0;
+    // COMPLETE indicates the subscription task phase is complete
+    COMPLETE = 1;
+}
+
+// SubscriptionTask is a task representing a subscription between an E2 termination and an E2 node
+message SubscriptionTask {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+    uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
+    string subscription_id = 3 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "github.com/onosproject/onos-e2sub/api/e2/subscription/v1beta1.ID"];
+    string endpoint_id = 4 [(gogoproto.customname) = "EndpointID", (gogoproto.casttype) = "github.com/onosproject/onos-e2sub/api/e2/endpoint/v1beta1.ID"];
+    Lifecycle lifecycle = 5 [(gogoproto.nullable) = false];
+}
+
+// Type of change
+enum EventType {
+    NONE = 0;
+    CREATED = 1;
+    UPDATED = 2;
+    REMOVED = 3;
+}
+
+// Event is a SubscriptionTask event
+message Event {
+    EventType type = 1;
+    SubscriptionTask task = 2 [(gogoproto.nullable) = false];
+}
+
+// GetSubscriptionTaskRequest is a request for getting existing SubscriptionTask
+message GetSubscriptionTaskRequest {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+}
+
+// GetSubscriptionTaskResponse is a response with invormation about a requested SubscriptionTask
+message GetSubscriptionTaskResponse {
+    SubscriptionTask task = 1;
+}
+
+// ListSubscriptionTasksRequest is a request to list all available SubscriptionTasks
+message ListSubscriptionTasksRequest {
+    string subscription_id = 1 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "github.com/onosproject/onos-e2sub/api/e2/subscription/v1beta1.ID"];
+    string endpoint_id = 2 [(gogoproto.customname) = "EndpointID", (gogoproto.casttype) = "github.com/onosproject/onos-e2sub/api/e2/endpoint/v1beta1.ID"];
+}
+
+// ListSubscriptionTasksResponse is a response to list all available SubscriptionTasks
+message ListSubscriptionTasksResponse {
+    repeated SubscriptionTask tasks = 1 [(gogoproto.nullable) = false];
+}
+
+// WatchSubscriptionTasksRequest is a request to receive a stream of all SubscriptionTask changes.
+message WatchSubscriptionTasksRequest {
+    bool noreplay = 1;
+    string subscription_id = 2 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "github.com/onosproject/onos-e2sub/api/e2/subscription/v1beta1.ID"];
+    string endpoint_id = 3 [(gogoproto.customname) = "EndpointID", (gogoproto.casttype) = "github.com/onosproject/onos-e2sub/api/e2/endpoint/v1beta1.ID"];
+}
+
+// WatchSubscriptionTasksResponse is a response indicating a change in the available SubscriptionTasks.
+message WatchSubscriptionTasksResponse {
+    Event event = 1 [(gogoproto.nullable) = false];
+}
+
+// UpdateSubscriptionTaskRequest is a request for updating a SubscriptionTask status
+message UpdateSubscriptionTaskRequest {
+    SubscriptionTask task = 1;
+}
+
+// UpdateSubscriptionTaskResponse is a response to updating a SubscriptionTask status
+message UpdateSubscriptionTaskResponse {
+}

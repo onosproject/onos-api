@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+version: v1beta1
+lint:
+  ignore:
+    - gogoproto
+  use:
+    - DEFAULT
+    - FILE_LOWER_SNAKE_CASE
+  except:
+    - ENUM_ZERO_VALUE_SUFFIX
+    - PACKAGE_SAME_GO_PACKAGE
+    - RPC_REQUEST_STANDARD_NAME
+    - RPC_RESPONSE_STANDARD_NAME
+    - ENUM_NO_ALLOW_ALIAS
+    - IMPORT_NO_PUBLIC
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_SAME_DIRECTORY
+    - PACKAGE_AFFINITY
+    - PACKAGE_VERSION_SUFFIX
+    - ENUM_VALUE_PREFIX
+build:
+  roots:
+    - api
+

@@ -16,10 +16,21 @@ limitations under the License.
 
 syntax = "proto3";
 
-package ricapi.e2.headers.v1beta1;
+// Package e2t.e2 defines the interior gRPC interfaces for xApps to interact with E2T.
+package e2t.e2;
 
-option go_package = "github.com/onosproject/onos-api/api/ricapi/e2/headers/v1beta1";
+option go_package = "api/e2t/e2";
 
+
+import "gogoproto/gogo.proto";
+
+// E2TService provides means for enhanced interactions with the ONOS RIC E2 Termination service.
+service E2TService {
+    // Stream opens an indications stream
+    rpc Stream (stream StreamRequest) returns (stream StreamResponse);
+}
+
+// ServiceModelInfo E2 service model information
 message ServiceModelInfo {
     string service_model_id = 1;
 }
@@ -28,7 +39,6 @@ message ServiceModelInfo {
 message RequestHeader {
     EncodingType encoding_type = 1;
     ServiceModelInfo service_model_info = 2;
-
     // TODO more fields should be added
 
 }
@@ -38,7 +48,6 @@ message ResponseHeader {
     EncodingType encoding_type = 1;
     ServiceModelInfo service_model_info = 2;
     ResponseStatus response_status = 3;
-    bytes indication_header = 4;
     // TODO more fields should be added
 
 }
@@ -56,4 +65,17 @@ enum ResponseStatus {
     SUCCEEDED = 1;
 }
 
+// StreamRequest
+message StreamRequest {
+    RequestHeader header = 1;
+    string app_id = 2 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
+    string instance_id = 3 [(gogoproto.casttype) = "InstanceID", (gogoproto.customname) = "InstanceID"];
+    string subscription_id = 4 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
 
+}
+
+// StreamResponse
+message StreamResponse {
+    ResponseHeader header = 1;
+    bytes payload = 2;
+}

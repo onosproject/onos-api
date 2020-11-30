@@ -1,0 +1,137 @@
+/*
+Copyright 2020-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package ricapi.subscription.v1beta1 defines the interior gRPC interface for subscription service
+package e2sub.subscription;
+
+option go_package = "api/e2sub/subscription";
+
+import "gogoproto/gogo.proto";
+
+// SubscriptionService manages subscription and subscription delete requests
+service E2SubscriptionService {
+    // AddSubscription establishes E2 subscriptions on E2 Node.
+    rpc AddSubscription (AddSubscriptionRequest) returns (AddSubscriptionResponse);
+
+    // RemoveSubscription removes E2 subscriptions on E2 Node.
+    rpc RemoveSubscription (RemoveSubscriptionRequest) returns (RemoveSubscriptionResponse);
+
+    // GetSubscription retrieves information about a specific subscription in the list of existing subscriptions
+    rpc GetSubscription (GetSubscriptionRequest) returns (GetSubscriptionResponse);
+
+    // ListSubscriptions returns the list of current existing subscriptions
+    rpc ListSubscriptions (ListSubscriptionsRequest) returns (ListSubscriptionsResponse);
+
+    // WatchSubscriptions returns a stream of subscription changes
+    rpc WatchSubscriptions (WatchSubscriptionsRequest) returns (stream WatchSubscriptionsResponse);
+}
+
+// Lifecycle is the subscription lifecycle
+message Lifecycle {
+    Status status = 1;
+}
+
+// Status is a subscription status
+enum Status {
+    ACTIVE = 0;
+    PENDING_DELETE = 1;
+}
+
+// EventType is a subscription event type
+enum EventType {
+    NONE = 0;
+    ADDED = 1;
+    UPDATED = 2;
+    REMOVED = 3;
+}
+
+// Event is a subscription event
+message Event {
+    EventType type = 1;
+    Subscription subscription = 2 [(gogoproto.nullable) = false];
+}
+
+// Encoding indicates a payload encoding
+enum Encoding {
+    ENCODING_ASN1 = 0;
+    ENCODING_PROTO = 1;
+}
+
+// ServiceModel is a service model definition
+message ServiceModel {
+    string id = 4 [(gogoproto.casttype) = "ServiceModelID", (gogoproto.customname) = "ID"];
+}
+
+// Payload is a subscription payload
+message Payload {
+    Encoding encoding = 1;
+    bytes bytes = 2;
+}
+
+// Subscription is a subscription state
+message Subscription {
+    string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
+    uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
+    string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
+    string e2_node_id = 4 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    ServiceModel service_model = 5;
+    Payload payload = 6;
+    Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
+}
+
+// AddSubscriptionRequest a subscription request
+message AddSubscriptionRequest {
+    Subscription subscription = 1;
+}
+
+// AddSubscriptionResponse a subscription response
+message AddSubscriptionResponse {
+    Subscription subscription = 1;
+}
+
+// RemoveSubscriptionRequest a subscription delete request
+message RemoveSubscriptionRequest {
+    string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
+}
+
+// RemoveSubscriptionResponse a subscription delete response
+message RemoveSubscriptionResponse {
+}
+
+message GetSubscriptionRequest {
+    string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
+}
+
+message GetSubscriptionResponse {
+    Subscription subscription = 1;
+}
+
+message ListSubscriptionsRequest {
+}
+
+message ListSubscriptionsResponse {
+    repeated Subscription subscriptions = 1 [(gogoproto.nullable) = false];
+}
+
+message WatchSubscriptionsRequest {
+    bool noreplay = 1;
+}
+
+message WatchSubscriptionsResponse {
+    Event event = 1 [(gogoproto.nullable) = false];
+}

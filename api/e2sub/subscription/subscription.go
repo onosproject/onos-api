@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package v1beta1
+package subscription
 
-import "google.golang.org/grpc"
+// ID is a subscription identifier
+type ID string
 
-// E2TClientFactory : Default E2TClient creation.
-var E2TClientFactory = func(cc *grpc.ClientConn) E2TServiceClient {
-	return NewE2TServiceClient(cc)
-}
+// Revision is a subscription revision
+type Revision uint64
 
-// CreateE2ServiceClient creates and returns a new config admin client
-func CreateE2TServiceClient(cc *grpc.ClientConn) E2TServiceClient {
-	return E2TClientFactory(cc)
-}
+// AppID is an application identifier
+type AppID string
+
+// E2NodeID is an E2 node identifier
+type E2NodeID string
+
+// ServiceModelID is a service model identifier
+type ServiceModelID string

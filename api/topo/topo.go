@@ -15,7 +15,7 @@
 package topo
 
 import (
-	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc"
 )
 
 // ID ...
