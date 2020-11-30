@@ -7,6 +7,8 @@ ONOS_BUILD_VERSION := v0.6.6
 ONOS_PROTOC_VERSION := v0.6.6
 BUF_VERSION := 0.27.1
 
+all: protos
+
 test: # @HELP run the unit tests and source code validation
 test: protos license_check
 
@@ -24,15 +26,14 @@ buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
 protos:
-	docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-api \
-		-w /go/src/github.com/onosproject/onos-api \
+	docker run -it \
+	    -v `pwd`:/onos-api \
+		-w /onos-api \
 		--entrypoint build/bin/compile-protos.sh \
 		onosproject/protoc-go:${ONOS_PROTOC_VERSION}
 
 publish: # @HELP publish version on github and dockerhub
 	./../build-tools/publish-version ${VERSION}
-
-all: test
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor
