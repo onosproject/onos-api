@@ -34,7 +34,7 @@ protos:
 
 publish: # @HELP publish version on github and dockerhub
 	./../build-tools/publish-version ${VERSION}
-	./../build-tools/publish-version ${VERSION}/go
+	./../build-tools/publish-version go/${VERSION}
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor
