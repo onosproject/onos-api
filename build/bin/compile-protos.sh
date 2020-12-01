@@ -51,21 +51,18 @@ protoc --proto_path=$proto_path \
     proto/onos/topo/*.proto
 
 ### Python Protobuf code generation
-#protoc --proto_path=$proto_path \
-#    --python_betterproto_out=./python/onos/e2sub \
-#    proto/onos/e2sub/endpoint/*.proto
-#protoc --proto_path=$proto_path \
-#    --python_betterproto_out=./python/onos/e2sub \
-#    proto/onos/e2sub/subscription/*.proto
-#protoc --proto_path=$proto_path \
-#    --python_betterproto_out=./python/onos/e2sub \
-#    proto/onos/e2sub/task/*.proto
-#protoc --proto_path=$proto_path \
-#    --python_betterproto_out=./python/onos/e2t \
-#    proto/onos/e2t/admin/*.proto
-#protoc --proto_path=$proto_path \
-#    --python_betterproto_out=./python/onos/e2t \
-#    proto/onos/e2t/e2/*.proto
-#protoc --proto_path=$proto_path \
-#    --python_betterproto_out=./python/onos/topo \
-#    proto/onos/topo/*.proto
+protoc --proto_path=$proto_path \
+    --python_betterproto_out=./python \
+    proto/onos/e2sub/endpoint/endpoint.proto \
+    proto/onos/e2sub/subscription/subscription.proto \
+    proto/onos/e2sub/task/task.proto \
+    proto/onos/e2t/admin/admin.proto \
+    proto/onos/e2t/e2/e2.proto \
+    proto/onos/topo/topo.proto
+
+mv ./python/onos/e2sub/endpoint/__init__.py ./python/onos/e2sub/endpoint.py && rm -r ./python/onos/e2sub/endpoint
+mv ./python/onos/e2sub/subscription/__init__.py ./python/onos/e2sub/subscription.py && rm -r ./python/onos/e2sub/subscription
+mv ./python/onos/e2sub/task/__init__.py ./python/onos/e2sub/task.py && rm -r ./python/onos/e2sub/task
+mv ./python/onos/e2t/admin/__init__.py ./python/onos/e2t/admin.py && rm -r ./python/onos/e2t/admin
+mv ./python/onos/e2t/e2/__init__.py ./python/onos/e2t/e2.py && rm -r ./python/onos/e2t/e2
+mv ./python/onos/topo/__init__.py ./python/onos/topo/topo.py && touch ./python/onos/topo/__init__.py
