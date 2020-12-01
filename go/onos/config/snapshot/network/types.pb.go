@@ -9,11 +9,11 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	snapshot "github.com/onosproject/onos-api/go/onos/config/snapshot"
 	github_com_onosproject_onos_api_go_onos_config_snapshot_device "github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	snapshot "onos/config/snapshot"
 	time "time"
 )
 

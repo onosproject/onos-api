@@ -10,11 +10,11 @@ import (
 	_ "github.com/gogo/protobuf/types"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	github_com_onosproject_onos_api_go_onos_config "github.com/onosproject/onos-api/go/onos/config"
+	change "github.com/onosproject/onos-api/go/onos/config/change"
 	github_com_onosproject_onos_api_go_onos_config_device "github.com/onosproject/onos-api/go/onos/config/device"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	change "onos/config/change"
 	time "time"
 )
 

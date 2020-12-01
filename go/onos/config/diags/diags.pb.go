@@ -8,7 +8,10 @@ import (
 	fmt "fmt"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	admin "github.com/onosproject/onos-api/go/onos/config/admin"
+	device "github.com/onosproject/onos-api/go/onos/config/change/device"
 	github_com_onosproject_onos_api_go_onos_config_change_network "github.com/onosproject/onos-api/go/onos/config/change/network"
+	network "github.com/onosproject/onos-api/go/onos/config/change/network"
 	github_com_onosproject_onos_api_go_onos_config_device "github.com/onosproject/onos-api/go/onos/config/device"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -16,9 +19,6 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	admin "onos/config/admin"
-	device "onos/config/change/device"
-	network "onos/config/change/network"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

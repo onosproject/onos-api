@@ -10,13 +10,13 @@ import (
 	_ "github.com/gogo/protobuf/types"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	github_com_onosproject_onos_api_go_onos_config "github.com/onosproject/onos-api/go/onos/config"
+	device "github.com/onosproject/onos-api/go/onos/config/change/device"
 	github_com_onosproject_onos_api_go_onos_config_change_device "github.com/onosproject/onos-api/go/onos/config/change/device"
 	github_com_onosproject_onos_api_go_onos_config_device "github.com/onosproject/onos-api/go/onos/config/device"
+	snapshot "github.com/onosproject/onos-api/go/onos/config/snapshot"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	device "onos/config/change/device"
-	snapshot "onos/config/snapshot"
 	time "time"
 )
 

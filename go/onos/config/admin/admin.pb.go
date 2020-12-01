@@ -12,6 +12,8 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	device "github.com/onosproject/onos-api/go/onos/config/change/device"
+	device1 "github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 	github_com_onosproject_onos_api_go_onos_config_snapshot_device "github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 	gnmi "github.com/openconfig/gnmi/proto/gnmi"
 	grpc "google.golang.org/grpc"
@@ -20,8 +22,6 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	device "onos/config/change/device"
-	device1 "onos/config/snapshot/device"
 	time "time"
 )
 

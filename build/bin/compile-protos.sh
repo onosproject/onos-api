@@ -64,7 +64,16 @@ protoc --proto_path=$proto_path \
 
 
 ### Go Protobuf code generation
-go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types"
+go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
+go_import_paths="${go_import_paths},Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types"
+go_import_paths="${go_import_paths},Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types"
+go_import_paths="${go_import_paths},Monos/config/device/types.proto=github.com/onosproject/onos-api/go/onos/config/device"
+go_import_paths="${go_import_paths},Monos/config/admin/admin.proto=github.com/onosproject/onos-api/go/onos/config/admin"
+go_import_paths="${go_import_paths},Monos/config/change/types.proto=github.com/onosproject/onos-api/go/onos/config/change"
+go_import_paths="${go_import_paths},Monos/config/change/device/types.proto=github.com/onosproject/onos-api/go/onos/config/change/device"
+go_import_paths="${go_import_paths},Monos/config/change/network/types.proto=github.com/onosproject/onos-api/go/onos/config/change/network"
+go_import_paths="${go_import_paths},Monos/config/snapshot/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot"
+go_import_paths="${go_import_paths},Monos/config/snapshot/device/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2sub/endpoint,plugins=grpc:./go \
