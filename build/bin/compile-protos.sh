@@ -62,7 +62,6 @@ protoc --proto_path=$proto_path \
     proto/onos/config/snapshot/network/types.proto
 
 
-
 ### Go Protobuf code generation
 go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types"
@@ -113,11 +112,15 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot/network,plugins=grpc:./go \
     proto/onos/config/snapshot/network/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
-    proto/onos/config/admin/*.proto
-protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/diags,plugins=grpc:./go \
     proto/onos/config/diags/*.proto
+
+# admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
+protoc --proto_path=$proto_path \
+    --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
+    proto/onos/config/admin/*.proto
+
+
 
 
 ### Python Protobuf code generation

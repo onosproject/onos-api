@@ -1,4 +1,4 @@
-export CGO_ENABLED=0
+export CGO_ENABLED=1
 export GO111MODULE=on
 
 .PHONY: build
@@ -13,8 +13,8 @@ golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos license_check
-	go test -race github.com/onosproject/onos-api/go/...
+test: protos golang license_check
+	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 deps: # @HELP ensure that the required dependencies are in place
 	cd go && go build -v ./...
