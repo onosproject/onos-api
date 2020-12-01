@@ -55,7 +55,7 @@ message ListNetworkChangeRequest {
 
     // option to specify a specific network change - if blank or '*' then select all
     // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string changeid = 2 [(gogoproto.customname) = "ChangeID", (gogoproto.casttype) = "onos/config/change/network.ID"];;
+    string changeid = 2 [(gogoproto.customname) = "ChangeID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/change/network.ID"];;
 
     // option to request only changes that happen after the call
     bool withoutReplay = 3;
@@ -86,10 +86,10 @@ message ListDeviceChangeRequest {
 
     // option to specify a specific device change - if blank or '*' then select all
     // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "onos/config/device.ID"];
+    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.ID"];
 
     // device_version is an optional device version
-    string device_version = 3 [(gogoproto.casttype) = "onos/config/device.Version"];
+    string device_version = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Version"];
 
     // option to request only changes that happen after the call
     bool withoutReplay = 4;
