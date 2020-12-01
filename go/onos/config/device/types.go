@@ -17,18 +17,19 @@ package device
 import (
 	"fmt"
 	types "github.com/onosproject/onos-api/go/onos/config"
-	topodevice "github.com/onosproject/onos-topo/api/device"
 	"strings"
 )
 
 const separator = ":"
 
-// Type is a device type
-type Type topodevice.Type
-
 // ID is a device ID
-type ID topodevice.ID
+type ID string
 
+// Type is a device type
+type Type string
+
+// Role is a device role
+type Role string
 // Version is a device version
 type Version string
 
