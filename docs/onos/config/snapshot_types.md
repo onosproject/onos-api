@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [onos/config/types/snapshot/types.proto](#onos/config/types/snapshot/types.proto)
+- [onos/config/snapshot/types.proto](#onos/config/snapshot/types.proto)
     - [RetentionOptions](#onos.config.snapshot.RetentionOptions)
     - [Status](#onos.config.snapshot.Status)
   
@@ -14,10 +14,10 @@
 
 
 
-<a name="onos/config/types/snapshot/types.proto"></a>
+<a name="onos/config/snapshot/types.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/types/snapshot/types.proto
+## onos/config/snapshot/types.proto
 
 
 

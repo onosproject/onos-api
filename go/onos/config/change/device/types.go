@@ -16,8 +16,8 @@ package device
 
 import (
 	"fmt"
-	"github.com/onosproject/onos-api/go/onos/config/types"
-	"github.com/onosproject/onos-api/go/onos/config/types/device"
+	types "github.com/onosproject/onos-api/go/onos/config"
+	"github.com/onosproject/onos-api/go/onos/config/device"
 	"strings"
 )
 

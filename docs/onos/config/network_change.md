@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [onos/config/types/change/network/types.proto](#onos/config/types/change/network/types.proto)
+- [onos/config/change/network/types.proto](#onos/config/change/network/types.proto)
     - [DeviceChangeRef](#onos.config.change.network.DeviceChangeRef)
     - [NetworkChange](#onos.config.change.network.NetworkChange)
   
@@ -11,10 +11,10 @@
 
 
 
-<a name="onos/config/types/change/network/types.proto"></a>
+<a name="onos/config/change/network/types.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/types/change/network/types.proto
+## onos/config/change/network/types.proto
 
 
 

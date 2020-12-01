@@ -16,7 +16,7 @@ package network
 
 import (
 	"fmt"
-	"github.com/onosproject/onos-api/go/onos/config/types"
+	types "github.com/onosproject/onos-api/go/onos/config"
 	"strconv"
 	"strings"
 )

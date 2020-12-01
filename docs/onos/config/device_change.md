@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [onos/config/types/change/device/types.proto](#onos/config/types/change/device/types.proto)
+- [onos/config/change/device/types.proto](#onos/config/change/device/types.proto)
     - [Change](#onos.config.change.device.Change)
     - [ChangeValue](#onos.config.change.device.ChangeValue)
     - [DeviceChange](#onos.config.change.device.DeviceChange)
@@ -17,10 +17,10 @@
 
 
 
-<a name="onos/config/types/change/device/types.proto"></a>
+<a name="onos/config/change/device/types.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/types/change/device/types.proto
+## onos/config/change/device/types.proto
 
 
 

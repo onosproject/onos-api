@@ -20,8 +20,8 @@ package onos.config.diags;
 
 import "gogoproto/gogo.proto";
 import "onos/config/admin/admin.proto";
-import "onos/config/types/change/device/types.proto";
-import "onos/config/types/change/network/types.proto";
+import "onos/config/change/device/types.proto";
+import "onos/config/change/network/types.proto";
 
 // OpStateRequest is a message for specifying GetOpState query parameters.
 message OpStateRequest {
@@ -55,7 +55,7 @@ message ListNetworkChangeRequest {
 
     // option to specify a specific network change - if blank or '*' then select all
     // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string changeid = 2 [(gogoproto.customname) = "ChangeID", (gogoproto.casttype) = "onos/config/types/change/network.ID"];;
+    string changeid = 2 [(gogoproto.customname) = "ChangeID", (gogoproto.casttype) = "onos/config/change/network.ID"];;
 
     // option to request only changes that happen after the call
     bool withoutReplay = 3;
@@ -86,10 +86,10 @@ message ListDeviceChangeRequest {
 
     // option to specify a specific device change - if blank or '*' then select all
     // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "onos/config/types/device.ID"];
+    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "onos/config/device.ID"];
 
     // device_version is an optional device version
-    string device_version = 3 [(gogoproto.casttype) = "onos/config/types/device.Version"];
+    string device_version = 3 [(gogoproto.casttype) = "onos/config/device.Version"];
 
     // option to request only changes that happen after the call
     bool withoutReplay = 4;

@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [onos/config/types/change/types.proto](#onos/config/types/change/types.proto)
+- [onos/config/change/types.proto](#onos/config/change/types.proto)
     - [Status](#onos.config.change.Status)
   
     - [Phase](#onos.config.change.Phase)
@@ -14,10 +14,10 @@
 
 
 
-<a name="onos/config/types/change/types.proto"></a>
+<a name="onos/config/change/types.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/types/change/types.proto
+## onos/config/change/types.proto
 
 
 

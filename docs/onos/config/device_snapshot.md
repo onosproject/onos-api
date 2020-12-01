@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [onos/config/types/snapshot/device/types.proto](#onos/config/types/snapshot/device/types.proto)
+- [onos/config/snapshot/device/types.proto](#onos/config/snapshot/device/types.proto)
     - [DeviceSnapshot](#onos.config.snapshot.device.DeviceSnapshot)
     - [NetworkSnapshotRef](#onos.config.snapshot.device.NetworkSnapshotRef)
     - [Snapshot](#onos.config.snapshot.device.Snapshot)
@@ -12,10 +12,10 @@
 
 
 
-<a name="onos/config/types/snapshot/device/types.proto"></a>
+<a name="onos/config/snapshot/device/types.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/types/snapshot/device/types.proto
+## onos/config/snapshot/device/types.proto
 
 
 

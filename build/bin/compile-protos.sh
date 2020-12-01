@@ -39,27 +39,27 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,change_types.md \
-    proto/onos/config/types/change/types.proto
+    proto/onos/config/change/types.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,device_change.md \
-    proto/onos/config/types/change/device/types.proto
+    proto/onos/config/change/device/types.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,network_change.md \
-    proto/onos/config/types/change/network/types.proto
+    proto/onos/config/change/network/types.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,snapshot_types.md \
-    proto/onos/config/types/snapshot/types.proto
+    proto/onos/config/snapshot/types.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,device_snapshot.md \
-    proto/onos/config/types/snapshot/device/types.proto
+    proto/onos/config/snapshot/device/types.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,network_snapshot.md \
-    proto/onos/config/types/snapshot/network/types.proto
+    proto/onos/config/snapshot/network/types.proto
 
 
 
@@ -86,23 +86,23 @@ protoc --proto_path=$proto_path \
     proto/onos/topo/*.proto
 
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/types/change,plugins=grpc:./go \
-    proto/onos/config/types/change/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/config/change,plugins=grpc:./go \
+    proto/onos/config/change/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/types/change/device,plugins=grpc:./go \
-    proto/onos/config/types/change/device/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/config/change/device,plugins=grpc:./go \
+    proto/onos/config/change/device/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/types/change/network,plugins=grpc:./go \
-    proto/onos/config/types/change/network/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/config/change/network,plugins=grpc:./go \
+    proto/onos/config/change/network/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/types/snapshot,plugins=grpc:./go \
-    proto/onos/config/types/snapshot/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot,plugins=grpc:./go \
+    proto/onos/config/snapshot/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/types/snapshot/device,plugins=grpc:./go \
-    proto/onos/config/types/snapshot/device/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot/device,plugins=grpc:./go \
+    proto/onos/config/snapshot/device/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/types/snapshot/network,plugins=grpc:./go \
-    proto/onos/config/types/snapshot/network/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot/network,plugins=grpc:./go \
+    proto/onos/config/snapshot/network/*.proto
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
     proto/onos/config/admin/*.proto
@@ -123,12 +123,12 @@ protoc --proto_path=$proto_path \
     \
     proto/onos/config/admin/admin.proto \
     proto/onos/config/diags/diags.proto \
-    proto/onos/config/types/change/types.proto \
-    proto/onos/config/types/change/device/types.proto \
-    proto/onos/config/types/change/network/types.proto \
-    proto/onos/config/types/snapshot/types.proto \
-    proto/onos/config/types/snapshot/device/types.proto \
-    proto/onos/config/types/snapshot/network/types.proto
+    proto/onos/config/change/types.proto \
+    proto/onos/config/change/device/types.proto \
+    proto/onos/config/change/network/types.proto \
+    proto/onos/config/snapshot/types.proto \
+    proto/onos/config/snapshot/device/types.proto \
+    proto/onos/config/snapshot/network/types.proto
 
 mv ./python/onos/e2sub/endpoint/__init__.py ./python/onos/e2sub/endpoint.py && rm -r ./python/onos/e2sub/endpoint
 mv ./python/onos/e2sub/subscription/__init__.py ./python/onos/e2sub/subscription.py && rm -r ./python/onos/e2sub/subscription

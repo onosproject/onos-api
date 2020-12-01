@@ -1,4 +1,4 @@
-// Copyright 2019-present Open Networking Foundation.
+// Copyright 2020-present Open Networking Foundation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package types
+package config
+
+import "github.com/google/uuid"
 
 // ID is an identifier type
 type ID string
@@ -22,3 +24,13 @@ type Index uint64
 
 // Revision is a revision number
 type Revision uint64
+
+
+// NewUUID generates a new uuid
+func NewUUID() uuid.UUID {
+	newUUID, err := uuid.NewUUID()
+	if err != nil {
+		newUUID = uuid.New()
+	}
+	return newUUID
+}

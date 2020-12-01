@@ -22,8 +22,8 @@ package onos.config.admin;
 import "google/protobuf/duration.proto";
 import "gogoproto/gogo.proto";
 import "github.com/openconfig/gnmi/proto/gnmi/gnmi.proto";
-import "onos/config/types/change/device/types.proto";
-import "onos/config/types/snapshot/device/types.proto";
+import "onos/config/change/device/types.proto";
+import "onos/config/snapshot/device/types.proto";
 
 // Streaming event type
 enum Type {
@@ -174,7 +174,7 @@ message ListSnapshotsRequest {
 
     // option to specify a specific device - if blank or '*' then select all
     // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/types/snapshot/device.ID"];
+    string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/snapshot/device.ID"];
 }
 
 // CompactChangesRequest requests a compaction of the Network Change and Device Change stores
