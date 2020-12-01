@@ -16,7 +16,7 @@
 package device
 
 import (
-	"github.com/onosproject/onos-api/go/onos/config/types"
+	types "github.com/onosproject/onos-api/go/onos/config"
 	"github.com/onosproject/onos-api/go/onos/config/device"
 	"gotest.tools/assert"
 	"strings"

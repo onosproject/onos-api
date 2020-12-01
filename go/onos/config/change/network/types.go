@@ -15,7 +15,7 @@
 package network
 
 import (
-	"github.com/onosproject/onos-api/go/onos/config/types"
+	types "github.com/onosproject/onos-api/go/onos/config"
 )
 
 // ID is a network configuration identifier type

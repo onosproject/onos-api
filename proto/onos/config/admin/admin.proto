@@ -174,7 +174,7 @@ message ListSnapshotsRequest {
 
     // option to specify a specific device - if blank or '*' then select all
     // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/snapshot/device.ID"];
+    string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/snapshot/device.ID"];
 }
 
 // CompactChangesRequest requests a compaction of the Network Change and Device Change stores

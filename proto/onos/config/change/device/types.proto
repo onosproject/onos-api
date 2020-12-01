@@ -57,22 +57,22 @@ message DeviceChange {
 // NetworkChangeRef is a back reference to the NetworkChange that created a DeviceChange
 message NetworkChangeRef {
     // 'id' is the identifier of the network change from which this change was created
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/types.ID"];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config.ID"];
 
     // 'index' is the index of the network change from which this change was created
-    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/types.Index"];
+    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config.Index"];
 }
 
 // Change represents a configuration change to a single device
 message Change {
     // 'device_id' is the identifier of the device to which this change applies
-    string device_id = 1 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.ID"];
+    string device_id = 1 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.ID"];
 
     // 'device_version' is an optional device version to which to apply this change
-    string device_version = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.Version"];
+    string device_version = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Version"];
 
     // 'device_type' is an optional device type to which to apply this change
-    string device_type = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.Type"];
+    string device_type = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Type"];
 
     // 'values' is a set of change values to apply
     repeated ChangeValue values = 4;

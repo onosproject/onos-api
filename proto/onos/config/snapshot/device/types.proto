@@ -29,13 +29,13 @@ message DeviceSnapshot {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
 
     // 'device_id' is the device to which the snapshot applies
-    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.ID"];
+    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.ID"];
 
     // 'device_version' is the version to which the snapshot applies
-    string device_version = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.Version"];
+    string device_version = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Version"];
 
     // 'device_type' is an optional device type to which to apply this change
-    string device_type = 4 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.Type"];
+    string device_type = 4 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Type"];
 
     // 'revision' is the request revision number
     uint64 revision = 5 [(gogoproto.casttype) = "Revision"];
@@ -44,7 +44,7 @@ message DeviceSnapshot {
     NetworkSnapshotRef network_snapshot = 6 [(gogoproto.nullable) = false];
 
     // 'max_network_change_index' is the maximum network change index to be snapshotted for the device
-    uint64 max_network_change_index = 7 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/types.Index"];
+    uint64 max_network_change_index = 7 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config.Index"];
 
     // 'status' is the snapshot status
     onos.config.snapshot.Status status = 8 [(gogoproto.nullable) = false];
@@ -59,10 +59,10 @@ message DeviceSnapshot {
 // NetworkSnapshotRef is a back reference to the NetworkSnapshot that created a DeviceSnapshot
 message NetworkSnapshotRef {
     // 'id' is the identifier of the network snapshot from which this snapshot was created
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/types.ID"];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config.ID"];
 
     // 'index' is the index of the network snapshot from which this snapshot was created
-    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/types.Index"];
+    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config.Index"];
 }
 
 // Snapshot is a snapshot of the state of a single device
@@ -71,19 +71,19 @@ message Snapshot {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
 
     // 'device_id' is the device to which the snapshot applies
-    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.ID"];
+    string device_id = 2 [(gogoproto.customname) = "DeviceID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.ID"];
 
     // 'device_version' is the version to which the snapshot applies
-    string device_version = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.Version"];
+    string device_version = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Version"];
 
     // 'device_type' is an optional device type to which to apply this change
-    string device_type = 4 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/device.Type"];
+    string device_type = 4 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/device.Type"];
 
     // 'snapshot_id' is the ID of the snapshot
     string snapshot_id = 5 [(gogoproto.customname) = "SnapshotID", (gogoproto.casttype) = "ID"];
 
     // 'change_index' is the change index at which the snapshot ended
-    uint64 change_index = 6 [(gogoproto.casttype) = "github.com/onosproject/onos-api/proto/config/change/device.Index"];
+    uint64 change_index = 6 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/change/device.Index"];
 
     // 'values' is a list of values to set
     repeated onos.config.change.device.PathValue values = 7;
