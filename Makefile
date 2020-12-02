@@ -1,4 +1,4 @@
-export CGO_ENABLED=0
+export CGO_ENABLED=1
 export GO111MODULE=on
 
 .PHONY: build
@@ -7,10 +7,19 @@ ONOS_BUILD_VERSION := v0.6.7
 ONOS_PROTOC_VERSION := v0.6.7
 BUF_VERSION := 0.27.1
 
-all: protos
+all: protos golang
+
+golang: # @HELP compile Golang sources
+	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos license_check
+test: protos golang license_check
+	cd go && go test -race github.com/onosproject/onos-api/go/...
+
+deps: # @HELP ensure that the required dependencies are in place
+	cd go && go build -v ./...
+	bash -c "diff -u <(echo -n) <(git diff go.mod)"
+	bash -c "diff -u <(echo -n) <(git diff go.sum)"
 
 linters: # @HELP examines Go source code and reports coding problems
 	golangci-lint run
