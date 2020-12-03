@@ -99,8 +99,8 @@ class Change(betterproto.Message):
 class TypedValue(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
 
-    # 'bytes' is the bytes array
-    bytes: bytes = betterproto.bytes_field(1)
+    # 'data' is the bytes array
+    data: bytes = betterproto.bytes_field(1)
     # 'type' is the value type
     type: "ValueType" = betterproto.enum_field(2)
     # 'type_opts' is a set of type options

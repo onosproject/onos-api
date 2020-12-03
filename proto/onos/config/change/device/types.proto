@@ -99,8 +99,8 @@ enum ValueType {
 
 // TypedValue is a value represented as a byte array
 message TypedValue {
-    // 'bytes' is the bytes array
-    bytes bytes = 1  [json_name="Bytes", (gogoproto.jsontag) = "Bytes,omitempty"];
+    // 'data' is the bytes array
+    bytes data = 1  [json_name="Bytes", (gogoproto.jsontag) = "Bytes,omitempty"];
 
     // 'type' is the value type
     ValueType type = 2 [json_name="Type", (gogoproto.jsontag) = "Type,omitempty"];

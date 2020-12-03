@@ -123,7 +123,7 @@ TypedValue is a value represented as a byte array
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| bytes | [bytes](#bytes) |  | &#39;bytes&#39; is the bytes array |
+| data | [bytes](#bytes) |  | &#39;data&#39; is the bytes array |
 | type | [ValueType](#onos.config.change.device.ValueType) |  | &#39;type&#39; is the value type |
 | type_opts | [int32](#int32) | repeated | &#39;type_opts&#39; is a set of type options |
 
