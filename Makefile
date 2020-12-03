@@ -1,6 +1,3 @@
-export CGO_ENABLED=1
-export GO111MODULE=on
-
 .PHONY: build
 
 ONOS_BUILD_VERSION := v0.6.7
@@ -40,6 +37,9 @@ protos:
 		-w /onos-api \
 		--entrypoint build/bin/compile-protos.sh \
 		onosproject/protoc-go:${ONOS_PROTOC_VERSION}
+
+mocks:
+	./build/bin/generate-mocks.sh
 
 publish: # @HELP publish version on github and dockerhub
 	./../build-tools/publish-version ${VERSION}
