@@ -57,6 +57,7 @@ class ResponseHeader(betterproto.Message):
     encoding_type: "EncodingType" = betterproto.enum_field(1)
     service_model_info: "ServiceModelInfo" = betterproto.message_field(2)
     response_status: "ResponseStatus" = betterproto.enum_field(3)
+    indication_header: bytes = betterproto.bytes_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -80,7 +81,7 @@ class StreamResponse(betterproto.Message):
     """StreamResponse"""
 
     header: "ResponseHeader" = betterproto.message_field(1)
-    payload: bytes = betterproto.bytes_field(2)
+    indication_message: bytes = betterproto.bytes_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
