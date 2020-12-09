@@ -64,32 +64,64 @@ message Event {
     Subscription subscription = 2 [(gogoproto.nullable) = false];
 }
 
-// Encoding indicates a payload encoding
-enum Encoding {
-    ENCODING_ASN1 = 0;
-    ENCODING_PROTO = 1;
-}
-
-// ServiceModel is a service model definition
-message ServiceModel {
-    string id = 4 [(gogoproto.casttype) = "ServiceModelID", (gogoproto.customname) = "ID"];
-}
-
-// Payload is a subscription payload
-message Payload {
-    Encoding encoding = 1;
-    bytes bytes = 2;
-}
-
 // Subscription is a subscription state
 message Subscription {
     string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
     uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
     string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
     string e2_node_id = 4 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
-    ServiceModel service_model = 5;
-    Payload payload = 6;
+    SubscriptionDetails details = 5;
     Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
+}
+
+message SubscriptionDetails {
+    bytes event_trigger_definition = 1;
+    repeated Action actions = 2;
+}
+
+message Action {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    ActionType type = 2;
+    bytes definition = 3;
+    SubsequentAction subsequent_action = 4;
+}
+
+enum ActionType {
+    ACTION_TYPE_REPORT = 0;
+    ACTION_TYPE_INSERT = 1;
+    ACTION_TYPE_POLICY = 2;
+}
+
+// sequence from e2ap-v01.00.00.asn1:1132
+message SubsequentAction {
+    SubsequentActionType type = 1;
+    TimeToWait time_to_wait = 2;
+}
+
+enum SubsequentActionType {
+    SUBSEQUENT_ACTION_TYPE_CONTINUE = 0;
+    SUBSEQUENT_ACTION_TYPE_WAIT = 1;
+}
+
+enum TimeToWait {
+    TIME_TO_WAIT_ZERO = 0;
+    TIME_TO_WAIT_W1MS = 1;
+    TIME_TO_WAIT_W2MS = 2;
+    TIME_TO_WAIT_W5MS = 3;
+    TIME_TO_WAIT_W10MS = 4;
+    TIME_TO_WAIT_W20MS = 5;
+    TIME_TO_WAIT_W30MS = 6;
+    TIME_TO_WAIT_W40MS = 7;
+    TIME_TO_WAIT_W50MS = 8;
+    TIME_TO_WAIT_W100MS = 9;
+    TIME_TO_WAIT_W200MS = 10;
+    TIME_TO_WAIT_W500MS = 11;
+    TIME_TO_WAIT_W1S = 12;
+    TIME_TO_WAIT_W2S = 13;
+    TIME_TO_WAIT_W5S = 14;
+    TIME_TO_WAIT_W10S = 15;
+    TIME_TO_WAIT_W20S = 16;
+    TIME_TO_WAIT_W60S = 17;
 }
 
 // AddSubscriptionRequest a subscription request
