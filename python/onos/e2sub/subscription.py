@@ -24,11 +24,36 @@ class EventType(betterproto.Enum):
     REMOVED = 3
 
 
-class Encoding(betterproto.Enum):
-    """Encoding indicates a payload encoding"""
+class ActionType(betterproto.Enum):
+    ACTION_TYPE_REPORT = 0
+    ACTION_TYPE_INSERT = 1
+    ACTION_TYPE_POLICY = 2
 
-    ENCODING_ASN1 = 0
-    ENCODING_PROTO = 1
+
+class SubsequentActionType(betterproto.Enum):
+    SUBSEQUENT_ACTION_TYPE_CONTINUE = 0
+    SUBSEQUENT_ACTION_TYPE_WAIT = 1
+
+
+class TimeToWait(betterproto.Enum):
+    TIME_TO_WAIT_ZERO = 0
+    TIME_TO_WAIT_W1MS = 1
+    TIME_TO_WAIT_W2MS = 2
+    TIME_TO_WAIT_W5MS = 3
+    TIME_TO_WAIT_W10MS = 4
+    TIME_TO_WAIT_W20MS = 5
+    TIME_TO_WAIT_W30MS = 6
+    TIME_TO_WAIT_W40MS = 7
+    TIME_TO_WAIT_W50MS = 8
+    TIME_TO_WAIT_W100MS = 9
+    TIME_TO_WAIT_W200MS = 10
+    TIME_TO_WAIT_W500MS = 11
+    TIME_TO_WAIT_W1S = 12
+    TIME_TO_WAIT_W2S = 13
+    TIME_TO_WAIT_W5S = 14
+    TIME_TO_WAIT_W10S = 15
+    TIME_TO_WAIT_W20S = 16
+    TIME_TO_WAIT_W60S = 17
 
 
 @dataclass(eq=False, repr=False)
@@ -53,27 +78,6 @@ class Event(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class ServiceModel(betterproto.Message):
-    """ServiceModel is a service model definition"""
-
-    id: str = betterproto.string_field(4)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Payload(betterproto.Message):
-    """Payload is a subscription payload"""
-
-    encoding: "Encoding" = betterproto.enum_field(1)
-    bytes: bytes = betterproto.bytes_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
 class Subscription(betterproto.Message):
     """Subscription is a subscription state"""
 
@@ -81,9 +85,39 @@ class Subscription(betterproto.Message):
     revision: int = betterproto.uint64_field(2)
     app_id: str = betterproto.string_field(3)
     e2_node_id: str = betterproto.string_field(4)
-    service_model: "ServiceModel" = betterproto.message_field(5)
-    payload: "Payload" = betterproto.message_field(6)
+    details: "SubscriptionDetails" = betterproto.message_field(5)
     lifecycle: "Lifecycle" = betterproto.message_field(7)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SubscriptionDetails(betterproto.Message):
+    event_trigger_definition: bytes = betterproto.bytes_field(1)
+    actions: List["Action"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Action(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    type: "ActionType" = betterproto.enum_field(2)
+    definition: bytes = betterproto.bytes_field(3)
+    subsequent_action: "SubsequentAction" = betterproto.message_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SubsequentAction(betterproto.Message):
+    """sequence from e2ap-v01.00.00.asn1:1132"""
+
+    type: "SubsequentActionType" = betterproto.enum_field(1)
+    time_to_wait: "TimeToWait" = betterproto.enum_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

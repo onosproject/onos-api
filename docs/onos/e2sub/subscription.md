@@ -4,6 +4,7 @@
 ## Table of Contents
 
 - [onos/e2sub/subscription/subscription.proto](#onos/e2sub/subscription/subscription.proto)
+    - [Action](#onos.e2sub.subscription.Action)
     - [AddSubscriptionRequest](#onos.e2sub.subscription.AddSubscriptionRequest)
     - [AddSubscriptionResponse](#onos.e2sub.subscription.AddSubscriptionResponse)
     - [Event](#onos.e2sub.subscription.Event)
@@ -12,17 +13,19 @@
     - [Lifecycle](#onos.e2sub.subscription.Lifecycle)
     - [ListSubscriptionsRequest](#onos.e2sub.subscription.ListSubscriptionsRequest)
     - [ListSubscriptionsResponse](#onos.e2sub.subscription.ListSubscriptionsResponse)
-    - [Payload](#onos.e2sub.subscription.Payload)
     - [RemoveSubscriptionRequest](#onos.e2sub.subscription.RemoveSubscriptionRequest)
     - [RemoveSubscriptionResponse](#onos.e2sub.subscription.RemoveSubscriptionResponse)
-    - [ServiceModel](#onos.e2sub.subscription.ServiceModel)
     - [Subscription](#onos.e2sub.subscription.Subscription)
+    - [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails)
+    - [SubsequentAction](#onos.e2sub.subscription.SubsequentAction)
     - [WatchSubscriptionsRequest](#onos.e2sub.subscription.WatchSubscriptionsRequest)
     - [WatchSubscriptionsResponse](#onos.e2sub.subscription.WatchSubscriptionsResponse)
   
-    - [Encoding](#onos.e2sub.subscription.Encoding)
+    - [ActionType](#onos.e2sub.subscription.ActionType)
     - [EventType](#onos.e2sub.subscription.EventType)
     - [Status](#onos.e2sub.subscription.Status)
+    - [SubsequentActionType](#onos.e2sub.subscription.SubsequentActionType)
+    - [TimeToWait](#onos.e2sub.subscription.TimeToWait)
   
     - [E2SubscriptionService](#onos.e2sub.subscription.E2SubscriptionService)
   
@@ -34,6 +37,24 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/e2sub/subscription/subscription.proto
+
+
+
+<a name="onos.e2sub.subscription.Action"></a>
+
+### Action
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [int32](#int32) |  |  |
+| type | [ActionType](#onos.e2sub.subscription.ActionType) |  |  |
+| definition | [bytes](#bytes) |  |  |
+| subsequent_action | [SubsequentAction](#onos.e2sub.subscription.SubsequentAction) |  |  |
+
+
+
 
 
 
@@ -153,22 +174,6 @@ Lifecycle is the subscription lifecycle
 
 
 
-<a name="onos.e2sub.subscription.Payload"></a>
-
-### Payload
-Payload is a subscription payload
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| encoding | [Encoding](#onos.e2sub.subscription.Encoding) |  |  |
-| bytes | [bytes](#bytes) |  |  |
-
-
-
-
-
-
 <a name="onos.e2sub.subscription.RemoveSubscriptionRequest"></a>
 
 ### RemoveSubscriptionRequest
@@ -194,21 +199,6 @@ RemoveSubscriptionResponse a subscription delete response
 
 
 
-<a name="onos.e2sub.subscription.ServiceModel"></a>
-
-### ServiceModel
-ServiceModel is a service model definition
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="onos.e2sub.subscription.Subscription"></a>
 
 ### Subscription
@@ -221,9 +211,40 @@ Subscription is a subscription state
 | revision | [uint64](#uint64) |  |  |
 | app_id | [string](#string) |  |  |
 | e2_node_id | [string](#string) |  |  |
-| service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
-| payload | [Payload](#onos.e2sub.subscription.Payload) |  |  |
+| details | [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails) |  |  |
 | lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
+
+
+
+
+
+
+<a name="onos.e2sub.subscription.SubscriptionDetails"></a>
+
+### SubscriptionDetails
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| event_trigger_definition | [bytes](#bytes) |  |  |
+| actions | [Action](#onos.e2sub.subscription.Action) | repeated |  |
+
+
+
+
+
+
+<a name="onos.e2sub.subscription.SubsequentAction"></a>
+
+### SubsequentAction
+sequence from e2ap-v01.00.00.asn1:1132
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [SubsequentActionType](#onos.e2sub.subscription.SubsequentActionType) |  |  |
+| time_to_wait | [TimeToWait](#onos.e2sub.subscription.TimeToWait) |  |  |
 
 
 
@@ -262,15 +283,16 @@ Subscription is a subscription state
  
 
 
-<a name="onos.e2sub.subscription.Encoding"></a>
+<a name="onos.e2sub.subscription.ActionType"></a>
 
-### Encoding
-Encoding indicates a payload encoding
+### ActionType
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| ENCODING_ASN1 | 0 |  |
-| ENCODING_PROTO | 1 |  |
+| ACTION_TYPE_REPORT | 0 |  |
+| ACTION_TYPE_INSERT | 1 |  |
+| ACTION_TYPE_POLICY | 2 |  |
 
 
 
@@ -297,6 +319,46 @@ Status is a subscription status
 | ---- | ------ | ----------- |
 | ACTIVE | 0 |  |
 | PENDING_DELETE | 1 |  |
+
+
+
+<a name="onos.e2sub.subscription.SubsequentActionType"></a>
+
+### SubsequentActionType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SUBSEQUENT_ACTION_TYPE_CONTINUE | 0 |  |
+| SUBSEQUENT_ACTION_TYPE_WAIT | 1 |  |
+
+
+
+<a name="onos.e2sub.subscription.TimeToWait"></a>
+
+### TimeToWait
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TIME_TO_WAIT_ZERO | 0 |  |
+| TIME_TO_WAIT_W1MS | 1 |  |
+| TIME_TO_WAIT_W2MS | 2 |  |
+| TIME_TO_WAIT_W5MS | 3 |  |
+| TIME_TO_WAIT_W10MS | 4 |  |
+| TIME_TO_WAIT_W20MS | 5 |  |
+| TIME_TO_WAIT_W30MS | 6 |  |
+| TIME_TO_WAIT_W40MS | 7 |  |
+| TIME_TO_WAIT_W50MS | 8 |  |
+| TIME_TO_WAIT_W100MS | 9 |  |
+| TIME_TO_WAIT_W200MS | 10 |  |
+| TIME_TO_WAIT_W500MS | 11 |  |
+| TIME_TO_WAIT_W1S | 12 |  |
+| TIME_TO_WAIT_W2S | 13 |  |
+| TIME_TO_WAIT_W5S | 14 |  |
+| TIME_TO_WAIT_W10S | 15 |  |
+| TIME_TO_WAIT_W20S | 16 |  |
+| TIME_TO_WAIT_W60S | 17 |  |
 
 
  
