@@ -91,20 +91,24 @@ enum Encoding {
     ENCODING_PROTO = 1;
 }
 
+message Payload {
+    Encoding encoding = 1;
+    bytes data = 2;
+}
+
 message SubscriptionDetails {
-    EventTrigger event_trigger = 1;
+    EventTrigger event_trigger = 1 [(gogoproto.nullable) = false];
     repeated Action actions = 2;
 }
 
 message EventTrigger {
-    Encoding encoding = 1;
-    bytes payload = 2;
+    Payload payload = 1 [(gogoproto.nullable) = false];
 }
 
 message Action {
     int32 id = 1 [(gogoproto.customname) = "ID"];
     ActionType type = 2;
-    bytes definition = 3;
+    Payload payload = 3 [(gogoproto.nullable) = false];
     SubsequentAction subsequent_action = 4;
 }
 
