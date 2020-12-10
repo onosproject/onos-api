@@ -78,6 +78,16 @@ class Event(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ServiceModel(betterproto.Message):
+    """ServiceModel is a service model definition"""
+
+    id: str = betterproto.string_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Subscription(betterproto.Message):
     """Subscription is a subscription state"""
 
@@ -85,7 +95,8 @@ class Subscription(betterproto.Message):
     revision: int = betterproto.uint64_field(2)
     app_id: str = betterproto.string_field(3)
     e2_node_id: str = betterproto.string_field(4)
-    details: "SubscriptionDetails" = betterproto.message_field(5)
+    service_model: "ServiceModel" = betterproto.message_field(5)
+    details: "SubscriptionDetails" = betterproto.message_field(6)
     lifecycle: "Lifecycle" = betterproto.message_field(7)
 
     def __post_init__(self) -> None:

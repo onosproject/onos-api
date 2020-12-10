@@ -64,13 +64,19 @@ message Event {
     Subscription subscription = 2 [(gogoproto.nullable) = false];
 }
 
+// ServiceModel is a service model definition
+message ServiceModel {
+    string id = 4 [(gogoproto.casttype) = "ServiceModelID", (gogoproto.customname) = "ID"];
+}
+
 // Subscription is a subscription state
 message Subscription {
     string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
     uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
     string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
     string e2_node_id = 4 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
-    SubscriptionDetails details = 5;
+    ServiceModel service_model = 5;
+    SubscriptionDetails details = 6;
     Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
 }
 

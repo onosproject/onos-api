@@ -15,6 +15,7 @@
     - [ListSubscriptionsResponse](#onos.e2sub.subscription.ListSubscriptionsResponse)
     - [RemoveSubscriptionRequest](#onos.e2sub.subscription.RemoveSubscriptionRequest)
     - [RemoveSubscriptionResponse](#onos.e2sub.subscription.RemoveSubscriptionResponse)
+    - [ServiceModel](#onos.e2sub.subscription.ServiceModel)
     - [Subscription](#onos.e2sub.subscription.Subscription)
     - [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails)
     - [SubsequentAction](#onos.e2sub.subscription.SubsequentAction)
@@ -199,6 +200,21 @@ RemoveSubscriptionResponse a subscription delete response
 
 
 
+<a name="onos.e2sub.subscription.ServiceModel"></a>
+
+### ServiceModel
+ServiceModel is a service model definition
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="onos.e2sub.subscription.Subscription"></a>
 
 ### Subscription
@@ -211,6 +227,7 @@ Subscription is a subscription state
 | revision | [uint64](#uint64) |  |  |
 | app_id | [string](#string) |  |  |
 | e2_node_id | [string](#string) |  |  |
+| service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
 | details | [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails) |  |  |
 | lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
 
