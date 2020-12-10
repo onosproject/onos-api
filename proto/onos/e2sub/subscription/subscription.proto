@@ -75,8 +75,8 @@ message Subscription {
     uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
     string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
     string e2_node_id = 4 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
-    ServiceModel service_model = 5;
-    SubscriptionDetails details = 6;
+    ServiceModel service_model = 5 [(gogoproto.nullable) = false];
+    SubscriptionDetails details = 6 [(gogoproto.nullable) = false];
     Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
 }
 
