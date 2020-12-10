@@ -82,7 +82,7 @@ message SubscriptionDetails {
     string e2_node_id = 2 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
     ServiceModel service_model = 3 [(gogoproto.nullable) = false];
     EventTrigger event_trigger = 4 [(gogoproto.nullable) = false];
-    repeated Action actions = 5;
+    repeated Action actions = 5 [(gogoproto.nullable) = false];
 }
 
 // Encoding indicates a payload encoding
