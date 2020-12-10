@@ -259,6 +259,7 @@ Subscription is a subscription state
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | revision | [uint64](#uint64) |  |  |
+| app_id | [string](#string) |  |  |
 | details | [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails) |  |  |
 | lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
 
@@ -275,7 +276,6 @@ Subscription is a subscription state
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| app_id | [string](#string) |  |  |
 | e2_node_id | [string](#string) |  |  |
 | service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
 | event_trigger | [EventTrigger](#onos.e2sub.subscription.EventTrigger) |  |  |

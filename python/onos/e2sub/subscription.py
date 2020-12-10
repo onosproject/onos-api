@@ -100,8 +100,9 @@ class Subscription(betterproto.Message):
 
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
-    details: "SubscriptionDetails" = betterproto.message_field(3)
-    lifecycle: "Lifecycle" = betterproto.message_field(7)
+    app_id: str = betterproto.string_field(3)
+    details: "SubscriptionDetails" = betterproto.message_field(4)
+    lifecycle: "Lifecycle" = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -109,11 +110,10 @@ class Subscription(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class SubscriptionDetails(betterproto.Message):
-    app_id: str = betterproto.string_field(1)
-    e2_node_id: str = betterproto.string_field(2)
-    service_model: "ServiceModel" = betterproto.message_field(3)
-    event_trigger: "EventTrigger" = betterproto.message_field(4)
-    actions: List["Action"] = betterproto.message_field(5)
+    e2_node_id: str = betterproto.string_field(1)
+    service_model: "ServiceModel" = betterproto.message_field(2)
+    event_trigger: "EventTrigger" = betterproto.message_field(3)
+    actions: List["Action"] = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()

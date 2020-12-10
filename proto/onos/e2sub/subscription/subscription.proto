@@ -73,16 +73,16 @@ message ServiceModel {
 message Subscription {
     string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
     uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
-    SubscriptionDetails details = 3;
-    Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
+    string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
+    SubscriptionDetails details = 4;
+    Lifecycle lifecycle = 5 [(gogoproto.nullable) = false];
 }
 
 message SubscriptionDetails {
-    string app_id = 1 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
-    string e2_node_id = 2 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
-    ServiceModel service_model = 3 [(gogoproto.nullable) = false];
-    EventTrigger event_trigger = 4 [(gogoproto.nullable) = false];
-    repeated Action actions = 5 [(gogoproto.nullable) = false];
+    string e2_node_id = 1 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    ServiceModel service_model = 2 [(gogoproto.nullable) = false];
+    EventTrigger event_trigger = 3 [(gogoproto.nullable) = false];
+    repeated Action actions = 4 [(gogoproto.nullable) = false];
 }
 
 // Encoding indicates a payload encoding
