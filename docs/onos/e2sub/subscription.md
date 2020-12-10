@@ -14,11 +14,11 @@
     - [Lifecycle](#onos.e2sub.subscription.Lifecycle)
     - [ListSubscriptionsRequest](#onos.e2sub.subscription.ListSubscriptionsRequest)
     - [ListSubscriptionsResponse](#onos.e2sub.subscription.ListSubscriptionsResponse)
+    - [Payload](#onos.e2sub.subscription.Payload)
     - [RemoveSubscriptionRequest](#onos.e2sub.subscription.RemoveSubscriptionRequest)
     - [RemoveSubscriptionResponse](#onos.e2sub.subscription.RemoveSubscriptionResponse)
     - [ServiceModel](#onos.e2sub.subscription.ServiceModel)
     - [Subscription](#onos.e2sub.subscription.Subscription)
-    - [SubscriptionDefinition](#onos.e2sub.subscription.SubscriptionDefinition)
     - [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails)
     - [SubsequentAction](#onos.e2sub.subscription.SubsequentAction)
     - [WatchSubscriptionsRequest](#onos.e2sub.subscription.WatchSubscriptionsRequest)
@@ -54,7 +54,7 @@
 | ----- | ---- | ----- | ----------- |
 | id | [int32](#int32) |  |  |
 | type | [ActionType](#onos.e2sub.subscription.ActionType) |  |  |
-| definition | [bytes](#bytes) |  |  |
+| payload | [Payload](#onos.e2sub.subscription.Payload) |  |  |
 | subsequent_action | [SubsequentAction](#onos.e2sub.subscription.SubsequentAction) |  |  |
 
 
@@ -116,8 +116,7 @@ Event is a subscription event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| encoding | [Encoding](#onos.e2sub.subscription.Encoding) |  |  |
-| payload | [bytes](#bytes) |  |  |
+| payload | [Payload](#onos.e2sub.subscription.Payload) |  |  |
 
 
 
@@ -194,6 +193,22 @@ Lifecycle is the subscription lifecycle
 
 
 
+<a name="onos.e2sub.subscription.Payload"></a>
+
+### Payload
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| encoding | [Encoding](#onos.e2sub.subscription.Encoding) |  |  |
+| data | [bytes](#bytes) |  |  |
+
+
+
+
+
+
 <a name="onos.e2sub.subscription.RemoveSubscriptionRequest"></a>
 
 ### RemoveSubscriptionRequest
@@ -244,26 +259,8 @@ Subscription is a subscription state
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | revision | [uint64](#uint64) |  |  |
-| definition | [SubscriptionDefinition](#onos.e2sub.subscription.SubscriptionDefinition) |  |  |
-| lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
-
-
-
-
-
-
-<a name="onos.e2sub.subscription.SubscriptionDefinition"></a>
-
-### SubscriptionDefinition
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| app_id | [string](#string) |  |  |
-| e2_node_id | [string](#string) |  |  |
-| service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
 | details | [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails) |  |  |
+| lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
 
 
 
@@ -278,6 +275,9 @@ Subscription is a subscription state
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| app_id | [string](#string) |  |  |
+| e2_node_id | [string](#string) |  |  |
+| service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
 | event_trigger | [EventTrigger](#onos.e2sub.subscription.EventTrigger) |  |  |
 | actions | [Action](#onos.e2sub.subscription.Action) | repeated |  |
 

@@ -96,11 +96,6 @@ message Payload {
     bytes data = 2;
 }
 
-message SubscriptionDetails {
-    EventTrigger event_trigger = 1 [(gogoproto.nullable) = false];
-    repeated Action actions = 2;
-}
-
 message EventTrigger {
     Payload payload = 1 [(gogoproto.nullable) = false];
 }
