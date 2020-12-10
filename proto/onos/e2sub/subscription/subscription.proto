@@ -80,9 +80,20 @@ message Subscription {
     Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
 }
 
+// Encoding indicates a payload encoding
+enum Encoding {
+    ENCODING_ASN1 = 0;
+    ENCODING_PROTO = 1;
+}
+
 message SubscriptionDetails {
-    bytes event_trigger_definition = 1;
+    EventTrigger event_trigger = 1;
     repeated Action actions = 2;
+}
+
+message EventTrigger {
+    Encoding encoding = 1;
+    bytes payload = 2;
 }
 
 message Action {

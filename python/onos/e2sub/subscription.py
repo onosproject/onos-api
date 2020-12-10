@@ -24,6 +24,13 @@ class EventType(betterproto.Enum):
     REMOVED = 3
 
 
+class Encoding(betterproto.Enum):
+    """Encoding indicates a payload encoding"""
+
+    ENCODING_ASN1 = 0
+    ENCODING_PROTO = 1
+
+
 class ActionType(betterproto.Enum):
     ACTION_TYPE_REPORT = 0
     ACTION_TYPE_INSERT = 1
@@ -105,8 +112,17 @@ class Subscription(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class SubscriptionDetails(betterproto.Message):
-    event_trigger_definition: bytes = betterproto.bytes_field(1)
+    event_trigger: "EventTrigger" = betterproto.message_field(1)
     actions: List["Action"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class EventTrigger(betterproto.Message):
+    encoding: "Encoding" = betterproto.enum_field(1)
+    payload: bytes = betterproto.bytes_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
