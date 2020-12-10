@@ -87,6 +87,32 @@ func (EventType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_9092711340dfb78a, []int{1}
 }
 
+// Encoding indicates a payload encoding
+type Encoding int32
+
+const (
+	Encoding_ENCODING_ASN1  Encoding = 0
+	Encoding_ENCODING_PROTO Encoding = 1
+)
+
+var Encoding_name = map[int32]string{
+	0: "ENCODING_ASN1",
+	1: "ENCODING_PROTO",
+}
+
+var Encoding_value = map[string]int32{
+	"ENCODING_ASN1":  0,
+	"ENCODING_PROTO": 1,
+}
+
+func (x Encoding) String() string {
+	return proto.EnumName(Encoding_name, int32(x))
+}
+
+func (Encoding) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_9092711340dfb78a, []int{2}
+}
+
 type ActionType int32
 
 const (
@@ -112,7 +138,7 @@ func (x ActionType) String() string {
 }
 
 func (ActionType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{2}
+	return fileDescriptor_9092711340dfb78a, []int{3}
 }
 
 type SubsequentActionType int32
@@ -137,7 +163,7 @@ func (x SubsequentActionType) String() string {
 }
 
 func (SubsequentActionType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{3}
+	return fileDescriptor_9092711340dfb78a, []int{4}
 }
 
 type TimeToWait int32
@@ -210,7 +236,7 @@ func (x TimeToWait) String() string {
 }
 
 func (TimeToWait) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{4}
+	return fileDescriptor_9092711340dfb78a, []int{5}
 }
 
 // Lifecycle is the subscription lifecycle
@@ -358,13 +384,11 @@ func (m *ServiceModel) GetID() ServiceModelID {
 
 // Subscription is a subscription state
 type Subscription struct {
-	ID           ID                  `protobuf:"bytes,1,opt,name=id,proto3,casttype=ID" json:"id,omitempty"`
-	Revision     Revision            `protobuf:"varint,2,opt,name=revision,proto3,casttype=Revision" json:"revision,omitempty"`
-	AppID        AppID               `protobuf:"bytes,3,opt,name=app_id,json=appId,proto3,casttype=AppID" json:"app_id,omitempty"`
-	E2NodeID     E2NodeID            `protobuf:"bytes,4,opt,name=e2_node_id,json=e2NodeId,proto3,casttype=E2NodeID" json:"e2_node_id,omitempty"`
-	ServiceModel ServiceModel        `protobuf:"bytes,5,opt,name=service_model,json=serviceModel,proto3" json:"service_model"`
-	Details      SubscriptionDetails `protobuf:"bytes,6,opt,name=details,proto3" json:"details"`
-	Lifecycle    Lifecycle           `protobuf:"bytes,7,opt,name=lifecycle,proto3" json:"lifecycle"`
+	ID        ID                   `protobuf:"bytes,1,opt,name=id,proto3,casttype=ID" json:"id,omitempty"`
+	Revision  Revision             `protobuf:"varint,2,opt,name=revision,proto3,casttype=Revision" json:"revision,omitempty"`
+	AppID     AppID                `protobuf:"bytes,3,opt,name=app_id,json=appId,proto3,casttype=AppID" json:"app_id,omitempty"`
+	Details   *SubscriptionDetails `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
+	Lifecycle Lifecycle            `protobuf:"bytes,5,opt,name=lifecycle,proto3" json:"lifecycle"`
 }
 
 func (m *Subscription) Reset()         { *m = Subscription{} }
@@ -421,25 +445,11 @@ func (m *Subscription) GetAppID() AppID {
 	return ""
 }
 
-func (m *Subscription) GetE2NodeID() E2NodeID {
-	if m != nil {
-		return m.E2NodeID
-	}
-	return ""
-}
-
-func (m *Subscription) GetServiceModel() ServiceModel {
-	if m != nil {
-		return m.ServiceModel
-	}
-	return ServiceModel{}
-}
-
-func (m *Subscription) GetDetails() SubscriptionDetails {
+func (m *Subscription) GetDetails() *SubscriptionDetails {
 	if m != nil {
 		return m.Details
 	}
-	return SubscriptionDetails{}
+	return nil
 }
 
 func (m *Subscription) GetLifecycle() Lifecycle {
@@ -450,8 +460,10 @@ func (m *Subscription) GetLifecycle() Lifecycle {
 }
 
 type SubscriptionDetails struct {
-	EventTriggerDefinition []byte    `protobuf:"bytes,1,opt,name=event_trigger_definition,json=eventTriggerDefinition,proto3" json:"event_trigger_definition,omitempty"`
-	Actions                []*Action `protobuf:"bytes,2,rep,name=actions,proto3" json:"actions,omitempty"`
+	E2NodeID     E2NodeID     `protobuf:"bytes,1,opt,name=e2_node_id,json=e2NodeId,proto3,casttype=E2NodeID" json:"e2_node_id,omitempty"`
+	ServiceModel ServiceModel `protobuf:"bytes,2,opt,name=service_model,json=serviceModel,proto3" json:"service_model"`
+	EventTrigger EventTrigger `protobuf:"bytes,3,opt,name=event_trigger,json=eventTrigger,proto3" json:"event_trigger"`
+	Actions      []Action     `protobuf:"bytes,4,rep,name=actions,proto3" json:"actions"`
 }
 
 func (m *SubscriptionDetails) Reset()         { *m = SubscriptionDetails{} }
@@ -487,24 +499,134 @@ func (m *SubscriptionDetails) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SubscriptionDetails proto.InternalMessageInfo
 
-func (m *SubscriptionDetails) GetEventTriggerDefinition() []byte {
+func (m *SubscriptionDetails) GetE2NodeID() E2NodeID {
 	if m != nil {
-		return m.EventTriggerDefinition
+		return m.E2NodeID
 	}
-	return nil
+	return ""
 }
 
-func (m *SubscriptionDetails) GetActions() []*Action {
+func (m *SubscriptionDetails) GetServiceModel() ServiceModel {
+	if m != nil {
+		return m.ServiceModel
+	}
+	return ServiceModel{}
+}
+
+func (m *SubscriptionDetails) GetEventTrigger() EventTrigger {
+	if m != nil {
+		return m.EventTrigger
+	}
+	return EventTrigger{}
+}
+
+func (m *SubscriptionDetails) GetActions() []Action {
 	if m != nil {
 		return m.Actions
 	}
 	return nil
 }
 
+type Payload struct {
+	Encoding Encoding `protobuf:"varint,1,opt,name=encoding,proto3,enum=onos.e2sub.subscription.Encoding" json:"encoding,omitempty"`
+	Data     []byte   `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (m *Payload) Reset()         { *m = Payload{} }
+func (m *Payload) String() string { return proto.CompactTextString(m) }
+func (*Payload) ProtoMessage()    {}
+func (*Payload) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9092711340dfb78a, []int{5}
+}
+func (m *Payload) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Payload) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Payload.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Payload) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Payload.Merge(m, src)
+}
+func (m *Payload) XXX_Size() int {
+	return m.Size()
+}
+func (m *Payload) XXX_DiscardUnknown() {
+	xxx_messageInfo_Payload.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Payload proto.InternalMessageInfo
+
+func (m *Payload) GetEncoding() Encoding {
+	if m != nil {
+		return m.Encoding
+	}
+	return Encoding_ENCODING_ASN1
+}
+
+func (m *Payload) GetData() []byte {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type EventTrigger struct {
+	Payload Payload `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload"`
+}
+
+func (m *EventTrigger) Reset()         { *m = EventTrigger{} }
+func (m *EventTrigger) String() string { return proto.CompactTextString(m) }
+func (*EventTrigger) ProtoMessage()    {}
+func (*EventTrigger) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9092711340dfb78a, []int{6}
+}
+func (m *EventTrigger) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *EventTrigger) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_EventTrigger.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *EventTrigger) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventTrigger.Merge(m, src)
+}
+func (m *EventTrigger) XXX_Size() int {
+	return m.Size()
+}
+func (m *EventTrigger) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventTrigger.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventTrigger proto.InternalMessageInfo
+
+func (m *EventTrigger) GetPayload() Payload {
+	if m != nil {
+		return m.Payload
+	}
+	return Payload{}
+}
+
 type Action struct {
 	ID               int32             `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Type             ActionType        `protobuf:"varint,2,opt,name=type,proto3,enum=onos.e2sub.subscription.ActionType" json:"type,omitempty"`
-	Definition       []byte            `protobuf:"bytes,3,opt,name=definition,proto3" json:"definition,omitempty"`
+	Payload          Payload           `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload"`
 	SubsequentAction *SubsequentAction `protobuf:"bytes,4,opt,name=subsequent_action,json=subsequentAction,proto3" json:"subsequent_action,omitempty"`
 }
 
@@ -512,7 +634,7 @@ func (m *Action) Reset()         { *m = Action{} }
 func (m *Action) String() string { return proto.CompactTextString(m) }
 func (*Action) ProtoMessage()    {}
 func (*Action) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{5}
+	return fileDescriptor_9092711340dfb78a, []int{7}
 }
 func (m *Action) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -555,11 +677,11 @@ func (m *Action) GetType() ActionType {
 	return ActionType_ACTION_TYPE_REPORT
 }
 
-func (m *Action) GetDefinition() []byte {
+func (m *Action) GetPayload() Payload {
 	if m != nil {
-		return m.Definition
+		return m.Payload
 	}
-	return nil
+	return Payload{}
 }
 
 func (m *Action) GetSubsequentAction() *SubsequentAction {
@@ -579,7 +701,7 @@ func (m *SubsequentAction) Reset()         { *m = SubsequentAction{} }
 func (m *SubsequentAction) String() string { return proto.CompactTextString(m) }
 func (*SubsequentAction) ProtoMessage()    {}
 func (*SubsequentAction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{6}
+	return fileDescriptor_9092711340dfb78a, []int{8}
 }
 func (m *SubsequentAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -631,7 +753,7 @@ func (m *AddSubscriptionRequest) Reset()         { *m = AddSubscriptionRequest{}
 func (m *AddSubscriptionRequest) String() string { return proto.CompactTextString(m) }
 func (*AddSubscriptionRequest) ProtoMessage()    {}
 func (*AddSubscriptionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{7}
+	return fileDescriptor_9092711340dfb78a, []int{9}
 }
 func (m *AddSubscriptionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -676,7 +798,7 @@ func (m *AddSubscriptionResponse) Reset()         { *m = AddSubscriptionResponse
 func (m *AddSubscriptionResponse) String() string { return proto.CompactTextString(m) }
 func (*AddSubscriptionResponse) ProtoMessage()    {}
 func (*AddSubscriptionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{8}
+	return fileDescriptor_9092711340dfb78a, []int{10}
 }
 func (m *AddSubscriptionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -721,7 +843,7 @@ func (m *RemoveSubscriptionRequest) Reset()         { *m = RemoveSubscriptionReq
 func (m *RemoveSubscriptionRequest) String() string { return proto.CompactTextString(m) }
 func (*RemoveSubscriptionRequest) ProtoMessage()    {}
 func (*RemoveSubscriptionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{9}
+	return fileDescriptor_9092711340dfb78a, []int{11}
 }
 func (m *RemoveSubscriptionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -765,7 +887,7 @@ func (m *RemoveSubscriptionResponse) Reset()         { *m = RemoveSubscriptionRe
 func (m *RemoveSubscriptionResponse) String() string { return proto.CompactTextString(m) }
 func (*RemoveSubscriptionResponse) ProtoMessage()    {}
 func (*RemoveSubscriptionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{10}
+	return fileDescriptor_9092711340dfb78a, []int{12}
 }
 func (m *RemoveSubscriptionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -802,7 +924,7 @@ func (m *GetSubscriptionRequest) Reset()         { *m = GetSubscriptionRequest{}
 func (m *GetSubscriptionRequest) String() string { return proto.CompactTextString(m) }
 func (*GetSubscriptionRequest) ProtoMessage()    {}
 func (*GetSubscriptionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{11}
+	return fileDescriptor_9092711340dfb78a, []int{13}
 }
 func (m *GetSubscriptionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -846,7 +968,7 @@ func (m *GetSubscriptionResponse) Reset()         { *m = GetSubscriptionResponse
 func (m *GetSubscriptionResponse) String() string { return proto.CompactTextString(m) }
 func (*GetSubscriptionResponse) ProtoMessage()    {}
 func (*GetSubscriptionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{12}
+	return fileDescriptor_9092711340dfb78a, []int{14}
 }
 func (m *GetSubscriptionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -889,7 +1011,7 @@ func (m *ListSubscriptionsRequest) Reset()         { *m = ListSubscriptionsReque
 func (m *ListSubscriptionsRequest) String() string { return proto.CompactTextString(m) }
 func (*ListSubscriptionsRequest) ProtoMessage()    {}
 func (*ListSubscriptionsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{13}
+	return fileDescriptor_9092711340dfb78a, []int{15}
 }
 func (m *ListSubscriptionsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -926,7 +1048,7 @@ func (m *ListSubscriptionsResponse) Reset()         { *m = ListSubscriptionsResp
 func (m *ListSubscriptionsResponse) String() string { return proto.CompactTextString(m) }
 func (*ListSubscriptionsResponse) ProtoMessage()    {}
 func (*ListSubscriptionsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{14}
+	return fileDescriptor_9092711340dfb78a, []int{16}
 }
 func (m *ListSubscriptionsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -970,7 +1092,7 @@ func (m *WatchSubscriptionsRequest) Reset()         { *m = WatchSubscriptionsReq
 func (m *WatchSubscriptionsRequest) String() string { return proto.CompactTextString(m) }
 func (*WatchSubscriptionsRequest) ProtoMessage()    {}
 func (*WatchSubscriptionsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{15}
+	return fileDescriptor_9092711340dfb78a, []int{17}
 }
 func (m *WatchSubscriptionsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1014,7 +1136,7 @@ func (m *WatchSubscriptionsResponse) Reset()         { *m = WatchSubscriptionsRe
 func (m *WatchSubscriptionsResponse) String() string { return proto.CompactTextString(m) }
 func (*WatchSubscriptionsResponse) ProtoMessage()    {}
 func (*WatchSubscriptionsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9092711340dfb78a, []int{16}
+	return fileDescriptor_9092711340dfb78a, []int{18}
 }
 func (m *WatchSubscriptionsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1053,6 +1175,7 @@ func (m *WatchSubscriptionsResponse) GetEvent() Event {
 func init() {
 	proto.RegisterEnum("onos.e2sub.subscription.Status", Status_name, Status_value)
 	proto.RegisterEnum("onos.e2sub.subscription.EventType", EventType_name, EventType_value)
+	proto.RegisterEnum("onos.e2sub.subscription.Encoding", Encoding_name, Encoding_value)
 	proto.RegisterEnum("onos.e2sub.subscription.ActionType", ActionType_name, ActionType_value)
 	proto.RegisterEnum("onos.e2sub.subscription.SubsequentActionType", SubsequentActionType_name, SubsequentActionType_value)
 	proto.RegisterEnum("onos.e2sub.subscription.TimeToWait", TimeToWait_name, TimeToWait_value)
@@ -1061,6 +1184,8 @@ func init() {
 	proto.RegisterType((*ServiceModel)(nil), "onos.e2sub.subscription.ServiceModel")
 	proto.RegisterType((*Subscription)(nil), "onos.e2sub.subscription.Subscription")
 	proto.RegisterType((*SubscriptionDetails)(nil), "onos.e2sub.subscription.SubscriptionDetails")
+	proto.RegisterType((*Payload)(nil), "onos.e2sub.subscription.Payload")
+	proto.RegisterType((*EventTrigger)(nil), "onos.e2sub.subscription.EventTrigger")
 	proto.RegisterType((*Action)(nil), "onos.e2sub.subscription.Action")
 	proto.RegisterType((*SubsequentAction)(nil), "onos.e2sub.subscription.SubsequentAction")
 	proto.RegisterType((*AddSubscriptionRequest)(nil), "onos.e2sub.subscription.AddSubscriptionRequest")
@@ -1080,79 +1205,84 @@ func init() {
 }
 
 var fileDescriptor_9092711340dfb78a = []byte{
-	// 1138 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x57, 0xcd, 0x6e, 0xdb, 0x46,
-	0x10, 0x16, 0xf5, 0x67, 0x69, 0xac, 0x38, 0xeb, 0x8d, 0x63, 0xd3, 0x6a, 0x20, 0x19, 0x0c, 0x0a,
-	0x28, 0x42, 0x6b, 0x2b, 0x74, 0x6d, 0x27, 0xb9, 0x49, 0x26, 0x1b, 0x10, 0xb0, 0x7e, 0x42, 0xd2,
-	0x76, 0x53, 0x14, 0x20, 0x64, 0x71, 0xe3, 0x12, 0xb0, 0x45, 0x56, 0xa4, 0x5d, 0xb8, 0x40, 0xd1,
-	0x7b, 0x4f, 0x79, 0x80, 0x5e, 0xfa, 0x0a, 0x7d, 0x8a, 0x1c, 0xd3, 0x5b, 0x4f, 0x46, 0x21, 0xbf,
-	0x45, 0x2e, 0x2d, 0xb8, 0xa4, 0x65, 0x8a, 0x3f, 0xb2, 0x0d, 0xe4, 0xb6, 0xfb, 0xcd, 0xcc, 0xb7,
-	0x33, 0xc3, 0xd9, 0x6f, 0x25, 0xa8, 0x9b, 0x43, 0xd3, 0xde, 0x20, 0xbc, 0x7d, 0x76, 0xb4, 0x61,
-	0x9f, 0x1d, 0xd9, 0x83, 0x91, 0x61, 0x39, 0x86, 0x39, 0x9c, 0xda, 0xac, 0x5b, 0x23, 0xd3, 0x31,
-	0xf1, 0x8a, 0xeb, 0xbb, 0x4e, 0x7d, 0xd7, 0x83, 0xe6, 0xf2, 0xd2, 0xb1, 0x79, 0x6c, 0x52, 0x9f,
-	0x0d, 0x77, 0xe5, 0xb9, 0x73, 0x02, 0x14, 0xf7, 0x8c, 0x77, 0x64, 0x70, 0x31, 0x38, 0x21, 0x78,
-	0x07, 0xf2, 0xb6, 0xd3, 0x77, 0xce, 0x6c, 0x96, 0x59, 0x63, 0x6a, 0x0b, 0x7c, 0x75, 0x3d, 0x81,
-	0x6c, 0x5d, 0xa1, 0x6e, 0xb2, 0xef, 0xce, 0xbd, 0x67, 0x20, 0x27, 0x9e, 0x93, 0xa1, 0x83, 0xb7,
-	0x21, 0xeb, 0x5c, 0x58, 0xc4, 0x27, 0xe0, 0x12, 0x09, 0xa8, 0xb7, 0x7a, 0x61, 0x11, 0x99, 0xfa,
-	0xe3, 0x2e, 0x94, 0x82, 0x76, 0x36, 0xbd, 0xc6, 0xd4, 0xe6, 0xf9, 0x2f, 0x93, 0x13, 0x08, 0x6c,
-	0x5a, 0xd9, 0x0f, 0x97, 0xd5, 0x94, 0x3c, 0x45, 0xc0, 0xbd, 0x80, 0x92, 0x42, 0x46, 0xe7, 0xc6,
-	0x80, 0xb4, 0x4d, 0x9d, 0x9c, 0xe0, 0x1a, 0xa4, 0x0d, 0x9d, 0xcd, 0xae, 0x31, 0xb5, 0x62, 0x8b,
-	0x1d, 0x5f, 0x56, 0xd3, 0x92, 0xf0, 0xe9, 0xb2, 0xba, 0x10, 0xf4, 0x91, 0x04, 0x39, 0x6d, 0xe8,
-	0xdc, 0x9f, 0x19, 0x28, 0x05, 0xe9, 0xf1, 0x13, 0x1a, 0xca, 0xd0, 0xd0, 0xd2, 0x24, 0x34, 0xed,
-	0xb9, 0xe3, 0x1a, 0x14, 0x46, 0xe4, 0xdc, 0xb0, 0xaf, 0xb3, 0xce, 0xb6, 0x4a, 0x9f, 0x2e, 0xab,
-	0x05, 0xd9, 0xc7, 0xe4, 0x89, 0x15, 0x3f, 0x83, 0x7c, 0xdf, 0xb2, 0x34, 0x43, 0x67, 0x33, 0x94,
-	0x0b, 0x8f, 0x2f, 0xab, 0xb9, 0xa6, 0x65, 0x51, 0x3a, 0x6f, 0x21, 0xe7, 0xfa, 0x96, 0x25, 0xe9,
-	0x78, 0x1b, 0x80, 0xf0, 0xda, 0xd0, 0xd4, 0x89, 0x36, 0x95, 0x75, 0x41, 0xe4, 0x3b, 0xa6, 0x4e,
-	0x68, 0xc4, 0x64, 0x2d, 0x17, 0x88, 0xb7, 0xd2, 0x71, 0x0f, 0x1e, 0xd8, 0x5e, 0x45, 0xda, 0xa9,
-	0x5b, 0x12, 0x9b, 0xbb, 0xad, 0x8f, 0x81, 0xfa, 0x27, 0x7d, 0x0c, 0xf6, 0x6d, 0x0f, 0xe6, 0x74,
-	0xe2, 0xf4, 0x8d, 0x13, 0x9b, 0xcd, 0x53, 0xae, 0xaf, 0xee, 0xf4, 0x4d, 0x04, 0x2f, 0xc6, 0xa7,
-	0xbc, 0xa6, 0xc0, 0xdf, 0x42, 0xf1, 0xe4, 0x7a, 0xdc, 0xd8, 0x39, 0xca, 0x97, 0x3c, 0x23, 0x93,
-	0xc1, 0xf4, 0x59, 0x6e, 0x42, 0xb9, 0xdf, 0x19, 0x78, 0x14, 0x73, 0x1c, 0x7e, 0x01, 0x2c, 0x71,
-	0x27, 0x4b, 0x73, 0x46, 0xc6, 0xf1, 0x31, 0x19, 0x69, 0x3a, 0x79, 0x67, 0x0c, 0x0d, 0x3a, 0x52,
-	0xee, 0x07, 0x2c, 0xc9, 0xcb, 0xd4, 0xae, 0x7a, 0x66, 0x61, 0x62, 0xc5, 0x2f, 0x61, 0xae, 0x3f,
-	0x70, 0x57, 0x36, 0x9b, 0x5e, 0xcb, 0xd4, 0xe6, 0x67, 0x0c, 0x7f, 0x93, 0xfa, 0xc9, 0xd7, 0xfe,
-	0xdc, 0xdf, 0x0c, 0xe4, 0x3d, 0x0c, 0x2f, 0x4f, 0x46, 0x25, 0xd7, 0xca, 0x8f, 0x6f, 0x86, 0x64,
-	0xc7, 0xbf, 0x16, 0x69, 0x7a, 0x2d, 0x9e, 0xde, 0x42, 0x1d, 0xb8, 0x17, 0x15, 0x80, 0x40, 0x09,
-	0x19, 0x5a, 0x42, 0x00, 0xc1, 0x07, 0xb0, 0xe8, 0x12, 0x90, 0x9f, 0xce, 0xdc, 0xaa, 0xbd, 0x8c,
-	0xe8, 0xbc, 0xcc, 0xf3, 0xcf, 0x66, 0x7e, 0x28, 0x2f, 0xc2, 0x2f, 0x05, 0xd9, 0x21, 0x84, 0xfb,
-	0x83, 0x01, 0x14, 0x76, 0xc3, 0xcd, 0xa9, 0xcb, 0xfd, 0xf5, 0x9d, 0xf9, 0x03, 0xf5, 0x88, 0x50,
-	0x72, 0x8c, 0x53, 0xa2, 0x39, 0xa6, 0xf6, 0x73, 0xdf, 0x70, 0x6e, 0x6d, 0x88, 0x6a, 0x9c, 0x12,
-	0xd5, 0x3c, 0xec, 0x1b, 0x8e, 0x0c, 0xce, 0x64, 0xcd, 0x0d, 0x60, 0xb9, 0xa9, 0xeb, 0xc1, 0x09,
-	0x90, 0xdd, 0x03, 0x6d, 0x07, 0x4b, 0x21, 0x21, 0x61, 0xee, 0x21, 0x24, 0x21, 0x09, 0xd1, 0x61,
-	0x25, 0x72, 0x88, 0x6d, 0x99, 0x43, 0x9b, 0x7c, 0xce, 0x53, 0x5e, 0xc2, 0xaa, 0x4c, 0x4e, 0xcd,
-	0x73, 0x12, 0x57, 0xcd, 0x4c, 0xe9, 0xe1, 0x9e, 0x40, 0x39, 0x2e, 0xd4, 0xcb, 0x91, 0xdb, 0x86,
-	0xe5, 0xd7, 0xc4, 0xb9, 0x3f, 0xab, 0x0e, 0x2b, 0x91, 0xb8, 0xcf, 0x5f, 0x76, 0x19, 0xd8, 0x3d,
-	0xc3, 0x9e, 0x3a, 0xc6, 0xf6, 0xf3, 0xe3, 0x86, 0xb0, 0x1a, 0x63, 0xf3, 0x73, 0x78, 0x03, 0x0f,
-	0x82, 0x44, 0xee, 0x5b, 0x95, 0xb9, 0xef, 0x53, 0x31, 0xcd, 0xc0, 0xed, 0xc0, 0xea, 0x61, 0xdf,
-	0x19, 0xfc, 0x18, 0x97, 0x0c, 0x2e, 0x43, 0x61, 0x68, 0x8e, 0x88, 0x75, 0xd2, 0xbf, 0xa0, 0xf5,
-	0x16, 0xe4, 0xc9, 0x9e, 0xfb, 0x0e, 0xca, 0x71, 0x81, 0x7e, 0xa6, 0xaf, 0x20, 0x47, 0xc5, 0xc6,
-	0x6f, 0x53, 0x65, 0xf6, 0x63, 0xe8, 0xa7, 0xe6, 0x85, 0xd4, 0x6b, 0x90, 0xf7, 0xde, 0x58, 0x0c,
-	0x90, 0x6f, 0xee, 0xaa, 0xd2, 0x81, 0x88, 0x52, 0x18, 0xc3, 0x42, 0x4f, 0xec, 0x08, 0x52, 0xe7,
-	0xb5, 0x26, 0x88, 0x7b, 0xa2, 0x2a, 0x22, 0xa6, 0xfe, 0x0a, 0x8a, 0x93, 0xc7, 0x14, 0x17, 0x20,
-	0xdb, 0xe9, 0x76, 0x5c, 0xd7, 0x22, 0xe4, 0x9a, 0x82, 0x20, 0x0a, 0x88, 0xc1, 0xf3, 0x30, 0xb7,
-	0xdf, 0x13, 0x9a, 0xaa, 0x28, 0xa0, 0xb4, 0xbb, 0x91, 0xc5, 0x76, 0xf7, 0x40, 0x14, 0x50, 0xa6,
-	0xae, 0x02, 0xdc, 0xdc, 0x50, 0xbc, 0x0c, 0xd8, 0x3d, 0xa9, 0xdb, 0xd1, 0xd4, 0xb7, 0x3d, 0x51,
-	0x93, 0xc5, 0x5e, 0x57, 0x56, 0x51, 0x2a, 0x8c, 0x4b, 0x1d, 0x45, 0x94, 0x55, 0xc4, 0x84, 0xf1,
-	0x5e, 0x77, 0x4f, 0xda, 0x7d, 0x8b, 0xd2, 0xf5, 0x1f, 0x60, 0x29, 0x4e, 0x01, 0xf0, 0x53, 0xa8,
-	0x2a, 0xfb, 0x2d, 0x45, 0x7c, 0xb3, 0x2f, 0x76, 0x54, 0x2d, 0x18, 0xba, 0xdb, 0xed, 0xa8, 0x52,
-	0x67, 0xdf, 0xcd, 0xbb, 0x0a, 0x5f, 0x24, 0x38, 0x1d, 0x36, 0x25, 0x15, 0x31, 0xf5, 0xbf, 0x32,
-	0x00, 0x37, 0xaa, 0x80, 0x1f, 0xc3, 0xa2, 0x2a, 0xb5, 0x45, 0x4d, 0xed, 0x52, 0x07, 0xed, 0x7b,
-	0x51, 0xee, 0xa2, 0x54, 0x04, 0x3e, 0x7c, 0xde, 0x56, 0x10, 0x13, 0x85, 0xf9, 0xb6, 0x82, 0xd2,
-	0x51, 0x78, 0xab, 0xad, 0xa0, 0x8c, 0x5b, 0x60, 0x88, 0xa4, 0xd1, 0x56, 0x50, 0x36, 0x8a, 0xf3,
-	0x2e, 0x9e, 0x8b, 0xe2, 0x9b, 0x2e, 0x9e, 0x8f, 0xe2, 0xdf, 0xb8, 0xf8, 0x5c, 0x14, 0xdf, 0x72,
-	0xf1, 0x02, 0x5e, 0x81, 0x47, 0xe1, 0x73, 0x5d, 0x43, 0x31, 0x6a, 0xe0, 0xa9, 0x01, 0xa2, 0x86,
-	0x2d, 0x6a, 0x98, 0xc7, 0x4b, 0x80, 0x42, 0x54, 0x0a, 0x2a, 0x45, 0x51, 0x5e, 0x41, 0x0f, 0xa2,
-	0xe8, 0x96, 0x82, 0x16, 0x62, 0x3a, 0xd9, 0x50, 0xd0, 0xc3, 0x98, 0x4e, 0x36, 0x14, 0x84, 0xa2,
-	0xf0, 0x76, 0x43, 0x41, 0x8b, 0xfc, 0x7f, 0x59, 0x78, 0x2c, 0xf2, 0xc1, 0x6b, 0xe2, 0xff, 0xf0,
-	0xc0, 0x0e, 0x3c, 0x0c, 0x89, 0x2c, 0xde, 0x48, 0x7e, 0x1e, 0x63, 0x35, 0xbf, 0xdc, 0xb8, 0x7b,
-	0x80, 0x7f, 0x35, 0x7f, 0x05, 0x1c, 0x55, 0x4e, 0xcc, 0x27, 0xf2, 0x24, 0x2a, 0x74, 0x79, 0xf3,
-	0x5e, 0x31, 0xfe, 0xf1, 0x0e, 0x3c, 0x0c, 0x49, 0xec, 0x8c, 0xa2, 0xe3, 0x45, 0x7c, 0x46, 0xd1,
-	0x49, 0xea, 0xfd, 0x0b, 0x2c, 0x46, 0x64, 0x15, 0x3f, 0x9f, 0xf1, 0xf3, 0x2b, 0x5e, 0x9e, 0xcb,
-	0xfc, 0x7d, 0x42, 0xfc, 0xb3, 0x7f, 0x03, 0x1c, 0x55, 0xca, 0x19, 0x0d, 0x4f, 0xd4, 0xe3, 0x19,
-	0x0d, 0x4f, 0x96, 0xe2, 0x06, 0xd3, 0x62, 0x3f, 0x8c, 0x2b, 0xcc, 0xc7, 0x71, 0x85, 0xf9, 0x77,
-	0x5c, 0x61, 0xde, 0x5f, 0x55, 0x52, 0x1f, 0xaf, 0x2a, 0xa9, 0x7f, 0xae, 0x2a, 0xa9, 0xa3, 0x3c,
-	0xfd, 0x27, 0xb4, 0xf9, 0x7f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x1f, 0x37, 0x7c, 0x6b, 0x66, 0x0d,
-	0x00, 0x00,
+	// 1221 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x57, 0x5f, 0x6f, 0x9b, 0x56,
+	0x14, 0x37, 0xfe, 0x17, 0xe7, 0xc4, 0x49, 0x6f, 0x6e, 0xdb, 0xc4, 0xf5, 0x2a, 0x3b, 0xa3, 0x9a,
+	0xe4, 0x5a, 0x5b, 0xe2, 0xd0, 0x25, 0xdd, 0x2a, 0x4d, 0x9b, 0x1d, 0x68, 0x65, 0x29, 0x06, 0x17,
+	0x48, 0xb3, 0x4e, 0x95, 0x10, 0x35, 0x77, 0x19, 0x92, 0x63, 0x98, 0x21, 0x99, 0x32, 0x69, 0xda,
+	0x57, 0xe8, 0xde, 0xf7, 0x29, 0xfa, 0x29, 0xfa, 0xd8, 0xc7, 0x3d, 0x45, 0x93, 0xfb, 0x11, 0xf6,
+	0xd6, 0x97, 0x4d, 0x5c, 0x30, 0x21, 0x06, 0xdc, 0x64, 0xea, 0xdb, 0xe5, 0x77, 0xcf, 0xf9, 0x9d,
+	0x3f, 0xf7, 0x9e, 0x1f, 0x00, 0x4d, 0x6b, 0x64, 0x39, 0x5b, 0x84, 0x73, 0x4e, 0x5e, 0x6e, 0x39,
+	0x27, 0x2f, 0x9d, 0xc1, 0xd8, 0xb4, 0x5d, 0xd3, 0x1a, 0x5d, 0x7a, 0xd8, 0xb4, 0xc7, 0x96, 0x6b,
+	0xe1, 0x75, 0xcf, 0x76, 0x93, 0xda, 0x6e, 0x46, 0xb7, 0xab, 0xb7, 0x8e, 0xac, 0x23, 0x8b, 0xda,
+	0x6c, 0x79, 0x2b, 0xdf, 0x9c, 0xe5, 0x61, 0x71, 0xdf, 0xfc, 0x91, 0x0c, 0xce, 0x06, 0x43, 0x82,
+	0x1f, 0x42, 0xd1, 0x71, 0x75, 0xf7, 0xc4, 0xa9, 0x30, 0x1b, 0x4c, 0x63, 0x85, 0xab, 0x6f, 0xa6,
+	0x90, 0x6d, 0x2a, 0xd4, 0x4c, 0x0e, 0xcc, 0xd9, 0x57, 0x0c, 0x14, 0x84, 0x53, 0x32, 0x72, 0xf1,
+	0x2e, 0xe4, 0xdd, 0x33, 0x9b, 0x04, 0x04, 0x6c, 0x2a, 0x01, 0xb5, 0x56, 0xcf, 0x6c, 0x22, 0x53,
+	0x7b, 0x2c, 0x41, 0x39, 0xba, 0x5f, 0xc9, 0x6e, 0x30, 0x8d, 0x25, 0xee, 0xb3, 0xf4, 0x04, 0x22,
+	0x0f, 0x9d, 0xfc, 0x9b, 0xf3, 0x7a, 0x46, 0xbe, 0x44, 0xc0, 0x7e, 0x05, 0x65, 0x85, 0x8c, 0x4f,
+	0xcd, 0x01, 0xe9, 0x59, 0x06, 0x19, 0xe2, 0x06, 0x64, 0x4d, 0xa3, 0x92, 0xdf, 0x60, 0x1a, 0x8b,
+	0x9d, 0xca, 0xe4, 0xbc, 0x9e, 0xed, 0xf2, 0xef, 0xcf, 0xeb, 0x2b, 0x51, 0x9b, 0x2e, 0x2f, 0x67,
+	0x4d, 0x83, 0xfd, 0x23, 0x0b, 0xe5, 0x28, 0x3d, 0xbe, 0x4b, 0x5d, 0x19, 0xea, 0x5a, 0x0e, 0x5d,
+	0xb3, 0xbe, 0x39, 0x6e, 0x40, 0x69, 0x4c, 0x4e, 0x4d, 0x67, 0x9a, 0x75, 0xbe, 0x53, 0x7e, 0x7f,
+	0x5e, 0x2f, 0xc9, 0x01, 0x26, 0x87, 0xbb, 0xf8, 0x3e, 0x14, 0x75, 0xdb, 0xd6, 0x4c, 0xa3, 0x92,
+	0xa3, 0x5c, 0x78, 0x72, 0x5e, 0x2f, 0xb4, 0x6d, 0x9b, 0xd2, 0xf9, 0x0b, 0xb9, 0xa0, 0xdb, 0x76,
+	0xd7, 0xc0, 0x8f, 0x61, 0xc1, 0x20, 0xae, 0x6e, 0x0e, 0x1d, 0x9a, 0xf2, 0x12, 0xf7, 0xf9, 0x95,
+	0x3a, 0xc1, 0xfb, 0x3e, 0xf2, 0xd4, 0x19, 0x3f, 0x86, 0xc5, 0xe1, 0xf4, 0x78, 0x2b, 0x05, 0xca,
+	0x94, 0x7e, 0x26, 0xe1, 0x45, 0x08, 0x1a, 0x7a, 0xe1, 0xca, 0xbe, 0xce, 0xc2, 0xcd, 0x84, 0x40,
+	0x78, 0x17, 0x80, 0x70, 0xda, 0xc8, 0x32, 0x88, 0x16, 0xb6, 0xc8, 0xeb, 0x6e, 0x49, 0xe0, 0x44,
+	0xcb, 0x20, 0xb4, 0xb2, 0x70, 0x2d, 0x97, 0x88, 0xbf, 0x32, 0x70, 0x1f, 0x96, 0x1d, 0xbf, 0xf3,
+	0xda, 0xb1, 0xd7, 0xfa, 0x0f, 0x9f, 0x77, 0xe4, 0x9c, 0xc2, 0xf3, 0x8e, 0x9e, 0x6f, 0x1f, 0x96,
+	0x89, 0x77, 0xa7, 0x34, 0x77, 0x6c, 0x1e, 0x1d, 0x91, 0x31, 0xed, 0xf1, 0x3c, 0x46, 0xff, 0x06,
+	0xfa, 0xc6, 0x53, 0x46, 0x12, 0xc1, 0xf0, 0xb7, 0xb0, 0xa0, 0x0f, 0x3c, 0x53, 0xef, 0x0c, 0x72,
+	0x8d, 0xa5, 0x39, 0xe3, 0xd0, 0x1e, 0x44, 0xee, 0xe1, 0xd4, 0x8b, 0x7d, 0x01, 0x0b, 0x7d, 0xfd,
+	0x6c, 0x68, 0xe9, 0x06, 0xfe, 0x06, 0x4a, 0x64, 0x34, 0xb0, 0x0c, 0x73, 0x74, 0x14, 0x8c, 0xc6,
+	0xa7, 0xe9, 0x89, 0x05, 0x86, 0x72, 0xe8, 0x82, 0x31, 0xe4, 0x0d, 0xdd, 0xd5, 0x69, 0x97, 0xca,
+	0x32, 0x5d, 0xb3, 0x7d, 0x28, 0x47, 0x4b, 0xc0, 0xdf, 0xc1, 0x82, 0xed, 0x47, 0xa3, 0x11, 0x96,
+	0xb8, 0x8d, 0xd4, 0x08, 0x41, 0x56, 0xd3, 0x7c, 0x03, 0x37, 0xf6, 0x1f, 0x06, 0x8a, 0x7e, 0x25,
+	0x78, 0x2d, 0xbc, 0xf2, 0x85, 0x4e, 0x71, 0x72, 0x71, 0xd9, 0x1f, 0x06, 0xe3, 0x9d, 0xa5, 0x35,
+	0xdc, 0xfb, 0x40, 0x43, 0x22, 0xf3, 0x1d, 0xc9, 0x2e, 0xf7, 0xbf, 0xb2, 0xc3, 0xcf, 0x60, 0xd5,
+	0x33, 0x23, 0x3f, 0x9f, 0x78, 0xa7, 0xec, 0xf7, 0x38, 0x18, 0x8e, 0xfb, 0x73, 0x87, 0xc3, 0xf7,
+	0xf0, 0x33, 0x92, 0x91, 0x33, 0x83, 0xb0, 0x7f, 0x32, 0x80, 0x66, 0xcd, 0x70, 0xfb, 0x92, 0x8c,
+	0x7d, 0x71, 0x65, 0xfe, 0x48, 0xc5, 0x02, 0x94, 0x5d, 0xf3, 0x98, 0x68, 0xae, 0xa5, 0xfd, 0xa2,
+	0x9b, 0xee, 0x07, 0x5b, 0xa6, 0x9a, 0xc7, 0x44, 0xb5, 0x0e, 0x75, 0xd3, 0x95, 0xc1, 0x0d, 0xd7,
+	0xec, 0x00, 0xd6, 0xda, 0x86, 0x11, 0x9d, 0x3d, 0xd9, 0x0b, 0xe8, 0xb8, 0xb8, 0x3b, 0x23, 0x99,
+	0xcc, 0x35, 0x24, 0x73, 0x46, 0x2c, 0x0d, 0x58, 0x8f, 0x05, 0x71, 0x6c, 0x6b, 0xe4, 0x90, 0x8f,
+	0x19, 0xe5, 0x6b, 0xb8, 0x23, 0x93, 0x63, 0xeb, 0x94, 0x24, 0x55, 0x33, 0x57, 0x64, 0xd9, 0xbb,
+	0x50, 0x4d, 0x72, 0xf5, 0x73, 0x64, 0x77, 0x61, 0xed, 0x09, 0x71, 0xaf, 0xcf, 0x6a, 0xc0, 0x7a,
+	0xcc, 0xef, 0xe3, 0x97, 0x5d, 0x85, 0xca, 0xbe, 0xe9, 0x5c, 0x0a, 0xe3, 0x04, 0xf9, 0xb1, 0x23,
+	0xb8, 0x93, 0xb0, 0x17, 0xe4, 0xf0, 0x14, 0x96, 0xa3, 0x44, 0xde, 0x5b, 0x39, 0x77, 0xdd, 0x97,
+	0xe2, 0x65, 0x06, 0xf6, 0x21, 0xdc, 0x39, 0xd4, 0xdd, 0xc1, 0x4f, 0x49, 0xc9, 0xe0, 0x2a, 0x94,
+	0x46, 0xd6, 0x98, 0xd8, 0x43, 0xfd, 0x8c, 0xd6, 0x5b, 0x92, 0xc3, 0x67, 0xf6, 0x7b, 0xa8, 0x26,
+	0x39, 0x06, 0x99, 0x3e, 0x82, 0x02, 0x95, 0xce, 0xa0, 0x4d, 0xb5, 0xf9, 0xa2, 0x1b, 0xa4, 0xe6,
+	0xbb, 0x34, 0x1b, 0x50, 0xf4, 0xbf, 0x26, 0x30, 0x40, 0xb1, 0xbd, 0xa7, 0x76, 0x9f, 0x09, 0x28,
+	0x83, 0x31, 0xac, 0xf4, 0x05, 0x91, 0xef, 0x8a, 0x4f, 0x34, 0x5e, 0xd8, 0x17, 0x54, 0x01, 0x31,
+	0xcd, 0x47, 0xb0, 0x18, 0x7e, 0x36, 0xe0, 0x12, 0xe4, 0x45, 0x49, 0xf4, 0x4c, 0x17, 0xa1, 0xd0,
+	0xe6, 0x79, 0x81, 0x47, 0x0c, 0x5e, 0x82, 0x85, 0x83, 0x3e, 0xdf, 0x56, 0x05, 0x1e, 0x65, 0xbd,
+	0x07, 0x59, 0xe8, 0x49, 0xcf, 0x04, 0x1e, 0xe5, 0x9a, 0xdb, 0x50, 0x9a, 0xea, 0x2a, 0x5e, 0x85,
+	0x65, 0x41, 0xdc, 0x93, 0x28, 0x79, 0x5b, 0x11, 0xb7, 0xfd, 0x70, 0x21, 0xd4, 0x97, 0x25, 0x55,
+	0x42, 0x4c, 0x53, 0x05, 0xb8, 0x18, 0x6a, 0xbc, 0x06, 0xd8, 0x4b, 0x4e, 0x12, 0x35, 0xf5, 0x79,
+	0x5f, 0xd0, 0x64, 0xa1, 0x2f, 0xc9, 0x2a, 0xca, 0xcc, 0xe2, 0x5d, 0x51, 0x11, 0x64, 0x15, 0x31,
+	0xb3, 0x78, 0x5f, 0xda, 0xef, 0xee, 0x3d, 0x47, 0xd9, 0xe6, 0x0b, 0xb8, 0x95, 0x24, 0x1a, 0xf8,
+	0x1e, 0xd4, 0x95, 0x83, 0x8e, 0x22, 0x3c, 0x3d, 0x10, 0x44, 0x55, 0x8b, 0xba, 0xee, 0x49, 0xa2,
+	0xda, 0x15, 0x0f, 0xbc, 0x52, 0xeb, 0xf0, 0x49, 0x8a, 0xd1, 0x61, 0xbb, 0xab, 0x22, 0xa6, 0xf9,
+	0x3a, 0x07, 0x70, 0x21, 0x24, 0xf8, 0x36, 0xac, 0xaa, 0xdd, 0x9e, 0xa0, 0xa9, 0x12, 0x35, 0xd0,
+	0x7e, 0x10, 0x64, 0x09, 0x65, 0x62, 0xf0, 0xe1, 0x76, 0x4f, 0x41, 0x4c, 0x1c, 0xe6, 0x7a, 0x0a,
+	0xca, 0xc6, 0xe1, 0x9d, 0x9e, 0x82, 0x72, 0x5e, 0x81, 0x33, 0x24, 0xad, 0x9e, 0x82, 0xf2, 0x71,
+	0x9c, 0xf3, 0xf0, 0x42, 0x1c, 0x7f, 0xe0, 0xe1, 0xc5, 0x38, 0xfe, 0xa5, 0x87, 0x2f, 0xc4, 0xf1,
+	0x1d, 0x0f, 0x2f, 0xe1, 0x75, 0xb8, 0x39, 0x1b, 0xd7, 0xdb, 0x58, 0x8c, 0x6f, 0x70, 0x74, 0x03,
+	0xe2, 0x1b, 0x3b, 0x74, 0x63, 0x09, 0xdf, 0x02, 0x34, 0x43, 0xa5, 0xa0, 0x72, 0x1c, 0xe5, 0x14,
+	0xb4, 0x1c, 0x47, 0x77, 0x14, 0xb4, 0x92, 0xd0, 0xc9, 0x96, 0x82, 0x6e, 0x24, 0x74, 0xb2, 0xa5,
+	0x20, 0x14, 0x87, 0x77, 0x5b, 0x0a, 0x5a, 0xe5, 0xfe, 0xcd, 0xc3, 0x6d, 0x81, 0x8b, 0x4e, 0x56,
+	0xf0, 0xb5, 0x83, 0x5d, 0xb8, 0x31, 0xa3, 0xcb, 0x78, 0x2b, 0xfd, 0x9d, 0x9b, 0xf8, 0x9a, 0xa8,
+	0xb6, 0xae, 0xee, 0x10, 0x4c, 0xf3, 0x6f, 0x80, 0xe3, 0x62, 0x8b, 0xb9, 0x54, 0x9e, 0x54, 0x51,
+	0xaf, 0x3e, 0xb8, 0x96, 0x4f, 0x10, 0xde, 0x85, 0x1b, 0x33, 0xaa, 0x3c, 0xa7, 0xe8, 0x64, 0xdd,
+	0x9f, 0x53, 0x74, 0x9a, 0xe0, 0xff, 0x0a, 0xab, 0x31, 0x25, 0xc6, 0xdb, 0x73, 0xbe, 0x95, 0x93,
+	0x15, 0xbd, 0xca, 0x5d, 0xc7, 0x25, 0x88, 0xfd, 0x3b, 0xe0, 0xb8, 0xb8, 0xce, 0x69, 0x78, 0xaa,
+	0x84, 0xcf, 0x69, 0x78, 0xba, 0x7a, 0xb7, 0x98, 0x4e, 0xe5, 0xcd, 0xa4, 0xc6, 0xbc, 0x9d, 0xd4,
+	0x98, 0xbf, 0x27, 0x35, 0xe6, 0xd5, 0xbb, 0x5a, 0xe6, 0xed, 0xbb, 0x5a, 0xe6, 0xaf, 0x77, 0xb5,
+	0xcc, 0xcb, 0x22, 0xfd, 0x4d, 0x7c, 0xf0, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xc9, 0x5d, 0x69,
+	0xd2, 0x83, 0x0e, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1542,31 +1672,16 @@ func (m *Subscription) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintSubscription(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0x3a
-	{
-		size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintSubscription(dAtA, i, uint64(size))
-	}
-	i--
-	dAtA[i] = 0x32
-	{
-		size, err := m.ServiceModel.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintSubscription(dAtA, i, uint64(size))
-	}
-	i--
 	dAtA[i] = 0x2a
-	if len(m.E2NodeID) > 0 {
-		i -= len(m.E2NodeID)
-		copy(dAtA[i:], m.E2NodeID)
-		i = encodeVarintSubscription(dAtA, i, uint64(len(m.E2NodeID)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintSubscription(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x22
 	}
@@ -1623,16 +1738,104 @@ func (m *SubscriptionDetails) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				i = encodeVarintSubscription(dAtA, i, uint64(size))
 			}
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x22
 		}
 	}
-	if len(m.EventTriggerDefinition) > 0 {
-		i -= len(m.EventTriggerDefinition)
-		copy(dAtA[i:], m.EventTriggerDefinition)
-		i = encodeVarintSubscription(dAtA, i, uint64(len(m.EventTriggerDefinition)))
+	{
+		size, err := m.EventTrigger.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintSubscription(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	{
+		size, err := m.ServiceModel.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintSubscription(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if len(m.E2NodeID) > 0 {
+		i -= len(m.E2NodeID)
+		copy(dAtA[i:], m.E2NodeID)
+		i = encodeVarintSubscription(dAtA, i, uint64(len(m.E2NodeID)))
 		i--
 		dAtA[i] = 0xa
 	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Payload) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Payload) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Payload) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Data) > 0 {
+		i -= len(m.Data)
+		copy(dAtA[i:], m.Data)
+		i = encodeVarintSubscription(dAtA, i, uint64(len(m.Data)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Encoding != 0 {
+		i = encodeVarintSubscription(dAtA, i, uint64(m.Encoding))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *EventTrigger) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *EventTrigger) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *EventTrigger) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Payload.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintSubscription(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
 	return len(dAtA) - i, nil
 }
 
@@ -1668,13 +1871,16 @@ func (m *Action) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x22
 	}
-	if len(m.Definition) > 0 {
-		i -= len(m.Definition)
-		copy(dAtA[i:], m.Definition)
-		i = encodeVarintSubscription(dAtA, i, uint64(len(m.Definition)))
-		i--
-		dAtA[i] = 0x1a
+	{
+		size, err := m.Payload.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintSubscription(dAtA, i, uint64(size))
 	}
+	i--
+	dAtA[i] = 0x1a
 	if m.Type != 0 {
 		i = encodeVarintSubscription(dAtA, i, uint64(m.Type))
 		i--
@@ -2102,14 +2308,10 @@ func (m *Subscription) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovSubscription(uint64(l))
 	}
-	l = len(m.E2NodeID)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovSubscription(uint64(l))
 	}
-	l = m.ServiceModel.Size()
-	n += 1 + l + sovSubscription(uint64(l))
-	l = m.Details.Size()
-	n += 1 + l + sovSubscription(uint64(l))
 	l = m.Lifecycle.Size()
 	n += 1 + l + sovSubscription(uint64(l))
 	return n
@@ -2121,16 +2323,47 @@ func (m *SubscriptionDetails) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.EventTriggerDefinition)
+	l = len(m.E2NodeID)
 	if l > 0 {
 		n += 1 + l + sovSubscription(uint64(l))
 	}
+	l = m.ServiceModel.Size()
+	n += 1 + l + sovSubscription(uint64(l))
+	l = m.EventTrigger.Size()
+	n += 1 + l + sovSubscription(uint64(l))
 	if len(m.Actions) > 0 {
 		for _, e := range m.Actions {
 			l = e.Size()
 			n += 1 + l + sovSubscription(uint64(l))
 		}
 	}
+	return n
+}
+
+func (m *Payload) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Encoding != 0 {
+		n += 1 + sovSubscription(uint64(m.Encoding))
+	}
+	l = len(m.Data)
+	if l > 0 {
+		n += 1 + l + sovSubscription(uint64(l))
+	}
+	return n
+}
+
+func (m *EventTrigger) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.Payload.Size()
+	n += 1 + l + sovSubscription(uint64(l))
 	return n
 }
 
@@ -2146,10 +2379,8 @@ func (m *Action) Size() (n int) {
 	if m.Type != 0 {
 		n += 1 + sovSubscription(uint64(m.Type))
 	}
-	l = len(m.Definition)
-	if l > 0 {
-		n += 1 + l + sovSubscription(uint64(l))
-	}
+	l = m.Payload.Size()
+	n += 1 + l + sovSubscription(uint64(l))
 	if m.SubsequentAction != nil {
 		l = m.SubsequentAction.Size()
 		n += 1 + l + sovSubscription(uint64(l))
@@ -2675,71 +2906,6 @@ func (m *Subscription) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field E2NodeID", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubscription
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSubscription
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubscription
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.E2NodeID = E2NodeID(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ServiceModel", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubscription
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSubscription
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubscription
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.ServiceModel.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 6:
-			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
 			var msglen int
@@ -2767,11 +2933,14 @@ func (m *Subscription) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+			if m.Details == nil {
+				m.Details = &SubscriptionDetails{}
+			}
 			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
-		case 7:
+		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Lifecycle", wireType)
 			}
@@ -2859,9 +3028,9 @@ func (m *SubscriptionDetails) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EventTriggerDefinition", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field E2NodeID", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSubscription
@@ -2871,27 +3040,91 @@ func (m *SubscriptionDetails) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthSubscription
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthSubscription
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.EventTriggerDefinition = append(m.EventTriggerDefinition[:0], dAtA[iNdEx:postIndex]...)
-			if m.EventTriggerDefinition == nil {
-				m.EventTriggerDefinition = []byte{}
-			}
+			m.E2NodeID = E2NodeID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ServiceModel", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubscription
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.ServiceModel.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EventTrigger", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubscription
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.EventTrigger.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Actions", wireType)
 			}
@@ -2920,8 +3153,200 @@ func (m *SubscriptionDetails) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Actions = append(m.Actions, &Action{})
+			m.Actions = append(m.Actions, Action{})
 			if err := m.Actions[len(m.Actions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSubscription(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Payload) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSubscription
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Payload: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Payload: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Encoding", wireType)
+			}
+			m.Encoding = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubscription
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Encoding |= Encoding(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubscription
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Data = append(m.Data[:0], dAtA[iNdEx:postIndex]...)
+			if m.Data == nil {
+				m.Data = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSubscription(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *EventTrigger) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSubscription
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: EventTrigger: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: EventTrigger: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Payload", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubscription
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubscription
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Payload.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -3018,9 +3443,9 @@ func (m *Action) Unmarshal(dAtA []byte) error {
 			}
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Definition", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Payload", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSubscription
@@ -3030,24 +3455,23 @@ func (m *Action) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthSubscription
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthSubscription
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Definition = append(m.Definition[:0], dAtA[iNdEx:postIndex]...)
-			if m.Definition == nil {
-				m.Definition = []byte{}
+			if err := m.Payload.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 4:

@@ -8,11 +8,13 @@
     - [AddSubscriptionRequest](#onos.e2sub.subscription.AddSubscriptionRequest)
     - [AddSubscriptionResponse](#onos.e2sub.subscription.AddSubscriptionResponse)
     - [Event](#onos.e2sub.subscription.Event)
+    - [EventTrigger](#onos.e2sub.subscription.EventTrigger)
     - [GetSubscriptionRequest](#onos.e2sub.subscription.GetSubscriptionRequest)
     - [GetSubscriptionResponse](#onos.e2sub.subscription.GetSubscriptionResponse)
     - [Lifecycle](#onos.e2sub.subscription.Lifecycle)
     - [ListSubscriptionsRequest](#onos.e2sub.subscription.ListSubscriptionsRequest)
     - [ListSubscriptionsResponse](#onos.e2sub.subscription.ListSubscriptionsResponse)
+    - [Payload](#onos.e2sub.subscription.Payload)
     - [RemoveSubscriptionRequest](#onos.e2sub.subscription.RemoveSubscriptionRequest)
     - [RemoveSubscriptionResponse](#onos.e2sub.subscription.RemoveSubscriptionResponse)
     - [ServiceModel](#onos.e2sub.subscription.ServiceModel)
@@ -23,6 +25,7 @@
     - [WatchSubscriptionsResponse](#onos.e2sub.subscription.WatchSubscriptionsResponse)
   
     - [ActionType](#onos.e2sub.subscription.ActionType)
+    - [Encoding](#onos.e2sub.subscription.Encoding)
     - [EventType](#onos.e2sub.subscription.EventType)
     - [Status](#onos.e2sub.subscription.Status)
     - [SubsequentActionType](#onos.e2sub.subscription.SubsequentActionType)
@@ -51,7 +54,7 @@
 | ----- | ---- | ----- | ----------- |
 | id | [int32](#int32) |  |  |
 | type | [ActionType](#onos.e2sub.subscription.ActionType) |  |  |
-| definition | [bytes](#bytes) |  |  |
+| payload | [Payload](#onos.e2sub.subscription.Payload) |  |  |
 | subsequent_action | [SubsequentAction](#onos.e2sub.subscription.SubsequentAction) |  |  |
 
 
@@ -99,6 +102,21 @@ Event is a subscription event
 | ----- | ---- | ----- | ----------- |
 | type | [EventType](#onos.e2sub.subscription.EventType) |  |  |
 | subscription | [Subscription](#onos.e2sub.subscription.Subscription) |  |  |
+
+
+
+
+
+
+<a name="onos.e2sub.subscription.EventTrigger"></a>
+
+### EventTrigger
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| payload | [Payload](#onos.e2sub.subscription.Payload) |  |  |
 
 
 
@@ -175,6 +193,22 @@ Lifecycle is the subscription lifecycle
 
 
 
+<a name="onos.e2sub.subscription.Payload"></a>
+
+### Payload
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| encoding | [Encoding](#onos.e2sub.subscription.Encoding) |  |  |
+| data | [bytes](#bytes) |  |  |
+
+
+
+
+
+
 <a name="onos.e2sub.subscription.RemoveSubscriptionRequest"></a>
 
 ### RemoveSubscriptionRequest
@@ -226,8 +260,6 @@ Subscription is a subscription state
 | id | [string](#string) |  |  |
 | revision | [uint64](#uint64) |  |  |
 | app_id | [string](#string) |  |  |
-| e2_node_id | [string](#string) |  |  |
-| service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
 | details | [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails) |  |  |
 | lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
 
@@ -244,7 +276,9 @@ Subscription is a subscription state
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| event_trigger_definition | [bytes](#bytes) |  |  |
+| e2_node_id | [string](#string) |  |  |
+| service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
+| event_trigger | [EventTrigger](#onos.e2sub.subscription.EventTrigger) |  |  |
 | actions | [Action](#onos.e2sub.subscription.Action) | repeated |  |
 
 
@@ -310,6 +344,18 @@ sequence from e2ap-v01.00.00.asn1:1132
 | ACTION_TYPE_REPORT | 0 |  |
 | ACTION_TYPE_INSERT | 1 |  |
 | ACTION_TYPE_POLICY | 2 |  |
+
+
+
+<a name="onos.e2sub.subscription.Encoding"></a>
+
+### Encoding
+Encoding indicates a payload encoding
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ENCODING_ASN1 | 0 |  |
+| ENCODING_PROTO | 1 |  |
 
 
 

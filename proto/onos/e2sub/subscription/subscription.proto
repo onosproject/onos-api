@@ -74,21 +74,36 @@ message Subscription {
     string id = 1 [(gogoproto.casttype) = "ID", (gogoproto.customname) = "ID"];
     uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
     string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
-    string e2_node_id = 4 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
-    ServiceModel service_model = 5 [(gogoproto.nullable) = false];
-    SubscriptionDetails details = 6 [(gogoproto.nullable) = false];
-    Lifecycle lifecycle = 7 [(gogoproto.nullable) = false];
+    SubscriptionDetails details = 4;
+    Lifecycle lifecycle = 5 [(gogoproto.nullable) = false];
 }
 
 message SubscriptionDetails {
-    bytes event_trigger_definition = 1;
-    repeated Action actions = 2;
+    string e2_node_id = 1 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    ServiceModel service_model = 2 [(gogoproto.nullable) = false];
+    EventTrigger event_trigger = 3 [(gogoproto.nullable) = false];
+    repeated Action actions = 4 [(gogoproto.nullable) = false];
+}
+
+// Encoding indicates a payload encoding
+enum Encoding {
+    ENCODING_ASN1 = 0;
+    ENCODING_PROTO = 1;
+}
+
+message Payload {
+    Encoding encoding = 1;
+    bytes data = 2;
+}
+
+message EventTrigger {
+    Payload payload = 1 [(gogoproto.nullable) = false];
 }
 
 message Action {
     int32 id = 1 [(gogoproto.customname) = "ID"];
     ActionType type = 2;
-    bytes definition = 3;
+    Payload payload = 3 [(gogoproto.nullable) = false];
     SubsequentAction subsequent_action = 4;
 }
 
