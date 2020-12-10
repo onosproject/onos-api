@@ -18,6 +18,7 @@
     - [RemoveSubscriptionResponse](#onos.e2sub.subscription.RemoveSubscriptionResponse)
     - [ServiceModel](#onos.e2sub.subscription.ServiceModel)
     - [Subscription](#onos.e2sub.subscription.Subscription)
+    - [SubscriptionDefinition](#onos.e2sub.subscription.SubscriptionDefinition)
     - [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails)
     - [SubsequentAction](#onos.e2sub.subscription.SubsequentAction)
     - [WatchSubscriptionsRequest](#onos.e2sub.subscription.WatchSubscriptionsRequest)
@@ -243,11 +244,26 @@ Subscription is a subscription state
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | revision | [uint64](#uint64) |  |  |
+| definition | [SubscriptionDefinition](#onos.e2sub.subscription.SubscriptionDefinition) |  |  |
+| lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
+
+
+
+
+
+
+<a name="onos.e2sub.subscription.SubscriptionDefinition"></a>
+
+### SubscriptionDefinition
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
 | app_id | [string](#string) |  |  |
 | e2_node_id | [string](#string) |  |  |
 | service_model | [ServiceModel](#onos.e2sub.subscription.ServiceModel) |  |  |
 | details | [SubscriptionDetails](#onos.e2sub.subscription.SubscriptionDetails) |  |  |
-| lifecycle | [Lifecycle](#onos.e2sub.subscription.Lifecycle) |  |  |
 
 
 

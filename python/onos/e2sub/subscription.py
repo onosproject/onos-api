@@ -100,11 +100,19 @@ class Subscription(betterproto.Message):
 
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
+    definition: "SubscriptionDefinition" = betterproto.message_field(3)
+    lifecycle: "Lifecycle" = betterproto.message_field(7)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SubscriptionDefinition(betterproto.Message):
     app_id: str = betterproto.string_field(3)
     e2_node_id: str = betterproto.string_field(4)
     service_model: "ServiceModel" = betterproto.message_field(5)
     details: "SubscriptionDetails" = betterproto.message_field(6)
-    lifecycle: "Lifecycle" = betterproto.message_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
