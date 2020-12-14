@@ -3,7 +3,3 @@
 
 // Package snapshot is a generated GoMock package.
 package snapshot
-
-import (
-	gomock "github.com/golang/mock/gomock"
-)

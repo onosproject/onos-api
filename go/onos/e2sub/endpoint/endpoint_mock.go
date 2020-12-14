@@ -6,10 +6,11 @@ package endpoint
 
 import (
 	context "context"
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	grpc "google.golang.org/grpc"
 	metadata "google.golang.org/grpc/metadata"
-	reflect "reflect"
 )
 
 // MockE2RegistryServiceClient is a mock of E2RegistryServiceClient interface

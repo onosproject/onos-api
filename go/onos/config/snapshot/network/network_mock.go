@@ -3,7 +3,3 @@
 
 // Package network is a generated GoMock package.
 package network
-
-import (
-	gomock "github.com/golang/mock/gomock"
-)

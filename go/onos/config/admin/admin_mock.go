@@ -6,11 +6,12 @@ package admin
 
 import (
 	context "context"
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	device "github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 	grpc "google.golang.org/grpc"
 	metadata "google.golang.org/grpc/metadata"
-	reflect "reflect"
 )
 
 // MockConfigAdminServiceClient is a mock of ConfigAdminServiceClient interface

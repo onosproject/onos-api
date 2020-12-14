@@ -3,7 +3,3 @@
 
 // Package device is a generated GoMock package.
 package device
-
-import (
-	gomock "github.com/golang/mock/gomock"
-)

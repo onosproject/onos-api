@@ -3,7 +3,3 @@
 
 // Package change is a generated GoMock package.
 package change
-
-import (
-	gomock "github.com/golang/mock/gomock"
-)
