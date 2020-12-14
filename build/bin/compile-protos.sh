@@ -124,36 +124,7 @@ protoc --proto_path=$proto_path \
 
 
 ### Python Protobuf code generation
+mkdir -p ./python
 protoc --proto_path=$proto_path \
     --python_betterproto_out=./python \
-    proto/onos/e2sub/endpoint/endpoint.proto \
-    proto/onos/e2sub/subscription/subscription.proto \
-    proto/onos/e2sub/task/task.proto \
-    proto/onos/e2t/admin/admin.proto \
-    proto/onos/e2t/e2/e2.proto \
-    proto/onos/topo/topo.proto \
-    \
-    proto/onos/config/admin/admin.proto \
-    proto/onos/config/diags/diags.proto \
-    proto/onos/config/change/types.proto \
-    proto/onos/config/change/device/types.proto \
-    proto/onos/config/change/network/types.proto \
-    proto/onos/config/snapshot/types.proto \
-    proto/onos/config/snapshot/device/types.proto \
-    proto/onos/config/snapshot/network/types.proto
-
-mv ./python/onos/e2sub/endpoint/__init__.py ./python/onos/e2sub/endpoint.py && rm -r ./python/onos/e2sub/endpoint
-mv ./python/onos/e2sub/subscription/__init__.py ./python/onos/e2sub/subscription.py && rm -r ./python/onos/e2sub/subscription
-mv ./python/onos/e2sub/task/__init__.py ./python/onos/e2sub/task.py && rm -r ./python/onos/e2sub/task
-mv ./python/onos/e2t/admin/__init__.py ./python/onos/e2t/admin.py && rm -r ./python/onos/e2t/admin
-mv ./python/onos/e2t/e2/__init__.py ./python/onos/e2t/e2.py && rm -r ./python/onos/e2t/e2
-mv ./python/onos/topo/__init__.py ./python/onos/topo/topo.py && touch ./python/onos/topo/__init__.py
-
-mv ./python/onos/config/admin/__init__.py ./python/onos/config/admin/admin.py && touch ./python/onos/config/admin/__init__.py
-mv ./python/onos/config/diags/__init__.py ./python/onos/config/diags/diags.py && touch ./python/onos/config/diags/__init__.py
-mv ./python/onos/config/change/__init__.py ./python/onos/config/change.py && touch ./python/onos/config/change/__init__.py
-mv ./python/onos/config/change/device/__init__.py ./python/onos/config/device_change.py && touch ./python/onos/config/change/device/__init__.py
-mv ./python/onos/config/change/network/__init__.py ./python/onos/config/network_change.py && touch ./python/onos/config/change/network/__init__.py
-mv ./python/onos/config/snapshot/__init__.py ./python/onos/config/snapshot.py && touch ./python/onos/config/snapshot/__init__.py
-mv ./python/onos/config/snapshot/device/__init__.py ./python/onos/config/device_snapshot.py && touch ./python/onos/config/snapshot/device/__init__.py
-mv ./python/onos/config/snapshot/network/__init__.py ./python/onos/config/network_snapshottopo.py && touch ./python/onos/config/snapshot/network/__init__.py
+    $(find proto -name "*.proto")
