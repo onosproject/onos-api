@@ -61,6 +61,11 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,network_snapshot.md \
     proto/onos/config/snapshot/network/types.proto
 
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/kpimon \
+    --doc_opt=markdown,kpimon.md \
+    proto/onos/kpimon/kpimon.proto
+
 
 ### Go Protobuf code generation
 go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
@@ -119,6 +124,10 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
     proto/onos/config/admin/*.proto
+
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/kpimon,plugins=grpc:./go \
+    proto/onos/kpimon/*.proto
 
 
 
