@@ -90,40 +90,40 @@ func Test_TypedValueString(t *testing.T) {
 }
 
 func Test_TypedValueInt(t *testing.T) {
-	tv := newInt64(big.NewInt(testNegativeInt64), 64)
+	tv := newInt(big.NewInt(testNegativeInt64), 64)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", testNegativeInt64))
 	assert.Equal(t, len(tv.Bytes), 8)
 	assert.DeepEqual(t, tv.Bytes, []uint8{0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0})
 
 	testConversion(t, (*TypedValue)(tv))
 
-	tv = newInt64(big.NewInt(12345678), 32)
+	tv = newInt(big.NewInt(12345678), 32)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", 12345678))
 	assert.DeepEqual(t, tv.Bytes, []uint8{0xbc, 0x61, 0x4e})
 
-	tv = newInt64(big.NewInt(testPositiveInt64), 64)
+	tv = newInt(big.NewInt(testPositiveInt64), 64)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", testPositiveInt64))
 	assert.DeepEqual(t, tv.Bytes, []uint8{0x7f, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF})
 
-	tv = newInt64(big.NewInt(testZeroInt), 32)
+	tv = newInt(big.NewInt(testZeroInt), 32)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", testZeroInt))
 	assert.Equal(t, (*TypedValue)(tv).ValueToString(), "0")
 	assert.DeepEqual(t, tv.Bytes, []uint8{})
 }
 
 func Test_TypedValueUint(t *testing.T) {
-	tv := newUint64(big.NewInt(testZeroUint), 8)
+	tv := newUint(big.NewInt(testZeroUint), 8)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", testZeroUint))
 	assert.Equal(t, len(tv.Bytes), 0)
 
-	tv = newUint64(big.NewInt(12345678), 32)
+	tv = newUint(big.NewInt(12345678), 32)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", 12345678))
 	assert.Equal(t, len(tv.Bytes), 3)
 	assert.DeepEqual(t, tv.Bytes, []uint8{0xbc, 0x61, 0x4e})
 
 	var bigInt big.Int
 	bigInt.SetUint64(testMaxUint)
-	tv = newUint64(&bigInt, 64)
+	tv = newUint(&bigInt, 64)
 	assert.Equal(t, tv.String(), fmt.Sprintf("%d", testMaxUint))
 	assert.DeepEqual(t, tv.Bytes, []uint8{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF})
 
@@ -147,7 +147,7 @@ func Test_TypedValueBool(t *testing.T) {
 }
 
 func Test_TypedValueDecimal64(t *testing.T) {
-	tv := newDecimal64(big.NewInt(testNegativeInt64), testPrecision3)
+	tv := newDecimal(big.NewInt(testNegativeInt64), testPrecision3)
 	assert.Equal(t, len(tv.Bytes), 8)
 	assert.Equal(t, tv.String(), "-9223372036854775.808")
 	assert.Equal(t, tv.TypeOpts[0], int32(testPrecision3))
@@ -156,13 +156,13 @@ func Test_TypedValueDecimal64(t *testing.T) {
 
 	testConversion(t, (*TypedValue)(tv))
 
-	tv = newDecimal64(big.NewInt(testPositiveInt64), testPrecision6)
+	tv = newDecimal(big.NewInt(testPositiveInt64), testPrecision6)
 	assert.Equal(t, tv.String(), "9223372036854.775807")
 	assert.Equal(t, tv.TypeOpts[0], int32(testPrecision6))
 	assert.Equal(t, tv.TypeOpts[1], isPositiveTypeOpt)
 	assert.DeepEqual(t, tv.Bytes, []byte{0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF})
 
-	tv = newDecimal64(big.NewInt(int64(testDigitsZero)), testPrecision0)
+	tv = newDecimal(big.NewInt(int64(testDigitsZero)), testPrecision0)
 	assert.Equal(t, tv.String(), "0")
 	assert.Equal(t, tv.TypeOpts[0], int32(testPrecision0))
 	assert.Equal(t, tv.TypeOpts[1], isPositiveTypeOpt)
@@ -209,7 +209,7 @@ func Test_LeafListString(t *testing.T) {
 }
 
 func Test_LeafListInt64(t *testing.T) {
-	tv := NewLeafListInt64Tv(testLeafListInt, WidthSixtyFour)
+	tv := NewLeafListIntTv(testLeafListInt, WidthSixtyFour)
 	assert.Equal(t, len(tv.Bytes), 16)
 	assert.Equal(t, ValueType_LEAFLIST_INT, tv.Type)
 	assert.DeepEqual(t, []int32{64, 8, 1, 0, 0, 8, 0}, tv.TypeOpts)
@@ -218,7 +218,7 @@ func Test_LeafListInt64(t *testing.T) {
 }
 
 func Test_LeafListUint64(t *testing.T) {
-	tv := NewLeafListUint64Tv(testLeafListUint, WidthSixtyFour)
+	tv := NewLeafListUintTv(testLeafListUint, WidthSixtyFour)
 
 	assert.Equal(t, 9, len(tv.Bytes))
 	assert.Equal(t, ValueType_LEAFLIST_UINT, tv.Type)
@@ -244,7 +244,7 @@ func Test_LeafListDecimal64(t *testing.T) {
 		big.NewInt(testLeafListDecimal[1]),
 		big.NewInt(testLeafListDecimal[2]),
 	}
-	tv := newLeafListDecimal64(testLeafListDecimalBi, testPrecision6)
+	tv := newLeafListDecimal(testLeafListDecimalBi, testPrecision6)
 
 	assert.Equal(t, len(tv.Bytes), 8)
 	assert.Equal(t, tv.String(), "[-2147483648 0 2147483647] 6")
@@ -254,7 +254,7 @@ func Test_LeafListDecimal64(t *testing.T) {
 }
 
 func Test_LeafListFloat32(t *testing.T) {
-	tv := newLeafListFloat32(testLeafListFloat)
+	tv := newLeafListFloat(testLeafListFloat)
 
 	assert.Equal(t, len(tv.Bytes), 24)
 	assert.Equal(t, tv.String(), "-339999995214436424907732413799364296704.000000,0.000000,339999995214436424907732413799364296704.000000")
@@ -296,7 +296,7 @@ func Test_JsonSerializationString(t *testing.T) {
 }
 
 func Test_JsonSerializationDecimal(t *testing.T) {
-	tv := NewTypedValueDecimal64(1232, 6)
+	tv := NewTypedValueDecimal(1232, 6)
 
 	jsonStr, err := json.Marshal(tv)
 	assert.NilError(t, err)
@@ -313,13 +313,13 @@ func Test_JsonSerializationDecimal(t *testing.T) {
 	assert.Equal(t, unmarshalledTv.TypeOpts[1], int32(isPositiveTypeOpt))
 	assert.DeepEqual(t, unmarshalledTv.Bytes, []byte{0x04, 0xd0})
 
-	decFloat := (*TypedDecimal64)(&unmarshalledTv).Float()
+	decFloat := (*TypedDecimal)(&unmarshalledTv).Float()
 	assert.Equal(t, decFloat, 0.001232)
 }
 
 // From RFC-7951: A value of the "int64", "uint64", or "decimal64" type is represented as a JSON string
 func Test_JsonSerializationInt64(t *testing.T) {
-	tv := NewTypedValueInt64(testNegativeInt64, 64)
+	tv := NewTypedValueInt(testNegativeInt64, 64)
 
 	jsonStr, err := json.Marshal(tv)
 	assert.NilError(t, err)
@@ -334,13 +334,13 @@ func Test_JsonSerializationInt64(t *testing.T) {
 	assert.Equal(t, len(unmarshalledTv.TypeOpts), 2)
 	assert.DeepEqual(t, unmarshalledTv.Bytes, []byte{0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})
 
-	strVal := (*TypedInt64)(&unmarshalledTv).String()
+	strVal := (*TypedInt)(&unmarshalledTv).String()
 	assert.Equal(t, fmt.Sprintf("%d", testNegativeInt64), strVal)
 	assert.Equal(t, unmarshalledTv.ValueToString(), "-9223372036854775808")
 }
 
 func Test_JsonSerializationInt32(t *testing.T) {
-	tv := NewTypedValueInt64(testNegativeInt32, 32)
+	tv := NewTypedValueInt(testNegativeInt32, 32)
 
 	jsonStr, err := json.Marshal(tv)
 	assert.NilError(t, err)
@@ -357,13 +357,13 @@ func Test_JsonSerializationInt32(t *testing.T) {
 	assert.Equal(t, unmarshalledTv.TypeOpts[1], isNegativeTypeOpt)
 	assert.DeepEqual(t, unmarshalledTv.Bytes, []byte{0x80, 0x00, 0x00, 0x00})
 
-	intVal := (*TypedInt64)(&unmarshalledTv).Int()
+	intVal := (*TypedInt)(&unmarshalledTv).Int()
 	assert.Equal(t, testNegativeInt32, intVal)
 	assert.Equal(t, unmarshalledTv.ValueToString(), "-2147483648")
 }
 
 func Test_JsonSerializationUint8(t *testing.T) {
-	tv := NewTypedValueUint64(16, 8)
+	tv := NewTypedValueUint(16, 8)
 
 	jsonStr, err := json.Marshal(tv)
 	assert.NilError(t, err)
@@ -378,13 +378,13 @@ func Test_JsonSerializationUint8(t *testing.T) {
 	assert.Equal(t, len(unmarshalledTv.TypeOpts), 1)
 	assert.DeepEqual(t, unmarshalledTv.Bytes, []byte{0x10})
 
-	uintVal := (*TypedUint64)(&unmarshalledTv).Uint()
+	uintVal := (*TypedUint)(&unmarshalledTv).Uint()
 	assert.Equal(t, uintVal, uint(16))
 }
 
 // From RFC-7951: A value of the "int64", "uint64", or "decimal64" type is represented as a JSON string
 func Test_JsonSerializationUint64(t *testing.T) {
-	tv := NewTypedValueUint64(testPositiveInt64, 64)
+	tv := NewTypedValueUint(testPositiveInt64, 64)
 
 	jsonStr, err := json.Marshal(tv)
 	assert.NilError(t, err)
@@ -399,7 +399,7 @@ func Test_JsonSerializationUint64(t *testing.T) {
 	assert.Equal(t, len(unmarshalledTv.TypeOpts), 1)
 	assert.DeepEqual(t, unmarshalledTv.Bytes, []byte{0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff})
 
-	strVal := (*TypedUint64)(&unmarshalledTv).String()
+	strVal := (*TypedUint)(&unmarshalledTv).String()
 	assert.Equal(t, fmt.Sprintf("%d", testPositiveInt64), strVal)
 	assert.Equal(t, unmarshalledTv.ValueToString(), "9223372036854775807")
 }
@@ -425,7 +425,7 @@ func Test_JsonSerializationBool(t *testing.T) {
 }
 
 func Test_JsonSerializationLeafListInt(t *testing.T) {
-	tv := NewLeafListInt64Tv(testLeafListInt, WidthSixtyFour)
+	tv := NewLeafListIntTv(testLeafListInt, WidthSixtyFour)
 	jsonStr, err := json.Marshal(tv)
 	assert.NilError(t, err)
 
@@ -440,7 +440,7 @@ func Test_JsonSerializationLeafListInt(t *testing.T) {
 	assert.Equal(t, len(unmarshalledTv.Bytes), 16)
 	assert.DeepEqual(t, unmarshalledTv.Bytes, []byte{0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff})
 
-	assert.Equal(t, (*TypedLeafListInt64)(&unmarshalledTv).String(), "[-9223372036854775808 0 9223372036854775807] 64")
+	assert.Equal(t, (*TypedLeafListInt)(&unmarshalledTv).String(), "[-9223372036854775808 0 9223372036854775807] 64")
 }
 
 func Test_JsonSerializationLeafListBytes(t *testing.T) {
@@ -513,13 +513,13 @@ func testConversion(t *testing.T, tv *TypedValue) {
 	case ValueType_STRING:
 		assert.Equal(t, (*TypedString)(tv).String(), testString)
 	case ValueType_INT:
-		assert.Equal(t, (*TypedInt64)(tv).Int(), testNegativeInt64)
+		assert.Equal(t, (*TypedInt)(tv).Int(), testNegativeInt64)
 	case ValueType_UINT:
-		assert.Equal(t, (*TypedUint64)(tv).Uint(), uint(testMaxUint))
+		assert.Equal(t, (*TypedUint)(tv).Uint(), uint(testMaxUint))
 	case ValueType_BOOL:
 		assert.Equal(t, (*TypedBool)(tv).Bool(), true)
 	case ValueType_DECIMAL:
-		digits, precision := (*TypedDecimal64)(tv).Decimal64()
+		digits, precision := (*TypedDecimal)(tv).Decimal64()
 		assert.Equal(t, digits, int64(testNegativeInt64))
 		assert.Equal(t, precision, uint8(testPrecision3))
 	case ValueType_FLOAT:
@@ -531,7 +531,7 @@ func testConversion(t *testing.T, tv *TypedValue) {
 	case ValueType_LEAFLIST_STRING:
 		assert.DeepEqual(t, (*TypedLeafListString)(tv).List(), testLeafListString)
 	case ValueType_LEAFLIST_INT:
-		list, width := (*TypedLeafListInt64)(tv).List()
+		list, width := (*TypedLeafListInt)(tv).List()
 		assert.Equal(t, WidthSixtyFour, width)
 		assert.Equal(t, 3, len(list))
 		assert.DeepEqual(t, testLeafListInt, list)
@@ -547,7 +547,7 @@ func testConversion(t *testing.T, tv *TypedValue) {
 		for i := range testLeafListDecimal {
 			assert.Equal(t, testLeafListDecimal[i], digits[i])
 		}
-		assert.Equal(t, precision, int32(testPrecision6))
+		assert.Equal(t, precision, uint8(testPrecision6))
 	case ValueType_LEAFLIST_FLOAT:
 		assert.DeepEqual(t, (*TypedLeafListFloat)(tv).List(), testLeafListFloat)
 	case ValueType_LEAFLIST_BYTES:

@@ -28,7 +28,7 @@ import (
 func Test_NewChangedValue(t *testing.T) {
 	path := "/a/b/c"
 	badPath := "a@b@c"
-	value := NewTypedValueUint64(64, 32)
+	value := NewTypedValueUint(64, 32)
 	const isRemove = false
 	changeValueBad, errorBad := NewChangeValue(badPath, value, isRemove)
 	assert.Assert(t, errorBad != nil)
@@ -275,7 +275,7 @@ func TestTypedEmpty(t *testing.T) {
 }
 
 func TestTypedInt(t *testing.T) {
-	intValue := newInt64(big.NewInt(112233), 32)
+	intValue := newInt(big.NewInt(112233), 32)
 	assert.Equal(t, intValue.ValueType(), ValueType_INT)
 	assert.Equal(t, intValue.String(), "112233")
 	assert.Equal(t, intValue.Int(), 112233)
@@ -284,7 +284,7 @@ func TestTypedInt(t *testing.T) {
 func TestTypedUint(t *testing.T) {
 	var bigInt big.Int
 	bigInt.SetUint64(112233)
-	intValue := newUint64(&bigInt, 32)
+	intValue := newUint(&bigInt, 32)
 	assert.Equal(t, intValue.ValueType(), ValueType_UINT)
 	assert.Equal(t, intValue.String(), "112233")
 	assert.Equal(t, uint64(intValue.Uint()), uint64(112233))
@@ -304,7 +304,7 @@ func TestTypedBool(t *testing.T) {
 }
 
 func TestTypedDecimal(t *testing.T) {
-	decimal64Value := newDecimal64(big.NewInt(1234), 2)
+	decimal64Value := newDecimal(big.NewInt(1234), 2)
 	assert.Equal(t, decimal64Value.ValueType(), ValueType_DECIMAL)
 	assert.Equal(t, decimal64Value.String(), "12.34")
 	digits, precision := decimal64Value.Decimal64()
@@ -335,13 +335,13 @@ func TestTypedLeafListString(t *testing.T) {
 
 func TestTypedLeafListUint(t *testing.T) {
 	values := []*big.Int{big.NewInt(1), big.NewInt(2)}
-	listValue := newLeafListUint64(values, WidthThirtyTwo)
+	listValue := newLeafListUint(values, WidthThirtyTwo)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_UINT)
 }
 
 func TestTypedLeafListInt(t *testing.T) {
 	values := []*big.Int{big.NewInt(1), big.NewInt(2)}
-	listValue := newLeafListInt64(values, WidthThirtyTwo)
+	listValue := newLeafListInt(values, WidthThirtyTwo)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_INT)
 }
 
@@ -353,14 +353,14 @@ func TestTypedLeafListBool(t *testing.T) {
 
 func TestTypedLeafListFloat(t *testing.T) {
 	values := []float32{111.0, 112.0}
-	listValue := newLeafListFloat32(values)
+	listValue := newLeafListFloat(values)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_FLOAT)
 }
 
 func TestTypedLeafListDecimal(t *testing.T) {
 	digits := []*big.Int{big.NewInt(22), big.NewInt(33)}
 
-	listValue := newLeafListDecimal64(digits, 2)
+	listValue := newLeafListDecimal(digits, 2)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_DECIMAL)
 	floats := listValue.ListFloat()
 	assert.Equal(t, len(floats), len(digits))

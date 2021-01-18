@@ -34,7 +34,7 @@ type Width int
 const (
 	WidthUnknown Width = 1 << (iota + 2)
 	WidthEight
-	WidthSizteen
+	WidthSixteen
 	WidthThirtyTwo
 	WidthSixtyFour
 )
@@ -52,13 +52,13 @@ func (tv *TypedValue) ValueToString() string {
 	case ValueType_STRING:
 		return (*TypedString)(tv).String()
 	case ValueType_INT:
-		return (*TypedInt64)(tv).String()
+		return (*TypedInt)(tv).String()
 	case ValueType_UINT:
-		return (*TypedUint64)(tv).String()
+		return (*TypedUint)(tv).String()
 	case ValueType_BOOL:
 		return (*TypedBool)(tv).String()
 	case ValueType_DECIMAL:
-		return (*TypedDecimal64)(tv).String()
+		return (*TypedDecimal)(tv).String()
 	case ValueType_FLOAT:
 		return (*TypedFloat)(tv).String()
 	case ValueType_BYTES:
@@ -66,7 +66,7 @@ func (tv *TypedValue) ValueToString() string {
 	case ValueType_LEAFLIST_STRING:
 		return (*TypedLeafListString)(tv).String()
 	case ValueType_LEAFLIST_INT:
-		return (*TypedLeafListInt64)(tv).String()
+		return (*TypedLeafListInt)(tv).String()
 	case ValueType_LEAFLIST_UINT:
 		return (*TypedLeafListUint)(tv).String()
 	case ValueType_LEAFLIST_BOOL:
@@ -103,7 +103,7 @@ func NewTypedValue(bytes []byte, valueType ValueType, typeOpts []uint8) (*TypedV
 			// Negative value
 			bigInt.Neg(&bigInt)
 		}
-		return NewTypedValueInt64(int(bigInt.Int64()), Width(typeOpts[0])), nil
+		return NewTypedValueInt(int(bigInt.Int64()), Width(typeOpts[0])), nil
 	case ValueType_UINT:
 		if len(typeOpts) != 1 {
 			return nil, fmt.Errorf("number width must be given for UINT as type opts. %v", typeOpts)
@@ -114,7 +114,7 @@ func NewTypedValue(bytes []byte, valueType ValueType, typeOpts []uint8) (*TypedV
 		var bigInt big.Int
 		bigInt.SetBytes(bytes)
 
-		return NewTypedValueUint64(uint(bigInt.Uint64()), Width(typeOpts[0])), nil
+		return NewTypedValueUint(uint(bigInt.Uint64()), Width(typeOpts[0])), nil
 	case ValueType_BOOL:
 		if len(bytes) != 1 {
 			return nil, fmt.Errorf("expecting 1 byte for BOOL. Got %d", len(bytes))
@@ -135,7 +135,7 @@ func NewTypedValue(bytes []byte, valueType ValueType, typeOpts []uint8) (*TypedV
 			// Negative value
 			bigInt.Neg(&bigInt)
 		}
-		return NewTypedValueDecimal64(bigInt.Int64(), precision), nil
+		return NewTypedValueDecimal(bigInt.Int64(), precision), nil
 	case ValueType_FLOAT:
 		if len(bytes) != 8 {
 			return nil, fmt.Errorf("expecting 8 bytes for FLOAT. Got %d", len(bytes))
@@ -198,7 +198,7 @@ func caseValueTypeLeafListINT(bytes []byte, typeOpts []uint8) (*TypedValue, erro
 		}
 		intList = append(intList, bigInt.Int64())
 	}
-	return NewLeafListInt64Tv(intList, width), nil
+	return NewLeafListIntTv(intList, width), nil
 }
 
 // caseValueTypeLeafListUINT is moved out of NewTypedValue because of gocyclo
@@ -218,7 +218,7 @@ func caseValueTypeLeafListUINT(bytes []byte, typeOpts []uint8) (*TypedValue, err
 		uintList = append(uintList, bigInt.Uint64())
 	}
 
-	return NewLeafListUint64Tv(uintList, width), nil
+	return NewLeafListUintTv(uintList, width), nil
 }
 
 // caseValueTypeLeafListBOOL is moved out of NewTypedValue because of gocyclo
@@ -254,7 +254,7 @@ func caseValueTypeLeafListDECIMAL(bytes []byte, typeOpts []uint8) (*TypedValue, 
 		}
 		digitsList = append(digitsList, bigInt.Int64())
 	}
-	return NewLeafListDecimal64Tv(digitsList, precision), nil
+	return NewLeafListDecimalTv(digitsList, precision), nil
 }
 
 // caseValueTypeLeafListFLOAT is moved out of NewTypedValue because of gocyclo
@@ -266,7 +266,7 @@ func caseValueTypeLeafListFLOAT(bytes []byte) (*TypedValue, error) {
 		v := bytes[i*8 : i*8+8]
 		float32s = append(float32s, float32(math.Float64frombits(binary.LittleEndian.Uint64(v))))
 	}
-	return NewLeafListFloat32Tv(float32s), nil
+	return NewLeafListFloatTv(float32s), nil
 }
 
 // caseValueTypeLeafListBYTES is moved out of NewTypedValue because of gocyclo
@@ -356,41 +356,41 @@ func (tv *TypedString) String() string {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// TypedInt64
+// TypedInt
 ////////////////////////////////////////////////////////////////////////////////
 
-// TypedInt64 for an int value
-type TypedInt64 TypedValue
+// TypedInt for an int value
+type TypedInt TypedValue
 
-// NewTypedValueInt64 decodes an int value in to an object
-func NewTypedValueInt64(value int, width Width) *TypedValue {
-	return (*TypedValue)(newInt64(big.NewInt(int64(value)), width))
+// NewTypedValueInt decodes an int value in to an object
+func NewTypedValueInt(value int, width Width) *TypedValue {
+	return (*TypedValue)(newInt(big.NewInt(int64(value)), width))
 }
 
-func newInt64(value *big.Int, width Width) *TypedInt64 {
+func newInt(value *big.Int, width Width) *TypedInt {
 	var isNegative int32 = isPositiveTypeOpt
 	if value.Sign() < 0 {
 		isNegative = isNegativeTypeOpt
 	}
-	typedInt64 := TypedInt64{
+	typedInt := TypedInt{
 		Bytes:    value.Bytes(),
 		Type:     ValueType_INT,
 		TypeOpts: []int32{int32(width), isNegative},
 	}
-	return &typedInt64
+	return &typedInt
 }
 
 // ValueType gives the value type
-func (tv *TypedInt64) ValueType() ValueType {
+func (tv *TypedInt) ValueType() ValueType {
 	return tv.Type
 }
 
-func (tv *TypedInt64) String() string {
+func (tv *TypedInt) String() string {
 	return fmt.Sprintf("%d", tv.Int())
 }
 
 // Int extracts the integer value
-func (tv *TypedInt64) Int() int {
+func (tv *TypedInt) Int() int {
 	var x big.Int
 	x.SetBytes(tv.Bytes)
 	if len(tv.TypeOpts) > 1 && tv.TypeOpts[1] == 1 {
@@ -400,22 +400,22 @@ func (tv *TypedInt64) Int() int {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// TypedUint64
+// TypedUint
 ////////////////////////////////////////////////////////////////////////////////
 
-// TypedUint64 for a uint value
-type TypedUint64 TypedValue
+// TypedUint for a uint value
+type TypedUint TypedValue
 
-// NewTypedValueUint64 decodes a uint value in to an object
-func NewTypedValueUint64(value uint, width Width) *TypedValue {
+// NewTypedValueUint decodes a uint value in to an object
+func NewTypedValueUint(value uint, width Width) *TypedValue {
 	var bigInt big.Int
 	bigInt.SetUint64(uint64(value))
-	return (*TypedValue)(newUint64(&bigInt, width))
+	return (*TypedValue)(newUint(&bigInt, width))
 }
 
-// newUint64 decodes a uint value in to a Uint type
-func newUint64(value *big.Int, width Width) *TypedUint64 {
-	typedUint64 := TypedUint64{
+// newUint decodes a uint value in to a Uint type
+func newUint(value *big.Int, width Width) *TypedUint {
+	typedUint64 := TypedUint{
 		Bytes:    value.Bytes(),
 		Type:     ValueType_UINT,
 		TypeOpts: []int32{int32(width)},
@@ -424,16 +424,16 @@ func newUint64(value *big.Int, width Width) *TypedUint64 {
 }
 
 // ValueType gives the value type
-func (tv *TypedUint64) ValueType() ValueType {
+func (tv *TypedUint) ValueType() ValueType {
 	return tv.Type
 }
 
-func (tv *TypedUint64) String() string {
+func (tv *TypedUint) String() string {
 	return fmt.Sprintf("%d", tv.Uint())
 }
 
 // Uint extracts the unsigned integer value
-func (tv *TypedUint64) Uint() uint {
+func (tv *TypedUint) Uint() uint {
 	var bigInt big.Int
 	bigInt.SetBytes(tv.Bytes)
 	return uint(bigInt.Uint64())
@@ -482,24 +482,24 @@ func (tv *TypedBool) Bool() bool {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// TypedDecimal64
+// TypedDecimal
 ////////////////////////////////////////////////////////////////////////////////
 
-// TypedDecimal64 for a decimal64 value
-type TypedDecimal64 TypedValue
+// TypedDecimal for a decimal64 value
+type TypedDecimal TypedValue
 
-// NewTypedValueDecimal64 decodes a decimal value in to an object
-func NewTypedValueDecimal64(digits int64, precision uint8) *TypedValue {
-	return (*TypedValue)(newDecimal64(big.NewInt(digits), precision))
+// NewTypedValueDecimal decodes a decimal value in to an object
+func NewTypedValueDecimal(digits int64, precision uint8) *TypedValue {
+	return (*TypedValue)(newDecimal(big.NewInt(digits), precision))
 }
 
-// newDecimal64 decodes a decimal value in to a Decimal type
-func newDecimal64(digits *big.Int, precision uint8) *TypedDecimal64 {
+// newDecimal decodes a decimal value in to a Decimal type
+func newDecimal(digits *big.Int, precision uint8) *TypedDecimal {
 	var isNegative int32 = isPositiveTypeOpt
 	if digits.Sign() < 0 {
 		isNegative = isNegativeTypeOpt
 	}
-	typedDecimal64 := TypedDecimal64{
+	typedDecimal64 := TypedDecimal{
 		Bytes:    digits.Bytes(),
 		Type:     ValueType_DECIMAL,
 		TypeOpts: []int32{int32(precision), isNegative},
@@ -508,16 +508,16 @@ func newDecimal64(digits *big.Int, precision uint8) *TypedDecimal64 {
 }
 
 // ValueType gives the value type
-func (tv *TypedDecimal64) ValueType() ValueType {
+func (tv *TypedDecimal) ValueType() ValueType {
 	return tv.Type
 }
 
-func (tv *TypedDecimal64) String() string {
+func (tv *TypedDecimal) String() string {
 	return strDecimal64(tv.Decimal64())
 }
 
 // Decimal64 extracts the unsigned decimal value
-func (tv *TypedDecimal64) Decimal64() (int64, uint8) {
+func (tv *TypedDecimal) Decimal64() (int64, uint8) {
 	if len(tv.TypeOpts) > 0 {
 		precision := tv.TypeOpts[0]
 		var positiveMultiplier int64 = 1
@@ -532,7 +532,7 @@ func (tv *TypedDecimal64) Decimal64() (int64, uint8) {
 }
 
 // Float extracts the unsigned decimal value as a float
-func (tv *TypedDecimal64) Float() float64 {
+func (tv *TypedDecimal) Float() float64 {
 	floatVal, _ := strconv.ParseFloat(strDecimal64(tv.Decimal64()), 64)
 	return floatVal
 }
@@ -672,23 +672,23 @@ func (tv *TypedLeafListString) List() []string {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// TypedLeafListInt64
+// TypedLeafListInt
 ////////////////////////////////////////////////////////////////////////////////
 
-// TypedLeafListInt64 for an int leaf list
-type TypedLeafListInt64 TypedValue
+// TypedLeafListInt for an int leaf list
+type TypedLeafListInt TypedValue
 
-// NewLeafListInt64Tv decodes int values in to an object
-func NewLeafListInt64Tv(values []int64, width Width) *TypedValue {
+// NewLeafListIntTv decodes int values in to an object
+func NewLeafListIntTv(values []int64, width Width) *TypedValue {
 	valuesBi := make([]*big.Int, 0)
 	for _, v := range values {
 		valuesBi = append(valuesBi, big.NewInt(v))
 	}
-	return (*TypedValue)(newLeafListInt64(valuesBi, width))
+	return (*TypedValue)(newLeafListInt(valuesBi, width))
 }
 
-// newLeafListInt64 decodes int values in to a Leaf list type
-func newLeafListInt64(values []*big.Int, width Width) *TypedLeafListInt64 {
+// newLeafListInt decodes int values in to a Leaf list type
+func newLeafListInt(values []*big.Int, width Width) *TypedLeafListInt {
 	bytes := make([]byte, 0)
 	typeOpts := make([]int32, 0)
 	typeOpts = append(typeOpts, int32(width))
@@ -701,26 +701,26 @@ func newLeafListInt64(values []*big.Int, width Width) *TypedLeafListInt64 {
 		typeOpts = append(typeOpts, isNegative)
 		bytes = append(bytes, v.Bytes()...)
 	}
-	typedLeafListInt64 := TypedLeafListInt64{
+	typedLeafListInt := TypedLeafListInt{
 		Bytes:    bytes,
 		Type:     ValueType_LEAFLIST_INT,
 		TypeOpts: typeOpts,
 	}
-	return &typedLeafListInt64
+	return &typedLeafListInt
 }
 
 // ValueType gives the value type
-func (tv *TypedLeafListInt64) ValueType() ValueType {
+func (tv *TypedLeafListInt) ValueType() ValueType {
 	return tv.Type
 }
 
-func (tv *TypedLeafListInt64) String() string {
+func (tv *TypedLeafListInt) String() string {
 	intValues, width := tv.List()
 	return fmt.Sprintf("%v %d", intValues, width)
 }
 
 // List extracts the leaf list values
-func (tv *TypedLeafListInt64) List() ([]int64, Width) {
+func (tv *TypedLeafListInt) List() ([]int64, Width) {
 	count := (len(tv.TypeOpts) - 1) / 2
 
 	intList := make([]int64, 0)
@@ -748,8 +748,8 @@ func (tv *TypedLeafListInt64) List() ([]int64, Width) {
 // TypedLeafListUint for an uint leaf list
 type TypedLeafListUint TypedValue
 
-// NewLeafListUint64Tv decodes uint values in to a Leaf list
-func NewLeafListUint64Tv(values []uint64, width Width) *TypedValue {
+// NewLeafListUintTv decodes uint values in to a Leaf list
+func NewLeafListUintTv(values []uint64, width Width) *TypedValue {
 	valuesBi := make([]*big.Int, 0)
 	for _, v := range values {
 		var bigUint big.Int
@@ -757,11 +757,11 @@ func NewLeafListUint64Tv(values []uint64, width Width) *TypedValue {
 		valuesBi = append(valuesBi, &bigUint)
 	}
 
-	return (*TypedValue)(newLeafListUint64(valuesBi, width))
+	return (*TypedValue)(newLeafListUint(valuesBi, width))
 }
 
-// newLeafListUint64 decodes uint values in to a Leaf list type
-func newLeafListUint64(values []*big.Int, width Width) *TypedLeafListUint {
+// newLeafListUint decodes uint values in to a Leaf list type
+func newLeafListUint(values []*big.Int, width Width) *TypedLeafListUint {
 	bytes := make([]byte, 0)
 	typeOpts := make([]int32, 0)
 	typeOpts = append(typeOpts, int32(width))
@@ -865,17 +865,17 @@ func (tv *TypedLeafListBool) List() []bool {
 // TypedLeafListDecimal for a decimal leaf list
 type TypedLeafListDecimal TypedValue
 
-// NewLeafListDecimal64Tv decodes decimal values in to a Leaf list
-func NewLeafListDecimal64Tv(digits []int64, precision uint8) *TypedValue {
+// NewLeafListDecimalTv decodes decimal values in to a Leaf list
+func NewLeafListDecimalTv(digits []int64, precision uint8) *TypedValue {
 	digitsBi := make([]*big.Int, 0)
 	for _, d := range digits {
 		digitsBi = append(digitsBi, big.NewInt(d))
 	}
-	return (*TypedValue)(newLeafListDecimal64(digitsBi, precision))
+	return (*TypedValue)(newLeafListDecimal(digitsBi, precision))
 }
 
-// newLeafListDecimal64 decodes decimal values in to a Leaf list type
-func newLeafListDecimal64(digits []*big.Int, precision uint8) *TypedLeafListDecimal {
+// newLeafListDecimal decodes decimal values in to a Leaf list type
+func newLeafListDecimal(digits []*big.Int, precision uint8) *TypedLeafListDecimal {
 	bytes := make([]byte, 0)
 	typeOpts := make([]int32, 0)
 	typeOpts = append(typeOpts, int32(precision))
@@ -946,13 +946,13 @@ func (tv *TypedLeafListDecimal) ListFloat() []float64 {
 // TypedLeafListFloat for a decimal leaf list
 type TypedLeafListFloat TypedValue
 
-// NewLeafListFloat32Tv decodes float values in to a Leaf list
-func NewLeafListFloat32Tv(values []float32) *TypedValue {
-	return (*TypedValue)(newLeafListFloat32(values))
+// NewLeafListFloatTv decodes float values in to a Leaf list
+func NewLeafListFloatTv(values []float32) *TypedValue {
+	return (*TypedValue)(newLeafListFloat(values))
 }
 
-// newLeafListFloat32 decodes float values in to a Leaf list type
-func newLeafListFloat32(values []float32) *TypedLeafListFloat {
+// newLeafListFloat decodes float values in to a Leaf list type
+func newLeafListFloat(values []float32) *TypedLeafListFloat {
 	bytes := make([]byte, 0)
 	for _, f := range values {
 		buf := make([]byte, 8)
