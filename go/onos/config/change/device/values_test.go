@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"gotest.tools/assert"
 	"math"
+	"math/big"
 	"strings"
 	"testing"
 )
@@ -27,7 +28,7 @@ import (
 func Test_NewChangedValue(t *testing.T) {
 	path := "/a/b/c"
 	badPath := "a@b@c"
-	value := NewTypedValueUint64(64)
+	value := NewTypedValueUint(64, 32)
 	const isRemove = false
 	changeValueBad, errorBad := NewChangeValue(badPath, value, isRemove)
 	assert.Assert(t, errorBad != nil)
@@ -42,21 +43,27 @@ func Test_NewChangedValue(t *testing.T) {
 
 func Test_NewValueTypeString(t *testing.T) {
 	const value = "xyzzy"
-	typedValue, err := NewTypedValue([]byte(value), ValueType_STRING, make([]int32, 0))
+	typedValue, err := NewTypedValue([]byte(value), ValueType_STRING, make([]uint8, 0))
 	assert.NilError(t, err)
 	assert.Equal(t, typedValue.ValueToString(), value)
 }
 
 func floatToBinary(value float64, size int) []byte {
 	bs := make([]byte, size)
-	binary.LittleEndian.PutUint64(bs, math.Float64bits(3.0))
+	binary.LittleEndian.PutUint64(bs, math.Float64bits(value))
 	return bs
 }
 
-func uintToBinary(value uint64, size int) []byte {
-	bs := make([]byte, size)
-	binary.LittleEndian.PutUint64(bs, value)
-	return bs
+func uintToBinary(value uint64) []byte {
+	var bigInt big.Int
+	bigInt.SetUint64(value)
+	return bigInt.Bytes()
+}
+
+func intToBinary(value int64) []byte {
+	var bigInt big.Int
+	bigInt.SetInt64(value)
+	return bigInt.Bytes()
 }
 
 func boolToBinary(value bool, size int) []byte {
@@ -78,7 +85,7 @@ func TestValueTypes(t *testing.T) {
 		valueType     ValueType
 		expectedValue string
 		expectedError string
-		typeOpts      []int32
+		typeOpts      []uint8
 	}{
 		{
 			description:   "NewValueEmpty",
@@ -113,38 +120,39 @@ func TestValueTypes(t *testing.T) {
 			value:         floatToBinary(3.0, 12),
 			valueType:     ValueType_FLOAT,
 			expectedValue: fmt.Sprintf("%f", 3.0),
-			expectedError: "Expecting 8 bytes for FLOAT. Got 12",
+			expectedError: "expecting 8 bytes for FLOAT. Got 12",
 		},
 		{
 			description:   "NewValueTypeUintSuccess",
-			value:         uintToBinary(345678, 8),
+			value:         uintToBinary(345678),
 			valueType:     ValueType_UINT,
+			typeOpts:      []uint8{32},
 			expectedValue: "345678",
 			expectedError: "",
 		},
 		{
 			description:   "NewValueTypeUintFailure",
-			value:         uintToBinary(345678, 12),
+			value:         uintToBinary(345678),
 			valueType:     ValueType_UINT,
-			expectedValue: "345678",
-			expectedError: "Expecting 8 bytes for UINT. Got 12",
+			expectedError: "number width must be given for UINT as type opts. []",
 		},
 		{
 			description:   "NewValueTypeIntSuccess",
-			value:         uintToBinary(345678, 8),
+			value:         intToBinary(345678),
 			valueType:     ValueType_INT,
+			typeOpts:      []uint8{32, 0},
 			expectedValue: "345678",
 			expectedError: "",
 		},
 		{
 			description:   "NewValueTypeIntFailure",
-			value:         uintToBinary(345678, 12),
+			value:         intToBinary(345678),
 			valueType:     ValueType_INT,
 			expectedValue: "345678",
-			expectedError: "Expecting 8 bytes for INT. Got 12",
+			expectedError: "number width AND sign must be given for INT as type opts. []",
 		},
 		{
-			description:   "NewValueTypeIntSuccess",
+			description:   "NewValueTypeBoolSuccess",
 			value:         boolToBinary(true, 1),
 			valueType:     ValueType_BOOL,
 			expectedValue: "true",
@@ -155,23 +163,31 @@ func TestValueTypes(t *testing.T) {
 			value:         boolToBinary(true, 2),
 			valueType:     ValueType_BOOL,
 			expectedValue: "",
-			expectedError: "Expecting 1 byte for BOOL. Got 2",
+			expectedError: "expecting 1 byte for BOOL. Got 2",
 		},
 		{
 			description:   "NewValueTypeDecimalSuccess",
-			value:         uintToBinary(1234, 8),
+			value:         intToBinary(1234),
 			valueType:     ValueType_DECIMAL,
-			typeOpts:      []int32{0},
+			typeOpts:      []uint8{0, 0},
 			expectedValue: "1234",
 			expectedError: "",
 		},
 		{
-			description:   "NewValueTypeDecimalFailure",
-			value:         uintToBinary(1234, 12),
+			description:   "NewValueTypeDecimalNegSuccess",
+			value:         intToBinary(-1234),
 			valueType:     ValueType_DECIMAL,
-			typeOpts:      []int32{3},
+			typeOpts:      []uint8{2, 1},
+			expectedValue: "-12.34",
+			expectedError: "",
+		},
+		{
+			description:   "NewValueTypeDecimalFailure",
+			value:         intToBinary(1234),
+			valueType:     ValueType_DECIMAL,
+			typeOpts:      []uint8{3},
 			expectedValue: "",
-			expectedError: "Expecting 8 bytes for DECIMAL. Got 12",
+			expectedError: "precision AND sign must be given for DECIMAL as type opts. [3]",
 		},
 		{
 			description:   "NewValueTypeLeafListString",
@@ -183,23 +199,25 @@ func TestValueTypes(t *testing.T) {
 		{
 			description: "NewValueTypeLeafListInt",
 			value: []byte{
-				11, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-				22, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-				33, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+				11,
+				22,
+				33,
 			},
 			valueType:     ValueType_LEAFLIST_INT,
-			expectedValue: "[11 22 33]",
+			typeOpts:      []uint8{8, 1, 0, 1, 0, 1, 0},
+			expectedValue: "[11 22 33] 8",
 			expectedError: "",
 		},
 		{
 			description: "NewValueTypeLeafListUint",
 			value: []byte{
-				3, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-				5, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-				7, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+				3,
+				5,
+				7,
 			},
 			valueType:     ValueType_LEAFLIST_UINT,
-			expectedValue: "[3 5 7]",
+			typeOpts:      []uint8{8, 1, 1, 1},
+			expectedValue: "[3 5 7] 8",
 			expectedError: "",
 		},
 		{
@@ -213,26 +231,26 @@ func TestValueTypes(t *testing.T) {
 		},
 		{
 			description:   "NewValueTypeLeafListDecimal",
-			value:         append(uintToBinary(1234, 8), uintToBinary(1234, 8)...),
+			value:         append(intToBinary(1234), intToBinary(-4321)...),
 			valueType:     ValueType_LEAFLIST_DECIMAL,
-			typeOpts:      []int32{0},
-			expectedValue: "[1234 1234] 0",
+			typeOpts:      []uint8{2, 2, 0, 2, 1},
+			expectedValue: "[1234 -4321] 2",
 			expectedError: "",
 		},
 		{
 			description:   "NewValueTypeLeafListBytes",
 			value:         []byte("12345678"),
 			valueType:     ValueType_LEAFLIST_BYTES,
-			typeOpts:      []int32{4, 4},
+			typeOpts:      []uint8{4, 4},
 			expectedValue: "[[49 50 51 52] [53 54 55 56]]",
 			expectedError: "",
 		},
 		{
 			description:   "NewValueTypeLeafListFloat",
-			value:         append(floatToBinary(1234, 8), floatToBinary(1234, 8)...),
+			value:         append(floatToBinary(12.34, 8), floatToBinary(-1.234, 8)...),
 			valueType:     ValueType_LEAFLIST_FLOAT,
-			typeOpts:      []int32{0},
-			expectedValue: "3.000000,3.000000",
+			typeOpts:      []uint8{0},
+			expectedValue: "12.340000,-1.234000",
 			expectedError: "",
 		},
 	}
@@ -251,49 +269,51 @@ func TestValueTypes(t *testing.T) {
 }
 
 func TestTypedEmpty(t *testing.T) {
-	empty := NewEmpty()
+	empty := newEmpty()
 	assert.Equal(t, empty.ValueType(), ValueType_EMPTY)
 	assert.Equal(t, empty.String(), "")
 }
 
 func TestTypedInt(t *testing.T) {
-	intValue := NewInt64(112233)
+	intValue := newInt(big.NewInt(112233), 32)
 	assert.Equal(t, intValue.ValueType(), ValueType_INT)
 	assert.Equal(t, intValue.String(), "112233")
 	assert.Equal(t, intValue.Int(), 112233)
 }
 
 func TestTypedUint(t *testing.T) {
-	intValue := NewUint64(112233)
+	var bigInt big.Int
+	bigInt.SetUint64(112233)
+	intValue := newUint(&bigInt, 32)
 	assert.Equal(t, intValue.ValueType(), ValueType_UINT)
 	assert.Equal(t, intValue.String(), "112233")
 	assert.Equal(t, uint64(intValue.Uint()), uint64(112233))
 }
 
 func TestTypedString(t *testing.T) {
-	intValue := NewString("xyzzy")
+	intValue := newString("xyzzy")
 	assert.Equal(t, intValue.ValueType(), ValueType_STRING)
 	assert.Equal(t, intValue.String(), "xyzzy")
 }
 
 func TestTypedBool(t *testing.T) {
-	boolValue := NewBool(false)
+	boolValue := newBool(false)
 	assert.Equal(t, boolValue.ValueType(), ValueType_BOOL)
 	assert.Equal(t, boolValue.String(), "false")
 	assert.Equal(t, boolValue.Bool(), false)
 }
 
 func TestTypedDecimal(t *testing.T) {
-	decimal64Value := NewDecimal64(1234, 2)
+	decimal64Value := newDecimal(big.NewInt(1234), 2)
 	assert.Equal(t, decimal64Value.ValueType(), ValueType_DECIMAL)
 	assert.Equal(t, decimal64Value.String(), "12.34")
 	digits, precision := decimal64Value.Decimal64()
 	assert.Equal(t, int(digits), 1234)
-	assert.Equal(t, precision, uint32(2))
+	assert.Equal(t, precision, uint8(2))
 }
 
 func TestTypedFloat(t *testing.T) {
-	float64Value := NewFloat(2222.0)
+	float64Value := newFloat(big.NewFloat(2222.0))
 	assert.Equal(t, float64Value.ValueType(), ValueType_FLOAT)
 	assert.Equal(t, float64Value.String(), "2222.000000")
 	assert.Equal(t, float64Value.Float32(), float32(2222.0))
@@ -301,7 +321,7 @@ func TestTypedFloat(t *testing.T) {
 
 func TestTypedByte(t *testing.T) {
 	bytes := []byte("bytes")
-	bytesValue := NewBytes(bytes)
+	bytesValue := newBytes(bytes)
 	assert.Equal(t, bytesValue.ValueType(), ValueType_BYTES)
 	assert.Equal(t, bytesValue.String(), "Ynl0ZXM=")
 	assert.Equal(t, len(bytesValue.ByteArray()), len(bytes))
@@ -309,37 +329,38 @@ func TestTypedByte(t *testing.T) {
 
 func TestTypedLeafListString(t *testing.T) {
 	values := []string{"a", "b"}
-	listValue := NewLeafListString(values)
+	listValue := newLeafListString(values)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_STRING)
 }
 
 func TestTypedLeafListUint(t *testing.T) {
-	values := []uint{1, 2}
-	listValue := NewLeafListUint64(values)
+	values := []*big.Int{big.NewInt(1), big.NewInt(2)}
+	listValue := newLeafListUint(values, WidthThirtyTwo)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_UINT)
 }
 
 func TestTypedLeafListInt(t *testing.T) {
-	values := []int{1, 2}
-	listValue := NewLeafListInt64(values)
+	values := []*big.Int{big.NewInt(1), big.NewInt(2)}
+	listValue := newLeafListInt(values, WidthThirtyTwo)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_INT)
 }
 
 func TestTypedLeafListBool(t *testing.T) {
 	values := []bool{true, false}
-	listValue := NewLeafListBool(values)
+	listValue := newLeafListBool(values)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_BOOL)
 }
 
 func TestTypedLeafListFloat(t *testing.T) {
 	values := []float32{111.0, 112.0}
-	listValue := NewLeafListFloat32(values)
+	listValue := newLeafListFloat(values)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_FLOAT)
 }
 
 func TestTypedLeafListDecimal(t *testing.T) {
-	digits := []int64{22, 33}
-	listValue := NewLeafListDecimal64(digits, 2)
+	digits := []*big.Int{big.NewInt(22), big.NewInt(33)}
+
+	listValue := newLeafListDecimal(digits, 2)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_DECIMAL)
 	floats := listValue.ListFloat()
 	assert.Equal(t, len(floats), len(digits))
@@ -352,13 +373,13 @@ func TestTypedLeafListBytes(t *testing.T) {
 	values[0] = []byte("abc")
 	values[1] = []byte("xyz")
 
-	listValue := NewLeafListBytes(values)
+	listValue := newLeafListBytes(values)
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_BYTES)
 }
 
 func TestLeafListBytesCrash(t *testing.T) {
 	bytes := []byte("12345678")
-	typeOpts := []int32{4}
+	typeOpts := []uint8{4}
 	value, err := NewTypedValue(bytes, ValueType_LEAFLIST_BYTES, typeOpts)
 	assert.Assert(t, value == nil)
 	assert.Assert(t, err != nil)
