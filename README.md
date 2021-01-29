@@ -16,7 +16,7 @@ The `go` source tree holds the automatically-generated `.pb.go` artifacts and al
 
 The root package of the module is `github.com/onosproject/onos-api/go/onos`, with subpackages being named after each of the platform subsystems, mirroring the structure of the `proto` packages. Golang projects that wish to import µONOS API packages should include the following in the requirements section of their `go.mod` file:
 
-```
+```go
 require (
   ...
 	github.com/onosproject/onos-api/go v0.6.1
@@ -25,7 +25,20 @@ require (
 
 ```
 
+Additionally, Go bindings are generated with mocks for testing with [gomock]. Mocks of Protobuf interfaces can be constructed via the same package as the interfaces they mock:
+
+```go
+import topoapi "github.com/onosproject/onos-api/go/onos/topo"
+...
+mockClient := topoapi.NewMockTopoClient(ctrl)
+```
 
 ## Python
-...
 
+The `python` source tree holds gRPC bindings are generated for [Python]. Pyhton bindings are generated with the [python-betterproto] protoc plugin and support Python3's `asyncio` framework.
+
+[gomock]: https://github.com/golang/mock
+[Go]: https://golang.org/
+[Protobuf]: https://developers.google.com/protocol-buffers
+[Python]: https://www.python.org
+[python-betterproto]: https://github.com/danielgtaylor/python-betterproto
