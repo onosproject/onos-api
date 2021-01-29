@@ -13,16 +13,22 @@ test: # @HELP run the unit tests and source code validation
 test: protos golang license_check
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
+jenkins-test: build-tools # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
+jenkins-test: build deps license_check linters
+	TEST_PACKAGES=github.com/onosproject/onos-api/pkg/... cd go && ./../build-tools/build/jenkins/make-unit
+
 deps: # @HELP ensure that the required dependencies are in place
 	cd go && go build -v ./...
 	bash -c "diff -u <(echo -n) <(git diff go.mod)"
 	bash -c "diff -u <(echo -n) <(git diff go.sum)"
 
-linters: # @HELP examines Go source code and reports coding problems
-	cd go && golangci-lint run
+linters: golang-ci # @HELP examines Go source code and reports coding problems
+	cd go && golangci-lint run --timeout 5m
 
-license_check: # @HELP examine and ensure license headers exist
+build-tools: # @HELP install the ONOS build tools if needed
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
+
+license_check: build-tools # @HELP examine and ensure license headers exist
 	./../build-tools/licensing/boilerplate.py -v --rootdir=/go/src/github.com/onosproject/onos-api/proto
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
