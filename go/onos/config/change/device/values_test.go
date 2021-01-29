@@ -18,10 +18,9 @@ package device
 import (
 	"encoding/binary"
 	"fmt"
-	"gotest.tools/assert"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"math/big"
-	"strings"
 	"testing"
 )
 
@@ -31,20 +30,20 @@ func Test_NewChangedValue(t *testing.T) {
 	value := NewTypedValueUint(64, 32)
 	const isRemove = false
 	changeValueBad, errorBad := NewChangeValue(badPath, value, isRemove)
-	assert.Assert(t, errorBad != nil)
-	assert.Assert(t, strings.Contains(errorBad.Error(), badPath))
-	assert.Assert(t, changeValueBad == nil)
+	assert.Error(t, errorBad)
+	assert.Contains(t, errorBad.Error(), badPath)
+	assert.Nil(t, changeValueBad)
 	changeValue, err := NewChangeValue(path, value, isRemove)
-	assert.Assert(t, err == nil)
-	assert.Assert(t, changeValue != nil)
-	assert.Assert(t, changeValue.Path == path)
-	assert.Assert(t, changeValue.Value.ValueToString() == "64")
+	assert.NoError(t, err)
+	assert.NotNil(t, changeValue)
+	assert.Equal(t, changeValue.Path, path)
+	assert.Equal(t, "64", changeValue.Value.ValueToString())
 }
 
 func Test_NewValueTypeString(t *testing.T) {
 	const value = "xyzzy"
 	typedValue, err := NewTypedValue([]byte(value), ValueType_STRING, make([]uint8, 0))
-	assert.NilError(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, typedValue.ValueToString(), value)
 }
 
@@ -259,9 +258,9 @@ func TestValueTypes(t *testing.T) {
 		typedValue, err := NewTypedValue(testCase.value, testCase.valueType, testCase.typeOpts)
 		if testCase.expectedError != "" {
 			assert.Error(t, err, testCase.expectedError, testCase.description)
-			assert.Assert(t, typedValue == nil, testCase.description)
+			assert.Nil(t, typedValue, testCase.description)
 		} else {
-			assert.NilError(t, err, testCase.description)
+			assert.NoError(t, err, testCase.description)
 			s := typedValue.ValueToString()
 			assert.Equal(t, s, testCase.expectedValue, testCase.description)
 		}
@@ -364,8 +363,8 @@ func TestTypedLeafListDecimal(t *testing.T) {
 	assert.Equal(t, listValue.ValueType(), ValueType_LEAFLIST_DECIMAL)
 	floats := listValue.ListFloat()
 	assert.Equal(t, len(floats), len(digits))
-	assert.Assert(t, floats[0] == 0.22)
-	assert.Assert(t, floats[1] == 0.33)
+	assert.Equal(t, 0.22, floats[0])
+	assert.Equal(t, 0.33, floats[1])
 }
 
 func TestTypedLeafListBytes(t *testing.T) {
@@ -381,6 +380,6 @@ func TestLeafListBytesCrash(t *testing.T) {
 	bytes := []byte("12345678")
 	typeOpts := []uint8{4}
 	value, err := NewTypedValue(bytes, ValueType_LEAFLIST_BYTES, typeOpts)
-	assert.Assert(t, value == nil)
-	assert.Assert(t, err != nil)
+	assert.Nil(t, value)
+	assert.Error(t, err)
 }
