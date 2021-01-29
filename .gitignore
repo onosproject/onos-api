@@ -16,3 +16,6 @@
 
 # IDE
 .idea
+*report*.xml
+*coverage*.xml
+*-output.out
