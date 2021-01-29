@@ -16,6 +16,7 @@ test: protos golang license_check linters
 jenkins-test: build-tools # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
 jenkins-test: build deps license_check linters
 	TEST_PACKAGES=github.com/onosproject/onos-api/pkg/... cd go && ./../../build-tools/build/jenkins/make-unit
+	mv go/*.xml .
 
 deps: # @HELP ensure that the required dependencies are in place
 	cd go && go build -v ./...
