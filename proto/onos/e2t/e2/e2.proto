@@ -31,20 +31,20 @@ service E2TService {
 }
 
 // ServiceModelInfo E2 service model information
-message ServiceModelInfo {
-    string service_model_id = 1;
+message ServiceModel {
+    string id = 1 [(gogoproto.casttype) = "ServiceModelID", (gogoproto.customname) = "ID"];
 }
 
 // RequestHeader a common request header for all requests including encoding type, client/xApp/session info, ordering info, etc
 message RequestHeader {
     EncodingType encoding_type = 1;
-    ServiceModelInfo service_model_info = 2;
+    ServiceModel service_model = 2;
 }
 
 // ResponseHeader a common response header for all responses including encoding type, client/xApp/session info, ordering info, etc
 message ResponseHeader {
     EncodingType encoding_type = 1;
-    ServiceModelInfo service_model_info = 2;
+    ServiceModel service_model = 2;
     ResponseStatus response_status = 3;
 }
 

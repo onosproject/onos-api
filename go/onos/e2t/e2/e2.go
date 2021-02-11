@@ -22,3 +22,6 @@ type InstanceID string
 
 // SubscriptionID is a subscription identifier
 type SubscriptionID string
+
+// ServiceModelID is a service model identifier
+type ServiceModelID string

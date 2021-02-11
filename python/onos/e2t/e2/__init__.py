@@ -67,10 +67,10 @@ class ControlAckRequest(betterproto.Enum):
 
 
 @dataclass(eq=False, repr=False)
-class ServiceModelInfo(betterproto.Message):
+class ServiceModel(betterproto.Message):
     """ServiceModelInfo E2 service model information"""
 
-    service_model_id: str = betterproto.string_field(1)
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -84,7 +84,7 @@ class RequestHeader(betterproto.Message):
     """
 
     encoding_type: "EncodingType" = betterproto.enum_field(1)
-    service_model_info: "ServiceModelInfo" = betterproto.message_field(2)
+    service_model: "ServiceModel" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -98,7 +98,7 @@ class ResponseHeader(betterproto.Message):
     """
 
     encoding_type: "EncodingType" = betterproto.enum_field(1)
-    service_model_info: "ServiceModelInfo" = betterproto.message_field(2)
+    service_model: "ServiceModel" = betterproto.message_field(2)
     response_status: "ResponseStatus" = betterproto.enum_field(3)
 
     def __post_init__(self) -> None:
