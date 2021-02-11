@@ -21,6 +21,49 @@ class ResponseStatus(betterproto.Enum):
 
     FAILED = 0
     SUCCEEDED = 1
+    REJECTED = 2
+
+
+class Cause(betterproto.Enum):
+    """Cause is a failure cause"""
+
+    CAUSE_UNKNOWN = 0
+    CAUSE_MISC_CONTROL_PROCESSING_OVERLOAD = 1
+    CAUSE_MISC_HARDWARE_FAILURE = 2
+    CAUSE_MISC_OM_INTERVENTION = 3
+    CAUSE_MISC_UNSPECIFIED = 4
+    CAUSE_PROTOCOL_TRANSFER_SYNTAX_ERROR = 5
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_REJECT = 6
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_IGNORE_AND_NOTIFY = 7
+    CAUSE_PROTOCOL_MESSAGE_NOT_COMPATIBLE_WITH_RECEIVER_STATE = 8
+    CAUSE_PROTOCOL_SEMANTIC_ERROR = 9
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_FALSELY_CONSTRUCTED_MESSAGE = 10
+    CAUSE_PROTOCOL_UNSPECIFIED = 11
+    CAUSE_RIC_RAN_FUNCTION_ID_INVALID = 12
+    CAUSE_RIC_ACTION_NOT_SUPPORTED = 13
+    CAUSE_RIC_EXCESSIVE_ACTIONS = 14
+    CAUSE_RIC_DUPLICATE_ACTION = 15
+    CAUSE_RIC_DUPLICATE_EVENT = 16
+    CAUSE_RIC_FUNCTION_RESOURCE_LIMIT = 17
+    CAUSE_RIC_REQUEST_ID_UNKNOWN = 18
+    CAUSE_RIC_INCONSISTENT_ACTION_SUBSEQUENT_ACTION_SEQUENCE = 19
+    CAUSE_RIC_CONTROL_MESSAGE_INVALID = 20
+    CAUSE_RIC_CALL_PROCESS_ID_INVALID = 21
+    CAUSE_RIC_UNSPECIFIED = 22
+    CAUSE_RICSERVICE_FUNCTION_NOT_REQUIRED = 23
+    CAUSE_RICSERVICE_EXCESSIVE_FUNCTIONS = 24
+    CAUSE_RICSERVICE_RIC_RESOURCE_LIMIT = 25
+    CAUSE_TRANSPORT_UNSPECIFIED = 26
+    CAUSE_TRANSPORT_TRANSPORT_RESOURCE_UNAVAILABLE = 27
+
+
+class ControlAckRequest(betterproto.Enum):
+    # Optional RIC Control Acknowledgement is required
+    ACK = 0
+    # Optional RIC Control Acknowledgement is not required
+    NO_ACK = 1
+    # Optional RIC Control Acknowledgement is only required to report failure
+    NACK = 2
 
 
 @dataclass(eq=False, repr=False)
@@ -57,7 +100,6 @@ class ResponseHeader(betterproto.Message):
     encoding_type: "EncodingType" = betterproto.enum_field(1)
     service_model_info: "ServiceModelInfo" = betterproto.message_field(2)
     response_status: "ResponseStatus" = betterproto.enum_field(3)
-    indication_header: bytes = betterproto.bytes_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -67,10 +109,10 @@ class ResponseHeader(betterproto.Message):
 class StreamRequest(betterproto.Message):
     """StreamRequest"""
 
-    header: "RequestHeader" = betterproto.message_field(1)
-    app_id: str = betterproto.string_field(2)
-    instance_id: str = betterproto.string_field(3)
-    subscription_id: str = betterproto.string_field(4)
+    request_header: "RequestHeader" = betterproto.message_field(1)
+    app_id: str = betterproto.string_field(3)
+    instance_id: str = betterproto.string_field(4)
+    subscription_id: str = betterproto.string_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -80,8 +122,58 @@ class StreamRequest(betterproto.Message):
 class StreamResponse(betterproto.Message):
     """StreamResponse"""
 
-    header: "ResponseHeader" = betterproto.message_field(1)
-    indication_message: bytes = betterproto.bytes_field(2)
+    response_header: "ResponseHeader" = betterproto.message_field(1)
+    indication_header: bytes = betterproto.bytes_field(2)
+    indication_message: bytes = betterproto.bytes_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControlRequest(betterproto.Message):
+    """ControlRequest E2 control request"""
+
+    request_header: "RequestHeader" = betterproto.message_field(1)
+    control_header: bytes = betterproto.bytes_field(2)
+    control_message: bytes = betterproto.bytes_field(3)
+    control_ack_request: "ControlAckRequest" = betterproto.enum_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControlResponse(betterproto.Message):
+    """ControlResponse E2 control response"""
+
+    response_header: "ResponseHeader" = betterproto.message_field(1)
+    control_acknowledge: "ControlAcknowledge" = betterproto.message_field(
+        2, group="response"
+    )
+    control_failure: "ControlFailure" = betterproto.message_field(3, group="response")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControlAcknowledge(betterproto.Message):
+    """ControlAcknowledge control acknowledgement"""
+
+    control_outcome: bytes = betterproto.bytes_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControlFailure(betterproto.Message):
+    """ControlFailure control failure message"""
+
+    cause: "Cause" = betterproto.enum_field(1)
+    control_outcome: bytes = betterproto.bytes_field(2)
+    message: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -108,3 +200,24 @@ class E2TServiceStub(betterproto.ServiceStub):
             StreamResponse,
         ):
             yield response
+
+    async def control(
+        self,
+        *,
+        request_header: "RequestHeader" = None,
+        control_header: bytes = b"",
+        control_message: bytes = b"",
+        control_ack_request: "ControlAckRequest" = None,
+    ) -> "ControlResponse":
+        """Control sends a E2 control request"""
+
+        request = ControlRequest()
+        if request_header is not None:
+            request.request_header = request_header
+        request.control_header = control_header
+        request.control_message = control_message
+        request.control_ack_request = control_ack_request
+
+        return await self._unary_unary(
+            "/onos.e2t.e2.E2TService/Control", request, ControlResponse
+        )

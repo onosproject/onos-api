@@ -25,6 +25,9 @@ import "gogoproto/gogo.proto";
 service E2TService {
     // Stream opens an indications stream
     rpc Stream (stream StreamRequest) returns (stream StreamResponse);
+
+    // Control sends a E2 control request
+    rpc Control(ControlRequest) returns (ControlResponse);
 }
 
 // ServiceModelInfo E2 service model information
@@ -36,8 +39,6 @@ message ServiceModelInfo {
 message RequestHeader {
     EncodingType encoding_type = 1;
     ServiceModelInfo service_model_info = 2;
-    // TODO more fields should be added
-
 }
 
 // ResponseHeader a common response header for all responses including encoding type, client/xApp/session info, ordering info, etc
@@ -45,9 +46,6 @@ message ResponseHeader {
     EncodingType encoding_type = 1;
     ServiceModelInfo service_model_info = 2;
     ResponseStatus response_status = 3;
-    bytes indication_header = 4;
-    // TODO more fields should be added
-
 }
 
 // EncodingType determines encoding type for the response messages
@@ -61,19 +59,92 @@ enum EncodingType {
 enum ResponseStatus {
     FAILED = 0;
     SUCCEEDED = 1;
+    REJECTED = 2;
 }
 
 // StreamRequest
 message StreamRequest {
-    RequestHeader header = 1;
-    string app_id = 2 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
-    string instance_id = 3 [(gogoproto.casttype) = "InstanceID", (gogoproto.customname) = "InstanceID"];
-    string subscription_id = 4 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
+    RequestHeader request_header = 1;
+    string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
+    string instance_id = 4 [(gogoproto.casttype) = "InstanceID", (gogoproto.customname) = "InstanceID"];
+    string subscription_id = 5 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
 
 }
 
 // StreamResponse
 message StreamResponse {
-    ResponseHeader header = 1;
-    bytes indication_message = 2;
+    ResponseHeader response_header = 1;
+    bytes indication_header = 2;
+    bytes indication_message = 3;
+}
+
+// ControlRequest E2 control request
+message ControlRequest {
+    RequestHeader request_header = 1;
+    bytes control_header = 2;
+    bytes control_message = 3;
+    ControlAckRequest control_ack_request = 4;
+
+}
+
+// ControlResponse E2 control response
+message ControlResponse {
+    ResponseHeader response_header = 1;
+    oneof response {
+        ControlAcknowledge control_acknowledge = 2;
+        ControlFailure control_failure = 3;
+    }
+}
+
+// ControlAcknowledge control acknowledgement
+message ControlAcknowledge {
+    bytes control_outcome = 1;
+}
+
+// ControlFailure control failure message
+message ControlFailure {
+    Cause cause = 1;
+    bytes control_outcome = 2;
+    string message = 3;
+}
+
+// Cause is a failure cause
+enum Cause {
+    CAUSE_UNKNOWN = 0;
+    CAUSE_MISC_CONTROL_PROCESSING_OVERLOAD = 1;
+    CAUSE_MISC_HARDWARE_FAILURE = 2;
+    CAUSE_MISC_OM_INTERVENTION = 3;
+    CAUSE_MISC_UNSPECIFIED = 4;
+    CAUSE_PROTOCOL_TRANSFER_SYNTAX_ERROR = 5;
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_REJECT = 6;
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_IGNORE_AND_NOTIFY = 7;
+    CAUSE_PROTOCOL_MESSAGE_NOT_COMPATIBLE_WITH_RECEIVER_STATE = 8;
+    CAUSE_PROTOCOL_SEMANTIC_ERROR = 9;
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_FALSELY_CONSTRUCTED_MESSAGE = 10;
+    CAUSE_PROTOCOL_UNSPECIFIED = 11;
+    CAUSE_RIC_RAN_FUNCTION_ID_INVALID = 12;
+    CAUSE_RIC_ACTION_NOT_SUPPORTED = 13;
+    CAUSE_RIC_EXCESSIVE_ACTIONS = 14;
+    CAUSE_RIC_DUPLICATE_ACTION = 15;
+    CAUSE_RIC_DUPLICATE_EVENT = 16;
+    CAUSE_RIC_FUNCTION_RESOURCE_LIMIT = 17;
+    CAUSE_RIC_REQUEST_ID_UNKNOWN = 18;
+    CAUSE_RIC_INCONSISTENT_ACTION_SUBSEQUENT_ACTION_SEQUENCE = 19;
+    CAUSE_RIC_CONTROL_MESSAGE_INVALID = 20;
+    CAUSE_RIC_CALL_PROCESS_ID_INVALID = 21;
+    CAUSE_RIC_UNSPECIFIED = 22;
+    CAUSE_RICSERVICE_FUNCTION_NOT_REQUIRED = 23;
+    CAUSE_RICSERVICE_EXCESSIVE_FUNCTIONS = 24;
+    CAUSE_RICSERVICE_RIC_RESOURCE_LIMIT = 25;
+    CAUSE_TRANSPORT_UNSPECIFIED = 26;
+    CAUSE_TRANSPORT_TRANSPORT_RESOURCE_UNAVAILABLE = 27;
+}
+
+enum ControlAckRequest {
+    // Optional RIC Control Acknowledgement is required
+    ACK = 0;
+    // Optional RIC Control Acknowledgement is not required
+    NO_ACK = 1;
+    // Optional RIC Control Acknowledgement is only required to report failure
+    NACK = 2;
 }
