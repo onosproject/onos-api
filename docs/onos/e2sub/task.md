@@ -89,6 +89,7 @@ Lifecycle is a subscription task status
 | ----- | ---- | ----- | ----------- |
 | phase | [Phase](#onos.e2sub.task.Phase) |  |  |
 | status | [Status](#onos.e2sub.task.Status) |  |  |
+| message | [string](#string) |  |  |
 
 
 
@@ -239,6 +240,7 @@ Status is a subscription task status
 | ---- | ------ | ----------- |
 | PENDING | 0 | PENDING indicates the subscription task phase is pending |
 | COMPLETE | 1 | COMPLETE indicates the subscription task phase is complete |
+| FAILED | 2 | FAILED indicates the subscription task phase failed |
 
 
  

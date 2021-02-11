@@ -40,6 +40,7 @@ service E2SubscriptionTaskService {
 message Lifecycle {
     Phase phase = 1;
     Status status = 2;
+    string message = 3;
 }
 
 // Phase is a subscription task phase
@@ -56,6 +57,8 @@ enum Status {
     PENDING = 0;
     // COMPLETE indicates the subscription task phase is complete
     COMPLETE = 1;
+    // FAILED indicates the subscription task phase failed
+    FAILED = 2;
 }
 
 // SubscriptionTask is a task representing a subscription between an E2 termination and an E2 node

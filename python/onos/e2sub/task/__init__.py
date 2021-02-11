@@ -24,6 +24,8 @@ class Status(betterproto.Enum):
     PENDING = 0
     # COMPLETE indicates the subscription task phase is complete
     COMPLETE = 1
+    # FAILED indicates the subscription task phase failed
+    FAILED = 2
 
 
 class EventType(betterproto.Enum):
@@ -41,6 +43,7 @@ class Lifecycle(betterproto.Message):
 
     phase: "Phase" = betterproto.enum_field(1)
     status: "Status" = betterproto.enum_field(2)
+    message: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

@@ -13,6 +13,7 @@ class Status(betterproto.Enum):
 
     ACTIVE = 0
     PENDING_DELETE = 1
+    FAILED = 2
 
 
 class EventType(betterproto.Enum):
@@ -68,6 +69,7 @@ class Lifecycle(betterproto.Message):
     """Lifecycle is the subscription lifecycle"""
 
     status: "Status" = betterproto.enum_field(1)
+    message: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

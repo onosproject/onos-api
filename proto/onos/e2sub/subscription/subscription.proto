@@ -42,12 +42,14 @@ service E2SubscriptionService {
 // Lifecycle is the subscription lifecycle
 message Lifecycle {
     Status status = 1;
+    string message = 2;
 }
 
 // Status is a subscription status
 enum Status {
     ACTIVE = 0;
     PENDING_DELETE = 1;
+    FAILED = 2;
 }
 
 // EventType is a subscription event type

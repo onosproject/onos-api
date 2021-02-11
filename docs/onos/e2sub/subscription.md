@@ -162,6 +162,7 @@ Lifecycle is the subscription lifecycle
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | status | [Status](#onos.e2sub.subscription.Status) |  |  |
+| message | [string](#string) |  |  |
 
 
 
@@ -382,6 +383,7 @@ Status is a subscription status
 | ---- | ------ | ----------- |
 | ACTIVE | 0 |  |
 | PENDING_DELETE | 1 |  |
+| FAILED | 2 |  |
 
 
 
