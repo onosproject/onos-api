@@ -382,6 +382,7 @@ Status is a subscription status
 | ---- | ------ | ----------- |
 | ACTIVE | 0 |  |
 | PENDING_DELETE | 1 |  |
+| FAILED | 2 |  |
 
 
 

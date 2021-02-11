@@ -13,6 +13,7 @@ class Status(betterproto.Enum):
 
     ACTIVE = 0
     PENDING_DELETE = 1
+    FAILED = 2
 
 
 class EventType(betterproto.Enum):

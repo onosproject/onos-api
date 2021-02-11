@@ -48,6 +48,7 @@ message Lifecycle {
 enum Status {
     ACTIVE = 0;
     PENDING_DELETE = 1;
+    FAILED = 2;
 }
 
 // EventType is a subscription event type

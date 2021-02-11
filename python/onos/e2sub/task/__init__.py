@@ -24,6 +24,41 @@ class Status(betterproto.Enum):
     PENDING = 0
     # COMPLETE indicates the subscription task phase is complete
     COMPLETE = 1
+    # FAILED indicates the subscription task phase failed
+    FAILED = 2
+
+
+class Cause(betterproto.Enum):
+    """Cause is a failure cause"""
+
+    CAUSE_UNKNOWN = 0
+    CAUSE_MISC_CONTROL_PROCESSING_OVERLOAD = 1
+    CAUSE_MISC_HARDWARE_FAILURE = 2
+    CAUSE_MISC_OM_INTERVENTION = 3
+    CAUSE_MISC_UNSPECIFIED = 4
+    CAUSE_PROTOCOL_TRANSFER_SYNTAX_ERROR = 5
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_REJECT = 6
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_IGNORE_AND_NOTIFY = 7
+    CAUSE_PROTOCOL_MESSAGE_NOT_COMPATIBLE_WITH_RECEIVER_STATE = 8
+    CAUSE_PROTOCOL_SEMANTIC_ERROR = 9
+    CAUSE_PROTOCOL_ABSTRACT_SYNTAX_ERROR_FALSELY_CONSTRUCTED_MESSAGE = 10
+    CAUSE_PROTOCOL_UNSPECIFIED = 11
+    CAUSE_RIC_RAN_FUNCTION_ID_INVALID = 12
+    CAUSE_RIC_ACTION_NOT_SUPPORTED = 13
+    CAUSE_RIC_EXCESSIVE_ACTIONS = 14
+    CAUSE_RIC_DUPLICATE_ACTION = 15
+    CAUSE_RIC_DUPLICATE_EVENT = 16
+    CAUSE_RIC_FUNCTION_RESOURCE_LIMIT = 17
+    CAUSE_RIC_REQUEST_ID_UNKNOWN = 18
+    CAUSE_RIC_INCONSISTENT_ACTION_SUBSEQUENT_ACTION_SEQUENCE = 19
+    CAUSE_RIC_CONTROL_MESSAGE_INVALID = 20
+    CAUSE_RIC_CALL_PROCESS_ID_INVALID = 21
+    CAUSE_RIC_UNSPECIFIED = 22
+    CAUSE_RICSERVICE_FUNCTION_NOT_REQUIRED = 23
+    CAUSE_RICSERVICE_EXCESSIVE_FUNCTIONS = 24
+    CAUSE_RICSERVICE_RIC_RESOURCE_LIMIT = 25
+    CAUSE_TRANSPORT_UNSPECIFIED = 26
+    CAUSE_TRANSPORT_TRANSPORT_RESOURCE_UNAVAILABLE = 27
 
 
 class EventType(betterproto.Enum):
@@ -41,6 +76,18 @@ class Lifecycle(betterproto.Message):
 
     phase: "Phase" = betterproto.enum_field(1)
     status: "Status" = betterproto.enum_field(2)
+    failure: "Failure" = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Failure(betterproto.Message):
+    """Failure is a subscription failure status"""
+
+    cause: "Cause" = betterproto.enum_field(1)
+    message: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
