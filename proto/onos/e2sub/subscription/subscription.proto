@@ -42,7 +42,6 @@ service E2SubscriptionService {
 // Lifecycle is the subscription lifecycle
 message Lifecycle {
     Status status = 1;
-    string message = 2;
 }
 
 // Status is a subscription status
