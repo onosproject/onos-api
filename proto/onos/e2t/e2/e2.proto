@@ -81,9 +81,10 @@ message StreamResponse {
 // ControlRequest E2 control request
 message ControlRequest {
     RequestHeader header = 1;
-    bytes control_header = 2;
-    bytes control_message = 3;
-    ControlAckRequest control_ack_request = 4;
+    string e2_node_id = 2 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    bytes control_header = 3;
+    bytes control_message = 4;
+    ControlAckRequest control_ack_request = 5;
 
 }
 

@@ -135,9 +135,10 @@ class ControlRequest(betterproto.Message):
     """ControlRequest E2 control request"""
 
     header: "RequestHeader" = betterproto.message_field(1)
-    control_header: bytes = betterproto.bytes_field(2)
-    control_message: bytes = betterproto.bytes_field(3)
-    control_ack_request: "ControlAckRequest" = betterproto.enum_field(4)
+    e2_node_id: str = betterproto.string_field(2)
+    control_header: bytes = betterproto.bytes_field(3)
+    control_message: bytes = betterproto.bytes_field(4)
+    control_ack_request: "ControlAckRequest" = betterproto.enum_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -205,6 +206,7 @@ class E2TServiceStub(betterproto.ServiceStub):
         self,
         *,
         header: "RequestHeader" = None,
+        e2_node_id: str = "",
         control_header: bytes = b"",
         control_message: bytes = b"",
         control_ack_request: "ControlAckRequest" = None,
@@ -214,6 +216,7 @@ class E2TServiceStub(betterproto.ServiceStub):
         request = ControlRequest()
         if header is not None:
             request.header = header
+        request.e2_node_id = e2_node_id
         request.control_header = control_header
         request.control_message = control_message
         request.control_ack_request = control_ack_request
