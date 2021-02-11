@@ -64,23 +64,23 @@ enum ResponseStatus {
 
 // StreamRequest
 message StreamRequest {
-    RequestHeader request_header = 1;
-    string app_id = 3 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
-    string instance_id = 4 [(gogoproto.casttype) = "InstanceID", (gogoproto.customname) = "InstanceID"];
-    string subscription_id = 5 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
+    RequestHeader header = 1;
+    string app_id = 2 [(gogoproto.casttype) = "AppID", (gogoproto.customname) = "AppID"];
+    string instance_id = 3 [(gogoproto.casttype) = "InstanceID", (gogoproto.customname) = "InstanceID"];
+    string subscription_id = 4 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
 
 }
 
 // StreamResponse
 message StreamResponse {
-    ResponseHeader response_header = 1;
+    ResponseHeader header = 1;
     bytes indication_header = 2;
     bytes indication_message = 3;
 }
 
 // ControlRequest E2 control request
 message ControlRequest {
-    RequestHeader request_header = 1;
+    RequestHeader header = 1;
     bytes control_header = 2;
     bytes control_message = 3;
     ControlAckRequest control_ack_request = 4;
@@ -89,7 +89,7 @@ message ControlRequest {
 
 // ControlResponse E2 control response
 message ControlResponse {
-    ResponseHeader response_header = 1;
+    ResponseHeader header = 1;
     oneof response {
         ControlAcknowledge control_acknowledge = 2;
         ControlFailure control_failure = 3;

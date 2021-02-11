@@ -109,10 +109,10 @@ class ResponseHeader(betterproto.Message):
 class StreamRequest(betterproto.Message):
     """StreamRequest"""
 
-    request_header: "RequestHeader" = betterproto.message_field(1)
-    app_id: str = betterproto.string_field(3)
-    instance_id: str = betterproto.string_field(4)
-    subscription_id: str = betterproto.string_field(5)
+    header: "RequestHeader" = betterproto.message_field(1)
+    app_id: str = betterproto.string_field(2)
+    instance_id: str = betterproto.string_field(3)
+    subscription_id: str = betterproto.string_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -122,7 +122,7 @@ class StreamRequest(betterproto.Message):
 class StreamResponse(betterproto.Message):
     """StreamResponse"""
 
-    response_header: "ResponseHeader" = betterproto.message_field(1)
+    header: "ResponseHeader" = betterproto.message_field(1)
     indication_header: bytes = betterproto.bytes_field(2)
     indication_message: bytes = betterproto.bytes_field(3)
 
@@ -134,7 +134,7 @@ class StreamResponse(betterproto.Message):
 class ControlRequest(betterproto.Message):
     """ControlRequest E2 control request"""
 
-    request_header: "RequestHeader" = betterproto.message_field(1)
+    header: "RequestHeader" = betterproto.message_field(1)
     control_header: bytes = betterproto.bytes_field(2)
     control_message: bytes = betterproto.bytes_field(3)
     control_ack_request: "ControlAckRequest" = betterproto.enum_field(4)
@@ -147,7 +147,7 @@ class ControlRequest(betterproto.Message):
 class ControlResponse(betterproto.Message):
     """ControlResponse E2 control response"""
 
-    response_header: "ResponseHeader" = betterproto.message_field(1)
+    header: "ResponseHeader" = betterproto.message_field(1)
     control_acknowledge: "ControlAcknowledge" = betterproto.message_field(
         2, group="response"
     )
@@ -204,7 +204,7 @@ class E2TServiceStub(betterproto.ServiceStub):
     async def control(
         self,
         *,
-        request_header: "RequestHeader" = None,
+        header: "RequestHeader" = None,
         control_header: bytes = b"",
         control_message: bytes = b"",
         control_ack_request: "ControlAckRequest" = None,
@@ -212,8 +212,8 @@ class E2TServiceStub(betterproto.ServiceStub):
         """Control sends a E2 control request"""
 
         request = ControlRequest()
-        if request_header is not None:
-            request.request_header = request_header
+        if header is not None:
+            request.header = header
         request.control_header = control_header
         request.control_message = control_message
         request.control_ack_request = control_ack_request
