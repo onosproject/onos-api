@@ -19,7 +19,7 @@ import (
 )
 
 // ID ...
-type ID string
+type ID string ?
 
 // NullID ...
 const NullID = ""
