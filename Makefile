@@ -13,8 +13,10 @@ test: # @HELP run the unit tests and source code validation
 test: protos golang license_check linters
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
-jenkins-test: build-tools # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: build deps license_check linters
+jenkins-tools: # @HELP installs tooling needed for Jenkins
+	cd .. && go get -u github.com/jstemmer/go-junit-report && go get github.com/t-yuki/gocover-cobertura
+
+jenkins-test: build-tools jenkins-tools deps test # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
 	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ./../../build-tools/build/jenkins/make-unit
 	mv go/*.xml .
 
