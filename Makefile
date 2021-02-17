@@ -38,13 +38,13 @@ license_check: build-tools # @HELP examine and ensure license headers exist
 	./../build-tools/licensing/boilerplate.py -v --rootdir=/go/src/github.com/onosproject/onos-api/proto
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
-	docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-api \
+	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
 		-w /go/src/github.com/onosproject/onos-api \
 		bufbuild/buf:${BUF_VERSION} check lint
 
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
 protos:
-	docker run -it \
+	docker run \
 	    -v `pwd`:/onos-api \
 		-w /onos-api \
 		--entrypoint build/bin/compile-protos.sh \
