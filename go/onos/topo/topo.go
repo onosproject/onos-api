@@ -22,7 +22,7 @@ import (
 type ID string
 
 // NullID ...
-const NullID = ""
+const NullID = "" n
 
 // Revision is an object revision
 type Revision uint64
