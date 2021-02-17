@@ -53,7 +53,9 @@ mocks:
 
 publish: # @HELP publish version on github and dockerhub
 	./../build-tools/publish-version ${VERSION}
-	./../build-tools/publish-version go/${VERSION}
+
+jenkins-publish: build-tools jenkins-tools # @HELP Jenkins calls this to publish artifacts
+	../build-tools/release-merge-commit
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor
