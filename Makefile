@@ -14,7 +14,7 @@ test: protos golang license_check linters
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: build-tools jenkins-tools deps license_check linters
+jenkins-test: build-tools jenkins-tools deps test
 	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ./../../build-tools/build/jenkins/make-unit
 	mv go/*.xml .
 
@@ -39,13 +39,13 @@ license_check: build-tools # @HELP examine and ensure license headers exist
 	./../build-tools/licensing/boilerplate.py -v --rootdir=/go/src/github.com/onosproject/onos-api/proto
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
-	docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-api \
+	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
 		-w /go/src/github.com/onosproject/onos-api \
 		bufbuild/buf:${BUF_VERSION} check lint
 
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
 protos:
-	docker run -it \
+	docker run \
 	    -v `pwd`:/onos-api \
 		-w /onos-api \
 		--entrypoint build/bin/compile-protos.sh \
