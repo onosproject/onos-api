@@ -10,18 +10,18 @@ golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos golang license_check linters
+test: protos golang license_check linters deps
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: build-tools jenkins-tools deps test
+jenkins-test: build-tools jenkins-tools test deps
 	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ./../../build-tools/build/jenkins/make-unit
 	mv go/*.xml .
 
 deps: # @HELP ensure that the required dependencies are in place
 	cd go && go build -v ./...
-	bash -c "diff -u <(echo -n) <(git diff go.mod)"
-	bash -c "diff -u <(echo -n) <(git diff go.sum)"
+	bash -c "diff -u <(echo -n) <(git diff go/go.mod)"
+	bash -c "diff -u <(echo -n) <(git diff go/go.sum)"
 
 linters: golang-ci # @HELP examines Go source code and reports coding problems
 	cd go && golangci-lint run --timeout 5m
