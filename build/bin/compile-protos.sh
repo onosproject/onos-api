@@ -3,6 +3,8 @@
 proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/src/github.com/gogo/protobuf:${GOPATH}/src"
 
 ### Documentation generation
+
+# e2sub
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2sub \
     --doc_opt=markdown,endpoint.md \
@@ -15,6 +17,8 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2sub \
     --doc_opt=markdown,task.md \
     proto/onos/e2sub/task/task.proto
+
+# e2t
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2t \
     --doc_opt=markdown,admin.md \
@@ -23,11 +27,14 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2t \
     --doc_opt=markdown,e2.md \
     proto/onos/e2t/e2/e2.proto
+
+# topo
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/topo \
     --doc_opt=markdown,topo.md \
     proto/onos/topo/topo.proto
 
+# config
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,admin.md \
@@ -61,10 +68,33 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,network_snapshot.md \
     proto/onos/config/snapshot/network/types.proto
 
+# kpimon
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/kpimon \
     --doc_opt=markdown,kpimon.md \
     proto/onos/kpimon/kpimon.proto
+
+# ransim
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/ransim \
+    --doc_opt=markdown,metrics.md \
+    proto/onos/ransim/metrics/metrics.proto
+
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/ransim \
+    --doc_opt=markdown,model.md \
+    proto/onos/ransim/model/model.proto
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/ransim \
+    --doc_opt=markdown,trafficsim.md \
+    proto/onos/ransim/trafficsim/trafficsim.proto
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/ransim \
+    --doc_opt=markdown,types.md \
+    proto/onos/ransim/types/types.proto
 
 
 ### Go Protobuf code generation
@@ -78,7 +108,8 @@ go_import_paths="${go_import_paths},Monos/config/change/device/types.proto=githu
 go_import_paths="${go_import_paths},Monos/config/change/network/types.proto=github.com/onosproject/onos-api/go/onos/config/change/network"
 go_import_paths="${go_import_paths},Monos/config/snapshot/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot"
 go_import_paths="${go_import_paths},Monos/config/snapshot/device/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot/device"
-
+go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/onosproject/onos-api/go/onos/ransim/types"
+# e2sub
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2sub/endpoint,plugins=grpc:./go \
     proto/onos/e2sub/endpoint/*.proto
@@ -88,6 +119,8 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2sub/task,plugins=grpc:./go \
     proto/onos/e2sub/task/*.proto
+
+# e2t
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/admin,plugins=grpc:./go \
     proto/onos/e2t/admin/*.proto
@@ -98,6 +131,7 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
     proto/onos/topo/*.proto
 
+# config
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/change,plugins=grpc:./go \
     proto/onos/config/change/*.proto
@@ -125,11 +159,28 @@ protoc --proto_path=$proto_path \
     --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
     proto/onos/config/admin/*.proto
 
+
+# kpimon
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/kpimon,plugins=grpc:./go \
     proto/onos/kpimon/*.proto
 
+# ransim
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/ransim/metrics,plugins=grpc:./go \
+    proto/onos/ransim/metrics/*.proto
 
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/ransim/model,plugins=grpc:./go \
+    proto/onos/ransim/model/*.proto
+
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/ransim/trafficsim,plugins=grpc:./go \
+    proto/onos/ransim/trafficsim/*.proto
+
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/ransim/types,plugins=grpc:./go \
+    proto/onos/ransim/types/*.proto
 
 
 ### Python Protobuf code generation
