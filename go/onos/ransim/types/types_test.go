@@ -31,6 +31,7 @@ func TestPlmnIDEncode(t *testing.T) {
 	assert.Equal(t, PlmnID(0x130071), PlmnIDFromHexString("130071"))
 
 	assert.Equal(t, PlmnID(0x130071), PlmnIDFromString("310170"))
+	assert.Equal(t, "310170", PlmnIDToString(PlmnID(0x130071)))
 }
 
 func TestFullShiftBasics(t *testing.T) {
