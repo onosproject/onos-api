@@ -68,6 +68,12 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,network_snapshot.md \
     proto/onos/config/snapshot/network/types.proto
 
+#configmodel
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/configmodel \
+    --doc_opt=markdown,registry.md \
+    proto/onos/configmodel/registry.proto
+
 # kpimon
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/kpimon \
@@ -153,6 +159,11 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/diags,plugins=grpc:./go \
     proto/onos/config/diags/*.proto
+
+#configmodel
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/configmodel,plugins=grpc:./go \
+    proto/onos/configmodel/*.proto
 
 # admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
 protoc --proto_path=$proto_path \
