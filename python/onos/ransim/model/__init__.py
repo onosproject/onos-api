@@ -22,6 +22,22 @@ class EventType(betterproto.Enum):
 
 
 @dataclass(eq=False, repr=False)
+class PlmnIdRequest(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class PlmnIdResponse(betterproto.Message):
+    plmnid: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class CreateNodeRequest(betterproto.Message):
     """CreateNodeRequest create a node request"""
 
@@ -255,6 +271,14 @@ class NodeModelStub(betterproto.ServiceStub):
     """
     Model provides means to create, delete and read RAN simulation model.
     """
+
+    async def get_plmn_id(self) -> "PlmnIdResponse":
+
+        request = PlmnIdRequest()
+
+        return await self._unary_unary(
+            "/onos.ransim.model.NodeModel/GetPlmnID", request, PlmnIdResponse
+        )
 
     async def create_node(
         self, *, node: "_types__.Node" = None

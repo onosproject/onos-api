@@ -13,6 +13,8 @@ import "onos/ransim/types/types.proto";
 
 // Model provides means to create, delete and read RAN simulation model.
 service NodeModel {
+    rpc GetPlmnID(PlmnIDRequest) returns (PlmnIDResponse);
+
     rpc CreateNode(CreateNodeRequest) returns (CreateNodeResponse);
     rpc GetNode(GetNodeRequest) returns (GetNodeResponse);
     rpc UpdateNode(UpdateNodeRequest) returns (UpdateNodeResponse);
@@ -21,6 +23,14 @@ service NodeModel {
     rpc ListNodes(ListNodesRequest) returns (stream ListNodesResponse);
     rpc AgentControl(AgentControlRequest) returns (AgentControlResponse);
 }
+
+message PlmnIDRequest {
+}
+
+message PlmnIDResponse {
+    uint32 plmnid = 1 [(gogoproto.customname) = "PlmnID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.PlmnID"];
+}
+
 
 // CreateNodeRequest create a node request
 message CreateNodeRequest {

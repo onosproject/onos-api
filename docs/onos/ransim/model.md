@@ -22,6 +22,8 @@
     - [ListCellsResponse](#onos.ransim.model.ListCellsResponse)
     - [ListNodesRequest](#onos.ransim.model.ListNodesRequest)
     - [ListNodesResponse](#onos.ransim.model.ListNodesResponse)
+    - [PlmnIDRequest](#onos.ransim.model.PlmnIDRequest)
+    - [PlmnIDResponse](#onos.ransim.model.PlmnIDResponse)
     - [UpdateCellRequest](#onos.ransim.model.UpdateCellRequest)
     - [UpdateCellResponse](#onos.ransim.model.UpdateCellResponse)
     - [UpdateNodeRequest](#onos.ransim.model.UpdateNodeRequest)
@@ -289,6 +291,31 @@ GetNodeResponse get a node response
 
 
 
+<a name="onos.ransim.model.PlmnIDRequest"></a>
+
+### PlmnIDRequest
+
+
+
+
+
+
+
+<a name="onos.ransim.model.PlmnIDResponse"></a>
+
+### PlmnIDResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| plmnid | [uint32](#uint32) |  |  |
+
+
+
+
+
+
 <a name="onos.ransim.model.UpdateCellRequest"></a>
 
 ### UpdateCellRequest
@@ -445,6 +472,7 @@ Model provides means to create, delete and read RAN simulation model.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
+| GetPlmnID | [PlmnIDRequest](#onos.ransim.model.PlmnIDRequest) | [PlmnIDResponse](#onos.ransim.model.PlmnIDResponse) |  |
 | CreateNode | [CreateNodeRequest](#onos.ransim.model.CreateNodeRequest) | [CreateNodeResponse](#onos.ransim.model.CreateNodeResponse) |  |
 | GetNode | [GetNodeRequest](#onos.ransim.model.GetNodeRequest) | [GetNodeResponse](#onos.ransim.model.GetNodeResponse) |  |
 | UpdateNode | [UpdateNodeRequest](#onos.ransim.model.UpdateNodeRequest) | [UpdateNodeResponse](#onos.ransim.model.UpdateNodeResponse) |  |
