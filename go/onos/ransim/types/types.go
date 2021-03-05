@@ -37,13 +37,15 @@ type MSIN uint32
 type IMSI uint64
 
 const (
-	mask28            = 0xfffffff
-	mask20            = 0xfffff00
-	maskSecondNibble  = 0x00000f0
-	maskSeventhNibble = 0xf000000
+	mask28               = 0xfffffff
+	mask20               = 0xfffff00
+	lowest24             = 0x0ffffff
+	maskSecondNibble     = 0x00000f0
+	maskSeventhNibble    = 0xf000000
+	maskThirteenthNibble = 0xf000000000000
 )
 
-// EncodePlmnID encodes MCC and MNC strings into a PLMNID string
+// EncodePlmnID encodes MCC and MNC strings into a PLMNID hex string
 func EncodePlmnID(mcc string, mnc string) string {
 	if len(mnc) == 2 {
 		return string(mcc[1]) + string(mcc[0]) + "F" + string(mcc[2]) + string(mnc[1]) + string(mnc[0])
@@ -52,11 +54,11 @@ func EncodePlmnID(mcc string, mnc string) string {
 	}
 }
 
-// DecodePlmnID decodes MCC and MNC strings from a PLMNID string
+// DecodePlmnID decodes MCC and MNC strings from PLMNID hex string
 func DecodePlmnID(plmnID string) (mcc string, mnc string) {
 	if plmnID[2] == 'f' || plmnID[2] == 'F' {
 		return string(plmnID[1]) + string(plmnID[0]) + string(plmnID[3]),
-				string(plmnID[5]) + string(plmnID[4])
+			string(plmnID[5]) + string(plmnID[4])
 	} else {
 		return string(plmnID[1]) + string(plmnID[0]) + string(plmnID[3]),
 			string(plmnID[5]) + string(plmnID[4]) + string(plmnID[2])
@@ -73,8 +75,8 @@ func ToPlmnID(mcc string, mnc string) PlmnID {
 	return PlmnID(n)
 }
 
-// PlmnIDFromString converts string form of PLMNID into a numeric one suitable for APIs
-func PlmnIDFromString(plmnID string) PlmnID {
+// PlmnIDFromHexString converts string form of PLMNID in its hex form into a numeric one suitable for APIs
+func PlmnIDFromHexString(plmnID string) PlmnID {
 	n, err := strconv.ParseUint(plmnID, 16, 32)
 	if err != nil {
 		return 0
@@ -82,22 +84,25 @@ func PlmnIDFromString(plmnID string) PlmnID {
 	return PlmnID(n)
 }
 
+// PlmnIDFromString converts string form of PLMNID given as a simple MCC-MCN catenation into a numeric one suitable for APIs
+func PlmnIDFromString(plmnID string) PlmnID {
+	return ToPlmnID(plmnID[0:3], plmnID[3:])
+}
+
 // ToECI produces ECI from the specified components
 func ToECI(enbID EnbID, cid CellID) ECI {
 	if cid&maskSecondNibble == 0 {
 		return ECI(uint(enbID)<<4 | uint(cid)) // Unclear whether this clause is needed
-	} else {
-		return ECI(uint(enbID)<<8 | uint(cid))
 	}
+	return ECI(uint(enbID)<<8 | uint(cid))
 }
 
 // ToECGI produces ECGI from the specified components
 func ToECGI(plmnID PlmnID, eci ECI) ECGI {
 	if uint(eci)&maskSeventhNibble == 0 {
 		return ECGI(uint(plmnID)<<24 | (uint(eci) & mask28)) // Unclear whether this clause is needed
-	} else {
-		return ECGI(uint(plmnID)<<28 | (uint(eci) & mask28))
 	}
+	return ECGI(uint(plmnID)<<28 | (uint(eci) & mask28))
 }
 
 // ToGEnbID produces GEnbID from the specified components
@@ -105,23 +110,35 @@ func ToGEnbID(plmnID PlmnID, enbID EnbID) GEnbID {
 	return GEnbID(uint(plmnID)<<28 | (uint(enbID) << 8 & mask20))
 }
 
-// GetPlmnID extracts PLMNID from the specified ECGI or GEnbID
+// GetPlmnID extracts PLMNID from the specified ECGI, GEnbID or IMSI
 func GetPlmnID(id uint64) PlmnID {
+	if id&maskThirteenthNibble == 0 {
+		return PlmnID(id >> 24)
+	}
 	return PlmnID(id >> 28)
 }
 
-// GetCellID extracts Cell ID from the specified ECI, ECGI or GEnbID
+// GetCellID extracts Cell ID from the specified ECGI or GEnbID
 func GetCellID(id uint64) CellID {
+	if id&maskThirteenthNibble == 0 {
+		return CellID(id & 0xf)
+	}
 	return CellID(id & 0xff)
 }
 
 // GetEnbID extracts Enb ID from the specified ECGI or GEnbID
 func GetEnbID(id uint64) EnbID {
+	if id&maskThirteenthNibble == 0 {
+		return EnbID((id & mask20) >> 4)
+	}
 	return EnbID((id & mask20) >> 8)
 }
 
 // GetECI extracts ECI from the specified ECGI or GEnbID
 func GetECI(id uint64) ECI {
+	if id&maskThirteenthNibble == 0 {
+		return ECI(id & lowest24)
+	}
 	return ECI(id & mask28)
 }
 

@@ -28,7 +28,9 @@ func TestPlmnIDEncode(t *testing.T) {
 	assert.Equal(t, "170", mnc)
 
 	assert.Equal(t, PlmnID(0x130071), ToPlmnID("310", "170"))
-	assert.Equal(t, PlmnID(0x130071), PlmnIDFromString("130071"))
+	assert.Equal(t, PlmnID(0x130071), PlmnIDFromHexString("130071"))
+
+	assert.Equal(t, PlmnID(0x130071), PlmnIDFromString("310170"))
 }
 
 func TestFullShiftBasics(t *testing.T) {
@@ -58,17 +60,7 @@ func TestAnotherPartialShiftBasics(t *testing.T) {
 	assert.Equal(t, ECGI(0x310071FFFF1A), ToECGI(plmnID, ToECI(enbID, cellID)))
 }
 
-func TestPlmnID(t *testing.T) {
-	t.Skip()
-	plmnID := PlmnID(0xbbbccc)
-	ecgi := ToECGI(plmnID, ECI(0))
-	assert.Equal(t, plmnID, GetPlmnID(uint64(ecgi)))
-
-	ecgi = ToECGI(plmnID, ECI(0xfffffff))
-	assert.Equal(t, plmnID, GetPlmnID(uint64(ecgi)))
-}
-
-func TestTypes(t *testing.T) {
+func TestTypesWithFullShift(t *testing.T) {
 	plmnID := PlmnID(0xbbbccc)
 	cellID := CellID(0x12)
 	enbID := EnbID(0xf8f8f)
@@ -79,11 +71,27 @@ func TestTypes(t *testing.T) {
 
 	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
 	// in shifts less than 8 or 28 bits respectively.
-	assert.Equal(t, cellID, GetCellID(uint64(ecgi)), "incorrect CID")
 	assert.Equal(t, plmnID, GetPlmnID(uint64(ecgi)), "incorrect PLMNID")
-	assert.Equal(t, eci, GetECI(uint64(ecgi)), "incorrect ECI")
-	assert.Equal(t, enbID, GetEnbID(uint64(ecgi)), "incorrect ECGI EnbID")
 	assert.Equal(t, enbID, GetEnbID(uint64(genbID)), "incorrect EnbID")
+	assert.Equal(t, eci, GetECI(uint64(ecgi)), "incorrect ECI")
+	assert.Equal(t, cellID, GetCellID(uint64(ecgi)), "incorrect CID")
+}
+
+func TestTypesWithPartialShift(t *testing.T) {
+	plmnID := PlmnID(0xbbbaaa)
+	cellID := CellID(0x0f)
+	enbID := EnbID(0xfffff)
+
+	eci := ToECI(enbID, cellID)
+	ecgi := ToECGI(plmnID, eci)
+	genbID := ToGEnbID(plmnID, enbID)
+
+	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
+	// in shifts less than 8 or 28 bits respectively.
+	assert.Equal(t, plmnID, GetPlmnID(uint64(ecgi)), "incorrect PLMNID")
+	assert.Equal(t, enbID, GetEnbID(uint64(genbID)), "incorrect EnbID")
+	assert.Equal(t, eci, GetECI(uint64(ecgi)), "incorrect ECI")
+	assert.Equal(t, cellID, GetCellID(uint64(ecgi)), "incorrect CID")
 }
 
 func TestSimValues(t *testing.T) {
