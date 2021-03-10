@@ -8,6 +8,13 @@ import betterproto
 import grpclib
 
 
+class GetStateMode(betterproto.Enum):
+    NONE = 0
+    OP_STATE = 1
+    EXPLICIT_RO_PATHS = 2
+    EXPLICIT_RO_PATHS_EXPAND_WILDCARDS = 3
+
+
 @dataclass(eq=False, repr=False)
 class ConfigModel(betterproto.Message):
     name: str = betterproto.string_field(1)
@@ -16,6 +23,7 @@ class ConfigModel(betterproto.Message):
     files: Dict[str, str] = betterproto.map_field(
         4, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
+    get_state_mode: "GetStateMode" = betterproto.enum_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
