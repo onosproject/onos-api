@@ -16,6 +16,8 @@
     - [PushModelRequest](#onos.configmodel.PushModelRequest)
     - [PushModelResponse](#onos.configmodel.PushModelResponse)
   
+    - [GetStateMode](#onos.configmodel.GetStateMode)
+  
     - [ConfigModelRegistryService](#onos.configmodel.ConfigModelRegistryService)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -41,6 +43,7 @@
 | version | [string](#string) |  |  |
 | modules | [ConfigModule](#onos.configmodel.ConfigModule) | repeated |  |
 | files | [ConfigModel.FilesEntry](#onos.configmodel.ConfigModel.FilesEntry) | repeated |  |
+| get_state_mode | [GetStateMode](#onos.configmodel.GetStateMode) |  |  |
 
 
 
@@ -188,6 +191,20 @@
 
 
  
+
+
+<a name="onos.configmodel.GetStateMode"></a>
+
+### GetStateMode
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| NONE | 0 |  |
+| OP_STATE | 1 |  |
+| EXPLICIT_RO_PATHS | 2 |  |
+| EXPLICIT_RO_PATHS_EXPAND_WILDCARDS | 3 |  |
+
 
  
 
