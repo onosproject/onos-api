@@ -18,11 +18,19 @@ syntax = "proto3";
 
 package onos.configmodel;
 
+enum GetStateMode {
+    NONE = 0;
+    OP_STATE = 1;
+    EXPLICIT_RO_PATHS = 2;
+    EXPLICIT_RO_PATHS_EXPAND_WILDCARDS = 3;
+}
+
 message ConfigModel {
     string name = 1;
     string version = 2;
     repeated ConfigModule modules = 3;
     map<string, string> files = 4;
+    GetStateMode get_state_mode = 5;
 }
 
 message ConfigModule {
