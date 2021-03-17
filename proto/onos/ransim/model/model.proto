@@ -11,7 +11,35 @@ package onos.ransim.model;
 import "gogoproto/gogo.proto";
 import "onos/ransim/types/types.proto";
 
-// Model provides means to create, delete and read RAN simulation model.
+
+// ModelService provides means to clear and load node and cell model in bulk
+service ModelService {
+    rpc Load(LoadRequest) returns (LoadResponse);
+    rpc Clear(ClearRequest) returns (ClearResponse);
+}
+
+message DataSet {
+    string type = 1;
+    bytes data = 2;
+}
+
+message LoadRequest {
+    repeated DataSet dataSet = 1;
+    bool resume = 2;
+}
+
+message LoadResponse {
+}
+
+message ClearRequest {
+    bool resume = 1;
+}
+
+message ClearResponse {
+}
+
+
+// NodeModel provides means to create, delete and read RAN simulation model.
 service NodeModel {
     rpc GetPlmnID(PlmnIDRequest) returns (PlmnIDResponse);
 
@@ -99,7 +127,7 @@ message AgentControlResponse {
 }
 
 
-// Model provides means to create, delete and read RAN simulation model.
+// CellModel provides means to create, delete and read RAN simulation model.
 service CellModel {
     rpc CreateCell(CreateCellRequest) returns (CreateCellResponse);
     rpc DeleteCell(DeleteCellRequest) returns (DeleteCellResponse);

@@ -6,10 +6,13 @@
 - [onos/ransim/model/model.proto](#onos/ransim/model/model.proto)
     - [AgentControlRequest](#onos.ransim.model.AgentControlRequest)
     - [AgentControlResponse](#onos.ransim.model.AgentControlResponse)
+    - [ClearRequest](#onos.ransim.model.ClearRequest)
+    - [ClearResponse](#onos.ransim.model.ClearResponse)
     - [CreateCellRequest](#onos.ransim.model.CreateCellRequest)
     - [CreateCellResponse](#onos.ransim.model.CreateCellResponse)
     - [CreateNodeRequest](#onos.ransim.model.CreateNodeRequest)
     - [CreateNodeResponse](#onos.ransim.model.CreateNodeResponse)
+    - [DataSet](#onos.ransim.model.DataSet)
     - [DeleteCellRequest](#onos.ransim.model.DeleteCellRequest)
     - [DeleteCellResponse](#onos.ransim.model.DeleteCellResponse)
     - [DeleteNodeRequest](#onos.ransim.model.DeleteNodeRequest)
@@ -22,6 +25,8 @@
     - [ListCellsResponse](#onos.ransim.model.ListCellsResponse)
     - [ListNodesRequest](#onos.ransim.model.ListNodesRequest)
     - [ListNodesResponse](#onos.ransim.model.ListNodesResponse)
+    - [LoadRequest](#onos.ransim.model.LoadRequest)
+    - [LoadResponse](#onos.ransim.model.LoadResponse)
     - [PlmnIDRequest](#onos.ransim.model.PlmnIDRequest)
     - [PlmnIDResponse](#onos.ransim.model.PlmnIDResponse)
     - [UpdateCellRequest](#onos.ransim.model.UpdateCellRequest)
@@ -36,6 +41,7 @@
     - [EventType](#onos.ransim.model.EventType)
   
     - [CellModel](#onos.ransim.model.CellModel)
+    - [ModelService](#onos.ransim.model.ModelService)
     - [NodeModel](#onos.ransim.model.NodeModel)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -75,6 +81,31 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | node | [onos.ransim.types.Node](#onos.ransim.types.Node) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.ClearRequest"></a>
+
+### ClearRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| resume | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.ClearResponse"></a>
+
+### ClearResponse
+
 
 
 
@@ -125,6 +156,22 @@ CreateNodeRequest create a node request
 
 ### CreateNodeResponse
 CreateNodeResponse create a node response
+
+
+
+
+
+
+<a name="onos.ransim.model.DataSet"></a>
+
+### DataSet
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [string](#string) |  |  |
+| data | [bytes](#bytes) |  |  |
 
 
 
@@ -285,6 +332,32 @@ GetNodeResponse get a node response
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | node | [onos.ransim.types.Node](#onos.ransim.types.Node) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.LoadRequest"></a>
+
+### LoadRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| dataSet | [DataSet](#onos.ransim.model.DataSet) | repeated |  |
+| resume | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.LoadResponse"></a>
+
+### LoadResponse
+
 
 
 
@@ -453,7 +526,7 @@ Change event type
 <a name="onos.ransim.model.CellModel"></a>
 
 ### CellModel
-Model provides means to create, delete and read RAN simulation model.
+CellModel provides means to create, delete and read RAN simulation model.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
@@ -465,10 +538,21 @@ Model provides means to create, delete and read RAN simulation model.
 | ListCells | [ListCellsRequest](#onos.ransim.model.ListCellsRequest) | [ListCellsResponse](#onos.ransim.model.ListCellsResponse) stream |  |
 
 
+<a name="onos.ransim.model.ModelService"></a>
+
+### ModelService
+ModelService provides means to clear and load node and cell model in bulk
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Load | [LoadRequest](#onos.ransim.model.LoadRequest) | [LoadResponse](#onos.ransim.model.LoadResponse) |  |
+| Clear | [ClearRequest](#onos.ransim.model.ClearRequest) | [ClearResponse](#onos.ransim.model.ClearResponse) |  |
+
+
 <a name="onos.ransim.model.NodeModel"></a>
 
 ### NodeModel
-Model provides means to create, delete and read RAN simulation model.
+NodeModel provides means to create, delete and read RAN simulation model.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|

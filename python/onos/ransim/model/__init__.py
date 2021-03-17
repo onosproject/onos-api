@@ -22,6 +22,48 @@ class EventType(betterproto.Enum):
 
 
 @dataclass(eq=False, repr=False)
+class DataSet(betterproto.Message):
+    type: str = betterproto.string_field(1)
+    data: bytes = betterproto.bytes_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class LoadRequest(betterproto.Message):
+    data_set: List["DataSet"] = betterproto.message_field(1)
+    resume: bool = betterproto.bool_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class LoadResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ClearRequest(betterproto.Message):
+    resume: bool = betterproto.bool_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ClearResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class PlmnIdRequest(betterproto.Message):
     pass
 
@@ -267,9 +309,38 @@ class ListCellsResponse(betterproto.Message):
         super().__post_init__()
 
 
+class ModelServiceStub(betterproto.ServiceStub):
+    """
+    ModelService provides means to clear and load node and cell model in bulk
+    """
+
+    async def load(
+        self, *, data_set: Optional[List["DataSet"]] = None, resume: bool = False
+    ) -> "LoadResponse":
+        data_set = data_set or []
+
+        request = LoadRequest()
+        if data_set is not None:
+            request.data_set = data_set
+        request.resume = resume
+
+        return await self._unary_unary(
+            "/onos.ransim.model.ModelService/Load", request, LoadResponse
+        )
+
+    async def clear(self, *, resume: bool = False) -> "ClearResponse":
+
+        request = ClearRequest()
+        request.resume = resume
+
+        return await self._unary_unary(
+            "/onos.ransim.model.ModelService/Clear", request, ClearResponse
+        )
+
+
 class NodeModelStub(betterproto.ServiceStub):
     """
-    Model provides means to create, delete and read RAN simulation model.
+    NodeModel provides means to create, delete and read RAN simulation model.
     """
 
     async def get_plmn_id(self) -> "PlmnIdResponse":
@@ -365,7 +436,7 @@ class NodeModelStub(betterproto.ServiceStub):
 
 class CellModelStub(betterproto.ServiceStub):
     """
-    Model provides means to create, delete and read RAN simulation model.
+    CellModel provides means to create, delete and read RAN simulation model.
     """
 
     async def create_cell(
