@@ -1,0 +1,43 @@
+
+/*
+Copyright 2020-present Open Networking Foundation.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package onos.pci defines interfaces to monitor PCI
+package onos.pci;
+
+service Pci {
+  rpc GetNumConflicts(GetRequest) returns (GetResponse) {}
+  rpc GetNumConflictsAll(GetRequest) returns (GetResponse) {}
+  rpc GetNeighbors(GetRequest) returns (GetResponse) {}
+  rpc GetNeighborsAll(GetRequest) returns (GetResponse) {}
+  rpc GetMetric(GetRequest) returns (GetResponse) {}
+  rpc GetMetricAll(GetRequest) returns (GetResponse) {}
+  rpc GetPci(GetRequest) returns (GetResponse) {}
+  rpc GetPciAll(GetRequest) returns (GetResponse) {}
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  Object object = 1;
+}
+
+message Object {
+  string id = 1;
+  uint64 revision = 2;
+  map<string, string> attributes = 3;
+}

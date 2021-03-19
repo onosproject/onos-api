@@ -80,6 +80,12 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,kpimon.md \
     proto/onos/kpimon/kpimon.proto
 
+# pci
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/pci \
+    --doc_opt=markdown,pci.md \
+    proto/onos/pci/pci.proto
+
 # ransim
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
@@ -175,6 +181,11 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/kpimon,plugins=grpc:./go \
     proto/onos/kpimon/*.proto
+
+# pci
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/pci,plugins=grpc:./go \
+    proto/onos/pci/*.proto
 
 # ransim
 protoc --proto_path=$proto_path \
