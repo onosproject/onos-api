@@ -70,7 +70,8 @@ class ControlAckRequest(betterproto.Enum):
 class ServiceModel(betterproto.Message):
     """ServiceModelInfo E2 service model information"""
 
-    id: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(1)
+    version: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

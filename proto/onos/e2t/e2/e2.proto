@@ -32,7 +32,8 @@ service E2TService {
 
 // ServiceModelInfo E2 service model information
 message ServiceModel {
-    string id = 1 [(gogoproto.casttype) = "ServiceModelID", (gogoproto.customname) = "ID"];
+    string name = 1 [(gogoproto.casttype) = "ServiceModelName", (gogoproto.customname) = "Name"];
+    string version = 2 [(gogoproto.casttype) = "ServiceModelVersion", (gogoproto.customname) = "Version"];
 }
 
 // RequestHeader a common request header for all requests including encoding type, client/xApp/session info, ordering info, etc
