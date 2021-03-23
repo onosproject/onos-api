@@ -89,7 +89,8 @@ class Event(betterproto.Message):
 class ServiceModel(betterproto.Message):
     """ServiceModel is a service model definition"""
 
-    id: str = betterproto.string_field(4)
+    name: str = betterproto.string_field(1)
+    version: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

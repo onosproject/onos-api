@@ -242,7 +242,8 @@ ServiceModel is a service model definition
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| version | [string](#string) |  |  |
 
 
 

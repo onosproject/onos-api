@@ -67,7 +67,8 @@ message Event {
 
 // ServiceModel is a service model definition
 message ServiceModel {
-    string id = 4 [(gogoproto.casttype) = "ServiceModelID", (gogoproto.customname) = "ID"];
+    string name = 1 [(gogoproto.casttype) = "ServiceModelName", (gogoproto.customname) = "Name"];
+    string version = 2 [(gogoproto.casttype) = "ServiceModelVersion", (gogoproto.customname) = "Version"];
 }
 
 // Subscription is a subscription state
