@@ -43,24 +43,6 @@ func TestFullShiftBasics(t *testing.T) {
 	assert.Equal(t, ECGI(0xBBBCCCFFFFFAA), ToECGI(plmnID, ToECI(enbID, cellID)))
 }
 
-func TestPartialShiftBasics(t *testing.T) {
-	plmnID := PlmnID(0xBBBCCC)
-	cellID := CellID(0x0A)
-	enbID := EnbID(0xFFFFF)
-
-	assert.Equal(t, ECI(0xFFFFFA), ToECI(enbID, cellID))
-	assert.Equal(t, ECGI(0xBBBCCCFFFFFA), ToECGI(plmnID, ToECI(enbID, cellID)))
-}
-
-func TestAnotherPartialShiftBasics(t *testing.T) {
-	plmnID := PlmnID(0x310071)
-	cellID := CellID(0x1A)
-	enbID := EnbID(0x0FFFF)
-
-	assert.Equal(t, ECI(0xFFFF1A), ToECI(enbID, cellID))
-	assert.Equal(t, ECGI(0x310071FFFF1A), ToECGI(plmnID, ToECI(enbID, cellID)))
-}
-
 func TestTypesWithFullShift(t *testing.T) {
 	plmnID := PlmnID(0xbbbccc)
 	cellID := CellID(0x12)
