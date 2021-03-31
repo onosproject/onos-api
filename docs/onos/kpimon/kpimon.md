@@ -78,7 +78,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [uint64](#uint64) |  |  |
+| value | [string](#string) |  |  |
 
 
 
@@ -98,7 +98,8 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetNumActiveUEs | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
+| GetMetricTypes | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
+| GetMetrics | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
 
  
 

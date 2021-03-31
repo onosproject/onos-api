@@ -8,7 +8,6 @@ package kpimon
 import (
 	context "context"
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -120,7 +119,7 @@ func (m *GetResponse) GetObject() *Object {
 type Object struct {
 	Id         string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Revision   uint64            `protobuf:"varint,2,opt,name=revision,proto3" json:"revision,omitempty"`
-	Attributes map[string]uint64 `protobuf:"bytes,3,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+	Attributes map[string]string `protobuf:"bytes,3,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *Object) Reset()         { *m = Object{} }
@@ -170,7 +169,7 @@ func (m *Object) GetRevision() uint64 {
 	return 0
 }
 
-func (m *Object) GetAttributes() map[string]uint64 {
+func (m *Object) GetAttributes() map[string]string {
 	if m != nil {
 		return m.Attributes
 	}
@@ -181,33 +180,32 @@ func init() {
 	proto.RegisterType((*GetRequest)(nil), "onos.kpimon.GetRequest")
 	proto.RegisterType((*GetResponse)(nil), "onos.kpimon.GetResponse")
 	proto.RegisterType((*Object)(nil), "onos.kpimon.Object")
-	proto.RegisterMapType((map[string]uint64)(nil), "onos.kpimon.Object.AttributesEntry")
+	proto.RegisterMapType((map[string]string)(nil), "onos.kpimon.Object.AttributesEntry")
 }
 
 func init() { proto.RegisterFile("onos/kpimon/kpimon.proto", fileDescriptor_b4dc9732ac3e9f77) }
 
 var fileDescriptor_b4dc9732ac3e9f77 = []byte{
-	// 306 bytes of a gzipped FileDescriptorProto
+	// 304 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0xc8, 0xcf, 0xcb, 0x2f,
 	0xd6, 0xcf, 0x2e, 0xc8, 0xcc, 0xcd, 0xcf, 0x83, 0x52, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x42,
-	0xdc, 0x20, 0x19, 0x3d, 0x88, 0x90, 0x94, 0x48, 0x7a, 0x7e, 0x7a, 0x3e, 0x58, 0x5c, 0x1f, 0xc4,
-	0x82, 0x28, 0x51, 0x92, 0xe1, 0xe2, 0x72, 0x4f, 0x2d, 0x09, 0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e,
-	0x11, 0xe2, 0xe3, 0x62, 0xca, 0x4c, 0x91, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c, 0x62, 0xca, 0x4c,
-	0x51, 0xb2, 0xe2, 0xe2, 0x06, 0xcb, 0x16, 0x17, 0xe4, 0xe7, 0x15, 0xa7, 0x0a, 0x69, 0x73, 0xb1,
-	0xe5, 0x27, 0x65, 0xa5, 0x26, 0x97, 0x80, 0x95, 0x70, 0x1b, 0x09, 0xeb, 0x21, 0x59, 0xa0, 0xe7,
-	0x0f, 0x96, 0x0a, 0x82, 0x2a, 0x51, 0xda, 0xc1, 0xc8, 0xc5, 0x06, 0x11, 0x42, 0x37, 0x56, 0x48,
-	0x8a, 0x8b, 0xa3, 0x28, 0xb5, 0x2c, 0xb3, 0x38, 0x33, 0x3f, 0x4f, 0x82, 0x49, 0x81, 0x51, 0x83,
-	0x25, 0x08, 0xce, 0x17, 0x72, 0xe6, 0xe2, 0x4a, 0x2c, 0x29, 0x29, 0xca, 0x4c, 0x2a, 0x2d, 0x49,
-	0x2d, 0x96, 0x60, 0x56, 0x60, 0xd6, 0xe0, 0x36, 0x52, 0xc6, 0x62, 0x8f, 0x9e, 0x23, 0x5c, 0x95,
-	0x6b, 0x5e, 0x49, 0x51, 0x65, 0x10, 0x92, 0x36, 0x29, 0x5b, 0x2e, 0x7e, 0x34, 0x69, 0x21, 0x01,
-	0x2e, 0xe6, 0xec, 0xd4, 0x4a, 0xa8, 0x23, 0x40, 0x4c, 0x21, 0x11, 0x2e, 0xd6, 0xb2, 0xc4, 0x9c,
-	0xd2, 0x54, 0xa8, 0x13, 0x20, 0x1c, 0x2b, 0x26, 0x0b, 0x46, 0xa3, 0x00, 0x2e, 0x36, 0x6f, 0xb0,
-	0x5d, 0x42, 0x6e, 0x5c, 0xfc, 0xee, 0xa9, 0x25, 0x7e, 0xa5, 0xb9, 0x8e, 0xc9, 0x25, 0x99, 0x65,
-	0xa9, 0xa1, 0xae, 0xc5, 0x42, 0xe2, 0x28, 0x8e, 0x41, 0x04, 0x9e, 0x94, 0x04, 0xa6, 0x04, 0x24,
-	0xdc, 0x94, 0x18, 0x9c, 0x24, 0x4e, 0x3c, 0x92, 0x63, 0xbc, 0xf0, 0x48, 0x8e, 0xf1, 0xc1, 0x23,
-	0x39, 0xc6, 0x09, 0x8f, 0xe5, 0x18, 0x2e, 0x3c, 0x96, 0x63, 0xb8, 0xf1, 0x58, 0x8e, 0x21, 0x89,
-	0x0d, 0x1c, 0x0f, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0xcc, 0x64, 0x8f, 0xcd, 0xc6, 0x01,
-	0x00, 0x00,
+	0xdc, 0x20, 0x19, 0x3d, 0x88, 0x90, 0x92, 0x0c, 0x17, 0x97, 0x7b, 0x6a, 0x49, 0x50, 0x6a, 0x61,
+	0x69, 0x6a, 0x71, 0x89, 0x10, 0x1f, 0x17, 0x53, 0x66, 0x8a, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0x67,
+	0x10, 0x53, 0x66, 0x8a, 0x92, 0x15, 0x17, 0x37, 0x58, 0xb6, 0xb8, 0x20, 0x3f, 0xaf, 0x38, 0x55,
+	0x48, 0x9b, 0x8b, 0x2d, 0x3f, 0x29, 0x2b, 0x35, 0xb9, 0x04, 0xac, 0x84, 0xdb, 0x48, 0x58, 0x0f,
+	0xc9, 0x28, 0x3d, 0x7f, 0xb0, 0x54, 0x10, 0x54, 0x89, 0xd2, 0x0e, 0x46, 0x2e, 0x36, 0x88, 0x10,
+	0xba, 0xb1, 0x42, 0x52, 0x5c, 0x1c, 0x45, 0xa9, 0x65, 0x99, 0xc5, 0x99, 0xf9, 0x79, 0x12, 0x4c,
+	0x0a, 0x8c, 0x1a, 0x2c, 0x41, 0x70, 0xbe, 0x90, 0x33, 0x17, 0x57, 0x62, 0x49, 0x49, 0x51, 0x66,
+	0x52, 0x69, 0x49, 0x6a, 0xb1, 0x04, 0xb3, 0x02, 0xb3, 0x06, 0xb7, 0x91, 0x32, 0x16, 0x7b, 0xf4,
+	0x1c, 0xe1, 0xaa, 0x5c, 0xf3, 0x4a, 0x8a, 0x2a, 0x83, 0x90, 0xb4, 0x49, 0xd9, 0x72, 0xf1, 0xa3,
+	0x49, 0x0b, 0x09, 0x70, 0x31, 0x67, 0xa7, 0x56, 0x42, 0x1d, 0x01, 0x62, 0x0a, 0x89, 0x70, 0xb1,
+	0x96, 0x25, 0xe6, 0x94, 0xa6, 0x82, 0x9d, 0xc0, 0x19, 0x04, 0xe1, 0x58, 0x31, 0x59, 0x30, 0x1a,
+	0x4d, 0x62, 0xe4, 0x62, 0xf3, 0x06, 0x5b, 0x26, 0xe4, 0xca, 0xc5, 0xe7, 0x9e, 0x5a, 0xe2, 0x9b,
+	0x5a, 0x52, 0x94, 0x99, 0x1c, 0x52, 0x59, 0x90, 0x5a, 0x2c, 0x24, 0x8e, 0xe2, 0x18, 0x44, 0xe0,
+	0x49, 0x49, 0x60, 0x4a, 0x40, 0xc2, 0x4d, 0x89, 0x41, 0xc8, 0x11, 0x1c, 0xcc, 0x10, 0x63, 0xc8,
+	0x33, 0xc2, 0x49, 0xe2, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63,
+	0x9c, 0xf0, 0x58, 0x8e, 0xe1, 0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0x92, 0xd8, 0xc0,
+	0xf1, 0x6a, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x9f, 0x11, 0xdd, 0x5b, 0xf3, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -222,7 +220,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type KpimonClient interface {
-	GetNumActiveUEs(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetMetricTypes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetMetrics(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 }
 
 type kpimonClient struct {
@@ -233,9 +232,18 @@ func NewKpimonClient(cc *grpc.ClientConn) KpimonClient {
 	return &kpimonClient{cc}
 }
 
-func (c *kpimonClient) GetNumActiveUEs(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *kpimonClient) GetMetricTypes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetNumActiveUEs", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetMetricTypes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kpimonClient) GetMetrics(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+	out := new(GetResponse)
+	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetMetrics", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -244,35 +252,57 @@ func (c *kpimonClient) GetNumActiveUEs(ctx context.Context, in *GetRequest, opts
 
 // KpimonServer is the server API for Kpimon service.
 type KpimonServer interface {
-	GetNumActiveUEs(context.Context, *GetRequest) (*GetResponse, error)
+	GetMetricTypes(context.Context, *GetRequest) (*GetResponse, error)
+	GetMetrics(context.Context, *GetRequest) (*GetResponse, error)
 }
 
 // UnimplementedKpimonServer can be embedded to have forward compatible implementations.
 type UnimplementedKpimonServer struct {
 }
 
-func (*UnimplementedKpimonServer) GetNumActiveUEs(ctx context.Context, req *GetRequest) (*GetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNumActiveUEs not implemented")
+func (*UnimplementedKpimonServer) GetMetricTypes(ctx context.Context, req *GetRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMetricTypes not implemented")
+}
+func (*UnimplementedKpimonServer) GetMetrics(ctx context.Context, req *GetRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMetrics not implemented")
 }
 
 func RegisterKpimonServer(s *grpc.Server, srv KpimonServer) {
 	s.RegisterService(&_Kpimon_serviceDesc, srv)
 }
 
-func _Kpimon_GetNumActiveUEs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Kpimon_GetMetricTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KpimonServer).GetNumActiveUEs(ctx, in)
+		return srv.(KpimonServer).GetMetricTypes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.kpimon.Kpimon/GetNumActiveUEs",
+		FullMethod: "/onos.kpimon.Kpimon/GetMetricTypes",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KpimonServer).GetNumActiveUEs(ctx, req.(*GetRequest))
+		return srv.(KpimonServer).GetMetricTypes(ctx, req.(*GetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Kpimon_GetMetrics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KpimonServer).GetMetrics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.kpimon.Kpimon/GetMetrics",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KpimonServer).GetMetrics(ctx, req.(*GetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -282,8 +312,12 @@ var _Kpimon_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*KpimonServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetNumActiveUEs",
-			Handler:    _Kpimon_GetNumActiveUEs_Handler,
+			MethodName: "GetMetricTypes",
+			Handler:    _Kpimon_GetMetricTypes_Handler,
+		},
+		{
+			MethodName: "GetMetrics",
+			Handler:    _Kpimon_GetMetrics_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -379,9 +413,11 @@ func (m *Object) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		for k := range m.Attributes {
 			v := m.Attributes[k]
 			baseI := i
-			i = encodeVarintKpimon(dAtA, i, uint64(v))
+			i -= len(v)
+			copy(dAtA[i:], v)
+			i = encodeVarintKpimon(dAtA, i, uint64(len(v)))
 			i--
-			dAtA[i] = 0x10
+			dAtA[i] = 0x12
 			i -= len(k)
 			copy(dAtA[i:], k)
 			i = encodeVarintKpimon(dAtA, i, uint64(len(k)))
@@ -461,7 +497,7 @@ func (m *Object) Size() (n int) {
 		for k, v := range m.Attributes {
 			_ = k
 			_ = v
-			mapEntrySize := 1 + len(k) + sovKpimon(uint64(len(k))) + 1 + sovKpimon(uint64(v))
+			mapEntrySize := 1 + len(k) + sovKpimon(uint64(len(k))) + 1 + len(v) + sovKpimon(uint64(len(v)))
 			n += mapEntrySize + 1 + sovKpimon(uint64(mapEntrySize))
 		}
 	}
@@ -758,10 +794,10 @@ func (m *Object) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Attributes == nil {
-				m.Attributes = make(map[string]uint64)
+				m.Attributes = make(map[string]string)
 			}
 			var mapkey string
-			var mapvalue uint64
+			var mapvalue string
 			for iNdEx < postIndex {
 				entryPreIndex := iNdEx
 				var wire uint64
@@ -810,6 +846,7 @@ func (m *Object) Unmarshal(dAtA []byte) error {
 					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
 					iNdEx = postStringIndexmapkey
 				} else if fieldNum == 2 {
+					var stringLenmapvalue uint64
 					for shift := uint(0); ; shift += 7 {
 						if shift >= 64 {
 							return ErrIntOverflowKpimon
@@ -819,11 +856,24 @@ func (m *Object) Unmarshal(dAtA []byte) error {
 						}
 						b := dAtA[iNdEx]
 						iNdEx++
-						mapvalue |= uint64(b&0x7F) << shift
+						stringLenmapvalue |= uint64(b&0x7F) << shift
 						if b < 0x80 {
 							break
 						}
 					}
+					intStringLenmapvalue := int(stringLenmapvalue)
+					if intStringLenmapvalue < 0 {
+						return ErrInvalidLengthKpimon
+					}
+					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
+					if postStringIndexmapvalue < 0 {
+						return ErrInvalidLengthKpimon
+					}
+					if postStringIndexmapvalue > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
+					iNdEx = postStringIndexmapvalue
 				} else {
 					iNdEx = entryPreIndex
 					skippy, err := skipKpimon(dAtA[iNdEx:])
