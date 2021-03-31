@@ -28,8 +28,8 @@ class GetResponse(betterproto.Message):
 class Object(betterproto.Message):
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
-    attributes: Dict[str, int] = betterproto.map_field(
-        3, betterproto.TYPE_STRING, betterproto.TYPE_UINT64
+    attributes: Dict[str, str] = betterproto.map_field(
+        3, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
 
     def __post_init__(self) -> None:
@@ -37,11 +37,20 @@ class Object(betterproto.Message):
 
 
 class KpimonStub(betterproto.ServiceStub):
-    async def get_num_active_u_es(self, *, id: str = "") -> "GetResponse":
+    async def get_metric_types(self, *, id: str = "") -> "GetResponse":
 
         request = GetRequest()
         request.id = id
 
         return await self._unary_unary(
-            "/onos.kpimon.Kpimon/GetNumActiveUEs", request, GetResponse
+            "/onos.kpimon.Kpimon/GetMetricTypes", request, GetResponse
+        )
+
+    async def get_metrics(self, *, id: str = "") -> "GetResponse":
+
+        request = GetRequest()
+        request.id = id
+
+        return await self._unary_unary(
+            "/onos.kpimon.Kpimon/GetMetrics", request, GetResponse
         )

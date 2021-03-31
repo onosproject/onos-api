@@ -17,12 +17,9 @@ syntax = "proto3";
 // Package onos.kpimon defines interfaces to monitor KPI
 package onos.kpimon;
 
-import "gogoproto/gogo.proto";
-
 service Kpimon {
-  rpc GetNumActiveUEs(GetRequest) returns (GetResponse) {
-
-  }
+  rpc GetMetricTypes(GetRequest) returns (GetResponse) {}
+  rpc GetMetrics(GetRequest) returns (GetResponse) {}
 }
 
 message GetRequest {
@@ -36,5 +33,5 @@ message GetResponse {
 message Object {
   string id = 1;
   uint64 revision = 2;
-  map<string, uint64> attributes = 3;
+  map<string, string> attributes = 3;
 }
