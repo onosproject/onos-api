@@ -244,6 +244,7 @@ ServiceModel is a service model definition
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
 | version | [string](#string) |  |  |
+| ran_function_id | [uint32](#uint32) |  |  |
 
 
 

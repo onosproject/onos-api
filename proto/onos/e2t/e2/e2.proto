@@ -34,6 +34,7 @@ service E2TService {
 message ServiceModel {
     string name = 1 [(gogoproto.casttype) = "ServiceModelName", (gogoproto.customname) = "Name"];
     string version = 2 [(gogoproto.casttype) = "ServiceModelVersion", (gogoproto.customname) = "Version"];
+    uint32 ran_function_id = 3 [(gogoproto.casttype) = "RANFunctionID", (gogoproto.customname) = "RANFunctionID"];
 }
 
 // RequestHeader a common request header for all requests including encoding type, client/xApp/session info, ordering info, etc

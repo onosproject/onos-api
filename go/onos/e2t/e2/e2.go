@@ -31,3 +31,6 @@ type ServiceModelVersion string
 
 // E2NodeID is an E2 node identifier
 type E2NodeID string
+
+// RANFunctionID is RAN function ID
+type RANFunctionID uint32

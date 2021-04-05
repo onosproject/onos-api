@@ -31,3 +31,6 @@ type ServiceModelName string
 
 // ServiceModelVersion is a service model version
 type ServiceModelVersion string
+
+// RANFunctionID is RAN function ID
+type RANFunctionID uint32

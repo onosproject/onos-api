@@ -72,6 +72,7 @@ class ServiceModel(betterproto.Message):
 
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
+    ran_function_id: int = betterproto.uint32_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
