@@ -67,6 +67,12 @@ enum E2NodeConnectionType {
     NGE_NB = 4;
 }
 
+message RANFunction {
+    string oid = 1;
+    string ran_function_id = 2;
+    bytes description = 3;
+}
+
 // ListE2NodeConnectionsResponse carries information about the SCTP connection to the remote E2 node.
 message ListE2NodeConnectionsResponse {
     repeated string remote_ip = 1;
@@ -74,6 +80,7 @@ message ListE2NodeConnectionsResponse {
     string id = 3;
     string plmn_id = 4;
     E2NodeConnectionType connection_type = 5;
+    repeated RANFunction ran_functions = 6;
 }
 
 // DropE2NodeConnectionsRequest carries drop connection request

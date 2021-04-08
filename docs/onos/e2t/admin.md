@@ -10,6 +10,7 @@
     - [ListE2NodeConnectionsResponse](#onos.e2t.admin.ListE2NodeConnectionsResponse)
     - [ListRegisteredServiceModelsRequest](#onos.e2t.admin.ListRegisteredServiceModelsRequest)
     - [ListRegisteredServiceModelsResponse](#onos.e2t.admin.ListRegisteredServiceModelsResponse)
+    - [RANFunction](#onos.e2t.admin.RANFunction)
     - [UploadRegisterServiceModelRequest](#onos.e2t.admin.UploadRegisterServiceModelRequest)
     - [UploadRegisterServiceModelResponse](#onos.e2t.admin.UploadRegisterServiceModelResponse)
   
@@ -81,6 +82,7 @@ ListE2NodeConnectionsResponse carries information about the SCTP connection to t
 | id | [string](#string) |  |  |
 | plmn_id | [string](#string) |  |  |
 | connection_type | [E2NodeConnectionType](#onos.e2t.admin.E2NodeConnectionType) |  |  |
+| ran_functions | [RANFunction](#onos.e2t.admin.RANFunction) | repeated |  |
 
 
 
@@ -113,6 +115,23 @@ ListRegisteredServiceModelsResponse is general information about a service model
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  | name is the name given to the service model plugin - no spaces and title case. |
 | version | [string](#string) |  | version is the semantic version of the Plugin e.g. 1.0.0. |
+
+
+
+
+
+
+<a name="onos.e2t.admin.RANFunction"></a>
+
+### RANFunction
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| oid | [string](#string) |  |  |
+| ran_function_id | [string](#string) |  |  |
+| description | [bytes](#bytes) |  |  |
 
 
 

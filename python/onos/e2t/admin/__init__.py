@@ -98,6 +98,16 @@ class ListE2NodeConnectionsRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class RanFunction(betterproto.Message):
+    oid: str = betterproto.string_field(1)
+    ran_function_id: str = betterproto.string_field(2)
+    description: bytes = betterproto.bytes_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class ListE2NodeConnectionsResponse(betterproto.Message):
     """
     ListE2NodeConnectionsResponse carries information about the SCTP connection
@@ -109,6 +119,7 @@ class ListE2NodeConnectionsResponse(betterproto.Message):
     id: str = betterproto.string_field(3)
     plmn_id: str = betterproto.string_field(4)
     connection_type: "E2NodeConnectionType" = betterproto.enum_field(5)
+    ran_functions: List["RanFunction"] = betterproto.message_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()
