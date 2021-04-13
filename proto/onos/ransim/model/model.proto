@@ -39,7 +39,7 @@ message ClearResponse {
 }
 
 
-// NodeModel provides means to create, delete and read RAN simulation model.
+// NodeModel provides means to create, delete and read simulated RAN nodes.
 service NodeModel {
     rpc GetPlmnID(PlmnIDRequest) returns (PlmnIDResponse);
 
@@ -127,7 +127,7 @@ message AgentControlResponse {
 }
 
 
-// CellModel provides means to create, delete and read RAN simulation model.
+// CellModel provides means to create, delete and read simulated RAN cells.
 service CellModel {
     rpc CreateCell(CreateCellRequest) returns (CreateCellResponse);
     rpc DeleteCell(DeleteCellRequest) returns (DeleteCellResponse);
@@ -139,7 +139,7 @@ service CellModel {
 
 
 message CreateCellRequest {
-    ransim.types.Cell Cell = 1;
+    ransim.types.Cell cell = 1;
 }
 
 message CreateCellResponse {
@@ -150,11 +150,11 @@ message GetCellRequest {
 }
 
 message GetCellResponse {
-    ransim.types.Cell Cell = 1;
+    ransim.types.Cell cell = 1;
 }
 
 message UpdateCellRequest {
-    ransim.types.Cell Cell = 1;
+    ransim.types.Cell cell = 1;
 }
 
 message UpdateCellResponse {
@@ -173,7 +173,7 @@ message WatchCellsRequest {
 }
 
 message WatchCellsResponse {
-    ransim.types.Cell Cell = 1;
+    ransim.types.Cell cell = 1;
     EventType type = 2;
 }
 
@@ -185,6 +185,112 @@ message ListCellsResponse {
 }
 
 
+// RouteModel provides means to create, delete and read simulated mobile UE routes.
+service RouteModel {
+    rpc CreateRoute(CreateRouteRequest) returns (CreateRouteResponse);
+    rpc DeleteRoute(DeleteRouteRequest) returns (DeleteRouteResponse);
+    rpc GetRoute(GetRouteRequest) returns (GetRouteResponse);
+    rpc WatchRoutes(WatchRoutesRequest) returns (stream WatchRoutesResponse);
+    rpc ListRoutes(ListRoutesRequest) returns (stream ListRoutesResponse);
+}
+
+message CreateRouteRequest {
+    ransim.types.Route route = 1;
+}
+
+message CreateRouteResponse {
+}
+
+message GetRouteRequest {
+    uint32 imsi = 1 [(gogoproto.customname) = "IMSI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.IMSI"];
+}
+
+message GetRouteResponse {
+    ransim.types.Route route = 1;
+}
+
+message DeleteRouteRequest {
+    uint32 enbid = 1 [(gogoproto.customname) = "IMSI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.IMSI"];
+}
+
+message DeleteRouteResponse {
+}
+
+message WatchRoutesRequest {
+    bool no_replay = 1;
+    bool no_subscribe = 2;
+}
+
+message WatchRoutesResponse {
+    ransim.types.Route route = 1;
+    EventType type = 2;
+}
+
+message ListRoutesRequest {
+}
+
+message ListRoutesResponse {
+    ransim.types.Route route = 1;
+}
+
+// UEModel provides means to simulate mobile UEs.
+service UEModel {
+    rpc GetUE(GetUERequest) returns (GetUEResponse);
+    rpc MoveToCell(MoveToCellRequest) returns (MoveToCellResponse);
+    rpc MoveToLocation(MoveToLocationRequest) returns (MoveToLocationResponse);
+    rpc DeleteUE(DeleteUERequest) returns (DeleteUEResponse);
+    rpc WatchUEs(WatchUEsRequest) returns (stream WatchUEsResponse);
+    rpc ListUEs(ListUEsRequest) returns (stream ListUEsResponse);
+}
+
+message GetUERequest {
+    uint32 imsi = 1 [(gogoproto.customname) = "IMSI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.IMSI"];
+}
+
+message GetUEResponse {
+    ransim.types.Ue ue = 1;
+}
+
+message MoveToCellRequest {
+    uint32 imsi = 1 [(gogoproto.customname) = "IMSI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.IMSI"];
+    uint32 ecgi = 2 [(gogoproto.customname) = "ECGI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.ECGI"];
+}
+
+message MoveToCellResponse {
+}
+
+message MoveToLocationRequest {
+    uint32 imsi = 1 [(gogoproto.customname) = "IMSI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.IMSI"];
+    ransim.types.Point location = 2;
+    uint32 heading = 3;
+}
+
+message MoveToLocationResponse {
+}
+
+message DeleteUERequest {
+    uint32 imsi = 1 [(gogoproto.customname) = "IMSI", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/ransim/types.IMSI"];
+}
+
+message DeleteUEResponse {
+}
+
+message WatchUEsRequest {
+    bool no_replay = 1;
+    bool no_subscribe = 2;
+}
+
+message WatchUEsResponse {
+    ransim.types.Ue ue = 1;
+    EventType type = 2;
+}
+
+message ListUEsRequest {
+}
+
+message ListUEsResponse {
+    ransim.types.Ue ue = 1;
+}
 
 // Change event type
 enum EventType {
