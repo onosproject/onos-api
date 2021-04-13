@@ -189,7 +189,6 @@ message ListCellsResponse {
 service RouteModel {
     rpc CreateRoute(CreateRouteRequest) returns (CreateRouteResponse);
     rpc DeleteRoute(DeleteRouteRequest) returns (DeleteRouteResponse);
-    rpc UpdateRoute(UpdateRouteRequest) returns (UpdateRouteResponse);
     rpc GetRoute(GetRouteRequest) returns (GetRouteResponse);
     rpc WatchRoutes(WatchRoutesRequest) returns (stream WatchRoutesResponse);
     rpc ListRoutes(ListRoutesRequest) returns (stream ListRoutesResponse);
@@ -208,13 +207,6 @@ message GetRouteRequest {
 
 message GetRouteResponse {
     ransim.types.Route route = 1;
-}
-
-message UpdateRouteRequest {
-    ransim.types.Route route = 1;
-}
-
-message UpdateRouteResponse {
 }
 
 message DeleteRouteRequest {

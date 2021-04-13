@@ -342,22 +342,6 @@ class GetRouteResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class UpdateRouteRequest(betterproto.Message):
-    route: "_types__.Route" = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class UpdateRouteResponse(betterproto.Message):
-    pass
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
 class DeleteRouteRequest(betterproto.Message):
     enbid: int = betterproto.uint32_field(1)
 
@@ -732,18 +716,6 @@ class RouteModelStub(betterproto.ServiceStub):
 
         return await self._unary_unary(
             "/onos.ransim.model.RouteModel/DeleteRoute", request, DeleteRouteResponse
-        )
-
-    async def update_route(
-        self, *, route: "_types__.Route" = None
-    ) -> "UpdateRouteResponse":
-
-        request = UpdateRouteRequest()
-        if route is not None:
-            request.route = route
-
-        return await self._unary_unary(
-            "/onos.ransim.model.RouteModel/UpdateRoute", request, UpdateRouteResponse
         )
 
     async def get_route(self, *, imsi: int = 0) -> "GetRouteResponse":

@@ -51,8 +51,6 @@
     - [UpdateCellResponse](#onos.ransim.model.UpdateCellResponse)
     - [UpdateNodeRequest](#onos.ransim.model.UpdateNodeRequest)
     - [UpdateNodeResponse](#onos.ransim.model.UpdateNodeResponse)
-    - [UpdateRouteRequest](#onos.ransim.model.UpdateRouteRequest)
-    - [UpdateRouteResponse](#onos.ransim.model.UpdateRouteResponse)
     - [WatchCellsRequest](#onos.ransim.model.WatchCellsRequest)
     - [WatchCellsResponse](#onos.ransim.model.WatchCellsResponse)
     - [WatchNodesRequest](#onos.ransim.model.WatchNodesRequest)
@@ -703,31 +701,6 @@ UpdateNodeResponse update a node response
 
 
 
-<a name="onos.ransim.model.UpdateRouteRequest"></a>
-
-### UpdateRouteRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  |  |
-
-
-
-
-
-
-<a name="onos.ransim.model.UpdateRouteResponse"></a>
-
-### UpdateRouteResponse
-
-
-
-
-
-
-
 <a name="onos.ransim.model.WatchCellsRequest"></a>
 
 ### WatchCellsRequest
@@ -928,7 +901,6 @@ RouteModel provides means to create, delete and read simulated mobile UE routes.
 | ----------- | ------------ | ------------- | ------------|
 | CreateRoute | [CreateRouteRequest](#onos.ransim.model.CreateRouteRequest) | [CreateRouteResponse](#onos.ransim.model.CreateRouteResponse) |  |
 | DeleteRoute | [DeleteRouteRequest](#onos.ransim.model.DeleteRouteRequest) | [DeleteRouteResponse](#onos.ransim.model.DeleteRouteResponse) |  |
-| UpdateRoute | [UpdateRouteRequest](#onos.ransim.model.UpdateRouteRequest) | [UpdateRouteResponse](#onos.ransim.model.UpdateRouteResponse) |  |
 | GetRoute | [GetRouteRequest](#onos.ransim.model.GetRouteRequest) | [GetRouteResponse](#onos.ransim.model.GetRouteResponse) |  |
 | WatchRoutes | [WatchRoutesRequest](#onos.ransim.model.WatchRoutesRequest) | [WatchRoutesResponse](#onos.ransim.model.WatchRoutesResponse) stream |  |
 | ListRoutes | [ListRoutesRequest](#onos.ransim.model.ListRoutesRequest) | [ListRoutesResponse](#onos.ransim.model.ListRoutesResponse) stream |  |
