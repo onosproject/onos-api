@@ -309,6 +309,205 @@ class ListCellsResponse(betterproto.Message):
         super().__post_init__()
 
 
+@dataclass(eq=False, repr=False)
+class CreateRouteRequest(betterproto.Message):
+    route: "_types__.Route" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CreateRouteResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetRouteRequest(betterproto.Message):
+    imsi: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetRouteResponse(betterproto.Message):
+    route: "_types__.Route" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class UpdateRouteRequest(betterproto.Message):
+    route: "_types__.Route" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class UpdateRouteResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class DeleteRouteRequest(betterproto.Message):
+    enbid: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class DeleteRouteResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class WatchRoutesRequest(betterproto.Message):
+    no_replay: bool = betterproto.bool_field(1)
+    no_subscribe: bool = betterproto.bool_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class WatchRoutesResponse(betterproto.Message):
+    route: "_types__.Route" = betterproto.message_field(1)
+    type: "EventType" = betterproto.enum_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ListRoutesRequest(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ListRoutesResponse(betterproto.Message):
+    route: "_types__.Route" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetUeRequest(betterproto.Message):
+    imsi: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetUeResponse(betterproto.Message):
+    ue: "_types__.Ue" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MoveToCellRequest(betterproto.Message):
+    imsi: int = betterproto.uint32_field(1)
+    ecgi: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MoveToCellResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MoveToLocationRequest(betterproto.Message):
+    imsi: int = betterproto.uint32_field(1)
+    location: "_types__.Point" = betterproto.message_field(2)
+    heading: int = betterproto.uint32_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MoveToLocationResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class DeleteUeRequest(betterproto.Message):
+    imsi: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class DeleteUeResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class WatchUEsRequest(betterproto.Message):
+    no_replay: bool = betterproto.bool_field(1)
+    no_subscribe: bool = betterproto.bool_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class WatchUEsResponse(betterproto.Message):
+    ue: "_types__.Ue" = betterproto.message_field(1)
+    type: "EventType" = betterproto.enum_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ListUEsRequest(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ListUEsResponse(betterproto.Message):
+    ue: "_types__.Ue" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
 class ModelServiceStub(betterproto.ServiceStub):
     """
     ModelService provides means to clear and load node and cell model in bulk
@@ -340,7 +539,7 @@ class ModelServiceStub(betterproto.ServiceStub):
 
 class NodeModelStub(betterproto.ServiceStub):
     """
-    NodeModel provides means to create, delete and read RAN simulation model.
+    NodeModel provides means to create, delete and read simulated RAN nodes.
     """
 
     async def get_plmn_id(self) -> "PlmnIdResponse":
@@ -436,7 +635,7 @@ class NodeModelStub(betterproto.ServiceStub):
 
 class CellModelStub(betterproto.ServiceStub):
     """
-    CellModel provides means to create, delete and read RAN simulation model.
+    CellModel provides means to create, delete and read simulated RAN cells.
     """
 
     async def create_cell(
@@ -504,6 +703,153 @@ class CellModelStub(betterproto.ServiceStub):
             "/onos.ransim.model.CellModel/ListCells",
             request,
             ListCellsResponse,
+        ):
+            yield response
+
+
+class RouteModelStub(betterproto.ServiceStub):
+    """
+    RouteModel provides means to create, delete and read simulated mobile UE
+    routes.
+    """
+
+    async def create_route(
+        self, *, route: "_types__.Route" = None
+    ) -> "CreateRouteResponse":
+
+        request = CreateRouteRequest()
+        if route is not None:
+            request.route = route
+
+        return await self._unary_unary(
+            "/onos.ransim.model.RouteModel/CreateRoute", request, CreateRouteResponse
+        )
+
+    async def delete_route(self, *, enbid: int = 0) -> "DeleteRouteResponse":
+
+        request = DeleteRouteRequest()
+        request.enbid = enbid
+
+        return await self._unary_unary(
+            "/onos.ransim.model.RouteModel/DeleteRoute", request, DeleteRouteResponse
+        )
+
+    async def update_route(
+        self, *, route: "_types__.Route" = None
+    ) -> "UpdateRouteResponse":
+
+        request = UpdateRouteRequest()
+        if route is not None:
+            request.route = route
+
+        return await self._unary_unary(
+            "/onos.ransim.model.RouteModel/UpdateRoute", request, UpdateRouteResponse
+        )
+
+    async def get_route(self, *, imsi: int = 0) -> "GetRouteResponse":
+
+        request = GetRouteRequest()
+        request.imsi = imsi
+
+        return await self._unary_unary(
+            "/onos.ransim.model.RouteModel/GetRoute", request, GetRouteResponse
+        )
+
+    async def watch_routes(
+        self, *, no_replay: bool = False, no_subscribe: bool = False
+    ) -> AsyncIterator["WatchRoutesResponse"]:
+
+        request = WatchRoutesRequest()
+        request.no_replay = no_replay
+        request.no_subscribe = no_subscribe
+
+        async for response in self._unary_stream(
+            "/onos.ransim.model.RouteModel/WatchRoutes",
+            request,
+            WatchRoutesResponse,
+        ):
+            yield response
+
+    async def list_routes(self) -> AsyncIterator["ListRoutesResponse"]:
+
+        request = ListRoutesRequest()
+
+        async for response in self._unary_stream(
+            "/onos.ransim.model.RouteModel/ListRoutes",
+            request,
+            ListRoutesResponse,
+        ):
+            yield response
+
+
+class UeModelStub(betterproto.ServiceStub):
+    """UEModel provides means to simulate mobile UEs."""
+
+    async def get_ue(self) -> "GetUeResponse":
+
+        request = GetUeRequest()
+
+        return await self._unary_unary(
+            "/onos.ransim.model.UEModel/GetUE", request, GetUeResponse
+        )
+
+    async def move_to_cell(
+        self, *, imsi: int = 0, ecgi: int = 0
+    ) -> "MoveToCellResponse":
+
+        request = MoveToCellRequest()
+        request.imsi = imsi
+        request.ecgi = ecgi
+
+        return await self._unary_unary(
+            "/onos.ransim.model.UEModel/MoveToCell", request, MoveToCellResponse
+        )
+
+    async def move_to_location(
+        self, *, imsi: int = 0, location: "_types__.Point" = None, heading: int = 0
+    ) -> "MoveToLocationResponse":
+
+        request = MoveToLocationRequest()
+        request.imsi = imsi
+        if location is not None:
+            request.location = location
+        request.heading = heading
+
+        return await self._unary_unary(
+            "/onos.ransim.model.UEModel/MoveToLocation", request, MoveToLocationResponse
+        )
+
+    async def delete_ue(self) -> "DeleteUeResponse":
+
+        request = DeleteUeRequest()
+
+        return await self._unary_unary(
+            "/onos.ransim.model.UEModel/DeleteUE", request, DeleteUeResponse
+        )
+
+    async def watch_u_es(
+        self, *, no_replay: bool = False, no_subscribe: bool = False
+    ) -> AsyncIterator["WatchUEsResponse"]:
+
+        request = WatchUEsRequest()
+        request.no_replay = no_replay
+        request.no_subscribe = no_subscribe
+
+        async for response in self._unary_stream(
+            "/onos.ransim.model.UEModel/WatchUEs",
+            request,
+            WatchUEsResponse,
+        ):
+            yield response
+
+    async def list_u_es(self) -> AsyncIterator["ListUEsResponse"]:
+
+        request = ListUEsRequest()
+
+        async for response in self._unary_stream(
+            "/onos.ransim.model.UEModel/ListUEs",
+            request,
+            ListUEsResponse,
         ):
             yield response
 

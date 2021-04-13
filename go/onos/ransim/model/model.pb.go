@@ -990,7 +990,7 @@ func (m *AgentControlResponse) GetNode() *types.Node {
 }
 
 type CreateCellRequest struct {
-	Cell *types.Cell `protobuf:"bytes,1,opt,name=Cell,proto3" json:"Cell,omitempty"`
+	Cell *types.Cell `protobuf:"bytes,1,opt,name=cell,proto3" json:"cell,omitempty"`
 }
 
 func (m *CreateCellRequest) Reset()         { *m = CreateCellRequest{} }
@@ -1114,7 +1114,7 @@ func (m *GetCellRequest) GetECGI() github_com_onosproject_onos_api_go_onos_ransi
 }
 
 type GetCellResponse struct {
-	Cell *types.Cell `protobuf:"bytes,1,opt,name=Cell,proto3" json:"Cell,omitempty"`
+	Cell *types.Cell `protobuf:"bytes,1,opt,name=cell,proto3" json:"cell,omitempty"`
 }
 
 func (m *GetCellResponse) Reset()         { *m = GetCellResponse{} }
@@ -1158,7 +1158,7 @@ func (m *GetCellResponse) GetCell() *types.Cell {
 }
 
 type UpdateCellRequest struct {
-	Cell *types.Cell `protobuf:"bytes,1,opt,name=Cell,proto3" json:"Cell,omitempty"`
+	Cell *types.Cell `protobuf:"bytes,1,opt,name=cell,proto3" json:"cell,omitempty"`
 }
 
 func (m *UpdateCellRequest) Reset()         { *m = UpdateCellRequest{} }
@@ -1370,7 +1370,7 @@ func (m *WatchCellsRequest) GetNoSubscribe() bool {
 }
 
 type WatchCellsResponse struct {
-	Cell *types.Cell `protobuf:"bytes,1,opt,name=Cell,proto3" json:"Cell,omitempty"`
+	Cell *types.Cell `protobuf:"bytes,1,opt,name=cell,proto3" json:"cell,omitempty"`
 	Type EventType   `protobuf:"varint,2,opt,name=type,proto3,enum=onos.ransim.model.EventType" json:"type,omitempty"`
 }
 
@@ -1501,6 +1501,1054 @@ func (m *ListCellsResponse) GetCell() *types.Cell {
 	return nil
 }
 
+type CreateRouteRequest struct {
+	Route *types.Route `protobuf:"bytes,1,opt,name=route,proto3" json:"route,omitempty"`
+}
+
+func (m *CreateRouteRequest) Reset()         { *m = CreateRouteRequest{} }
+func (m *CreateRouteRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateRouteRequest) ProtoMessage()    {}
+func (*CreateRouteRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{33}
+}
+func (m *CreateRouteRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CreateRouteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CreateRouteRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *CreateRouteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateRouteRequest.Merge(m, src)
+}
+func (m *CreateRouteRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *CreateRouteRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateRouteRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateRouteRequest proto.InternalMessageInfo
+
+func (m *CreateRouteRequest) GetRoute() *types.Route {
+	if m != nil {
+		return m.Route
+	}
+	return nil
+}
+
+type CreateRouteResponse struct {
+}
+
+func (m *CreateRouteResponse) Reset()         { *m = CreateRouteResponse{} }
+func (m *CreateRouteResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateRouteResponse) ProtoMessage()    {}
+func (*CreateRouteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{34}
+}
+func (m *CreateRouteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CreateRouteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CreateRouteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *CreateRouteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateRouteResponse.Merge(m, src)
+}
+func (m *CreateRouteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *CreateRouteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateRouteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateRouteResponse proto.InternalMessageInfo
+
+type GetRouteRequest struct {
+	IMSI github_com_onosproject_onos_api_go_onos_ransim_types.IMSI `protobuf:"varint,1,opt,name=imsi,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.IMSI" json:"imsi,omitempty"`
+}
+
+func (m *GetRouteRequest) Reset()         { *m = GetRouteRequest{} }
+func (m *GetRouteRequest) String() string { return proto.CompactTextString(m) }
+func (*GetRouteRequest) ProtoMessage()    {}
+func (*GetRouteRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{35}
+}
+func (m *GetRouteRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetRouteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetRouteRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetRouteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetRouteRequest.Merge(m, src)
+}
+func (m *GetRouteRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetRouteRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetRouteRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetRouteRequest proto.InternalMessageInfo
+
+func (m *GetRouteRequest) GetIMSI() github_com_onosproject_onos_api_go_onos_ransim_types.IMSI {
+	if m != nil {
+		return m.IMSI
+	}
+	return 0
+}
+
+type GetRouteResponse struct {
+	Route *types.Route `protobuf:"bytes,1,opt,name=route,proto3" json:"route,omitempty"`
+}
+
+func (m *GetRouteResponse) Reset()         { *m = GetRouteResponse{} }
+func (m *GetRouteResponse) String() string { return proto.CompactTextString(m) }
+func (*GetRouteResponse) ProtoMessage()    {}
+func (*GetRouteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{36}
+}
+func (m *GetRouteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetRouteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetRouteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetRouteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetRouteResponse.Merge(m, src)
+}
+func (m *GetRouteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetRouteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetRouteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetRouteResponse proto.InternalMessageInfo
+
+func (m *GetRouteResponse) GetRoute() *types.Route {
+	if m != nil {
+		return m.Route
+	}
+	return nil
+}
+
+type UpdateRouteRequest struct {
+	Route *types.Route `protobuf:"bytes,1,opt,name=route,proto3" json:"route,omitempty"`
+}
+
+func (m *UpdateRouteRequest) Reset()         { *m = UpdateRouteRequest{} }
+func (m *UpdateRouteRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateRouteRequest) ProtoMessage()    {}
+func (*UpdateRouteRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{37}
+}
+func (m *UpdateRouteRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *UpdateRouteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_UpdateRouteRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *UpdateRouteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateRouteRequest.Merge(m, src)
+}
+func (m *UpdateRouteRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *UpdateRouteRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateRouteRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateRouteRequest proto.InternalMessageInfo
+
+func (m *UpdateRouteRequest) GetRoute() *types.Route {
+	if m != nil {
+		return m.Route
+	}
+	return nil
+}
+
+type UpdateRouteResponse struct {
+}
+
+func (m *UpdateRouteResponse) Reset()         { *m = UpdateRouteResponse{} }
+func (m *UpdateRouteResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateRouteResponse) ProtoMessage()    {}
+func (*UpdateRouteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{38}
+}
+func (m *UpdateRouteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *UpdateRouteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_UpdateRouteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *UpdateRouteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateRouteResponse.Merge(m, src)
+}
+func (m *UpdateRouteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *UpdateRouteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateRouteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateRouteResponse proto.InternalMessageInfo
+
+type DeleteRouteRequest struct {
+	IMSI github_com_onosproject_onos_api_go_onos_ransim_types.IMSI `protobuf:"varint,1,opt,name=enbid,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.IMSI" json:"enbid,omitempty"`
+}
+
+func (m *DeleteRouteRequest) Reset()         { *m = DeleteRouteRequest{} }
+func (m *DeleteRouteRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteRouteRequest) ProtoMessage()    {}
+func (*DeleteRouteRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{39}
+}
+func (m *DeleteRouteRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteRouteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteRouteRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeleteRouteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteRouteRequest.Merge(m, src)
+}
+func (m *DeleteRouteRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteRouteRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteRouteRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteRouteRequest proto.InternalMessageInfo
+
+func (m *DeleteRouteRequest) GetIMSI() github_com_onosproject_onos_api_go_onos_ransim_types.IMSI {
+	if m != nil {
+		return m.IMSI
+	}
+	return 0
+}
+
+type DeleteRouteResponse struct {
+}
+
+func (m *DeleteRouteResponse) Reset()         { *m = DeleteRouteResponse{} }
+func (m *DeleteRouteResponse) String() string { return proto.CompactTextString(m) }
+func (*DeleteRouteResponse) ProtoMessage()    {}
+func (*DeleteRouteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{40}
+}
+func (m *DeleteRouteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteRouteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteRouteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeleteRouteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteRouteResponse.Merge(m, src)
+}
+func (m *DeleteRouteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteRouteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteRouteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteRouteResponse proto.InternalMessageInfo
+
+type WatchRoutesRequest struct {
+	NoReplay    bool `protobuf:"varint,1,opt,name=no_replay,json=noReplay,proto3" json:"no_replay,omitempty"`
+	NoSubscribe bool `protobuf:"varint,2,opt,name=no_subscribe,json=noSubscribe,proto3" json:"no_subscribe,omitempty"`
+}
+
+func (m *WatchRoutesRequest) Reset()         { *m = WatchRoutesRequest{} }
+func (m *WatchRoutesRequest) String() string { return proto.CompactTextString(m) }
+func (*WatchRoutesRequest) ProtoMessage()    {}
+func (*WatchRoutesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{41}
+}
+func (m *WatchRoutesRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *WatchRoutesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_WatchRoutesRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *WatchRoutesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WatchRoutesRequest.Merge(m, src)
+}
+func (m *WatchRoutesRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *WatchRoutesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_WatchRoutesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_WatchRoutesRequest proto.InternalMessageInfo
+
+func (m *WatchRoutesRequest) GetNoReplay() bool {
+	if m != nil {
+		return m.NoReplay
+	}
+	return false
+}
+
+func (m *WatchRoutesRequest) GetNoSubscribe() bool {
+	if m != nil {
+		return m.NoSubscribe
+	}
+	return false
+}
+
+type WatchRoutesResponse struct {
+	Route *types.Route `protobuf:"bytes,1,opt,name=route,proto3" json:"route,omitempty"`
+	Type  EventType    `protobuf:"varint,2,opt,name=type,proto3,enum=onos.ransim.model.EventType" json:"type,omitempty"`
+}
+
+func (m *WatchRoutesResponse) Reset()         { *m = WatchRoutesResponse{} }
+func (m *WatchRoutesResponse) String() string { return proto.CompactTextString(m) }
+func (*WatchRoutesResponse) ProtoMessage()    {}
+func (*WatchRoutesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{42}
+}
+func (m *WatchRoutesResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *WatchRoutesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_WatchRoutesResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *WatchRoutesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WatchRoutesResponse.Merge(m, src)
+}
+func (m *WatchRoutesResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *WatchRoutesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_WatchRoutesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_WatchRoutesResponse proto.InternalMessageInfo
+
+func (m *WatchRoutesResponse) GetRoute() *types.Route {
+	if m != nil {
+		return m.Route
+	}
+	return nil
+}
+
+func (m *WatchRoutesResponse) GetType() EventType {
+	if m != nil {
+		return m.Type
+	}
+	return EventType_NONE
+}
+
+type ListRoutesRequest struct {
+}
+
+func (m *ListRoutesRequest) Reset()         { *m = ListRoutesRequest{} }
+func (m *ListRoutesRequest) String() string { return proto.CompactTextString(m) }
+func (*ListRoutesRequest) ProtoMessage()    {}
+func (*ListRoutesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{43}
+}
+func (m *ListRoutesRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListRoutesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListRoutesRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListRoutesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListRoutesRequest.Merge(m, src)
+}
+func (m *ListRoutesRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListRoutesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListRoutesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListRoutesRequest proto.InternalMessageInfo
+
+type ListRoutesResponse struct {
+	Route *types.Route `protobuf:"bytes,1,opt,name=route,proto3" json:"route,omitempty"`
+}
+
+func (m *ListRoutesResponse) Reset()         { *m = ListRoutesResponse{} }
+func (m *ListRoutesResponse) String() string { return proto.CompactTextString(m) }
+func (*ListRoutesResponse) ProtoMessage()    {}
+func (*ListRoutesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{44}
+}
+func (m *ListRoutesResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListRoutesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListRoutesResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListRoutesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListRoutesResponse.Merge(m, src)
+}
+func (m *ListRoutesResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListRoutesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListRoutesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListRoutesResponse proto.InternalMessageInfo
+
+func (m *ListRoutesResponse) GetRoute() *types.Route {
+	if m != nil {
+		return m.Route
+	}
+	return nil
+}
+
+type GetUERequest struct {
+	IMSI github_com_onosproject_onos_api_go_onos_ransim_types.IMSI `protobuf:"varint,1,opt,name=imsi,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.IMSI" json:"imsi,omitempty"`
+}
+
+func (m *GetUERequest) Reset()         { *m = GetUERequest{} }
+func (m *GetUERequest) String() string { return proto.CompactTextString(m) }
+func (*GetUERequest) ProtoMessage()    {}
+func (*GetUERequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{45}
+}
+func (m *GetUERequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetUERequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUERequest.Merge(m, src)
+}
+func (m *GetUERequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUERequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetUERequest proto.InternalMessageInfo
+
+func (m *GetUERequest) GetIMSI() github_com_onosproject_onos_api_go_onos_ransim_types.IMSI {
+	if m != nil {
+		return m.IMSI
+	}
+	return 0
+}
+
+type GetUEResponse struct {
+	Ue *types.Ue `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue,omitempty"`
+}
+
+func (m *GetUEResponse) Reset()         { *m = GetUEResponse{} }
+func (m *GetUEResponse) String() string { return proto.CompactTextString(m) }
+func (*GetUEResponse) ProtoMessage()    {}
+func (*GetUEResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{46}
+}
+func (m *GetUEResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetUEResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUEResponse.Merge(m, src)
+}
+func (m *GetUEResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUEResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetUEResponse proto.InternalMessageInfo
+
+func (m *GetUEResponse) GetUe() *types.Ue {
+	if m != nil {
+		return m.Ue
+	}
+	return nil
+}
+
+type MoveToCellRequest struct {
+	IMSI github_com_onosproject_onos_api_go_onos_ransim_types.IMSI `protobuf:"varint,1,opt,name=imsi,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.IMSI" json:"imsi,omitempty"`
+	ECGI github_com_onosproject_onos_api_go_onos_ransim_types.ECGI `protobuf:"varint,2,opt,name=ecgi,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.ECGI" json:"ecgi,omitempty"`
+}
+
+func (m *MoveToCellRequest) Reset()         { *m = MoveToCellRequest{} }
+func (m *MoveToCellRequest) String() string { return proto.CompactTextString(m) }
+func (*MoveToCellRequest) ProtoMessage()    {}
+func (*MoveToCellRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{47}
+}
+func (m *MoveToCellRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MoveToCellRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MoveToCellRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MoveToCellRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MoveToCellRequest.Merge(m, src)
+}
+func (m *MoveToCellRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *MoveToCellRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MoveToCellRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MoveToCellRequest proto.InternalMessageInfo
+
+func (m *MoveToCellRequest) GetIMSI() github_com_onosproject_onos_api_go_onos_ransim_types.IMSI {
+	if m != nil {
+		return m.IMSI
+	}
+	return 0
+}
+
+func (m *MoveToCellRequest) GetECGI() github_com_onosproject_onos_api_go_onos_ransim_types.ECGI {
+	if m != nil {
+		return m.ECGI
+	}
+	return 0
+}
+
+type MoveToCellResponse struct {
+}
+
+func (m *MoveToCellResponse) Reset()         { *m = MoveToCellResponse{} }
+func (m *MoveToCellResponse) String() string { return proto.CompactTextString(m) }
+func (*MoveToCellResponse) ProtoMessage()    {}
+func (*MoveToCellResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{48}
+}
+func (m *MoveToCellResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MoveToCellResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MoveToCellResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MoveToCellResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MoveToCellResponse.Merge(m, src)
+}
+func (m *MoveToCellResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MoveToCellResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MoveToCellResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MoveToCellResponse proto.InternalMessageInfo
+
+type MoveToLocationRequest struct {
+	IMSI     github_com_onosproject_onos_api_go_onos_ransim_types.IMSI `protobuf:"varint,1,opt,name=imsi,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.IMSI" json:"imsi,omitempty"`
+	Location *types.Point                                              `protobuf:"bytes,2,opt,name=location,proto3" json:"location,omitempty"`
+	Heading  uint32                                                    `protobuf:"varint,3,opt,name=heading,proto3" json:"heading,omitempty"`
+}
+
+func (m *MoveToLocationRequest) Reset()         { *m = MoveToLocationRequest{} }
+func (m *MoveToLocationRequest) String() string { return proto.CompactTextString(m) }
+func (*MoveToLocationRequest) ProtoMessage()    {}
+func (*MoveToLocationRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{49}
+}
+func (m *MoveToLocationRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MoveToLocationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MoveToLocationRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MoveToLocationRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MoveToLocationRequest.Merge(m, src)
+}
+func (m *MoveToLocationRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *MoveToLocationRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_MoveToLocationRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MoveToLocationRequest proto.InternalMessageInfo
+
+func (m *MoveToLocationRequest) GetIMSI() github_com_onosproject_onos_api_go_onos_ransim_types.IMSI {
+	if m != nil {
+		return m.IMSI
+	}
+	return 0
+}
+
+func (m *MoveToLocationRequest) GetLocation() *types.Point {
+	if m != nil {
+		return m.Location
+	}
+	return nil
+}
+
+func (m *MoveToLocationRequest) GetHeading() uint32 {
+	if m != nil {
+		return m.Heading
+	}
+	return 0
+}
+
+type MoveToLocationResponse struct {
+}
+
+func (m *MoveToLocationResponse) Reset()         { *m = MoveToLocationResponse{} }
+func (m *MoveToLocationResponse) String() string { return proto.CompactTextString(m) }
+func (*MoveToLocationResponse) ProtoMessage()    {}
+func (*MoveToLocationResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{50}
+}
+func (m *MoveToLocationResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MoveToLocationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MoveToLocationResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MoveToLocationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MoveToLocationResponse.Merge(m, src)
+}
+func (m *MoveToLocationResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MoveToLocationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MoveToLocationResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MoveToLocationResponse proto.InternalMessageInfo
+
+type DeleteUERequest struct {
+	IMSI github_com_onosproject_onos_api_go_onos_ransim_types.IMSI `protobuf:"varint,1,opt,name=imsi,proto3,casttype=github.com/onosproject/onos-api/go/onos/ransim/types.IMSI" json:"imsi,omitempty"`
+}
+
+func (m *DeleteUERequest) Reset()         { *m = DeleteUERequest{} }
+func (m *DeleteUERequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteUERequest) ProtoMessage()    {}
+func (*DeleteUERequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{51}
+}
+func (m *DeleteUERequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteUERequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeleteUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteUERequest.Merge(m, src)
+}
+func (m *DeleteUERequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteUERequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteUERequest proto.InternalMessageInfo
+
+func (m *DeleteUERequest) GetIMSI() github_com_onosproject_onos_api_go_onos_ransim_types.IMSI {
+	if m != nil {
+		return m.IMSI
+	}
+	return 0
+}
+
+type DeleteUEResponse struct {
+}
+
+func (m *DeleteUEResponse) Reset()         { *m = DeleteUEResponse{} }
+func (m *DeleteUEResponse) String() string { return proto.CompactTextString(m) }
+func (*DeleteUEResponse) ProtoMessage()    {}
+func (*DeleteUEResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{52}
+}
+func (m *DeleteUEResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteUEResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeleteUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteUEResponse.Merge(m, src)
+}
+func (m *DeleteUEResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteUEResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteUEResponse proto.InternalMessageInfo
+
+type WatchUEsRequest struct {
+	NoReplay    bool `protobuf:"varint,1,opt,name=no_replay,json=noReplay,proto3" json:"no_replay,omitempty"`
+	NoSubscribe bool `protobuf:"varint,2,opt,name=no_subscribe,json=noSubscribe,proto3" json:"no_subscribe,omitempty"`
+}
+
+func (m *WatchUEsRequest) Reset()         { *m = WatchUEsRequest{} }
+func (m *WatchUEsRequest) String() string { return proto.CompactTextString(m) }
+func (*WatchUEsRequest) ProtoMessage()    {}
+func (*WatchUEsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{53}
+}
+func (m *WatchUEsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *WatchUEsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_WatchUEsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *WatchUEsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WatchUEsRequest.Merge(m, src)
+}
+func (m *WatchUEsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *WatchUEsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_WatchUEsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_WatchUEsRequest proto.InternalMessageInfo
+
+func (m *WatchUEsRequest) GetNoReplay() bool {
+	if m != nil {
+		return m.NoReplay
+	}
+	return false
+}
+
+func (m *WatchUEsRequest) GetNoSubscribe() bool {
+	if m != nil {
+		return m.NoSubscribe
+	}
+	return false
+}
+
+type WatchUEsResponse struct {
+	Ue   *types.Ue `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue,omitempty"`
+	Type EventType `protobuf:"varint,2,opt,name=type,proto3,enum=onos.ransim.model.EventType" json:"type,omitempty"`
+}
+
+func (m *WatchUEsResponse) Reset()         { *m = WatchUEsResponse{} }
+func (m *WatchUEsResponse) String() string { return proto.CompactTextString(m) }
+func (*WatchUEsResponse) ProtoMessage()    {}
+func (*WatchUEsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{54}
+}
+func (m *WatchUEsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *WatchUEsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_WatchUEsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *WatchUEsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WatchUEsResponse.Merge(m, src)
+}
+func (m *WatchUEsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *WatchUEsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_WatchUEsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_WatchUEsResponse proto.InternalMessageInfo
+
+func (m *WatchUEsResponse) GetUe() *types.Ue {
+	if m != nil {
+		return m.Ue
+	}
+	return nil
+}
+
+func (m *WatchUEsResponse) GetType() EventType {
+	if m != nil {
+		return m.Type
+	}
+	return EventType_NONE
+}
+
+type ListUEsRequest struct {
+}
+
+func (m *ListUEsRequest) Reset()         { *m = ListUEsRequest{} }
+func (m *ListUEsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListUEsRequest) ProtoMessage()    {}
+func (*ListUEsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{55}
+}
+func (m *ListUEsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListUEsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListUEsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListUEsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListUEsRequest.Merge(m, src)
+}
+func (m *ListUEsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListUEsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListUEsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListUEsRequest proto.InternalMessageInfo
+
+type ListUEsResponse struct {
+	Ue *types.Ue `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue,omitempty"`
+}
+
+func (m *ListUEsResponse) Reset()         { *m = ListUEsResponse{} }
+func (m *ListUEsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListUEsResponse) ProtoMessage()    {}
+func (*ListUEsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9942ba2f94296ec8, []int{56}
+}
+func (m *ListUEsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ListUEsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ListUEsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ListUEsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListUEsResponse.Merge(m, src)
+}
+func (m *ListUEsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *ListUEsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListUEsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListUEsResponse proto.InternalMessageInfo
+
+func (m *ListUEsResponse) GetUe() *types.Ue {
+	if m != nil {
+		return m.Ue
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterEnum("onos.ransim.model.EventType", EventType_name, EventType_value)
 	proto.RegisterType((*DataSet)(nil), "onos.ransim.model.DataSet")
@@ -1536,76 +2584,131 @@ func init() {
 	proto.RegisterType((*WatchCellsResponse)(nil), "onos.ransim.model.WatchCellsResponse")
 	proto.RegisterType((*ListCellsRequest)(nil), "onos.ransim.model.ListCellsRequest")
 	proto.RegisterType((*ListCellsResponse)(nil), "onos.ransim.model.ListCellsResponse")
+	proto.RegisterType((*CreateRouteRequest)(nil), "onos.ransim.model.CreateRouteRequest")
+	proto.RegisterType((*CreateRouteResponse)(nil), "onos.ransim.model.CreateRouteResponse")
+	proto.RegisterType((*GetRouteRequest)(nil), "onos.ransim.model.GetRouteRequest")
+	proto.RegisterType((*GetRouteResponse)(nil), "onos.ransim.model.GetRouteResponse")
+	proto.RegisterType((*UpdateRouteRequest)(nil), "onos.ransim.model.UpdateRouteRequest")
+	proto.RegisterType((*UpdateRouteResponse)(nil), "onos.ransim.model.UpdateRouteResponse")
+	proto.RegisterType((*DeleteRouteRequest)(nil), "onos.ransim.model.DeleteRouteRequest")
+	proto.RegisterType((*DeleteRouteResponse)(nil), "onos.ransim.model.DeleteRouteResponse")
+	proto.RegisterType((*WatchRoutesRequest)(nil), "onos.ransim.model.WatchRoutesRequest")
+	proto.RegisterType((*WatchRoutesResponse)(nil), "onos.ransim.model.WatchRoutesResponse")
+	proto.RegisterType((*ListRoutesRequest)(nil), "onos.ransim.model.ListRoutesRequest")
+	proto.RegisterType((*ListRoutesResponse)(nil), "onos.ransim.model.ListRoutesResponse")
+	proto.RegisterType((*GetUERequest)(nil), "onos.ransim.model.GetUERequest")
+	proto.RegisterType((*GetUEResponse)(nil), "onos.ransim.model.GetUEResponse")
+	proto.RegisterType((*MoveToCellRequest)(nil), "onos.ransim.model.MoveToCellRequest")
+	proto.RegisterType((*MoveToCellResponse)(nil), "onos.ransim.model.MoveToCellResponse")
+	proto.RegisterType((*MoveToLocationRequest)(nil), "onos.ransim.model.MoveToLocationRequest")
+	proto.RegisterType((*MoveToLocationResponse)(nil), "onos.ransim.model.MoveToLocationResponse")
+	proto.RegisterType((*DeleteUERequest)(nil), "onos.ransim.model.DeleteUERequest")
+	proto.RegisterType((*DeleteUEResponse)(nil), "onos.ransim.model.DeleteUEResponse")
+	proto.RegisterType((*WatchUEsRequest)(nil), "onos.ransim.model.WatchUEsRequest")
+	proto.RegisterType((*WatchUEsResponse)(nil), "onos.ransim.model.WatchUEsResponse")
+	proto.RegisterType((*ListUEsRequest)(nil), "onos.ransim.model.ListUEsRequest")
+	proto.RegisterType((*ListUEsResponse)(nil), "onos.ransim.model.ListUEsResponse")
 }
 
 func init() { proto.RegisterFile("onos/ransim/model/model.proto", fileDescriptor_9942ba2f94296ec8) }
 
 var fileDescriptor_9942ba2f94296ec8 = []byte{
-	// 1020 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x97, 0xdd, 0x6e, 0xe3, 0x44,
-	0x14, 0x80, 0xeb, 0x6d, 0xda, 0x34, 0x27, 0xe9, 0x4f, 0x86, 0x0a, 0x22, 0x03, 0x49, 0xd6, 0x94,
-	0xa5, 0x02, 0x91, 0x2c, 0x81, 0x1b, 0x7e, 0x84, 0xba, 0x9b, 0x58, 0x51, 0x51, 0x29, 0x95, 0xbb,
-	0x2b, 0x58, 0x55, 0xa8, 0x72, 0xe2, 0x51, 0x36, 0xe0, 0xcc, 0x18, 0xdb, 0x5d, 0xa9, 0x6f, 0xc1,
-	0x33, 0x80, 0x78, 0x17, 0x2e, 0xf7, 0x72, 0xaf, 0x22, 0x94, 0xbe, 0xc5, 0x5e, 0xa1, 0xf9, 0x71,
-	0x3c, 0x8e, 0x1d, 0x57, 0x9b, 0x5d, 0xb8, 0x89, 0x3c, 0x9e, 0x33, 0xdf, 0x9c, 0x73, 0x7c, 0xfe,
-	0x02, 0xef, 0x53, 0x42, 0x83, 0xb6, 0x6f, 0x93, 0x60, 0x3c, 0x69, 0x4f, 0xa8, 0x83, 0x5d, 0xf1,
-	0xdb, 0xf2, 0x7c, 0x1a, 0x52, 0x54, 0x65, 0xdb, 0x2d, 0xb1, 0xdd, 0xe2, 0x1b, 0xfa, 0xfe, 0x88,
-	0x8e, 0x28, 0xdf, 0x6d, 0xb3, 0x27, 0x21, 0xa8, 0x27, 0x38, 0xe1, 0xb5, 0x87, 0x03, 0xf1, 0x2b,
-	0xb6, 0x8d, 0xcf, 0xa0, 0xd8, 0xb3, 0x43, 0xfb, 0x1c, 0x87, 0x08, 0x41, 0x81, 0xed, 0xd4, 0xb4,
-	0xa6, 0x76, 0x58, 0xb2, 0xf8, 0x33, 0x7b, 0xe7, 0xd8, 0xa1, 0x5d, 0xbb, 0xd3, 0xd4, 0x0e, 0x2b,
-	0x16, 0x7f, 0x36, 0x2e, 0xa0, 0x7c, 0x42, 0x6d, 0xc7, 0xc2, 0xbf, 0x5d, 0xe1, 0x20, 0x44, 0x5f,
-	0x40, 0xd1, 0x11, 0x84, 0x9a, 0xd6, 0x5c, 0x3f, 0x2c, 0x77, 0xf4, 0x56, 0x4a, 0xb7, 0x96, 0xbc,
-	0xc3, 0x8a, 0x44, 0xd1, 0xdb, 0xb0, 0xe9, 0xe3, 0xe0, 0x6a, 0x82, 0x39, 0x7a, 0xcb, 0x92, 0x2b,
-	0x63, 0x07, 0x2a, 0x02, 0x1e, 0x78, 0x94, 0x04, 0xd8, 0xb8, 0x07, 0x95, 0xae, 0x8b, 0x6d, 0x3f,
-	0xba, 0x2d, 0x3e, 0xa7, 0x25, 0xce, 0xed, 0xc2, 0xb6, 0x94, 0x93, 0x07, 0x77, 0x61, 0xfb, 0xcc,
-	0x9d, 0x90, 0xe3, 0x9e, 0x3c, 0x69, 0x04, 0xb0, 0x13, 0xbd, 0x10, 0x22, 0xc8, 0x86, 0x4d, 0xcf,
-	0x9d, 0x90, 0xb1, 0xc3, 0x59, 0xdb, 0x0f, 0x8f, 0x67, 0xd3, 0xc6, 0xa6, 0x90, 0x79, 0x39, 0x6d,
-	0x7c, 0x3d, 0x1a, 0x87, 0x4f, 0xaf, 0x06, 0xad, 0x21, 0x9d, 0xb4, 0x99, 0x41, 0x9e, 0x4f, 0x7f,
-	0xc1, 0xc3, 0x90, 0x3f, 0x7f, 0x6a, 0x7b, 0xe3, 0xf6, 0x88, 0xb6, 0x53, 0xbe, 0x6d, 0xc9, 0x2b,
-	0x24, 0xd8, 0x38, 0x82, 0x6a, 0xd7, 0xc7, 0x76, 0x88, 0x4f, 0xa9, 0x83, 0x23, 0x1b, 0x3e, 0x81,
-	0x02, 0xa1, 0x8e, 0xb0, 0xa0, 0xdc, 0x79, 0x27, 0xe1, 0x2e, 0x41, 0xe1, 0xd2, 0x5c, 0xc8, 0xd8,
-	0x07, 0xa4, 0x12, 0xa4, 0x75, 0x14, 0x76, 0xfa, 0x38, 0x54, 0xa1, 0x3f, 0xc3, 0x06, 0x26, 0x83,
-	0xb9, 0x2d, 0xfd, 0xd9, 0xb4, 0xb1, 0x61, 0x92, 0x01, 0x37, 0xe5, 0xab, 0x95, 0x4c, 0xe1, 0xa7,
-	0x2d, 0x41, 0x35, 0xbe, 0x85, 0xdd, 0xf9, 0x85, 0xd2, 0x7d, 0xaf, 0x64, 0xc6, 0x11, 0x54, 0x1f,
-	0x7b, 0xce, 0x6b, 0x3a, 0x42, 0x25, 0x48, 0x47, 0xf8, 0x50, 0xed, 0x61, 0x17, 0x27, 0xb9, 0xff,
-	0xb1, 0x2f, 0xf6, 0x01, 0xa9, 0x77, 0x4a, 0x4d, 0x10, 0xec, 0x9d, 0x8c, 0x03, 0xee, 0xa2, 0x20,
-	0x8a, 0xb9, 0x23, 0xa8, 0x2a, 0xef, 0x56, 0xf1, 0xdb, 0x39, 0x54, 0x7f, 0xb4, 0xc3, 0xe1, 0x53,
-	0x15, 0x8b, 0xde, 0x85, 0x12, 0xa1, 0x97, 0x3e, 0xf6, 0x5c, 0xfb, 0x5a, 0xe6, 0xc1, 0x16, 0xa1,
-	0x16, 0x5f, 0xa3, 0xbb, 0x50, 0x21, 0xf4, 0x32, 0xb8, 0x1a, 0x04, 0x43, 0x7f, 0x3c, 0x88, 0xf2,
-	0xab, 0x4c, 0xe8, 0x79, 0xf4, 0xca, 0x08, 0x00, 0xa9, 0xd0, 0x15, 0xf4, 0x42, 0xf7, 0x65, 0xb1,
-	0x60, 0xf4, 0x9d, 0xce, 0x7b, 0x19, 0x29, 0x6f, 0x3e, 0xc3, 0x24, 0x7c, 0x74, 0xed, 0x61, 0x51,
-	0x4a, 0x8c, 0x3f, 0x34, 0x78, 0xeb, 0xc1, 0x08, 0x93, 0xb0, 0x4b, 0x49, 0xe8, 0x53, 0xf7, 0xff,
-	0xf9, 0x58, 0xa8, 0x06, 0xc5, 0x21, 0x9d, 0x4c, 0x6c, 0xe2, 0x70, 0x5d, 0x4b, 0x56, 0xb4, 0x64,
-	0xb5, 0xcd, 0xf6, 0x47, 0x41, 0x6d, 0xbd, 0xb9, 0xce, 0xea, 0x1d, 0x7b, 0x36, 0xba, 0xb0, 0x9f,
-	0xd4, 0x71, 0xc5, 0x58, 0x17, 0x29, 0xdb, 0xc5, 0xae, 0xab, 0xc4, 0x3a, 0x5b, 0xe6, 0x10, 0xb8,
-	0x34, 0x17, 0x8a, 0x93, 0x5e, 0x10, 0x64, 0x84, 0xfd, 0xca, 0x93, 0x5e, 0x85, 0x3e, 0x81, 0x02,
-	0x1e, 0x8e, 0xc6, 0xd2, 0x75, 0xe6, 0x6c, 0xda, 0x28, 0x98, 0xdd, 0xfe, 0xf1, 0xcb, 0x69, 0xe3,
-	0xcb, 0xd5, 0x3c, 0xd7, 0xed, 0x1f, 0x5b, 0x1c, 0x29, 0x13, 0x5e, 0xbd, 0xff, 0xd5, 0x4c, 0x98,
-	0x27, 0xfc, 0xeb, 0x38, 0x41, 0x25, 0x48, 0x27, 0x78, 0x51, 0xc2, 0xab, 0xdc, 0x8b, 0x64, 0x0c,
-	0xbd, 0x21, 0x47, 0x2c, 0xa6, 0x7b, 0x42, 0x8f, 0x28, 0x31, 0xd9, 0xcb, 0x37, 0x9e, 0x98, 0x12,
-	0xba, 0x82, 0xdf, 0x57, 0x48, 0x4c, 0x59, 0xb8, 0x54, 0x43, 0xa2, 0xc2, 0xb5, 0xba, 0x1e, 0x1f,
-	0x7f, 0x03, 0xa5, 0xf9, 0x45, 0x68, 0x0b, 0x0a, 0xa7, 0x3f, 0x9c, 0x9a, 0x7b, 0x6b, 0xa8, 0x0c,
-	0xc5, 0xae, 0x65, 0x3e, 0x78, 0x64, 0xf6, 0xf6, 0x34, 0xb6, 0x78, 0x7c, 0xd6, 0xe3, 0x8b, 0x3b,
-	0x6c, 0xd1, 0x33, 0x4f, 0x4c, 0xb6, 0x58, 0xef, 0xfc, 0xa9, 0x41, 0xe5, 0x7b, 0xa6, 0xed, 0x39,
-	0xf6, 0x9f, 0x8d, 0x87, 0x18, 0xf5, 0xa1, 0xc0, 0xe6, 0x02, 0x54, 0xcf, 0x30, 0x48, 0x99, 0x46,
-	0xf4, 0xc6, 0xd2, 0x7d, 0x69, 0xc4, 0x77, 0xb0, 0xc1, 0x07, 0x05, 0x94, 0x25, 0xa9, 0x8e, 0x1a,
-	0x7a, 0x73, 0xb9, 0x80, 0x60, 0x75, 0x5e, 0x6c, 0x40, 0x89, 0xe5, 0x3d, 0xd7, 0x14, 0x9d, 0x41,
-	0xa9, 0x8f, 0x43, 0x31, 0x00, 0xa0, 0xac, 0xc3, 0x89, 0x79, 0x44, 0xbf, 0x9b, 0x23, 0x21, 0x75,
-	0x7d, 0x02, 0x10, 0xf7, 0x7e, 0x74, 0x90, 0xa5, 0xcf, 0xe2, 0x70, 0xa1, 0x7f, 0x78, 0x8b, 0x94,
-	0x44, 0x9f, 0x41, 0x51, 0xf6, 0x73, 0x94, 0xa5, 0x48, 0x72, 0xb8, 0xd0, 0x8d, 0x3c, 0x91, 0x58,
-	0xd9, 0xb8, 0x3f, 0x67, 0x2a, 0x9b, 0x1a, 0x00, 0x32, 0x95, 0x4d, 0x37, 0x79, 0x86, 0x8e, 0x1b,
-	0x6e, 0x26, 0x3a, 0x35, 0x03, 0x64, 0xa2, 0xd3, 0x5d, 0x1b, 0x5d, 0x00, 0xc4, 0xad, 0x30, 0x13,
-	0x9d, 0x6a, 0xbf, 0x99, 0xe8, 0x74, 0x3f, 0xbd, 0xaf, 0xa1, 0x9f, 0xa0, 0x34, 0x6f, 0xff, 0xe8,
-	0x83, 0xac, 0xc8, 0x5c, 0x18, 0x18, 0xf4, 0x83, 0x7c, 0xa1, 0x39, 0xf9, 0x12, 0x2a, 0x6a, 0x9f,
-	0x42, 0xf7, 0x32, 0xce, 0x65, 0x34, 0x5b, 0xfd, 0xa3, 0x5b, 0xe5, 0x64, 0x68, 0xff, 0x55, 0x80,
-	0x12, 0xcb, 0x63, 0x11, 0xda, 0xf3, 0x40, 0xe4, 0x25, 0x66, 0x79, 0x20, 0x2a, 0x35, 0x39, 0x27,
-	0x10, 0x13, 0x4d, 0x65, 0xfe, 0x6d, 0x97, 0xa2, 0x53, 0xe5, 0x3e, 0xe7, 0xdb, 0x2e, 0xa2, 0xe3,
-	0x06, 0x92, 0x13, 0x91, 0xb7, 0xa1, 0xd3, 0x5d, 0x48, 0xa6, 0x0f, 0xe7, 0x2e, 0x49, 0x1f, 0x15,
-	0x6a, 0xe4, 0x89, 0x2c, 0x04, 0x22, 0x2f, 0xb9, 0xcb, 0x03, 0x51, 0xad, 0xd2, 0xcb, 0x03, 0x31,
-	0x51, 0xb7, 0xe3, 0x40, 0x14, 0xec, 0x65, 0x81, 0x98, 0x40, 0x1f, 0xe4, 0x0b, 0x45, 0xe4, 0x87,
-	0xb5, 0xbf, 0x67, 0x75, 0xed, 0xf9, 0xac, 0xae, 0xfd, 0x33, 0xab, 0x6b, 0xbf, 0xdf, 0xd4, 0xd7,
-	0x9e, 0xdf, 0xd4, 0xd7, 0x5e, 0xdc, 0xd4, 0xd7, 0x06, 0x9b, 0xfc, 0x0f, 0xe6, 0xe7, 0xff, 0x06,
-	0x00, 0x00, 0xff, 0xff, 0x86, 0x50, 0x86, 0x77, 0xc9, 0x0e, 0x00, 0x00,
+	// 1513 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x59, 0x5d, 0x4f, 0x1b, 0x47,
+	0x17, 0x66, 0xc1, 0x60, 0x7c, 0x6c, 0xc0, 0x1e, 0x20, 0xaf, 0xe5, 0xb7, 0x35, 0x64, 0xf3, 0x51,
+	0xda, 0xaa, 0x86, 0xd2, 0xa8, 0xea, 0x97, 0xaa, 0x24, 0xb6, 0x65, 0x11, 0x91, 0x94, 0x2e, 0x58,
+	0x2d, 0x4a, 0xda, 0x68, 0xb1, 0x47, 0x8e, 0x1b, 0x7b, 0xc7, 0xf1, 0xae, 0x53, 0xe5, 0x5f, 0xf4,
+	0xae, 0xf7, 0xad, 0xfa, 0x1f, 0x7a, 0xdd, 0xab, 0xf6, 0x2e, 0x97, 0xb9, 0x42, 0x15, 0xfc, 0x8b,
+	0x5c, 0x55, 0xf3, 0xb1, 0xde, 0x99, 0xdd, 0x59, 0x3b, 0x18, 0xc2, 0x8d, 0xb5, 0x33, 0x7b, 0xe6,
+	0x99, 0x73, 0xce, 0x3e, 0x67, 0xe6, 0x3c, 0x32, 0xbc, 0x4b, 0x1c, 0xe2, 0x6e, 0xf6, 0x6d, 0xc7,
+	0x6d, 0x77, 0x37, 0xbb, 0xa4, 0x89, 0x3b, 0xfc, 0xb7, 0xd4, 0xeb, 0x13, 0x8f, 0xa0, 0x1c, 0x7d,
+	0x5d, 0xe2, 0xaf, 0x4b, 0xec, 0x45, 0x61, 0xa5, 0x45, 0x5a, 0x84, 0xbd, 0xdd, 0xa4, 0x4f, 0xdc,
+	0xb0, 0xa0, 0xe0, 0x78, 0x2f, 0x7a, 0xd8, 0xe5, 0xbf, 0xfc, 0xb5, 0xf9, 0x31, 0x24, 0x2b, 0xb6,
+	0x67, 0xef, 0x63, 0x0f, 0x21, 0x48, 0xd0, 0x37, 0x79, 0x63, 0xdd, 0xd8, 0x48, 0x59, 0xec, 0x99,
+	0xce, 0x35, 0x6d, 0xcf, 0xce, 0x4f, 0xaf, 0x1b, 0x1b, 0x19, 0x8b, 0x3d, 0x9b, 0x0f, 0x21, 0xbd,
+	0x4b, 0xec, 0xa6, 0x85, 0x9f, 0x0d, 0xb0, 0xeb, 0xa1, 0x5b, 0x90, 0x6c, 0x72, 0x84, 0xbc, 0xb1,
+	0x3e, 0xb3, 0x91, 0xde, 0x2e, 0x94, 0x22, 0xbe, 0x95, 0xc4, 0x1e, 0x96, 0x6f, 0x8a, 0xae, 0xc0,
+	0x5c, 0x1f, 0xbb, 0x83, 0x2e, 0x66, 0xd0, 0xf3, 0x96, 0x18, 0x99, 0x8b, 0x90, 0xe1, 0xe0, 0x6e,
+	0x8f, 0x38, 0x2e, 0x36, 0x6f, 0x42, 0xa6, 0xdc, 0xc1, 0x76, 0xdf, 0xdf, 0x2d, 0x58, 0x67, 0x28,
+	0xeb, 0x96, 0x60, 0x41, 0xd8, 0x89, 0x85, 0x4b, 0xb0, 0xb0, 0xd7, 0xe9, 0x3a, 0x3b, 0x15, 0xb1,
+	0xd2, 0x74, 0x61, 0xd1, 0x9f, 0xe0, 0x26, 0xc8, 0x86, 0xb9, 0x5e, 0xa7, 0xeb, 0xb4, 0x9b, 0x0c,
+	0x6b, 0xe1, 0xee, 0xce, 0xc9, 0xf1, 0xda, 0x1c, 0xb7, 0x79, 0x7d, 0xbc, 0xf6, 0x65, 0xab, 0xed,
+	0x3d, 0x19, 0x1c, 0x95, 0x1a, 0xa4, 0xbb, 0x49, 0x03, 0xea, 0xf5, 0xc9, 0x4f, 0xb8, 0xe1, 0xb1,
+	0xe7, 0x8f, 0xec, 0x5e, 0x7b, 0xb3, 0x45, 0x36, 0x23, 0xb9, 0x2d, 0x89, 0x2d, 0x04, 0xb0, 0x79,
+	0x1b, 0x72, 0xe5, 0x3e, 0xb6, 0x3d, 0xfc, 0x80, 0x34, 0xb1, 0x1f, 0xc3, 0x87, 0x90, 0x70, 0x48,
+	0x93, 0x47, 0x90, 0xde, 0xfe, 0x9f, 0x92, 0x2e, 0x8e, 0xc2, 0xac, 0x99, 0x91, 0xb9, 0x02, 0x48,
+	0x46, 0x10, 0xd1, 0x11, 0x58, 0xac, 0x61, 0x4f, 0x06, 0xfd, 0x01, 0x66, 0xb1, 0x73, 0x34, 0x8c,
+	0xa5, 0x76, 0x72, 0xbc, 0x36, 0x5b, 0x75, 0x8e, 0x58, 0x28, 0x5f, 0x4c, 0x14, 0x0a, 0x5b, 0x6d,
+	0x71, 0x54, 0xf3, 0x6b, 0x58, 0x1a, 0x6e, 0x28, 0xd2, 0x77, 0xa6, 0x30, 0x6e, 0x43, 0xae, 0xde,
+	0x6b, 0x9e, 0x33, 0x11, 0x32, 0x82, 0x48, 0x44, 0x1f, 0x72, 0x15, 0xdc, 0xc1, 0x2a, 0xee, 0x5b,
+	0xce, 0xc5, 0x0a, 0x20, 0x79, 0x4f, 0xe1, 0x09, 0x82, 0xec, 0x6e, 0xdb, 0x65, 0x29, 0x72, 0x7d,
+	0xce, 0xdd, 0x86, 0x9c, 0x34, 0x37, 0x49, 0xde, 0xf6, 0x21, 0xf7, 0x9d, 0xed, 0x35, 0x9e, 0xc8,
+	0xb0, 0xe8, 0xff, 0x90, 0x72, 0xc8, 0xe3, 0x3e, 0xee, 0x75, 0xec, 0x17, 0xa2, 0x0e, 0xe6, 0x1d,
+	0x62, 0xb1, 0x31, 0xba, 0x0a, 0x19, 0x87, 0x3c, 0x76, 0x07, 0x47, 0x6e, 0xa3, 0xdf, 0x3e, 0xf2,
+	0xeb, 0x2b, 0xed, 0x90, 0x7d, 0x7f, 0xca, 0x74, 0x01, 0xc9, 0xa0, 0x13, 0xf8, 0x85, 0xb6, 0xc4,
+	0x61, 0x41, 0xd1, 0x17, 0xb7, 0xdf, 0xd1, 0x94, 0x7c, 0xf5, 0x39, 0x76, 0xbc, 0x83, 0x17, 0x3d,
+	0xcc, 0x8f, 0x12, 0xf3, 0x37, 0x03, 0x96, 0xef, 0xb4, 0xb0, 0xe3, 0x95, 0x89, 0xe3, 0xf5, 0x49,
+	0xe7, 0x72, 0x3e, 0x16, 0xca, 0x43, 0xb2, 0x41, 0xba, 0x5d, 0xdb, 0x69, 0x32, 0x5f, 0x53, 0x96,
+	0x3f, 0xa4, 0x67, 0x9b, 0xdd, 0x6f, 0xb9, 0xf9, 0x99, 0xf5, 0x19, 0x7a, 0xde, 0xd1, 0x67, 0xb3,
+	0x0c, 0x2b, 0xaa, 0x8f, 0x13, 0x72, 0x9d, 0x97, 0x6c, 0x19, 0x77, 0x3a, 0x12, 0xd7, 0x1b, 0xb8,
+	0xd3, 0x19, 0x81, 0xc0, 0xac, 0x99, 0x51, 0x50, 0xf4, 0x1c, 0x41, 0x30, 0xec, 0x29, 0x2b, 0x7a,
+	0x19, 0xf4, 0x10, 0x12, 0xb8, 0xd1, 0x6a, 0x8b, 0xd4, 0x55, 0x4f, 0x8e, 0xd7, 0x12, 0xd5, 0x72,
+	0x6d, 0xe7, 0xf5, 0xf1, 0xda, 0xe7, 0x93, 0x65, 0xae, 0x5c, 0xdb, 0xb1, 0x18, 0xa4, 0x28, 0x78,
+	0x79, 0xff, 0xb3, 0x85, 0x30, 0x2c, 0xf8, 0xf3, 0x24, 0x41, 0x46, 0x10, 0x49, 0xe8, 0xf9, 0x05,
+	0x2f, 0xe3, 0x3e, 0x54, 0x39, 0x74, 0x41, 0x89, 0x08, 0x97, 0xbb, 0xe2, 0x87, 0x5f, 0x98, 0x74,
+	0xf2, 0xc2, 0x0b, 0x53, 0x80, 0x4e, 0x90, 0xf7, 0x09, 0x0a, 0x53, 0x1c, 0x5c, 0x72, 0x20, 0xfe,
+	0xc1, 0x15, 0xf1, 0xa3, 0xfc, 0x26, 0x7e, 0xd0, 0x5f, 0xb3, 0xe2, 0x53, 0xd8, 0x22, 0x03, 0x6f,
+	0x78, 0x32, 0x97, 0x60, 0xb6, 0x4f, 0xc7, 0x02, 0x23, 0xaf, 0xc1, 0xe0, 0xf6, 0xdc, 0xcc, 0x5c,
+	0x85, 0x65, 0x05, 0x45, 0x24, 0xbf, 0xc3, 0xc8, 0xa9, 0x20, 0x1f, 0x42, 0xa2, 0xdd, 0x75, 0x95,
+	0x52, 0xd8, 0xb9, 0xbf, 0x3f, 0x39, 0x03, 0xe8, 0x62, 0x8b, 0x41, 0x9a, 0x77, 0x21, 0x1b, 0xec,
+	0x26, 0x72, 0x71, 0xd6, 0x40, 0x2a, 0x3e, 0x99, 0xcf, 0x9b, 0x0e, 0x05, 0x45, 0xa4, 0xe3, 0x99,
+	0xcf, 0x50, 0x05, 0x5c, 0x57, 0x14, 0xe7, 0x4f, 0x89, 0x28, 0x8a, 0x55, 0x58, 0x56, 0xb6, 0x14,
+	0x9e, 0x1c, 0x08, 0x02, 0xb3, 0xd9, 0x0b, 0x2b, 0x8b, 0x9f, 0x61, 0x59, 0x41, 0x9d, 0xec, 0x1b,
+	0x4c, 0x50, 0x1a, 0xcb, 0xbc, 0x0c, 0x94, 0x68, 0xe8, 0xa7, 0x94, 0x27, 0x27, 0x24, 0x44, 0x1b,
+	0x32, 0x35, 0xec, 0xd5, 0xab, 0x97, 0xc0, 0xdf, 0x4f, 0x61, 0x41, 0x6c, 0x25, 0x7c, 0xbd, 0x01,
+	0xd3, 0x03, 0xdf, 0xd1, 0x55, 0x8d, 0xa3, 0x75, 0x6c, 0x4d, 0x0f, 0xb0, 0xf9, 0x8f, 0x01, 0xb9,
+	0xfb, 0xe4, 0x39, 0x3e, 0x20, 0xa1, 0x3b, 0xe7, 0x2d, 0x39, 0x3a, 0xbc, 0xce, 0xa6, 0x2f, 0xfe,
+	0x3a, 0x5b, 0x01, 0x24, 0x87, 0x22, 0xe8, 0xfa, 0x97, 0x01, 0xab, 0x7c, 0x7a, 0x97, 0x34, 0x6c,
+	0xaf, 0x4d, 0x9c, 0x4b, 0x88, 0xf2, 0x16, 0xcc, 0x77, 0xc4, 0x6e, 0x2c, 0x52, 0x3d, 0x59, 0xf6,
+	0x48, 0xdb, 0xf1, 0xac, 0xa1, 0x25, 0xed, 0x63, 0x9e, 0x60, 0xbb, 0xd9, 0x76, 0x5a, 0xf9, 0x19,
+	0xea, 0x93, 0xe5, 0x0f, 0xcd, 0x3c, 0x5c, 0x09, 0xc7, 0x10, 0x1c, 0x93, 0xbc, 0x48, 0x2f, 0x85,
+	0x66, 0x08, 0xb2, 0xc1, 0x6e, 0xc2, 0x83, 0x6f, 0x61, 0x89, 0x55, 0x6e, 0xbd, 0x7a, 0x61, 0x87,
+	0xc1, 0x53, 0xc8, 0x06, 0x90, 0x67, 0x22, 0xf4, 0x04, 0x07, 0x40, 0x16, 0x16, 0x69, 0xad, 0x07,
+	0xee, 0x9b, 0x9f, 0xc1, 0xd2, 0x70, 0xe6, 0x4c, 0xbb, 0x7f, 0xf0, 0x15, 0xa4, 0x86, 0xf0, 0x68,
+	0x1e, 0x12, 0x0f, 0xbe, 0x79, 0x50, 0xcd, 0x4e, 0xa1, 0x34, 0x24, 0xcb, 0x56, 0xf5, 0xce, 0x41,
+	0xb5, 0x92, 0x35, 0xe8, 0xa0, 0xbe, 0x57, 0x61, 0x83, 0x69, 0x3a, 0xa8, 0x54, 0x77, 0xab, 0x74,
+	0x30, 0xb3, 0xfd, 0xbb, 0x01, 0x99, 0xfb, 0xd4, 0xc7, 0x7d, 0xdc, 0x7f, 0xde, 0x6e, 0x60, 0x54,
+	0x83, 0x04, 0x55, 0xca, 0xa8, 0xa8, 0x09, 0x43, 0xd2, 0xe7, 0x85, 0xb5, 0xd8, 0xf7, 0xc2, 0xfd,
+	0x7b, 0x30, 0xcb, 0xa4, 0x33, 0xd2, 0x59, 0xca, 0xe2, 0xbb, 0xb0, 0x1e, 0x6f, 0xc0, 0xb1, 0xb6,
+	0x5f, 0xcd, 0x42, 0x8a, 0x76, 0xc2, 0xcc, 0x53, 0xb4, 0x07, 0xa9, 0x1a, 0xf6, 0xb8, 0x24, 0x46,
+	0xba, 0xc5, 0x8a, 0x42, 0x2f, 0x5c, 0x1d, 0x61, 0x21, 0x7c, 0x3d, 0x04, 0x08, 0xd4, 0x30, 0xba,
+	0xae, 0xf3, 0x27, 0x2c, 0xb7, 0x0b, 0x37, 0xc6, 0x58, 0x09, 0xe8, 0x3d, 0x48, 0x0a, 0x85, 0x8b,
+	0x74, 0x8e, 0xa8, 0x72, 0xbb, 0x60, 0x8e, 0x32, 0x09, 0x9c, 0x0d, 0x14, 0xab, 0xd6, 0xd9, 0x88,
+	0x24, 0xd6, 0x3a, 0x1b, 0x95, 0xbd, 0x14, 0x3a, 0x90, 0xa0, 0x5a, 0xe8, 0x88, 0x2a, 0xd6, 0x42,
+	0x47, 0x75, 0x2c, 0x7a, 0x08, 0x10, 0x88, 0x43, 0x2d, 0x74, 0x44, 0x90, 0x6a, 0xa1, 0xa3, 0x0a,
+	0x73, 0xcb, 0x40, 0xdf, 0x43, 0x6a, 0x28, 0x88, 0xd1, 0x35, 0x1d, 0x33, 0x43, 0x12, 0xba, 0x70,
+	0x7d, 0xb4, 0xd1, 0x10, 0xf9, 0x31, 0x64, 0x64, 0xe5, 0x86, 0x6e, 0x6a, 0xd6, 0x69, 0xe4, 0x67,
+	0xe1, 0xbd, 0xb1, 0x76, 0x82, 0xda, 0x7f, 0x24, 0x20, 0x45, 0x2f, 0x0f, 0x4e, 0xed, 0x21, 0x11,
+	0xe9, 0xd4, 0x08, 0x22, 0x4a, 0x37, 0xe7, 0x08, 0x22, 0x2a, 0x32, 0x6b, 0xf8, 0x6d, 0x63, 0xa1,
+	0x23, 0x02, 0x68, 0xc4, 0xb7, 0x0d, 0x43, 0x07, 0x92, 0x6a, 0x04, 0x23, 0xc7, 0x41, 0x47, 0x75,
+	0x99, 0x28, 0x1f, 0x86, 0x1b, 0x53, 0x3e, 0x32, 0xa8, 0x39, 0xca, 0x24, 0x44, 0x44, 0x26, 0x42,
+	0xe2, 0x89, 0x28, 0xeb, 0x96, 0x78, 0x22, 0x2a, 0x4a, 0x26, 0x20, 0x22, 0xc7, 0x8e, 0x23, 0xa2,
+	0x02, 0x7d, 0x7d, 0xb4, 0x91, 0x8f, 0xbc, 0xfd, 0x67, 0x02, 0x80, 0x75, 0x7a, 0x9c, 0x28, 0x8f,
+	0x20, 0x2d, 0x29, 0x18, 0x14, 0xcf, 0x01, 0xb9, 0x77, 0x2f, 0xdc, 0x1c, 0x67, 0x26, 0x72, 0xf4,
+	0x08, 0xd2, 0x52, 0x1b, 0x8e, 0xe2, 0x69, 0x30, 0x16, 0x5d, 0xd3, 0xcd, 0x53, 0x74, 0x49, 0x6e,
+	0xa0, 0x78, 0x26, 0x8c, 0x45, 0xd7, 0xa8, 0x16, 0xb4, 0x0f, 0xf3, 0xbe, 0xac, 0x42, 0x31, 0x7c,
+	0x50, 0x70, 0xaf, 0x8d, 0xb4, 0x11, 0xa0, 0x3f, 0x42, 0x5a, 0x92, 0x0a, 0x28, 0x96, 0x0f, 0x4a,
+	0x4b, 0xaf, 0x75, 0x59, 0xa3, 0x38, 0xb6, 0x0c, 0x4a, 0xca, 0xa0, 0xf9, 0x47, 0x71, 0x9c, 0x50,
+	0xd1, 0x6f, 0x8c, 0xb1, 0x1a, 0x52, 0xe7, 0xd7, 0x04, 0x24, 0xeb, 0x55, 0xce, 0x9b, 0x7b, 0x30,
+	0xcb, 0x9a, 0x76, 0xed, 0xad, 0x2c, 0x2b, 0x07, 0xed, 0xad, 0xac, 0xf6, 0xfb, 0x87, 0x00, 0x41,
+	0xf3, 0xab, 0x75, 0x3a, 0xd2, 0xe6, 0x6b, 0x9d, 0x8e, 0x76, 0xd0, 0x08, 0xc3, 0xa2, 0xda, 0x7c,
+	0xa2, 0x8d, 0xd8, 0x85, 0xa1, 0x1e, 0xbb, 0xf0, 0xfe, 0x1b, 0x58, 0x06, 0x5c, 0xf1, 0x7b, 0x4b,
+	0x2d, 0x57, 0x42, 0x6d, 0xae, 0x96, 0x2b, 0xe1, 0xe6, 0x14, 0xd5, 0x61, 0xde, 0xef, 0x24, 0xb5,
+	0xa0, 0xa1, 0xce, 0x55, 0x0b, 0x1a, 0x6e, 0x45, 0xb7, 0x0c, 0x64, 0x41, 0x52, 0x74, 0x88, 0xda,
+	0x93, 0x50, 0xed, 0x27, 0xb5, 0x27, 0x61, 0xa8, 0xc1, 0xdc, 0x32, 0xee, 0xe6, 0xff, 0x3e, 0x29,
+	0x1a, 0x2f, 0x4f, 0x8a, 0xc6, 0xbf, 0x27, 0x45, 0xe3, 0x97, 0xd3, 0xe2, 0xd4, 0xcb, 0xd3, 0xe2,
+	0xd4, 0xab, 0xd3, 0xe2, 0xd4, 0xd1, 0x1c, 0xfb, 0x1f, 0xe7, 0x93, 0xff, 0x02, 0x00, 0x00, 0xff,
+	0xff, 0x89, 0xb5, 0x55, 0xcc, 0x30, 0x1a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -2404,6 +3507,620 @@ var _CellModel_serviceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ListCells",
 			Handler:       _CellModel_ListCells_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "onos/ransim/model/model.proto",
+}
+
+// RouteModelClient is the client API for RouteModel service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type RouteModelClient interface {
+	CreateRoute(ctx context.Context, in *CreateRouteRequest, opts ...grpc.CallOption) (*CreateRouteResponse, error)
+	DeleteRoute(ctx context.Context, in *DeleteRouteRequest, opts ...grpc.CallOption) (*DeleteRouteResponse, error)
+	UpdateRoute(ctx context.Context, in *UpdateRouteRequest, opts ...grpc.CallOption) (*UpdateRouteResponse, error)
+	GetRoute(ctx context.Context, in *GetRouteRequest, opts ...grpc.CallOption) (*GetRouteResponse, error)
+	WatchRoutes(ctx context.Context, in *WatchRoutesRequest, opts ...grpc.CallOption) (RouteModel_WatchRoutesClient, error)
+	ListRoutes(ctx context.Context, in *ListRoutesRequest, opts ...grpc.CallOption) (RouteModel_ListRoutesClient, error)
+}
+
+type routeModelClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewRouteModelClient(cc *grpc.ClientConn) RouteModelClient {
+	return &routeModelClient{cc}
+}
+
+func (c *routeModelClient) CreateRoute(ctx context.Context, in *CreateRouteRequest, opts ...grpc.CallOption) (*CreateRouteResponse, error) {
+	out := new(CreateRouteResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.RouteModel/CreateRoute", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *routeModelClient) DeleteRoute(ctx context.Context, in *DeleteRouteRequest, opts ...grpc.CallOption) (*DeleteRouteResponse, error) {
+	out := new(DeleteRouteResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.RouteModel/DeleteRoute", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *routeModelClient) UpdateRoute(ctx context.Context, in *UpdateRouteRequest, opts ...grpc.CallOption) (*UpdateRouteResponse, error) {
+	out := new(UpdateRouteResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.RouteModel/UpdateRoute", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *routeModelClient) GetRoute(ctx context.Context, in *GetRouteRequest, opts ...grpc.CallOption) (*GetRouteResponse, error) {
+	out := new(GetRouteResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.RouteModel/GetRoute", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *routeModelClient) WatchRoutes(ctx context.Context, in *WatchRoutesRequest, opts ...grpc.CallOption) (RouteModel_WatchRoutesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_RouteModel_serviceDesc.Streams[0], "/onos.ransim.model.RouteModel/WatchRoutes", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &routeModelWatchRoutesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type RouteModel_WatchRoutesClient interface {
+	Recv() (*WatchRoutesResponse, error)
+	grpc.ClientStream
+}
+
+type routeModelWatchRoutesClient struct {
+	grpc.ClientStream
+}
+
+func (x *routeModelWatchRoutesClient) Recv() (*WatchRoutesResponse, error) {
+	m := new(WatchRoutesResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *routeModelClient) ListRoutes(ctx context.Context, in *ListRoutesRequest, opts ...grpc.CallOption) (RouteModel_ListRoutesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_RouteModel_serviceDesc.Streams[1], "/onos.ransim.model.RouteModel/ListRoutes", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &routeModelListRoutesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type RouteModel_ListRoutesClient interface {
+	Recv() (*ListRoutesResponse, error)
+	grpc.ClientStream
+}
+
+type routeModelListRoutesClient struct {
+	grpc.ClientStream
+}
+
+func (x *routeModelListRoutesClient) Recv() (*ListRoutesResponse, error) {
+	m := new(ListRoutesResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// RouteModelServer is the server API for RouteModel service.
+type RouteModelServer interface {
+	CreateRoute(context.Context, *CreateRouteRequest) (*CreateRouteResponse, error)
+	DeleteRoute(context.Context, *DeleteRouteRequest) (*DeleteRouteResponse, error)
+	UpdateRoute(context.Context, *UpdateRouteRequest) (*UpdateRouteResponse, error)
+	GetRoute(context.Context, *GetRouteRequest) (*GetRouteResponse, error)
+	WatchRoutes(*WatchRoutesRequest, RouteModel_WatchRoutesServer) error
+	ListRoutes(*ListRoutesRequest, RouteModel_ListRoutesServer) error
+}
+
+// UnimplementedRouteModelServer can be embedded to have forward compatible implementations.
+type UnimplementedRouteModelServer struct {
+}
+
+func (*UnimplementedRouteModelServer) CreateRoute(ctx context.Context, req *CreateRouteRequest) (*CreateRouteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRoute not implemented")
+}
+func (*UnimplementedRouteModelServer) DeleteRoute(ctx context.Context, req *DeleteRouteRequest) (*DeleteRouteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoute not implemented")
+}
+func (*UnimplementedRouteModelServer) UpdateRoute(ctx context.Context, req *UpdateRouteRequest) (*UpdateRouteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoute not implemented")
+}
+func (*UnimplementedRouteModelServer) GetRoute(ctx context.Context, req *GetRouteRequest) (*GetRouteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoute not implemented")
+}
+func (*UnimplementedRouteModelServer) WatchRoutes(req *WatchRoutesRequest, srv RouteModel_WatchRoutesServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchRoutes not implemented")
+}
+func (*UnimplementedRouteModelServer) ListRoutes(req *ListRoutesRequest, srv RouteModel_ListRoutesServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListRoutes not implemented")
+}
+
+func RegisterRouteModelServer(s *grpc.Server, srv RouteModelServer) {
+	s.RegisterService(&_RouteModel_serviceDesc, srv)
+}
+
+func _RouteModel_CreateRoute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRouteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RouteModelServer).CreateRoute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.RouteModel/CreateRoute",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RouteModelServer).CreateRoute(ctx, req.(*CreateRouteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RouteModel_DeleteRoute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRouteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RouteModelServer).DeleteRoute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.RouteModel/DeleteRoute",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RouteModelServer).DeleteRoute(ctx, req.(*DeleteRouteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RouteModel_UpdateRoute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRouteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RouteModelServer).UpdateRoute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.RouteModel/UpdateRoute",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RouteModelServer).UpdateRoute(ctx, req.(*UpdateRouteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RouteModel_GetRoute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRouteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RouteModelServer).GetRoute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.RouteModel/GetRoute",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RouteModelServer).GetRoute(ctx, req.(*GetRouteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RouteModel_WatchRoutes_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchRoutesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(RouteModelServer).WatchRoutes(m, &routeModelWatchRoutesServer{stream})
+}
+
+type RouteModel_WatchRoutesServer interface {
+	Send(*WatchRoutesResponse) error
+	grpc.ServerStream
+}
+
+type routeModelWatchRoutesServer struct {
+	grpc.ServerStream
+}
+
+func (x *routeModelWatchRoutesServer) Send(m *WatchRoutesResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _RouteModel_ListRoutes_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListRoutesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(RouteModelServer).ListRoutes(m, &routeModelListRoutesServer{stream})
+}
+
+type RouteModel_ListRoutesServer interface {
+	Send(*ListRoutesResponse) error
+	grpc.ServerStream
+}
+
+type routeModelListRoutesServer struct {
+	grpc.ServerStream
+}
+
+func (x *routeModelListRoutesServer) Send(m *ListRoutesResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _RouteModel_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "onos.ransim.model.RouteModel",
+	HandlerType: (*RouteModelServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateRoute",
+			Handler:    _RouteModel_CreateRoute_Handler,
+		},
+		{
+			MethodName: "DeleteRoute",
+			Handler:    _RouteModel_DeleteRoute_Handler,
+		},
+		{
+			MethodName: "UpdateRoute",
+			Handler:    _RouteModel_UpdateRoute_Handler,
+		},
+		{
+			MethodName: "GetRoute",
+			Handler:    _RouteModel_GetRoute_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchRoutes",
+			Handler:       _RouteModel_WatchRoutes_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListRoutes",
+			Handler:       _RouteModel_ListRoutes_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "onos/ransim/model/model.proto",
+}
+
+// UEModelClient is the client API for UEModel service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type UEModelClient interface {
+	GetUE(ctx context.Context, in *GetUERequest, opts ...grpc.CallOption) (*GetUEResponse, error)
+	MoveToCell(ctx context.Context, in *MoveToCellRequest, opts ...grpc.CallOption) (*MoveToCellResponse, error)
+	MoveToLocation(ctx context.Context, in *MoveToLocationRequest, opts ...grpc.CallOption) (*MoveToLocationResponse, error)
+	DeleteUE(ctx context.Context, in *DeleteUERequest, opts ...grpc.CallOption) (*DeleteUEResponse, error)
+	WatchUEs(ctx context.Context, in *WatchUEsRequest, opts ...grpc.CallOption) (UEModel_WatchUEsClient, error)
+	ListUEs(ctx context.Context, in *ListUEsRequest, opts ...grpc.CallOption) (UEModel_ListUEsClient, error)
+}
+
+type uEModelClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewUEModelClient(cc *grpc.ClientConn) UEModelClient {
+	return &uEModelClient{cc}
+}
+
+func (c *uEModelClient) GetUE(ctx context.Context, in *GetUERequest, opts ...grpc.CallOption) (*GetUEResponse, error) {
+	out := new(GetUEResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.UEModel/GetUE", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *uEModelClient) MoveToCell(ctx context.Context, in *MoveToCellRequest, opts ...grpc.CallOption) (*MoveToCellResponse, error) {
+	out := new(MoveToCellResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.UEModel/MoveToCell", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *uEModelClient) MoveToLocation(ctx context.Context, in *MoveToLocationRequest, opts ...grpc.CallOption) (*MoveToLocationResponse, error) {
+	out := new(MoveToLocationResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.UEModel/MoveToLocation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *uEModelClient) DeleteUE(ctx context.Context, in *DeleteUERequest, opts ...grpc.CallOption) (*DeleteUEResponse, error) {
+	out := new(DeleteUEResponse)
+	err := c.cc.Invoke(ctx, "/onos.ransim.model.UEModel/DeleteUE", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *uEModelClient) WatchUEs(ctx context.Context, in *WatchUEsRequest, opts ...grpc.CallOption) (UEModel_WatchUEsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_UEModel_serviceDesc.Streams[0], "/onos.ransim.model.UEModel/WatchUEs", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &uEModelWatchUEsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UEModel_WatchUEsClient interface {
+	Recv() (*WatchUEsResponse, error)
+	grpc.ClientStream
+}
+
+type uEModelWatchUEsClient struct {
+	grpc.ClientStream
+}
+
+func (x *uEModelWatchUEsClient) Recv() (*WatchUEsResponse, error) {
+	m := new(WatchUEsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *uEModelClient) ListUEs(ctx context.Context, in *ListUEsRequest, opts ...grpc.CallOption) (UEModel_ListUEsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_UEModel_serviceDesc.Streams[1], "/onos.ransim.model.UEModel/ListUEs", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &uEModelListUEsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UEModel_ListUEsClient interface {
+	Recv() (*ListUEsResponse, error)
+	grpc.ClientStream
+}
+
+type uEModelListUEsClient struct {
+	grpc.ClientStream
+}
+
+func (x *uEModelListUEsClient) Recv() (*ListUEsResponse, error) {
+	m := new(ListUEsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// UEModelServer is the server API for UEModel service.
+type UEModelServer interface {
+	GetUE(context.Context, *GetUERequest) (*GetUEResponse, error)
+	MoveToCell(context.Context, *MoveToCellRequest) (*MoveToCellResponse, error)
+	MoveToLocation(context.Context, *MoveToLocationRequest) (*MoveToLocationResponse, error)
+	DeleteUE(context.Context, *DeleteUERequest) (*DeleteUEResponse, error)
+	WatchUEs(*WatchUEsRequest, UEModel_WatchUEsServer) error
+	ListUEs(*ListUEsRequest, UEModel_ListUEsServer) error
+}
+
+// UnimplementedUEModelServer can be embedded to have forward compatible implementations.
+type UnimplementedUEModelServer struct {
+}
+
+func (*UnimplementedUEModelServer) GetUE(ctx context.Context, req *GetUERequest) (*GetUEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUE not implemented")
+}
+func (*UnimplementedUEModelServer) MoveToCell(ctx context.Context, req *MoveToCellRequest) (*MoveToCellResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MoveToCell not implemented")
+}
+func (*UnimplementedUEModelServer) MoveToLocation(ctx context.Context, req *MoveToLocationRequest) (*MoveToLocationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MoveToLocation not implemented")
+}
+func (*UnimplementedUEModelServer) DeleteUE(ctx context.Context, req *DeleteUERequest) (*DeleteUEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUE not implemented")
+}
+func (*UnimplementedUEModelServer) WatchUEs(req *WatchUEsRequest, srv UEModel_WatchUEsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchUEs not implemented")
+}
+func (*UnimplementedUEModelServer) ListUEs(req *ListUEsRequest, srv UEModel_ListUEsServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListUEs not implemented")
+}
+
+func RegisterUEModelServer(s *grpc.Server, srv UEModelServer) {
+	s.RegisterService(&_UEModel_serviceDesc, srv)
+}
+
+func _UEModel_GetUE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUERequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UEModelServer).GetUE(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.UEModel/GetUE",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UEModelServer).GetUE(ctx, req.(*GetUERequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UEModel_MoveToCell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MoveToCellRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UEModelServer).MoveToCell(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.UEModel/MoveToCell",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UEModelServer).MoveToCell(ctx, req.(*MoveToCellRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UEModel_MoveToLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MoveToLocationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UEModelServer).MoveToLocation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.UEModel/MoveToLocation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UEModelServer).MoveToLocation(ctx, req.(*MoveToLocationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UEModel_DeleteUE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUERequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UEModelServer).DeleteUE(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.ransim.model.UEModel/DeleteUE",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UEModelServer).DeleteUE(ctx, req.(*DeleteUERequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UEModel_WatchUEs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchUEsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UEModelServer).WatchUEs(m, &uEModelWatchUEsServer{stream})
+}
+
+type UEModel_WatchUEsServer interface {
+	Send(*WatchUEsResponse) error
+	grpc.ServerStream
+}
+
+type uEModelWatchUEsServer struct {
+	grpc.ServerStream
+}
+
+func (x *uEModelWatchUEsServer) Send(m *WatchUEsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _UEModel_ListUEs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListUEsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UEModelServer).ListUEs(m, &uEModelListUEsServer{stream})
+}
+
+type UEModel_ListUEsServer interface {
+	Send(*ListUEsResponse) error
+	grpc.ServerStream
+}
+
+type uEModelListUEsServer struct {
+	grpc.ServerStream
+}
+
+func (x *uEModelListUEsServer) Send(m *ListUEsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _UEModel_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "onos.ransim.model.UEModel",
+	HandlerType: (*UEModelServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUE",
+			Handler:    _UEModel_GetUE_Handler,
+		},
+		{
+			MethodName: "MoveToCell",
+			Handler:    _UEModel_MoveToCell_Handler,
+		},
+		{
+			MethodName: "MoveToLocation",
+			Handler:    _UEModel_MoveToLocation_Handler,
+		},
+		{
+			MethodName: "DeleteUE",
+			Handler:    _UEModel_DeleteUE_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchUEs",
+			Handler:       _UEModel_WatchUEs_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListUEs",
+			Handler:       _UEModel_ListUEs_Handler,
 			ServerStreams: true,
 		},
 	},
@@ -3445,6 +5162,756 @@ func (m *ListCellsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *CreateRouteRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *CreateRouteRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CreateRouteRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Route != nil {
+		{
+			size, err := m.Route.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *CreateRouteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *CreateRouteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CreateRouteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *GetRouteRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetRouteRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetRouteRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.IMSI))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetRouteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetRouteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetRouteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Route != nil {
+		{
+			size, err := m.Route.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *UpdateRouteRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *UpdateRouteRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *UpdateRouteRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Route != nil {
+		{
+			size, err := m.Route.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *UpdateRouteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *UpdateRouteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *UpdateRouteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *DeleteRouteRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteRouteRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeleteRouteRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.IMSI))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *DeleteRouteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteRouteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeleteRouteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *WatchRoutesRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *WatchRoutesRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *WatchRoutesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.NoSubscribe {
+		i--
+		if m.NoSubscribe {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.NoReplay {
+		i--
+		if m.NoReplay {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *WatchRoutesResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *WatchRoutesResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *WatchRoutesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Type != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.Type))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Route != nil {
+		{
+			size, err := m.Route.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ListRoutesRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListRoutesRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListRoutesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *ListRoutesResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListRoutesResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListRoutesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Route != nil {
+		{
+			size, err := m.Route.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetUERequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetUERequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.IMSI))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetUEResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetUEResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Ue != nil {
+		{
+			size, err := m.Ue.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MoveToCellRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MoveToCellRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MoveToCellRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.ECGI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.ECGI))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.IMSI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.IMSI))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MoveToCellResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MoveToCellResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MoveToCellResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MoveToLocationRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MoveToLocationRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MoveToLocationRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Heading != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.Heading))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.Location != nil {
+		{
+			size, err := m.Location.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.IMSI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.IMSI))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MoveToLocationResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MoveToLocationResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MoveToLocationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *DeleteUERequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteUERequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeleteUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.IMSI))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *DeleteUEResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteUEResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeleteUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *WatchUEsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *WatchUEsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *WatchUEsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.NoSubscribe {
+		i--
+		if m.NoSubscribe {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.NoReplay {
+		i--
+		if m.NoReplay {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *WatchUEsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *WatchUEsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *WatchUEsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Type != 0 {
+		i = encodeVarintModel(dAtA, i, uint64(m.Type))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Ue != nil {
+		{
+			size, err := m.Ue.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ListUEsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListUEsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListUEsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *ListUEsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ListUEsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListUEsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Ue != nil {
+		{
+			size, err := m.Ue.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintModel(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintModel(dAtA []byte, offset int, v uint64) int {
 	offset -= sovModel(v)
 	base := offset
@@ -3858,6 +6325,300 @@ func (m *ListCellsResponse) Size() (n int) {
 	_ = l
 	if m.Cell != nil {
 		l = m.Cell.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	return n
+}
+
+func (m *CreateRouteRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Route != nil {
+		l = m.Route.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	return n
+}
+
+func (m *CreateRouteResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *GetRouteRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		n += 1 + sovModel(uint64(m.IMSI))
+	}
+	return n
+}
+
+func (m *GetRouteResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Route != nil {
+		l = m.Route.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	return n
+}
+
+func (m *UpdateRouteRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Route != nil {
+		l = m.Route.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	return n
+}
+
+func (m *UpdateRouteResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *DeleteRouteRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		n += 1 + sovModel(uint64(m.IMSI))
+	}
+	return n
+}
+
+func (m *DeleteRouteResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *WatchRoutesRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.NoReplay {
+		n += 2
+	}
+	if m.NoSubscribe {
+		n += 2
+	}
+	return n
+}
+
+func (m *WatchRoutesResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Route != nil {
+		l = m.Route.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	if m.Type != 0 {
+		n += 1 + sovModel(uint64(m.Type))
+	}
+	return n
+}
+
+func (m *ListRoutesRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *ListRoutesResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Route != nil {
+		l = m.Route.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	return n
+}
+
+func (m *GetUERequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		n += 1 + sovModel(uint64(m.IMSI))
+	}
+	return n
+}
+
+func (m *GetUEResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Ue != nil {
+		l = m.Ue.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	return n
+}
+
+func (m *MoveToCellRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		n += 1 + sovModel(uint64(m.IMSI))
+	}
+	if m.ECGI != 0 {
+		n += 1 + sovModel(uint64(m.ECGI))
+	}
+	return n
+}
+
+func (m *MoveToCellResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MoveToLocationRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		n += 1 + sovModel(uint64(m.IMSI))
+	}
+	if m.Location != nil {
+		l = m.Location.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	if m.Heading != 0 {
+		n += 1 + sovModel(uint64(m.Heading))
+	}
+	return n
+}
+
+func (m *MoveToLocationResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *DeleteUERequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.IMSI != 0 {
+		n += 1 + sovModel(uint64(m.IMSI))
+	}
+	return n
+}
+
+func (m *DeleteUEResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *WatchUEsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.NoReplay {
+		n += 2
+	}
+	if m.NoSubscribe {
+		n += 2
+	}
+	return n
+}
+
+func (m *WatchUEsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Ue != nil {
+		l = m.Ue.Size()
+		n += 1 + l + sovModel(uint64(l))
+	}
+	if m.Type != 0 {
+		n += 1 + sovModel(uint64(m.Type))
+	}
+	return n
+}
+
+func (m *ListUEsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *ListUEsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Ue != nil {
+		l = m.Ue.Size()
 		n += 1 + l + sovModel(uint64(l))
 	}
 	return n
@@ -6423,6 +9184,1872 @@ func (m *ListCellsResponse) Unmarshal(dAtA []byte) error {
 				m.Cell = &types.Cell{}
 			}
 			if err := m.Cell.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CreateRouteRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CreateRouteRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CreateRouteRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Route", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Route == nil {
+				m.Route = &types.Route{}
+			}
+			if err := m.Route.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CreateRouteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CreateRouteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CreateRouteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetRouteRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetRouteRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetRouteRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IMSI", wireType)
+			}
+			m.IMSI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IMSI |= github_com_onosproject_onos_api_go_onos_ransim_types.IMSI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetRouteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetRouteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetRouteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Route", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Route == nil {
+				m.Route = &types.Route{}
+			}
+			if err := m.Route.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *UpdateRouteRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: UpdateRouteRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: UpdateRouteRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Route", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Route == nil {
+				m.Route = &types.Route{}
+			}
+			if err := m.Route.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *UpdateRouteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: UpdateRouteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: UpdateRouteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteRouteRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteRouteRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteRouteRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IMSI", wireType)
+			}
+			m.IMSI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IMSI |= github_com_onosproject_onos_api_go_onos_ransim_types.IMSI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteRouteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteRouteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteRouteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *WatchRoutesRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: WatchRoutesRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: WatchRoutesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NoReplay", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.NoReplay = bool(v != 0)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NoSubscribe", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.NoSubscribe = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *WatchRoutesResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: WatchRoutesResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: WatchRoutesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Route", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Route == nil {
+				m.Route = &types.Route{}
+			}
+			if err := m.Route.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			m.Type = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Type |= EventType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListRoutesRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListRoutesRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListRoutesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListRoutesResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListRoutesResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListRoutesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Route", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Route == nil {
+				m.Route = &types.Route{}
+			}
+			if err := m.Route.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetUERequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetUERequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IMSI", wireType)
+			}
+			m.IMSI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IMSI |= github_com_onosproject_onos_api_go_onos_ransim_types.IMSI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetUEResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetUEResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ue", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ue == nil {
+				m.Ue = &types.Ue{}
+			}
+			if err := m.Ue.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MoveToCellRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MoveToCellRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MoveToCellRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IMSI", wireType)
+			}
+			m.IMSI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IMSI |= github_com_onosproject_onos_api_go_onos_ransim_types.IMSI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ECGI", wireType)
+			}
+			m.ECGI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ECGI |= github_com_onosproject_onos_api_go_onos_ransim_types.ECGI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MoveToCellResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MoveToCellResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MoveToCellResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MoveToLocationRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MoveToLocationRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MoveToLocationRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IMSI", wireType)
+			}
+			m.IMSI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IMSI |= github_com_onosproject_onos_api_go_onos_ransim_types.IMSI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Location", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Location == nil {
+				m.Location = &types.Point{}
+			}
+			if err := m.Location.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Heading", wireType)
+			}
+			m.Heading = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Heading |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MoveToLocationResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MoveToLocationResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MoveToLocationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteUERequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteUERequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IMSI", wireType)
+			}
+			m.IMSI = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.IMSI |= github_com_onosproject_onos_api_go_onos_ransim_types.IMSI(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteUEResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteUEResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *WatchUEsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: WatchUEsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: WatchUEsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NoReplay", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.NoReplay = bool(v != 0)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NoSubscribe", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.NoSubscribe = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *WatchUEsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: WatchUEsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: WatchUEsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ue", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ue == nil {
+				m.Ue = &types.Ue{}
+			}
+			if err := m.Ue.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			m.Type = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Type |= EventType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListUEsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListUEsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListUEsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipModel(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthModel
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ListUEsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowModel
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ListUEsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ListUEsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ue", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowModel
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthModel
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthModel
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ue == nil {
+				m.Ue = &types.Ue{}
+			}
+			if err := m.Ue.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

@@ -12,37 +12,63 @@
     - [CreateCellResponse](#onos.ransim.model.CreateCellResponse)
     - [CreateNodeRequest](#onos.ransim.model.CreateNodeRequest)
     - [CreateNodeResponse](#onos.ransim.model.CreateNodeResponse)
+    - [CreateRouteRequest](#onos.ransim.model.CreateRouteRequest)
+    - [CreateRouteResponse](#onos.ransim.model.CreateRouteResponse)
     - [DataSet](#onos.ransim.model.DataSet)
     - [DeleteCellRequest](#onos.ransim.model.DeleteCellRequest)
     - [DeleteCellResponse](#onos.ransim.model.DeleteCellResponse)
     - [DeleteNodeRequest](#onos.ransim.model.DeleteNodeRequest)
     - [DeleteNodeResponse](#onos.ransim.model.DeleteNodeResponse)
+    - [DeleteRouteRequest](#onos.ransim.model.DeleteRouteRequest)
+    - [DeleteRouteResponse](#onos.ransim.model.DeleteRouteResponse)
+    - [DeleteUERequest](#onos.ransim.model.DeleteUERequest)
+    - [DeleteUEResponse](#onos.ransim.model.DeleteUEResponse)
     - [GetCellRequest](#onos.ransim.model.GetCellRequest)
     - [GetCellResponse](#onos.ransim.model.GetCellResponse)
     - [GetNodeRequest](#onos.ransim.model.GetNodeRequest)
     - [GetNodeResponse](#onos.ransim.model.GetNodeResponse)
+    - [GetRouteRequest](#onos.ransim.model.GetRouteRequest)
+    - [GetRouteResponse](#onos.ransim.model.GetRouteResponse)
+    - [GetUERequest](#onos.ransim.model.GetUERequest)
+    - [GetUEResponse](#onos.ransim.model.GetUEResponse)
     - [ListCellsRequest](#onos.ransim.model.ListCellsRequest)
     - [ListCellsResponse](#onos.ransim.model.ListCellsResponse)
     - [ListNodesRequest](#onos.ransim.model.ListNodesRequest)
     - [ListNodesResponse](#onos.ransim.model.ListNodesResponse)
+    - [ListRoutesRequest](#onos.ransim.model.ListRoutesRequest)
+    - [ListRoutesResponse](#onos.ransim.model.ListRoutesResponse)
+    - [ListUEsRequest](#onos.ransim.model.ListUEsRequest)
+    - [ListUEsResponse](#onos.ransim.model.ListUEsResponse)
     - [LoadRequest](#onos.ransim.model.LoadRequest)
     - [LoadResponse](#onos.ransim.model.LoadResponse)
+    - [MoveToCellRequest](#onos.ransim.model.MoveToCellRequest)
+    - [MoveToCellResponse](#onos.ransim.model.MoveToCellResponse)
+    - [MoveToLocationRequest](#onos.ransim.model.MoveToLocationRequest)
+    - [MoveToLocationResponse](#onos.ransim.model.MoveToLocationResponse)
     - [PlmnIDRequest](#onos.ransim.model.PlmnIDRequest)
     - [PlmnIDResponse](#onos.ransim.model.PlmnIDResponse)
     - [UpdateCellRequest](#onos.ransim.model.UpdateCellRequest)
     - [UpdateCellResponse](#onos.ransim.model.UpdateCellResponse)
     - [UpdateNodeRequest](#onos.ransim.model.UpdateNodeRequest)
     - [UpdateNodeResponse](#onos.ransim.model.UpdateNodeResponse)
+    - [UpdateRouteRequest](#onos.ransim.model.UpdateRouteRequest)
+    - [UpdateRouteResponse](#onos.ransim.model.UpdateRouteResponse)
     - [WatchCellsRequest](#onos.ransim.model.WatchCellsRequest)
     - [WatchCellsResponse](#onos.ransim.model.WatchCellsResponse)
     - [WatchNodesRequest](#onos.ransim.model.WatchNodesRequest)
     - [WatchNodesResponse](#onos.ransim.model.WatchNodesResponse)
+    - [WatchRoutesRequest](#onos.ransim.model.WatchRoutesRequest)
+    - [WatchRoutesResponse](#onos.ransim.model.WatchRoutesResponse)
+    - [WatchUEsRequest](#onos.ransim.model.WatchUEsRequest)
+    - [WatchUEsResponse](#onos.ransim.model.WatchUEsResponse)
   
     - [EventType](#onos.ransim.model.EventType)
   
     - [CellModel](#onos.ransim.model.CellModel)
     - [ModelService](#onos.ransim.model.ModelService)
     - [NodeModel](#onos.ransim.model.NodeModel)
+    - [RouteModel](#onos.ransim.model.RouteModel)
+    - [UEModel](#onos.ransim.model.UEModel)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -120,7 +146,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
+| cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
 
 
 
@@ -156,6 +182,31 @@ CreateNodeRequest create a node request
 
 ### CreateNodeResponse
 CreateNodeResponse create a node response
+
+
+
+
+
+
+<a name="onos.ransim.model.CreateRouteRequest"></a>
+
+### CreateRouteRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.CreateRouteResponse"></a>
+
+### CreateRouteResponse
+
 
 
 
@@ -228,6 +279,56 @@ DeleteNodeResponse delete a node response
 
 
 
+<a name="onos.ransim.model.DeleteRouteRequest"></a>
+
+### DeleteRouteRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| enbid | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.DeleteRouteResponse"></a>
+
+### DeleteRouteResponse
+
+
+
+
+
+
+
+<a name="onos.ransim.model.DeleteUERequest"></a>
+
+### DeleteUERequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| imsi | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.DeleteUEResponse"></a>
+
+### DeleteUEResponse
+
+
+
+
+
+
+
 <a name="onos.ransim.model.GetCellRequest"></a>
 
 ### GetCellRequest
@@ -251,7 +352,7 @@ DeleteNodeResponse delete a node response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
+| cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
 
 
 
@@ -282,6 +383,66 @@ GetNodeResponse get a node response
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | node | [onos.ransim.types.Node](#onos.ransim.types.Node) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.GetRouteRequest"></a>
+
+### GetRouteRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| imsi | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.GetRouteResponse"></a>
+
+### GetRouteResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.GetUERequest"></a>
+
+### GetUERequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| imsi | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.GetUEResponse"></a>
+
+### GetUEResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ue | [onos.ransim.types.Ue](#onos.ransim.types.Ue) |  |  |
 
 
 
@@ -338,6 +499,56 @@ GetNodeResponse get a node response
 
 
 
+<a name="onos.ransim.model.ListRoutesRequest"></a>
+
+### ListRoutesRequest
+
+
+
+
+
+
+
+<a name="onos.ransim.model.ListRoutesResponse"></a>
+
+### ListRoutesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.ListUEsRequest"></a>
+
+### ListUEsRequest
+
+
+
+
+
+
+
+<a name="onos.ransim.model.ListUEsResponse"></a>
+
+### ListUEsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ue | [onos.ransim.types.Ue](#onos.ransim.types.Ue) |  |  |
+
+
+
+
+
+
 <a name="onos.ransim.model.LoadRequest"></a>
 
 ### LoadRequest
@@ -357,6 +568,59 @@ GetNodeResponse get a node response
 <a name="onos.ransim.model.LoadResponse"></a>
 
 ### LoadResponse
+
+
+
+
+
+
+
+<a name="onos.ransim.model.MoveToCellRequest"></a>
+
+### MoveToCellRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| imsi | [uint32](#uint32) |  |  |
+| ecgi | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.MoveToCellResponse"></a>
+
+### MoveToCellResponse
+
+
+
+
+
+
+
+<a name="onos.ransim.model.MoveToLocationRequest"></a>
+
+### MoveToLocationRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| imsi | [uint32](#uint32) |  |  |
+| location | [onos.ransim.types.Point](#onos.ransim.types.Point) |  |  |
+| heading | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.MoveToLocationResponse"></a>
+
+### MoveToLocationResponse
 
 
 
@@ -397,7 +661,7 @@ GetNodeResponse get a node response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
+| cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
 
 
 
@@ -439,6 +703,31 @@ UpdateNodeResponse update a node response
 
 
 
+<a name="onos.ransim.model.UpdateRouteRequest"></a>
+
+### UpdateRouteRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.UpdateRouteResponse"></a>
+
+### UpdateRouteResponse
+
+
+
+
+
+
+
 <a name="onos.ransim.model.WatchCellsRequest"></a>
 
 ### WatchCellsRequest
@@ -463,7 +752,7 @@ UpdateNodeResponse update a node response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| Cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
+| cell | [onos.ransim.types.Cell](#onos.ransim.types.Cell) |  |  |
 | type | [EventType](#onos.ransim.model.EventType) |  |  |
 
 
@@ -502,6 +791,70 @@ UpdateNodeResponse update a node response
 
 
 
+
+<a name="onos.ransim.model.WatchRoutesRequest"></a>
+
+### WatchRoutesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| no_replay | [bool](#bool) |  |  |
+| no_subscribe | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.WatchRoutesResponse"></a>
+
+### WatchRoutesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  |  |
+| type | [EventType](#onos.ransim.model.EventType) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.WatchUEsRequest"></a>
+
+### WatchUEsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| no_replay | [bool](#bool) |  |  |
+| no_subscribe | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.WatchUEsResponse"></a>
+
+### WatchUEsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ue | [onos.ransim.types.Ue](#onos.ransim.types.Ue) |  |  |
+| type | [EventType](#onos.ransim.model.EventType) |  |  |
+
+
+
+
+
  
 
 
@@ -526,7 +879,7 @@ Change event type
 <a name="onos.ransim.model.CellModel"></a>
 
 ### CellModel
-CellModel provides means to create, delete and read RAN simulation model.
+CellModel provides means to create, delete and read simulated RAN cells.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
@@ -552,7 +905,7 @@ ModelService provides means to clear and load node and cell model in bulk
 <a name="onos.ransim.model.NodeModel"></a>
 
 ### NodeModel
-NodeModel provides means to create, delete and read RAN simulation model.
+NodeModel provides means to create, delete and read simulated RAN nodes.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
@@ -564,6 +917,36 @@ NodeModel provides means to create, delete and read RAN simulation model.
 | WatchNodes | [WatchNodesRequest](#onos.ransim.model.WatchNodesRequest) | [WatchNodesResponse](#onos.ransim.model.WatchNodesResponse) stream |  |
 | ListNodes | [ListNodesRequest](#onos.ransim.model.ListNodesRequest) | [ListNodesResponse](#onos.ransim.model.ListNodesResponse) stream |  |
 | AgentControl | [AgentControlRequest](#onos.ransim.model.AgentControlRequest) | [AgentControlResponse](#onos.ransim.model.AgentControlResponse) |  |
+
+
+<a name="onos.ransim.model.RouteModel"></a>
+
+### RouteModel
+RouteModel provides means to create, delete and read simulated mobile UE routes.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| CreateRoute | [CreateRouteRequest](#onos.ransim.model.CreateRouteRequest) | [CreateRouteResponse](#onos.ransim.model.CreateRouteResponse) |  |
+| DeleteRoute | [DeleteRouteRequest](#onos.ransim.model.DeleteRouteRequest) | [DeleteRouteResponse](#onos.ransim.model.DeleteRouteResponse) |  |
+| UpdateRoute | [UpdateRouteRequest](#onos.ransim.model.UpdateRouteRequest) | [UpdateRouteResponse](#onos.ransim.model.UpdateRouteResponse) |  |
+| GetRoute | [GetRouteRequest](#onos.ransim.model.GetRouteRequest) | [GetRouteResponse](#onos.ransim.model.GetRouteResponse) |  |
+| WatchRoutes | [WatchRoutesRequest](#onos.ransim.model.WatchRoutesRequest) | [WatchRoutesResponse](#onos.ransim.model.WatchRoutesResponse) stream |  |
+| ListRoutes | [ListRoutesRequest](#onos.ransim.model.ListRoutesRequest) | [ListRoutesResponse](#onos.ransim.model.ListRoutesResponse) stream |  |
+
+
+<a name="onos.ransim.model.UEModel"></a>
+
+### UEModel
+UEModel provides means to simulate mobile UEs.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetUE | [GetUERequest](#onos.ransim.model.GetUERequest) | [GetUEResponse](#onos.ransim.model.GetUEResponse) |  |
+| MoveToCell | [MoveToCellRequest](#onos.ransim.model.MoveToCellRequest) | [MoveToCellResponse](#onos.ransim.model.MoveToCellResponse) |  |
+| MoveToLocation | [MoveToLocationRequest](#onos.ransim.model.MoveToLocationRequest) | [MoveToLocationResponse](#onos.ransim.model.MoveToLocationResponse) |  |
+| DeleteUE | [DeleteUERequest](#onos.ransim.model.DeleteUERequest) | [DeleteUEResponse](#onos.ransim.model.DeleteUEResponse) |  |
+| WatchUEs | [WatchUEsRequest](#onos.ransim.model.WatchUEsRequest) | [WatchUEsResponse](#onos.ransim.model.WatchUEsResponse) stream |  |
+| ListUEs | [ListUEsRequest](#onos.ransim.model.ListUEsRequest) | [ListUEsResponse](#onos.ransim.model.ListUEsResponse) stream |  |
 
  
 
