@@ -1,6 +1,6 @@
 #!/bin/sh
 
-proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/src/github.com/gogo/protobuf:${GOPATH}/src"
+proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/src/github.com/gogo/protobuf:${GOPATH}/src/github.com/p4lang/p4runtime/proto:${GOPATH}/src/github.com/googleapis/api-common-protos:${GOPATH}/src"
 
 ### Documentation generation
 
@@ -33,6 +33,12 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/topo \
     --doc_opt=markdown,topo.md \
     proto/onos/topo/topo.proto
+
+# control
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/control \
+    --doc_opt=markdown,control.md \
+    proto/onos/control/pipelines.proto
 
 # config
 protoc --proto_path=$proto_path \
@@ -121,6 +127,7 @@ go_import_paths="${go_import_paths},Monos/config/change/network/types.proto=gith
 go_import_paths="${go_import_paths},Monos/config/snapshot/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot"
 go_import_paths="${go_import_paths},Monos/config/snapshot/device/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/onosproject/onos-api/go/onos/ransim/types"
+go_import_paths="${go_import_paths},Mp4/config/v1/p4info.proto=github.com/p4lang/p4runtime/proto"
 # e2sub
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2sub/endpoint,plugins=grpc:./go \
@@ -139,9 +146,20 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2,plugins=grpc:./go \
     proto/onos/e2t/e2/*.proto
+
+# topo
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
     proto/onos/topo/*.proto
+
+# control
+protoc --proto_path="./proto:/usr/local/include:${GOPATH}/src/github.com/p4lang/p4runtime/proto:${GOPATH}/src/github.com/googleapis/api-common-protos"\
+    --go_out=./go \
+    --go_opt=module=github.com/onosproject/onos-api/go \
+    --go-grpc_out=./go \
+    --go-grpc_opt=module=github.com/onosproject/onos-api/go \
+    --plugin=grpc:./go \
+    proto/onos/control/*.proto
 
 # config
 protoc --proto_path=$proto_path \
