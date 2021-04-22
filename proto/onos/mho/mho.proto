@@ -1,0 +1,66 @@
+/*
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+*/
+
+// This file defines Mobile-hand-over (MHO) App API to show/adjust some parameters
+
+syntax = "proto3";
+
+package onos.mho;
+
+// Mho provides an API to show/adjust MHO app Parameters
+service Mho {
+    // To get MHO parameters
+    rpc GetMhoParams(GetMhoParamRequest) returns (GetMhoParamResponse);
+
+    // To set MHO parameters
+    rpc SetMhoParams(SetMhoParamRequest) returns (SetMhoParamResponse);
+}
+
+message GetMhoParamRequest{
+    // hoParamType is a type of handover parameter
+    MhoParamType hoParamType = 1;
+}
+
+message GetMhoParamResponse {
+    // hoParamType is a type of handover parameter
+    MhoParamType hoParamType = 1;
+
+    // A3-Offset value
+    int32 a3Offset = 2;
+
+    // Hysteresis value
+    int32 hysteresis = 3;
+
+    // Time-to-Trigger value
+    int32 timeToTrigger = 4;
+}
+
+message SetMhoParamRequest{
+    // hoParamType is a type of handover parameter
+    MhoParamType hoParamType = 1;
+
+    // A3-Offset value
+    int32 a3Offset = 2;
+
+    // Hysteresis value
+    int32 hysteresis = 3;
+
+    // Time-to-Trigger value
+    int32 timeToTrigger = 4;
+}
+
+message SetMhoParamResponse{
+    // success is a result whether MHO param is set successfully or not
+    bool success = 1;
+}
+
+// MhoParamType is enumeration type of MHO parameters
+enum MhoParamType {
+    ALL = 0;
+    A3OFFSET = 1;
+    HYSTERESIS = 2;
+    TIMETOTRIGGER = 3;
+}
