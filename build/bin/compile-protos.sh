@@ -187,6 +187,11 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/pci,plugins=grpc:./go \
     proto/onos/pci/*.proto
 
+# mho
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/mho,plugins=grpc:./go \
+    proto/onos/mho/*.proto
+
 # ransim
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/ransim/metrics,plugins=grpc:./go \
