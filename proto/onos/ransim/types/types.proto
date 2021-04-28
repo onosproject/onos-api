@@ -30,6 +30,14 @@ message Route {
     repeated Point waypoints = 2;
 
     string color = 3;
+
+    uint32 speed_avg = 4;
+
+    uint32 speed_stdev = 5;
+
+    bool reverse = 6;
+
+    uint32 next_point = 7;
 }
 
 message Ue {
