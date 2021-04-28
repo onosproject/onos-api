@@ -134,6 +134,10 @@
 | name | [uint64](#uint64) |  |  |
 | waypoints | [Point](#onos.ransim.types.Point) | repeated |  |
 | color | [string](#string) |  |  |
+| speed_avg | [uint32](#uint32) |  |  |
+| speed_stdev | [uint32](#uint32) |  |  |
+| reverse | [bool](#bool) |  |  |
+| next_point | [uint32](#uint32) |  |  |
 
 
 

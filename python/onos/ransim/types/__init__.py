@@ -31,6 +31,10 @@ class Route(betterproto.Message):
     name: int = betterproto.uint64_field(1)
     waypoints: List["Point"] = betterproto.message_field(2)
     color: str = betterproto.string_field(3)
+    speed_avg: int = betterproto.uint32_field(4)
+    speed_stdev: int = betterproto.uint32_field(5)
+    reverse: bool = betterproto.bool_field(6)
+    next_point: int = betterproto.uint32_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
