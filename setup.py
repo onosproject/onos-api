@@ -1,34 +1,51 @@
-#!/usr/bin/env python
+# SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 
-# SPDX-FileCopyrightText: © 2020 Open Networking Foundation <support@opennetworking.org>
-# SPDX-License-Identifier: Apache-2.0
-
-from setuptools import find_packages, setup
+from setuptools import setup, find_packages
 
 
-PACKAGES = find_packages("python")
+def readme():
+    with open("./README.md") as f:
+        return f.read()
 
 
 def version():
     with open("VERSION") as f:
         return f.read()
 
-
 setup(
     name="onos-api",
     version=version(),
-    description="ONOS API for Python",
-    author="Open Networking Foundation and Partners",
+    description="ONOS Python API",
+    long_description=readme(),
+    long_description_content_type="text/markdown",
+    author="Open Networking Foundation (ONF) and Partners",
     author_email="support@opennetworking.org",
-    packages=[f"onos_api.{pkg}" for pkg in PACKAGES],
-    package_dir={f"onos_api.{pkg}": f"python/{pkg}".replace(".", "/") for pkg in PACKAGES},
-    install_requires=["betterproto>=2.0.0b3,<3.0"],
+    packages=find_packages(exclude=("tests",)),
+    namespace_packages=[],
+    include_package_data=True,
+    keywords=["onos-api", "python", "protobuf", "gnmi"],
+    license="Apache License v2.0",
+    url="https://github.com/onosproject/onos-api/",
+    download_url="https://github.com/onosproject/onos-api/",
     classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: Other Environment",
+        "Intended Audience :: Developers",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Topic :: Utilities",
         "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
     ],
+    scripts=[],
+    install_requires=[
+        "protobuf",
+        "grpclib",
+        "betterproto",
+        "gnmi-proto",
+    ],
+    python_requires=">=3.6",
+    setup_requires=["setuptools>=41.1.0"],
 )
-
-
