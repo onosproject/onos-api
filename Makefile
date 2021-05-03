@@ -35,6 +35,9 @@ jenkins-tools: # @HELP installs tooling needed for Jenkins
 golang-ci: # @HELP install golang-ci if not present
 	golangci-lint --version || curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b `go env GOPATH`/bin v1.36.0
 
+twine: # @HELP install twine if not present
+	twine --version || pip install twine
+
 license_check: build-tools # @HELP examine and ensure license headers exist
 	./../build-tools/licensing/boilerplate.py -v --rootdir=/go/src/github.com/onosproject/onos-api/proto
 
@@ -54,7 +57,8 @@ protos:
 mocks:
 	./build/bin/generate-mocks.sh
 
-publish: # @HELP publish version on github and dockerhub
+publish: twine # @HELP publish version on github, dockerhub, abd PyPI
+	./../build-tools/publish-python-version
 	./../build-tools/publish-version ${VERSION}
 	./../build-tools/publish-version go/${VERSION}
 
