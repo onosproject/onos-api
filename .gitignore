@@ -24,3 +24,7 @@
 # Python
 __pycache__
 *.egg-info
+
+# PyPI generated directories
+.eggs/
+python/dist/
