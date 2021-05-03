@@ -19,3 +19,8 @@
 *report*.xml
 *coverage*.xml
 *-output.out
+.vscode
+
+# Python
+__pycache__
+*.egg-info
