@@ -5,6 +5,9 @@
 from setuptools import setup, find_packages
 
 
+PACKAGES = find_packages("python/onos")
+
+
 def readme():
     with open("./README.md") as f:
         return f.read()
@@ -14,6 +17,7 @@ def version():
     with open("VERSION") as f:
         return f.read()
 
+
 setup(
     name="onos-api",
     version=version(),
@@ -22,9 +26,10 @@ setup(
     long_description_content_type="text/markdown",
     author="Open Networking Foundation (ONF) and Partners",
     author_email="support@opennetworking.org",
-    packages=find_packages(exclude=("tests",)),
-    namespace_packages=[],
-    include_package_data=True,
+    packages=[f"onos_api.{pkg}" for pkg in PACKAGES],
+    package_dir={
+        f"onos_api.{pkg}": f"python/onos/{pkg}".replace(".", "/") for pkg in PACKAGES
+    },
     keywords=["onos-api", "python", "protobuf", "gnmi"],
     license="Apache License v2.0",
     url="https://github.com/onosproject/onos-api/",
@@ -39,11 +44,8 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: Apache Software License",
     ],
-    scripts=[],
     install_requires=[
-        "protobuf",
-        "grpclib",
-        "betterproto",
+        "betterproto>=2.0.0b3,<3",
         "gnmi-proto",
     ],
     python_requires=">=3.6",
