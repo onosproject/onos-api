@@ -54,7 +54,7 @@ protos:
 		--entrypoint build/bin/compile-protos.sh \
 		onosproject/protoc-go:${ONOS_PROTOC_VERSION}
 
-mocks:
+mocks: # @HELP compile the mock interfaces from generated sources
 	./build/bin/generate-mocks.sh
 
 publish: twine # @HELP publish version on github, dockerhub, abd PyPI
