@@ -58,7 +58,7 @@ mocks:
 	./build/bin/generate-mocks.sh
 
 publish: twine # @HELP publish version on github, dockerhub, abd PyPI
-	BASEDIR=. ./../build-tools/publish-python-version
+	BASEDIR=. PYPI_INDEX=pypi ./../build-tools/publish-python-version
 	./../build-tools/publish-version ${VERSION}
 	./../build-tools/publish-version go/${VERSION}
 
