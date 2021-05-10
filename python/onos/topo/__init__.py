@@ -77,7 +77,6 @@ class Coverage(betterproto.Message):
 class E2Node(betterproto.Message):
     """E2Node persona; expected value type of "e2node" attribute"""
 
-    node_id: int = betterproto.uint64_field(1)
     service_models: List[str] = betterproto.string_field(2)
     ran_functions: List[
         "betterproto_lib_google_protobuf.Any"
@@ -91,8 +90,7 @@ class E2Node(betterproto.Message):
 class E2Cell(betterproto.Message):
     """E2Cell persona; expected value type of "e2cell" attribute"""
 
-    cid: int = betterproto.uint32_field(1)
-    ecgi: int = betterproto.uint64_field(2)
+    cid: str = betterproto.string_field(1)
     antenna_count: int = betterproto.uint32_field(3)
     earfcn: int = betterproto.uint32_field(4)
     cell_type: str = betterproto.string_field(5)
@@ -103,8 +101,17 @@ class E2Cell(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
-    id: str = betterproto.string_field(1)
-    measurements: List[str] = betterproto.string_field(2)
+    oid: str = betterproto.string_field(1)
+    measurements: List["KpmMeasurement"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class KpmMeasurement(betterproto.Message):
+    oid: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -112,7 +119,7 @@ class KpmRanFunction(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RcRanFunction(betterproto.Message):
-    id: str = betterproto.string_field(1)
+    oid: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()

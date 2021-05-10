@@ -38,16 +38,13 @@ message Coverage {
 
 // E2Node persona; expected value type of "e2node" attribute
 message E2Node {
-  uint64 node_id = 1 [(gogoproto.customname) = "NodeID"];  // enbID, gEnbID, etc.
   repeated string service_models = 2; // supported service model names
-
-  repeated google.protobuf.Any ran_functions = 3;  // TODO: should this be a map instead?
+  repeated google.protobuf.Any ran_functions = 3;
 }
 
 // E2Cell persona; expected value type of "e2cell" attribute
 message E2Cell {
-  uint32 cid = 1 [(gogoproto.customname) = "CID"];
-  uint64 ecgi = 2 [(gogoproto.customname) = "ECGI"];
+  string cid = 1 [(gogoproto.customname) = "CID"];
   uint32 antennaCount = 3;
   uint32 earfcn = 4 [(gogoproto.customname) = "EARFCN"];
   string cell_type = 5;
@@ -60,11 +57,16 @@ message E2Cell {
 // of another entity with an E2Node persona.
 
 message KPMRanFunction {
-  string id = 1;
-  repeated string measurements = 2;
+  string oid = 1 [(gogoproto.customname) = "OID"];
+  repeated KPMMeasurement measurements = 2;
+}
+
+message KPMMeasurement {
+  string oid = 1 [(gogoproto.customname) = "OID"];
+  string name = 2;
 }
 
 message RCRanFunction {
-  string id = 1;
+  string oid = 1 [(gogoproto.customname) = "OID"];
 }
 
