@@ -77,9 +77,8 @@ class Coverage(betterproto.Message):
 class E2Node(betterproto.Message):
     """E2Node persona; expected value type of "e2node" attribute"""
 
-    service_models: List[str] = betterproto.string_field(1)
-    ran_functions: Dict[str, "RanFunctions"] = betterproto.map_field(
-        2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
 
     def __post_init__(self) -> None:
@@ -100,28 +99,12 @@ class E2Cell(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class RanFunctions(betterproto.Message):
-    functions: List["betterproto_lib_google_protobuf.Any"] = betterproto.message_field(
-        1
-    )
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class KpmRanFunction(betterproto.Message):
-    oid: str = betterproto.string_field(1)
-    measurements: List["KpmMeasurement"] = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class KpmMeasurement(betterproto.Message):
+class ServiceModelInfo(betterproto.Message):
     oid: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
+    ran_functions: Dict[
+        str, "betterproto_lib_google_protobuf.Any"
+    ] = betterproto.map_field(3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -129,7 +112,24 @@ class KpmMeasurement(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RcRanFunction(betterproto.Message):
-    oid: str = betterproto.string_field(1)
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class KpmRanFunction(betterproto.Message):
+    measurements: List["KpmMeasurement"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class KpmMeasurement(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
