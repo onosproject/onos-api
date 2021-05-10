@@ -108,6 +108,7 @@ message WatchResponse {
   Event event = 1 [(gogoproto.nullable) = false];
 }
 
+// Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
 message Object {
   string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
   uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
@@ -126,7 +127,8 @@ message Object {
     Kind kind = 6;
   }
 
-  map<string, string> attributes = 7;
+  // Map of attributes as typed values; for kind, these represent expected attributed and their default values
+  map<string, Value> attributes = 7;
 }
 
 // Entity represents any "thing" that is represented in the topology
@@ -136,6 +138,7 @@ message Entity {
   repeated ProtocolState protocols = 2;
 }
 
+// Relation represents any "relation" between two entitites in the topology.
 message Relation {
   // user defined relation kind
   string kind_id = 1 [(gogoproto.customname) = "KindID", (gogoproto.casttype) = "ID"];
@@ -144,12 +147,36 @@ message Relation {
   string tgt_entity_id = 3 [(gogoproto.customname) = "TgtEntityID", (gogoproto.casttype) = "ID"];
 }
 
+// Kind represents an archetype of an object, i.e. entity or relation
 message Kind {
-  string name = 1;
-  // Map of attributes and their default values for this Kind
-  map<string, string> attributes = 2;
+  string name = 1;  // name, a.k.a kind_id
+
+  // Deprecated: Map of attributes and their default values for this Kind
+  // map<string, Value> attributes = 2;
 }
 
+// Value is a type/value pair with the value itself being a selection dependent on the type
+message Value {
+
+  enum Type {
+    STRING = 0;
+    UINT = 1;
+    INT = 2;
+    BOOLEAN = 3;
+    PROTO = 4;
+    BYTES = 5;
+  }
+  Type type = 1;
+
+  oneof value {
+    string stringValue = 2;
+    uint64 uintValue = 3;
+    int64 intValue = 4;
+    bool boolValue = 5;
+    bytes protoValue = 6;
+    bytes bytesValue = 7;
+  }
+}
 
 
 // ProtocolState contains information related to service and connectivity to a device

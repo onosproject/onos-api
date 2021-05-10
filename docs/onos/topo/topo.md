@@ -13,7 +13,6 @@
     - [GetRequest](#onos.topo.GetRequest)
     - [GetResponse](#onos.topo.GetResponse)
     - [Kind](#onos.topo.Kind)
-    - [Kind.AttributesEntry](#onos.topo.Kind.AttributesEntry)
     - [ListRequest](#onos.topo.ListRequest)
     - [ListResponse](#onos.topo.ListResponse)
     - [Object](#onos.topo.Object)
@@ -22,6 +21,7 @@
     - [Relation](#onos.topo.Relation)
     - [UpdateRequest](#onos.topo.UpdateRequest)
     - [UpdateResponse](#onos.topo.UpdateResponse)
+    - [Value](#onos.topo.Value)
     - [WatchRequest](#onos.topo.WatchRequest)
     - [WatchResponse](#onos.topo.WatchResponse)
   
@@ -31,6 +31,7 @@
     - [Object.Type](#onos.topo.Object.Type)
     - [Protocol](#onos.topo.Protocol)
     - [ServiceState](#onos.topo.ServiceState)
+    - [Value.Type](#onos.topo.Value.Type)
   
     - [Topo](#onos.topo.Topo)
   
@@ -165,29 +166,12 @@ Event is a topo operation event
 <a name="onos.topo.Kind"></a>
 
 ### Kind
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  |  |
-| attributes | [Kind.AttributesEntry](#onos.topo.Kind.AttributesEntry) | repeated | Map of attributes and their default values for this Kind |
-
-
-
-
-
-
-<a name="onos.topo.Kind.AttributesEntry"></a>
-
-### Kind.AttributesEntry
-
+Kind represents an archetype of an object, i.e. entity or relation
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| name | [string](#string) |  | name, a.k.a kind_id |
 
 
 
@@ -222,7 +206,7 @@ Event is a topo operation event
 <a name="onos.topo.Object"></a>
 
 ### Object
-
+Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
 
 
 | Field | Type | Label | Description |
@@ -233,7 +217,7 @@ Event is a topo operation event
 | entity | [Entity](#onos.topo.Entity) |  |  |
 | relation | [Relation](#onos.topo.Relation) |  |  |
 | kind | [Kind](#onos.topo.Kind) |  |  |
-| attributes | [Object.AttributesEntry](#onos.topo.Object.AttributesEntry) | repeated |  |
+| attributes | [Object.AttributesEntry](#onos.topo.Object.AttributesEntry) | repeated | Map of attributes as typed values; for kind, these represent expected attributed and their default values |
 
 
 
@@ -249,7 +233,7 @@ Event is a topo operation event
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| value | [Value](#onos.topo.Value) |  |  |
 
 
 
@@ -277,7 +261,7 @@ ProtocolState contains information related to service and connectivity to a devi
 <a name="onos.topo.Relation"></a>
 
 ### Relation
-
+Relation represents any &#34;relation&#34; between two entitites in the topology.
 
 
 | Field | Type | Label | Description |
@@ -315,6 +299,27 @@ ProtocolState contains information related to service and connectivity to a devi
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | object | [Object](#onos.topo.Object) |  |  |
+
+
+
+
+
+
+<a name="onos.topo.Value"></a>
+
+### Value
+Value is a type/value pair with the value itself being a selection dependent on the type
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [Value.Type](#onos.topo.Value.Type) |  |  |
+| stringValue | [string](#string) |  |  |
+| uintValue | [uint64](#uint64) |  |  |
+| intValue | [int64](#int64) |  |  |
+| boolValue | [bool](#bool) |  |  |
+| protoValue | [bytes](#bytes) |  |  |
+| bytesValue | [bytes](#bytes) |  |  |
 
 
 
@@ -433,6 +438,22 @@ ServiceState represents the state of the gRPC service (e.g. gNMI) to the device 
 | AVAILABLE | 1 | AVAILABLE indicates the corresponding grpc service is available |
 | UNAVAILABLE | 2 | UNAVAILABLE indicates the corresponding grpc service is not available |
 | CONNECTING | 3 | CONNECTING indicates the corresponding protocol is in the connecting phase on this device |
+
+
+
+<a name="onos.topo.Value.Type"></a>
+
+### Value.Type
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| STRING | 0 |  |
+| UINT | 1 |  |
+| INT | 2 |  |
+| BOOLEAN | 3 |  |
+| PROTO | 4 |  |
+| BYTES | 5 |  |
 
 
  

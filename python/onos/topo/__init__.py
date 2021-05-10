@@ -91,6 +91,15 @@ class ObjectType(betterproto.Enum):
     KIND = 3
 
 
+class ValueType(betterproto.Enum):
+    STRING = 0
+    UINT = 1
+    INT = 2
+    BOOLEAN = 3
+    PROTO = 4
+    BYTES = 5
+
+
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
     """Event is a topo operation event"""
@@ -200,14 +209,21 @@ class WatchResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Object(betterproto.Message):
+    """
+    Object is an one of the following: a kind (archetype of entity or
+    relation), an entity, a relation
+    """
+
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
     type: "ObjectType" = betterproto.enum_field(3)
     entity: "Entity" = betterproto.message_field(4, group="obj")
     relation: "Relation" = betterproto.message_field(5, group="obj")
     kind: "Kind" = betterproto.message_field(6, group="obj")
-    attributes: Dict[str, str] = betterproto.map_field(
-        7, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    # Map of attributes as typed values; for kind, these represent expected
+    # attributed and their default values
+    attributes: Dict[str, "Value"] = betterproto.map_field(
+        7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
 
     def __post_init__(self) -> None:
@@ -228,6 +244,10 @@ class Entity(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Relation(betterproto.Message):
+    """
+    Relation represents any "relation" between two entitites in the topology.
+    """
+
     # user defined relation kind
     kind_id: str = betterproto.string_field(1)
     src_entity_id: str = betterproto.string_field(2)
@@ -239,11 +259,28 @@ class Relation(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Kind(betterproto.Message):
+    """Kind represents an archetype of an object, i.e. entity or relation"""
+
     name: str = betterproto.string_field(1)
-    # Map of attributes and their default values for this Kind
-    attributes: Dict[str, str] = betterproto.map_field(
-        2, betterproto.TYPE_STRING, betterproto.TYPE_STRING
-    )
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Value(betterproto.Message):
+    """
+    Value is a type/value pair with the value itself being a selection
+    dependent on the type
+    """
+
+    type: "ValueType" = betterproto.enum_field(1)
+    string_value: str = betterproto.string_field(2, group="value")
+    uint_value: int = betterproto.uint64_field(3, group="value")
+    int_value: int = betterproto.int64_field(4, group="value")
+    bool_value: bool = betterproto.bool_field(5, group="value")
+    proto_value: bytes = betterproto.bytes_field(6, group="value")
+    bytes_value: bytes = betterproto.bytes_field(7, group="value")
 
     def __post_init__(self) -> None:
         super().__post_init__()
