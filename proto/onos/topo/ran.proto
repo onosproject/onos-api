@@ -1,0 +1,70 @@
+/*
+Copyright 2019-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package onos.topo defines interfaces for managing network top
+package onos.topo;
+
+import "google/protobuf/any.proto";
+import "gogoproto/gogo.proto";
+
+// Geographical location; expected value type of "location" attribute
+message Location {
+  double lat = 1;
+  double lng = 2;
+}
+
+// Area of coverage; expected value type of "coverage" attribute
+message Coverage {
+  int32 height = 1;
+  int32 arcWidth = 2;
+  int32 azimuth = 3;
+  int32 tilt = 4;
+}
+
+// E2Node persona; expected value type of "e2node" attribute
+message E2Node {
+  uint64 node_id = 1 [(gogoproto.customname) = "NodeID"];  // enbID, gEnbID, etc.
+  repeated string service_models = 2; // supported service model names
+
+  repeated google.protobuf.Any ran_functions = 3;  // TODO: should this be a map instead?
+}
+
+// E2Cell persona; expected value type of "e2cell" attribute
+message E2Cell {
+  uint32 cid = 1 [(gogoproto.customname) = "CID"];
+  uint64 ecgi = 2 [(gogoproto.customname) = "ECGI"];
+  uint32 antennaCount = 3;
+  uint32 earfcn = 4 [(gogoproto.customname) = "EARFCN"];
+  string cell_type = 5;
+}
+
+// Each entity with an E2Cell persona is expected to be a target of one and only one "controls" relation with a node
+// that has an E2Node persona.
+
+// Each entity with an E2Cell persona is expected to be the source of zero or more "neighbours" relations with target
+// of another entity with an E2Node persona.
+
+message KPMRanFunction {
+  string id = 1;
+  repeated string measurements = 2;
+}
+
+message RCRanFunction {
+  string id = 1;
+}
+
