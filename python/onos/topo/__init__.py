@@ -77,10 +77,10 @@ class Coverage(betterproto.Message):
 class E2Node(betterproto.Message):
     """E2Node persona; expected value type of "e2node" attribute"""
 
-    service_models: List[str] = betterproto.string_field(2)
-    ran_functions: List[
-        "betterproto_lib_google_protobuf.Any"
-    ] = betterproto.message_field(3)
+    service_models: List[str] = betterproto.string_field(1)
+    ran_functions: Dict[str, "RanFunctions"] = betterproto.map_field(
+        2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -91,9 +91,19 @@ class E2Cell(betterproto.Message):
     """E2Cell persona; expected value type of "e2cell" attribute"""
 
     cid: str = betterproto.string_field(1)
-    antenna_count: int = betterproto.uint32_field(3)
-    earfcn: int = betterproto.uint32_field(4)
-    cell_type: str = betterproto.string_field(5)
+    antenna_count: int = betterproto.uint32_field(2)
+    earfcn: int = betterproto.uint32_field(3)
+    cell_type: str = betterproto.string_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RanFunctions(betterproto.Message):
+    functions: List["betterproto_lib_google_protobuf.Any"] = betterproto.message_field(
+        1
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()

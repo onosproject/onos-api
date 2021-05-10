@@ -151,8 +151,8 @@ func (m *Coverage) GetTilt() int32 {
 
 // E2Node persona; expected value type of "e2node" attribute
 type E2Node struct {
-	ServiceModels []string     `protobuf:"bytes,2,rep,name=service_models,json=serviceModels,proto3" json:"service_models,omitempty"`
-	RanFunctions  []*types.Any `protobuf:"bytes,3,rep,name=ran_functions,json=ranFunctions,proto3" json:"ran_functions,omitempty"`
+	ServiceModels []string                 `protobuf:"bytes,1,rep,name=service_models,json=serviceModels,proto3" json:"service_models,omitempty"`
+	RanFunctions  map[string]*RanFunctions `protobuf:"bytes,2,rep,name=ran_functions,json=ranFunctions,proto3" json:"ran_functions,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *E2Node) Reset()         { *m = E2Node{} }
@@ -195,7 +195,7 @@ func (m *E2Node) GetServiceModels() []string {
 	return nil
 }
 
-func (m *E2Node) GetRanFunctions() []*types.Any {
+func (m *E2Node) GetRanFunctions() map[string]*RanFunctions {
 	if m != nil {
 		return m.RanFunctions
 	}
@@ -205,9 +205,9 @@ func (m *E2Node) GetRanFunctions() []*types.Any {
 // E2Cell persona; expected value type of "e2cell" attribute
 type E2Cell struct {
 	CID          string `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty"`
-	AntennaCount uint32 `protobuf:"varint,3,opt,name=antennaCount,proto3" json:"antennaCount,omitempty"`
-	EARFCN       uint32 `protobuf:"varint,4,opt,name=earfcn,proto3" json:"earfcn,omitempty"`
-	CellType     string `protobuf:"bytes,5,opt,name=cell_type,json=cellType,proto3" json:"cell_type,omitempty"`
+	AntennaCount uint32 `protobuf:"varint,2,opt,name=antennaCount,proto3" json:"antennaCount,omitempty"`
+	EARFCN       uint32 `protobuf:"varint,3,opt,name=earfcn,proto3" json:"earfcn,omitempty"`
+	CellType     string `protobuf:"bytes,4,opt,name=cell_type,json=cellType,proto3" json:"cell_type,omitempty"`
 }
 
 func (m *E2Cell) Reset()         { *m = E2Cell{} }
@@ -271,6 +271,50 @@ func (m *E2Cell) GetCellType() string {
 	return ""
 }
 
+type RanFunctions struct {
+	Functions []*types.Any `protobuf:"bytes,1,rep,name=functions,proto3" json:"functions,omitempty"`
+}
+
+func (m *RanFunctions) Reset()         { *m = RanFunctions{} }
+func (m *RanFunctions) String() string { return proto.CompactTextString(m) }
+func (*RanFunctions) ProtoMessage()    {}
+func (*RanFunctions) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{4}
+}
+func (m *RanFunctions) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RanFunctions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RanFunctions.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RanFunctions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RanFunctions.Merge(m, src)
+}
+func (m *RanFunctions) XXX_Size() int {
+	return m.Size()
+}
+func (m *RanFunctions) XXX_DiscardUnknown() {
+	xxx_messageInfo_RanFunctions.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RanFunctions proto.InternalMessageInfo
+
+func (m *RanFunctions) GetFunctions() []*types.Any {
+	if m != nil {
+		return m.Functions
+	}
+	return nil
+}
+
 type KPMRanFunction struct {
 	OID          string            `protobuf:"bytes,1,opt,name=oid,proto3" json:"oid,omitempty"`
 	Measurements []*KPMMeasurement `protobuf:"bytes,2,rep,name=measurements,proto3" json:"measurements,omitempty"`
@@ -280,7 +324,7 @@ func (m *KPMRanFunction) Reset()         { *m = KPMRanFunction{} }
 func (m *KPMRanFunction) String() string { return proto.CompactTextString(m) }
 func (*KPMRanFunction) ProtoMessage()    {}
 func (*KPMRanFunction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{4}
+	return fileDescriptor_23cc5f935e05bbb6, []int{5}
 }
 func (m *KPMRanFunction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -332,7 +376,7 @@ func (m *KPMMeasurement) Reset()         { *m = KPMMeasurement{} }
 func (m *KPMMeasurement) String() string { return proto.CompactTextString(m) }
 func (*KPMMeasurement) ProtoMessage()    {}
 func (*KPMMeasurement) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{5}
+	return fileDescriptor_23cc5f935e05bbb6, []int{6}
 }
 func (m *KPMMeasurement) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -383,7 +427,7 @@ func (m *RCRanFunction) Reset()         { *m = RCRanFunction{} }
 func (m *RCRanFunction) String() string { return proto.CompactTextString(m) }
 func (*RCRanFunction) ProtoMessage()    {}
 func (*RCRanFunction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{6}
+	return fileDescriptor_23cc5f935e05bbb6, []int{7}
 }
 func (m *RCRanFunction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -423,7 +467,9 @@ func init() {
 	proto.RegisterType((*Location)(nil), "onos.topo.Location")
 	proto.RegisterType((*Coverage)(nil), "onos.topo.Coverage")
 	proto.RegisterType((*E2Node)(nil), "onos.topo.E2Node")
+	proto.RegisterMapType((map[string]*RanFunctions)(nil), "onos.topo.E2Node.RanFunctionsEntry")
 	proto.RegisterType((*E2Cell)(nil), "onos.topo.E2Cell")
+	proto.RegisterType((*RanFunctions)(nil), "onos.topo.RanFunctions")
 	proto.RegisterType((*KPMRanFunction)(nil), "onos.topo.KPMRanFunction")
 	proto.RegisterType((*KPMMeasurement)(nil), "onos.topo.KPMMeasurement")
 	proto.RegisterType((*RCRanFunction)(nil), "onos.topo.RCRanFunction")
@@ -432,37 +478,41 @@ func init() {
 func init() { proto.RegisterFile("onos/topo/ran.proto", fileDescriptor_23cc5f935e05bbb6) }
 
 var fileDescriptor_23cc5f935e05bbb6 = []byte{
-	// 471 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x92, 0xc1, 0x6a, 0xdb, 0x40,
-	0x10, 0x86, 0xad, 0xc8, 0x76, 0xac, 0x89, 0x15, 0xca, 0x36, 0x14, 0xd9, 0x05, 0xc5, 0x08, 0x0a,
-	0xa6, 0x07, 0x09, 0xdc, 0x53, 0x0f, 0xa5, 0xc4, 0x6a, 0x02, 0x25, 0x75, 0x1a, 0x96, 0x42, 0x8f,
-	0x66, 0x23, 0xad, 0x65, 0x05, 0x69, 0xc7, 0x48, 0xab, 0x80, 0xfb, 0x04, 0x3d, 0xf6, 0xb1, 0x7a,
-	0xcc, 0xb1, 0xa7, 0x50, 0xe4, 0x17, 0x29, 0xbb, 0xb2, 0x93, 0xfa, 0x52, 0x7a, 0xfb, 0xe7, 0x9b,
-	0x59, 0xe6, 0x9f, 0x99, 0x85, 0xe7, 0x28, 0xb0, 0x0c, 0x24, 0xae, 0x30, 0x28, 0x98, 0xf0, 0x57,
-	0x05, 0x4a, 0x24, 0x96, 0x82, 0xbe, 0x82, 0xc3, 0x41, 0x82, 0x98, 0x64, 0x3c, 0xd0, 0x89, 0x9b,
-	0x6a, 0x11, 0x30, 0xb1, 0x6e, 0xaa, 0x86, 0x27, 0x09, 0x26, 0xa8, 0x65, 0xa0, 0x54, 0x43, 0x3d,
-	0x1f, 0x7a, 0x9f, 0x30, 0x62, 0x32, 0x45, 0x41, 0x9e, 0x81, 0x99, 0x31, 0xe9, 0x18, 0x23, 0x63,
-	0x6c, 0x50, 0x25, 0x35, 0x11, 0x89, 0x73, 0xb0, 0x25, 0x22, 0xf1, 0x32, 0xe8, 0x85, 0x78, 0xc7,
-	0x0b, 0x96, 0x70, 0xf2, 0x02, 0xba, 0x4b, 0x9e, 0x26, 0xcb, 0xe6, 0x49, 0x87, 0x6e, 0x23, 0x32,
-	0x84, 0x1e, 0x2b, 0xa2, 0xaf, 0x69, 0x2c, 0x97, 0xfa, 0x69, 0x87, 0x3e, 0xc6, 0xc4, 0x81, 0x43,
-	0xf6, 0x2d, 0xcd, 0x2b, 0xb9, 0x74, 0x4c, 0x9d, 0xda, 0x85, 0x84, 0x40, 0x5b, 0xa6, 0x99, 0x74,
-	0xda, 0x1a, 0x6b, 0xed, 0xdd, 0x42, 0xf7, 0x7c, 0x72, 0x85, 0x31, 0x27, 0xaf, 0xe0, 0xb8, 0xe4,
-	0xc5, 0x5d, 0x1a, 0xf1, 0x79, 0x8e, 0x31, 0xcf, 0x4a, 0xe7, 0x60, 0x64, 0x8e, 0x2d, 0x6a, 0x6f,
-	0xe9, 0x4c, 0x43, 0xf2, 0x16, 0xec, 0x82, 0x89, 0xf9, 0xa2, 0x12, 0x91, 0x1a, 0xa9, 0x74, 0xcc,
-	0x91, 0x39, 0x3e, 0x9a, 0x9c, 0xf8, 0xcd, 0x5e, 0xfc, 0xdd, 0x5e, 0xfc, 0x33, 0xb1, 0xa6, 0xfd,
-	0x82, 0x89, 0x8b, 0x5d, 0xa5, 0xf7, 0xdd, 0x50, 0xcd, 0x42, 0x9e, 0x65, 0x64, 0x00, 0x66, 0x94,
-	0xc6, 0x7a, 0x2a, 0x6b, 0x7a, 0x58, 0x3f, 0x9c, 0x9a, 0xe1, 0xc7, 0x0f, 0x54, 0x31, 0xe2, 0x41,
-	0x9f, 0x09, 0xc9, 0x85, 0x60, 0x21, 0x56, 0x42, 0xea, 0x21, 0x6c, 0xba, 0xc7, 0x88, 0x07, 0x5d,
-	0xce, 0x8a, 0x45, 0x24, 0xf4, 0x2c, 0xf6, 0x14, 0xea, 0x87, 0xd3, 0xee, 0xf9, 0x19, 0xbd, 0x08,
-	0xaf, 0xe8, 0x36, 0x43, 0x5e, 0x82, 0x15, 0xf1, 0x2c, 0x9b, 0xcb, 0xf5, 0x8a, 0x3b, 0x1d, 0xd5,
-	0x88, 0xf6, 0x14, 0xf8, 0xb2, 0x5e, 0x71, 0xef, 0x16, 0x8e, 0x2f, 0xaf, 0x67, 0xf4, 0xc9, 0x9d,
-	0x72, 0x84, 0xfb, 0x8e, 0x3e, 0x2b, 0x47, 0x98, 0xc6, 0xe4, 0x1d, 0xf4, 0x73, 0xce, 0xca, 0xaa,
-	0xe0, 0x39, 0x17, 0xb2, 0xd9, 0xcb, 0xd1, 0x64, 0xe0, 0x3f, 0x7e, 0x0a, 0xff, 0xf2, 0x7a, 0x36,
-	0x7b, 0xaa, 0xa0, 0x7b, 0xe5, 0xde, 0x7b, 0xdd, 0xeb, 0xaf, 0xfc, 0xbf, 0x7a, 0x11, 0x68, 0x0b,
-	0x96, 0x73, 0x7d, 0x55, 0x8b, 0x6a, 0xed, 0xbd, 0x06, 0x9b, 0x86, 0xff, 0xe7, 0x75, 0xea, 0xfc,
-	0xac, 0x5d, 0xe3, 0xbe, 0x76, 0x8d, 0xdf, 0xb5, 0x6b, 0xfc, 0xd8, 0xb8, 0xad, 0xfb, 0x8d, 0xdb,
-	0xfa, 0xb5, 0x71, 0x5b, 0x37, 0x5d, 0x7d, 0x99, 0x37, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x9d,
-	0x6a, 0xdf, 0xcb, 0xe1, 0x02, 0x00, 0x00,
+	// 535 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x92, 0x41, 0x8b, 0xd3, 0x40,
+	0x14, 0xc7, 0x9b, 0xa6, 0xed, 0x36, 0x6f, 0xdb, 0x45, 0xc7, 0x45, 0xd3, 0x0a, 0xd9, 0x12, 0x11,
+	0x8a, 0x60, 0x0a, 0xf5, 0x22, 0x82, 0xc8, 0x36, 0x76, 0x51, 0xd6, 0xae, 0xcb, 0x20, 0xe8, 0xad,
+	0xcc, 0xa6, 0xd3, 0x34, 0x9a, 0xce, 0x94, 0xe9, 0xa4, 0x10, 0x3f, 0x81, 0x47, 0x3f, 0x96, 0xc7,
+	0x05, 0x2f, 0x9e, 0x16, 0x49, 0xbf, 0x88, 0xcc, 0xa4, 0xdd, 0xa6, 0x08, 0xe2, 0xed, 0xcd, 0xef,
+	0xfd, 0xe7, 0xcd, 0xfc, 0xff, 0x33, 0x70, 0x8f, 0x33, 0xbe, 0xec, 0x49, 0xbe, 0xe0, 0x3d, 0x41,
+	0x98, 0xb7, 0x10, 0x5c, 0x72, 0x64, 0x29, 0xe8, 0x29, 0xd8, 0x6e, 0x85, 0x9c, 0x87, 0x31, 0xed,
+	0xe9, 0xc6, 0x55, 0x32, 0xed, 0x11, 0x96, 0xe6, 0xaa, 0xf6, 0x71, 0xc8, 0x43, 0xae, 0xcb, 0x9e,
+	0xaa, 0x72, 0xea, 0x7a, 0x50, 0x7f, 0xc7, 0x03, 0x22, 0x23, 0xce, 0xd0, 0x1d, 0x30, 0x63, 0x22,
+	0x6d, 0xa3, 0x63, 0x74, 0x0d, 0xac, 0x4a, 0x4d, 0x58, 0x68, 0x97, 0x37, 0x84, 0x85, 0x6e, 0x0c,
+	0x75, 0x9f, 0xaf, 0xa8, 0x20, 0x21, 0x45, 0xf7, 0xa1, 0x36, 0xa3, 0x51, 0x38, 0xcb, 0xb7, 0x54,
+	0xf1, 0x66, 0x85, 0xda, 0x50, 0x27, 0x22, 0xf8, 0x18, 0x4d, 0xe4, 0x4c, 0x6f, 0xad, 0xe2, 0xdb,
+	0x35, 0xb2, 0xe1, 0x80, 0x7c, 0x8d, 0xe6, 0x89, 0x9c, 0xd9, 0xa6, 0x6e, 0x6d, 0x97, 0x08, 0x41,
+	0x45, 0x46, 0xb1, 0xb4, 0x2b, 0x1a, 0xeb, 0xda, 0xfd, 0x69, 0x40, 0x6d, 0xd8, 0xbf, 0xe0, 0x13,
+	0x8a, 0x1e, 0xc3, 0xd1, 0x92, 0x8a, 0x55, 0x14, 0xd0, 0xf1, 0x9c, 0x4f, 0x68, 0xbc, 0xb4, 0x8d,
+	0x8e, 0xd9, 0xb5, 0x70, 0x73, 0x43, 0x47, 0x1a, 0xa2, 0x37, 0xd0, 0x14, 0x84, 0x8d, 0xa7, 0x09,
+	0x0b, 0x94, 0xa7, 0xa5, 0x5d, 0xee, 0x98, 0xdd, 0xc3, 0xfe, 0x23, 0xef, 0x36, 0x23, 0x2f, 0x1f,
+	0xe8, 0x61, 0xc2, 0xce, 0xb6, 0xaa, 0x21, 0x93, 0x22, 0xc5, 0x0d, 0x51, 0x40, 0xed, 0x4f, 0x70,
+	0xf7, 0x2f, 0x89, 0x0a, 0xe4, 0x0b, 0x4d, 0xb5, 0x5f, 0x0b, 0xab, 0x12, 0x3d, 0x85, 0xea, 0x8a,
+	0xc4, 0x09, 0xd5, 0x4e, 0x0f, 0xfb, 0x0f, 0x0a, 0x07, 0x15, 0xb7, 0xe3, 0x5c, 0xf5, 0xa2, 0xfc,
+	0xdc, 0x70, 0xbf, 0x69, 0x57, 0x3e, 0x8d, 0x63, 0xd4, 0x02, 0x33, 0x88, 0x26, 0xf9, 0xbc, 0xc1,
+	0x41, 0x76, 0x73, 0x62, 0xfa, 0x6f, 0x5f, 0x63, 0xc5, 0x90, 0x0b, 0x0d, 0xc2, 0x24, 0x65, 0x8c,
+	0xf8, 0x3c, 0x61, 0x52, 0xcf, 0x6f, 0xe2, 0x3d, 0x86, 0x5c, 0xa8, 0x51, 0x22, 0xa6, 0x01, 0xd3,
+	0x61, 0x36, 0x07, 0x90, 0xdd, 0x9c, 0xd4, 0x86, 0xa7, 0xf8, 0xcc, 0xbf, 0xc0, 0x9b, 0x0e, 0x7a,
+	0x08, 0x56, 0x40, 0xe3, 0x78, 0x2c, 0xd3, 0x05, 0xd5, 0xe1, 0x5a, 0xb8, 0xae, 0xc0, 0x87, 0x74,
+	0x41, 0xdd, 0x01, 0x34, 0x8a, 0xb7, 0x44, 0x7d, 0xb0, 0x76, 0xd1, 0x19, 0x3a, 0xba, 0x63, 0x2f,
+	0xff, 0x53, 0xde, 0xf6, 0x4f, 0x79, 0xa7, 0x2c, 0xc5, 0x3b, 0x99, 0xfb, 0x19, 0x8e, 0xce, 0x2f,
+	0x47, 0x85, 0x31, 0xca, 0x15, 0xdf, 0x77, 0xf5, 0x5e, 0xb9, 0xe2, 0xd1, 0x04, 0xbd, 0x84, 0xc6,
+	0x9c, 0x92, 0x65, 0x22, 0xe8, 0x9c, 0x32, 0xb9, 0x7d, 0x9e, 0x56, 0x21, 0xb5, 0xf3, 0xcb, 0xd1,
+	0x68, 0xa7, 0xc0, 0x7b, 0x72, 0xf7, 0x95, 0x3e, 0xab, 0xd0, 0xff, 0xd7, 0x59, 0x08, 0x2a, 0x8c,
+	0xcc, 0xf3, 0x97, 0xb1, 0xb0, 0xae, 0xdd, 0x27, 0xd0, 0xc4, 0xfe, 0xff, 0xdd, 0x75, 0x60, 0xff,
+	0xc8, 0x1c, 0xe3, 0x3a, 0x73, 0x8c, 0xdf, 0x99, 0x63, 0x7c, 0x5f, 0x3b, 0xa5, 0xeb, 0xb5, 0x53,
+	0xfa, 0xb5, 0x76, 0x4a, 0x57, 0x35, 0x9d, 0xc5, 0xb3, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x21,
+	0x9e, 0x07, 0xc5, 0x8f, 0x03, 0x00, 0x00,
 }
 
 func (m *Location) Marshal() (dAtA []byte, err error) {
@@ -564,17 +614,29 @@ func (m *E2Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if len(m.RanFunctions) > 0 {
-		for iNdEx := len(m.RanFunctions) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.RanFunctions[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
+		for k := range m.RanFunctions {
+			v := m.RanFunctions[k]
+			baseI := i
+			if v != nil {
+				{
+					size, err := v.MarshalToSizedBuffer(dAtA[:i])
+					if err != nil {
+						return 0, err
+					}
+					i -= size
+					i = encodeVarintRan(dAtA, i, uint64(size))
 				}
-				i -= size
-				i = encodeVarintRan(dAtA, i, uint64(size))
+				i--
+				dAtA[i] = 0x12
 			}
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintRan(dAtA, i, uint64(len(k)))
 			i--
-			dAtA[i] = 0x1a
+			dAtA[i] = 0xa
+			i = encodeVarintRan(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x12
 		}
 	}
 	if len(m.ServiceModels) > 0 {
@@ -583,7 +645,7 @@ func (m *E2Node) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			copy(dAtA[i:], m.ServiceModels[iNdEx])
 			i = encodeVarintRan(dAtA, i, uint64(len(m.ServiceModels[iNdEx])))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0xa
 		}
 	}
 	return len(dAtA) - i, nil
@@ -614,17 +676,17 @@ func (m *E2Cell) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.CellType)
 		i = encodeVarintRan(dAtA, i, uint64(len(m.CellType)))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x22
 	}
 	if m.EARFCN != 0 {
 		i = encodeVarintRan(dAtA, i, uint64(m.EARFCN))
 		i--
-		dAtA[i] = 0x20
+		dAtA[i] = 0x18
 	}
 	if m.AntennaCount != 0 {
 		i = encodeVarintRan(dAtA, i, uint64(m.AntennaCount))
 		i--
-		dAtA[i] = 0x18
+		dAtA[i] = 0x10
 	}
 	if len(m.CID) > 0 {
 		i -= len(m.CID)
@@ -632,6 +694,43 @@ func (m *E2Cell) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintRan(dAtA, i, uint64(len(m.CID)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RanFunctions) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RanFunctions) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RanFunctions) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Functions) > 0 {
+		for iNdEx := len(m.Functions) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Functions[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintRan(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -807,9 +906,16 @@ func (m *E2Node) Size() (n int) {
 		}
 	}
 	if len(m.RanFunctions) > 0 {
-		for _, e := range m.RanFunctions {
-			l = e.Size()
-			n += 1 + l + sovRan(uint64(l))
+		for k, v := range m.RanFunctions {
+			_ = k
+			_ = v
+			l = 0
+			if v != nil {
+				l = v.Size()
+				l += 1 + sovRan(uint64(l))
+			}
+			mapEntrySize := 1 + len(k) + sovRan(uint64(len(k))) + l
+			n += mapEntrySize + 1 + sovRan(uint64(mapEntrySize))
 		}
 	}
 	return n
@@ -834,6 +940,21 @@ func (m *E2Cell) Size() (n int) {
 	l = len(m.CellType)
 	if l > 0 {
 		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+
+func (m *RanFunctions) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Functions) > 0 {
+		for _, e := range m.Functions {
+			l = e.Size()
+			n += 1 + l + sovRan(uint64(l))
+		}
 	}
 	return n
 }
@@ -1126,7 +1247,7 @@ func (m *E2Node) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: E2Node: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 2:
+		case 1:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ServiceModels", wireType)
 			}
@@ -1158,7 +1279,7 @@ func (m *E2Node) Unmarshal(dAtA []byte) error {
 			}
 			m.ServiceModels = append(m.ServiceModels, string(dAtA[iNdEx:postIndex]))
 			iNdEx = postIndex
-		case 3:
+		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RanFunctions", wireType)
 			}
@@ -1187,10 +1308,105 @@ func (m *E2Node) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RanFunctions = append(m.RanFunctions, &types.Any{})
-			if err := m.RanFunctions[len(m.RanFunctions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
+			if m.RanFunctions == nil {
+				m.RanFunctions = make(map[string]*RanFunctions)
 			}
+			var mapkey string
+			var mapvalue *RanFunctions
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowRan
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowRan
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthRan
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthRan
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var mapmsglen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowRan
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapmsglen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if mapmsglen < 0 {
+						return ErrInvalidLengthRan
+					}
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
+						return ErrInvalidLengthRan
+					}
+					if postmsgIndex > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = &RanFunctions{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipRan(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if skippy < 0 {
+						return ErrInvalidLengthRan
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.RanFunctions[mapkey] = mapvalue
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1277,7 +1493,7 @@ func (m *E2Cell) Unmarshal(dAtA []byte) error {
 			}
 			m.CID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 2:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field AntennaCount", wireType)
 			}
@@ -1296,7 +1512,7 @@ func (m *E2Cell) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 4:
+		case 3:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field EARFCN", wireType)
 			}
@@ -1315,7 +1531,7 @@ func (m *E2Cell) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 5:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CellType", wireType)
 			}
@@ -1346,6 +1562,93 @@ func (m *E2Cell) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.CellType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RanFunctions) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RanFunctions: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RanFunctions: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Functions", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Functions = append(m.Functions, &types.Any{})
+			if err := m.Functions[len(m.Functions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

@@ -38,16 +38,16 @@ message Coverage {
 
 // E2Node persona; expected value type of "e2node" attribute
 message E2Node {
-  repeated string service_models = 2; // supported service model names
-  repeated google.protobuf.Any ran_functions = 3;
+  repeated string service_models = 1; // supported service model names
+  map<string, RanFunctions> ran_functions = 2;
 }
 
 // E2Cell persona; expected value type of "e2cell" attribute
 message E2Cell {
   string cid = 1 [(gogoproto.customname) = "CID"];
-  uint32 antennaCount = 3;
-  uint32 earfcn = 4 [(gogoproto.customname) = "EARFCN"];
-  string cell_type = 5;
+  uint32 antennaCount = 2;
+  uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
+  string cell_type = 4;
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "controls" relation with a node
@@ -55,6 +55,10 @@ message E2Cell {
 
 // Each entity with an E2Cell persona is expected to be the source of zero or more "neighbours" relations with target
 // of another entity with an E2Node persona.
+
+message RanFunctions {
+  repeated google.protobuf.Any functions = 1;
+}
 
 message KPMRanFunction {
   string oid = 1 [(gogoproto.customname) = "OID"];
