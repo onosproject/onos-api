@@ -91,15 +91,6 @@ class ObjectType(betterproto.Enum):
     KIND = 3
 
 
-class ValueType(betterproto.Enum):
-    STRING = 0
-    UINT = 1
-    INT = 2
-    BOOLEAN = 3
-    PROTO = 4
-    BYTES = 5
-
-
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
     """Event is a topo operation event"""
@@ -222,9 +213,11 @@ class Object(betterproto.Message):
     kind: "Kind" = betterproto.message_field(6, group="obj")
     # Map of attributes as typed values; for kind, these represent expected
     # attributed and their default values
-    attributes: Dict[str, "Value"] = betterproto.map_field(
-        7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
+    attributes: Dict[
+        str, "betterproto_lib_google_protobuf.Any"
+    ] = betterproto.map_field(7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE)
+    # Arbitrary labels for classification/search
+    labels: List[str] = betterproto.string_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -262,25 +255,6 @@ class Kind(betterproto.Message):
     """Kind represents an archetype of an object, i.e. entity or relation"""
 
     name: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Value(betterproto.Message):
-    """
-    Value is a type/value pair with the value itself being a selection
-    dependent on the type
-    """
-
-    type: "ValueType" = betterproto.enum_field(1)
-    string_value: str = betterproto.string_field(2, group="value")
-    uint_value: int = betterproto.uint64_field(3, group="value")
-    int_value: int = betterproto.int64_field(4, group="value")
-    bool_value: bool = betterproto.bool_field(5, group="value")
-    proto_value: bytes = betterproto.bytes_field(6, group="value")
-    bytes_value: bytes = betterproto.bytes_field(7, group="value")
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -369,3 +343,6 @@ class TopoStub(betterproto.ServiceStub):
             WatchResponse,
         ):
             yield response
+
+
+import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf

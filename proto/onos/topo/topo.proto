@@ -19,6 +19,7 @@ syntax = "proto3";
 // Package onos.topo defines interfaces for managing network top
 package onos.topo;
 
+import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
 
 // EntityService provides an API for managing entities.
@@ -128,7 +129,10 @@ message Object {
   }
 
   // Map of attributes as typed values; for kind, these represent expected attributed and their default values
-  map<string, Value> attributes = 7;
+  map<string, google.protobuf.Any> attributes = 7;
+
+  // Arbitrary labels for classification/search
+  repeated string labels = 8;
 }
 
 // Entity represents any "thing" that is represented in the topology
@@ -149,35 +153,8 @@ message Relation {
 
 // Kind represents an archetype of an object, i.e. entity or relation
 message Kind {
-  string name = 1;  // name, a.k.a kind_id
-
-  // Deprecated: Map of attributes and their default values for this Kind
-  // map<string, Value> attributes = 2;
+  string name = 1;  // Friendly name of the kind
 }
-
-// Value is a type/value pair with the value itself being a selection dependent on the type
-message Value {
-
-  enum Type {
-    STRING = 0;
-    UINT = 1;
-    INT = 2;
-    BOOLEAN = 3;
-    PROTO = 4;
-    BYTES = 5;
-  }
-  Type type = 1;
-
-  oneof value {
-    string stringValue = 2;
-    uint64 uintValue = 3;
-    int64 intValue = 4;
-    bool boolValue = 5;
-    bytes protoValue = 6;
-    bytes bytesValue = 7;
-  }
-}
-
 
 // ProtocolState contains information related to service and connectivity to a device
 message ProtocolState {
