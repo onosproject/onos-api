@@ -8,7 +8,23 @@ import betterproto
 import grpclib
 
 
+class RanEntityKinds(betterproto.Enum):
+    """Kinds of RAN entities"""
+
+    E2NODE = 0
+    E2CELL = 1
+
+
+class RanRelationKinds(betterproto.Enum):
+    """Kinds of RAN relations"""
+
+    CONTROLS = 0
+    NEIGHBORS = 1
+
+
 class EventType(betterproto.Enum):
+    """Kinds of RAN entities"""
+
     NONE = 0
     ADDED = 1
     UPDATED = 2
@@ -16,6 +32,8 @@ class EventType(betterproto.Enum):
 
 
 class Protocol(betterproto.Enum):
+    """Kinds of RAN relations"""
+
     UNKNOWN_PROTOCOL = 0
     GNMI = 1
     P4RUNTIME = 2
@@ -75,7 +93,10 @@ class Coverage(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class E2Node(betterproto.Message):
-    """E2Node persona; expected value type of "e2node" attribute"""
+    """
+    E2Node persona; expected value type of "E2NODE" attribute and expected on
+    entities of "E2NODE" kind
+    """
 
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
@@ -87,7 +108,10 @@ class E2Node(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class E2Cell(betterproto.Message):
-    """E2Cell persona; expected value type of "e2cell" attribute"""
+    """
+    E2Cell persona; expected value type of "E2CELL" attribute and expected on
+    entities of "E2CELL" kind
+    """
 
     cid: str = betterproto.string_field(1)
     antenna_count: int = betterproto.uint32_field(2)
@@ -102,9 +126,9 @@ class E2Cell(betterproto.Message):
 class ServiceModelInfo(betterproto.Message):
     oid: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
-    ran_functions: Dict[
-        str, "betterproto_lib_google_protobuf.Any"
-    ] = betterproto.map_field(3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE)
+    ran_functions: List[
+        "betterproto_lib_google_protobuf.Any"
+    ] = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -112,7 +136,7 @@ class ServiceModelInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RcRanFunction(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -120,7 +144,8 @@ class RcRanFunction(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
-    measurements: List["KpmMeasurement"] = betterproto.message_field(1)
+    id: str = betterproto.string_field(1)
+    measurements: List["KpmMeasurement"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -158,7 +183,10 @@ class CreateRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class CreateResponse(betterproto.Message):
-    """E2Node persona; expected value type of "e2node" attribute"""
+    """
+    E2Node persona; expected value type of "E2NODE" attribute and expected on
+    entities of "E2NODE" kind
+    """
 
     object: "Object" = betterproto.message_field(1)
 
@@ -168,7 +196,10 @@ class CreateResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetRequest(betterproto.Message):
-    """E2Cell persona; expected value type of "e2cell" attribute"""
+    """
+    E2Cell persona; expected value type of "E2CELL" attribute and expected on
+    entities of "E2CELL" kind
+    """
 
     id: str = betterproto.string_field(1)
 

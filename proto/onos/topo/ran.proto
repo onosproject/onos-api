@@ -22,55 +22,69 @@ package onos.topo;
 import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
 
+// Kinds of RAN entities
+enum RANEntityKinds {
+    E2NODE = 0;
+    E2CELL = 1;
+}
+
+// Kinds of RAN relations
+enum RANRelationKinds {
+    CONTROLS = 0;
+    NEIGHBORS = 1;
+}
+
 // Geographical location; expected value type of "location" attribute
 message Location {
-  double lat = 1;
-  double lng = 2;
+    double lat = 1;
+    double lng = 2;
 }
 
 // Area of coverage; expected value type of "coverage" attribute
 message Coverage {
-  int32 height = 1;
-  int32 arcWidth = 2;
-  int32 azimuth = 3;
-  int32 tilt = 4;
+    int32 height = 1;
+    int32 arcWidth = 2;
+    int32 azimuth = 3;
+    int32 tilt = 4;
 }
 
-// E2Node persona; expected value type of "e2node" attribute
+// E2Node persona; expected value type of "E2NODE" attribute and expected on entities of "E2NODE" kind
 message E2Node {
-  map <string, ServiceModelInfo> service_models = 1; // map of oid to service model info
+    map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
 }
 
-// E2Cell persona; expected value type of "e2cell" attribute
+// E2Cell persona; expected value type of "E2CELL" attribute and expected on entities of "E2CELL" kind
 message E2Cell {
-  string cid = 1 [(gogoproto.customname) = "CID"];
-  uint32 antennaCount = 2;
-  uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
-  string cell_type = 4;
+    string cid = 1 [(gogoproto.customname) = "CID"];
+    uint32 antennaCount = 2;
+    uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
+    string cell_type = 4;
 }
 
-// Each entity with an E2Cell persona is expected to be a target of one and only one "controls" relation with a node
+// Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
 // that has an E2Node persona.
 
-// Each entity with an E2Cell persona is expected to be the source of zero or more "neighbours" relations with target
+// Each entity with an E2Cell persona is expected to be the source of zero or more "NEIGHBORS" relations with target
 // of another entity with an E2Node persona.
 
 message ServiceModelInfo {
-  string oid = 1  [(gogoproto.customname) = "OID"];
-  string name = 2;
+    string oid = 1 [(gogoproto.customname) = "OID"];
+    string name = 2;
 
-  map <string, google.protobuf.Any> ran_functions = 3; // ID to ran function mapping
+    repeated google.protobuf.Any ran_functions = 3;
 }
 
 message RCRanFunction {
+    string id = 1 [(gogoproto.customname) = "ID"];
 }
 
 message KPMRanFunction {
-  repeated KPMMeasurement measurements = 1;
+    string id = 1 [(gogoproto.customname) = "ID"];
+    repeated KPMMeasurement measurements = 2;
 }
 
 message KPMMeasurement {
-  string id = 1 [(gogoproto.customname) = "ID"];
-  string name = 2;
+    string id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
 }
 
