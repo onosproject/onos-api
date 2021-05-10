@@ -200,15 +200,24 @@ class WatchResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Object(betterproto.Message):
+    """
+    Object is an one of the following: a kind (archetype of entity or
+    relation), an entity, a relation
+    """
+
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
     type: "ObjectType" = betterproto.enum_field(3)
     entity: "Entity" = betterproto.message_field(4, group="obj")
     relation: "Relation" = betterproto.message_field(5, group="obj")
     kind: "Kind" = betterproto.message_field(6, group="obj")
-    attributes: Dict[str, str] = betterproto.map_field(
-        7, betterproto.TYPE_STRING, betterproto.TYPE_STRING
-    )
+    # Map of attributes as typed values; for kind, these represent expected
+    # attributed and their default values
+    attributes: Dict[
+        str, "betterproto_lib_google_protobuf.Any"
+    ] = betterproto.map_field(7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE)
+    # Arbitrary labels for classification/search
+    labels: List[str] = betterproto.string_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -228,6 +237,10 @@ class Entity(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Relation(betterproto.Message):
+    """
+    Relation represents any "relation" between two entitites in the topology.
+    """
+
     # user defined relation kind
     kind_id: str = betterproto.string_field(1)
     src_entity_id: str = betterproto.string_field(2)
@@ -239,11 +252,9 @@ class Relation(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Kind(betterproto.Message):
+    """Kind represents an archetype of an object, i.e. entity or relation"""
+
     name: str = betterproto.string_field(1)
-    # Map of attributes and their default values for this Kind
-    attributes: Dict[str, str] = betterproto.map_field(
-        2, betterproto.TYPE_STRING, betterproto.TYPE_STRING
-    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -332,3 +343,6 @@ class TopoStub(betterproto.ServiceStub):
             WatchResponse,
         ):
             yield response
+
+
+import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf

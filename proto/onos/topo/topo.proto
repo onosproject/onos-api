@@ -19,6 +19,7 @@ syntax = "proto3";
 // Package onos.topo defines interfaces for managing network top
 package onos.topo;
 
+import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
 
 // EntityService provides an API for managing entities.
@@ -108,6 +109,7 @@ message WatchResponse {
   Event event = 1 [(gogoproto.nullable) = false];
 }
 
+// Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
 message Object {
   string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
   uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
@@ -126,7 +128,11 @@ message Object {
     Kind kind = 6;
   }
 
-  map<string, string> attributes = 7;
+  // Map of attributes as typed values; for kind, these represent expected attributed and their default values
+  map<string, google.protobuf.Any> attributes = 7;
+
+  // Arbitrary labels for classification/search
+  repeated string labels = 8;
 }
 
 // Entity represents any "thing" that is represented in the topology
@@ -136,6 +142,7 @@ message Entity {
   repeated ProtocolState protocols = 2;
 }
 
+// Relation represents any "relation" between two entitites in the topology.
 message Relation {
   // user defined relation kind
   string kind_id = 1 [(gogoproto.customname) = "KindID", (gogoproto.casttype) = "ID"];
@@ -144,13 +151,10 @@ message Relation {
   string tgt_entity_id = 3 [(gogoproto.customname) = "TgtEntityID", (gogoproto.casttype) = "ID"];
 }
 
+// Kind represents an archetype of an object, i.e. entity or relation
 message Kind {
-  string name = 1;
-  // Map of attributes and their default values for this Kind
-  map<string, string> attributes = 2;
+  string name = 1;  // Friendly name of the kind
 }
-
-
 
 // ProtocolState contains information related to service and connectivity to a device
 message ProtocolState {

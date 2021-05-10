@@ -13,7 +13,6 @@
     - [GetRequest](#onos.topo.GetRequest)
     - [GetResponse](#onos.topo.GetResponse)
     - [Kind](#onos.topo.Kind)
-    - [Kind.AttributesEntry](#onos.topo.Kind.AttributesEntry)
     - [ListRequest](#onos.topo.ListRequest)
     - [ListResponse](#onos.topo.ListResponse)
     - [Object](#onos.topo.Object)
@@ -165,29 +164,12 @@ Event is a topo operation event
 <a name="onos.topo.Kind"></a>
 
 ### Kind
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  |  |
-| attributes | [Kind.AttributesEntry](#onos.topo.Kind.AttributesEntry) | repeated | Map of attributes and their default values for this Kind |
-
-
-
-
-
-
-<a name="onos.topo.Kind.AttributesEntry"></a>
-
-### Kind.AttributesEntry
-
+Kind represents an archetype of an object, i.e. entity or relation
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| name | [string](#string) |  | Friendly name of the kind |
 
 
 
@@ -222,7 +204,7 @@ Event is a topo operation event
 <a name="onos.topo.Object"></a>
 
 ### Object
-
+Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
 
 
 | Field | Type | Label | Description |
@@ -233,7 +215,8 @@ Event is a topo operation event
 | entity | [Entity](#onos.topo.Entity) |  |  |
 | relation | [Relation](#onos.topo.Relation) |  |  |
 | kind | [Kind](#onos.topo.Kind) |  |  |
-| attributes | [Object.AttributesEntry](#onos.topo.Object.AttributesEntry) | repeated |  |
+| attributes | [Object.AttributesEntry](#onos.topo.Object.AttributesEntry) | repeated | Map of attributes as typed values; for kind, these represent expected attributed and their default values |
+| labels | [string](#string) | repeated | Arbitrary labels for classification/search |
 
 
 
@@ -249,7 +232,7 @@ Event is a topo operation event
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
 
 
 
@@ -277,7 +260,7 @@ ProtocolState contains information related to service and connectivity to a devi
 <a name="onos.topo.Relation"></a>
 
 ### Relation
-
+Relation represents any &#34;relation&#34; between two entitites in the topology.
 
 
 | Field | Type | Label | Description |
