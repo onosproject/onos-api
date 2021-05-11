@@ -15,6 +15,7 @@
 package topo
 
 import (
+	"errors"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"
@@ -59,7 +60,11 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 
 // GetAttributeSafe retrieves the specified attribute value from the given object.
 func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.Message, error) {
-	err := types.UnmarshalAny(obj.Attributes[key], destValue)
+	any := obj.Attributes[key]
+	if !types.Is(any, destValue) {
+		return nil, errors.New("unexpected type")
+	}
+	err := types.UnmarshalAny(any, destValue)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +73,11 @@ func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.M
 
 // GetAttribute retrieves the specified attribute value from the given object.
 func GetAttribute(obj *Object, key string, destValue proto.Message) proto.Message {
-	err := types.UnmarshalAny(obj.Attributes[key], destValue)
+	any := obj.Attributes[key]
+	if !types.Is(any, destValue) {
+		return nil
+	}
+	err := types.UnmarshalAny(any, destValue)
 	if err != nil {
 		return nil
 	}
