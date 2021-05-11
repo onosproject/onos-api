@@ -15,6 +15,9 @@
 package topo
 
 import (
+	"errors"
+	"github.com/gogo/protobuf/proto"
+	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"
 )
 
@@ -53,4 +56,40 @@ var TopoClientFactory = func(cc *grpc.ClientConn) TopoClient {
 // CreateTopoClient creates and returns a new topo device client
 func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 	return TopoClientFactory(cc)
+}
+
+// GetAttributeSafe retrieves the specified attribute value from the given object.
+func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.Message, error) {
+	any := obj.Attributes[key]
+	if !types.Is(any, destValue) {
+		return nil, errors.New("unexpected type")
+	}
+	err := types.UnmarshalAny(any, destValue)
+	if err != nil {
+		return nil, err
+	}
+	return destValue, nil
+}
+
+// GetAttribute retrieves the specified attribute value from the given object.
+func GetAttribute(obj *Object, key string, destValue proto.Message) proto.Message {
+	any := obj.Attributes[key]
+	if !types.Is(any, destValue) {
+		return nil
+	}
+	err := types.UnmarshalAny(any, destValue)
+	if err != nil {
+		return nil
+	}
+	return destValue
+}
+
+// SetAttribute applies the specified attribute value to the given object.
+func SetAttribute(obj *Object, key string, value proto.Message) error {
+	any, err := types.MarshalAny(value)
+	if err != nil {
+		return err
+	}
+	obj.Attributes[key] = any
+	return nil
 }

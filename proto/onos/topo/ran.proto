@@ -16,7 +16,6 @@ limitations under the License.
 
 syntax = "proto3";
 
-// Package onos.topo defines interfaces for managing network top
 package onos.topo;
 
 import "google/protobuf/any.proto";
