@@ -59,7 +59,7 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 }
 
 // GetAspectSafe retrieves the specified aspect value from the given object.
-func GetAspectSafe(obj *Object, key string, destValue proto.Message) (proto.Message, error) {
+func (obj *Object) GetAspectSafe(key string, destValue proto.Message) (proto.Message, error) {
 	any := obj.Aspects[key]
 	if !types.Is(any, destValue) {
 		return nil, errors.New("unexpected aspect type")
@@ -72,7 +72,7 @@ func GetAspectSafe(obj *Object, key string, destValue proto.Message) (proto.Mess
 }
 
 // GetAspect retrieves the specified aspect value from the given object.
-func GetAspect(obj *Object, key string, destValue proto.Message) proto.Message {
+func (obj *Object) GetAspect(key string, destValue proto.Message) proto.Message {
 	any := obj.Aspects[key]
 	if !types.Is(any, destValue) {
 		return nil
@@ -85,7 +85,7 @@ func GetAspect(obj *Object, key string, destValue proto.Message) proto.Message {
 }
 
 // SetAspect applies the specified aspect value to the given object.
-func SetAspect(obj *Object, key string, value proto.Message) error {
+func (obj *Object) SetAspect(key string, value proto.Message) error {
 	any, err := types.MarshalAny(value)
 	if err != nil {
 		return err
