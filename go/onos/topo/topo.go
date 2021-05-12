@@ -52,6 +52,24 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 	return TopoClientFactory(cc)
 }
 
+// GetAspect retrieves the specified aspect value from the given object.
+func (obj *Object) GetAspect(destValue proto.Message) proto.Message {
+	if obj.Aspects == nil {
+		return nil
+	}
+	aspectType := proto.MessageName(destValue)
+	any := obj.Aspects[aspectType]
+	if any == nil || any.TypeUrl != aspectType {
+		return nil
+	}
+	reader := bytes.NewReader(any.Value)
+	err := jsonpb.Unmarshal(reader, destValue)
+	if err != nil {
+		return nil
+	}
+	return destValue
+}
+
 // GetAspectSafe retrieves the specified aspect value from the given object.
 func (obj *Object) GetAspectSafe(destValue proto.Message) (proto.Message, error) {
 	if obj.Aspects == nil {
@@ -73,22 +91,16 @@ func (obj *Object) GetAspectSafe(destValue proto.Message) (proto.Message, error)
 	return destValue, nil
 }
 
-// GetAspect retrieves the specified aspect value from the given object.
-func (obj *Object) GetAspect(destValue proto.Message) proto.Message {
+// GetAspectBytes applies the specified aspect as raw JSON bytes to the given object.
+func (obj *Object) GetAspectBytes(aspectType string) ([]byte, error) {
 	if obj.Aspects == nil {
-		return nil
+		return nil, errors.New("aspect not found")
 	}
-	aspectType := proto.MessageName(destValue)
 	any := obj.Aspects[aspectType]
-	if any == nil || any.TypeUrl != aspectType {
-		return nil
+	if any == nil {
+		return nil, errors.New("aspect not found")
 	}
-	reader := bytes.NewReader(any.Value)
-	err := jsonpb.Unmarshal(reader, destValue)
-	if err != nil {
-		return nil
-	}
-	return destValue
+	return any.Value, nil
 }
 
 // SetAspect applies the specified aspect value to the given object.
@@ -109,8 +121,8 @@ func (obj *Object) SetAspect(value proto.Message) error {
 	return nil
 }
 
-// SetAspectJSON applies the specified aspect as raw JSON value to the given object.
-func (obj *Object) SetAspectJSON(aspectType string, jsonValue []byte) error {
+// SetAspectBytes applies the specified aspect as raw JSON bytes to the given object.
+func (obj *Object) SetAspectBytes(aspectType string, jsonValue []byte) error {
 	any := &types.Any {
 		TypeUrl: aspectType,
 		Value: jsonValue,
