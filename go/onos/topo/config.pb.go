@@ -22,10 +22,109 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// Basic asset information
+type Asset struct {
+	Name         string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Manufacturer string `protobuf:"bytes,2,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
+	Model        string `protobuf:"bytes,3,opt,name=model,proto3" json:"model,omitempty"`
+	Serial       string `protobuf:"bytes,4,opt,name=serial,proto3" json:"serial,omitempty"`
+	Asset        string `protobuf:"bytes,5,opt,name=asset,proto3" json:"asset,omitempty"`
+	SwVersion    string `protobuf:"bytes,6,opt,name=sw_version,json=swVersion,proto3" json:"sw_version,omitempty"`
+	Type         string `protobuf:"bytes,7,opt,name=type,proto3" json:"type,omitempty"`
+	Role         string `protobuf:"bytes,8,opt,name=role,proto3" json:"role,omitempty"`
+}
+
+func (m *Asset) Reset()         { *m = Asset{} }
+func (m *Asset) String() string { return proto.CompactTextString(m) }
+func (*Asset) ProtoMessage()    {}
+func (*Asset) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{0}
+}
+func (m *Asset) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Asset) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Asset.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Asset) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Asset.Merge(m, src)
+}
+func (m *Asset) XXX_Size() int {
+	return m.Size()
+}
+func (m *Asset) XXX_DiscardUnknown() {
+	xxx_messageInfo_Asset.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Asset proto.InternalMessageInfo
+
+func (m *Asset) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Asset) GetManufacturer() string {
+	if m != nil {
+		return m.Manufacturer
+	}
+	return ""
+}
+
+func (m *Asset) GetModel() string {
+	if m != nil {
+		return m.Model
+	}
+	return ""
+}
+
+func (m *Asset) GetSerial() string {
+	if m != nil {
+		return m.Serial
+	}
+	return ""
+}
+
+func (m *Asset) GetAsset() string {
+	if m != nil {
+		return m.Asset
+	}
+	return ""
+}
+
+func (m *Asset) GetSwVersion() string {
+	if m != nil {
+		return m.SwVersion
+	}
+	return ""
+}
+
+func (m *Asset) GetType() string {
+	if m != nil {
+		return m.Type
+	}
+	return ""
+}
+
+func (m *Asset) GetRole() string {
+	if m != nil {
+		return m.Role
+	}
+	return ""
+}
+
 // Configurable device aspect
 type Configurable struct {
-	Type    string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	Role    string `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
 	Address string `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
 	Target  string `protobuf:"bytes,4,opt,name=target,proto3" json:"target,omitempty"`
 	Version string `protobuf:"bytes,5,opt,name=version,proto3" json:"version,omitempty"`
@@ -36,7 +135,7 @@ func (m *Configurable) Reset()         { *m = Configurable{} }
 func (m *Configurable) String() string { return proto.CompactTextString(m) }
 func (*Configurable) ProtoMessage()    {}
 func (*Configurable) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6fc2683aefb53254, []int{0}
+	return fileDescriptor_6fc2683aefb53254, []int{1}
 }
 func (m *Configurable) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -64,20 +163,6 @@ func (m *Configurable) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_Configurable proto.InternalMessageInfo
-
-func (m *Configurable) GetType() string {
-	if m != nil {
-		return m.Type
-	}
-	return ""
-}
-
-func (m *Configurable) GetRole() string {
-	if m != nil {
-		return m.Role
-	}
-	return ""
-}
 
 func (m *Configurable) GetAddress() string {
 	if m != nil {
@@ -117,7 +202,7 @@ func (m *MastershipState) Reset()         { *m = MastershipState{} }
 func (m *MastershipState) String() string { return proto.CompactTextString(m) }
 func (*MastershipState) ProtoMessage()    {}
 func (*MastershipState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6fc2683aefb53254, []int{1}
+	return fileDescriptor_6fc2683aefb53254, []int{2}
 }
 func (m *MastershipState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -173,7 +258,7 @@ func (m *TLSOptions) Reset()         { *m = TLSOptions{} }
 func (m *TLSOptions) String() string { return proto.CompactTextString(m) }
 func (*TLSOptions) ProtoMessage()    {}
 func (*TLSOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6fc2683aefb53254, []int{2}
+	return fileDescriptor_6fc2683aefb53254, []int{3}
 }
 func (m *TLSOptions) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -246,7 +331,7 @@ func (m *AdHoc) Reset()         { *m = AdHoc{} }
 func (m *AdHoc) String() string { return proto.CompactTextString(m) }
 func (*AdHoc) ProtoMessage()    {}
 func (*AdHoc) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6fc2683aefb53254, []int{3}
+	return fileDescriptor_6fc2683aefb53254, []int{4}
 }
 func (m *AdHoc) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -283,6 +368,7 @@ func (m *AdHoc) GetProperties() map[string]string {
 }
 
 func init() {
+	proto.RegisterType((*Asset)(nil), "onos.topo.Asset")
 	proto.RegisterType((*Configurable)(nil), "onos.topo.Configurable")
 	proto.RegisterType((*MastershipState)(nil), "onos.topo.MastershipState")
 	proto.RegisterType((*TLSOptions)(nil), "onos.topo.TLSOptions")
@@ -293,31 +379,115 @@ func init() {
 func init() { proto.RegisterFile("onos/topo/config.proto", fileDescriptor_6fc2683aefb53254) }
 
 var fileDescriptor_6fc2683aefb53254 = []byte{
-	// 379 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x92, 0x4f, 0x8b, 0x13, 0x31,
-	0x18, 0xc6, 0x9b, 0xed, 0xcc, 0x6c, 0xf7, 0x55, 0x58, 0x09, 0xcb, 0x1a, 0xf6, 0x30, 0x0c, 0x73,
-	0xea, 0x69, 0x16, 0xf4, 0x22, 0x82, 0xa2, 0x16, 0x41, 0x41, 0x51, 0xa6, 0xde, 0x4b, 0x3a, 0xf3,
-	0x5a, 0x83, 0xd3, 0x24, 0x24, 0x99, 0x42, 0x0f, 0xde, 0x3d, 0xfa, 0x01, 0xfc, 0x40, 0x1e, 0x7b,
-	0xf4, 0x28, 0xed, 0x17, 0x91, 0x64, 0xfe, 0x28, 0x7b, 0x7b, 0x7e, 0xcf, 0x9b, 0x77, 0xe6, 0x79,
-	0x48, 0xe0, 0x5a, 0x49, 0x65, 0x6f, 0x9d, 0xd2, 0xea, 0xb6, 0x52, 0xf2, 0xb3, 0xd8, 0x14, 0xda,
-	0x28, 0xa7, 0xe8, 0x85, 0xf7, 0x0b, 0xef, 0xe7, 0x3f, 0x09, 0xdc, 0x5f, 0x84, 0x59, 0x6b, 0xf8,
-	0xba, 0x41, 0x4a, 0x21, 0x72, 0x7b, 0x8d, 0x8c, 0x64, 0x64, 0x7e, 0x51, 0x06, 0xed, 0x3d, 0xa3,
-	0x1a, 0x64, 0x67, 0x9d, 0xe7, 0x35, 0x65, 0x70, 0xce, 0xeb, 0xda, 0xa0, 0xb5, 0x6c, 0x1a, 0xec,
-	0x01, 0xe9, 0x35, 0x24, 0x8e, 0x9b, 0x0d, 0x3a, 0x16, 0x85, 0x41, 0x4f, 0x7e, 0x63, 0x87, 0xc6,
-	0x0a, 0x25, 0x59, 0xdc, 0x6d, 0xf4, 0xe8, 0x27, 0x4e, 0x6c, 0x51, 0xb5, 0x8e, 0x25, 0x19, 0x99,
-	0x47, 0xe5, 0x80, 0xf9, 0x73, 0xb8, 0x7c, 0xcf, 0xad, 0x43, 0x63, 0xbf, 0x08, 0xbd, 0x74, 0xdc,
-	0x75, 0x01, 0xd1, 0x6c, 0x43, 0xc0, 0xa8, 0x0c, 0x9a, 0x3e, 0x84, 0x73, 0xa9, 0x6a, 0x5c, 0x89,
-	0xba, 0xcf, 0x98, 0x78, 0x7c, 0x5b, 0xe7, 0xdf, 0x00, 0x3e, 0xbd, 0x5b, 0x7e, 0xd0, 0x4e, 0x28,
-	0x69, 0xe9, 0x0d, 0xcc, 0x84, 0xb4, 0x58, 0xb5, 0xa6, 0xeb, 0x37, 0x2b, 0x47, 0xa6, 0x57, 0x10,
-	0xeb, 0x86, 0x0b, 0x19, 0x3e, 0x30, 0x2b, 0x3b, 0xa0, 0x0f, 0x60, 0xfa, 0x15, 0xf7, 0x7d, 0x43,
-	0x2f, 0xfd, 0xaf, 0x2a, 0xbe, 0xaa, 0xd0, 0x8c, 0xf5, 0x2a, 0xbe, 0x40, 0xe3, 0x7c, 0xae, 0xe0,
-	0x76, 0xdd, 0x82, 0xce, 0xbf, 0x13, 0x88, 0x5f, 0xd6, 0x6f, 0x54, 0x45, 0x5f, 0x00, 0x68, 0xa3,
-	0x34, 0x1a, 0x27, 0xd0, 0x32, 0x92, 0x4d, 0xe7, 0xf7, 0x1e, 0x65, 0xc5, 0x78, 0x0f, 0x45, 0x38,
-	0x55, 0x7c, 0x1c, 0x8f, 0xbc, 0x96, 0xce, 0xec, 0xcb, 0xff, 0x76, 0x6e, 0x9e, 0xc1, 0xe5, 0x9d,
-	0xf1, 0x90, 0x8e, 0xfc, 0x4b, 0x77, 0x05, 0xf1, 0x8e, 0x37, 0xed, 0x70, 0x55, 0x1d, 0x3c, 0x3d,
-	0x7b, 0x42, 0x5e, 0xb1, 0x5f, 0xc7, 0x94, 0x1c, 0x8e, 0x29, 0xf9, 0x73, 0x4c, 0xc9, 0x8f, 0x53,
-	0x3a, 0x39, 0x9c, 0xd2, 0xc9, 0xef, 0x53, 0x3a, 0x59, 0x27, 0xe1, 0x51, 0x3c, 0xfe, 0x1b, 0x00,
-	0x00, 0xff, 0xff, 0xf8, 0x0b, 0x41, 0xd0, 0x2e, 0x02, 0x00, 0x00,
+	// 449 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x92, 0x4f, 0x6b, 0xd5, 0x40,
+	0x14, 0xc5, 0xdf, 0xf4, 0xfd, 0xbf, 0x16, 0x2a, 0x43, 0xa9, 0x43, 0xc1, 0xf0, 0xc8, 0xaa, 0xab,
+	0x14, 0x74, 0x23, 0x82, 0xa2, 0x16, 0x41, 0x41, 0x51, 0x52, 0x71, 0xfb, 0x98, 0x26, 0xb7, 0x75,
+	0x30, 0x99, 0x09, 0x33, 0x93, 0x96, 0xb7, 0x70, 0xef, 0xd2, 0x8f, 0x25, 0xae, 0xba, 0x74, 0x29,
+	0xef, 0x7d, 0x11, 0x99, 0x3b, 0x49, 0xfc, 0xb3, 0x3b, 0xe7, 0xdc, 0x9b, 0xcc, 0xef, 0xde, 0x19,
+	0x38, 0x32, 0xda, 0xb8, 0x53, 0x6f, 0x1a, 0x73, 0x5a, 0x18, 0x7d, 0xa9, 0xae, 0xb2, 0xc6, 0x1a,
+	0x6f, 0xf8, 0x32, 0xe4, 0x59, 0xc8, 0xd3, 0x1f, 0x0c, 0xa6, 0xcf, 0x9d, 0x43, 0xcf, 0x39, 0x4c,
+	0xb4, 0xac, 0x51, 0xb0, 0x15, 0x3b, 0x59, 0xe6, 0xa4, 0x79, 0x0a, 0xfb, 0xb5, 0xd4, 0xed, 0xa5,
+	0x2c, 0x7c, 0x6b, 0xd1, 0x8a, 0x3d, 0xaa, 0xfd, 0x93, 0xf1, 0x43, 0x98, 0xd6, 0xa6, 0xc4, 0x4a,
+	0x8c, 0xa9, 0x18, 0x0d, 0x3f, 0x82, 0x99, 0x43, 0xab, 0x64, 0x25, 0x26, 0x14, 0x77, 0x2e, 0x74,
+	0xcb, 0x70, 0x9c, 0x98, 0xc6, 0x6e, 0x32, 0xfc, 0x3e, 0x80, 0xbb, 0x59, 0x5f, 0xa3, 0x75, 0xca,
+	0x68, 0x31, 0xa3, 0xd2, 0xd2, 0xdd, 0x7c, 0x8c, 0x41, 0x40, 0xf3, 0x9b, 0x06, 0xc5, 0x3c, 0xa2,
+	0x05, 0x1d, 0x32, 0x6b, 0x2a, 0x14, 0x8b, 0x98, 0x05, 0x9d, 0x7a, 0xd8, 0x3f, 0xa3, 0x39, 0x5b,
+	0x2b, 0x2f, 0x2a, 0xe4, 0x02, 0xe6, 0xb2, 0x2c, 0x2d, 0x3a, 0xd7, 0xc1, 0xf5, 0x36, 0xe0, 0x79,
+	0x69, 0xaf, 0xd0, 0xf7, 0x78, 0xd1, 0x85, 0x2f, 0x7a, 0x8a, 0x08, 0xd8, 0xdb, 0x50, 0xf1, 0xaa,
+	0x46, 0xd3, 0x7a, 0xe2, 0x9b, 0xe4, 0xbd, 0x4d, 0x9f, 0xc2, 0xc1, 0x5b, 0xe9, 0x3c, 0x5a, 0xf7,
+	0x49, 0x35, 0xe7, 0x5e, 0x7a, 0x82, 0xf3, 0x68, 0x6b, 0xda, 0xe5, 0x24, 0x27, 0xcd, 0xef, 0xc1,
+	0x5c, 0x9b, 0x12, 0xd7, 0xaa, 0xec, 0xd6, 0x38, 0x0b, 0xf6, 0x75, 0x99, 0x7e, 0x01, 0xf8, 0xf0,
+	0xe6, 0xfc, 0x5d, 0xe3, 0x95, 0xd1, 0x8e, 0x1f, 0xc3, 0x42, 0x69, 0x87, 0x45, 0x6b, 0xe3, 0x55,
+	0x2c, 0xf2, 0xc1, 0x87, 0xe5, 0x35, 0x95, 0x54, 0x9a, 0x7e, 0xb0, 0xc8, 0xa3, 0xe1, 0x77, 0x61,
+	0xfc, 0x19, 0x37, 0xdd, 0x84, 0x41, 0x86, 0xa3, 0x0a, 0xb9, 0x2e, 0xd0, 0x0e, 0xe3, 0x15, 0xf2,
+	0x0c, 0x2d, 0xdd, 0x31, 0xa5, 0x71, 0x36, 0xd2, 0xe9, 0xd7, 0xf0, 0x02, 0xca, 0x57, 0xa6, 0xe0,
+	0xcf, 0x00, 0x1a, 0x6b, 0x1a, 0xb4, 0x5e, 0xa1, 0x13, 0x6c, 0x35, 0x3e, 0xb9, 0xf3, 0x60, 0x95,
+	0x0d, 0x6f, 0x25, 0xa3, 0xae, 0xec, 0xfd, 0xd0, 0xf2, 0x52, 0x7b, 0xbb, 0xc9, 0xff, 0xfa, 0xe6,
+	0xf8, 0x09, 0x1c, 0xfc, 0x57, 0xee, 0xe9, 0xd8, 0x1f, 0xba, 0x43, 0x98, 0x5e, 0xcb, 0xaa, 0xc5,
+	0x6e, 0x0d, 0xd1, 0x3c, 0xde, 0x7b, 0xc4, 0x5e, 0x88, 0xef, 0xdb, 0x84, 0xdd, 0x6e, 0x13, 0xf6,
+	0x6b, 0x9b, 0xb0, 0x6f, 0xbb, 0x64, 0x74, 0xbb, 0x4b, 0x46, 0x3f, 0x77, 0xc9, 0xe8, 0x62, 0x46,
+	0x0f, 0xf7, 0xe1, 0xef, 0x00, 0x00, 0x00, 0xff, 0xff, 0x82, 0x47, 0x68, 0x6a, 0xd2, 0x02, 0x00,
+	0x00,
+}
+
+func (m *Asset) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Asset) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Asset) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Role) > 0 {
+		i -= len(m.Role)
+		copy(dAtA[i:], m.Role)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Role)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.Type) > 0 {
+		i -= len(m.Type)
+		copy(dAtA[i:], m.Type)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Type)))
+		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.SwVersion) > 0 {
+		i -= len(m.SwVersion)
+		copy(dAtA[i:], m.SwVersion)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.SwVersion)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.Asset) > 0 {
+		i -= len(m.Asset)
+		copy(dAtA[i:], m.Asset)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Asset)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.Serial) > 0 {
+		i -= len(m.Serial)
+		copy(dAtA[i:], m.Serial)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Serial)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Model) > 0 {
+		i -= len(m.Model)
+		copy(dAtA[i:], m.Model)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Model)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Manufacturer) > 0 {
+		i -= len(m.Manufacturer)
+		copy(dAtA[i:], m.Manufacturer)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Manufacturer)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintConfig(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *Configurable) Marshal() (dAtA []byte, err error) {
@@ -365,20 +535,6 @@ func (m *Configurable) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintConfig(dAtA, i, uint64(len(m.Address)))
 		i--
 		dAtA[i] = 0x1a
-	}
-	if len(m.Role) > 0 {
-		i -= len(m.Role)
-		copy(dAtA[i:], m.Role)
-		i = encodeVarintConfig(dAtA, i, uint64(len(m.Role)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintConfig(dAtA, i, uint64(len(m.Type)))
-		i--
-		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -535,12 +691,36 @@ func encodeVarintConfig(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *Configurable) Size() (n int) {
+func (m *Asset) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovConfig(uint64(l))
+	}
+	l = len(m.Manufacturer)
+	if l > 0 {
+		n += 1 + l + sovConfig(uint64(l))
+	}
+	l = len(m.Model)
+	if l > 0 {
+		n += 1 + l + sovConfig(uint64(l))
+	}
+	l = len(m.Serial)
+	if l > 0 {
+		n += 1 + l + sovConfig(uint64(l))
+	}
+	l = len(m.Asset)
+	if l > 0 {
+		n += 1 + l + sovConfig(uint64(l))
+	}
+	l = len(m.SwVersion)
+	if l > 0 {
+		n += 1 + l + sovConfig(uint64(l))
+	}
 	l = len(m.Type)
 	if l > 0 {
 		n += 1 + l + sovConfig(uint64(l))
@@ -549,6 +729,15 @@ func (m *Configurable) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovConfig(uint64(l))
 	}
+	return n
+}
+
+func (m *Configurable) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	l = len(m.Address)
 	if l > 0 {
 		n += 1 + l + sovConfig(uint64(l))
@@ -633,7 +822,7 @@ func sovConfig(x uint64) (n int) {
 func sozConfig(x uint64) (n int) {
 	return sovConfig(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *Configurable) Unmarshal(dAtA []byte) error {
+func (m *Asset) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -656,13 +845,205 @@ func (m *Configurable) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Configurable: wiretype end group for non-group")
+			return fmt.Errorf("proto: Asset: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Configurable: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Asset: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Manufacturer", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Manufacturer = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Model", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Model = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Serial", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Serial = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Asset", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Asset = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SwVersion", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SwVersion = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
 			}
@@ -694,7 +1075,7 @@ func (m *Configurable) Unmarshal(dAtA []byte) error {
 			}
 			m.Type = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Role", wireType)
 			}
@@ -726,6 +1107,59 @@ func (m *Configurable) Unmarshal(dAtA []byte) error {
 			}
 			m.Role = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Configurable) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Configurable: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Configurable: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)

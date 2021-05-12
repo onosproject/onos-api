@@ -18,10 +18,20 @@ syntax = "proto3";
 
 package onos.topo;
 
+// Basic asset information
+message Asset {
+    string name = 1;
+    string manufacturer = 2;
+    string model = 3;
+    string serial = 4;
+    string asset = 5;
+    string sw_version = 6;
+    string type = 7;
+    string role = 8;
+}
+
 // Configurable device aspect
 message Configurable {
-    string type = 1;
-    string role = 2;
     string address = 3;
     string target = 4;
     string version = 5;
