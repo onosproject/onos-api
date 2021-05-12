@@ -22,7 +22,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Configurable device persona
+// Configurable device aspect
 type Configurable struct {
 	Type    string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	Role    string `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
@@ -107,7 +107,7 @@ func (m *Configurable) GetTimeout() uint64 {
 	return 0
 }
 
-// State for tracking device mastership
+// Aspect for tracking device mastership
 type MastershipState struct {
 	Term   uint64 `protobuf:"varint,1,opt,name=term,proto3" json:"term,omitempty"`
 	NodeId string `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
@@ -160,7 +160,7 @@ func (m *MastershipState) GetNodeId() string {
 	return ""
 }
 
-// Set of attributes required for TLS connectivity
+// TLS connectivity aspect
 type TLSOptions struct {
 	Insecure bool   `protobuf:"varint,1,opt,name=insecure,proto3" json:"insecure,omitempty"`
 	Plain    bool   `protobuf:"varint,2,opt,name=plain,proto3" json:"plain,omitempty"`
@@ -237,7 +237,7 @@ func (m *TLSOptions) GetCert() string {
 	return ""
 }
 
-// Persona for ad-hoc properties
+// Aspect for ad-hoc properties
 type AdHoc struct {
 	Properties map[string]string `protobuf:"bytes,1,rep,name=properties,proto3" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }

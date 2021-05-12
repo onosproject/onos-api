@@ -18,7 +18,7 @@ syntax = "proto3";
 
 package onos.topo;
 
-// Configurable device persona
+// Configurable device aspect
 message Configurable {
     string type = 1;
     string role = 2;
@@ -28,13 +28,13 @@ message Configurable {
     uint64 timeout = 6;
 }
 
-// State for tracking device mastership
+// Aspect for tracking device mastership
 message MastershipState {
     uint64 term = 1;
     string node_id = 2;
 }
 
-// Set of attributes required for TLS connectivity
+// TLS connectivity aspect
 message TLSOptions {
     bool insecure = 1;
     bool plain = 2;
@@ -43,7 +43,7 @@ message TLSOptions {
     string cert = 5;
 }
 
-// Persona for ad-hoc properties
+// Aspect for ad-hoc properties
 message AdHoc {
     map<string, string> properties = 1;
 }

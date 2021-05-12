@@ -16,7 +16,7 @@
     - [ListRequest](#onos.topo.ListRequest)
     - [ListResponse](#onos.topo.ListResponse)
     - [Object](#onos.topo.Object)
-    - [Object.AttributesEntry](#onos.topo.Object.AttributesEntry)
+    - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
     - [ProtocolState](#onos.topo.ProtocolState)
     - [Relation](#onos.topo.Relation)
     - [UpdateRequest](#onos.topo.UpdateRequest)
@@ -215,7 +215,7 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | entity | [Entity](#onos.topo.Entity) |  |  |
 | relation | [Relation](#onos.topo.Relation) |  |  |
 | kind | [Kind](#onos.topo.Kind) |  |  |
-| attributes | [Object.AttributesEntry](#onos.topo.Object.AttributesEntry) | repeated | Map of attributes as typed values; for kind, these represent expected attributed and their default values |
+| aspects | [Object.AspectsEntry](#onos.topo.Object.AspectsEntry) | repeated | Map of aspects as typed values; for kind, these represent expected aspects and their default values |
 | labels | [string](#string) | repeated | Arbitrary labels for classification/search |
 
 
@@ -223,9 +223,9 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 
 
 
-<a name="onos.topo.Object.AttributesEntry"></a>
+<a name="onos.topo.Object.AspectsEntry"></a>
 
-### Object.AttributesEntry
+### Object.AspectsEntry
 
 
 

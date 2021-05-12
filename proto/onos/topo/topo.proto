@@ -128,8 +128,8 @@ message Object {
     Kind kind = 6;
   }
 
-  // Map of attributes as typed values; for kind, these represent expected attributed and their default values
-  map<string, google.protobuf.Any> attributes = 7;
+  // Map of aspects as typed values; for kind, these represent expected aspects and their default values
+  map<string, google.protobuf.Any> aspects = 7;
 
   // Arbitrary labels for classification/search
   repeated string labels = 8;

@@ -58,11 +58,11 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 	return TopoClientFactory(cc)
 }
 
-// GetAttributeSafe retrieves the specified attribute value from the given object.
-func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.Message, error) {
-	any := obj.Attributes[key]
+// GetAspectSafe retrieves the specified aspect value from the given object.
+func GetAspectSafe(obj *Object, key string, destValue proto.Message) (proto.Message, error) {
+	any := obj.Aspects[key]
 	if !types.Is(any, destValue) {
-		return nil, errors.New("unexpected type")
+		return nil, errors.New("unexpected aspect type")
 	}
 	err := types.UnmarshalAny(any, destValue)
 	if err != nil {
@@ -71,9 +71,9 @@ func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.M
 	return destValue, nil
 }
 
-// GetAttribute retrieves the specified attribute value from the given object.
-func GetAttribute(obj *Object, key string, destValue proto.Message) proto.Message {
-	any := obj.Attributes[key]
+// GetAspect retrieves the specified aspect value from the given object.
+func GetAspect(obj *Object, key string, destValue proto.Message) proto.Message {
+	any := obj.Aspects[key]
 	if !types.Is(any, destValue) {
 		return nil
 	}
@@ -84,12 +84,12 @@ func GetAttribute(obj *Object, key string, destValue proto.Message) proto.Messag
 	return destValue
 }
 
-// SetAttribute applies the specified attribute value to the given object.
-func SetAttribute(obj *Object, key string, value proto.Message) error {
+// SetAspect applies the specified aspect value to the given object.
+func SetAspect(obj *Object, key string, value proto.Message) error {
 	any, err := types.MarshalAny(value)
 	if err != nil {
 		return err
 	}
-	obj.Attributes[key] = any
+	obj.Aspects[key] = any
 	return nil
 }
