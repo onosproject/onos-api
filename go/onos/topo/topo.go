@@ -38,16 +38,6 @@ const (
 	Version = "version"
 	Timeout = "timeout"
 	Role    = "role"
-
-	ASSET        = "asset"
-	CONFIGURABLE = "configurable"
-	MASTERSHIP   = "mastership"
-	LOCATION     = "location"
-	TLS_INFO     = "tls-info"
-	AD_HOC       = "ad-hoc"
-
-	E2NODE = "e2node"
-	E2CELL = "e2cell"
 )
 
 // TopoClientFactory : Default EntityServiceClient creation.
@@ -61,8 +51,8 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 }
 
 // GetAspectSafe retrieves the specified aspect value from the given object.
-func (obj *Object) GetAspectSafe(key string, destValue proto.Message) (proto.Message, error) {
-	any := obj.Aspects[key]
+func (obj *Object) GetAspectSafe(destValue proto.Message) (proto.Message, error) {
+	any := obj.Aspects[proto.MessageName(destValue)]
 	if !types.Is(any, destValue) {
 		return nil, errors.New("unexpected aspect type")
 	}
@@ -74,8 +64,8 @@ func (obj *Object) GetAspectSafe(key string, destValue proto.Message) (proto.Mes
 }
 
 // GetAspect retrieves the specified aspect value from the given object.
-func (obj *Object) GetAspect(key string, destValue proto.Message) proto.Message {
-	any := obj.Aspects[key]
+func (obj *Object) GetAspect(destValue proto.Message) proto.Message {
+	any := obj.Aspects[proto.MessageName(destValue)]
 	if !types.Is(any, destValue) {
 		return nil
 	}
@@ -87,7 +77,7 @@ func (obj *Object) GetAspect(key string, destValue proto.Message) proto.Message 
 }
 
 // SetAspect applies the specified aspect value to the given object.
-func (obj *Object) SetAspect(key string, value proto.Message) error {
+func (obj *Object) SetAspect(value proto.Message) error {
 	any, err := types.MarshalAny(value)
 	if err != nil {
 		return err
@@ -95,6 +85,6 @@ func (obj *Object) SetAspect(key string, value proto.Message) error {
 	if obj.Aspects == nil {
 		obj.Aspects = make(map[string]*types.Any)
 	}
-	obj.Aspects[key] = any
+	obj.Aspects[proto.MessageName(value)] = any
 	return nil
 }
