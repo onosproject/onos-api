@@ -26,16 +26,16 @@ message Asset {
     string serial = 4;
     string asset = 5;
     string sw_version = 6;
-    string type = 7;
     string role = 8;
 }
 
 // Configurable device aspect
 message Configurable {
-    string address = 3;
-    string target = 4;
-    string version = 5;
-    uint64 timeout = 6;
+    string type = 1;
+    string address = 2;
+    string target = 3;
+    string version = 4;
+    uint64 timeout = 5;
 }
 
 // Aspect for tracking device mastership

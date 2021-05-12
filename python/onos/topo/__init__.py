@@ -69,7 +69,6 @@ class Asset(betterproto.Message):
     serial: str = betterproto.string_field(4)
     asset: str = betterproto.string_field(5)
     sw_version: str = betterproto.string_field(6)
-    type: str = betterproto.string_field(7)
     role: str = betterproto.string_field(8)
 
     def __post_init__(self) -> None:
@@ -80,10 +79,11 @@ class Asset(betterproto.Message):
 class Configurable(betterproto.Message):
     """Configurable device aspect"""
 
-    address: str = betterproto.string_field(3)
-    target: str = betterproto.string_field(4)
-    version: str = betterproto.string_field(5)
-    timeout: int = betterproto.uint64_field(6)
+    type: str = betterproto.string_field(1)
+    address: str = betterproto.string_field(2)
+    target: str = betterproto.string_field(3)
+    version: str = betterproto.string_field(4)
+    timeout: int = betterproto.uint64_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
