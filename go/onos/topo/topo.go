@@ -57,11 +57,12 @@ func (obj *Object) GetAspectSafe(destValue proto.Message) (proto.Message, error)
 	if obj.Aspects == nil {
 		return nil, errors.New("aspect not found")
 	}
-	any := obj.Aspects[proto.MessageName(destValue)]
+	aspectType := proto.MessageName(destValue)
+	any := obj.Aspects[aspectType]
 	if any == nil {
 		return nil, errors.New("aspect not found")
 	}
-	if !types.Is(any, destValue) {
+	if any.TypeUrl != aspectType {
 		return nil, errors.New("unexpected aspect type")
 	}
 	reader := bytes.NewReader(any.Value)
