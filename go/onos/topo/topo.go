@@ -15,7 +15,9 @@
 package topo
 
 import (
+	"bytes"
 	"errors"
+	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/types"
 	"google.golang.org/grpc"
@@ -52,11 +54,18 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 
 // GetAspectSafe retrieves the specified aspect value from the given object.
 func (obj *Object) GetAspectSafe(destValue proto.Message) (proto.Message, error) {
+	if obj.Aspects == nil {
+		return nil, errors.New("aspect not found")
+	}
 	any := obj.Aspects[proto.MessageName(destValue)]
+	if any == nil {
+		return nil, errors.New("aspect not found")
+	}
 	if !types.Is(any, destValue) {
 		return nil, errors.New("unexpected aspect type")
 	}
-	err := types.UnmarshalAny(any, destValue)
+	reader := bytes.NewReader(any.Value)
+	err := jsonpb.Unmarshal(reader, destValue)
 	if err != nil {
 		return nil, err
 	}
@@ -65,11 +74,16 @@ func (obj *Object) GetAspectSafe(destValue proto.Message) (proto.Message, error)
 
 // GetAspect retrieves the specified aspect value from the given object.
 func (obj *Object) GetAspect(destValue proto.Message) proto.Message {
-	any := obj.Aspects[proto.MessageName(destValue)]
-	if !types.Is(any, destValue) {
+	if obj.Aspects == nil {
 		return nil
 	}
-	err := types.UnmarshalAny(any, destValue)
+	aspectType := proto.MessageName(destValue)
+	any := obj.Aspects[aspectType]
+	if any == nil || any.TypeUrl != aspectType {
+		return nil
+	}
+	reader := bytes.NewReader(any.Value)
+	err := jsonpb.Unmarshal(reader, destValue)
 	if err != nil {
 		return nil
 	}
@@ -78,13 +92,31 @@ func (obj *Object) GetAspect(destValue proto.Message) proto.Message {
 
 // SetAspect applies the specified aspect value to the given object.
 func (obj *Object) SetAspect(value proto.Message) error {
-	any, err := types.MarshalAny(value)
+	jm := jsonpb.Marshaler{}
+	writer := bytes.Buffer{}
+	err := jm.Marshal(&writer, value)
 	if err != nil {
 		return err
 	}
 	if obj.Aspects == nil {
 		obj.Aspects = make(map[string]*types.Any)
 	}
-	obj.Aspects[proto.MessageName(value)] = any
+	obj.Aspects[proto.MessageName(value)] = &types.Any{
+		TypeUrl: proto.MessageName(value),
+		Value: writer.Bytes(),
+	}
+	return nil
+}
+
+// SetAspectJSON applies the specified aspect as raw JSON value to the given object.
+func (obj *Object) SetAspectJSON(aspectType string, jsonValue []byte) error {
+	any := &types.Any {
+		TypeUrl: aspectType,
+		Value: jsonValue,
+	}
+	if obj.Aspects == nil {
+		obj.Aspects = make(map[string]*types.Any)
+	}
+	obj.Aspects[aspectType] = any
 	return nil
 }
