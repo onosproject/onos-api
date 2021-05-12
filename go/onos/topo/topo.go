@@ -90,6 +90,9 @@ func (obj *Object) SetAspect(key string, value proto.Message) error {
 	if err != nil {
 		return err
 	}
+	if obj.Aspects == nil {
+		obj.Aspects = make(map[string]*types.Any)
+	}
 	obj.Aspects[key] = any
 	return nil
 }
