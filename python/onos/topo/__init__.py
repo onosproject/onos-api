@@ -61,7 +61,7 @@ class ObjectType(betterproto.Enum):
 
 @dataclass(eq=False, repr=False)
 class Configurable(betterproto.Message):
-    """Configurable device persona"""
+    """Configurable device aspect"""
 
     type: str = betterproto.string_field(1)
     role: str = betterproto.string_field(2)
@@ -76,7 +76,7 @@ class Configurable(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class MastershipState(betterproto.Message):
-    """State for tracking device mastership"""
+    """Aspect for tracking device mastership"""
 
     term: int = betterproto.uint64_field(1)
     node_id: str = betterproto.string_field(2)
@@ -87,7 +87,7 @@ class MastershipState(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class TlsOptions(betterproto.Message):
-    """Set of attributes required for TLS connectivity"""
+    """TLS connectivity aspect"""
 
     insecure: bool = betterproto.bool_field(1)
     plain: bool = betterproto.bool_field(2)
@@ -101,7 +101,7 @@ class TlsOptions(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class AdHoc(betterproto.Message):
-    """Persona for ad-hoc properties"""
+    """Aspect for ad-hoc properties"""
 
     properties: Dict[str, str] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_STRING
@@ -113,7 +113,7 @@ class AdHoc(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Location(betterproto.Message):
-    """Configurable device persona"""
+    """Configurable device aspect"""
 
     lat: float = betterproto.double_field(1)
     lng: float = betterproto.double_field(2)
@@ -124,7 +124,7 @@ class Location(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Coverage(betterproto.Message):
-    """State for tracking device mastership"""
+    """Aspect for tracking device mastership"""
 
     height: int = betterproto.int32_field(1)
     arc_width: int = betterproto.int32_field(2)
@@ -137,7 +137,7 @@ class Coverage(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class E2Node(betterproto.Message):
-    """Set of attributes required for TLS connectivity"""
+    """TLS connectivity aspect"""
 
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
@@ -149,7 +149,7 @@ class E2Node(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class E2Cell(betterproto.Message):
-    """Persona for ad-hoc properties"""
+    """Aspect for ad-hoc properties"""
 
     cid: str = betterproto.string_field(1)
     antenna_count: int = betterproto.uint32_field(2)
@@ -200,7 +200,7 @@ class KpmMeasurement(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
-    """Configurable device persona"""
+    """Configurable device aspect"""
 
     type: "EventType" = betterproto.enum_field(1)
     object: "Object" = betterproto.message_field(2)
@@ -211,7 +211,7 @@ class Event(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class CreateRequest(betterproto.Message):
-    """State for tracking device mastership"""
+    """Aspect for tracking device mastership"""
 
     object: "Object" = betterproto.message_field(1)
 
@@ -221,7 +221,7 @@ class CreateRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class CreateResponse(betterproto.Message):
-    """Set of attributes required for TLS connectivity"""
+    """TLS connectivity aspect"""
 
     object: "Object" = betterproto.message_field(1)
 
@@ -231,7 +231,7 @@ class CreateResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetRequest(betterproto.Message):
-    """Persona for ad-hoc properties"""
+    """Aspect for ad-hoc properties"""
 
     id: str = betterproto.string_field(1)
 
@@ -319,9 +319,9 @@ class Object(betterproto.Message):
     entity: "Entity" = betterproto.message_field(4, group="obj")
     relation: "Relation" = betterproto.message_field(5, group="obj")
     kind: "Kind" = betterproto.message_field(6, group="obj")
-    attributes: Dict[
-        str, "betterproto_lib_google_protobuf.Any"
-    ] = betterproto.map_field(7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE)
+    aspects: Dict[str, "betterproto_lib_google_protobuf.Any"] = betterproto.map_field(
+        7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
     labels: List[str] = betterproto.string_field(8)
 
     def __post_init__(self) -> None:

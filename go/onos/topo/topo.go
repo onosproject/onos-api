@@ -32,20 +32,21 @@ type Revision uint64
 
 // Attribute keys
 const (
-	Address     = "address"
-	Target      = "target"
-	Type        = "type"
-	Version     = "version"
-	Timeout     = "timeout"
-	Role        = "role"
-	Displayname = "displayname"
-	User        = "user"
-	Password    = "password"
-	TLSCaCert   = "tls-ca-cert"
-	TLSCert     = "tls-cert"
-	TLSKey      = "tls-key"
-	TLSPlain    = "tls-plain"
-	TLSInsecure = "tls-insecure"
+	Address = "address"
+	Target  = "target"
+	Type    = "type"
+	Version = "version"
+	Timeout = "timeout"
+	Role    = "role"
+
+	CONFIGURABLE = "configurable"
+	MASTERSHIP   = "mastership"
+	LOCATION     = "location"
+	TLS_INFO     = "tls-info"
+	AD_HOC       = "ad-hoc"
+
+	E2NODE = "e2node"
+	E2CELL = "e2cell"
 )
 
 // TopoClientFactory : Default EntityServiceClient creation.
@@ -58,11 +59,11 @@ func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 	return TopoClientFactory(cc)
 }
 
-// GetAttributeSafe retrieves the specified attribute value from the given object.
-func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.Message, error) {
-	any := obj.Attributes[key]
+// GetAspectSafe retrieves the specified aspect value from the given object.
+func (obj *Object) GetAspectSafe(key string, destValue proto.Message) (proto.Message, error) {
+	any := obj.Aspects[key]
 	if !types.Is(any, destValue) {
-		return nil, errors.New("unexpected type")
+		return nil, errors.New("unexpected aspect type")
 	}
 	err := types.UnmarshalAny(any, destValue)
 	if err != nil {
@@ -71,9 +72,9 @@ func GetAttributeSafe(obj *Object, key string, destValue proto.Message) (proto.M
 	return destValue, nil
 }
 
-// GetAttribute retrieves the specified attribute value from the given object.
-func GetAttribute(obj *Object, key string, destValue proto.Message) proto.Message {
-	any := obj.Attributes[key]
+// GetAspect retrieves the specified aspect value from the given object.
+func (obj *Object) GetAspect(key string, destValue proto.Message) proto.Message {
+	any := obj.Aspects[key]
 	if !types.Is(any, destValue) {
 		return nil
 	}
@@ -84,12 +85,15 @@ func GetAttribute(obj *Object, key string, destValue proto.Message) proto.Messag
 	return destValue
 }
 
-// SetAttribute applies the specified attribute value to the given object.
-func SetAttribute(obj *Object, key string, value proto.Message) error {
+// SetAspect applies the specified aspect value to the given object.
+func (obj *Object) SetAspect(key string, value proto.Message) error {
 	any, err := types.MarshalAny(value)
 	if err != nil {
 		return err
 	}
-	obj.Attributes[key] = any
+	if obj.Aspects == nil {
+		obj.Aspects = make(map[string]*types.Any)
+	}
+	obj.Aspects[key] = any
 	return nil
 }

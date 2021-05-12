@@ -77,7 +77,7 @@ func (RANRelationKinds) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_23cc5f935e05bbb6, []int{1}
 }
 
-// Geographical location; expected value type of "location" attribute
+// Geographical location; expected value type of "location" aspect
 type Location struct {
 	Lat float64 `protobuf:"fixed64,1,opt,name=lat,proto3" json:"lat,omitempty"`
 	Lng float64 `protobuf:"fixed64,2,opt,name=lng,proto3" json:"lng,omitempty"`
@@ -130,7 +130,7 @@ func (m *Location) GetLng() float64 {
 	return 0
 }
 
-// Area of coverage; expected value type of "coverage" attribute
+// Area of coverage; expected value type of "coverage" aspect
 type Coverage struct {
 	Height   int32 `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
 	ArcWidth int32 `protobuf:"varint,2,opt,name=arcWidth,proto3" json:"arcWidth,omitempty"`
@@ -199,7 +199,7 @@ func (m *Coverage) GetTilt() int32 {
 	return 0
 }
 
-// E2Node persona; expected value type of "E2NODE" attribute and expected on entities of "E2NODE" kind
+// E2Node aspect; expected value type of "E2NODE" aspect and expected on entities of "E2NODE" kind
 type E2Node struct {
 	ServiceModels map[string]*ServiceModelInfo `protobuf:"bytes,1,rep,name=service_models,json=serviceModels,proto3" json:"service_models,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
@@ -244,7 +244,7 @@ func (m *E2Node) GetServiceModels() map[string]*ServiceModelInfo {
 	return nil
 }
 
-// E2Cell persona; expected value type of "E2CELL" attribute and expected on entities of "E2CELL" kind
+// E2Cell aspect; expected value type of "E2CELL" aspect and expected on entities of "E2CELL" kind
 type E2Cell struct {
 	CID          string `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty"`
 	AntennaCount uint32 `protobuf:"varint,2,opt,name=antennaCount,proto3" json:"antennaCount,omitempty"`

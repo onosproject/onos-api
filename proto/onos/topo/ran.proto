@@ -33,13 +33,13 @@ enum RANRelationKinds {
     NEIGHBORS = 1;
 }
 
-// Geographical location; expected value type of "location" attribute
+// Geographical location; expected value type of "location" aspect
 message Location {
     double lat = 1;
     double lng = 2;
 }
 
-// Area of coverage; expected value type of "coverage" attribute
+// Area of coverage; expected value type of "coverage" aspect
 message Coverage {
     int32 height = 1;
     int32 arcWidth = 2;
@@ -47,12 +47,12 @@ message Coverage {
     int32 tilt = 4;
 }
 
-// E2Node persona; expected value type of "E2NODE" attribute and expected on entities of "E2NODE" kind
+// E2Node aspect; expected value type of "E2NODE" aspect and expected on entities of "E2NODE" kind
 message E2Node {
     map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
 }
 
-// E2Cell persona; expected value type of "E2CELL" attribute and expected on entities of "E2CELL" kind
+// E2Cell aspect; expected value type of "E2CELL" aspect and expected on entities of "E2CELL" kind
 message E2Cell {
     string cid = 1 [(gogoproto.customname) = "CID"];
     uint32 antennaCount = 2;
