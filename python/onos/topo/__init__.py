@@ -60,15 +60,30 @@ class ObjectType(betterproto.Enum):
 
 
 @dataclass(eq=False, repr=False)
+class Asset(betterproto.Message):
+    """Basic asset information"""
+
+    name: str = betterproto.string_field(1)
+    manufacturer: str = betterproto.string_field(2)
+    model: str = betterproto.string_field(3)
+    serial: str = betterproto.string_field(4)
+    asset: str = betterproto.string_field(5)
+    sw_version: str = betterproto.string_field(6)
+    role: str = betterproto.string_field(8)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Configurable(betterproto.Message):
     """Configurable device aspect"""
 
     type: str = betterproto.string_field(1)
-    role: str = betterproto.string_field(2)
-    address: str = betterproto.string_field(3)
-    target: str = betterproto.string_field(4)
-    version: str = betterproto.string_field(5)
-    timeout: int = betterproto.uint64_field(6)
+    address: str = betterproto.string_field(2)
+    target: str = betterproto.string_field(3)
+    version: str = betterproto.string_field(4)
+    timeout: int = betterproto.uint64_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -113,7 +128,7 @@ class AdHoc(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Location(betterproto.Message):
-    """Configurable device aspect"""
+    """Basic asset information"""
 
     lat: float = betterproto.double_field(1)
     lng: float = betterproto.double_field(2)
@@ -124,7 +139,7 @@ class Location(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Coverage(betterproto.Message):
-    """Aspect for tracking device mastership"""
+    """Configurable device aspect"""
 
     height: int = betterproto.int32_field(1)
     arc_width: int = betterproto.int32_field(2)
@@ -137,7 +152,7 @@ class Coverage(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class E2Node(betterproto.Message):
-    """TLS connectivity aspect"""
+    """Aspect for tracking device mastership"""
 
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
@@ -149,7 +164,7 @@ class E2Node(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class E2Cell(betterproto.Message):
-    """Aspect for ad-hoc properties"""
+    """TLS connectivity aspect"""
 
     cid: str = betterproto.string_field(1)
     antenna_count: int = betterproto.uint32_field(2)
@@ -162,6 +177,8 @@ class E2Cell(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ServiceModelInfo(betterproto.Message):
+    """Aspect for ad-hoc properties"""
+
     oid: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
     ran_functions: List[
@@ -200,7 +217,7 @@ class KpmMeasurement(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
-    """Configurable device aspect"""
+    """Basic asset information"""
 
     type: "EventType" = betterproto.enum_field(1)
     object: "Object" = betterproto.message_field(2)
@@ -211,7 +228,7 @@ class Event(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class CreateRequest(betterproto.Message):
-    """Aspect for tracking device mastership"""
+    """Configurable device aspect"""
 
     object: "Object" = betterproto.message_field(1)
 
@@ -221,7 +238,7 @@ class CreateRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class CreateResponse(betterproto.Message):
-    """TLS connectivity aspect"""
+    """Aspect for tracking device mastership"""
 
     object: "Object" = betterproto.message_field(1)
 
@@ -231,7 +248,7 @@ class CreateResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetRequest(betterproto.Message):
-    """Aspect for ad-hoc properties"""
+    """TLS connectivity aspect"""
 
     id: str = betterproto.string_field(1)
 
@@ -241,6 +258,8 @@ class GetRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetResponse(betterproto.Message):
+    """Aspect for ad-hoc properties"""
+
     object: "Object" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
