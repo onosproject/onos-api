@@ -39,6 +39,7 @@ const (
 	Timeout = "timeout"
 	Role    = "role"
 
+	ASSET        = "asset"
 	CONFIGURABLE = "configurable"
 	MASTERSHIP   = "mastership"
 	LOCATION     = "location"
