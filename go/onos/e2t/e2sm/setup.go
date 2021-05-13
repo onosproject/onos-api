@@ -18,7 +18,7 @@ import (
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 )
 
-// OnSetupRequest on setup request
+// OnSetupRequest on E2 setup request
 type OnSetupRequest struct {
 	ServiceModels          map[string]*topoapi.ServiceModelInfo
 	E2Cells                *[]*topoapi.E2Cell
