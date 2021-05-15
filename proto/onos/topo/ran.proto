@@ -29,8 +29,9 @@ enum RANEntityKinds {
 
 // Kinds of RAN relations
 enum RANRelationKinds {
-    CONTROLS = 0;
-    NEIGHBORS = 1;
+    CONTROLS = 0; 
+    CONTAINS = 1;
+    NEIGHBORS = 2;
 }
 
 // Geographical location; expected value type of "location" aspect
