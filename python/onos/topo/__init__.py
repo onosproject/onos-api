@@ -15,7 +15,8 @@ class RanEntityKinds(betterproto.Enum):
 
 class RanRelationKinds(betterproto.Enum):
     CONTROLS = 0
-    NEIGHBORS = 1
+    CONTAINS = 1
+    NEIGHBORS = 2
 
 
 class EventType(betterproto.Enum):
