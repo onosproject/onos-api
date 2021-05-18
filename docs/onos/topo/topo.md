@@ -163,6 +163,7 @@ Event is a topo operation event
 | equal | [EqualFilter](#onos.topo.EqualFilter) |  |  |
 | not | [NotFilter](#onos.topo.NotFilter) |  |  |
 | in | [InFilter](#onos.topo.InFilter) |  |  |
+| key | [string](#string) |  | optional key |
 
 
 

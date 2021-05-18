@@ -304,6 +304,7 @@ class Filter(betterproto.Message):
     equal: "EqualFilter" = betterproto.message_field(1, group="filter")
     not_: "NotFilter" = betterproto.message_field(2, group="filter")
     in_: "InFilter" = betterproto.message_field(3, group="filter")
+    key: str = betterproto.string_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
