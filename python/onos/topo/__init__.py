@@ -319,16 +319,16 @@ class EqualFilter(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class NotFilter(betterproto.Message):
-    value: str = betterproto.string_field(1)
+class InFilter(betterproto.Message):
+    values: List[str] = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class InFilter(betterproto.Message):
-    values: List[str] = betterproto.string_field(1)
+class NotFilter(betterproto.Message):
+    inner: "Filter" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()

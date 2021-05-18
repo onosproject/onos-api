@@ -284,7 +284,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| value | [string](#string) |  |  |
+| inner | [Filter](#onos.topo.Filter) |  |  |
 
 
 

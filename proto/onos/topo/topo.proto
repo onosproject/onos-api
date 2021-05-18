@@ -105,11 +105,11 @@ message Filter {
 message EqualFilter {
   string value = 1;
 }
-message NotFilter {
-  string value = 1;
-}
 message InFilter {
   repeated string values = 1;
+}
+message NotFilter {
+  Filter inner = 1;
 }
 
 message Filters {
