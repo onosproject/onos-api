@@ -118,7 +118,7 @@ message Filters {
 }
 
 message ListRequest {
-  repeated Filters filters = 1;
+  Filters filters = 1;
 }
 
 message ListResponse {
@@ -126,7 +126,7 @@ message ListResponse {
 }
 
 message WatchRequest {
-  repeated Filters filters = 1;
+  Filters filters = 1;
   bool noreplay = 2;
 }
 

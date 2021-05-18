@@ -345,7 +345,7 @@ class Filters(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
-    filters: List["Filters"] = betterproto.message_field(1)
+    filters: "Filters" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -361,7 +361,7 @@ class ListResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchRequest(betterproto.Message):
-    filters: List["Filters"] = betterproto.message_field(1)
+    filters: "Filters" = betterproto.message_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
@@ -470,10 +470,7 @@ class TopoStub(betterproto.ServiceStub):
             "/onos.topo.Topo/Delete", request, DeleteResponse
         )
 
-    async def list(
-        self, *, filters: Optional[List["Filters"]] = None
-    ) -> "ListResponse":
-        filters = filters or []
+    async def list(self, *, filters: "Filters" = None) -> "ListResponse":
 
         request = ListRequest()
         if filters is not None:
@@ -482,9 +479,8 @@ class TopoStub(betterproto.ServiceStub):
         return await self._unary_unary("/onos.topo.Topo/List", request, ListResponse)
 
     async def watch(
-        self, *, filters: Optional[List["Filters"]] = None, noreplay: bool = False
+        self, *, filters: "Filters" = None, noreplay: bool = False
     ) -> AsyncIterator["WatchResponse"]:
-        filters = filters or []
 
         request = WatchRequest()
         if filters is not None:

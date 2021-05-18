@@ -254,7 +254,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filters | [Filters](#onos.topo.Filters) | repeated |  |
+| filters | [Filters](#onos.topo.Filters) |  |  |
 
 
 
@@ -418,7 +418,7 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filters | [Filters](#onos.topo.Filters) | repeated |  |
+| filters | [Filters](#onos.topo.Filters) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 
