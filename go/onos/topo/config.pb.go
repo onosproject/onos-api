@@ -22,6 +22,146 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// Protocol to interact with a device
+type Protocol int32
+
+const (
+	//UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0 values
+	Protocol_UNKNOWN_PROTOCOL Protocol = 0
+	// GNMI protocol reference
+	Protocol_GNMI Protocol = 1
+	// P4RUNTIME protocol reference
+	Protocol_P4RUNTIME Protocol = 2
+	// GNOI protocol reference
+	Protocol_GNOI Protocol = 3
+	// E2 Control Plane Protocol
+	Protocol_E2AP Protocol = 4
+)
+
+var Protocol_name = map[int32]string{
+	0: "UNKNOWN_PROTOCOL",
+	1: "GNMI",
+	2: "P4RUNTIME",
+	3: "GNOI",
+	4: "E2AP",
+}
+
+var Protocol_value = map[string]int32{
+	"UNKNOWN_PROTOCOL": 0,
+	"GNMI":             1,
+	"P4RUNTIME":        2,
+	"GNOI":             3,
+	"E2AP":             4,
+}
+
+func (x Protocol) String() string {
+	return proto.EnumName(Protocol_name, int32(x))
+}
+
+func (Protocol) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{0}
+}
+
+//ConnectivityState represents the L3 reachability of a device from the service container (e.g. enos-config), independently of gRPC or the service itself (e.g. gNMI)
+type ConnectivityState int32
+
+const (
+	//UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying the 0 values
+	ConnectivityState_UNKNOWN_CONNECTIVITY_STATE ConnectivityState = 0
+	// REACHABLE indicates the the service can reach the device at L3
+	ConnectivityState_REACHABLE ConnectivityState = 1
+	// UNREACHABLE indicates the the service can't reach the device at L3
+	ConnectivityState_UNREACHABLE ConnectivityState = 2
+)
+
+var ConnectivityState_name = map[int32]string{
+	0: "UNKNOWN_CONNECTIVITY_STATE",
+	1: "REACHABLE",
+	2: "UNREACHABLE",
+}
+
+var ConnectivityState_value = map[string]int32{
+	"UNKNOWN_CONNECTIVITY_STATE": 0,
+	"REACHABLE":                  1,
+	"UNREACHABLE":                2,
+}
+
+func (x ConnectivityState) String() string {
+	return proto.EnumName(ConnectivityState_name, int32(x))
+}
+
+func (ConnectivityState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{1}
+}
+
+//ConnectivityState represents the state of a gRPC channel to the device from the service container
+type ChannelState int32
+
+const (
+	//UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0 values
+	ChannelState_UNKNOWN_CHANNEL_STATE ChannelState = 0
+	// CONNECTED indicates the corresponding grpc channel is connected on this device
+	ChannelState_CONNECTED ChannelState = 1
+	// DISCONNECTED indicates the corresponding grpc channel is not connected on this device
+	ChannelState_DISCONNECTED ChannelState = 2
+)
+
+var ChannelState_name = map[int32]string{
+	0: "UNKNOWN_CHANNEL_STATE",
+	1: "CONNECTED",
+	2: "DISCONNECTED",
+}
+
+var ChannelState_value = map[string]int32{
+	"UNKNOWN_CHANNEL_STATE": 0,
+	"CONNECTED":             1,
+	"DISCONNECTED":          2,
+}
+
+func (x ChannelState) String() string {
+	return proto.EnumName(ChannelState_name, int32(x))
+}
+
+func (ChannelState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{2}
+}
+
+//ServiceState represents the state of the gRPC service (e.g. gNMI) to the device from the service container
+type ServiceState int32
+
+const (
+	//UNKNOWN_SERVICE_STATE constant needed to go around proto3 nullifying the 0 values
+	ServiceState_UNKNOWN_SERVICE_STATE ServiceState = 0
+	// AVAILABLE indicates the corresponding grpc service is available
+	ServiceState_AVAILABLE ServiceState = 1
+	// UNAVAILABLE indicates the corresponding grpc service is not available
+	ServiceState_UNAVAILABLE ServiceState = 2
+	// CONNECTING indicates the corresponding protocol is in the connecting phase on this device
+	ServiceState_CONNECTING ServiceState = 3
+)
+
+var ServiceState_name = map[int32]string{
+	0: "UNKNOWN_SERVICE_STATE",
+	1: "AVAILABLE",
+	2: "UNAVAILABLE",
+	3: "CONNECTING",
+}
+
+var ServiceState_value = map[string]int32{
+	"UNKNOWN_SERVICE_STATE": 0,
+	"AVAILABLE":             1,
+	"UNAVAILABLE":           2,
+	"CONNECTING":            3,
+}
+
+func (x ServiceState) String() string {
+	return proto.EnumName(ServiceState_name, int32(x))
+}
+
+func (ServiceState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{3}
+}
+
 // Basic asset information
 type Asset struct {
 	Name         string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -367,48 +507,190 @@ func (m *AdHoc) GetProperties() map[string]string {
 	return nil
 }
 
+// ProtocolState contains information related to service and connectivity to a device
+type ProtocolState struct {
+	//The protocol to which state relates
+	Protocol Protocol `protobuf:"varint,1,opt,name=protocol,proto3,enum=onos.topo.Protocol" json:"protocol,omitempty"`
+	//ConnectivityState contains the L3 connectivity information
+	ConnectivityState ConnectivityState `protobuf:"varint,2,opt,name=connectivityState,proto3,enum=onos.topo.ConnectivityState" json:"connectivityState,omitempty"`
+	//ChannelState relates to the availability of the gRPC channel
+	ChannelState ChannelState `protobuf:"varint,3,opt,name=channelState,proto3,enum=onos.topo.ChannelState" json:"channelState,omitempty"`
+	//ServiceState indicates the availability of the gRPC servic on top of the channel
+	ServiceState ServiceState `protobuf:"varint,4,opt,name=serviceState,proto3,enum=onos.topo.ServiceState" json:"serviceState,omitempty"`
+}
+
+func (m *ProtocolState) Reset()         { *m = ProtocolState{} }
+func (m *ProtocolState) String() string { return proto.CompactTextString(m) }
+func (*ProtocolState) ProtoMessage()    {}
+func (*ProtocolState) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{5}
+}
+func (m *ProtocolState) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ProtocolState) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ProtocolState.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ProtocolState) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProtocolState.Merge(m, src)
+}
+func (m *ProtocolState) XXX_Size() int {
+	return m.Size()
+}
+func (m *ProtocolState) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProtocolState.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProtocolState proto.InternalMessageInfo
+
+func (m *ProtocolState) GetProtocol() Protocol {
+	if m != nil {
+		return m.Protocol
+	}
+	return Protocol_UNKNOWN_PROTOCOL
+}
+
+func (m *ProtocolState) GetConnectivityState() ConnectivityState {
+	if m != nil {
+		return m.ConnectivityState
+	}
+	return ConnectivityState_UNKNOWN_CONNECTIVITY_STATE
+}
+
+func (m *ProtocolState) GetChannelState() ChannelState {
+	if m != nil {
+		return m.ChannelState
+	}
+	return ChannelState_UNKNOWN_CHANNEL_STATE
+}
+
+func (m *ProtocolState) GetServiceState() ServiceState {
+	if m != nil {
+		return m.ServiceState
+	}
+	return ServiceState_UNKNOWN_SERVICE_STATE
+}
+
+//Protocols
+type Protocols struct {
+	State []*ProtocolState `protobuf:"bytes,1,rep,name=state,proto3" json:"state,omitempty"`
+}
+
+func (m *Protocols) Reset()         { *m = Protocols{} }
+func (m *Protocols) String() string { return proto.CompactTextString(m) }
+func (*Protocols) ProtoMessage()    {}
+func (*Protocols) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6fc2683aefb53254, []int{6}
+}
+func (m *Protocols) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Protocols) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Protocols.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Protocols) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Protocols.Merge(m, src)
+}
+func (m *Protocols) XXX_Size() int {
+	return m.Size()
+}
+func (m *Protocols) XXX_DiscardUnknown() {
+	xxx_messageInfo_Protocols.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Protocols proto.InternalMessageInfo
+
+func (m *Protocols) GetState() []*ProtocolState {
+	if m != nil {
+		return m.State
+	}
+	return nil
+}
+
 func init() {
+	proto.RegisterEnum("onos.topo.Protocol", Protocol_name, Protocol_value)
+	proto.RegisterEnum("onos.topo.ConnectivityState", ConnectivityState_name, ConnectivityState_value)
+	proto.RegisterEnum("onos.topo.ChannelState", ChannelState_name, ChannelState_value)
+	proto.RegisterEnum("onos.topo.ServiceState", ServiceState_name, ServiceState_value)
 	proto.RegisterType((*Asset)(nil), "onos.topo.Asset")
 	proto.RegisterType((*Configurable)(nil), "onos.topo.Configurable")
 	proto.RegisterType((*MastershipState)(nil), "onos.topo.MastershipState")
 	proto.RegisterType((*TLSOptions)(nil), "onos.topo.TLSOptions")
 	proto.RegisterType((*AdHoc)(nil), "onos.topo.AdHoc")
 	proto.RegisterMapType((map[string]string)(nil), "onos.topo.AdHoc.PropertiesEntry")
+	proto.RegisterType((*ProtocolState)(nil), "onos.topo.ProtocolState")
+	proto.RegisterType((*Protocols)(nil), "onos.topo.Protocols")
 }
 
 func init() { proto.RegisterFile("onos/topo/config.proto", fileDescriptor_6fc2683aefb53254) }
 
 var fileDescriptor_6fc2683aefb53254 = []byte{
-	// 450 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x92, 0x41, 0x6b, 0xd4, 0x40,
-	0x14, 0xc7, 0x77, 0xba, 0x9b, 0xed, 0xee, 0xb3, 0x50, 0x19, 0x4a, 0x1d, 0x0a, 0x86, 0x25, 0xa7,
-	0x9e, 0x52, 0xd0, 0x8b, 0x08, 0x8a, 0xb5, 0x08, 0x0a, 0x8a, 0x92, 0x8a, 0xd7, 0x65, 0x9a, 0xbc,
-	0xd6, 0xc1, 0x64, 0x26, 0xbc, 0x99, 0xb4, 0xec, 0xc1, 0xbb, 0x47, 0x3f, 0x8d, 0x9f, 0xc1, 0x63,
-	0x8f, 0x1e, 0x65, 0xf7, 0x8b, 0xc8, 0xcc, 0x24, 0xab, 0xf6, 0xf6, 0xff, 0xff, 0xdf, 0x9b, 0xcc,
-	0xef, 0xbd, 0x0c, 0x1c, 0x1a, 0x6d, 0xec, 0x89, 0x33, 0xad, 0x39, 0x29, 0x8d, 0xbe, 0x54, 0x57,
-	0x79, 0x4b, 0xc6, 0x19, 0x3e, 0xf7, 0x79, 0xee, 0xf3, 0xec, 0x07, 0x83, 0xe4, 0xd4, 0x5a, 0x74,
-	0x9c, 0xc3, 0x44, 0xcb, 0x06, 0x05, 0x5b, 0xb0, 0xe3, 0x79, 0x11, 0x34, 0xcf, 0x60, 0xaf, 0x91,
-	0xba, 0xbb, 0x94, 0xa5, 0xeb, 0x08, 0x49, 0xec, 0x84, 0xda, 0x7f, 0x19, 0x3f, 0x80, 0xa4, 0x31,
-	0x15, 0xd6, 0x62, 0x1c, 0x8a, 0xd1, 0xf0, 0x43, 0x98, 0x5a, 0x24, 0x25, 0x6b, 0x31, 0x09, 0x71,
-	0xef, 0x7c, 0xb7, 0xf4, 0xd7, 0x89, 0x24, 0x76, 0x07, 0xc3, 0x1f, 0x02, 0xd8, 0x9b, 0xe5, 0x35,
-	0x92, 0x55, 0x46, 0x8b, 0x69, 0x28, 0xcd, 0xed, 0xcd, 0xa7, 0x18, 0x78, 0x34, 0x32, 0x35, 0x8a,
-	0x59, 0x44, 0xf3, 0x3a, 0xfb, 0xc6, 0x60, 0xef, 0x2c, 0x0c, 0xd5, 0x91, 0xbc, 0xa8, 0xd1, 0x37,
-	0xb9, 0x55, 0xbb, 0xe5, 0xf7, 0x9a, 0x0b, 0xd8, 0x95, 0x55, 0x45, 0x68, 0x6d, 0x8f, 0x3e, 0x58,
-	0xcf, 0xe7, 0x24, 0x5d, 0xa1, 0xeb, 0xb1, 0x7b, 0xe7, 0x4f, 0x0c, 0x18, 0x11, 0x7c, 0xb0, 0xbe,
-	0xe2, 0x54, 0x83, 0xa6, 0x8b, 0xec, 0x93, 0x62, 0xb0, 0xd9, 0x73, 0xd8, 0x7f, 0x27, 0xad, 0x43,
-	0xb2, 0x9f, 0x55, 0x7b, 0xee, 0xa4, 0x8b, 0x30, 0x48, 0x4d, 0x80, 0x99, 0x14, 0x41, 0xf3, 0x07,
-	0xb0, 0xab, 0x4d, 0x85, 0x4b, 0x55, 0xf5, 0x30, 0x53, 0x6f, 0xdf, 0x54, 0xd9, 0x57, 0x80, 0x8f,
-	0x6f, 0xcf, 0xdf, 0xb7, 0x4e, 0x19, 0x6d, 0xf9, 0x11, 0xcc, 0x94, 0xb6, 0x58, 0x76, 0x14, 0x67,
-	0x99, 0x15, 0x5b, 0xef, 0xb7, 0xd7, 0xd6, 0x52, 0xe9, 0xf0, 0x81, 0x59, 0x11, 0x0d, 0xbf, 0x0f,
-	0xe3, 0x2f, 0xb8, 0xea, 0x07, 0xf1, 0xd2, 0x5f, 0x55, 0xca, 0x65, 0x89, 0xe4, 0x86, 0xf5, 0x97,
-	0xf2, 0x0c, 0x29, 0xfc, 0xe4, 0x90, 0xc6, 0xed, 0x07, 0xed, 0x37, 0x99, 0x9c, 0x56, 0xaf, 0x4d,
-	0xc9, 0x5f, 0x00, 0xb4, 0x64, 0x5a, 0x24, 0xa7, 0xd0, 0x0a, 0xb6, 0x18, 0x1f, 0xdf, 0x7b, 0xb4,
-	0xc8, 0xb7, 0x8f, 0x25, 0x0f, 0x5d, 0xf9, 0x87, 0x6d, 0xcb, 0x2b, 0xed, 0x68, 0x55, 0xfc, 0x73,
-	0xe6, 0xe8, 0x19, 0xec, 0xdf, 0x29, 0x0f, 0x74, 0xec, 0x2f, 0xdd, 0x01, 0x24, 0xd7, 0xb2, 0xee,
-	0xb0, 0x5f, 0x43, 0x34, 0x4f, 0x77, 0x9e, 0xb0, 0x97, 0xe2, 0xe7, 0x3a, 0x65, 0xb7, 0xeb, 0x94,
-	0xfd, 0x5e, 0xa7, 0xec, 0xfb, 0x26, 0x1d, 0xdd, 0x6e, 0xd2, 0xd1, 0xaf, 0x4d, 0x3a, 0xba, 0x98,
-	0x86, 0x97, 0xfb, 0xf8, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xf0, 0x49, 0xbd, 0x48, 0xd3, 0x02,
-	0x00, 0x00,
+	// 741 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x52, 0xcd, 0x4e, 0xf3, 0x46,
+	0x14, 0x8d, 0xf3, 0x47, 0x72, 0x09, 0xc1, 0x4c, 0x29, 0xb8, 0xa8, 0x8d, 0x50, 0x56, 0x28, 0x8b,
+	0x20, 0xa5, 0x5d, 0x54, 0x45, 0xad, 0x6a, 0x8c, 0x05, 0xa6, 0x89, 0x13, 0x39, 0x21, 0x15, 0xab,
+	0xc8, 0x38, 0x03, 0x58, 0x4d, 0x3c, 0xd6, 0xcc, 0x24, 0x28, 0x8b, 0x6e, 0xab, 0x2e, 0xfb, 0x34,
+	0x7d, 0x86, 0x2e, 0x59, 0x76, 0xf9, 0x09, 0x5e, 0xe4, 0xd3, 0xcc, 0xd8, 0x89, 0x81, 0x6f, 0x77,
+	0xef, 0xb9, 0xe7, 0x9e, 0x39, 0xf7, 0xd8, 0x70, 0x40, 0x22, 0xc2, 0x4e, 0x39, 0x89, 0xc9, 0x69,
+	0x40, 0xa2, 0xfb, 0xf0, 0xa1, 0x1d, 0x53, 0xc2, 0x09, 0xaa, 0x0a, 0xbc, 0x2d, 0xf0, 0xe6, 0xbf,
+	0x1a, 0x94, 0x4c, 0xc6, 0x30, 0x47, 0x08, 0x8a, 0x91, 0x3f, 0xc7, 0x86, 0x76, 0xac, 0x9d, 0x54,
+	0x3d, 0x59, 0xa3, 0x26, 0xd4, 0xe6, 0x7e, 0xb4, 0xb8, 0xf7, 0x03, 0xbe, 0xa0, 0x98, 0x1a, 0x79,
+	0x39, 0x7b, 0x83, 0xa1, 0x7d, 0x28, 0xcd, 0xc9, 0x14, 0xcf, 0x8c, 0x82, 0x1c, 0xaa, 0x06, 0x1d,
+	0x40, 0x99, 0x61, 0x1a, 0xfa, 0x33, 0xa3, 0x28, 0xe1, 0xa4, 0x13, 0x6c, 0x5f, 0x3c, 0x67, 0x94,
+	0x14, 0x5b, 0x36, 0xe8, 0x3b, 0x00, 0xf6, 0x34, 0x59, 0x62, 0xca, 0x42, 0x12, 0x19, 0x65, 0x39,
+	0xaa, 0xb2, 0xa7, 0xb1, 0x02, 0x84, 0x35, 0x4a, 0x66, 0xd8, 0xa8, 0x28, 0x6b, 0xa2, 0x6e, 0xfe,
+	0xad, 0x41, 0xcd, 0x92, 0x47, 0x2d, 0xa8, 0x7f, 0x37, 0xc3, 0x82, 0xc4, 0x57, 0xf1, 0xda, 0xbf,
+	0xa8, 0x91, 0x01, 0x5b, 0xfe, 0x74, 0x4a, 0x31, 0x63, 0x89, 0xf5, 0xb4, 0x15, 0xfe, 0xb8, 0x4f,
+	0x1f, 0x30, 0x4f, 0x6c, 0x27, 0x9d, 0xd8, 0x48, 0x6d, 0x28, 0xe3, 0x69, 0x2b, 0x26, 0x3c, 0x9c,
+	0x63, 0xb2, 0x50, 0xde, 0x8b, 0x5e, 0xda, 0x36, 0x7f, 0x81, 0xdd, 0x9e, 0xcf, 0x38, 0xa6, 0xec,
+	0x31, 0x8c, 0x87, 0xdc, 0xe7, 0xca, 0x0c, 0xa6, 0x73, 0x69, 0xa6, 0xe8, 0xc9, 0x1a, 0x1d, 0xc2,
+	0x56, 0x44, 0xa6, 0x78, 0x12, 0x4e, 0x13, 0x33, 0x65, 0xd1, 0x3a, 0xd3, 0xe6, 0x9f, 0x00, 0xa3,
+	0xee, 0xb0, 0x1f, 0xf3, 0x90, 0x44, 0x0c, 0x1d, 0x41, 0x25, 0x8c, 0x18, 0x0e, 0x16, 0x54, 0xdd,
+	0x52, 0xf1, 0xd6, 0xbd, 0x48, 0x2f, 0x9e, 0xf9, 0x61, 0x24, 0x05, 0x2a, 0x9e, 0x6a, 0x90, 0x0e,
+	0x85, 0x3f, 0xf0, 0x2a, 0x39, 0x44, 0x94, 0xe2, 0xa9, 0xc0, 0x9f, 0x04, 0x98, 0xf2, 0x34, 0xfe,
+	0xc0, 0xb7, 0x30, 0x95, 0x1f, 0x59, 0xa2, 0x2a, 0x7d, 0x59, 0x8b, 0x24, 0x4b, 0xe6, 0xf4, 0x8a,
+	0x04, 0xe8, 0x57, 0x80, 0x98, 0x92, 0x18, 0x53, 0x1e, 0x62, 0x66, 0x68, 0xc7, 0x85, 0x93, 0xed,
+	0xce, 0x71, 0x7b, 0xfd, 0xb3, 0xb4, 0x25, 0xab, 0x3d, 0x58, 0x53, 0xec, 0x88, 0xd3, 0x95, 0x97,
+	0xd9, 0x39, 0xfa, 0x19, 0x76, 0xdf, 0x8d, 0x53, 0x77, 0xda, 0xc6, 0xdd, 0x3e, 0x94, 0x96, 0xfe,
+	0x6c, 0x81, 0x93, 0x18, 0x54, 0xf3, 0x53, 0xfe, 0x47, 0xad, 0xf9, 0x57, 0x1e, 0x76, 0x06, 0xe2,
+	0x17, 0x0d, 0xc8, 0x4c, 0x05, 0x79, 0x0a, 0x95, 0x38, 0x01, 0xa4, 0x44, 0xbd, 0xf3, 0x55, 0xc6,
+	0x50, 0xca, 0xf5, 0xd6, 0x24, 0x74, 0x0d, 0x7b, 0x01, 0x89, 0x22, 0x1c, 0xf0, 0x70, 0x19, 0xf2,
+	0x95, 0x54, 0x91, 0x0f, 0xd5, 0x3b, 0xdf, 0x66, 0x36, 0xad, 0xf7, 0x1c, 0xef, 0xe3, 0x1a, 0x3a,
+	0x83, 0x5a, 0xf0, 0xe8, 0x47, 0x11, 0x56, 0x66, 0x64, 0xc2, 0xf5, 0xce, 0x61, 0x56, 0x26, 0x33,
+	0xf6, 0xde, 0x90, 0xc5, 0x32, 0xc3, 0x74, 0x19, 0x06, 0x58, 0x2d, 0x17, 0x3f, 0x2c, 0x0f, 0x33,
+	0x63, 0xef, 0x0d, 0xb9, 0x79, 0x06, 0xd5, 0xf4, 0x36, 0x86, 0xda, 0x50, 0x62, 0x52, 0x42, 0x7d,
+	0x11, 0xe3, 0x0b, 0x01, 0x28, 0x0d, 0x45, 0x6b, 0xf5, 0xa0, 0x92, 0xe2, 0x68, 0x1f, 0xf4, 0x1b,
+	0xf7, 0x37, 0xb7, 0xff, 0xbb, 0x3b, 0x19, 0x78, 0xfd, 0x51, 0xdf, 0xea, 0x77, 0xf5, 0x1c, 0xaa,
+	0x40, 0xf1, 0xd2, 0xed, 0x39, 0xba, 0x86, 0x76, 0xa0, 0x3a, 0xf8, 0xc1, 0xbb, 0x71, 0x47, 0x4e,
+	0xcf, 0xd6, 0xf3, 0x6a, 0xd0, 0x77, 0xf4, 0x82, 0xa8, 0xec, 0x8e, 0x39, 0xd0, 0x8b, 0xad, 0x21,
+	0xec, 0x7d, 0x48, 0x0b, 0x35, 0xe0, 0x28, 0xd5, 0xb5, 0xfa, 0xae, 0x6b, 0x5b, 0x23, 0x67, 0xec,
+	0x8c, 0x6e, 0x27, 0xc3, 0x91, 0x39, 0xb2, 0xf5, 0x9c, 0xd0, 0xf5, 0x6c, 0xd3, 0xba, 0x32, 0xcf,
+	0xbb, 0xb6, 0xae, 0xa1, 0x5d, 0xd8, 0xbe, 0x71, 0x37, 0x40, 0xbe, 0x75, 0x0d, 0xb5, 0x6c, 0x76,
+	0xe8, 0x1b, 0xf8, 0x7a, 0xad, 0x77, 0x65, 0xba, 0xae, 0xdd, 0xcd, 0x4a, 0x25, 0x4f, 0xd8, 0x17,
+	0xba, 0x86, 0x74, 0xa8, 0x5d, 0x38, 0xc3, 0x0d, 0x92, 0x6f, 0xdd, 0x42, 0x2d, 0x1b, 0x65, 0x56,
+	0x6b, 0x68, 0x7b, 0x63, 0xc7, 0xb2, 0xb3, 0x5a, 0xe6, 0xd8, 0x74, 0xba, 0x59, 0x5b, 0x1b, 0x20,
+	0x8f, 0xea, 0x00, 0xe9, 0x39, 0xee, 0xa5, 0x5e, 0x38, 0x37, 0xfe, 0x7b, 0x69, 0x68, 0xcf, 0x2f,
+	0x0d, 0xed, 0xd3, 0x4b, 0x43, 0xfb, 0xe7, 0xb5, 0x91, 0x7b, 0x7e, 0x6d, 0xe4, 0xfe, 0x7f, 0x6d,
+	0xe4, 0xee, 0xca, 0xf2, 0x8f, 0xfb, 0xfe, 0x73, 0x00, 0x00, 0x00, 0xff, 0xff, 0xe3, 0x1f, 0x98,
+	0xc2, 0x64, 0x05, 0x00, 0x00,
 }
 
 func (m *Asset) Marshal() (dAtA []byte, err error) {
@@ -680,6 +962,86 @@ func (m *AdHoc) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *ProtocolState) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ProtocolState) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ProtocolState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.ServiceState != 0 {
+		i = encodeVarintConfig(dAtA, i, uint64(m.ServiceState))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.ChannelState != 0 {
+		i = encodeVarintConfig(dAtA, i, uint64(m.ChannelState))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.ConnectivityState != 0 {
+		i = encodeVarintConfig(dAtA, i, uint64(m.ConnectivityState))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Protocol != 0 {
+		i = encodeVarintConfig(dAtA, i, uint64(m.Protocol))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Protocols) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Protocols) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Protocols) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.State) > 0 {
+		for iNdEx := len(m.State) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.State[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintConfig(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintConfig(dAtA []byte, offset int, v uint64) int {
 	offset -= sovConfig(v)
 	base := offset
@@ -811,6 +1173,42 @@ func (m *AdHoc) Size() (n int) {
 			_ = v
 			mapEntrySize := 1 + len(k) + sovConfig(uint64(len(k))) + 1 + len(v) + sovConfig(uint64(len(v)))
 			n += mapEntrySize + 1 + sovConfig(uint64(mapEntrySize))
+		}
+	}
+	return n
+}
+
+func (m *ProtocolState) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Protocol != 0 {
+		n += 1 + sovConfig(uint64(m.Protocol))
+	}
+	if m.ConnectivityState != 0 {
+		n += 1 + sovConfig(uint64(m.ConnectivityState))
+	}
+	if m.ChannelState != 0 {
+		n += 1 + sovConfig(uint64(m.ChannelState))
+	}
+	if m.ServiceState != 0 {
+		n += 1 + sovConfig(uint64(m.ServiceState))
+	}
+	return n
+}
+
+func (m *Protocols) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.State) > 0 {
+		for _, e := range m.State {
+			l = e.Size()
+			n += 1 + l + sovConfig(uint64(l))
 		}
 	}
 	return n
@@ -1747,6 +2145,222 @@ func (m *AdHoc) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.Properties[mapkey] = mapvalue
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ProtocolState) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ProtocolState: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ProtocolState: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Protocol", wireType)
+			}
+			m.Protocol = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Protocol |= Protocol(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ConnectivityState", wireType)
+			}
+			m.ConnectivityState = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ConnectivityState |= ConnectivityState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChannelState", wireType)
+			}
+			m.ChannelState = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ChannelState |= ChannelState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ServiceState", wireType)
+			}
+			m.ServiceState = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ServiceState |= ServiceState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Protocols) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Protocols: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Protocols: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.State = append(m.State, &ProtocolState{})
+			if err := m.State[len(m.State)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

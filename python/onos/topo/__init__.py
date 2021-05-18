@@ -8,49 +8,111 @@ import betterproto
 import grpclib
 
 
-class RanEntityKinds(betterproto.Enum):
-    E2NODE = 0
-    E2CELL = 1
-
-
-class RanRelationKinds(betterproto.Enum):
-    CONTROLS = 0
-    CONTAINS = 1
-    NEIGHBORS = 2
-
-
-class EventType(betterproto.Enum):
-    NONE = 0
-    ADDED = 1
-    UPDATED = 2
-    REMOVED = 3
-
-
 class Protocol(betterproto.Enum):
+    """Protocol to interact with a device"""
+
+    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
+    # values
     UNKNOWN_PROTOCOL = 0
+    # GNMI protocol reference
     GNMI = 1
+    # P4RUNTIME protocol reference
     P4RUNTIME = 2
+    # GNOI protocol reference
     GNOI = 3
+    # E2 Control Plane Protocol
     E2AP = 4
 
 
 class ConnectivityState(betterproto.Enum):
+    """
+    ConnectivityState represents the L3 reachability of a device from the
+    service container (e.g. enos-config), independently of gRPC or the service
+    itself (e.g. gNMI)
+    """
+
+    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
+    # the 0 values
     UNKNOWN_CONNECTIVITY_STATE = 0
+    # REACHABLE indicates the the service can reach the device at L3
     REACHABLE = 1
+    # UNREACHABLE indicates the the service can't reach the device at L3
     UNREACHABLE = 2
 
 
 class ChannelState(betterproto.Enum):
+    """
+    ConnectivityState represents the state of a gRPC channel to the device from
+    the service container
+    """
+
+    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
+    # values
     UNKNOWN_CHANNEL_STATE = 0
+    # CONNECTED indicates the corresponding grpc channel is connected on this
+    # device
     CONNECTED = 1
+    # DISCONNECTED indicates the corresponding grpc channel is not connected on
+    # this device
     DISCONNECTED = 2
 
 
 class ServiceState(betterproto.Enum):
+    """
+    ServiceState represents the state of the gRPC service (e.g. gNMI) to the
+    device from the service container
+    """
+
+    # UNKNOWN_SERVICE_STATE constant needed to go around proto3 nullifying the 0
+    # values
     UNKNOWN_SERVICE_STATE = 0
+    # AVAILABLE indicates the corresponding grpc service is available
     AVAILABLE = 1
+    # UNAVAILABLE indicates the corresponding grpc service is not available
     UNAVAILABLE = 2
+    # CONNECTING indicates the corresponding protocol is in the connecting phase
+    # on this device
     CONNECTING = 3
+
+
+class RanEntityKinds(betterproto.Enum):
+    """Protocol to interact with a device"""
+
+    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
+    # values
+    E2NODE = 0
+    # GNMI protocol reference
+    E2CELL = 1
+
+
+class RanRelationKinds(betterproto.Enum):
+    """
+    ConnectivityState represents the L3 reachability of a device from the
+    service container (e.g. enos-config), independently of gRPC or the service
+    itself (e.g. gNMI)
+    """
+
+    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
+    # the 0 values
+    CONTROLS = 0
+    # REACHABLE indicates the the service can reach the device at L3
+    CONTAINS = 1
+    # UNREACHABLE indicates the the service can't reach the device at L3
+    NEIGHBORS = 2
+
+
+class EventType(betterproto.Enum):
+    """Protocol to interact with a device"""
+
+    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
+    # values
+    NONE = 0
+    # GNMI protocol reference
+    ADDED = 1
+    # P4RUNTIME protocol reference
+    UPDATED = 2
+    # GNOI protocol reference
+    REMOVED = 3
 
 
 class ObjectType(betterproto.Enum):
@@ -128,6 +190,37 @@ class AdHoc(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ProtocolState(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
+    protocol: "Protocol" = betterproto.enum_field(1)
+    # ConnectivityState contains the L3 connectivity information
+    connectivity_state: "ConnectivityState" = betterproto.enum_field(2)
+    # ChannelState relates to the availability of the gRPC channel
+    channel_state: "ChannelState" = betterproto.enum_field(3)
+    # ServiceState indicates the availability of the gRPC servic on top of the
+    # channel
+    service_state: "ServiceState" = betterproto.enum_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Protocols(betterproto.Message):
+    """Protocols"""
+
+    state: List["ProtocolState"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Location(betterproto.Message):
     """Basic asset information"""
 
@@ -192,6 +285,12 @@ class ServiceModelInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RcRanFunction(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
     id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
@@ -200,6 +299,8 @@ class RcRanFunction(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
+    """Protocols"""
+
     id: str = betterproto.string_field(1)
     measurements: List["KpmMeasurement"] = betterproto.message_field(2)
 
@@ -269,6 +370,12 @@ class GetResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class UpdateRequest(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
     object: "Object" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -277,6 +384,8 @@ class UpdateRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class UpdateResponse(betterproto.Message):
+    """Protocols"""
+
     object: "Object" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -398,7 +507,6 @@ class Object(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class Entity(betterproto.Message):
     kind_id: str = betterproto.string_field(1)
-    protocols: List["ProtocolState"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -417,17 +525,6 @@ class Relation(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class Kind(betterproto.Message):
     name: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class ProtocolState(betterproto.Message):
-    protocol: "Protocol" = betterproto.enum_field(1)
-    connectivity_state: "ConnectivityState" = betterproto.enum_field(2)
-    channel_state: "ChannelState" = betterproto.enum_field(3)
-    service_state: "ServiceState" = betterproto.enum_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()

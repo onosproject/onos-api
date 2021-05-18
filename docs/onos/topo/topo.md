@@ -23,19 +23,14 @@
     - [Object](#onos.topo.Object)
     - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
     - [Object.LabelsEntry](#onos.topo.Object.LabelsEntry)
-    - [ProtocolState](#onos.topo.ProtocolState)
     - [Relation](#onos.topo.Relation)
     - [UpdateRequest](#onos.topo.UpdateRequest)
     - [UpdateResponse](#onos.topo.UpdateResponse)
     - [WatchRequest](#onos.topo.WatchRequest)
     - [WatchResponse](#onos.topo.WatchResponse)
   
-    - [ChannelState](#onos.topo.ChannelState)
-    - [ConnectivityState](#onos.topo.ConnectivityState)
     - [EventType](#onos.topo.EventType)
     - [Object.Type](#onos.topo.Object.Type)
-    - [Protocol](#onos.topo.Protocol)
-    - [ServiceState](#onos.topo.ServiceState)
   
     - [Topo](#onos.topo.Topo)
   
@@ -114,7 +109,6 @@ Entity represents any &#34;thing&#34; that is represented in the topology
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | kind_id | [string](#string) |  | user-defined entity kind |
-| protocols | [ProtocolState](#onos.topo.ProtocolState) | repeated |  |
 
 
 
@@ -345,24 +339,6 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 
 
 
-<a name="onos.topo.ProtocolState"></a>
-
-### ProtocolState
-ProtocolState contains information related to service and connectivity to a device
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| protocol | [Protocol](#onos.topo.Protocol) |  | The protocol to which state relates |
-| connectivityState | [ConnectivityState](#onos.topo.ConnectivityState) |  | ConnectivityState contains the L3 connectivity information |
-| channelState | [ChannelState](#onos.topo.ChannelState) |  | ChannelState relates to the availability of the gRPC channel |
-| serviceState | [ServiceState](#onos.topo.ServiceState) |  | ServiceState indicates the availability of the gRPC servic on top of the channel |
-
-
-
-
-
-
 <a name="onos.topo.Relation"></a>
 
 ### Relation
@@ -443,32 +419,6 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
  
 
 
-<a name="onos.topo.ChannelState"></a>
-
-### ChannelState
-ConnectivityState represents the state of a gRPC channel to the device from the service container
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN_CHANNEL_STATE | 0 | UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0 values |
-| CONNECTED | 1 | CONNECTED indicates the corresponding grpc channel is connected on this device |
-| DISCONNECTED | 2 | DISCONNECTED indicates the corresponding grpc channel is not connected on this device |
-
-
-
-<a name="onos.topo.ConnectivityState"></a>
-
-### ConnectivityState
-ConnectivityState represents the L3 reachability of a device from the service container (e.g. enos-config), independently of gRPC or the service itself (e.g. gNMI)
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN_CONNECTIVITY_STATE | 0 | UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying the 0 values |
-| REACHABLE | 1 | REACHABLE indicates the the service can reach the device at L3 |
-| UNREACHABLE | 2 | UNREACHABLE indicates the the service can&#39;t reach the device at L3 |
-
-
-
 <a name="onos.topo.EventType"></a>
 
 ### EventType
@@ -494,35 +444,6 @@ EventType is a topo operation event type
 | ENTITY | 1 |  |
 | RELATION | 2 |  |
 | KIND | 3 |  |
-
-
-
-<a name="onos.topo.Protocol"></a>
-
-### Protocol
-Protocol to interact with a device
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN_PROTOCOL | 0 | UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0 values |
-| GNMI | 1 | GNMI protocol reference |
-| P4RUNTIME | 2 | P4RUNTIME protocol reference |
-| GNOI | 3 | GNOI protocol reference |
-| E2AP | 4 | E2 Control Plane Protocol |
-
-
-
-<a name="onos.topo.ServiceState"></a>
-
-### ServiceState
-ServiceState represents the state of the gRPC service (e.g. gNMI) to the device from the service container
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN_SERVICE_STATE | 0 | UNKNOWN_SERVICE_STATE constant needed to go around proto3 nullifying the 0 values |
-| AVAILABLE | 1 | AVAILABLE indicates the corresponding grpc service is available |
-| UNAVAILABLE | 2 | UNAVAILABLE indicates the corresponding grpc service is not available |
-| CONNECTING | 3 | CONNECTING indicates the corresponding protocol is in the connecting phase on this device |
 
 
  
