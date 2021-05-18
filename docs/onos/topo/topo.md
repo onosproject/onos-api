@@ -9,13 +9,17 @@
     - [DeleteRequest](#onos.topo.DeleteRequest)
     - [DeleteResponse](#onos.topo.DeleteResponse)
     - [Entity](#onos.topo.Entity)
+    - [EqualFilter](#onos.topo.EqualFilter)
     - [Event](#onos.topo.Event)
     - [Filter](#onos.topo.Filter)
+    - [Filters](#onos.topo.Filters)
     - [GetRequest](#onos.topo.GetRequest)
     - [GetResponse](#onos.topo.GetResponse)
+    - [InFilter](#onos.topo.InFilter)
     - [Kind](#onos.topo.Kind)
     - [ListRequest](#onos.topo.ListRequest)
     - [ListResponse](#onos.topo.ListResponse)
+    - [NotFilter](#onos.topo.NotFilter)
     - [Object](#onos.topo.Object)
     - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
     - [Object.LabelsEntry](#onos.topo.Object.LabelsEntry)
@@ -117,6 +121,21 @@ Entity represents any &#34;thing&#34; that is represented in the topology
 
 
 
+<a name="onos.topo.EqualFilter"></a>
+
+### EqualFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="onos.topo.Event"></a>
 
 ### Event
@@ -141,9 +160,25 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| label_query | [string](#string) |  | key in (value, ...); key !in (value, ...); key == value; key != value; key; !key; expr,expr,... |
-| aspect_query | [string](#string) |  | aspect; !aspect; expr,expr... |
-| kind_query | [string](#string) |  | in (kind, ...); !in (kind, ...); kind; !kind |
+| equal | [EqualFilter](#onos.topo.EqualFilter) |  |  |
+| not | [NotFilter](#onos.topo.NotFilter) |  |  |
+| in | [InFilter](#onos.topo.InFilter) |  |  |
+
+
+
+
+
+
+<a name="onos.topo.Filters"></a>
+
+### Filters
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| kind_filter | [Filter](#onos.topo.Filter) | repeated |  |
+| label_filter | [Filter](#onos.topo.Filter) | repeated |  |
 
 
 
@@ -180,6 +215,21 @@ Event is a topo operation event
 
 
 
+<a name="onos.topo.InFilter"></a>
+
+### InFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [string](#string) | repeated |  |
+
+
+
+
+
+
 <a name="onos.topo.Kind"></a>
 
 ### Kind
@@ -203,7 +253,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filter | [Filter](#onos.topo.Filter) |  |  |
+| filters | [Filters](#onos.topo.Filters) | repeated |  |
 
 
 
@@ -219,6 +269,21 @@ Kind represents an archetype of an object, i.e. entity or relation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | objects | [Object](#onos.topo.Object) | repeated |  |
+
+
+
+
+
+
+<a name="onos.topo.NotFilter"></a>
+
+### NotFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  |  |
 
 
 
@@ -352,7 +417,7 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filter | [Filter](#onos.topo.Filter) |  |  |
+| filters | [Filters](#onos.topo.Filters) | repeated |  |
 | noreplay | [bool](#bool) |  |  |
 
 

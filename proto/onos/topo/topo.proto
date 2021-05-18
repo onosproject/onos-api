@@ -95,13 +95,29 @@ message DeleteResponse {
 }
 
 message Filter {
-  string label_query = 1; // key in (value, ...); key !in (value, ...); key == value; key != value; key; !key; expr,expr,...
-  string aspect_query = 2; // aspect; !aspect; expr,expr...
-  string kind_query = 3; // in (kind, ...); !in (kind, ...); kind; !kind
+  oneof filter {
+    EqualFilter equal = 1;
+    NotFilter not = 2;
+    InFilter in = 3;
+  }
+}
+message EqualFilter {
+  string value = 1;
+}
+message NotFilter {
+  string value = 1;
+}
+message InFilter {
+  repeated string values = 1;
+}
+
+message Filters {
+  repeated Filter kind_filter = 1;
+  repeated Filter label_filter = 2;
 }
 
 message ListRequest {
-  Filter filter = 1;
+  repeated Filters filters = 1;
 }
 
 message ListResponse {
@@ -109,7 +125,7 @@ message ListResponse {
 }
 
 message WatchRequest {
-  Filter filter = 1;
+  repeated Filters filters = 1;
   bool noreplay = 2;
 }
 

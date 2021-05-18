@@ -301,9 +301,42 @@ class DeleteResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Filter(betterproto.Message):
-    label_query: str = betterproto.string_field(1)
-    aspect_query: str = betterproto.string_field(2)
-    kind_query: str = betterproto.string_field(3)
+    equal: "EqualFilter" = betterproto.message_field(1, group="filter")
+    not_: "NotFilter" = betterproto.message_field(2, group="filter")
+    in_: "InFilter" = betterproto.message_field(3, group="filter")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class EqualFilter(betterproto.Message):
+    value: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class NotFilter(betterproto.Message):
+    value: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class InFilter(betterproto.Message):
+    values: List[str] = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Filters(betterproto.Message):
+    kind_filter: List["Filter"] = betterproto.message_field(1)
+    label_filter: List["Filter"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -311,7 +344,7 @@ class Filter(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
-    filter: "Filter" = betterproto.message_field(1)
+    filters: List["Filters"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -327,7 +360,7 @@ class ListResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchRequest(betterproto.Message):
-    filter: "Filter" = betterproto.message_field(1)
+    filters: List["Filters"] = betterproto.message_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
@@ -436,21 +469,25 @@ class TopoStub(betterproto.ServiceStub):
             "/onos.topo.Topo/Delete", request, DeleteResponse
         )
 
-    async def list(self, *, filter: "Filter" = None) -> "ListResponse":
+    async def list(
+        self, *, filters: Optional[List["Filters"]] = None
+    ) -> "ListResponse":
+        filters = filters or []
 
         request = ListRequest()
-        if filter is not None:
-            request.filter = filter
+        if filters is not None:
+            request.filters = filters
 
         return await self._unary_unary("/onos.topo.Topo/List", request, ListResponse)
 
     async def watch(
-        self, *, filter: "Filter" = None, noreplay: bool = False
+        self, *, filters: Optional[List["Filters"]] = None, noreplay: bool = False
     ) -> AsyncIterator["WatchResponse"]:
+        filters = filters or []
 
         request = WatchRequest()
-        if filter is not None:
-            request.filter = filter
+        if filters is not None:
+            request.filters = filters
         request.noreplay = noreplay
 
         async for response in self._unary_stream(
