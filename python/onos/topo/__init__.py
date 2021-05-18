@@ -300,8 +300,17 @@ class DeleteResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Filter(betterproto.Message):
+    label_query: str = betterproto.string_field(1)
+    aspect_query: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
-    pass
+    filter: "Filter" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -317,6 +326,7 @@ class ListResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchRequest(betterproto.Message):
+    filter: "Filter" = betterproto.message_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
@@ -342,7 +352,9 @@ class Object(betterproto.Message):
     aspects: Dict[str, "betterproto_lib_google_protobuf.Any"] = betterproto.map_field(
         7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
-    labels: List[str] = betterproto.string_field(8)
+    labels: Dict[str, str] = betterproto.map_field(
+        8, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -423,15 +435,21 @@ class TopoStub(betterproto.ServiceStub):
             "/onos.topo.Topo/Delete", request, DeleteResponse
         )
 
-    async def list(self) -> "ListResponse":
+    async def list(self, *, filter: "Filter" = None) -> "ListResponse":
 
         request = ListRequest()
+        if filter is not None:
+            request.filter = filter
 
         return await self._unary_unary("/onos.topo.Topo/List", request, ListResponse)
 
-    async def watch(self, *, noreplay: bool = False) -> AsyncIterator["WatchResponse"]:
+    async def watch(
+        self, *, filter: "Filter" = None, noreplay: bool = False
+    ) -> AsyncIterator["WatchResponse"]:
 
         request = WatchRequest()
+        if filter is not None:
+            request.filter = filter
         request.noreplay = noreplay
 
         async for response in self._unary_stream(

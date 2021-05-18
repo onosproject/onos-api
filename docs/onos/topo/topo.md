@@ -10,6 +10,7 @@
     - [DeleteResponse](#onos.topo.DeleteResponse)
     - [Entity](#onos.topo.Entity)
     - [Event](#onos.topo.Event)
+    - [Filter](#onos.topo.Filter)
     - [GetRequest](#onos.topo.GetRequest)
     - [GetResponse](#onos.topo.GetResponse)
     - [Kind](#onos.topo.Kind)
@@ -17,6 +18,7 @@
     - [ListResponse](#onos.topo.ListResponse)
     - [Object](#onos.topo.Object)
     - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
+    - [Object.LabelsEntry](#onos.topo.Object.LabelsEntry)
     - [ProtocolState](#onos.topo.ProtocolState)
     - [Relation](#onos.topo.Relation)
     - [UpdateRequest](#onos.topo.UpdateRequest)
@@ -131,6 +133,22 @@ Event is a topo operation event
 
 
 
+<a name="onos.topo.Filter"></a>
+
+### Filter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| label_query | [string](#string) |  |  |
+| aspect_query | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="onos.topo.GetRequest"></a>
 
 ### GetRequest
@@ -182,6 +200,11 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| filter | [Filter](#onos.topo.Filter) |  |  |
+
+
 
 
 
@@ -216,7 +239,7 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | relation | [Relation](#onos.topo.Relation) |  |  |
 | kind | [Kind](#onos.topo.Kind) |  |  |
 | aspects | [Object.AspectsEntry](#onos.topo.Object.AspectsEntry) | repeated | Map of aspects as typed values; for kind, these represent expected aspects and their default values |
-| labels | [string](#string) | repeated | Arbitrary labels for classification/search |
+| labels | [Object.LabelsEntry](#onos.topo.Object.LabelsEntry) | repeated | Arbitrary labels for classification/search |
 
 
 
@@ -233,6 +256,22 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+
+
+
+
+
+
+<a name="onos.topo.Object.LabelsEntry"></a>
+
+### Object.LabelsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
 
 
 
@@ -312,6 +351,7 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| filter | [Filter](#onos.topo.Filter) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 
