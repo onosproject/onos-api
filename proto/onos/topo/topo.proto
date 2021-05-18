@@ -95,8 +95,9 @@ message DeleteResponse {
 }
 
 message Filter {
-  string label_query = 1;
-  string aspect_query = 2;
+  string label_query = 1; // key in (value, ...); key !in (value, ...); key == value; key != value; key; !key; expr,expr,...
+  string aspect_query = 2; // aspect; !aspect; expr,expr...
+  string kind_query = 3; // in (kind, ...); !in (kind, ...); kind; !kind
 }
 
 message ListRequest {

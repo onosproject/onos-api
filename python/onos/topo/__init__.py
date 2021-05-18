@@ -303,6 +303,7 @@ class DeleteResponse(betterproto.Message):
 class Filter(betterproto.Message):
     label_query: str = betterproto.string_field(1)
     aspect_query: str = betterproto.string_field(2)
+    kind_query: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

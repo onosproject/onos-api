@@ -141,8 +141,9 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| label_query | [string](#string) |  |  |
-| aspect_query | [string](#string) |  |  |
+| label_query | [string](#string) |  | key in (value, ...); key !in (value, ...); key == value; key != value; key; !key; expr,expr,... |
+| aspect_query | [string](#string) |  | aspect; !aspect; expr,expr... |
+| kind_query | [string](#string) |  | in (kind, ...); !in (kind, ...); kind; !kind |
 
 
 
