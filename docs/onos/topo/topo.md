@@ -178,8 +178,8 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| kind_filter | [Filter](#onos.topo.Filter) | repeated |  |
-| label_filter | [Filter](#onos.topo.Filter) | repeated |  |
+| kind_filters | [Filter](#onos.topo.Filter) | repeated |  |
+| label_filters | [Filter](#onos.topo.Filter) | repeated |  |
 
 
 

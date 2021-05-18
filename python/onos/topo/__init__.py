@@ -336,8 +336,8 @@ class NotFilter(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Filters(betterproto.Message):
-    kind_filter: List["Filter"] = betterproto.message_field(1)
-    label_filter: List["Filter"] = betterproto.message_field(2)
+    kind_filters: List["Filter"] = betterproto.message_field(1)
+    label_filters: List["Filter"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

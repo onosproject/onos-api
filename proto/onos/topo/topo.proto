@@ -113,8 +113,8 @@ message NotFilter {
 }
 
 message Filters {
-  repeated Filter kind_filter = 1;
-  repeated Filter label_filter = 2;
+  repeated Filter kind_filters = 1;
+  repeated Filter label_filters = 2;
 }
 
 message ListRequest {
