@@ -100,7 +100,7 @@ message Filter {
     NotFilter not = 2;
     InFilter in = 3;
   }
-  string key = 4; // optional key 
+  string key = 4; // optional key
 }
 message EqualFilter {
   string value = 1;
