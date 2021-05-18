@@ -9,14 +9,20 @@
     - [DeleteRequest](#onos.topo.DeleteRequest)
     - [DeleteResponse](#onos.topo.DeleteResponse)
     - [Entity](#onos.topo.Entity)
+    - [EqualFilter](#onos.topo.EqualFilter)
     - [Event](#onos.topo.Event)
+    - [Filter](#onos.topo.Filter)
+    - [Filters](#onos.topo.Filters)
     - [GetRequest](#onos.topo.GetRequest)
     - [GetResponse](#onos.topo.GetResponse)
+    - [InFilter](#onos.topo.InFilter)
     - [Kind](#onos.topo.Kind)
     - [ListRequest](#onos.topo.ListRequest)
     - [ListResponse](#onos.topo.ListResponse)
+    - [NotFilter](#onos.topo.NotFilter)
     - [Object](#onos.topo.Object)
     - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
+    - [Object.LabelsEntry](#onos.topo.Object.LabelsEntry)
     - [ProtocolState](#onos.topo.ProtocolState)
     - [Relation](#onos.topo.Relation)
     - [UpdateRequest](#onos.topo.UpdateRequest)
@@ -115,6 +121,21 @@ Entity represents any &#34;thing&#34; that is represented in the topology
 
 
 
+<a name="onos.topo.EqualFilter"></a>
+
+### EqualFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="onos.topo.Event"></a>
 
 ### Event
@@ -125,6 +146,40 @@ Event is a topo operation event
 | ----- | ---- | ----- | ----------- |
 | type | [EventType](#onos.topo.EventType) |  |  |
 | object | [Object](#onos.topo.Object) |  |  |
+
+
+
+
+
+
+<a name="onos.topo.Filter"></a>
+
+### Filter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| equal | [EqualFilter](#onos.topo.EqualFilter) |  |  |
+| not | [NotFilter](#onos.topo.NotFilter) |  |  |
+| in | [InFilter](#onos.topo.InFilter) |  |  |
+| key | [string](#string) |  | optional key |
+
+
+
+
+
+
+<a name="onos.topo.Filters"></a>
+
+### Filters
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| kind_filters | [Filter](#onos.topo.Filter) | repeated |  |
+| label_filters | [Filter](#onos.topo.Filter) | repeated |  |
 
 
 
@@ -161,6 +216,21 @@ Event is a topo operation event
 
 
 
+<a name="onos.topo.InFilter"></a>
+
+### InFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [string](#string) | repeated |  |
+
+
+
+
+
+
 <a name="onos.topo.Kind"></a>
 
 ### Kind
@@ -182,6 +252,11 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| filters | [Filters](#onos.topo.Filters) |  |  |
+
+
 
 
 
@@ -195,6 +270,21 @@ Kind represents an archetype of an object, i.e. entity or relation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | objects | [Object](#onos.topo.Object) | repeated |  |
+
+
+
+
+
+
+<a name="onos.topo.NotFilter"></a>
+
+### NotFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| inner | [Filter](#onos.topo.Filter) |  |  |
 
 
 
@@ -216,7 +306,7 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | relation | [Relation](#onos.topo.Relation) |  |  |
 | kind | [Kind](#onos.topo.Kind) |  |  |
 | aspects | [Object.AspectsEntry](#onos.topo.Object.AspectsEntry) | repeated | Map of aspects as typed values; for kind, these represent expected aspects and their default values |
-| labels | [string](#string) | repeated | Arbitrary labels for classification/search |
+| labels | [Object.LabelsEntry](#onos.topo.Object.LabelsEntry) | repeated | Arbitrary labels for classification/search |
 
 
 
@@ -233,6 +323,22 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+
+
+
+
+
+
+<a name="onos.topo.Object.LabelsEntry"></a>
+
+### Object.LabelsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
 
 
 
@@ -312,6 +418,7 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| filters | [Filters](#onos.topo.Filters) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 

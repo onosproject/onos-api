@@ -300,8 +300,52 @@ class DeleteResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Filter(betterproto.Message):
+    equal: "EqualFilter" = betterproto.message_field(1, group="filter")
+    not_: "NotFilter" = betterproto.message_field(2, group="filter")
+    in_: "InFilter" = betterproto.message_field(3, group="filter")
+    key: str = betterproto.string_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class EqualFilter(betterproto.Message):
+    value: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class InFilter(betterproto.Message):
+    values: List[str] = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class NotFilter(betterproto.Message):
+    inner: "Filter" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Filters(betterproto.Message):
+    kind_filters: List["Filter"] = betterproto.message_field(1)
+    label_filters: List["Filter"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
-    pass
+    filters: "Filters" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -317,6 +361,7 @@ class ListResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchRequest(betterproto.Message):
+    filters: "Filters" = betterproto.message_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
@@ -342,7 +387,9 @@ class Object(betterproto.Message):
     aspects: Dict[str, "betterproto_lib_google_protobuf.Any"] = betterproto.map_field(
         7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
-    labels: List[str] = betterproto.string_field(8)
+    labels: Dict[str, str] = betterproto.map_field(
+        8, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -423,15 +470,21 @@ class TopoStub(betterproto.ServiceStub):
             "/onos.topo.Topo/Delete", request, DeleteResponse
         )
 
-    async def list(self) -> "ListResponse":
+    async def list(self, *, filters: "Filters" = None) -> "ListResponse":
 
         request = ListRequest()
+        if filters is not None:
+            request.filters = filters
 
         return await self._unary_unary("/onos.topo.Topo/List", request, ListResponse)
 
-    async def watch(self, *, noreplay: bool = False) -> AsyncIterator["WatchResponse"]:
+    async def watch(
+        self, *, filters: "Filters" = None, noreplay: bool = False
+    ) -> AsyncIterator["WatchResponse"]:
 
         request = WatchRequest()
+        if filters is not None:
+            request.filters = filters
         request.noreplay = noreplay
 
         async for response in self._unary_stream(

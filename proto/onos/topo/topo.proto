@@ -94,7 +94,31 @@ message DeleteRequest {
 message DeleteResponse {
 }
 
+message Filter {
+  oneof filter {
+    EqualFilter equal = 1;
+    NotFilter not = 2;
+    InFilter in = 3;
+  }
+  string key = 4; // optional key
+}
+message EqualFilter {
+  string value = 1;
+}
+message InFilter {
+  repeated string values = 1;
+}
+message NotFilter {
+  Filter inner = 1;
+}
+
+message Filters {
+  repeated Filter kind_filters = 1;
+  repeated Filter label_filters = 2;
+}
+
 message ListRequest {
+  Filters filters = 1;
 }
 
 message ListResponse {
@@ -102,6 +126,7 @@ message ListResponse {
 }
 
 message WatchRequest {
+  Filters filters = 1;
   bool noreplay = 2;
 }
 
@@ -132,7 +157,7 @@ message Object {
   map<string, google.protobuf.Any> aspects = 7;
 
   // Arbitrary labels for classification/search
-  repeated string labels = 8;
+  map<string,string> labels = 8;
 }
 
 // Entity represents any "thing" that is represented in the topology
