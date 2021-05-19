@@ -126,7 +126,7 @@ message Filters {
 
 message ListRequest {
     Filters filters = 1;
-    repeated string aspectTypes = 2;
+    repeated string aspect_types = 2;
 }
 
 message ListResponse {
@@ -136,7 +136,7 @@ message ListResponse {
 message WatchRequest {
     Filters filters = 1;
     bool noreplay = 2;
-    repeated string aspectTypes = 3;
+    repeated string aspect_types = 3;
 }
 
 message WatchResponse {
