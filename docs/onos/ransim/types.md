@@ -4,6 +4,7 @@
 ## Table of Contents
 
 - [onos/ransim/types/types.proto](#onos/ransim/types/types.proto)
+    - [A3HandoverParams](#onos.ransim.types.A3HandoverParams)
     - [Cell](#onos.ransim.types.Cell)
     - [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry)
     - [MapLayout](#onos.ransim.types.MapLayout)
@@ -25,6 +26,25 @@
 
 
 
+<a name="onos.ransim.types.A3HandoverParams"></a>
+
+### A3HandoverParams
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| A3Offset | [int32](#int32) |  |  |
+| A3TimeToTrigger | [int32](#int32) |  |  |
+| A3Hysteresis | [int32](#int32) |  |  |
+| A3CellOffset | [int32](#int32) |  |  |
+| A3FrequencyOffset | [int32](#int32) |  |  |
+
+
+
+
+
+
 <a name="onos.ransim.types.Cell"></a>
 
 ### Cell
@@ -40,6 +60,7 @@
 | max_ues | [uint32](#uint32) |  |  |
 | neighbors | [uint64](#uint64) | repeated |  |
 | tx_power_db | [double](#double) |  | The cell transmit power in decibels |
+| a3_handover_params | [A3HandoverParams](#onos.ransim.types.A3HandoverParams) |  |  |
 | crnti_map | [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry) | repeated | crntis maps a ue&#39;s name to its crnti |
 | crnti_index | [uint32](#uint32) |  |  |
 | port | [uint32](#uint32) |  |  |
