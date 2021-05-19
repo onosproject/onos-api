@@ -1137,7 +1137,7 @@ type UEServiceClient interface {
 	// If aspects are named in the request, only those aspects will be deleted.
 	// Otherwise, if no aspects are specified, the entire UE will be deleted.
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
-	// List gets a the requested UE entities populated with all or only requested aspects.
+	// List gets the requested UE entities populated with all or only requested aspects.
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	// Watch returns a stream of UE change notifications, with each UE populated with only the
 	// requested aspects.
@@ -1243,7 +1243,7 @@ type UEServiceServer interface {
 	// If aspects are named in the request, only those aspects will be deleted.
 	// Otherwise, if no aspects are specified, the entire UE will be deleted.
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	// List gets a the requested UE entities populated with all or only requested aspects.
+	// List gets the requested UE entities populated with all or only requested aspects.
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	// Watch returns a stream of UE change notifications, with each UE populated with only the
 	// requested aspects.

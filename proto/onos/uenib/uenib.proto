@@ -45,7 +45,7 @@ service UEService {
     rpc Delete (DeleteRequest) returns (DeleteResponse) {
     }
 
-    // List gets a the requested UE entities populated with all or only requested aspects.
+    // List gets the requested UE entities populated with all or only requested aspects.
     rpc List (ListRequest) returns (ListResponse) {
     }
 
