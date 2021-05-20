@@ -45,8 +45,8 @@ service UEService {
     rpc Delete (DeleteRequest) returns (DeleteResponse) {
     }
 
-    // List gets the requested UE entities populated with all or only requested aspects.
-    rpc List (ListRequest) returns (ListResponse) {
+    // List returns a stream of UE entities populated with all or only requested aspects.
+    rpc List (ListRequest) returns (stream ListResponse) {
     }
 
     // Watch returns a stream of UE change notifications, with each UE populated with only the
@@ -130,7 +130,7 @@ message ListRequest {
 }
 
 message ListResponse {
-    repeated UE ues = 1 [(gogoproto.nullable) = false];
+    UE ue = 1;
 }
 
 message WatchRequest {
