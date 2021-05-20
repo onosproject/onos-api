@@ -110,15 +110,15 @@ message Cell {
 }
 
 message A3HandoverParams {
-    int32 A3Offset = 1;
+    int32 a3_offset = 1;
 
-    int32 A3TimeToTrigger = 2;
+    int32 a3_time_to_trigger = 2;
 
-    int32 A3Hysteresis = 3;
+    int32 a3_hysteresis = 3;
 
-    int32 A3CellOffset = 4;
+    int32 a3_cell_offset = 4;
 
-    int32 A3FrequencyOffset = 5;
+    int32 a3_frequency_offset = 5;
 }
 
 message Node {

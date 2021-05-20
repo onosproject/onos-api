@@ -34,11 +34,11 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| A3Offset | [int32](#int32) |  |  |
-| A3TimeToTrigger | [int32](#int32) |  |  |
-| A3Hysteresis | [int32](#int32) |  |  |
-| A3CellOffset | [int32](#int32) |  |  |
-| A3FrequencyOffset | [int32](#int32) |  |  |
+| a3_offset | [int32](#int32) |  |  |
+| a3_time_to_trigger | [int32](#int32) |  |  |
+| a3_hysteresis | [int32](#int32) |  |  |
+| a3_cell_offset | [int32](#int32) |  |  |
+| a3_frequency_offset | [int32](#int32) |  |  |
 
 
 
