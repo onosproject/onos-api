@@ -1117,17 +1117,15 @@ const _ = grpc.SupportPackageIsVersion4
 type UEServiceClient interface {
 	// Create a new UE entity and its initial set of aspects.
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	// Get a UE entity with all or only requested aspects.
+	// Get a UE entity populated with the requested aspects.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	// Update an existing UE entity with the specified aspects.
+	// Update an existing UE entity populated with the requested aspects.
 	// Only the aspects present in the UE entity will be updated; others will be left unmodified.
 	// New aspects can be added via update.
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
-	// Delete specified aspects of a UE entity or delete the UE entity entirely.
-	// If aspects are named in the request, only those aspects will be deleted.
-	// Otherwise, if no aspects are specified, the entire UE will be deleted.
+	// Delete the specified aspects of a UE entity.
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
-	// List returns a stream of UE entities populated with all or only requested aspects.
+	// List returns a stream of UE entities populated the requested aspects.
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (UEService_ListClient, error)
 	// Watch returns a stream of UE change notifications, with each UE populated with only the
 	// requested aspects.
@@ -1246,17 +1244,15 @@ func (x *uEServiceWatchClient) Recv() (*WatchResponse, error) {
 type UEServiceServer interface {
 	// Create a new UE entity and its initial set of aspects.
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	// Get a UE entity with all or only requested aspects.
+	// Get a UE entity populated with the requested aspects.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
-	// Update an existing UE entity with the specified aspects.
+	// Update an existing UE entity populated with the requested aspects.
 	// Only the aspects present in the UE entity will be updated; others will be left unmodified.
 	// New aspects can be added via update.
 	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
-	// Delete specified aspects of a UE entity or delete the UE entity entirely.
-	// If aspects are named in the request, only those aspects will be deleted.
-	// Otherwise, if no aspects are specified, the entire UE will be deleted.
+	// Delete the specified aspects of a UE entity.
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	// List returns a stream of UE entities populated with all or only requested aspects.
+	// List returns a stream of UE entities populated the requested aspects.
 	List(*ListRequest, UEService_ListServer) error
 	// Watch returns a stream of UE change notifications, with each UE populated with only the
 	// requested aspects.

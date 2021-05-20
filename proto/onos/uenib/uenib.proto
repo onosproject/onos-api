@@ -29,23 +29,21 @@ service UEService {
     rpc Create (CreateRequest) returns (CreateResponse) {
     }
 
-    // Get a UE entity with all or only requested aspects.
+    // Get a UE entity populated with the requested aspects.
     rpc Get (GetRequest) returns (GetResponse) {
     }
 
-    // Update an existing UE entity with the specified aspects.
+    // Update an existing UE entity populated with the requested aspects.
     // Only the aspects present in the UE entity will be updated; others will be left unmodified.
     // New aspects can be added via update.
     rpc Update (UpdateRequest) returns (UpdateResponse) {
     }
 
-    // Delete specified aspects of a UE entity or delete the UE entity entirely.
-    // If aspects are named in the request, only those aspects will be deleted.
-    // Otherwise, if no aspects are specified, the entire UE will be deleted.
+    // Delete the specified aspects of a UE entity.
     rpc Delete (DeleteRequest) returns (DeleteResponse) {
     }
 
-    // List returns a stream of UE entities populated with all or only requested aspects.
+    // List returns a stream of UE entities populated the requested aspects.
     rpc List (ListRequest) returns (stream ListResponse) {
     }
 
