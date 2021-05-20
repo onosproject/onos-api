@@ -16,7 +16,7 @@ limitations under the License.
 
 syntax = "proto3";
 
-// Package onos.topo defines interfaces for managing network topology
+// Package onos.uenib defines interfaces for managing user equipment (UEs)
 package onos.uenib;
 
 import "google/protobuf/any.proto";
@@ -53,7 +53,7 @@ service UEService {
     }
 }
 
-// EventType is a topo operation event type
+// EventType is a UE operation event type
 enum EventType {
     NONE = 0;
     ADDED = 1;
@@ -61,18 +61,17 @@ enum EventType {
     REMOVED = 3;
 }
 
-// Event is a topo operation event
+// Event is a record of an operation on a UE
 message Event {
     EventType type = 1;
-    UE ue = 2 [(gogoproto.nullable) = false];
+    UE ue = 2 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
 message CreateRequest {
-    UE ue = 1;
+    UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
 message CreateResponse {
-    UE ue = 1;
 }
 
 message GetRequest {
@@ -81,15 +80,14 @@ message GetRequest {
 }
 
 message GetResponse {
-    UE ue = 1;
+    UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
 message UpdateRequest {
-    UE ue = 1;
+    UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
 message UpdateResponse {
-    UE ue = 1;
 }
 
 message DeleteRequest {
@@ -100,39 +98,15 @@ message DeleteRequest {
 message DeleteResponse {
 }
 
-message Filter {
-    oneof filter {
-        EqualFilter equal = 1;
-        NotFilter not = 2;
-        InFilter in = 3;
-    }
-    string key = 4; // optional key
-}
-message EqualFilter {
-    string value = 1;
-}
-message InFilter {
-    repeated string values = 1;
-}
-message NotFilter {
-    Filter inner = 1;
-}
-
-message Filters {
-    repeated Filter label_filters = 2;
-}
-
 message ListRequest {
-    Filters filters = 1;
-    repeated string aspect_types = 2;
+    repeated string aspect_types = 1;
 }
 
 message ListResponse {
-    UE ue = 1;
+    UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
 message WatchRequest {
-    Filters filters = 1;
     bool noreplay = 2;
     repeated string aspect_types = 3;
 }
@@ -141,13 +115,10 @@ message WatchResponse {
     Event event = 1 [(gogoproto.nullable) = false];
 }
 
-// Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
+// UE entity is merely an ID and a map of arbitrary aspects.
 message UE {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
 
-    // Arbitrary labels for classification/search
-    map<string, string> labels = 3;
-
     // Map of aspects as typed values
-    map<string, google.protobuf.Any> aspects = 4;
+    map<string, google.protobuf.Any> aspects = 2;
 }
