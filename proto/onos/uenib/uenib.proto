@@ -26,30 +26,30 @@ import "gogoproto/gogo.proto";
 // information associated with UEs.
 service UEService {
     // Create a new UE entity and its initial set of aspects.
-    rpc Create (CreateRequest) returns (CreateResponse) {
+    rpc CreateUE (CreateUERequest) returns (CreateUEResponse) {
     }
 
     // Get a UE entity populated with the requested aspects.
-    rpc Get (GetRequest) returns (GetResponse) {
+    rpc GetUE (GetUERequest) returns (GetUEResponse) {
     }
 
     // Update an existing UE entity populated with the requested aspects.
     // Only the aspects present in the UE entity will be updated; others will be left unmodified.
     // New aspects can be added via update.
-    rpc Update (UpdateRequest) returns (UpdateResponse) {
+    rpc UpdateUE (UpdateUERequest) returns (UpdateUEResponse) {
     }
 
     // Delete the specified aspects of a UE entity.
-    rpc Delete (DeleteRequest) returns (DeleteResponse) {
+    rpc DeleteUE (DeleteUERequest) returns (DeleteUEResponse) {
     }
 
-    // List returns a stream of UE entities populated the requested aspects.
-    rpc List (ListRequest) returns (stream ListResponse) {
+    // ListUEs returns a stream of UE entities populated the requested aspects.
+    rpc ListUEs (ListUERequest) returns (stream ListUEResponse) {
     }
 
-    // Watch returns a stream of UE change notifications, with each UE populated with only the
+    // WatchUEs returns a stream of UE change notifications, with each UE populated with only the
     // requested aspects.
-    rpc Watch (WatchRequest) returns (stream WatchResponse) {
+    rpc WatchUEs (WatchUERequest) returns (stream WatchUEResponse) {
     }
 }
 
@@ -67,51 +67,51 @@ message Event {
     UE ue = 2 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
-message CreateRequest {
+message CreateUERequest {
     UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
-message CreateResponse {
+message CreateUEResponse {
 }
 
-message GetRequest {
+message GetUERequest {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
     repeated string aspect_types = 2;
 }
 
-message GetResponse {
+message GetUEResponse {
     UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
-message UpdateRequest {
+message UpdateUERequest {
     UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
-message UpdateResponse {
+message UpdateUEResponse {
 }
 
-message DeleteRequest {
+message DeleteUERequest {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
     repeated string aspect_types = 2;
 }
 
-message DeleteResponse {
+message DeleteUEResponse {
 }
 
-message ListRequest {
+message ListUERequest {
     repeated string aspect_types = 1;
 }
 
-message ListResponse {
+message ListUEResponse {
     UE ue = 1 [(gogoproto.customname) = "UE", (gogoproto.nullable) = false];
 }
 
-message WatchRequest {
+message WatchUERequest {
     bool noreplay = 2;
     repeated string aspect_types = 3;
 }
 
-message WatchResponse {
+message WatchUEResponse {
     Event event = 1 [(gogoproto.nullable) = false];
 }
 

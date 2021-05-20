@@ -115,22 +115,22 @@ func (m *Event) GetUE() UE {
 	return UE{}
 }
 
-type CreateRequest struct {
+type CreateUERequest struct {
 	UE UE `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue"`
 }
 
-func (m *CreateRequest) Reset()         { *m = CreateRequest{} }
-func (m *CreateRequest) String() string { return proto.CompactTextString(m) }
-func (*CreateRequest) ProtoMessage()    {}
-func (*CreateRequest) Descriptor() ([]byte, []int) {
+func (m *CreateUERequest) Reset()         { *m = CreateUERequest{} }
+func (m *CreateUERequest) String() string { return proto.CompactTextString(m) }
+func (*CreateUERequest) ProtoMessage()    {}
+func (*CreateUERequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{1}
 }
-func (m *CreateRequest) XXX_Unmarshal(b []byte) error {
+func (m *CreateUERequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *CreateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *CreateUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_CreateRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_CreateUERequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -140,40 +140,40 @@ func (m *CreateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *CreateRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateRequest.Merge(m, src)
+func (m *CreateUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateUERequest.Merge(m, src)
 }
-func (m *CreateRequest) XXX_Size() int {
+func (m *CreateUERequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *CreateRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateRequest.DiscardUnknown(m)
+func (m *CreateUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateUERequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateRequest proto.InternalMessageInfo
+var xxx_messageInfo_CreateUERequest proto.InternalMessageInfo
 
-func (m *CreateRequest) GetUE() UE {
+func (m *CreateUERequest) GetUE() UE {
 	if m != nil {
 		return m.UE
 	}
 	return UE{}
 }
 
-type CreateResponse struct {
+type CreateUEResponse struct {
 }
 
-func (m *CreateResponse) Reset()         { *m = CreateResponse{} }
-func (m *CreateResponse) String() string { return proto.CompactTextString(m) }
-func (*CreateResponse) ProtoMessage()    {}
-func (*CreateResponse) Descriptor() ([]byte, []int) {
+func (m *CreateUEResponse) Reset()         { *m = CreateUEResponse{} }
+func (m *CreateUEResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateUEResponse) ProtoMessage()    {}
+func (*CreateUEResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{2}
 }
-func (m *CreateResponse) XXX_Unmarshal(b []byte) error {
+func (m *CreateUEResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *CreateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *CreateUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_CreateResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_CreateUEResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -183,35 +183,35 @@ func (m *CreateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *CreateResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateResponse.Merge(m, src)
+func (m *CreateUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateUEResponse.Merge(m, src)
 }
-func (m *CreateResponse) XXX_Size() int {
+func (m *CreateUEResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *CreateResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateResponse.DiscardUnknown(m)
+func (m *CreateUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateUEResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateResponse proto.InternalMessageInfo
+var xxx_messageInfo_CreateUEResponse proto.InternalMessageInfo
 
-type GetRequest struct {
+type GetUERequest struct {
 	ID          ID       `protobuf:"bytes,1,opt,name=id,proto3,casttype=ID" json:"id,omitempty"`
 	AspectTypes []string `protobuf:"bytes,2,rep,name=aspect_types,json=aspectTypes,proto3" json:"aspect_types,omitempty"`
 }
 
-func (m *GetRequest) Reset()         { *m = GetRequest{} }
-func (m *GetRequest) String() string { return proto.CompactTextString(m) }
-func (*GetRequest) ProtoMessage()    {}
-func (*GetRequest) Descriptor() ([]byte, []int) {
+func (m *GetUERequest) Reset()         { *m = GetUERequest{} }
+func (m *GetUERequest) String() string { return proto.CompactTextString(m) }
+func (*GetUERequest) ProtoMessage()    {}
+func (*GetUERequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{3}
 }
-func (m *GetRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetUERequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetUERequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -221,48 +221,48 @@ func (m *GetRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *GetRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetRequest.Merge(m, src)
+func (m *GetUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUERequest.Merge(m, src)
 }
-func (m *GetRequest) XXX_Size() int {
+func (m *GetUERequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetRequest.DiscardUnknown(m)
+func (m *GetUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUERequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetUERequest proto.InternalMessageInfo
 
-func (m *GetRequest) GetID() ID {
+func (m *GetUERequest) GetID() ID {
 	if m != nil {
 		return m.ID
 	}
 	return ""
 }
 
-func (m *GetRequest) GetAspectTypes() []string {
+func (m *GetUERequest) GetAspectTypes() []string {
 	if m != nil {
 		return m.AspectTypes
 	}
 	return nil
 }
 
-type GetResponse struct {
+type GetUEResponse struct {
 	UE UE `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue"`
 }
 
-func (m *GetResponse) Reset()         { *m = GetResponse{} }
-func (m *GetResponse) String() string { return proto.CompactTextString(m) }
-func (*GetResponse) ProtoMessage()    {}
-func (*GetResponse) Descriptor() ([]byte, []int) {
+func (m *GetUEResponse) Reset()         { *m = GetUEResponse{} }
+func (m *GetUEResponse) String() string { return proto.CompactTextString(m) }
+func (*GetUEResponse) ProtoMessage()    {}
+func (*GetUEResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{4}
 }
-func (m *GetResponse) XXX_Unmarshal(b []byte) error {
+func (m *GetUEResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetUEResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -272,41 +272,41 @@ func (m *GetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-func (m *GetResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetResponse.Merge(m, src)
+func (m *GetUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUEResponse.Merge(m, src)
 }
-func (m *GetResponse) XXX_Size() int {
+func (m *GetUEResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetResponse.DiscardUnknown(m)
+func (m *GetUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUEResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetUEResponse proto.InternalMessageInfo
 
-func (m *GetResponse) GetUE() UE {
+func (m *GetUEResponse) GetUE() UE {
 	if m != nil {
 		return m.UE
 	}
 	return UE{}
 }
 
-type UpdateRequest struct {
+type UpdateUERequest struct {
 	UE UE `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue"`
 }
 
-func (m *UpdateRequest) Reset()         { *m = UpdateRequest{} }
-func (m *UpdateRequest) String() string { return proto.CompactTextString(m) }
-func (*UpdateRequest) ProtoMessage()    {}
-func (*UpdateRequest) Descriptor() ([]byte, []int) {
+func (m *UpdateUERequest) Reset()         { *m = UpdateUERequest{} }
+func (m *UpdateUERequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateUERequest) ProtoMessage()    {}
+func (*UpdateUERequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{5}
 }
-func (m *UpdateRequest) XXX_Unmarshal(b []byte) error {
+func (m *UpdateUERequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateUERequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -316,40 +316,40 @@ func (m *UpdateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *UpdateRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateRequest.Merge(m, src)
+func (m *UpdateUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateUERequest.Merge(m, src)
 }
-func (m *UpdateRequest) XXX_Size() int {
+func (m *UpdateUERequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateRequest.DiscardUnknown(m)
+func (m *UpdateUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateUERequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateRequest proto.InternalMessageInfo
+var xxx_messageInfo_UpdateUERequest proto.InternalMessageInfo
 
-func (m *UpdateRequest) GetUE() UE {
+func (m *UpdateUERequest) GetUE() UE {
 	if m != nil {
 		return m.UE
 	}
 	return UE{}
 }
 
-type UpdateResponse struct {
+type UpdateUEResponse struct {
 }
 
-func (m *UpdateResponse) Reset()         { *m = UpdateResponse{} }
-func (m *UpdateResponse) String() string { return proto.CompactTextString(m) }
-func (*UpdateResponse) ProtoMessage()    {}
-func (*UpdateResponse) Descriptor() ([]byte, []int) {
+func (m *UpdateUEResponse) Reset()         { *m = UpdateUEResponse{} }
+func (m *UpdateUEResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateUEResponse) ProtoMessage()    {}
+func (*UpdateUEResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{6}
 }
-func (m *UpdateResponse) XXX_Unmarshal(b []byte) error {
+func (m *UpdateUEResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateUEResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -359,35 +359,35 @@ func (m *UpdateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *UpdateResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateResponse.Merge(m, src)
+func (m *UpdateUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateUEResponse.Merge(m, src)
 }
-func (m *UpdateResponse) XXX_Size() int {
+func (m *UpdateUEResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateResponse.DiscardUnknown(m)
+func (m *UpdateUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateUEResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateResponse proto.InternalMessageInfo
+var xxx_messageInfo_UpdateUEResponse proto.InternalMessageInfo
 
-type DeleteRequest struct {
+type DeleteUERequest struct {
 	ID          ID       `protobuf:"bytes,1,opt,name=id,proto3,casttype=ID" json:"id,omitempty"`
 	AspectTypes []string `protobuf:"bytes,2,rep,name=aspect_types,json=aspectTypes,proto3" json:"aspect_types,omitempty"`
 }
 
-func (m *DeleteRequest) Reset()         { *m = DeleteRequest{} }
-func (m *DeleteRequest) String() string { return proto.CompactTextString(m) }
-func (*DeleteRequest) ProtoMessage()    {}
-func (*DeleteRequest) Descriptor() ([]byte, []int) {
+func (m *DeleteUERequest) Reset()         { *m = DeleteUERequest{} }
+func (m *DeleteUERequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteUERequest) ProtoMessage()    {}
+func (*DeleteUERequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{7}
 }
-func (m *DeleteRequest) XXX_Unmarshal(b []byte) error {
+func (m *DeleteUERequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DeleteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DeleteUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DeleteRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DeleteUERequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -397,47 +397,47 @@ func (m *DeleteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *DeleteRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteRequest.Merge(m, src)
+func (m *DeleteUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteUERequest.Merge(m, src)
 }
-func (m *DeleteRequest) XXX_Size() int {
+func (m *DeleteUERequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *DeleteRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteRequest.DiscardUnknown(m)
+func (m *DeleteUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteUERequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DeleteRequest proto.InternalMessageInfo
+var xxx_messageInfo_DeleteUERequest proto.InternalMessageInfo
 
-func (m *DeleteRequest) GetID() ID {
+func (m *DeleteUERequest) GetID() ID {
 	if m != nil {
 		return m.ID
 	}
 	return ""
 }
 
-func (m *DeleteRequest) GetAspectTypes() []string {
+func (m *DeleteUERequest) GetAspectTypes() []string {
 	if m != nil {
 		return m.AspectTypes
 	}
 	return nil
 }
 
-type DeleteResponse struct {
+type DeleteUEResponse struct {
 }
 
-func (m *DeleteResponse) Reset()         { *m = DeleteResponse{} }
-func (m *DeleteResponse) String() string { return proto.CompactTextString(m) }
-func (*DeleteResponse) ProtoMessage()    {}
-func (*DeleteResponse) Descriptor() ([]byte, []int) {
+func (m *DeleteUEResponse) Reset()         { *m = DeleteUEResponse{} }
+func (m *DeleteUEResponse) String() string { return proto.CompactTextString(m) }
+func (*DeleteUEResponse) ProtoMessage()    {}
+func (*DeleteUEResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{8}
 }
-func (m *DeleteResponse) XXX_Unmarshal(b []byte) error {
+func (m *DeleteUEResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DeleteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DeleteUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DeleteResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DeleteUEResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -447,34 +447,34 @@ func (m *DeleteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *DeleteResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteResponse.Merge(m, src)
+func (m *DeleteUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteUEResponse.Merge(m, src)
 }
-func (m *DeleteResponse) XXX_Size() int {
+func (m *DeleteUEResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *DeleteResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteResponse.DiscardUnknown(m)
+func (m *DeleteUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteUEResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DeleteResponse proto.InternalMessageInfo
+var xxx_messageInfo_DeleteUEResponse proto.InternalMessageInfo
 
-type ListRequest struct {
+type ListUERequest struct {
 	AspectTypes []string `protobuf:"bytes,1,rep,name=aspect_types,json=aspectTypes,proto3" json:"aspect_types,omitempty"`
 }
 
-func (m *ListRequest) Reset()         { *m = ListRequest{} }
-func (m *ListRequest) String() string { return proto.CompactTextString(m) }
-func (*ListRequest) ProtoMessage()    {}
-func (*ListRequest) Descriptor() ([]byte, []int) {
+func (m *ListUERequest) Reset()         { *m = ListUERequest{} }
+func (m *ListUERequest) String() string { return proto.CompactTextString(m) }
+func (*ListUERequest) ProtoMessage()    {}
+func (*ListUERequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{9}
 }
-func (m *ListRequest) XXX_Unmarshal(b []byte) error {
+func (m *ListUERequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ListUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ListRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ListUERequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -484,41 +484,41 @@ func (m *ListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-func (m *ListRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListRequest.Merge(m, src)
+func (m *ListUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListUERequest.Merge(m, src)
 }
-func (m *ListRequest) XXX_Size() int {
+func (m *ListUERequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *ListRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListRequest.DiscardUnknown(m)
+func (m *ListUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListUERequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListRequest proto.InternalMessageInfo
+var xxx_messageInfo_ListUERequest proto.InternalMessageInfo
 
-func (m *ListRequest) GetAspectTypes() []string {
+func (m *ListUERequest) GetAspectTypes() []string {
 	if m != nil {
 		return m.AspectTypes
 	}
 	return nil
 }
 
-type ListResponse struct {
+type ListUEResponse struct {
 	UE UE `protobuf:"bytes,1,opt,name=ue,proto3" json:"ue"`
 }
 
-func (m *ListResponse) Reset()         { *m = ListResponse{} }
-func (m *ListResponse) String() string { return proto.CompactTextString(m) }
-func (*ListResponse) ProtoMessage()    {}
-func (*ListResponse) Descriptor() ([]byte, []int) {
+func (m *ListUEResponse) Reset()         { *m = ListUEResponse{} }
+func (m *ListUEResponse) String() string { return proto.CompactTextString(m) }
+func (*ListUEResponse) ProtoMessage()    {}
+func (*ListUEResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{10}
 }
-func (m *ListResponse) XXX_Unmarshal(b []byte) error {
+func (m *ListUEResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ListUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ListResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ListUEResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -528,42 +528,42 @@ func (m *ListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (m *ListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListResponse.Merge(m, src)
+func (m *ListUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListUEResponse.Merge(m, src)
 }
-func (m *ListResponse) XXX_Size() int {
+func (m *ListUEResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *ListResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListResponse.DiscardUnknown(m)
+func (m *ListUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListUEResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListResponse proto.InternalMessageInfo
+var xxx_messageInfo_ListUEResponse proto.InternalMessageInfo
 
-func (m *ListResponse) GetUE() UE {
+func (m *ListUEResponse) GetUE() UE {
 	if m != nil {
 		return m.UE
 	}
 	return UE{}
 }
 
-type WatchRequest struct {
+type WatchUERequest struct {
 	Noreplay    bool     `protobuf:"varint,2,opt,name=noreplay,proto3" json:"noreplay,omitempty"`
 	AspectTypes []string `protobuf:"bytes,3,rep,name=aspect_types,json=aspectTypes,proto3" json:"aspect_types,omitempty"`
 }
 
-func (m *WatchRequest) Reset()         { *m = WatchRequest{} }
-func (m *WatchRequest) String() string { return proto.CompactTextString(m) }
-func (*WatchRequest) ProtoMessage()    {}
-func (*WatchRequest) Descriptor() ([]byte, []int) {
+func (m *WatchUERequest) Reset()         { *m = WatchUERequest{} }
+func (m *WatchUERequest) String() string { return proto.CompactTextString(m) }
+func (*WatchUERequest) ProtoMessage()    {}
+func (*WatchUERequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{11}
 }
-func (m *WatchRequest) XXX_Unmarshal(b []byte) error {
+func (m *WatchUERequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *WatchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *WatchUERequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_WatchRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_WatchUERequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -573,48 +573,48 @@ func (m *WatchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (m *WatchRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WatchRequest.Merge(m, src)
+func (m *WatchUERequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WatchUERequest.Merge(m, src)
 }
-func (m *WatchRequest) XXX_Size() int {
+func (m *WatchUERequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *WatchRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_WatchRequest.DiscardUnknown(m)
+func (m *WatchUERequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_WatchUERequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_WatchRequest proto.InternalMessageInfo
+var xxx_messageInfo_WatchUERequest proto.InternalMessageInfo
 
-func (m *WatchRequest) GetNoreplay() bool {
+func (m *WatchUERequest) GetNoreplay() bool {
 	if m != nil {
 		return m.Noreplay
 	}
 	return false
 }
 
-func (m *WatchRequest) GetAspectTypes() []string {
+func (m *WatchUERequest) GetAspectTypes() []string {
 	if m != nil {
 		return m.AspectTypes
 	}
 	return nil
 }
 
-type WatchResponse struct {
+type WatchUEResponse struct {
 	Event Event `protobuf:"bytes,1,opt,name=event,proto3" json:"event"`
 }
 
-func (m *WatchResponse) Reset()         { *m = WatchResponse{} }
-func (m *WatchResponse) String() string { return proto.CompactTextString(m) }
-func (*WatchResponse) ProtoMessage()    {}
-func (*WatchResponse) Descriptor() ([]byte, []int) {
+func (m *WatchUEResponse) Reset()         { *m = WatchUEResponse{} }
+func (m *WatchUEResponse) String() string { return proto.CompactTextString(m) }
+func (*WatchUEResponse) ProtoMessage()    {}
+func (*WatchUEResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_696f27f0c80d2769, []int{12}
 }
-func (m *WatchResponse) XXX_Unmarshal(b []byte) error {
+func (m *WatchUEResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *WatchResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *WatchUEResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_WatchResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_WatchUEResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -624,19 +624,19 @@ func (m *WatchResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *WatchResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WatchResponse.Merge(m, src)
+func (m *WatchUEResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WatchUEResponse.Merge(m, src)
 }
-func (m *WatchResponse) XXX_Size() int {
+func (m *WatchUEResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *WatchResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_WatchResponse.DiscardUnknown(m)
+func (m *WatchUEResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_WatchUEResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_WatchResponse proto.InternalMessageInfo
+var xxx_messageInfo_WatchUEResponse proto.InternalMessageInfo
 
-func (m *WatchResponse) GetEvent() Event {
+func (m *WatchUEResponse) GetEvent() Event {
 	if m != nil {
 		return m.Event
 	}
@@ -700,18 +700,18 @@ func (m *UE) GetAspects() map[string]*types.Any {
 func init() {
 	proto.RegisterEnum("onos.uenib.EventType", EventType_name, EventType_value)
 	proto.RegisterType((*Event)(nil), "onos.uenib.Event")
-	proto.RegisterType((*CreateRequest)(nil), "onos.uenib.CreateRequest")
-	proto.RegisterType((*CreateResponse)(nil), "onos.uenib.CreateResponse")
-	proto.RegisterType((*GetRequest)(nil), "onos.uenib.GetRequest")
-	proto.RegisterType((*GetResponse)(nil), "onos.uenib.GetResponse")
-	proto.RegisterType((*UpdateRequest)(nil), "onos.uenib.UpdateRequest")
-	proto.RegisterType((*UpdateResponse)(nil), "onos.uenib.UpdateResponse")
-	proto.RegisterType((*DeleteRequest)(nil), "onos.uenib.DeleteRequest")
-	proto.RegisterType((*DeleteResponse)(nil), "onos.uenib.DeleteResponse")
-	proto.RegisterType((*ListRequest)(nil), "onos.uenib.ListRequest")
-	proto.RegisterType((*ListResponse)(nil), "onos.uenib.ListResponse")
-	proto.RegisterType((*WatchRequest)(nil), "onos.uenib.WatchRequest")
-	proto.RegisterType((*WatchResponse)(nil), "onos.uenib.WatchResponse")
+	proto.RegisterType((*CreateUERequest)(nil), "onos.uenib.CreateUERequest")
+	proto.RegisterType((*CreateUEResponse)(nil), "onos.uenib.CreateUEResponse")
+	proto.RegisterType((*GetUERequest)(nil), "onos.uenib.GetUERequest")
+	proto.RegisterType((*GetUEResponse)(nil), "onos.uenib.GetUEResponse")
+	proto.RegisterType((*UpdateUERequest)(nil), "onos.uenib.UpdateUERequest")
+	proto.RegisterType((*UpdateUEResponse)(nil), "onos.uenib.UpdateUEResponse")
+	proto.RegisterType((*DeleteUERequest)(nil), "onos.uenib.DeleteUERequest")
+	proto.RegisterType((*DeleteUEResponse)(nil), "onos.uenib.DeleteUEResponse")
+	proto.RegisterType((*ListUERequest)(nil), "onos.uenib.ListUERequest")
+	proto.RegisterType((*ListUEResponse)(nil), "onos.uenib.ListUEResponse")
+	proto.RegisterType((*WatchUERequest)(nil), "onos.uenib.WatchUERequest")
+	proto.RegisterType((*WatchUEResponse)(nil), "onos.uenib.WatchUEResponse")
 	proto.RegisterType((*UE)(nil), "onos.uenib.UE")
 	proto.RegisterMapType((map[string]*types.Any)(nil), "onos.uenib.UE.AspectsEntry")
 }
@@ -719,46 +719,47 @@ func init() {
 func init() { proto.RegisterFile("onos/uenib/uenib.proto", fileDescriptor_696f27f0c80d2769) }
 
 var fileDescriptor_696f27f0c80d2769 = []byte{
-	// 624 bytes of a gzipped FileDescriptorProto
+	// 628 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x53, 0xcd, 0x6e, 0xd3, 0x4c,
-	0x14, 0xf5, 0xd8, 0x49, 0xdb, 0x5c, 0x27, 0x91, 0xbf, 0x51, 0xbf, 0x92, 0x1a, 0xe4, 0x96, 0xac,
-	0x4a, 0x25, 0x9c, 0x2a, 0x08, 0xa9, 0xa4, 0x02, 0xe1, 0x60, 0xab, 0x42, 0x22, 0x6d, 0x64, 0x6a,
-	0xd8, 0x81, 0x9c, 0x64, 0x08, 0x11, 0x91, 0x6d, 0x62, 0x27, 0x92, 0x9f, 0x02, 0xde, 0x83, 0x17,
-	0xe9, 0xb2, 0x4b, 0x56, 0x15, 0x4a, 0xde, 0x82, 0x15, 0xf2, 0x8c, 0x9d, 0xd8, 0x71, 0x25, 0xa0,
-	0x6c, 0xac, 0xf1, 0xbd, 0xe7, 0x9e, 0xfb, 0xa3, 0x73, 0x60, 0xc7, 0x75, 0x5c, 0xbf, 0x31, 0x25,
-	0xce, 0xa8, 0xc7, 0xbe, 0xaa, 0x37, 0x71, 0x03, 0x17, 0x43, 0x14, 0x57, 0x69, 0x44, 0xde, 0x1d,
-	0xba, 0xee, 0x70, 0x4c, 0x1a, 0x34, 0xd3, 0x9b, 0x7e, 0x68, 0xd8, 0x4e, 0xc8, 0x60, 0xf2, 0xf6,
-	0xd0, 0x1d, 0xba, 0xf4, 0xd9, 0x88, 0x5e, 0x2c, 0x5a, 0x7f, 0x07, 0x45, 0x63, 0x46, 0x9c, 0x00,
-	0x3f, 0x80, 0x42, 0x10, 0x7a, 0xa4, 0x86, 0xf6, 0xd1, 0x41, 0xb5, 0xf9, 0xbf, 0xba, 0x22, 0x55,
-	0x29, 0xe0, 0x22, 0xf4, 0x88, 0x49, 0x21, 0xf8, 0x10, 0xf8, 0x29, 0xa9, 0xf1, 0xfb, 0xe8, 0x40,
-	0x6c, 0x56, 0xd3, 0x40, 0xcb, 0x68, 0xc3, 0xe5, 0xf5, 0x1e, 0x37, 0xbf, 0xde, 0xe3, 0x2d, 0xc3,
-	0xe4, 0xa7, 0xa4, 0x7e, 0x02, 0x95, 0x17, 0x13, 0x62, 0x07, 0xc4, 0x24, 0x9f, 0xa7, 0xc4, 0x0f,
-	0xe2, 0x62, 0xf4, 0x47, 0xc5, 0x12, 0x54, 0x93, 0x62, 0xdf, 0x73, 0x1d, 0x9f, 0xd4, 0x3b, 0x00,
-	0xa7, 0x24, 0x48, 0xb8, 0xee, 0x01, 0x3f, 0x1a, 0x50, 0xae, 0x52, 0xbb, 0x1c, 0xd5, 0xbd, 0xd4,
-	0x7f, 0xd2, 0xaf, 0xc9, 0x8f, 0x06, 0xf8, 0x3e, 0x94, 0x6d, 0xdf, 0x23, 0xfd, 0xe0, 0x7d, 0x34,
-	0xb5, 0x5f, 0xe3, 0xf7, 0x85, 0x83, 0x92, 0x29, 0xb2, 0x58, 0xb4, 0x8e, 0x5f, 0x7f, 0x02, 0x22,
-	0xa5, 0x63, 0xec, 0x7f, 0x35, 0xdb, 0x09, 0x54, 0x2c, 0x6f, 0x70, 0xfb, 0xc5, 0x92, 0xe2, 0x78,
-	0xb1, 0x2e, 0x54, 0x74, 0x32, 0x26, 0x2b, 0xba, 0x7f, 0xde, 0x4d, 0x82, 0x6a, 0xc2, 0x18, 0xf7,
-	0x38, 0x02, 0xf1, 0xd5, 0xc8, 0x5f, 0x5e, 0x6f, 0x9d, 0x03, 0xe5, 0x39, 0x5a, 0x50, 0x66, 0x15,
-	0xb7, 0x38, 0x50, 0x07, 0xca, 0x6f, 0xed, 0xa0, 0xff, 0x31, 0x69, 0x27, 0xc3, 0x96, 0xe3, 0x4e,
-	0x88, 0x37, 0xb6, 0x43, 0xaa, 0x9d, 0x2d, 0x73, 0xf9, 0x9f, 0x1b, 0x45, 0xc8, 0x8f, 0xf2, 0x0c,
-	0x2a, 0x31, 0x5d, 0x3c, 0xcb, 0x43, 0x28, 0x92, 0x48, 0x98, 0xf1, 0x38, 0xff, 0xe5, 0x14, 0xdb,
-	0x2e, 0x44, 0x13, 0x99, 0x0c, 0x55, 0xff, 0x86, 0x80, 0xb7, 0x8c, 0xdf, 0x9c, 0xf5, 0x31, 0x6c,
-	0xb2, 0x9e, 0xec, 0xa2, 0x62, 0xf3, 0x6e, 0x76, 0x49, 0x55, 0x63, 0x59, 0xc3, 0x09, 0x26, 0xa1,
-	0x99, 0x60, 0xe5, 0x2e, 0x94, 0xd3, 0x09, 0x2c, 0x81, 0xf0, 0x89, 0x84, 0xac, 0x8b, 0x19, 0x3d,
-	0xf1, 0x21, 0x14, 0x67, 0xf6, 0x78, 0xe9, 0x9a, 0x6d, 0x95, 0xf9, 0x54, 0x4d, 0x7c, 0xaa, 0x6a,
-	0x4e, 0x68, 0x32, 0x48, 0x8b, 0x3f, 0x46, 0x87, 0x2d, 0x28, 0x2d, 0x5d, 0x87, 0xb7, 0xa0, 0x70,
-	0x76, 0x7e, 0x66, 0x48, 0x1c, 0x2e, 0x41, 0x51, 0xd3, 0x75, 0x43, 0x97, 0x10, 0x16, 0x61, 0xd3,
-	0xea, 0xea, 0xda, 0x85, 0xa1, 0x4b, 0x7c, 0xf4, 0x63, 0x1a, 0x9d, 0xf3, 0x37, 0x86, 0x2e, 0x09,
-	0xcd, 0x2f, 0x02, 0x94, 0x2c, 0xe3, 0x35, 0x99, 0xcc, 0x46, 0x7d, 0x82, 0x35, 0xd8, 0x60, 0x1e,
-	0xc2, 0xbb, 0xe9, 0x5d, 0x32, 0xa6, 0x94, 0xe5, 0x9b, 0x52, 0xb1, 0x6a, 0x38, 0x7c, 0x0c, 0xc2,
-	0x29, 0x09, 0xf0, 0x4e, 0x1a, 0xb4, 0x72, 0xa1, 0x7c, 0x27, 0x17, 0x5f, 0x56, 0x6a, 0xb0, 0xc1,
-	0x74, 0x9e, 0x6d, 0x9e, 0x31, 0x4e, 0xb6, 0xf9, 0x9a, 0x2d, 0x28, 0x05, 0x93, 0x71, 0x96, 0x22,
-	0x63, 0x96, 0x2c, 0xc5, 0x9a, 0xea, 0x39, 0xfc, 0x14, 0x0a, 0x91, 0x8a, 0x71, 0x66, 0xd0, 0x94,
-	0x13, 0xe4, 0x5a, 0x3e, 0x91, 0x14, 0x1f, 0x21, 0xfc, 0x1c, 0x8a, 0x54, 0x79, 0x38, 0x03, 0x4b,
-	0x6b, 0x5b, 0xde, 0xbd, 0x21, 0xb3, 0x62, 0x68, 0xd7, 0x2e, 0xe7, 0x0a, 0xba, 0x9a, 0x2b, 0xe8,
-	0xc7, 0x5c, 0x41, 0x5f, 0x17, 0x0a, 0x77, 0xb5, 0x50, 0xb8, 0xef, 0x0b, 0x85, 0xeb, 0x6d, 0x50,
-	0x01, 0x3c, 0xfa, 0x15, 0x00, 0x00, 0xff, 0xff, 0x5b, 0x40, 0xca, 0xb3, 0xdc, 0x05, 0x00, 0x00,
+	0x14, 0xf5, 0x38, 0xcd, 0xd7, 0xe4, 0x26, 0x4d, 0xfc, 0x8d, 0x0a, 0x4a, 0xdd, 0xca, 0x2d, 0x59,
+	0x95, 0x48, 0x38, 0x28, 0x08, 0x09, 0x15, 0x8a, 0x48, 0xf0, 0x28, 0x42, 0x82, 0xa6, 0x1a, 0x6a,
+	0xd8, 0x81, 0x9c, 0x64, 0x08, 0x11, 0x91, 0x6d, 0x62, 0x27, 0x92, 0xdf, 0x82, 0xf7, 0x60, 0xcd,
+	0x3b, 0x74, 0xd9, 0x25, 0xab, 0x0a, 0x25, 0x6f, 0xc1, 0x0a, 0xd9, 0x63, 0xc7, 0x76, 0x1c, 0x89,
+	0x9f, 0x6e, 0xac, 0xf1, 0xdc, 0x73, 0xcf, 0x3d, 0x77, 0x74, 0x0e, 0xdc, 0xb6, 0x4c, 0xcb, 0x69,
+	0xce, 0x98, 0x39, 0xee, 0xf3, 0xaf, 0x6a, 0x4f, 0x2d, 0xd7, 0xc2, 0xe0, 0xdf, 0xab, 0xc1, 0x8d,
+	0xbc, 0x37, 0xb2, 0xac, 0xd1, 0x84, 0x35, 0x83, 0x4a, 0x7f, 0xf6, 0xa1, 0x69, 0x98, 0x1e, 0x87,
+	0xc9, 0xbb, 0x23, 0x6b, 0x64, 0x05, 0xc7, 0xa6, 0x7f, 0xe2, 0xb7, 0xf5, 0x77, 0x90, 0x27, 0x73,
+	0x66, 0xba, 0xf8, 0x2e, 0x6c, 0xb9, 0x9e, 0xcd, 0x6a, 0xe8, 0x08, 0x1d, 0x57, 0x5a, 0xb7, 0xd4,
+	0x98, 0x54, 0x0d, 0x00, 0x17, 0x9e, 0xcd, 0x68, 0x00, 0xc1, 0x0d, 0x10, 0x67, 0xac, 0x26, 0x1e,
+	0xa1, 0xe3, 0x52, 0xab, 0x92, 0x04, 0xea, 0xa4, 0x03, 0x97, 0xd7, 0x87, 0xc2, 0xe2, 0xfa, 0x50,
+	0xd4, 0x09, 0x15, 0x67, 0xac, 0x7e, 0x0a, 0xd5, 0xe7, 0x53, 0x66, 0xb8, 0x4c, 0x27, 0x94, 0x7d,
+	0x9e, 0x31, 0xc7, 0x0d, 0xdb, 0xd1, 0x1f, 0xb5, 0x63, 0x90, 0xe2, 0x76, 0xc7, 0xb6, 0x4c, 0x87,
+	0xd5, 0x7b, 0x50, 0xee, 0x32, 0x37, 0xe6, 0x3b, 0x00, 0x71, 0x3c, 0x0c, 0xf8, 0x8a, 0x9d, 0xb2,
+	0xdf, 0xfb, 0x42, 0xfb, 0x19, 0x7c, 0xa9, 0x38, 0x1e, 0xe2, 0x3b, 0x50, 0x36, 0x1c, 0x9b, 0x0d,
+	0xdc, 0xf7, 0xbe, 0x76, 0xa7, 0x26, 0x1e, 0xe5, 0x8e, 0x8b, 0xb4, 0xc4, 0xef, 0xfc, 0xa5, 0x9c,
+	0xfa, 0x63, 0xd8, 0x09, 0x09, 0xf9, 0x84, 0xbf, 0x52, 0x78, 0x0a, 0x55, 0xdd, 0x1e, 0xde, 0x64,
+	0xc1, 0xb8, 0x3d, 0x5c, 0x90, 0x42, 0x55, 0x63, 0x13, 0x96, 0xa4, 0xbc, 0xf1, 0x8e, 0x18, 0xa4,
+	0x98, 0x33, 0x9c, 0xd3, 0x82, 0x9d, 0x97, 0x63, 0x27, 0xf1, 0x92, 0xeb, 0x3c, 0x28, 0xcb, 0xf3,
+	0x04, 0x2a, 0x51, 0xcf, 0x3f, 0x3c, 0x56, 0x0f, 0x2a, 0x6f, 0x0d, 0x77, 0xf0, 0x31, 0x1e, 0x29,
+	0x43, 0xc1, 0xb4, 0xa6, 0xcc, 0x9e, 0x18, 0x5e, 0xe0, 0xa8, 0x02, 0x5d, 0xfd, 0x67, 0xe4, 0xe4,
+	0xb2, 0x72, 0x9e, 0x41, 0x75, 0x45, 0x18, 0xea, 0xb9, 0x07, 0x79, 0xe6, 0x1b, 0x36, 0x94, 0xf4,
+	0x7f, 0xc6, 0xc9, 0x9d, 0x2d, 0x5f, 0x15, 0xe5, 0xa8, 0xfa, 0x57, 0x04, 0xa2, 0x4e, 0x7e, 0xf3,
+	0xc0, 0x0f, 0x61, 0x9b, 0x4f, 0xe5, 0x6f, 0x5b, 0x6a, 0xed, 0xa7, 0x17, 0x55, 0xdb, 0xbc, 0x4a,
+	0x4c, 0x77, 0xea, 0xd1, 0x08, 0x2b, 0x9f, 0x43, 0x39, 0x59, 0xc0, 0x12, 0xe4, 0x3e, 0x31, 0x8f,
+	0x4f, 0xa1, 0xfe, 0x11, 0x37, 0x20, 0x3f, 0x37, 0x26, 0xab, 0x34, 0xed, 0xaa, 0x3c, 0xbf, 0x6a,
+	0x94, 0x5f, 0xb5, 0x6d, 0x7a, 0x94, 0x43, 0x4e, 0xc4, 0x47, 0xa8, 0x71, 0x02, 0xc5, 0x55, 0x1a,
+	0x71, 0x01, 0xb6, 0xce, 0x7a, 0x67, 0x44, 0x12, 0x70, 0x11, 0xf2, 0x6d, 0x4d, 0x23, 0x9a, 0x84,
+	0x70, 0x09, 0xb6, 0xf5, 0x73, 0xad, 0x7d, 0x41, 0x34, 0x49, 0xf4, 0x7f, 0x28, 0x79, 0xd5, 0x7b,
+	0x43, 0x34, 0x29, 0xd7, 0xfa, 0x96, 0x83, 0xa2, 0x4e, 0x5e, 0xb3, 0xe9, 0x7c, 0x3c, 0x60, 0xb8,
+	0x0b, 0x85, 0x28, 0x59, 0x38, 0xb5, 0xcd, 0x5a, 0x5c, 0xe5, 0x83, 0xcd, 0xc5, 0xd0, 0x43, 0x02,
+	0x7e, 0x0a, 0xf9, 0x20, 0x3d, 0xb8, 0x96, 0x04, 0x26, 0x13, 0x2a, 0xef, 0x6d, 0xa8, 0xac, 0xfa,
+	0xbb, 0x50, 0x88, 0x12, 0x90, 0x16, 0xb2, 0x16, 0xab, 0xb4, 0x90, 0x4c, 0x68, 0x02, 0xa2, 0xc8,
+	0xe2, 0x69, 0xa2, 0xb5, 0x30, 0xa5, 0x89, 0x32, 0xa9, 0x10, 0xb0, 0x06, 0xdb, 0xdc, 0xe3, 0x0e,
+	0x4e, 0x29, 0x4f, 0x85, 0x45, 0x96, 0x37, 0x95, 0x22, 0x8e, 0xfb, 0xc8, 0x97, 0x13, 0x5a, 0xd3,
+	0xc1, 0x29, 0x6c, 0x3a, 0x01, 0xf2, 0xfe, 0xc6, 0x5a, 0x4c, 0xd4, 0xa9, 0x5d, 0x2e, 0x14, 0x74,
+	0xb5, 0x50, 0xd0, 0x8f, 0x85, 0x82, 0xbe, 0x2c, 0x15, 0xe1, 0x6a, 0xa9, 0x08, 0xdf, 0x97, 0x8a,
+	0xd0, 0xff, 0x2f, 0xb0, 0xc9, 0x83, 0x5f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x11, 0x07, 0xa4, 0x1d,
+	0x1a, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -774,20 +775,20 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UEServiceClient interface {
 	// Create a new UE entity and its initial set of aspects.
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
+	CreateUE(ctx context.Context, in *CreateUERequest, opts ...grpc.CallOption) (*CreateUEResponse, error)
 	// Get a UE entity populated with the requested aspects.
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetUE(ctx context.Context, in *GetUERequest, opts ...grpc.CallOption) (*GetUEResponse, error)
 	// Update an existing UE entity populated with the requested aspects.
 	// Only the aspects present in the UE entity will be updated; others will be left unmodified.
 	// New aspects can be added via update.
-	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	UpdateUE(ctx context.Context, in *UpdateUERequest, opts ...grpc.CallOption) (*UpdateUEResponse, error)
 	// Delete the specified aspects of a UE entity.
-	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
-	// List returns a stream of UE entities populated the requested aspects.
-	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (UEService_ListClient, error)
-	// Watch returns a stream of UE change notifications, with each UE populated with only the
+	DeleteUE(ctx context.Context, in *DeleteUERequest, opts ...grpc.CallOption) (*DeleteUEResponse, error)
+	// ListUEs returns a stream of UE entities populated the requested aspects.
+	ListUEs(ctx context.Context, in *ListUERequest, opts ...grpc.CallOption) (UEService_ListUEsClient, error)
+	// WatchUEs returns a stream of UE change notifications, with each UE populated with only the
 	// requested aspects.
-	Watch(ctx context.Context, in *WatchRequest, opts ...grpc.CallOption) (UEService_WatchClient, error)
+	WatchUEs(ctx context.Context, in *WatchUERequest, opts ...grpc.CallOption) (UEService_WatchUEsClient, error)
 }
 
 type uEServiceClient struct {
@@ -798,48 +799,48 @@ func NewUEServiceClient(cc *grpc.ClientConn) UEServiceClient {
 	return &uEServiceClient{cc}
 }
 
-func (c *uEServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
-	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/Create", in, out, opts...)
+func (c *uEServiceClient) CreateUE(ctx context.Context, in *CreateUERequest, opts ...grpc.CallOption) (*CreateUEResponse, error) {
+	out := new(CreateUEResponse)
+	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/CreateUE", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *uEServiceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
-	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/Get", in, out, opts...)
+func (c *uEServiceClient) GetUE(ctx context.Context, in *GetUERequest, opts ...grpc.CallOption) (*GetUEResponse, error) {
+	out := new(GetUEResponse)
+	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/GetUE", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *uEServiceClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
-	out := new(UpdateResponse)
-	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/Update", in, out, opts...)
+func (c *uEServiceClient) UpdateUE(ctx context.Context, in *UpdateUERequest, opts ...grpc.CallOption) (*UpdateUEResponse, error) {
+	out := new(UpdateUEResponse)
+	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/UpdateUE", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *uEServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
-	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/Delete", in, out, opts...)
+func (c *uEServiceClient) DeleteUE(ctx context.Context, in *DeleteUERequest, opts ...grpc.CallOption) (*DeleteUEResponse, error) {
+	out := new(DeleteUEResponse)
+	err := c.cc.Invoke(ctx, "/onos.uenib.UEService/DeleteUE", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *uEServiceClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (UEService_ListClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_UEService_serviceDesc.Streams[0], "/onos.uenib.UEService/List", opts...)
+func (c *uEServiceClient) ListUEs(ctx context.Context, in *ListUERequest, opts ...grpc.CallOption) (UEService_ListUEsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_UEService_serviceDesc.Streams[0], "/onos.uenib.UEService/ListUEs", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &uEServiceListClient{stream}
+	x := &uEServiceListUEsClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -849,29 +850,29 @@ func (c *uEServiceClient) List(ctx context.Context, in *ListRequest, opts ...grp
 	return x, nil
 }
 
-type UEService_ListClient interface {
-	Recv() (*ListResponse, error)
+type UEService_ListUEsClient interface {
+	Recv() (*ListUEResponse, error)
 	grpc.ClientStream
 }
 
-type uEServiceListClient struct {
+type uEServiceListUEsClient struct {
 	grpc.ClientStream
 }
 
-func (x *uEServiceListClient) Recv() (*ListResponse, error) {
-	m := new(ListResponse)
+func (x *uEServiceListUEsClient) Recv() (*ListUEResponse, error) {
+	m := new(ListUEResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *uEServiceClient) Watch(ctx context.Context, in *WatchRequest, opts ...grpc.CallOption) (UEService_WatchClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_UEService_serviceDesc.Streams[1], "/onos.uenib.UEService/Watch", opts...)
+func (c *uEServiceClient) WatchUEs(ctx context.Context, in *WatchUERequest, opts ...grpc.CallOption) (UEService_WatchUEsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_UEService_serviceDesc.Streams[1], "/onos.uenib.UEService/WatchUEs", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &uEServiceWatchClient{stream}
+	x := &uEServiceWatchUEsClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -881,17 +882,17 @@ func (c *uEServiceClient) Watch(ctx context.Context, in *WatchRequest, opts ...g
 	return x, nil
 }
 
-type UEService_WatchClient interface {
-	Recv() (*WatchResponse, error)
+type UEService_WatchUEsClient interface {
+	Recv() (*WatchUEResponse, error)
 	grpc.ClientStream
 }
 
-type uEServiceWatchClient struct {
+type uEServiceWatchUEsClient struct {
 	grpc.ClientStream
 }
 
-func (x *uEServiceWatchClient) Recv() (*WatchResponse, error) {
-	m := new(WatchResponse)
+func (x *uEServiceWatchUEsClient) Recv() (*WatchUEResponse, error) {
+	m := new(WatchUEResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -901,160 +902,160 @@ func (x *uEServiceWatchClient) Recv() (*WatchResponse, error) {
 // UEServiceServer is the server API for UEService service.
 type UEServiceServer interface {
 	// Create a new UE entity and its initial set of aspects.
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
+	CreateUE(context.Context, *CreateUERequest) (*CreateUEResponse, error)
 	// Get a UE entity populated with the requested aspects.
-	Get(context.Context, *GetRequest) (*GetResponse, error)
+	GetUE(context.Context, *GetUERequest) (*GetUEResponse, error)
 	// Update an existing UE entity populated with the requested aspects.
 	// Only the aspects present in the UE entity will be updated; others will be left unmodified.
 	// New aspects can be added via update.
-	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
+	UpdateUE(context.Context, *UpdateUERequest) (*UpdateUEResponse, error)
 	// Delete the specified aspects of a UE entity.
-	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	// List returns a stream of UE entities populated the requested aspects.
-	List(*ListRequest, UEService_ListServer) error
-	// Watch returns a stream of UE change notifications, with each UE populated with only the
+	DeleteUE(context.Context, *DeleteUERequest) (*DeleteUEResponse, error)
+	// ListUEs returns a stream of UE entities populated the requested aspects.
+	ListUEs(*ListUERequest, UEService_ListUEsServer) error
+	// WatchUEs returns a stream of UE change notifications, with each UE populated with only the
 	// requested aspects.
-	Watch(*WatchRequest, UEService_WatchServer) error
+	WatchUEs(*WatchUERequest, UEService_WatchUEsServer) error
 }
 
 // UnimplementedUEServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedUEServiceServer struct {
 }
 
-func (*UnimplementedUEServiceServer) Create(ctx context.Context, req *CreateRequest) (*CreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (*UnimplementedUEServiceServer) CreateUE(ctx context.Context, req *CreateUERequest) (*CreateUEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUE not implemented")
 }
-func (*UnimplementedUEServiceServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (*UnimplementedUEServiceServer) GetUE(ctx context.Context, req *GetUERequest) (*GetUEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUE not implemented")
 }
-func (*UnimplementedUEServiceServer) Update(ctx context.Context, req *UpdateRequest) (*UpdateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+func (*UnimplementedUEServiceServer) UpdateUE(ctx context.Context, req *UpdateUERequest) (*UpdateUEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUE not implemented")
 }
-func (*UnimplementedUEServiceServer) Delete(ctx context.Context, req *DeleteRequest) (*DeleteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (*UnimplementedUEServiceServer) DeleteUE(ctx context.Context, req *DeleteUERequest) (*DeleteUEResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUE not implemented")
 }
-func (*UnimplementedUEServiceServer) List(req *ListRequest, srv UEService_ListServer) error {
-	return status.Errorf(codes.Unimplemented, "method List not implemented")
+func (*UnimplementedUEServiceServer) ListUEs(req *ListUERequest, srv UEService_ListUEsServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListUEs not implemented")
 }
-func (*UnimplementedUEServiceServer) Watch(req *WatchRequest, srv UEService_WatchServer) error {
-	return status.Errorf(codes.Unimplemented, "method Watch not implemented")
+func (*UnimplementedUEServiceServer) WatchUEs(req *WatchUERequest, srv UEService_WatchUEsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchUEs not implemented")
 }
 
 func RegisterUEServiceServer(s *grpc.Server, srv UEServiceServer) {
 	s.RegisterService(&_UEService_serviceDesc, srv)
 }
 
-func _UEService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+func _UEService_CreateUE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUERequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UEServiceServer).Create(ctx, in)
+		return srv.(UEServiceServer).CreateUE(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.uenib.UEService/Create",
+		FullMethod: "/onos.uenib.UEService/CreateUE",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UEServiceServer).Create(ctx, req.(*CreateRequest))
+		return srv.(UEServiceServer).CreateUE(ctx, req.(*CreateUERequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UEService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _UEService_GetUE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUERequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UEServiceServer).Get(ctx, in)
+		return srv.(UEServiceServer).GetUE(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.uenib.UEService/Get",
+		FullMethod: "/onos.uenib.UEService/GetUE",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UEServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(UEServiceServer).GetUE(ctx, req.(*GetUERequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UEService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRequest)
+func _UEService_UpdateUE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUERequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UEServiceServer).Update(ctx, in)
+		return srv.(UEServiceServer).UpdateUE(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.uenib.UEService/Update",
+		FullMethod: "/onos.uenib.UEService/UpdateUE",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UEServiceServer).Update(ctx, req.(*UpdateRequest))
+		return srv.(UEServiceServer).UpdateUE(ctx, req.(*UpdateUERequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UEService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteRequest)
+func _UEService_DeleteUE_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUERequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UEServiceServer).Delete(ctx, in)
+		return srv.(UEServiceServer).DeleteUE(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.uenib.UEService/Delete",
+		FullMethod: "/onos.uenib.UEService/DeleteUE",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UEServiceServer).Delete(ctx, req.(*DeleteRequest))
+		return srv.(UEServiceServer).DeleteUE(ctx, req.(*DeleteUERequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UEService_List_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(ListRequest)
+func _UEService_ListUEs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListUERequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(UEServiceServer).List(m, &uEServiceListServer{stream})
+	return srv.(UEServiceServer).ListUEs(m, &uEServiceListUEsServer{stream})
 }
 
-type UEService_ListServer interface {
-	Send(*ListResponse) error
+type UEService_ListUEsServer interface {
+	Send(*ListUEResponse) error
 	grpc.ServerStream
 }
 
-type uEServiceListServer struct {
+type uEServiceListUEsServer struct {
 	grpc.ServerStream
 }
 
-func (x *uEServiceListServer) Send(m *ListResponse) error {
+func (x *uEServiceListUEsServer) Send(m *ListUEResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _UEService_Watch_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(WatchRequest)
+func _UEService_WatchUEs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchUERequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(UEServiceServer).Watch(m, &uEServiceWatchServer{stream})
+	return srv.(UEServiceServer).WatchUEs(m, &uEServiceWatchUEsServer{stream})
 }
 
-type UEService_WatchServer interface {
-	Send(*WatchResponse) error
+type UEService_WatchUEsServer interface {
+	Send(*WatchUEResponse) error
 	grpc.ServerStream
 }
 
-type uEServiceWatchServer struct {
+type uEServiceWatchUEsServer struct {
 	grpc.ServerStream
 }
 
-func (x *uEServiceWatchServer) Send(m *WatchResponse) error {
+func (x *uEServiceWatchUEsServer) Send(m *WatchUEResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -1063,31 +1064,31 @@ var _UEService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*UEServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _UEService_Create_Handler,
+			MethodName: "CreateUE",
+			Handler:    _UEService_CreateUE_Handler,
 		},
 		{
-			MethodName: "Get",
-			Handler:    _UEService_Get_Handler,
+			MethodName: "GetUE",
+			Handler:    _UEService_GetUE_Handler,
 		},
 		{
-			MethodName: "Update",
-			Handler:    _UEService_Update_Handler,
+			MethodName: "UpdateUE",
+			Handler:    _UEService_UpdateUE_Handler,
 		},
 		{
-			MethodName: "Delete",
-			Handler:    _UEService_Delete_Handler,
+			MethodName: "DeleteUE",
+			Handler:    _UEService_DeleteUE_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "List",
-			Handler:       _UEService_List_Handler,
+			StreamName:    "ListUEs",
+			Handler:       _UEService_ListUEs_Handler,
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "Watch",
-			Handler:       _UEService_Watch_Handler,
+			StreamName:    "WatchUEs",
+			Handler:       _UEService_WatchUEs_Handler,
 			ServerStreams: true,
 		},
 	},
@@ -1132,7 +1133,7 @@ func (m *Event) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *CreateRequest) Marshal() (dAtA []byte, err error) {
+func (m *CreateUERequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1142,12 +1143,12 @@ func (m *CreateRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *CreateRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *CreateUERequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *CreateRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *CreateUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1165,7 +1166,7 @@ func (m *CreateRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *CreateResponse) Marshal() (dAtA []byte, err error) {
+func (m *CreateUEResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1175,12 +1176,12 @@ func (m *CreateResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *CreateResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *CreateUEResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *CreateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *CreateUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1188,7 +1189,7 @@ func (m *CreateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetRequest) Marshal() (dAtA []byte, err error) {
+func (m *GetUERequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1198,12 +1199,12 @@ func (m *GetRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetUERequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1227,7 +1228,7 @@ func (m *GetRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetResponse) Marshal() (dAtA []byte, err error) {
+func (m *GetUEResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1237,12 +1238,12 @@ func (m *GetResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetUEResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1260,7 +1261,7 @@ func (m *GetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateRequest) Marshal() (dAtA []byte, err error) {
+func (m *UpdateUERequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1270,12 +1271,12 @@ func (m *UpdateRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *UpdateRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateUERequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1293,7 +1294,7 @@ func (m *UpdateRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateResponse) Marshal() (dAtA []byte, err error) {
+func (m *UpdateUEResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1303,12 +1304,12 @@ func (m *UpdateResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *UpdateResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateUEResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1316,7 +1317,7 @@ func (m *UpdateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *DeleteRequest) Marshal() (dAtA []byte, err error) {
+func (m *DeleteUERequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1326,12 +1327,12 @@ func (m *DeleteRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DeleteRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *DeleteUERequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DeleteRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DeleteUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1355,7 +1356,7 @@ func (m *DeleteRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *DeleteResponse) Marshal() (dAtA []byte, err error) {
+func (m *DeleteUEResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1365,12 +1366,12 @@ func (m *DeleteResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DeleteResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *DeleteUEResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DeleteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DeleteUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1378,7 +1379,7 @@ func (m *DeleteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *ListRequest) Marshal() (dAtA []byte, err error) {
+func (m *ListUERequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1388,12 +1389,12 @@ func (m *ListRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ListRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *ListUERequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ListRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ListUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1410,7 +1411,7 @@ func (m *ListRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *ListResponse) Marshal() (dAtA []byte, err error) {
+func (m *ListUEResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1420,12 +1421,12 @@ func (m *ListResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ListResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *ListUEResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ListResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ListUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1443,7 +1444,7 @@ func (m *ListResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *WatchRequest) Marshal() (dAtA []byte, err error) {
+func (m *WatchUERequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1453,12 +1454,12 @@ func (m *WatchRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *WatchRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *WatchUERequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *WatchRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *WatchUERequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1485,7 +1486,7 @@ func (m *WatchRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *WatchResponse) Marshal() (dAtA []byte, err error) {
+func (m *WatchUEResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1495,12 +1496,12 @@ func (m *WatchResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *WatchResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *WatchUEResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *WatchResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *WatchUEResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1599,7 +1600,7 @@ func (m *Event) Size() (n int) {
 	return n
 }
 
-func (m *CreateRequest) Size() (n int) {
+func (m *CreateUERequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1610,7 +1611,7 @@ func (m *CreateRequest) Size() (n int) {
 	return n
 }
 
-func (m *CreateResponse) Size() (n int) {
+func (m *CreateUEResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1619,7 +1620,7 @@ func (m *CreateResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetRequest) Size() (n int) {
+func (m *GetUERequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1638,7 +1639,7 @@ func (m *GetRequest) Size() (n int) {
 	return n
 }
 
-func (m *GetResponse) Size() (n int) {
+func (m *GetUEResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1649,7 +1650,7 @@ func (m *GetResponse) Size() (n int) {
 	return n
 }
 
-func (m *UpdateRequest) Size() (n int) {
+func (m *UpdateUERequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1660,7 +1661,7 @@ func (m *UpdateRequest) Size() (n int) {
 	return n
 }
 
-func (m *UpdateResponse) Size() (n int) {
+func (m *UpdateUEResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1669,7 +1670,7 @@ func (m *UpdateResponse) Size() (n int) {
 	return n
 }
 
-func (m *DeleteRequest) Size() (n int) {
+func (m *DeleteUERequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1688,7 +1689,7 @@ func (m *DeleteRequest) Size() (n int) {
 	return n
 }
 
-func (m *DeleteResponse) Size() (n int) {
+func (m *DeleteUEResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1697,7 +1698,7 @@ func (m *DeleteResponse) Size() (n int) {
 	return n
 }
 
-func (m *ListRequest) Size() (n int) {
+func (m *ListUERequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1712,7 +1713,7 @@ func (m *ListRequest) Size() (n int) {
 	return n
 }
 
-func (m *ListResponse) Size() (n int) {
+func (m *ListUEResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1723,7 +1724,7 @@ func (m *ListResponse) Size() (n int) {
 	return n
 }
 
-func (m *WatchRequest) Size() (n int) {
+func (m *WatchUERequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1741,7 +1742,7 @@ func (m *WatchRequest) Size() (n int) {
 	return n
 }
 
-func (m *WatchResponse) Size() (n int) {
+func (m *WatchUEResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1889,7 +1890,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *CreateRequest) Unmarshal(dAtA []byte) error {
+func (m *CreateUERequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1912,10 +1913,10 @@ func (m *CreateRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: CreateRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: CreateUERequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: CreateRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: CreateUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1975,7 +1976,7 @@ func (m *CreateRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *CreateResponse) Unmarshal(dAtA []byte) error {
+func (m *CreateUEResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1998,10 +1999,10 @@ func (m *CreateResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: CreateResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: CreateUEResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: CreateResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: CreateUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2028,7 +2029,7 @@ func (m *CreateResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetRequest) Unmarshal(dAtA []byte) error {
+func (m *GetUERequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2051,10 +2052,10 @@ func (m *GetRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetUERequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2145,7 +2146,7 @@ func (m *GetRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetResponse) Unmarshal(dAtA []byte) error {
+func (m *GetUEResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2168,10 +2169,10 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetUEResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2231,7 +2232,7 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
+func (m *UpdateUERequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2254,10 +2255,10 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: UpdateRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: UpdateUERequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UpdateRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: UpdateUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2317,7 +2318,7 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *UpdateResponse) Unmarshal(dAtA []byte) error {
+func (m *UpdateUEResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2340,10 +2341,10 @@ func (m *UpdateResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: UpdateResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: UpdateUEResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UpdateResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: UpdateUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2370,7 +2371,7 @@ func (m *UpdateResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DeleteRequest) Unmarshal(dAtA []byte) error {
+func (m *DeleteUERequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2393,10 +2394,10 @@ func (m *DeleteRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DeleteRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: DeleteUERequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DeleteRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DeleteUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2487,7 +2488,7 @@ func (m *DeleteRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DeleteResponse) Unmarshal(dAtA []byte) error {
+func (m *DeleteUEResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2510,10 +2511,10 @@ func (m *DeleteResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DeleteResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: DeleteUEResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DeleteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DeleteUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2540,7 +2541,7 @@ func (m *DeleteResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ListRequest) Unmarshal(dAtA []byte) error {
+func (m *ListUERequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2563,10 +2564,10 @@ func (m *ListRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ListRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: ListUERequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ListRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ListUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2625,7 +2626,7 @@ func (m *ListRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ListResponse) Unmarshal(dAtA []byte) error {
+func (m *ListUEResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2648,10 +2649,10 @@ func (m *ListResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ListResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: ListUEResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ListResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ListUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2711,7 +2712,7 @@ func (m *ListResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *WatchRequest) Unmarshal(dAtA []byte) error {
+func (m *WatchUERequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2734,10 +2735,10 @@ func (m *WatchRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: WatchRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: WatchUERequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: WatchRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: WatchUERequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 2:
@@ -2816,7 +2817,7 @@ func (m *WatchRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *WatchResponse) Unmarshal(dAtA []byte) error {
+func (m *WatchUEResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2839,10 +2840,10 @@ func (m *WatchResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: WatchResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: WatchUEResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: WatchResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: WatchUEResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
