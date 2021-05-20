@@ -146,7 +146,6 @@ message WatchResponse {
 // Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
 message UE {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
-    uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
 
     // Arbitrary labels for classification/search
     map<string, string> labels = 3;
