@@ -85,7 +85,7 @@ class Cell(betterproto.Message):
     neighbors: List[int] = betterproto.uint64_field(7)
     # The cell transmit power in decibels
     tx_power_db: float = betterproto.double_field(8)
-    a3_handover_params: "A3HandoverParams" = betterproto.message_field(9)
+    event_a3_params: "EventA3Params" = betterproto.message_field(9)
     # crntis maps a ue's name to its crnti
     crnti_map: Dict[int, int] = betterproto.map_field(
         10, betterproto.TYPE_UINT32, betterproto.TYPE_UINT64
@@ -98,7 +98,7 @@ class Cell(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class A3HandoverParams(betterproto.Message):
+class EventA3Params(betterproto.Message):
     a3_offset: int = betterproto.int32_field(1)
     a3_time_to_trigger: int = betterproto.int32_field(2)
     a3_hysteresis: int = betterproto.int32_field(3)

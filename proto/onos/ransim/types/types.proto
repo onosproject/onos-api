@@ -99,7 +99,7 @@ message Cell {
     // The cell transmit power in decibels
     double tx_power_db = 8 [(gogoproto.customname) = "TxPowerdB"];
 
-    A3HandoverParams a3_handover_params = 9;
+    EventA3Params event_a3_params = 9;
 
     // crntis maps a ue's name to its crnti
     map<uint32, uint64> crnti_map = 10 [(gogoproto.castkey) = "CRNTI", (gogoproto.castvalue) = "IMSI"];
@@ -109,7 +109,7 @@ message Cell {
     uint32 port = 12;
 }
 
-message A3HandoverParams {
+message EventA3Params {
     int32 a3_offset = 1;
 
     int32 a3_time_to_trigger = 2;
