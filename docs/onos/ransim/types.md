@@ -6,6 +6,7 @@
 - [onos/ransim/types/types.proto](#onos/ransim/types/types.proto)
     - [Cell](#onos.ransim.types.Cell)
     - [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry)
+    - [EventA3Params](#onos.ransim.types.EventA3Params)
     - [MapLayout](#onos.ransim.types.MapLayout)
     - [Node](#onos.ransim.types.Node)
     - [Point](#onos.ransim.types.Point)
@@ -40,6 +41,7 @@
 | max_ues | [uint32](#uint32) |  |  |
 | neighbors | [uint64](#uint64) | repeated |  |
 | tx_power_db | [double](#double) |  | The cell transmit power in decibels |
+| event_a3_params | [EventA3Params](#onos.ransim.types.EventA3Params) |  |  |
 | crnti_map | [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry) | repeated | crntis maps a ue&#39;s name to its crnti |
 | crnti_index | [uint32](#uint32) |  |  |
 | port | [uint32](#uint32) |  |  |
@@ -59,6 +61,25 @@
 | ----- | ---- | ----- | ----------- |
 | key | [uint32](#uint32) |  |  |
 | value | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.types.EventA3Params"></a>
+
+### EventA3Params
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| a3_offset | [int32](#int32) |  |  |
+| a3_time_to_trigger | [int32](#int32) |  |  |
+| a3_hysteresis | [int32](#int32) |  |  |
+| a3_cell_offset | [int32](#int32) |  |  |
+| a3_frequency_offset | [int32](#int32) |  |  |
 
 
 
