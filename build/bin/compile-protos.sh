@@ -121,6 +121,14 @@ go_import_paths="${go_import_paths},Monos/config/change/network/types.proto=gith
 go_import_paths="${go_import_paths},Monos/config/snapshot/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot"
 go_import_paths="${go_import_paths},Monos/config/snapshot/device/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/onosproject/onos-api/go/onos/ransim/types"
+# topo and UE-NIB
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
+    proto/onos/topo/*.proto
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/uenib,plugins=grpc:./go \
+    proto/onos/uenib/*.proto
+
 # e2sub
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2sub/endpoint,plugins=grpc:./go \
@@ -139,9 +147,6 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2,plugins=grpc:./go \
     proto/onos/e2t/e2/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
-    proto/onos/topo/*.proto
 
 # config
 protoc --proto_path=$proto_path \
