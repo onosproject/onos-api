@@ -1,0 +1,96 @@
+/*
+Copyright 2020-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package onos.e2t.e2ap defines the interior gRPC interfaces for xApps to interact with E2T.
+package onos.e2t.e2ap;
+
+import "gogoproto/gogo.proto";
+import "onos/e2t/e2ap/e2ap.proto";
+
+service SubscriptionService {
+    rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse);
+}
+
+message SubscribeRequest {
+    Source source = 1 [(gogoproto.nullable) = false];
+    Target target = 2 [(gogoproto.nullable) = false];
+    Subscription subscription = 3 [(gogoproto.nullable) = false];
+}
+
+message SubscribeResponse {
+    Indication indication = 1 [(gogoproto.nullable) = false];
+}
+
+message Subscription {
+    string subscription_id = 1 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
+    EventTrigger event_trigger = 2 [(gogoproto.nullable) = false];
+    repeated Action actions = 3 [(gogoproto.nullable) = false];
+}
+
+message EventTrigger {
+    Payload payload = 1 [(gogoproto.nullable) = false];
+}
+
+message Action {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    ActionType type = 2;
+    Payload payload = 3 [(gogoproto.nullable) = false];
+    SubsequentAction subsequent_action = 4;
+}
+
+enum ActionType {
+    ACTION_TYPE_REPORT = 0;
+    ACTION_TYPE_INSERT = 1;
+    ACTION_TYPE_POLICY = 2;
+}
+
+message SubsequentAction {
+    SubsequentActionType type = 1;
+    TimeToWait time_to_wait = 2;
+}
+
+enum SubsequentActionType {
+    SUBSEQUENT_ACTION_TYPE_CONTINUE = 0;
+    SUBSEQUENT_ACTION_TYPE_WAIT = 1;
+}
+
+enum TimeToWait {
+    TIME_TO_WAIT_ZERO = 0;
+    TIME_TO_WAIT_W1MS = 1;
+    TIME_TO_WAIT_W2MS = 2;
+    TIME_TO_WAIT_W5MS = 3;
+    TIME_TO_WAIT_W10MS = 4;
+    TIME_TO_WAIT_W20MS = 5;
+    TIME_TO_WAIT_W30MS = 6;
+    TIME_TO_WAIT_W40MS = 7;
+    TIME_TO_WAIT_W50MS = 8;
+    TIME_TO_WAIT_W100MS = 9;
+    TIME_TO_WAIT_W200MS = 10;
+    TIME_TO_WAIT_W500MS = 11;
+    TIME_TO_WAIT_W1S = 12;
+    TIME_TO_WAIT_W2S = 13;
+    TIME_TO_WAIT_W5S = 14;
+    TIME_TO_WAIT_W10S = 15;
+    TIME_TO_WAIT_W20S = 16;
+    TIME_TO_WAIT_W60S = 17;
+}
+
+message Indication {
+    Payload header = 1 [(gogoproto.nullable) = false];
+    Payload message = 2 [(gogoproto.nullable) = false];
+}
