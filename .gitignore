@@ -27,5 +27,4 @@ __pycache__
 
 # PyPI generated directories
 .eggs/
-python/
 dist/

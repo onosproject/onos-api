@@ -5,7 +5,7 @@
 from setuptools import setup, find_packages
 
 
-PACKAGES = find_packages("python/onos")
+PACKAGES = find_packages("python")
 
 
 def readme():
@@ -26,10 +26,12 @@ setup(
     long_description_content_type="text/markdown",
     author="Open Networking Foundation (ONF) and Partners",
     author_email="support@opennetworking.org",
-    packages=[f"onos_api.{pkg}" for pkg in PACKAGES],
+    packages=[pkg.replace("onos", "onos_api") for pkg in PACKAGES],
     package_dir={
-        f"onos_api.{pkg}": f"python/onos/{pkg}".replace(".", "/") for pkg in PACKAGES
+        pkg.replace("onos", "onos_api"): f"python/{pkg}".replace(".", "/")
+        for pkg in PACKAGES
     },
+    package_data={"onos_api": ["py.typed"]},
     keywords=["onos-api", "python", "protobuf", "gnmi"],
     license="Apache License v2.0",
     url="https://github.com/onosproject/onos-api/",
