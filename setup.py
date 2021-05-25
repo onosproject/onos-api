@@ -45,6 +45,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Topic :: Utilities",
         "License :: OSI Approved :: Apache Software License",
+        "Typing :: Typed",
     ],
     install_requires=[
         "betterproto>=2.0.0b3,<3",
