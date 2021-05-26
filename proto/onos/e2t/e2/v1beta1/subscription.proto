@@ -16,11 +16,11 @@ limitations under the License.
 
 syntax = "proto3";
 
-// Package onos.e2t.e2ap defines the interior gRPC interfaces for xApps to interact with E2T.
-package onos.e2t.e2ap;
+// Package onos.e2t.e2.v1beta1 defines the interior gRPC interfaces for xApps to interact with E2T.
+package onos.e2t.e2.v1beta1;
 
 import "gogoproto/gogo.proto";
-import "onos/e2t/e2ap/e2ap.proto";
+import "onos/e2t/e2/v1beta1/e2ap.proto";
 
 service SubscriptionService {
     rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse);

@@ -26,11 +26,7 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2t \
     --doc_opt=markdown,e2.md \
-    proto/onos/e2t/e2/e2.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/e2t \
-    --doc_opt=markdown,e2ap.md \
-    proto/onos/e2t/e2ap/*.proto
+    proto/onos/e2t/e2/v1beta1/*.proto
 
 # topo
 protoc --proto_path=$proto_path \
@@ -152,8 +148,8 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2,plugins=grpc:./go \
     proto/onos/e2t/e2/*.proto
 protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2ap,plugins=grpc:./go \
-    proto/onos/e2t/e2ap/*.proto
+    --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2/v1beta1,plugins=grpc:./go \
+    proto/onos/e2t/e2/v1beta1/*.proto
 
 # config
 protoc --proto_path=$proto_path \
