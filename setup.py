@@ -49,7 +49,7 @@ setup(
     ],
     install_requires=[
         "betterproto>=2.0.0b3,<3",
-        "gnmi-proto",
+        "gnmi-proto>=0.1.0a4,<1",
     ],
     python_requires=">=3.6",
     setup_requires=["setuptools>=41.1.0"],
