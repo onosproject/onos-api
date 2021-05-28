@@ -7,7 +7,6 @@ from typing import AsyncIterable, AsyncIterator, Iterable, List, Optional, Union
 
 import betterproto
 import grpclib
-import gnmi.proto
 
 
 class Type(betterproto.Enum):
@@ -105,7 +104,7 @@ class ModelInfo(betterproto.Message):
     # model_data is a set of metadata about the YANG files that went in to
     # generating the model plugin. It includes name, version and organization for
     # each YANG file, similar to how they are represented in gNMI Capabilities.
-    model_data: List[gnmi.proto.ModelData] = betterproto.message_field(3)
+    model_data: List["___gnmi__.ModelData"] = betterproto.message_field(3)
     # module is the name of the Model Plugin on the file system - usually ending
     # in .so.<version>.
     module: str = betterproto.string_field(4)
@@ -354,5 +353,6 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
         )
 
 
+from .... import gnmi as ___gnmi__
 from ..change import device as _change_device__
 from ..snapshot import device as _snapshot_device__
