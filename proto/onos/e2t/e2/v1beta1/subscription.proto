@@ -40,21 +40,19 @@ message SubscribeResponse {
 }
 
 message Subscription {
-    string subscription_id = 1 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
-    string e2_node_id = 2 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
-    ServiceModel service_model = 3 [(gogoproto.nullable) = false];
-    EventTrigger event_trigger = 4 [(gogoproto.nullable) = false];
-    repeated Action actions = 5 [(gogoproto.nullable) = false];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "SubscriptionID"];
+    EventTrigger event_trigger = 2 [(gogoproto.nullable) = false];
+    repeated Action actions = 3 [(gogoproto.nullable) = false];
 }
 
 message EventTrigger {
-    Payload payload = 1 [(gogoproto.nullable) = false];
+    Payload contents = 1 [(gogoproto.nullable) = false];
 }
 
 message Action {
     int32 id = 1 [(gogoproto.customname) = "ID"];
     ActionType type = 2;
-    Payload payload = 3 [(gogoproto.nullable) = false];
+    Payload contents = 3 [(gogoproto.nullable) = false];
     SubsequentAction subsequent_action = 4;
 }
 
@@ -101,5 +99,5 @@ message Acknowledgement {
 
 message Indication {
     Payload header = 1 [(gogoproto.nullable) = false];
-    Payload message = 2 [(gogoproto.nullable) = false];
+    Payload contents = 2 [(gogoproto.nullable) = false];
 }

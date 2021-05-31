@@ -23,7 +23,9 @@ import "gogoproto/gogo.proto";
 
 message RequestHeaders {
     string app_id = 1 [(gogoproto.customname) = "AppID", (gogoproto.casttype) = "AppID"];
-    string app_node_id = 2 [(gogoproto.customname) = "AppNodeID", (gogoproto.casttype) = "AppNodeID"];
+    string instance_id = 2 [(gogoproto.customname) = "InstanceID", (gogoproto.casttype) = "InstanceID"];
+    string node_id = 3 [(gogoproto.casttype) = "NodeID", (gogoproto.customname) = "NodeID"];
+    ServiceModel service_model = 4 [(gogoproto.nullable) = false];
 }
 
 message ResponseHeaders {
