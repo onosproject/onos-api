@@ -32,8 +32,8 @@ message ControlRequest {
 }
 
 message ControlMessage {
-    Payload header = 3 [(gogoproto.nullable) = false];
-    Payload contents = 4 [(gogoproto.nullable) = false];
+    bytes header = 1;
+    bytes payload = 2;
 }
 
 message ControlResponse {
@@ -42,5 +42,5 @@ message ControlResponse {
 }
 
 message ControlOutcome {
-    Payload contents = 1 [(gogoproto.nullable) = false];
+    bytes payload = 1;
 }

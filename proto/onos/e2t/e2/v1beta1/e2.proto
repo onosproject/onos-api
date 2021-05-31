@@ -26,10 +26,11 @@ message RequestHeaders {
     string instance_id = 2 [(gogoproto.customname) = "InstanceID", (gogoproto.casttype) = "InstanceID"];
     string node_id = 3 [(gogoproto.casttype) = "NodeID", (gogoproto.customname) = "NodeID"];
     ServiceModel service_model = 4 [(gogoproto.nullable) = false];
+    Encoding encoding = 5;
 }
 
 message ResponseHeaders {
-
+    Encoding encoding = 1;
 }
 
 message ServiceModel {
@@ -37,15 +38,10 @@ message ServiceModel {
     string version = 2 [(gogoproto.casttype) = "ServiceModelVersion"];
 }
 
-enum EncodingType {
+enum Encoding {
     PROTO = 0;
     ASN1_PER = 1;
     ASN1_XER = 2;
-}
-
-message Payload {
-    EncodingType encoding_type = 1;
-    bytes data = 2;
 }
 
 // Error is an E2AP protocol error
