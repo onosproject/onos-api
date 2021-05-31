@@ -62,6 +62,7 @@ message Error {
         }
 
         message Misc {
+            Type type = 1;
             enum Type {
                 UNSPECIFIED = 0;
                 CONTROL_PROCESSING_OVERLOAD = 1;
@@ -71,6 +72,7 @@ message Error {
         }
 
         message Protocol {
+            Type type = 1;
             enum Type {
                 UNSPECIFIED = 0;
                 TRANSFER_SYNTAX_ERROR = 1;
@@ -83,6 +85,7 @@ message Error {
         }
 
         message Ric {
+            Type type = 1;
             enum Type {
                 UNSPECIFIED = 0;
                 RAN_FUNCTION_ID_INVALID = 1;
@@ -99,6 +102,7 @@ message Error {
         }
 
         message RicService {
+            Type type = 1;
             enum Type {
                 UNSPECIFIED = 0;
                 FUNCTION_NOT_REQUIRED = 1;
@@ -108,6 +112,7 @@ message Error {
         }
 
         message Transport {
+            Type type = 1;
             enum Type {
                 UNSPECIFIED = 0;
                 TRANSPORT_RESOURCE_UNAVAILABLE = 1;
