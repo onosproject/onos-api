@@ -21,13 +21,13 @@ package onos.e2t.e2.v1beta1;
 
 import "gogoproto/gogo.proto";
 
-message Source {
+message RequestHeaders {
     string app_id = 1 [(gogoproto.customname) = "AppID", (gogoproto.casttype) = "AppID"];
     string app_node_id = 2 [(gogoproto.customname) = "AppNodeID", (gogoproto.casttype) = "AppNodeID"];
 }
 
-message Target {
-    string e2_node_id = 1 [(gogoproto.customname) = "E2NodeID", (gogoproto.casttype) = "E2NodeID"];
+message ResponseHeaders {
+
 }
 
 message ServiceModel {

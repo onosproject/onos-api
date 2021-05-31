@@ -27,19 +27,21 @@ service SubscriptionService {
 }
 
 message SubscribeRequest {
-    Source source = 1 [(gogoproto.nullable) = false];
-    Target target = 2 [(gogoproto.nullable) = false];
-    Subscription subscription = 3 [(gogoproto.nullable) = false];
+    RequestHeaders headers = 1 [(gogoproto.nullable) = false];
+    Subscription subscription = 2 [(gogoproto.nullable) = false];
 }
 
 message SubscribeResponse {
-    Indication indication = 1 [(gogoproto.nullable) = false];
+    ResponseHeaders headers = 1 [(gogoproto.nullable) = false];
+    Indication indication = 2 [(gogoproto.nullable) = false];
 }
 
 message Subscription {
     string subscription_id = 1 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
-    EventTrigger event_trigger = 2 [(gogoproto.nullable) = false];
-    repeated Action actions = 3 [(gogoproto.nullable) = false];
+    string e2_node_id = 2 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    ServiceModel service_model = 3 [(gogoproto.nullable) = false];
+    EventTrigger event_trigger = 4 [(gogoproto.nullable) = false];
+    repeated Action actions = 5 [(gogoproto.nullable) = false];
 }
 
 message EventTrigger {

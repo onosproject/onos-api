@@ -27,13 +27,23 @@ service ControlService {
 }
 
 message ControlRequest {
-    Source source = 1 [(gogoproto.nullable) = false];
-    Target target = 2 [(gogoproto.nullable) = false];
+    RequestHeaders headers = 1 [(gogoproto.nullable) = false];
+    ControlMessage message = 2 [(gogoproto.nullable) = false];
+}
+
+message ControlMessage {
+    string subscription_id = 1 [(gogoproto.casttype) = "SubscriptionID", (gogoproto.customname) = "SubscriptionID"];
+    string e2_node_id = 2 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
     ServiceModel service_model = 3 [(gogoproto.nullable) = false];
-    Payload header = 4;
-    Payload message = 5;
+    Payload header = 4 [(gogoproto.nullable) = false];
+    Payload body = 5 [(gogoproto.nullable) = false];
 }
 
 message ControlResponse {
-    Payload outcome = 1;
+    ResponseHeaders headers = 1 [(gogoproto.nullable) = false];
+    Payload outcome = 2 [(gogoproto.nullable) = false];
+}
+
+message ControlOutcome {
+    Payload body = 1 [(gogoproto.nullable) = false];
 }
