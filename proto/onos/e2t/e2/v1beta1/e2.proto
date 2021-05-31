@@ -55,6 +55,7 @@ message Error {
             Ric ric = 3;
             RicService ric_service = 4;
             Transport transport = 5;
+            Misc misc = 6;
         }
 
         message Unknown {
