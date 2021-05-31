@@ -33,7 +33,10 @@ message SubscribeRequest {
 
 message SubscribeResponse {
     ResponseHeaders headers = 1 [(gogoproto.nullable) = false];
-    Indication indication = 2 [(gogoproto.nullable) = false];
+    oneof message {
+        Acknowledgement ack = 2;
+        Indication indication = 3;
+    }
 }
 
 message Subscription {
@@ -90,6 +93,10 @@ enum TimeToWait {
     TIME_TO_WAIT_W10S = 15;
     TIME_TO_WAIT_W20S = 16;
     TIME_TO_WAIT_W60S = 17;
+}
+
+message Acknowledgement {
+
 }
 
 message Indication {
