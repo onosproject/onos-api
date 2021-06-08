@@ -85,9 +85,9 @@ message UeMetrics {
 
 enum CellType {
     FEMTO = 0;
-	ENTERPRISE = 1;
-	OUTDOOR_SMALL = 2;
-	MACRO = 3;
+    ENTERPRISE = 1;
+    OUTDOOR_SMALL = 2;
+    MACRO = 3;
 }
 
 message Cell {
