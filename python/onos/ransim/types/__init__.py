@@ -7,6 +7,13 @@ from typing import Dict, List
 import betterproto
 
 
+class CellType(betterproto.Enum):
+    FEMTO = 0
+    ENTERPRISE = 1
+    OUTDOOR_SMALL = 2
+    MACRO = 3
+
+
 @dataclass(eq=False, repr=False)
 class Point(betterproto.Message):
     lat: float = betterproto.double_field(1)
@@ -92,6 +99,9 @@ class Cell(betterproto.Message):
     )
     crnti_index: int = betterproto.uint32_field(11)
     port: int = betterproto.uint32_field(12)
+    pci: int = betterproto.uint32_field(13)
+    earfcn: int = betterproto.uint32_field(14)
+    cell_type: "CellType" = betterproto.enum_field(15)
 
     def __post_init__(self) -> None:
         super().__post_init__()
