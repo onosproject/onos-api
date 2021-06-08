@@ -83,6 +83,13 @@ message UeMetrics {
     bool is_first = 3;
 }
 
+enum CellType {
+    FEMTO = 0;
+    ENTERPRISE = 1;
+    OUTDOOR_SMALL = 2;
+    MACRO = 3;
+}
+
 message Cell {
     uint64 ecgi = 1 [(gogoproto.customname) = "ECGI", (gogoproto.casttype) = "ECGI"];
 
@@ -107,6 +114,12 @@ message Cell {
     uint32 crnti_index = 11;
 
     uint32 port = 12;
+
+    uint32 pci = 13;
+
+    uint32 earfcn = 14;
+
+    CellType cell_type = 15;
 }
 
 message EventA3Params {

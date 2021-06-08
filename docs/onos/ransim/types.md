@@ -15,6 +15,8 @@
     - [Ue](#onos.ransim.types.Ue)
     - [UeMetrics](#onos.ransim.types.UeMetrics)
   
+    - [CellType](#onos.ransim.types.CellType)
+  
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -45,6 +47,9 @@
 | crnti_map | [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry) | repeated | crntis maps a ue&#39;s name to its crnti |
 | crnti_index | [uint32](#uint32) |  |  |
 | port | [uint32](#uint32) |  |  |
+| pci | [uint32](#uint32) |  |  |
+| earfcn | [uint32](#uint32) |  |  |
+| cell_type | [CellType](#onos.ransim.types.CellType) |  |  |
 
 
 
@@ -228,6 +233,20 @@
 
 
  
+
+
+<a name="onos.ransim.types.CellType"></a>
+
+### CellType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| FEMTO | 0 |  |
+| ENTERPRISE | 1 |  |
+| OUTDOOR_SMALL | 2 |  |
+| MACRO | 3 |  |
+
 
  
 
