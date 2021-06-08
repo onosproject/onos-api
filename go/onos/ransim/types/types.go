@@ -6,6 +6,7 @@
 package types
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -16,17 +17,26 @@ type PlmnID uint32
 // EnbID is an eNodeB Identifier
 type EnbID uint32
 
-// CellID is a node-local cell identifier
-type CellID uint8
+// CellID is a node-local cell identifier; 4 bits for 4G; 14 bits fo 5G
+type CellID uint16
 
-// ECI is a E-UTRAN Cell Identifier
+// ECI is a E-UTRAN Cell Identifier (gNBID + CID)
 type ECI uint32
 
-// GEnbID is a Globally eNodeB identifier
+// NCI is a NR Cell Identifier; a 36-bit value (gNBID + CID)
+type NCI uint64
+
+// GnbID is a 5G gNodeB Identifier
+type GnbID uint64
+
+// GEnbID is a Globally eNodeB identifier (gNBID + CID)
 type GEnbID uint64
 
-// ECGI is E-UTRAN Cell Global Identifier
+// ECGI is E-UTRAN Cell Global Identifier (MCC+MNC+ECI)
 type ECGI uint64
+
+// NCGI is NR Cell Global Identity (MCC+MNC+NCI)
+type NCGI uint64
 
 // CRNTI is a cell-specific UE identifier
 type CRNTI uint32
@@ -38,8 +48,9 @@ type MSIN uint32
 type IMSI uint64
 
 const (
-	mask28               = 0xfffffff
-	mask20               = 0xfffff00
+	mask36 = 0xfffffffff
+	mask28 = 0xfffffff
+	mask20 = 0xfffff00
 )
 
 // EncodePlmnID encodes MCC and MNC strings into a PLMNID hex string
@@ -128,6 +139,63 @@ func GetECI(id uint64) ECI {
 	return ECI(id & mask28)
 }
 
+var (
+	cidBits uint8  = 14
+	gnbMask uint64 = 0b111111111111111111111100000000000000
+	cidMask uint64 = 0b000000000000000000000011111111111111
+)
+
+// SetNCIBitSplit sets how the NCI bits are split between gNBID and CID
+func SetNCIBitSplit(gnb uint8, cid uint8) error {
+	if (gnb+cid) == 36 && 4 <= cid && cid <= 14 {
+		cidBits = cid
+		gnbMask = 0
+		cidMask = 0
+		for i := 0; i < 64; i++ {
+			b := uint8(i)
+			if b < cid {
+				cidMask |= 1 << i
+			}
+			if cid <= b && b < (cid+gnb) {
+				gnbMask |= 1 << i
+			}
+		}
+		return nil
+	}
+	return errors.New("invalid bit split")
+}
+
+// ToNCI produces NCI from the specified components
+func ToNCI(gnbID GnbID, cid CellID) NCI {
+	return NCI(uint(gnbID)<<cidBits | uint(cid))
+}
+
+// ToNCGI produces NCGI from the specified components
+func ToNCGI(plmnID PlmnID, nci NCI) NCGI {
+	return NCGI(uint(plmnID)<<36 | (uint(nci) & mask36))
+}
+
+// Get5GPlmnID extracts PLMNID from the specified NCGI
+func Get5GPlmnID(id uint64) PlmnID {
+	return PlmnID(id >> 36)
+}
+
+// GetNCI extracts NCI from the specified NCGI
+func GetNCI(ncgi NCGI) NCI {
+	return NCI(ncgi & mask36)
+}
+
+// GetGnbID extracts gNodeB ID from the specified NCGI or NCI
+func GetGnbID(id uint64) GnbID {
+	return GnbID((id & gnbMask) >> cidBits)
+}
+
+// Get5GCellID extracts Cell ID from the specified NCGI or NCI
+func Get5GCellID(id uint64) CellID {
+	return CellID(id & cidMask)
+}
+
+// TODO: Deprecated; remove these
 const (
 	// AzimuthKey - used in topo device attributes
 	AzimuthKey = "azimuth"

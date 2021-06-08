@@ -7,9 +7,8 @@ package types
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"testing"
-
-	"gotest.tools/assert"
 )
 
 func TestPlmnIDEncode(t *testing.T) {
@@ -61,9 +60,9 @@ func TestTypesWithFullShift(t *testing.T) {
 }
 
 func TestTypesWithPartialShift(t *testing.T) {
-	plmnID := PlmnID(0xbbbaaa)
-	cellID := CellID(0x0f)
-	enbID := EnbID(0xfffff)
+	plmnID := PlmnID(0xbbbccc)
+	cellID := CellID(0x12)
+	enbID := EnbID(0xf8f8f)
 
 	eci := ToECI(enbID, cellID)
 	ecgi := ToECGI(plmnID, eci)
@@ -75,6 +74,60 @@ func TestTypesWithPartialShift(t *testing.T) {
 	assert.Equal(t, enbID, GetEnbID(uint64(genbID)), "incorrect EnbID")
 	assert.Equal(t, eci, GetECI(uint64(ecgi)), "incorrect ECI")
 	assert.Equal(t, cellID, GetCellID(uint64(ecgi)), "incorrect CID")
+}
+
+func Test5GTypes_22_14(t *testing.T) {
+	err := SetNCIBitSplit(22, 14)
+
+	fmt.Printf("%040b\n%040b\n", gnbMask, cidMask)
+	assert.NoError(t, err)
+	plmnID := PlmnID(0xbbbaaa)
+	gnbID := GnbID(0xfffff)
+	cellID := CellID(0x0f)
+
+	fmt.Printf("%040b\n%040b\n%040b\n", plmnID, gnbID, cellID)
+
+	nci := ToNCI(gnbID, cellID)
+	ncgi := ToNCGI(plmnID, nci)
+
+	fmt.Printf("%064b\n%064b\n", nci, ncgi)
+
+	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
+	// in shifts less than 8 or 28 bits respectively.
+	assert.Equal(t, plmnID, Get5GPlmnID(uint64(ncgi)), "incorrect PLMNID")
+	assert.Equal(t, nci, GetNCI(ncgi), "incorrect NCI")
+	assert.Equal(t, gnbID, GetGnbID(uint64(ncgi)), "incorrect NCGI GnbID")
+	assert.Equal(t, cellID, Get5GCellID(uint64(ncgi)), "incorrect NCGI CID")
+
+	assert.Equal(t, gnbID, GetGnbID(uint64(nci)), "incorrect NCI GnbID")
+	assert.Equal(t, cellID, Get5GCellID(uint64(nci)), "incorrect NCI CID")
+}
+
+func Test5GTypes_32_4(t *testing.T) {
+	err := SetNCIBitSplit(32, 4)
+
+	fmt.Printf("%040b\n%040b\n", gnbMask, cidMask)
+	assert.NoError(t, err)
+	plmnID := PlmnID(0xbbbaaa)
+	gnbID := GnbID(0xfffff)
+	cellID := CellID(0x0f)
+
+	fmt.Printf("%040b\n%040b\n%040b\n", plmnID, gnbID, cellID)
+
+	nci := ToNCI(gnbID, cellID)
+	ncgi := ToNCGI(plmnID, nci)
+
+	fmt.Printf("%064b\n%064b\n", nci, ncgi)
+
+	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
+	// in shifts less than 8 or 28 bits respectively.
+	assert.Equal(t, plmnID, Get5GPlmnID(uint64(ncgi)), "incorrect PLMNID")
+	assert.Equal(t, nci, GetNCI(ncgi), "incorrect NCI")
+	assert.Equal(t, gnbID, GetGnbID(uint64(ncgi)), "incorrect NCGI GnbID")
+	assert.Equal(t, cellID, Get5GCellID(uint64(ncgi)), "incorrect NCGI CID")
+
+	assert.Equal(t, gnbID, GetGnbID(uint64(nci)), "incorrect NCI GnbID")
+	assert.Equal(t, cellID, Get5GCellID(uint64(nci)), "incorrect NCI CID")
 }
 
 func TestSimValues(t *testing.T) {
