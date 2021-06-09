@@ -49,14 +49,13 @@ func TestTypesWithFullShift(t *testing.T) {
 
 	eci := ToECI(enbID, cellID)
 	ecgi := ToECGI(plmnID, eci)
-	genbID := ToGEnbID(plmnID, enbID)
 
 	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
 	// in shifts less than 8 or 28 bits respectively.
-	assert.Equal(t, plmnID, GetPlmnID(uint64(ecgi)), "incorrect PLMNID")
-	assert.Equal(t, enbID, GetEnbID(uint64(genbID)), "incorrect EnbID")
+	assert.Equal(t, plmnID, Get4GPlmnID(uint64(ecgi)), "incorrect PLMNID")
+	assert.Equal(t, enbID, GetEnbID(uint64(ecgi)), "incorrect EnbID")
 	assert.Equal(t, eci, GetECI(uint64(ecgi)), "incorrect ECI")
-	assert.Equal(t, cellID, GetCellID(uint64(ecgi)), "incorrect CID")
+	assert.Equal(t, cellID, Get4GCellID(uint64(ecgi)), "incorrect CID")
 }
 
 func TestTypesWithPartialShift(t *testing.T) {
@@ -66,14 +65,13 @@ func TestTypesWithPartialShift(t *testing.T) {
 
 	eci := ToECI(enbID, cellID)
 	ecgi := ToECGI(plmnID, eci)
-	genbID := ToGEnbID(plmnID, enbID)
 
 	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
 	// in shifts less than 8 or 28 bits respectively.
-	assert.Equal(t, plmnID, GetPlmnID(uint64(ecgi)), "incorrect PLMNID")
-	assert.Equal(t, enbID, GetEnbID(uint64(genbID)), "incorrect EnbID")
+	assert.Equal(t, plmnID, Get4GPlmnID(uint64(ecgi)), "incorrect PLMNID")
+	assert.Equal(t, enbID, GetEnbID(uint64(ecgi)), "incorrect EnbID")
 	assert.Equal(t, eci, GetECI(uint64(ecgi)), "incorrect ECI")
-	assert.Equal(t, cellID, GetCellID(uint64(ecgi)), "incorrect CID")
+	assert.Equal(t, cellID, Get4GCellID(uint64(ecgi)), "incorrect CID")
 }
 
 func Test5GTypes_22_14(t *testing.T) {
@@ -94,13 +92,13 @@ func Test5GTypes_22_14(t *testing.T) {
 
 	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
 	// in shifts less than 8 or 28 bits respectively.
-	assert.Equal(t, plmnID, Get5GPlmnID(uint64(ncgi)), "incorrect PLMNID")
+	assert.Equal(t, plmnID, GetPlmnID(uint64(ncgi)), "incorrect PLMNID")
 	assert.Equal(t, nci, GetNCI(ncgi), "incorrect NCI")
 	assert.Equal(t, gnbID, GetGnbID(uint64(ncgi)), "incorrect NCGI GnbID")
-	assert.Equal(t, cellID, Get5GCellID(uint64(ncgi)), "incorrect NCGI CID")
+	assert.Equal(t, cellID, GetCellID(uint64(ncgi)), "incorrect NCGI CID")
 
 	assert.Equal(t, gnbID, GetGnbID(uint64(nci)), "incorrect NCI GnbID")
-	assert.Equal(t, cellID, Get5GCellID(uint64(nci)), "incorrect NCI CID")
+	assert.Equal(t, cellID, GetCellID(uint64(nci)), "incorrect NCI CID")
 }
 
 func Test5GTypes_32_4(t *testing.T) {
@@ -121,13 +119,13 @@ func Test5GTypes_32_4(t *testing.T) {
 
 	// NOTE: These work for the given values of cellID and enbID, but may fail with "lesser" values that result
 	// in shifts less than 8 or 28 bits respectively.
-	assert.Equal(t, plmnID, Get5GPlmnID(uint64(ncgi)), "incorrect PLMNID")
+	assert.Equal(t, plmnID, GetPlmnID(uint64(ncgi)), "incorrect PLMNID")
 	assert.Equal(t, nci, GetNCI(ncgi), "incorrect NCI")
 	assert.Equal(t, gnbID, GetGnbID(uint64(ncgi)), "incorrect NCGI GnbID")
-	assert.Equal(t, cellID, Get5GCellID(uint64(ncgi)), "incorrect NCGI CID")
+	assert.Equal(t, cellID, GetCellID(uint64(ncgi)), "incorrect NCGI CID")
 
 	assert.Equal(t, gnbID, GetGnbID(uint64(nci)), "incorrect NCI GnbID")
-	assert.Equal(t, cellID, Get5GCellID(uint64(nci)), "incorrect NCI CID")
+	assert.Equal(t, cellID, GetCellID(uint64(nci)), "incorrect NCI CID")
 }
 
 func TestSimValues(t *testing.T) {

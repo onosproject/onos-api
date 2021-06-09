@@ -14,29 +14,26 @@ import (
 // PlmnID is a globally unique network identifier (Public Land Mobile Network)
 type PlmnID uint32
 
+// GnbID is a 5G gNodeB Identifier
+type GnbID uint64
+
 // EnbID is an eNodeB Identifier
 type EnbID uint32
 
 // CellID is a node-local cell identifier; 4 bits for 4G; 14 bits fo 5G
 type CellID uint16
 
-// ECI is a E-UTRAN Cell Identifier (gNBID + CID)
-type ECI uint32
-
 // NCI is a NR Cell Identifier; a 36-bit value (gNBID + CID)
 type NCI uint64
 
-// GnbID is a 5G gNodeB Identifier
-type GnbID uint64
+// NCGI is NR Cell Global Identity (MCC+MNC+NCI)
+type NCGI uint64
 
-// GEnbID is a Globally eNodeB identifier (gNBID + CID)
-type GEnbID uint64
+// ECI is a E-UTRAN Cell Identifier (gNBID + CID)
+type ECI uint32
 
 // ECGI is E-UTRAN Cell Global Identifier (MCC+MNC+ECI)
 type ECGI uint64
-
-// NCGI is NR Cell Global Identity (MCC+MNC+NCI)
-type NCGI uint64
 
 // CRNTI is a cell-specific UE identifier
 type CRNTI uint32
@@ -104,41 +101,7 @@ func PlmnIDToString(plmnID PlmnID) string {
 	return mcc + mnc
 }
 
-// ToECI produces ECI from the specified components
-func ToECI(enbID EnbID, cid CellID) ECI {
-	return ECI(uint(enbID)<<8 | uint(cid))
-}
-
-// ToECGI produces ECGI from the specified components
-func ToECGI(plmnID PlmnID, eci ECI) ECGI {
-	return ECGI(uint(plmnID)<<28 | (uint(eci) & mask28))
-}
-
-// ToGEnbID produces GEnbID from the specified components
-func ToGEnbID(plmnID PlmnID, enbID EnbID) GEnbID {
-	return GEnbID(uint(plmnID)<<28 | (uint(enbID) << 8 & mask20))
-}
-
-// GetPlmnID extracts PLMNID from the specified ECGI, GEnbID or IMSI
-func GetPlmnID(id uint64) PlmnID {
-	return PlmnID(id >> 28)
-}
-
-// GetCellID extracts Cell ID from the specified ECGI or GEnbID
-func GetCellID(id uint64) CellID {
-	return CellID(id & 0xff)
-}
-
-// GetEnbID extracts Enb ID from the specified ECGI or GEnbID
-func GetEnbID(id uint64) EnbID {
-	return EnbID((id & mask20) >> 8)
-}
-
-// GetECI extracts ECI from the specified ECGI or GEnbID
-func GetECI(id uint64) ECI {
-	return ECI(id & mask28)
-}
-
+// 5G Identifiers
 var (
 	cidBits uint8  = 14
 	gnbMask uint64 = 0b111111111111111111111100000000000000
@@ -175,11 +138,15 @@ func ToNCGI(plmnID PlmnID, nci NCI) NCGI {
 	return NCGI(uint(plmnID)<<36 | (uint(nci) & mask36))
 }
 
-// Get5GPlmnID extracts PLMNID from the specified NCGI
-func Get5GPlmnID(id uint64) PlmnID {
-	return PlmnID(id >> 36)
+// GetPlmnID extracts PLMNID from the specified NCGI
+func GetPlmnID(ncgi uint64) PlmnID {
+	return PlmnID(ncgi >> 36)
 }
 
+// Get5GPlmnID extracts PLMNID from the specified NCGI
+func Get5GPlmnID(ncgi uint64) PlmnID {
+	return GetPlmnID(ncgi)
+}
 // GetNCI extracts NCI from the specified NCGI
 func GetNCI(ncgi NCGI) NCI {
 	return NCI(ncgi & mask36)
@@ -190,42 +157,46 @@ func GetGnbID(id uint64) GnbID {
 	return GnbID((id & gnbMask) >> cidBits)
 }
 
-// Get5GCellID extracts Cell ID from the specified NCGI or NCI
-func Get5GCellID(id uint64) CellID {
+// GetCellID extracts Cell ID from the specified NCGI or NCI
+func GetCellID(id uint64) CellID {
 	return CellID(id & cidMask)
 }
 
-// TODO: Deprecated; remove these
-const (
-	// AzimuthKey - used in topo device attributes
-	AzimuthKey = "azimuth"
+// Get5GCellID extracts Cell ID from the specified NCGI or NCI
+func Get5GCellID(id uint64) CellID {
+	return GetCellID(id)
+}
 
-	// ArcKey - used in topo device attributes
-	ArcKey = "arc"
 
-	// LatitudeKey - used in topo device attributes
-	LatitudeKey = "latitude"
+// 4G Identifiers
 
-	// LongitudeKey - used in topo device attributes
-	LongitudeKey = "longitude"
+// ToECI produces ECI from the specified components
+func ToECI(enbID EnbID, cid CellID) ECI {
+	return ECI(uint(enbID)<<8 | uint(cid))
+}
 
-	// EcidKey - used in topo device attributes
-	EcidKey = "ecid"
+// ToECGI produces ECGI from the specified components
+func ToECGI(plmnID PlmnID, eci ECI) ECGI {
+	return ECGI(uint(plmnID)<<28 | (uint(eci) & mask28))
+}
 
-	// PlmnIDKey - used in topo device attributes
-	PlmnIDKey = "plmnid"
+// Get4GPlmnID extracts PLMNID from the specified ECGI or IMSI
+func Get4GPlmnID(id uint64) PlmnID {
+	return PlmnID(id >> 28)
+}
 
-	// GrpcPortKey - used in topo device attributes
-	GrpcPortKey = "grpcport"
+// Get4GCellID extracts Cell ID from the specified ECGI
+func Get4GCellID(id uint64) CellID {
+	return CellID(id & 0xff)
+}
 
-	// AddressKey ...
-	AddressKey = "address"
-)
+// GetEnbID extracts Enb ID from the specified ECGI
+func GetEnbID(id uint64) EnbID {
+	return EnbID((id & mask20) >> 8)
+}
 
-const (
-	// E2NodeType - used in topo device type
-	E2NodeType = "E2Node"
+// GetECI extracts ECI from the specified ECGI
+func GetECI(id uint64) ECI {
+	return ECI(id & mask28)
+}
 
-	// E2NodeVersion100 - used in topo device version
-	E2NodeVersion100 = "1.0.0"
-)
