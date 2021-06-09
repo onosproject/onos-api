@@ -43,7 +43,7 @@ message Location {
 // Area of coverage; expected value type of "coverage" aspect
 message Coverage {
     int32 height = 1;
-    int32 arcWidth = 2;
+    int32 arc_width = 2;
     int32 azimuth = 3;
     int32 tilt = 4;
 }
@@ -56,7 +56,7 @@ message E2Node {
 // E2Cell aspect; expected value type of "E2CELL" aspect and expected on entities of "E2CELL" kind
 message E2Cell {
     string cid = 1 [(gogoproto.customname) = "CID"];
-    uint32 antennaCount = 2;
+    uint32 antenna_count = 2;
     uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
     string cell_type = 4;
 }
