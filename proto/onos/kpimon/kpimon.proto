@@ -35,8 +35,7 @@ message GetResponse {
 
 
 message MeasurementItems {
-  uint64 start_time = 1;
-  repeated MeasurementItem measurement_items = 2;
+  repeated MeasurementItem measurement_items = 1;
 }
 
 

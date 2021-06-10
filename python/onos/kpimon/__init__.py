@@ -28,8 +28,7 @@ class GetResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class MeasurementItems(betterproto.Message):
-    start_time: int = betterproto.uint64_field(1)
-    measurement_items: List["MeasurementItem"] = betterproto.message_field(2)
+    measurement_items: List["MeasurementItem"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()

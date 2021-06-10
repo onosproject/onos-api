@@ -106,7 +106,6 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| start_time | [uint64](#uint64) |  |  |
 | measurement_items | [MeasurementItem](#onos.kpimon.MeasurementItem) | repeated |  |
 
 
