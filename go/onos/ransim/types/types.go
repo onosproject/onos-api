@@ -23,6 +23,14 @@ type EnbID uint32
 // CellID is a node-local cell identifier; 4 bits for 4G; 14 bits fo 5G
 type CellID uint16
 
+// NodeID is a general abstraction of a global E2 node identifier.
+// It holds appropriately bit-shifted concatenation of either:
+//		- [PLMNID + GnbID] or
+//		- [PLMNID + EnbID]
+// To extract the corresponding components, application must use the
+// appropriate 4G or 5G method provided below.
+type NodeID uint64
+
 // NCI is a NR Cell Identifier; a 36-bit value (gNBID + CID)
 type NCI uint64
 
@@ -103,6 +111,7 @@ func PlmnIDToString(plmnID PlmnID) string {
 
 // 5G Identifiers
 var (
+	gnbBits uint8  = 22
 	cidBits uint8  = 14
 	gnbMask uint64 = 0b111111111111111111111100000000000000
 	cidMask uint64 = 0b000000000000000000000011111111111111
@@ -136,6 +145,16 @@ func ToNCI(gnbID GnbID, cid CellID) NCI {
 // ToNCGI produces NCGI from the specified components
 func ToNCGI(plmnID PlmnID, nci NCI) NCGI {
 	return NCGI(uint(plmnID)<<36 | (uint(nci) & mask36))
+}
+
+// ToNodeID produces a 5G global node ID as a catenation of PLMNID + GnbID
+func ToNodeID(plmnID PlmnID, gnbID GnbID) NodeID {
+	return NodeID(uint(plmnID)<<gnbBits | uint(gnbID))
+}
+
+// To5GNodeID produces a 5G global node ID as a catenation of PLMNID + GnbID
+func To5GNodeID(plmnID PlmnID, gnbID GnbID) NodeID {
+	return ToNodeID(plmnID, gnbID)
 }
 
 // GetPlmnID extracts PLMNID from the specified NCGI
@@ -178,6 +197,11 @@ func ToECI(enbID EnbID, cid CellID) ECI {
 // ToECGI produces ECGI from the specified components
 func ToECGI(plmnID PlmnID, eci ECI) ECGI {
 	return ECGI(uint(plmnID)<<28 | (uint(eci) & mask28))
+}
+
+// To4GNodeID produces a 54 global node ID as a catenation of PLMNID + EnbID
+func To4GNodeID(plmnID PlmnID, enbID EnbID) NodeID {
+	return NodeID(uint(plmnID)<<28 | uint(enbID))
 }
 
 // Get4GPlmnID extracts PLMNID from the specified ECGI or IMSI
