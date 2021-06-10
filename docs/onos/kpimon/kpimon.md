@@ -174,6 +174,8 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
+| GetMeasurementTypes | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
+| GetMeasurement | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
 | GetMeasurements | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) stream |  |
 
  
