@@ -25,6 +25,11 @@
 __pycache__
 *.egg-info
 
+python/gnmi/
+python/gnmi_ext/
+python/gogoproto/
+
+
 # PyPI generated directories
 .eggs/
 dist/
