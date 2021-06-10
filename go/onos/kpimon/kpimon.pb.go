@@ -7,8 +7,10 @@ package kpimon
 
 import (
 	context "context"
+	encoding_binary "encoding/binary"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
+	types "github.com/gogo/protobuf/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,7 +31,6 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type GetRequest struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (m *GetRequest) Reset()         { *m = GetRequest{} }
@@ -65,15 +66,8 @@ func (m *GetRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetRequest proto.InternalMessageInfo
 
-func (m *GetRequest) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
 type GetResponse struct {
-	Object *Object `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty"`
+	Measurements map[string]*MeasurementItems `protobuf:"bytes,1,rep,name=measurements,proto3" json:"measurements,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *GetResponse) Reset()         { *m = GetResponse{} }
@@ -109,31 +103,29 @@ func (m *GetResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetResponse proto.InternalMessageInfo
 
-func (m *GetResponse) GetObject() *Object {
+func (m *GetResponse) GetMeasurements() map[string]*MeasurementItems {
 	if m != nil {
-		return m.Object
+		return m.Measurements
 	}
 	return nil
 }
 
-type Object struct {
-	Id         string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Revision   uint64            `protobuf:"varint,2,opt,name=revision,proto3" json:"revision,omitempty"`
-	Attributes map[string]string `protobuf:"bytes,3,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+type MeasurementItems struct {
+	MeasurementItems []*MeasurementItem `protobuf:"bytes,1,rep,name=measurement_items,json=measurementItems,proto3" json:"measurement_items,omitempty"`
 }
 
-func (m *Object) Reset()         { *m = Object{} }
-func (m *Object) String() string { return proto.CompactTextString(m) }
-func (*Object) ProtoMessage()    {}
-func (*Object) Descriptor() ([]byte, []int) {
+func (m *MeasurementItems) Reset()         { *m = MeasurementItems{} }
+func (m *MeasurementItems) String() string { return proto.CompactTextString(m) }
+func (*MeasurementItems) ProtoMessage()    {}
+func (*MeasurementItems) Descriptor() ([]byte, []int) {
 	return fileDescriptor_b4dc9732ac3e9f77, []int{2}
 }
-func (m *Object) XXX_Unmarshal(b []byte) error {
+func (m *MeasurementItems) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *Object) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MeasurementItems) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_Object.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MeasurementItems.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -143,35 +135,257 @@ func (m *Object) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *Object) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Object.Merge(m, src)
+func (m *MeasurementItems) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MeasurementItems.Merge(m, src)
 }
-func (m *Object) XXX_Size() int {
+func (m *MeasurementItems) XXX_Size() int {
 	return m.Size()
 }
-func (m *Object) XXX_DiscardUnknown() {
-	xxx_messageInfo_Object.DiscardUnknown(m)
+func (m *MeasurementItems) XXX_DiscardUnknown() {
+	xxx_messageInfo_MeasurementItems.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Object proto.InternalMessageInfo
+var xxx_messageInfo_MeasurementItems proto.InternalMessageInfo
 
-func (m *Object) GetId() string {
+func (m *MeasurementItems) GetMeasurementItems() []*MeasurementItem {
 	if m != nil {
-		return m.Id
+		return m.MeasurementItems
 	}
-	return ""
+	return nil
 }
 
-func (m *Object) GetRevision() uint64 {
+type MeasurementItem struct {
+	MeasurementRecords []*MeasurementRecord `protobuf:"bytes,1,rep,name=measurement_records,json=measurementRecords,proto3" json:"measurement_records,omitempty"`
+}
+
+func (m *MeasurementItem) Reset()         { *m = MeasurementItem{} }
+func (m *MeasurementItem) String() string { return proto.CompactTextString(m) }
+func (*MeasurementItem) ProtoMessage()    {}
+func (*MeasurementItem) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b4dc9732ac3e9f77, []int{3}
+}
+func (m *MeasurementItem) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MeasurementItem) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MeasurementItem.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MeasurementItem) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MeasurementItem.Merge(m, src)
+}
+func (m *MeasurementItem) XXX_Size() int {
+	return m.Size()
+}
+func (m *MeasurementItem) XXX_DiscardUnknown() {
+	xxx_messageInfo_MeasurementItem.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MeasurementItem proto.InternalMessageInfo
+
+func (m *MeasurementItem) GetMeasurementRecords() []*MeasurementRecord {
 	if m != nil {
-		return m.Revision
+		return m.MeasurementRecords
+	}
+	return nil
+}
+
+type IntegerValue struct {
+	Value int64 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (m *IntegerValue) Reset()         { *m = IntegerValue{} }
+func (m *IntegerValue) String() string { return proto.CompactTextString(m) }
+func (*IntegerValue) ProtoMessage()    {}
+func (*IntegerValue) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b4dc9732ac3e9f77, []int{4}
+}
+func (m *IntegerValue) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *IntegerValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_IntegerValue.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *IntegerValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IntegerValue.Merge(m, src)
+}
+func (m *IntegerValue) XXX_Size() int {
+	return m.Size()
+}
+func (m *IntegerValue) XXX_DiscardUnknown() {
+	xxx_messageInfo_IntegerValue.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_IntegerValue proto.InternalMessageInfo
+
+func (m *IntegerValue) GetValue() int64 {
+	if m != nil {
+		return m.Value
 	}
 	return 0
 }
 
-func (m *Object) GetAttributes() map[string]string {
+type RealValue struct {
+	Value float64 `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (m *RealValue) Reset()         { *m = RealValue{} }
+func (m *RealValue) String() string { return proto.CompactTextString(m) }
+func (*RealValue) ProtoMessage()    {}
+func (*RealValue) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b4dc9732ac3e9f77, []int{5}
+}
+func (m *RealValue) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RealValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RealValue.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RealValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RealValue.Merge(m, src)
+}
+func (m *RealValue) XXX_Size() int {
+	return m.Size()
+}
+func (m *RealValue) XXX_DiscardUnknown() {
+	xxx_messageInfo_RealValue.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RealValue proto.InternalMessageInfo
+
+func (m *RealValue) GetValue() float64 {
 	if m != nil {
-		return m.Attributes
+		return m.Value
+	}
+	return 0
+}
+
+type NoValue struct {
+	Value int32 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (m *NoValue) Reset()         { *m = NoValue{} }
+func (m *NoValue) String() string { return proto.CompactTextString(m) }
+func (*NoValue) ProtoMessage()    {}
+func (*NoValue) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b4dc9732ac3e9f77, []int{6}
+}
+func (m *NoValue) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NoValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NoValue.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NoValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NoValue.Merge(m, src)
+}
+func (m *NoValue) XXX_Size() int {
+	return m.Size()
+}
+func (m *NoValue) XXX_DiscardUnknown() {
+	xxx_messageInfo_NoValue.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NoValue proto.InternalMessageInfo
+
+func (m *NoValue) GetValue() int32 {
+	if m != nil {
+		return m.Value
+	}
+	return 0
+}
+
+type MeasurementRecord struct {
+	Timestamp        uint64     `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	MeasurementName  string     `protobuf:"bytes,3,opt,name=measurement_name,json=measurementName,proto3" json:"measurement_name,omitempty"`
+	MeasurementValue *types.Any `protobuf:"bytes,4,opt,name=measurement_value,json=measurementValue,proto3" json:"measurement_value,omitempty"`
+}
+
+func (m *MeasurementRecord) Reset()         { *m = MeasurementRecord{} }
+func (m *MeasurementRecord) String() string { return proto.CompactTextString(m) }
+func (*MeasurementRecord) ProtoMessage()    {}
+func (*MeasurementRecord) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b4dc9732ac3e9f77, []int{7}
+}
+func (m *MeasurementRecord) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MeasurementRecord) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MeasurementRecord.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MeasurementRecord) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MeasurementRecord.Merge(m, src)
+}
+func (m *MeasurementRecord) XXX_Size() int {
+	return m.Size()
+}
+func (m *MeasurementRecord) XXX_DiscardUnknown() {
+	xxx_messageInfo_MeasurementRecord.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MeasurementRecord proto.InternalMessageInfo
+
+func (m *MeasurementRecord) GetTimestamp() uint64 {
+	if m != nil {
+		return m.Timestamp
+	}
+	return 0
+}
+
+func (m *MeasurementRecord) GetMeasurementName() string {
+	if m != nil {
+		return m.MeasurementName
+	}
+	return ""
+}
+
+func (m *MeasurementRecord) GetMeasurementValue() *types.Any {
+	if m != nil {
+		return m.MeasurementValue
 	}
 	return nil
 }
@@ -179,33 +393,48 @@ func (m *Object) GetAttributes() map[string]string {
 func init() {
 	proto.RegisterType((*GetRequest)(nil), "onos.kpimon.GetRequest")
 	proto.RegisterType((*GetResponse)(nil), "onos.kpimon.GetResponse")
-	proto.RegisterType((*Object)(nil), "onos.kpimon.Object")
-	proto.RegisterMapType((map[string]string)(nil), "onos.kpimon.Object.AttributesEntry")
+	proto.RegisterMapType((map[string]*MeasurementItems)(nil), "onos.kpimon.GetResponse.MeasurementsEntry")
+	proto.RegisterType((*MeasurementItems)(nil), "onos.kpimon.MeasurementItems")
+	proto.RegisterType((*MeasurementItem)(nil), "onos.kpimon.MeasurementItem")
+	proto.RegisterType((*IntegerValue)(nil), "onos.kpimon.IntegerValue")
+	proto.RegisterType((*RealValue)(nil), "onos.kpimon.RealValue")
+	proto.RegisterType((*NoValue)(nil), "onos.kpimon.NoValue")
+	proto.RegisterType((*MeasurementRecord)(nil), "onos.kpimon.MeasurementRecord")
 }
 
 func init() { proto.RegisterFile("onos/kpimon/kpimon.proto", fileDescriptor_b4dc9732ac3e9f77) }
 
 var fileDescriptor_b4dc9732ac3e9f77 = []byte{
-	// 304 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0xc8, 0xcf, 0xcb, 0x2f,
-	0xd6, 0xcf, 0x2e, 0xc8, 0xcc, 0xcd, 0xcf, 0x83, 0x52, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x42,
-	0xdc, 0x20, 0x19, 0x3d, 0x88, 0x90, 0x92, 0x0c, 0x17, 0x97, 0x7b, 0x6a, 0x49, 0x50, 0x6a, 0x61,
-	0x69, 0x6a, 0x71, 0x89, 0x10, 0x1f, 0x17, 0x53, 0x66, 0x8a, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0x67,
-	0x10, 0x53, 0x66, 0x8a, 0x92, 0x15, 0x17, 0x37, 0x58, 0xb6, 0xb8, 0x20, 0x3f, 0xaf, 0x38, 0x55,
-	0x48, 0x9b, 0x8b, 0x2d, 0x3f, 0x29, 0x2b, 0x35, 0xb9, 0x04, 0xac, 0x84, 0xdb, 0x48, 0x58, 0x0f,
-	0xc9, 0x28, 0x3d, 0x7f, 0xb0, 0x54, 0x10, 0x54, 0x89, 0xd2, 0x0e, 0x46, 0x2e, 0x36, 0x88, 0x10,
-	0xba, 0xb1, 0x42, 0x52, 0x5c, 0x1c, 0x45, 0xa9, 0x65, 0x99, 0xc5, 0x99, 0xf9, 0x79, 0x12, 0x4c,
-	0x0a, 0x8c, 0x1a, 0x2c, 0x41, 0x70, 0xbe, 0x90, 0x33, 0x17, 0x57, 0x62, 0x49, 0x49, 0x51, 0x66,
-	0x52, 0x69, 0x49, 0x6a, 0xb1, 0x04, 0xb3, 0x02, 0xb3, 0x06, 0xb7, 0x91, 0x32, 0x16, 0x7b, 0xf4,
-	0x1c, 0xe1, 0xaa, 0x5c, 0xf3, 0x4a, 0x8a, 0x2a, 0x83, 0x90, 0xb4, 0x49, 0xd9, 0x72, 0xf1, 0xa3,
-	0x49, 0x0b, 0x09, 0x70, 0x31, 0x67, 0xa7, 0x56, 0x42, 0x1d, 0x01, 0x62, 0x0a, 0x89, 0x70, 0xb1,
-	0x96, 0x25, 0xe6, 0x94, 0xa6, 0x82, 0x9d, 0xc0, 0x19, 0x04, 0xe1, 0x58, 0x31, 0x59, 0x30, 0x1a,
-	0x4d, 0x62, 0xe4, 0x62, 0xf3, 0x06, 0x5b, 0x26, 0xe4, 0xca, 0xc5, 0xe7, 0x9e, 0x5a, 0xe2, 0x9b,
-	0x5a, 0x52, 0x94, 0x99, 0x1c, 0x52, 0x59, 0x90, 0x5a, 0x2c, 0x24, 0x8e, 0xe2, 0x18, 0x44, 0xe0,
-	0x49, 0x49, 0x60, 0x4a, 0x40, 0xc2, 0x4d, 0x89, 0x41, 0xc8, 0x11, 0x1c, 0xcc, 0x10, 0x63, 0xc8,
-	0x33, 0xc2, 0x49, 0xe2, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63,
-	0x9c, 0xf0, 0x58, 0x8e, 0xe1, 0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0x92, 0xd8, 0xc0,
-	0xf1, 0x6a, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x9f, 0x11, 0xdd, 0x5b, 0xf3, 0x01, 0x00, 0x00,
+	// 451 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0xcf, 0x6e, 0xd3, 0x40,
+	0x10, 0xc6, 0xb3, 0x4d, 0x5b, 0x94, 0x71, 0x44, 0xd2, 0x6d, 0x25, 0x4c, 0x54, 0x4c, 0xb0, 0x38,
+	0x04, 0x0e, 0x1b, 0x94, 0x5e, 0x10, 0xb7, 0x22, 0x95, 0x2a, 0x20, 0x82, 0xb4, 0x42, 0xdc, 0xa0,
+	0x72, 0x60, 0x88, 0xa2, 0x66, 0x77, 0x8d, 0x77, 0x8d, 0xe4, 0xb7, 0xe0, 0x0d, 0x78, 0x12, 0xee,
+	0x1c, 0x7b, 0xe4, 0x88, 0xe2, 0x17, 0x41, 0x5e, 0xc7, 0x62, 0xed, 0xfe, 0x39, 0xf4, 0x94, 0x78,
+	0xe6, 0xe7, 0xcf, 0xdf, 0x7c, 0x33, 0xe0, 0x2b, 0xa9, 0xf4, 0xf8, 0x3c, 0x5e, 0x0a, 0x25, 0x37,
+	0x3f, 0x2c, 0x4e, 0x94, 0x51, 0xd4, 0x2b, 0x3a, 0xac, 0x2c, 0x0d, 0xee, 0x2f, 0x94, 0x5a, 0xac,
+	0x70, 0x6c, 0x5b, 0xf3, 0xf4, 0xeb, 0x38, 0x92, 0x59, 0xc9, 0x85, 0x5d, 0x80, 0x53, 0x34, 0x1c,
+	0xbf, 0xa5, 0xa8, 0x4d, 0xf8, 0x8b, 0x80, 0x67, 0x1f, 0x75, 0xac, 0xa4, 0x46, 0x3a, 0x83, 0xae,
+	0xc0, 0x48, 0xa7, 0x09, 0x0a, 0x94, 0x46, 0xfb, 0x64, 0xd8, 0x1e, 0x79, 0x93, 0xa7, 0xcc, 0x11,
+	0x67, 0x0e, 0xcf, 0xde, 0x3a, 0xf0, 0x89, 0x34, 0x49, 0xc6, 0x6b, 0xef, 0x0f, 0x3e, 0xc1, 0xde,
+	0x25, 0x84, 0xf6, 0xa1, 0x7d, 0x8e, 0x99, 0x4f, 0x86, 0x64, 0xd4, 0xe1, 0xc5, 0x5f, 0x7a, 0x04,
+	0x3b, 0xdf, 0xa3, 0x55, 0x8a, 0xfe, 0xd6, 0x90, 0x8c, 0xbc, 0xc9, 0x83, 0xda, 0xf7, 0x1c, 0x81,
+	0xa9, 0x41, 0xa1, 0x79, 0xc9, 0xbe, 0xd8, 0x7a, 0x4e, 0xc2, 0x8f, 0xd0, 0x6f, 0xb6, 0xe9, 0x14,
+	0xf6, 0x1c, 0x0f, 0x67, 0xcb, 0xa2, 0xb8, 0x19, 0xe4, 0xf0, 0x26, 0x61, 0xde, 0x17, 0x0d, 0xa9,
+	0x70, 0x0e, 0xbd, 0x06, 0x44, 0xdf, 0xc1, 0xbe, 0xab, 0x9e, 0xe0, 0x67, 0x95, 0x7c, 0xa9, 0xf4,
+	0x83, 0xeb, 0xf4, 0xb9, 0xc5, 0x38, 0x15, 0xcd, 0x92, 0x0e, 0x1f, 0x43, 0x77, 0x2a, 0x0d, 0x2e,
+	0x30, 0xf9, 0x50, 0x8c, 0x45, 0x0f, 0xaa, 0x2c, 0x8a, 0x7c, 0xda, 0x9b, 0x61, 0xc3, 0x47, 0xd0,
+	0xe1, 0x18, 0xad, 0xae, 0x40, 0x48, 0x85, 0x3c, 0x84, 0x3b, 0x33, 0x75, 0x05, 0xb0, 0x53, 0x01,
+	0x3f, 0x49, 0x6d, 0x1b, 0xa5, 0x01, 0x7a, 0x08, 0x1d, 0xb3, 0x14, 0xa8, 0x4d, 0x24, 0x62, 0x9b,
+	0xff, 0x36, 0xff, 0x5f, 0xa0, 0x4f, 0xc0, 0x4d, 0xe5, 0x4c, 0x46, 0x02, 0xfd, 0xb6, 0x5d, 0x5c,
+	0xcf, 0xa9, 0xcf, 0x22, 0x81, 0xf4, 0xb8, 0x9e, 0x7b, 0x69, 0x60, 0xdb, 0x2e, 0xf4, 0x80, 0x95,
+	0x07, 0xc9, 0xaa, 0x83, 0x64, 0xc7, 0x32, 0xab, 0xe5, 0x6d, 0x7d, 0x4f, 0x72, 0x02, 0xbb, 0x6f,
+	0x6c, 0x78, 0xf4, 0x35, 0xec, 0x9f, 0xa2, 0x71, 0xec, 0xbe, 0xcf, 0x62, 0xd4, 0xf4, 0xde, 0xe5,
+	0x53, 0xb4, 0x97, 0x3c, 0xf0, 0xaf, 0xbb, 0xd1, 0xb0, 0x45, 0x4f, 0xe0, 0x6e, 0x5d, 0xeb, 0x76,
+	0x32, 0xaf, 0xa0, 0x57, 0x97, 0xb9, 0x8d, 0x9d, 0x67, 0xe4, 0xa5, 0xff, 0x7b, 0x1d, 0x90, 0x8b,
+	0x75, 0x40, 0xfe, 0xae, 0x03, 0xf2, 0x23, 0x0f, 0x5a, 0x17, 0x79, 0xd0, 0xfa, 0x93, 0x07, 0xad,
+	0xf9, 0xae, 0xcd, 0xe7, 0xe8, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x4f, 0xe7, 0x2b, 0xee, 0xe7,
+	0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -220,8 +449,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type KpimonClient interface {
-	GetMetricTypes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	GetMetrics(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetMeasurementTypes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetMeasurement(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetMeasurements(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (Kpimon_GetMeasurementsClient, error)
 }
 
 type kpimonClient struct {
@@ -232,79 +462,136 @@ func NewKpimonClient(cc *grpc.ClientConn) KpimonClient {
 	return &kpimonClient{cc}
 }
 
-func (c *kpimonClient) GetMetricTypes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *kpimonClient) GetMeasurementTypes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetMetricTypes", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetMeasurementTypes", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *kpimonClient) GetMetrics(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *kpimonClient) GetMeasurement(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetMetrics", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/onos.kpimon.Kpimon/GetMeasurement", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *kpimonClient) GetMeasurements(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (Kpimon_GetMeasurementsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Kpimon_serviceDesc.Streams[0], "/onos.kpimon.Kpimon/GetMeasurements", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &kpimonGetMeasurementsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Kpimon_GetMeasurementsClient interface {
+	Recv() (*GetResponse, error)
+	grpc.ClientStream
+}
+
+type kpimonGetMeasurementsClient struct {
+	grpc.ClientStream
+}
+
+func (x *kpimonGetMeasurementsClient) Recv() (*GetResponse, error) {
+	m := new(GetResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // KpimonServer is the server API for Kpimon service.
 type KpimonServer interface {
-	GetMetricTypes(context.Context, *GetRequest) (*GetResponse, error)
-	GetMetrics(context.Context, *GetRequest) (*GetResponse, error)
+	GetMeasurementTypes(context.Context, *GetRequest) (*GetResponse, error)
+	GetMeasurement(context.Context, *GetRequest) (*GetResponse, error)
+	GetMeasurements(*GetRequest, Kpimon_GetMeasurementsServer) error
 }
 
 // UnimplementedKpimonServer can be embedded to have forward compatible implementations.
 type UnimplementedKpimonServer struct {
 }
 
-func (*UnimplementedKpimonServer) GetMetricTypes(ctx context.Context, req *GetRequest) (*GetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMetricTypes not implemented")
+func (*UnimplementedKpimonServer) GetMeasurementTypes(ctx context.Context, req *GetRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMeasurementTypes not implemented")
 }
-func (*UnimplementedKpimonServer) GetMetrics(ctx context.Context, req *GetRequest) (*GetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMetrics not implemented")
+func (*UnimplementedKpimonServer) GetMeasurement(ctx context.Context, req *GetRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMeasurement not implemented")
+}
+func (*UnimplementedKpimonServer) GetMeasurements(req *GetRequest, srv Kpimon_GetMeasurementsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetMeasurements not implemented")
 }
 
 func RegisterKpimonServer(s *grpc.Server, srv KpimonServer) {
 	s.RegisterService(&_Kpimon_serviceDesc, srv)
 }
 
-func _Kpimon_GetMetricTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Kpimon_GetMeasurementTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KpimonServer).GetMetricTypes(ctx, in)
+		return srv.(KpimonServer).GetMeasurementTypes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.kpimon.Kpimon/GetMetricTypes",
+		FullMethod: "/onos.kpimon.Kpimon/GetMeasurementTypes",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KpimonServer).GetMetricTypes(ctx, req.(*GetRequest))
+		return srv.(KpimonServer).GetMeasurementTypes(ctx, req.(*GetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Kpimon_GetMetrics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Kpimon_GetMeasurement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KpimonServer).GetMetrics(ctx, in)
+		return srv.(KpimonServer).GetMeasurement(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.kpimon.Kpimon/GetMetrics",
+		FullMethod: "/onos.kpimon.Kpimon/GetMeasurement",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KpimonServer).GetMetrics(ctx, req.(*GetRequest))
+		return srv.(KpimonServer).GetMeasurement(ctx, req.(*GetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _Kpimon_GetMeasurements_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(KpimonServer).GetMeasurements(m, &kpimonGetMeasurementsServer{stream})
+}
+
+type Kpimon_GetMeasurementsServer interface {
+	Send(*GetResponse) error
+	grpc.ServerStream
+}
+
+type kpimonGetMeasurementsServer struct {
+	grpc.ServerStream
+}
+
+func (x *kpimonGetMeasurementsServer) Send(m *GetResponse) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 var _Kpimon_serviceDesc = grpc.ServiceDesc{
@@ -312,15 +599,21 @@ var _Kpimon_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*KpimonServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetMetricTypes",
-			Handler:    _Kpimon_GetMetricTypes_Handler,
+			MethodName: "GetMeasurementTypes",
+			Handler:    _Kpimon_GetMeasurementTypes_Handler,
 		},
 		{
-			MethodName: "GetMetrics",
-			Handler:    _Kpimon_GetMetrics_Handler,
+			MethodName: "GetMeasurement",
+			Handler:    _Kpimon_GetMeasurement_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetMeasurements",
+			Handler:       _Kpimon_GetMeasurements_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "onos/kpimon/kpimon.proto",
 }
 
@@ -344,13 +637,6 @@ func (m *GetRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintKpimon(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -374,22 +660,36 @@ func (m *GetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Object != nil {
-		{
-			size, err := m.Object.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Measurements) > 0 {
+		for k := range m.Measurements {
+			v := m.Measurements[k]
+			baseI := i
+			if v != nil {
+				{
+					size, err := v.MarshalToSizedBuffer(dAtA[:i])
+					if err != nil {
+						return 0, err
+					}
+					i -= size
+					i = encodeVarintKpimon(dAtA, i, uint64(size))
+				}
+				i--
+				dAtA[i] = 0x12
 			}
-			i -= size
-			i = encodeVarintKpimon(dAtA, i, uint64(size))
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintKpimon(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintKpimon(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0xa
 		}
-		i--
-		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
 
-func (m *Object) Marshal() (dAtA []byte, err error) {
+func (m *MeasurementItems) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -399,46 +699,198 @@ func (m *Object) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Object) MarshalTo(dAtA []byte) (int, error) {
+func (m *MeasurementItems) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *Object) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MeasurementItems) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Attributes) > 0 {
-		for k := range m.Attributes {
-			v := m.Attributes[k]
-			baseI := i
-			i -= len(v)
-			copy(dAtA[i:], v)
-			i = encodeVarintKpimon(dAtA, i, uint64(len(v)))
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintKpimon(dAtA, i, uint64(len(k)))
+	if len(m.MeasurementItems) > 0 {
+		for iNdEx := len(m.MeasurementItems) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.MeasurementItems[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintKpimon(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0xa
-			i = encodeVarintKpimon(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x1a
 		}
 	}
-	if m.Revision != 0 {
-		i = encodeVarintKpimon(dAtA, i, uint64(m.Revision))
+	return len(dAtA) - i, nil
+}
+
+func (m *MeasurementItem) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MeasurementItem) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MeasurementItem) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.MeasurementRecords) > 0 {
+		for iNdEx := len(m.MeasurementRecords) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.MeasurementRecords[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintKpimon(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *IntegerValue) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *IntegerValue) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *IntegerValue) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Value != 0 {
+		i = encodeVarintKpimon(dAtA, i, uint64(m.Value))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RealValue) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RealValue) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RealValue) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Value != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Value))))
+		i--
+		dAtA[i] = 0x9
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *NoValue) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *NoValue) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NoValue) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Value != 0 {
+		i = encodeVarintKpimon(dAtA, i, uint64(m.Value))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MeasurementRecord) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MeasurementRecord) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MeasurementRecord) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.MeasurementValue != nil {
+		{
+			size, err := m.MeasurementValue.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintKpimon(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.MeasurementName) > 0 {
+		i -= len(m.MeasurementName)
+		copy(dAtA[i:], m.MeasurementName)
+		i = encodeVarintKpimon(dAtA, i, uint64(len(m.MeasurementName)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Timestamp != 0 {
+		i = encodeVarintKpimon(dAtA, i, uint64(m.Timestamp))
 		i--
 		dAtA[i] = 0x10
-	}
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintKpimon(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -460,10 +912,6 @@ func (m *GetRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovKpimon(uint64(l))
-	}
 	return n
 }
 
@@ -473,33 +921,104 @@ func (m *GetResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Object != nil {
-		l = m.Object.Size()
-		n += 1 + l + sovKpimon(uint64(l))
+	if len(m.Measurements) > 0 {
+		for k, v := range m.Measurements {
+			_ = k
+			_ = v
+			l = 0
+			if v != nil {
+				l = v.Size()
+				l += 1 + sovKpimon(uint64(l))
+			}
+			mapEntrySize := 1 + len(k) + sovKpimon(uint64(len(k))) + l
+			n += mapEntrySize + 1 + sovKpimon(uint64(mapEntrySize))
+		}
 	}
 	return n
 }
 
-func (m *Object) Size() (n int) {
+func (m *MeasurementItems) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.Id)
+	if len(m.MeasurementItems) > 0 {
+		for _, e := range m.MeasurementItems {
+			l = e.Size()
+			n += 1 + l + sovKpimon(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *MeasurementItem) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.MeasurementRecords) > 0 {
+		for _, e := range m.MeasurementRecords {
+			l = e.Size()
+			n += 1 + l + sovKpimon(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *IntegerValue) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Value != 0 {
+		n += 1 + sovKpimon(uint64(m.Value))
+	}
+	return n
+}
+
+func (m *RealValue) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Value != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *NoValue) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Value != 0 {
+		n += 1 + sovKpimon(uint64(m.Value))
+	}
+	return n
+}
+
+func (m *MeasurementRecord) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Timestamp != 0 {
+		n += 1 + sovKpimon(uint64(m.Timestamp))
+	}
+	l = len(m.MeasurementName)
 	if l > 0 {
 		n += 1 + l + sovKpimon(uint64(l))
 	}
-	if m.Revision != 0 {
-		n += 1 + sovKpimon(uint64(m.Revision))
-	}
-	if len(m.Attributes) > 0 {
-		for k, v := range m.Attributes {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovKpimon(uint64(len(k))) + 1 + len(v) + sovKpimon(uint64(len(v)))
-			n += mapEntrySize + 1 + sovKpimon(uint64(mapEntrySize))
-		}
+	if m.MeasurementValue != nil {
+		l = m.MeasurementValue.Size()
+		n += 1 + l + sovKpimon(uint64(l))
 	}
 	return n
 }
@@ -539,38 +1058,6 @@ func (m *GetRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GetRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowKpimon
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipKpimon(dAtA[iNdEx:])
@@ -626,7 +1113,7 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Object", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Measurements", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -653,151 +1140,11 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Object == nil {
-				m.Object = &Object{}
-			}
-			if err := m.Object.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipKpimon(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Object) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowKpimon
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Object: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Object: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowKpimon
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Revision", wireType)
-			}
-			m.Revision = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowKpimon
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Revision |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Attributes", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowKpimon
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Attributes == nil {
-				m.Attributes = make(map[string]string)
+			if m.Measurements == nil {
+				m.Measurements = make(map[string]*MeasurementItems)
 			}
 			var mapkey string
-			var mapvalue string
+			var mapvalue *MeasurementItems
 			for iNdEx < postIndex {
 				entryPreIndex := iNdEx
 				var wire uint64
@@ -846,7 +1193,7 @@ func (m *Object) Unmarshal(dAtA []byte) error {
 					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
 					iNdEx = postStringIndexmapkey
 				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
+					var mapmsglen int
 					for shift := uint(0); ; shift += 7 {
 						if shift >= 64 {
 							return ErrIntOverflowKpimon
@@ -856,24 +1203,26 @@ func (m *Object) Unmarshal(dAtA []byte) error {
 						}
 						b := dAtA[iNdEx]
 						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
+						mapmsglen |= int(b&0x7F) << shift
 						if b < 0x80 {
 							break
 						}
 					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
+					if mapmsglen < 0 {
 						return ErrInvalidLengthKpimon
 					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
 						return ErrInvalidLengthKpimon
 					}
-					if postStringIndexmapvalue > l {
+					if postmsgIndex > l {
 						return io.ErrUnexpectedEOF
 					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
+					mapvalue = &MeasurementItems{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
 				} else {
 					iNdEx = entryPreIndex
 					skippy, err := skipKpimon(dAtA[iNdEx:])
@@ -889,7 +1238,529 @@ func (m *Object) Unmarshal(dAtA []byte) error {
 					iNdEx += skippy
 				}
 			}
-			m.Attributes[mapkey] = mapvalue
+			m.Measurements[mapkey] = mapvalue
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipKpimon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MeasurementItems) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowKpimon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MeasurementItems: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MeasurementItems: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MeasurementItems", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.MeasurementItems = append(m.MeasurementItems, &MeasurementItem{})
+			if err := m.MeasurementItems[len(m.MeasurementItems)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipKpimon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MeasurementItem) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowKpimon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MeasurementItem: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MeasurementItem: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MeasurementRecords", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.MeasurementRecords = append(m.MeasurementRecords, &MeasurementRecord{})
+			if err := m.MeasurementRecords[len(m.MeasurementRecords)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipKpimon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *IntegerValue) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowKpimon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: IntegerValue: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: IntegerValue: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
+			}
+			m.Value = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Value |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipKpimon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RealValue) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowKpimon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RealValue: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RealValue: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Value = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipKpimon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *NoValue) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowKpimon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: NoValue: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: NoValue: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
+			}
+			m.Value = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Value |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipKpimon(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MeasurementRecord) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowKpimon
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MeasurementRecord: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MeasurementRecord: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
+			}
+			m.Timestamp = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Timestamp |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MeasurementName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.MeasurementName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MeasurementValue", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowKpimon
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthKpimon
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.MeasurementValue == nil {
+				m.MeasurementValue = &types.Any{}
+			}
+			if err := m.MeasurementValue.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

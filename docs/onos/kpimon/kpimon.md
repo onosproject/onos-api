@@ -6,8 +6,13 @@
 - [onos/kpimon/kpimon.proto](#onos/kpimon/kpimon.proto)
     - [GetRequest](#onos.kpimon.GetRequest)
     - [GetResponse](#onos.kpimon.GetResponse)
-    - [Object](#onos.kpimon.Object)
-    - [Object.AttributesEntry](#onos.kpimon.Object.AttributesEntry)
+    - [GetResponse.MeasurementsEntry](#onos.kpimon.GetResponse.MeasurementsEntry)
+    - [IntegerValue](#onos.kpimon.IntegerValue)
+    - [MeasurementItem](#onos.kpimon.MeasurementItem)
+    - [MeasurementItems](#onos.kpimon.MeasurementItems)
+    - [MeasurementRecord](#onos.kpimon.MeasurementRecord)
+    - [NoValue](#onos.kpimon.NoValue)
+    - [RealValue](#onos.kpimon.RealValue)
   
     - [Kpimon](#onos.kpimon.Kpimon)
   
@@ -28,11 +33,6 @@
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-
-
 
 
 
@@ -45,40 +45,115 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| object | [Object](#onos.kpimon.Object) |  |  |
+| measurements | [GetResponse.MeasurementsEntry](#onos.kpimon.GetResponse.MeasurementsEntry) | repeated |  |
 
 
 
 
 
 
-<a name="onos.kpimon.Object"></a>
+<a name="onos.kpimon.GetResponse.MeasurementsEntry"></a>
 
-### Object
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| revision | [uint64](#uint64) |  |  |
-| attributes | [Object.AttributesEntry](#onos.kpimon.Object.AttributesEntry) | repeated |  |
-
-
-
-
-
-
-<a name="onos.kpimon.Object.AttributesEntry"></a>
-
-### Object.AttributesEntry
+### GetResponse.MeasurementsEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| value | [MeasurementItems](#onos.kpimon.MeasurementItems) |  |  |
+
+
+
+
+
+
+<a name="onos.kpimon.IntegerValue"></a>
+
+### IntegerValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="onos.kpimon.MeasurementItem"></a>
+
+### MeasurementItem
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| measurement_records | [MeasurementRecord](#onos.kpimon.MeasurementRecord) | repeated |  |
+
+
+
+
+
+
+<a name="onos.kpimon.MeasurementItems"></a>
+
+### MeasurementItems
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| measurement_items | [MeasurementItem](#onos.kpimon.MeasurementItem) | repeated |  |
+
+
+
+
+
+
+<a name="onos.kpimon.MeasurementRecord"></a>
+
+### MeasurementRecord
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [uint64](#uint64) |  |  |
+| measurement_name | [string](#string) |  |  |
+| measurement_value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+
+
+
+
+
+
+<a name="onos.kpimon.NoValue"></a>
+
+### NoValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="onos.kpimon.RealValue"></a>
+
+### RealValue
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [double](#double) |  |  |
 
 
 
@@ -98,8 +173,9 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetMetricTypes | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
-| GetMetrics | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
+| GetMeasurementTypes | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
+| GetMeasurement | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) |  |
+| GetMeasurements | [GetRequest](#onos.kpimon.GetRequest) | [GetResponse](#onos.kpimon.GetResponse) stream |  |
 
  
 
