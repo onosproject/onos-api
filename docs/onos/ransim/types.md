@@ -181,6 +181,8 @@
 | azimuth | [int32](#int32) |  |  |
 | arc | [int32](#int32) |  |  |
 | centroid | [Point](#onos.ransim.types.Point) |  |  |
+| height | [int32](#int32) |  |  |
+| tilt | [int32](#int32) |  |  |
 
 
 

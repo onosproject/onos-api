@@ -22,6 +22,10 @@ message Sector {
     int32 arc = 2;
 
     Point centroid = 3;
+
+    int32 height = 4;
+    
+    int32 tilt = 5;
 }
 
 message Route {
