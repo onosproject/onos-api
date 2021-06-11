@@ -246,6 +246,25 @@ class SubscribeResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class UnsubscribeRequest(betterproto.Message):
+    headers: "RequestHeaders" = betterproto.message_field(1)
+    subscription_id: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class UnsubscribeResponse(betterproto.Message):
+    """Error is an E2AP protocol error"""
+
+    headers: "ResponseHeaders" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Subscription(betterproto.Message):
     id: str = betterproto.string_field(1)
     event_trigger: "EventTrigger" = betterproto.message_field(2)
@@ -257,8 +276,6 @@ class Subscription(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class EventTrigger(betterproto.Message):
-    """Error is an E2AP protocol error"""
-
     payload: bytes = betterproto.bytes_field(1)
 
     def __post_init__(self) -> None:
@@ -335,3 +352,18 @@ class SubscriptionServiceStub(betterproto.ServiceStub):
             SubscribeResponse,
         ):
             yield response
+
+    async def unsubscribe(
+        self, *, headers: "RequestHeaders" = None, subscription_id: str = ""
+    ) -> "UnsubscribeResponse":
+
+        request = UnsubscribeRequest()
+        if headers is not None:
+            request.headers = headers
+        request.subscription_id = subscription_id
+
+        return await self._unary_unary(
+            "/onos.e2t.e2.v1beta1.SubscriptionService/Unsubscribe",
+            request,
+            UnsubscribeResponse,
+        )

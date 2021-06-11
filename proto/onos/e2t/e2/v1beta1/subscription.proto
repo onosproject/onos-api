@@ -24,6 +24,7 @@ import "onos/e2t/e2/v1beta1/e2.proto";
 
 service SubscriptionService {
     rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse);
+    rpc Unsubscribe (UnsubscribeRequest) returns (UnsubscribeResponse);
 }
 
 message SubscribeRequest {
@@ -37,6 +38,15 @@ message SubscribeResponse {
         Acknowledgement ack = 2;
         Indication indication = 3;
     }
+}
+
+message UnsubscribeRequest {
+    RequestHeaders headers = 1 [(gogoproto.nullable) = false];
+    string subscription_id = 2 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "SubscriptionID"];
+}
+
+message UnsubscribeResponse {
+    ResponseHeaders headers = 1 [(gogoproto.nullable) = false];
 }
 
 message Subscription {
