@@ -53,19 +53,19 @@ message Ue {
 
     uint32 rotation = 5;
 
-    uint64 serving_tower = 7 [(gogoproto.casttype) = "ECGI"];
+    uint64 serving_tower = 7 [(gogoproto.casttype) = "NCGI"];
 
     double serving_tower_strength = 8;
 
-    uint64 tower1 = 9 [(gogoproto.casttype) = "ECGI"];
+    uint64 tower1 = 9 [(gogoproto.casttype) = "NCGI"];
 
     double tower1_strength = 10;
 
-    uint64 tower2 = 11 [(gogoproto.casttype) = "ECGI"];
+    uint64 tower2 = 11 [(gogoproto.casttype) = "NCGI"];
 
     double tower2_strength = 12;
 
-    uint64 tower3 = 13 [(gogoproto.casttype) = "ECGI"];
+    uint64 tower3 = 13 [(gogoproto.casttype) = "NCGI"];
 
     double tower3_strength = 14;
 
@@ -95,7 +95,7 @@ enum CellType {
 }
 
 message Cell {
-    uint64 ecgi = 1 [(gogoproto.customname) = "ECGI", (gogoproto.casttype) = "ECGI"];
+    uint64 ecgi = 1 [(gogoproto.customname) = "NCGI", (gogoproto.casttype) = "NCGI"];
 
     Point location = 3;
 
@@ -105,7 +105,7 @@ message Cell {
 
     uint32 max_ues = 6 [(gogoproto.customname) = "MaxUEs"];
 
-    repeated uint64 neighbors = 7 [(gogoproto.casttype) = "ECGI"];
+    repeated uint64 neighbors = 7 [(gogoproto.casttype) = "NCGI"];
 
     // The cell transmit power in decibels
     double tx_power_db = 8 [(gogoproto.customname) = "TxPowerdB"];
@@ -139,13 +139,13 @@ message EventA3Params {
 }
 
 message Node {
-    uint32 enbid = 1 [(gogoproto.customname) = "EnbID", (gogoproto.casttype) = "EnbID"];
+    uint32 enbid = 1 [(gogoproto.customname) = "GnbID", (gogoproto.casttype) = "GnbID"];
 
     repeated string controllers = 2;
 
     repeated string service_models = 3;
 
-    repeated uint64 cell_ecgis = 4 [(gogoproto.customname) = "CellECGIs", (gogoproto.casttype) = "ECGI"];
+    repeated uint64 cell_ecgis = 4 [(gogoproto.customname) = "CellNCGIs", (gogoproto.casttype) = "NCGI"];
 
     string status = 5;
 }
