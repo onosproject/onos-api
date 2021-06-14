@@ -28,6 +28,8 @@ class Sector(betterproto.Message):
     azimuth: int = betterproto.int32_field(1)
     arc: int = betterproto.int32_field(2)
     centroid: "Point" = betterproto.message_field(3)
+    height: int = betterproto.int32_field(4)
+    tilt: int = betterproto.int32_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
