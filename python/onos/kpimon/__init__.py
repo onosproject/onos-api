@@ -79,28 +79,20 @@ class MeasurementRecord(betterproto.Message):
 
 
 class KpimonStub(betterproto.ServiceStub):
-    async def get_measurement_types(self) -> "GetResponse":
+    async def list_measurements(self) -> "GetResponse":
 
         request = GetRequest()
 
         return await self._unary_unary(
-            "/onos.kpimon.Kpimon/GetMeasurementTypes", request, GetResponse
+            "/onos.kpimon.Kpimon/ListMeasurements", request, GetResponse
         )
 
-    async def get_measurement(self) -> "GetResponse":
-
-        request = GetRequest()
-
-        return await self._unary_unary(
-            "/onos.kpimon.Kpimon/GetMeasurement", request, GetResponse
-        )
-
-    async def get_measurements(self) -> AsyncIterator["GetResponse"]:
+    async def watch_measurements(self) -> AsyncIterator["GetResponse"]:
 
         request = GetRequest()
 
         async for response in self._unary_stream(
-            "/onos.kpimon.Kpimon/GetMeasurements",
+            "/onos.kpimon.Kpimon/WatchMeasurements",
             request,
             GetResponse,
         ):
