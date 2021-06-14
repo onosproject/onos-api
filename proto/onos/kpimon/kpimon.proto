@@ -21,9 +21,8 @@ import "google/protobuf/any.proto";
 package onos.kpimon;
 
 service Kpimon {
-  rpc GetMeasurementTypes(GetRequest) returns (GetResponse) {}
-  rpc GetMeasurement(GetRequest) returns (GetResponse) {}
-  rpc GetMeasurements(GetRequest) returns (stream GetResponse);
+  rpc ListMeasurements(GetRequest) returns (GetResponse) {}
+  rpc WatchMeasurements(GetRequest) returns (stream GetResponse);
 }
 
 message GetRequest {
