@@ -59,6 +59,7 @@ message E2Cell {
     uint32 antenna_count = 2;
     uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
     string cell_type = 4;
+    uint32 pci = 5;
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
@@ -76,11 +77,24 @@ message ServiceModelInfo {
 
 message RCRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
+    repeated RCReportStyle report_styles = 2;
 }
 
 message KPMRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
-    repeated KPMMeasurement measurements = 2;
+    repeated KPMReportStyle report_styles = 2;
+}
+
+message RCReportStyle {
+    string name = 1;
+    int32 type = 2;
+}
+
+message KPMReportStyle {
+    string name = 1;
+    int32 type = 2;
+    repeated KPMMeasurement measurements = 3;
+
 }
 
 message KPMMeasurement {

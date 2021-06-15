@@ -264,6 +264,7 @@ class E2Cell(betterproto.Message):
     antenna_count: int = betterproto.uint32_field(2)
     earfcn: int = betterproto.uint32_field(3)
     cell_type: str = betterproto.string_field(4)
+    pci: int = betterproto.uint32_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -292,6 +293,8 @@ class RcRanFunction(betterproto.Message):
 
     # The protocol to which state relates
     id: str = betterproto.string_field(1)
+    # ConnectivityState contains the L3 connectivity information
+    report_styles: List["RcReportStyle"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -302,7 +305,26 @@ class KpmRanFunction(betterproto.Message):
     """Protocols"""
 
     id: str = betterproto.string_field(1)
-    measurements: List["KpmMeasurement"] = betterproto.message_field(2)
+    report_styles: List["KpmReportStyle"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class KpmReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    measurements: List["KpmMeasurement"] = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
