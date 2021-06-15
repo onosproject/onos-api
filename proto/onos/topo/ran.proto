@@ -55,7 +55,7 @@ message E2Node {
 
 // E2Cell aspect; expected value type of "E2CELL" aspect and expected on entities of "E2CELL" kind
 message E2Cell {
-    string cid = 1 [(gogoproto.customname) = "CID"];
+    string cell_object_id = 1 [(gogoproto.customname) = "CellObjectID"];
     uint32 antenna_count = 2;
     uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
     string cell_type = 4;
@@ -71,7 +71,6 @@ message E2Cell {
 message ServiceModelInfo {
     string oid = 1 [(gogoproto.customname) = "OID"];
     string name = 2;
-
     repeated google.protobuf.Any ran_functions = 3;
 }
 

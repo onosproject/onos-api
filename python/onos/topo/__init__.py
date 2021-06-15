@@ -260,7 +260,7 @@ class E2Node(betterproto.Message):
 class E2Cell(betterproto.Message):
     """TLS connectivity aspect"""
 
-    cid: str = betterproto.string_field(1)
+    cell_object_id: str = betterproto.string_field(1)
     antenna_count: int = betterproto.uint32_field(2)
     earfcn: int = betterproto.uint32_field(3)
     cell_type: str = betterproto.string_field(4)
