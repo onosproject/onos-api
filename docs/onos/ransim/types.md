@@ -8,6 +8,8 @@
     - [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry)
     - [EventA3Params](#onos.ransim.types.EventA3Params)
     - [MapLayout](#onos.ransim.types.MapLayout)
+    - [MeasurementParams](#onos.ransim.types.MeasurementParams)
+    - [MeasurementParams.NcellIndividualOffsetsEntry](#onos.ransim.types.MeasurementParams.NcellIndividualOffsetsEntry)
     - [Node](#onos.ransim.types.Node)
     - [Point](#onos.ransim.types.Point)
     - [Route](#onos.ransim.types.Route)
@@ -43,7 +45,7 @@
 | max_ues | [uint32](#uint32) |  |  |
 | neighbors | [uint64](#uint64) | repeated |  |
 | tx_power_db | [double](#double) |  | The cell transmit power in decibels |
-| event_a3_params | [EventA3Params](#onos.ransim.types.EventA3Params) |  |  |
+| measurement_params | [MeasurementParams](#onos.ransim.types.MeasurementParams) |  |  |
 | crnti_map | [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry) | repeated | crntis maps a ue&#39;s name to its crnti |
 | crnti_index | [uint32](#uint32) |  |  |
 | port | [uint32](#uint32) |  |  |
@@ -81,10 +83,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | a3_offset | [int32](#int32) |  |  |
-| a3_time_to_trigger | [int32](#int32) |  |  |
-| a3_hysteresis | [int32](#int32) |  |  |
-| a3_cell_offset | [int32](#int32) |  |  |
-| a3_frequency_offset | [int32](#int32) |  |  |
+| report_on_leave | [bool](#bool) |  |  |
 
 
 
@@ -108,6 +107,42 @@
 | min_ues | [uint32](#uint32) |  | FIXME: These are deprecated; remove Max number of UEs for complete simulation |
 | max_ues | [uint32](#uint32) |  | Max number of UEs for complete simulation |
 | current_routes | [uint32](#uint32) |  | the current number of routes |
+
+
+
+
+
+
+<a name="onos.ransim.types.MeasurementParams"></a>
+
+### MeasurementParams
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| time_to_trigger | [int32](#int32) |  |  |
+| frequency_offset | [int32](#int32) |  |  |
+| pcell_individual_offset | [int32](#int32) |  |  |
+| ncell_individual_offsets | [MeasurementParams.NcellIndividualOffsetsEntry](#onos.ransim.types.MeasurementParams.NcellIndividualOffsetsEntry) | repeated |  |
+| hysteresis | [int32](#int32) |  |  |
+| event_a3_params | [EventA3Params](#onos.ransim.types.EventA3Params) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.types.MeasurementParams.NcellIndividualOffsetsEntry"></a>
+
+### MeasurementParams.NcellIndividualOffsetsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [uint64](#uint64) |  |  |
+| value | [int32](#int32) |  |  |
 
 
 

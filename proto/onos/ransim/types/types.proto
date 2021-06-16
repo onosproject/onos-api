@@ -110,7 +110,7 @@ message Cell {
     // The cell transmit power in decibels
     double tx_power_db = 8 [(gogoproto.customname) = "TxPowerdB"];
 
-    EventA3Params event_a3_params = 9;
+    MeasurementParams measurement_params = 9;
 
     // crntis maps a ue's name to its crnti
     map<uint32, uint64> crnti_map = 10 [(gogoproto.castkey) = "CRNTI", (gogoproto.castvalue) = "IMSI"];
@@ -126,16 +126,24 @@ message Cell {
     CellType cell_type = 15;
 }
 
+message MeasurementParams {
+    int32 time_to_trigger = 1;
+
+    int32 frequency_offset = 2;
+
+    int32 pcell_individual_offset = 3;
+
+    map<uint64, int32> ncell_individual_offsets = 4 [(gogoproto.castkey)="NCGI"];
+
+    int32 hysteresis = 5;
+
+    EventA3Params event_a3_params = 6;
+}
+
 message EventA3Params {
     int32 a3_offset = 1;
 
-    int32 a3_time_to_trigger = 2;
-
-    int32 a3_hysteresis = 3;
-
-    int32 a3_cell_offset = 4;
-
-    int32 a3_frequency_offset = 5;
+    bool report_on_leave = 2;
 }
 
 message Node {
