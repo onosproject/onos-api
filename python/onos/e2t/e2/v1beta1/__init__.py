@@ -383,7 +383,7 @@ class ListChannelsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListChannelsResponse(betterproto.Message):
-    channel: List["Channel"] = betterproto.message_field(1)
+    channels: List["Channel"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -440,7 +440,7 @@ class ListSubscriptionsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListSubscriptionsResponse(betterproto.Message):
-    subscription: List["Subscription"] = betterproto.message_field(1)
+    subscriptions: List["Subscription"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()

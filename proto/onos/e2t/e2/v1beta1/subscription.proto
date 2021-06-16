@@ -135,7 +135,7 @@ message ListChannelsRequest {
 }
 
 message ListChannelsResponse {
-    repeated Channel channel = 1 [(gogoproto.nullable) = false];
+    repeated Channel channels = 1 [(gogoproto.nullable) = false];
 }
 
 message WatchChannelsRequest {
@@ -172,7 +172,7 @@ message ListSubscriptionsRequest {
 }
 
 message ListSubscriptionsResponse {
-    repeated Subscription subscription = 1 [(gogoproto.nullable) = false];
+    repeated Subscription subscriptions = 1 [(gogoproto.nullable) = false];
 }
 
 message WatchSubscriptionsRequest {
