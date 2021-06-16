@@ -114,11 +114,11 @@ message Indication {
 
 service SubscriptionAdminService {
     rpc GetChannel (GetChannelRequest) returns (GetChannelResponse);
-    rpc ListChannels (ListChannelsRequest) returns (stream ListChannelsResponse);
+    rpc ListChannels (ListChannelsRequest) returns (ListChannelsResponse);
     rpc WatchChannels (WatchChannelsRequest) returns (stream WatchChannelsResponse);
 
     rpc GetSubscription (GetSubscriptionRequest) returns (GetSubscriptionResponse);
-    rpc ListSubscriptions (ListSubscriptionsRequest) returns (stream ListSubscriptionsResponse);
+    rpc ListSubscriptions (ListSubscriptionsRequest) returns (ListSubscriptionsResponse);
     rpc WatchSubscriptions (WatchSubscriptionsRequest) returns (stream WatchSubscriptionsResponse);
 }
 
@@ -135,7 +135,7 @@ message ListChannelsRequest {
 }
 
 message ListChannelsResponse {
-    Channel channel = 1 [(gogoproto.nullable) = false];
+    repeated Channel channel = 1 [(gogoproto.nullable) = false];
 }
 
 message WatchChannelsRequest {
@@ -172,7 +172,7 @@ message ListSubscriptionsRequest {
 }
 
 message ListSubscriptionsResponse {
-    Subscription subscription = 1 [(gogoproto.nullable) = false];
+    repeated Subscription subscription = 1 [(gogoproto.nullable) = false];
 }
 
 message WatchSubscriptionsRequest {

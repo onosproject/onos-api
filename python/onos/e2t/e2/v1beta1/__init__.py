@@ -383,7 +383,7 @@ class ListChannelsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListChannelsResponse(betterproto.Message):
-    channel: "Channel" = betterproto.message_field(1)
+    channel: List["Channel"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -440,7 +440,7 @@ class ListSubscriptionsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListSubscriptionsResponse(betterproto.Message):
-    subscription: "Subscription" = betterproto.message_field(1)
+    subscription: List["Subscription"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -615,16 +615,15 @@ class SubscriptionAdminServiceStub(betterproto.ServiceStub):
             GetChannelResponse,
         )
 
-    async def list_channels(self) -> AsyncIterator["ListChannelsResponse"]:
+    async def list_channels(self) -> "ListChannelsResponse":
 
         request = ListChannelsRequest()
 
-        async for response in self._unary_stream(
+        return await self._unary_unary(
             "/onos.e2t.e2.v1beta1.SubscriptionAdminService/ListChannels",
             request,
             ListChannelsResponse,
-        ):
-            yield response
+        )
 
     async def watch_channels(
         self, *, no_replay: bool = False
@@ -653,16 +652,15 @@ class SubscriptionAdminServiceStub(betterproto.ServiceStub):
             GetSubscriptionResponse,
         )
 
-    async def list_subscriptions(self) -> AsyncIterator["ListSubscriptionsResponse"]:
+    async def list_subscriptions(self) -> "ListSubscriptionsResponse":
 
         request = ListSubscriptionsRequest()
 
-        async for response in self._unary_stream(
+        return await self._unary_unary(
             "/onos.e2t.e2.v1beta1.SubscriptionAdminService/ListSubscriptions",
             request,
             ListSubscriptionsResponse,
-        ):
-            yield response
+        )
 
     async def watch_subscriptions(
         self, *, no_replay: bool = False
