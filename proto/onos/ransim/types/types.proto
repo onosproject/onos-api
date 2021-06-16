@@ -133,7 +133,7 @@ message MeasurementParams {
 
     int32 pcell_individual_offset = 3;
 
-    map<uint64, int32> ncell_individual_offsets = 4;
+    map<uint64, int32> ncell_individual_offsets = 4 [(gogoproto.castkey)="NCGI"];
 
     int32 hysteresis = 5;
 
