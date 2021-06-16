@@ -29,5 +29,14 @@ type InstanceID string
 // NodeID is an E2 node identifier
 type NodeID string
 
-// SubscriptionID is an E2AP subscription identifier
+// TransactionID is a transaction identifier
+type TransactionID string
+
+// ChannelID is a subscription channel identifier
+type ChannelID string
+
+// SubscriptionID is a subscription identifier
 type SubscriptionID string
+
+// Revision is a subscription revision number
+type Revision uint64
