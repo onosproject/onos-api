@@ -59,7 +59,7 @@ message E2Cell {
     uint32 antenna_count = 2;
     uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
     string cell_type = 4;
-    uint32 pci = 5;
+    uint32 pci = 5  [(gogoproto.customname) = "PCI"];
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
