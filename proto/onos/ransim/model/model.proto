@@ -241,6 +241,9 @@ service UEModel {
     rpc DeleteUE(DeleteUERequest) returns (DeleteUEResponse);
     rpc WatchUEs(WatchUEsRequest) returns (stream WatchUEsResponse);
     rpc ListUEs(ListUEsRequest) returns (stream ListUEsResponse);
+
+    rpc GetUECount(GetUECountRequest) returns (GetUECountResponse);
+    rpc SetUECount(SetUECountRequest) returns (SetUECountResponse);
 }
 
 message GetUERequest {
@@ -291,6 +294,21 @@ message ListUEsRequest {
 message ListUEsResponse {
     ransim.types.Ue ue = 1;
 }
+
+message GetUECountRequest {
+}
+
+message GetUECountResponse {
+    uint32 count = 1;
+}
+
+message SetUECountRequest {
+    uint32 count = 1;
+}
+
+message SetUECountResponse {
+}
+
 
 // Change event type
 enum EventType {

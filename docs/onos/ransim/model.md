@@ -29,6 +29,8 @@
     - [GetNodeResponse](#onos.ransim.model.GetNodeResponse)
     - [GetRouteRequest](#onos.ransim.model.GetRouteRequest)
     - [GetRouteResponse](#onos.ransim.model.GetRouteResponse)
+    - [GetUECountRequest](#onos.ransim.model.GetUECountRequest)
+    - [GetUECountResponse](#onos.ransim.model.GetUECountResponse)
     - [GetUERequest](#onos.ransim.model.GetUERequest)
     - [GetUEResponse](#onos.ransim.model.GetUEResponse)
     - [ListCellsRequest](#onos.ransim.model.ListCellsRequest)
@@ -47,6 +49,8 @@
     - [MoveToLocationResponse](#onos.ransim.model.MoveToLocationResponse)
     - [PlmnIDRequest](#onos.ransim.model.PlmnIDRequest)
     - [PlmnIDResponse](#onos.ransim.model.PlmnIDResponse)
+    - [SetUECountRequest](#onos.ransim.model.SetUECountRequest)
+    - [SetUECountResponse](#onos.ransim.model.SetUECountResponse)
     - [UpdateCellRequest](#onos.ransim.model.UpdateCellRequest)
     - [UpdateCellResponse](#onos.ransim.model.UpdateCellResponse)
     - [UpdateNodeRequest](#onos.ransim.model.UpdateNodeRequest)
@@ -417,6 +421,31 @@ GetNodeResponse get a node response
 
 
 
+<a name="onos.ransim.model.GetUECountRequest"></a>
+
+### GetUECountRequest
+
+
+
+
+
+
+
+<a name="onos.ransim.model.GetUECountResponse"></a>
+
+### GetUECountResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint32](#uint32) |  |  |
+
+
+
+
+
+
 <a name="onos.ransim.model.GetUERequest"></a>
 
 ### GetUERequest
@@ -645,6 +674,31 @@ GetNodeResponse get a node response
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | plmnid | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.SetUECountRequest"></a>
+
+### SetUECountRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| count | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="onos.ransim.model.SetUECountResponse"></a>
+
+### SetUECountResponse
+
 
 
 
@@ -919,6 +973,8 @@ UEModel provides means to simulate mobile UEs.
 | DeleteUE | [DeleteUERequest](#onos.ransim.model.DeleteUERequest) | [DeleteUEResponse](#onos.ransim.model.DeleteUEResponse) |  |
 | WatchUEs | [WatchUEsRequest](#onos.ransim.model.WatchUEsRequest) | [WatchUEsResponse](#onos.ransim.model.WatchUEsResponse) stream |  |
 | ListUEs | [ListUEsRequest](#onos.ransim.model.ListUEsRequest) | [ListUEsResponse](#onos.ransim.model.ListUEsResponse) stream |  |
+| GetUECount | [GetUECountRequest](#onos.ransim.model.GetUECountRequest) | [GetUECountResponse](#onos.ransim.model.GetUECountResponse) |  |
+| SetUECount | [SetUECountRequest](#onos.ransim.model.SetUECountRequest) | [SetUECountResponse](#onos.ransim.model.SetUECountResponse) |  |
 
  
 
