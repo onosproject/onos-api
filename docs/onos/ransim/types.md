@@ -247,6 +247,7 @@
 | crnti | [uint32](#uint32) |  |  |
 | admitted | [bool](#bool) |  |  |
 | metrics | [UeMetrics](#onos.ransim.types.UeMetrics) |  |  |
+| rrc_state | [uint32](#uint32) |  |  |
 
 
 
