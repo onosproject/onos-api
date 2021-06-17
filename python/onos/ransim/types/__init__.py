@@ -66,6 +66,7 @@ class Ue(betterproto.Message):
     crnti: int = betterproto.uint32_field(15)
     admitted: bool = betterproto.bool_field(16)
     metrics: "UeMetrics" = betterproto.message_field(17)
+    rrc_state: int = betterproto.uint32_field(18)
 
     def __post_init__(self) -> None:
         super().__post_init__()
