@@ -74,6 +74,8 @@ message Ue {
     bool admitted = 16;
 
     UeMetrics metrics = 17;
+
+    uint32 rrc_state = 18;
 }
 
 message UeMetrics {
