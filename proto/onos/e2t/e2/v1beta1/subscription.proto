@@ -200,10 +200,10 @@ message SubscriptionEvent {
 message ChannelMeta {
     // app_id is an identifier for the application that created the channel shared across all instances of the application
     string app_id = 1 [(gogoproto.customname) = "AppID", (gogoproto.casttype) = "AppID"];
-    // instance_id is an identifier unique to a single node within the application that created the channel
-    string instance_id = 2 [(gogoproto.customname) = "InstanceID", (gogoproto.casttype) = "InstanceID"];
-    // node_id is the identifier for the E2 node to which the subscription is targeted
-    string node_id = 3 [(gogoproto.casttype) = "NodeID", (gogoproto.customname) = "NodeID"];
+    // app_instance_id is an identifier unique to a single node within the application that created the channel
+    string app_instance_id = 2 [(gogoproto.customname) = "AppInstanceID", (gogoproto.casttype) = "AppInstanceID"];
+    // e2_node_id is the identifier for the E2 node to which the subscription is targeted
+    string e2_node_id = 3 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
     // transaction_id is a persistent identifier for the transaction
     string transaction_id = 4 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
     // subscription_id is the identifier for the underlying subscription
@@ -247,7 +247,7 @@ enum ChannelState {
 }
 
 message SubscriptionMeta {
-    string node_id = 1 [(gogoproto.casttype) = "NodeID", (gogoproto.customname) = "NodeID"];
+    string e2_node_id = 1 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
     ServiceModel service_model = 2 [(gogoproto.nullable) = false];
     Encoding encoding = 3;
     uint64 revision = 4 [(gogoproto.casttype) = "Revision"];

@@ -23,11 +23,11 @@ type ServiceModelVersion string
 // AppID is an xApp identifier
 type AppID string
 
-// InstanceID is an xApp instance identifier
-type InstanceID string
+// AppInstanceID is an xApp instance identifier
+type AppInstanceID string
 
-// NodeID is an E2 node identifier
-type NodeID string
+// E2NodeID is an E2 node identifier
+type E2NodeID string
 
 // TransactionID is a transaction identifier
 type TransactionID string

@@ -130,8 +130,8 @@ class SubscriptionState(betterproto.Enum):
 @dataclass(eq=False, repr=False)
 class RequestHeaders(betterproto.Message):
     app_id: str = betterproto.string_field(1)
-    instance_id: str = betterproto.string_field(2)
-    node_id: str = betterproto.string_field(3)
+    app_instance_id: str = betterproto.string_field(2)
+    e2_node_id: str = betterproto.string_field(3)
     service_model: "ServiceModel" = betterproto.message_field(4)
     encoding: "Encoding" = betterproto.enum_field(5)
 
@@ -474,8 +474,8 @@ class SubscriptionEvent(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class ChannelMeta(betterproto.Message):
     app_id: str = betterproto.string_field(1)
-    instance_id: str = betterproto.string_field(2)
-    node_id: str = betterproto.string_field(3)
+    app_instance_id: str = betterproto.string_field(2)
+    e2_node_id: str = betterproto.string_field(3)
     transaction_id: str = betterproto.string_field(4)
     subscription_id: str = betterproto.string_field(5)
     service_model: "ServiceModel" = betterproto.message_field(6)
@@ -517,7 +517,7 @@ class ChannelStatus(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class SubscriptionMeta(betterproto.Message):
-    node_id: str = betterproto.string_field(1)
+    e2_node_id: str = betterproto.string_field(1)
     service_model: "ServiceModel" = betterproto.message_field(2)
     encoding: "Encoding" = betterproto.enum_field(3)
     revision: int = betterproto.uint64_field(4)
