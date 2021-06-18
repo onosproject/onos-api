@@ -29,7 +29,8 @@ service SubscriptionService {
 
 message SubscribeRequest {
     RequestHeaders headers = 1 [(gogoproto.nullable) = false];
-    Subscription subscription = 2 [(gogoproto.nullable) = false];
+    string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
+    SubscriptionSpec subscription = 3 [(gogoproto.nullable) = false];
 }
 
 message SubscribeResponse {
@@ -42,17 +43,16 @@ message SubscribeResponse {
 
 message UnsubscribeRequest {
     RequestHeaders headers = 1 [(gogoproto.nullable) = false];
-    string subscription_id = 2 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "SubscriptionID"];
+    string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
 }
 
 message UnsubscribeResponse {
     ResponseHeaders headers = 1 [(gogoproto.nullable) = false];
 }
 
-message Subscription {
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "SubscriptionID"];
-    EventTrigger event_trigger = 2 [(gogoproto.nullable) = false];
-    repeated Action actions = 3 [(gogoproto.nullable) = false];
+message SubscriptionSpec {
+    EventTrigger event_trigger = 1 [(gogoproto.nullable) = false];
+    repeated Action actions = 2 [(gogoproto.nullable) = false];
 }
 
 message EventTrigger {
@@ -104,10 +104,179 @@ enum TimeToWait {
 }
 
 message Acknowledgement {
-
+    string channel_id = 1 [(gogoproto.customname) = "ChannelID", (gogoproto.casttype) = "ChannelID"];
 }
 
 message Indication {
     bytes header = 1;
     bytes payload = 2;
+}
+
+service SubscriptionAdminService {
+    rpc GetChannel (GetChannelRequest) returns (GetChannelResponse);
+    rpc ListChannels (ListChannelsRequest) returns (ListChannelsResponse);
+    rpc WatchChannels (WatchChannelsRequest) returns (stream WatchChannelsResponse);
+
+    rpc GetSubscription (GetSubscriptionRequest) returns (GetSubscriptionResponse);
+    rpc ListSubscriptions (ListSubscriptionsRequest) returns (ListSubscriptionsResponse);
+    rpc WatchSubscriptions (WatchSubscriptionsRequest) returns (stream WatchSubscriptionsResponse);
+}
+
+message GetChannelRequest {
+    string channel_id = 1 [(gogoproto.customname) = "ChannelID", (gogoproto.casttype) = "ChannelID"];
+}
+
+message GetChannelResponse {
+    Channel channel = 1 [(gogoproto.nullable) = false];
+}
+
+message ListChannelsRequest {
+
+}
+
+message ListChannelsResponse {
+    repeated Channel channels = 1 [(gogoproto.nullable) = false];
+}
+
+message WatchChannelsRequest {
+    bool no_replay = 1;
+}
+
+message WatchChannelsResponse {
+    ChannelEvent event = 1 [(gogoproto.nullable) = false];
+}
+
+enum ChannelEventType {
+    CHANNEL_EVENT_UNKNOWN = 0;
+    CHANNEL_CREATED = 1;
+    CHANNEL_UPDATED = 2;
+    CHANNEL_DELETED = 3;
+    CHANNEL_REPLAYED = 4;
+}
+
+message ChannelEvent {
+    ChannelEventType type = 1;
+    Channel channel = 2 [(gogoproto.nullable) = false];
+}
+
+message GetSubscriptionRequest {
+    string subscription_id = 1 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "SubscriptionID"];
+}
+
+message GetSubscriptionResponse {
+    Subscription subscription = 1 [(gogoproto.nullable) = false];
+}
+
+message ListSubscriptionsRequest {
+
+}
+
+message ListSubscriptionsResponse {
+    repeated Subscription subscriptions = 1 [(gogoproto.nullable) = false];
+}
+
+message WatchSubscriptionsRequest {
+    bool no_replay = 1;
+}
+
+message WatchSubscriptionsResponse {
+    SubscriptionEvent event = 1 [(gogoproto.nullable) = false];
+}
+
+enum SubscriptionEventType {
+    SUBSCRIPTION_EVENT_UNKNOWN = 0;
+    SUBSCRIPTION_CREATED = 1;
+    SUBSCRIPTION_UPDATED = 2;
+    SUBSCRIPTION_DELETED = 3;
+    SUBSCRIPTION_REPLAYED = 4;
+}
+
+message SubscriptionEvent {
+    SubscriptionEventType type = 1;
+    Subscription subscription = 2 [(gogoproto.nullable) = false];
+}
+
+// ChannelMeta contains metadata relating to a subscription channel
+message ChannelMeta {
+    // app_id is an identifier for the application that created the channel shared across all instances of the application
+    string app_id = 1 [(gogoproto.customname) = "AppID", (gogoproto.casttype) = "AppID"];
+    // app_instance_id is an identifier unique to a single node within the application that created the channel
+    string app_instance_id = 2 [(gogoproto.customname) = "AppInstanceID", (gogoproto.casttype) = "AppInstanceID"];
+    // e2_node_id is the identifier for the E2 node to which the subscription is targeted
+    string e2_node_id = 3 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    // transaction_id is a persistent identifier for the transaction
+    string transaction_id = 4 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
+    // subscription_id is the identifier for the underlying subscription
+    string subscription_id = 5 [(gogoproto.customname) = "SubscriptionID", (gogoproto.casttype) = "SubscriptionID"];
+    // service_model is the service model specification
+    ServiceModel service_model = 6 [(gogoproto.nullable) = false];
+    // encoding indicates the type of encoding used within the parent message
+    Encoding encoding = 7;
+    uint64 revision = 8 [(gogoproto.casttype) = "Revision"];
+}
+
+message Channel {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ChannelID"];
+    ChannelMeta meta = 2 [(gogoproto.nullable) = false, (gogoproto.embed) = true];
+    ChannelSpec spec = 3 [(gogoproto.nullable) = false];
+    ChannelStatus status = 4 [(gogoproto.nullable) = false];
+}
+
+message ChannelSpec {
+    SubscriptionSpec subscription = 1 [(gogoproto.nullable) = false, (gogoproto.embed) = true];
+}
+
+message ChannelStatus {
+    ChannelPhase phase = 1;
+    ChannelState state = 2;
+    Error error = 3;
+}
+
+enum ChannelPhase {
+    CHANNEL_CLOSED = 0;
+    CHANNEL_OPEN = 1;
+}
+
+enum ChannelState {
+    // CHANNEL_PENDING indicates the channel phase is pending
+    CHANNEL_PENDING = 0;
+    // CHANNEL_COMPLETE indicates the channel phase is complete
+    CHANNEL_COMPLETE = 1;
+    // CHANNEL_FAILED indicates the channel phase failed
+    CHANNEL_FAILED = 2;
+}
+
+message SubscriptionMeta {
+    string e2_node_id = 1 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
+    ServiceModel service_model = 2 [(gogoproto.nullable) = false];
+    Encoding encoding = 3;
+    uint64 revision = 4 [(gogoproto.casttype) = "Revision"];
+}
+
+message Subscription {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "SubscriptionID"];
+    SubscriptionMeta meta = 2 [(gogoproto.nullable) = false, (gogoproto.embed) = true];
+    SubscriptionSpec spec = 3 [(gogoproto.nullable) = false];
+    SubscriptionStatus status = 4 [(gogoproto.nullable) = false];
+}
+
+message SubscriptionStatus {
+    SubscriptionPhase phase = 1;
+    SubscriptionState state = 2;
+    Error error = 3;
+    repeated string channels = 4 [(gogoproto.casttype) = "ChannelID"];
+}
+
+enum SubscriptionPhase {
+    SUBSCRIPTION_CLOSED = 0;
+    SUBSCRIPTION_OPEN = 1;
+}
+
+enum SubscriptionState {
+    // SUBSCRIPTION_PENDING indicates the subscription phase is pending
+    SUBSCRIPTION_PENDING = 0;
+    // SUBSCRIPTION_COMPLETE indicates the subscription phase is complete
+    SUBSCRIPTION_COMPLETE = 1;
+    // SUBSCRIPTION_FAILED indicates the subscription phase failed
+    SUBSCRIPTION_FAILED = 2;
 }
