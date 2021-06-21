@@ -492,6 +492,38 @@ class ListUEsResponse(betterproto.Message):
         super().__post_init__()
 
 
+@dataclass(eq=False, repr=False)
+class GetUeCountRequest(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetUeCountResponse(betterproto.Message):
+    count: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SetUeCountRequest(betterproto.Message):
+    count: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SetUeCountResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
 class ModelServiceStub(betterproto.ServiceStub):
     """
     ModelService provides means to clear and load node and cell model in bulk
@@ -824,6 +856,22 @@ class UeModelStub(betterproto.ServiceStub):
             ListUEsResponse,
         ):
             yield response
+
+    async def get_ue_count(self) -> "GetUeCountResponse":
+
+        request = GetUeCountRequest()
+
+        return await self._unary_unary(
+            "/onos.ransim.model.UEModel/GetUECount", request, GetUeCountResponse
+        )
+
+    async def set_ue_count(self) -> "SetUeCountResponse":
+
+        request = SetUeCountRequest()
+
+        return await self._unary_unary(
+            "/onos.ransim.model.UEModel/SetUECount", request, SetUeCountResponse
+        )
 
 
 from .. import types as _types__

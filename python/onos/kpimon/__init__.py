@@ -2,7 +2,7 @@
 # sources: onos/kpimon/kpimon.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import Dict
+from typing import AsyncIterator, Dict, List
 
 import betterproto
 import grpclib
@@ -10,7 +10,7 @@ import grpclib
 
 @dataclass(eq=False, repr=False)
 class GetRequest(betterproto.Message):
-    id: str = betterproto.string_field(1)
+    pass
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -18,18 +18,60 @@ class GetRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetResponse(betterproto.Message):
-    object: "Object" = betterproto.message_field(1)
+    measurements: Dict[str, "MeasurementItems"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class Object(betterproto.Message):
-    id: str = betterproto.string_field(1)
-    revision: int = betterproto.uint64_field(2)
-    attributes: Dict[str, str] = betterproto.map_field(
-        3, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+class MeasurementItems(betterproto.Message):
+    measurement_items: List["MeasurementItem"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MeasurementItem(betterproto.Message):
+    measurement_records: List["MeasurementRecord"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class IntegerValue(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RealValue(betterproto.Message):
+    value: float = betterproto.double_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class NoValue(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MeasurementRecord(betterproto.Message):
+    timestamp: int = betterproto.uint64_field(2)
+    measurement_name: str = betterproto.string_field(3)
+    measurement_value: "betterproto_lib_google_protobuf.Any" = (
+        betterproto.message_field(4)
     )
 
     def __post_init__(self) -> None:
@@ -37,20 +79,24 @@ class Object(betterproto.Message):
 
 
 class KpimonStub(betterproto.ServiceStub):
-    async def get_metric_types(self, *, id: str = "") -> "GetResponse":
+    async def list_measurements(self) -> "GetResponse":
 
         request = GetRequest()
-        request.id = id
 
         return await self._unary_unary(
-            "/onos.kpimon.Kpimon/GetMetricTypes", request, GetResponse
+            "/onos.kpimon.Kpimon/ListMeasurements", request, GetResponse
         )
 
-    async def get_metrics(self, *, id: str = "") -> "GetResponse":
+    async def watch_measurements(self) -> AsyncIterator["GetResponse"]:
 
         request = GetRequest()
-        request.id = id
 
-        return await self._unary_unary(
-            "/onos.kpimon.Kpimon/GetMetrics", request, GetResponse
-        )
+        async for response in self._unary_stream(
+            "/onos.kpimon.Kpimon/WatchMeasurements",
+            request,
+            GetResponse,
+        ):
+            yield response
+
+
+import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf

@@ -28,6 +28,8 @@ class Sector(betterproto.Message):
     azimuth: int = betterproto.int32_field(1)
     arc: int = betterproto.int32_field(2)
     centroid: "Point" = betterproto.message_field(3)
+    height: int = betterproto.int32_field(4)
+    tilt: int = betterproto.int32_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -64,6 +66,7 @@ class Ue(betterproto.Message):
     crnti: int = betterproto.uint32_field(15)
     admitted: bool = betterproto.bool_field(16)
     metrics: "UeMetrics" = betterproto.message_field(17)
+    rrc_state: int = betterproto.uint32_field(18)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -92,7 +95,7 @@ class Cell(betterproto.Message):
     neighbors: List[int] = betterproto.uint64_field(7)
     # The cell transmit power in decibels
     tx_power_db: float = betterproto.double_field(8)
-    event_a3_params: "EventA3Params" = betterproto.message_field(9)
+    measurement_params: "MeasurementParams" = betterproto.message_field(9)
     # crntis maps a ue's name to its crnti
     crnti_map: Dict[int, int] = betterproto.map_field(
         10, betterproto.TYPE_UINT32, betterproto.TYPE_UINT64
@@ -108,12 +111,24 @@ class Cell(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class MeasurementParams(betterproto.Message):
+    time_to_trigger: int = betterproto.int32_field(1)
+    frequency_offset: int = betterproto.int32_field(2)
+    pcell_individual_offset: int = betterproto.int32_field(3)
+    ncell_individual_offsets: Dict[int, int] = betterproto.map_field(
+        4, betterproto.TYPE_UINT64, betterproto.TYPE_INT32
+    )
+    hysteresis: int = betterproto.int32_field(5)
+    event_a3_params: "EventA3Params" = betterproto.message_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class EventA3Params(betterproto.Message):
     a3_offset: int = betterproto.int32_field(1)
-    a3_time_to_trigger: int = betterproto.int32_field(2)
-    a3_hysteresis: int = betterproto.int32_field(3)
-    a3_cell_offset: int = betterproto.int32_field(4)
-    a3_frequency_offset: int = betterproto.int32_field(5)
+    report_on_leave: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

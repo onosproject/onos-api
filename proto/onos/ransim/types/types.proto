@@ -22,6 +22,10 @@ message Sector {
     int32 arc = 2;
 
     Point centroid = 3;
+
+    int32 height = 4;
+    
+    int32 tilt = 5;
 }
 
 message Route {
@@ -49,19 +53,19 @@ message Ue {
 
     uint32 rotation = 5;
 
-    uint64 serving_tower = 7 [(gogoproto.casttype) = "ECGI"];
+    uint64 serving_tower = 7 [(gogoproto.casttype) = "NCGI"];
 
     double serving_tower_strength = 8;
 
-    uint64 tower1 = 9 [(gogoproto.casttype) = "ECGI"];
+    uint64 tower1 = 9 [(gogoproto.casttype) = "NCGI"];
 
     double tower1_strength = 10;
 
-    uint64 tower2 = 11 [(gogoproto.casttype) = "ECGI"];
+    uint64 tower2 = 11 [(gogoproto.casttype) = "NCGI"];
 
     double tower2_strength = 12;
 
-    uint64 tower3 = 13 [(gogoproto.casttype) = "ECGI"];
+    uint64 tower3 = 13 [(gogoproto.casttype) = "NCGI"];
 
     double tower3_strength = 14;
 
@@ -70,6 +74,8 @@ message Ue {
     bool admitted = 16;
 
     UeMetrics metrics = 17;
+
+    uint32 rrc_state = 18;
 }
 
 message UeMetrics {
@@ -91,7 +97,7 @@ enum CellType {
 }
 
 message Cell {
-    uint64 ecgi = 1 [(gogoproto.customname) = "ECGI", (gogoproto.casttype) = "ECGI"];
+    uint64 ecgi = 1 [(gogoproto.customname) = "NCGI", (gogoproto.casttype) = "NCGI"];
 
     Point location = 3;
 
@@ -101,12 +107,12 @@ message Cell {
 
     uint32 max_ues = 6 [(gogoproto.customname) = "MaxUEs"];
 
-    repeated uint64 neighbors = 7 [(gogoproto.casttype) = "ECGI"];
+    repeated uint64 neighbors = 7 [(gogoproto.casttype) = "NCGI"];
 
     // The cell transmit power in decibels
     double tx_power_db = 8 [(gogoproto.customname) = "TxPowerdB"];
 
-    EventA3Params event_a3_params = 9;
+    MeasurementParams measurement_params = 9;
 
     // crntis maps a ue's name to its crnti
     map<uint32, uint64> crnti_map = 10 [(gogoproto.castkey) = "CRNTI", (gogoproto.castvalue) = "IMSI"];
@@ -122,26 +128,34 @@ message Cell {
     CellType cell_type = 15;
 }
 
+message MeasurementParams {
+    int32 time_to_trigger = 1;
+
+    int32 frequency_offset = 2;
+
+    int32 pcell_individual_offset = 3;
+
+    map<uint64, int32> ncell_individual_offsets = 4 [(gogoproto.castkey)="NCGI"];
+
+    int32 hysteresis = 5;
+
+    EventA3Params event_a3_params = 6;
+}
+
 message EventA3Params {
     int32 a3_offset = 1;
 
-    int32 a3_time_to_trigger = 2;
-
-    int32 a3_hysteresis = 3;
-
-    int32 a3_cell_offset = 4;
-
-    int32 a3_frequency_offset = 5;
+    bool report_on_leave = 2;
 }
 
 message Node {
-    uint32 enbid = 1 [(gogoproto.customname) = "EnbID", (gogoproto.casttype) = "EnbID"];
+    uint32 enbid = 1 [(gogoproto.customname) = "GnbID", (gogoproto.casttype) = "GnbID"];
 
     repeated string controllers = 2;
 
     repeated string service_models = 3;
 
-    repeated uint64 cell_ecgis = 4 [(gogoproto.customname) = "CellECGIs", (gogoproto.casttype) = "ECGI"];
+    repeated uint64 cell_ecgis = 4 [(gogoproto.customname) = "CellNCGIs", (gogoproto.casttype) = "NCGI"];
 
     string status = 5;
 }

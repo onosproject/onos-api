@@ -23,8 +23,8 @@ import "gogoproto/gogo.proto";
 
 message RequestHeaders {
     string app_id = 1 [(gogoproto.customname) = "AppID", (gogoproto.casttype) = "AppID"];
-    string instance_id = 2 [(gogoproto.customname) = "InstanceID", (gogoproto.casttype) = "InstanceID"];
-    string node_id = 3 [(gogoproto.casttype) = "NodeID", (gogoproto.customname) = "NodeID"];
+    string app_instance_id = 2 [(gogoproto.customname) = "AppInstanceID", (gogoproto.casttype) = "AppInstanceID"];
+    string e2_node_id = 3 [(gogoproto.casttype) = "E2NodeID", (gogoproto.customname) = "E2NodeID"];
     ServiceModel service_model = 4 [(gogoproto.nullable) = false];
     Encoding encoding = 5;
 }
