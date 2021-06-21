@@ -112,9 +112,17 @@ message NotFilter {
   Filter inner = 1;
 }
 
+// Filter for targets of given relation kinds and given source ids; optionally, filters by specified target kind
+message RelationFilter {
+  string src_id = 1;
+  string relation_kind = 2;
+  string target_kind = 3;
+}
+
 message Filters {
   repeated Filter kind_filters = 1;
   repeated Filter label_filters = 2;
+  RelationFilter relation_filter = 3;
 }
 
 message ListRequest {

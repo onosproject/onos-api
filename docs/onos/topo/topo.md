@@ -24,6 +24,7 @@
     - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
     - [Object.LabelsEntry](#onos.topo.Object.LabelsEntry)
     - [Relation](#onos.topo.Relation)
+    - [RelationFilter](#onos.topo.RelationFilter)
     - [UpdateRequest](#onos.topo.UpdateRequest)
     - [UpdateResponse](#onos.topo.UpdateResponse)
     - [WatchRequest](#onos.topo.WatchRequest)
@@ -174,6 +175,7 @@ Event is a topo operation event
 | ----- | ---- | ----- | ----------- |
 | kind_filters | [Filter](#onos.topo.Filter) | repeated |  |
 | label_filters | [Filter](#onos.topo.Filter) | repeated |  |
+| relation_filter | [RelationFilter](#onos.topo.RelationFilter) |  |  |
 
 
 
@@ -350,6 +352,23 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
 | kind_id | [string](#string) |  | user defined relation kind |
 | src_entity_id | [string](#string) |  |  |
 | tgt_entity_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos.topo.RelationFilter"></a>
+
+### RelationFilter
+Filter for targets of given relation kinds and given source ids; optionally, filters by specified target kind
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| src_id | [string](#string) |  |  |
+| relation_kind | [string](#string) |  |  |
+| target_kind | [string](#string) |  |  |
 
 
 
