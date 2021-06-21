@@ -101,6 +101,20 @@ class RanRelationKinds(betterproto.Enum):
     NEIGHBORS = 2
 
 
+class CellGlobalIdType(betterproto.Enum):
+    """
+    ConnectivityState represents the state of a gRPC channel to the device from
+    the service container
+    """
+
+    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
+    # values
+    NRCGI = 0
+    # CONNECTED indicates the corresponding grpc channel is connected on this
+    # device
+    ECGI = 1
+
+
 class EventType(betterproto.Enum):
     """Protocol to interact with a device"""
 
@@ -257,14 +271,26 @@ class E2Node(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class E2Cell(betterproto.Message):
+class CellGlobalId(betterproto.Message):
     """TLS connectivity aspect"""
 
+    value: str = betterproto.string_field(1)
+    type: "CellGlobalIdType" = betterproto.enum_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class E2Cell(betterproto.Message):
+    """Aspect for ad-hoc properties"""
+
     cell_object_id: str = betterproto.string_field(1)
-    antenna_count: int = betterproto.uint32_field(2)
-    earfcn: int = betterproto.uint32_field(3)
-    cell_type: str = betterproto.string_field(4)
-    pci: int = betterproto.uint32_field(5)
+    cell_global_id: "CellGlobalId" = betterproto.message_field(2)
+    antenna_count: int = betterproto.uint32_field(3)
+    earfcn: int = betterproto.uint32_field(4)
+    cell_type: str = betterproto.string_field(5)
+    pci: int = betterproto.uint32_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -272,10 +298,16 @@ class E2Cell(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ServiceModelInfo(betterproto.Message):
-    """Aspect for ad-hoc properties"""
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
 
+    # The protocol to which state relates
     oid: str = betterproto.string_field(1)
+    # ConnectivityState contains the L3 connectivity information
     name: str = betterproto.string_field(2)
+    # ChannelState relates to the availability of the gRPC channel
     ran_functions: List[
         "betterproto_lib_google_protobuf.Any"
     ] = betterproto.message_field(3)
@@ -286,14 +318,9 @@ class ServiceModelInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RcRanFunction(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
+    """Protocols"""
 
-    # The protocol to which state relates
     id: str = betterproto.string_field(1)
-    # ConnectivityState contains the L3 connectivity information
     report_styles: List["RcReportStyle"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
@@ -302,8 +329,6 @@ class RcRanFunction(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
-    """Protocols"""
-
     id: str = betterproto.string_field(1)
     report_styles: List["KpmReportStyle"] = betterproto.message_field(2)
 
