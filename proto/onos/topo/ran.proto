@@ -34,6 +34,12 @@ enum RANRelationKinds {
     NEIGHBORS = 2;
 }
 
+enum CellGlobalIDType {
+    NRCGI = 0; // 5G cell ID
+    ECGI = 1; // 4G cell ID
+}
+
+
 // Geographical location; expected value type of "location" aspect
 message Location {
     double lat = 1;
@@ -53,13 +59,21 @@ message E2Node {
     map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
 }
 
+
+
+message CellGlobalID {
+    string value = 1;
+    CellGlobalIDType type = 2;
+}
+
 // E2Cell aspect; expected value type of "E2CELL" aspect and expected on entities of "E2CELL" kind
 message E2Cell {
     string cell_object_id = 1 [(gogoproto.customname) = "CellObjectID"];
-    uint32 antenna_count = 2;
-    uint32 earfcn = 3 [(gogoproto.customname) = "EARFCN"];
-    string cell_type = 4;
-    uint32 pci = 5  [(gogoproto.customname) = "PCI"];
+    CellGlobalID cell_global_id = 2 [(gogoproto.customname) = "CellGlobalID"];
+    uint32 antenna_count = 3;
+    uint32 earfcn = 4 [(gogoproto.customname) = "EARFCN"];
+    string cell_type = 5;
+    uint32 pci = 6  [(gogoproto.customname) = "PCI"];
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
