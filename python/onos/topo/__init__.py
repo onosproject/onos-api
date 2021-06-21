@@ -444,9 +444,20 @@ class NotFilter(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class RelationFilter(betterproto.Message):
+    src_id: str = betterproto.string_field(1)
+    relation_kind: str = betterproto.string_field(2)
+    target_kind: str = betterproto.string_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Filters(betterproto.Message):
     kind_filters: List["Filter"] = betterproto.message_field(1)
     label_filters: List["Filter"] = betterproto.message_field(2)
+    relation_filter: "RelationFilter" = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
