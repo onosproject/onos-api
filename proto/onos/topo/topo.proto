@@ -123,6 +123,7 @@ message Filters {
   repeated Filter kind_filters = 1;
   repeated Filter label_filters = 2;
   RelationFilter relation_filter = 3;
+  repeated Object.Type object_types = 4;
 }
 
 message ListRequest {
