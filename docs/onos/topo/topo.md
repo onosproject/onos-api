@@ -176,6 +176,7 @@ Event is a topo operation event
 | kind_filters | [Filter](#onos.topo.Filter) | repeated |  |
 | label_filters | [Filter](#onos.topo.Filter) | repeated |  |
 | relation_filter | [RelationFilter](#onos.topo.RelationFilter) |  |  |
+| object_types | [Object.Type](#onos.topo.Object.Type) | repeated |  |
 
 
 

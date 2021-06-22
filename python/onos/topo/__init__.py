@@ -83,6 +83,8 @@ class RanEntityKinds(betterproto.Enum):
     E2NODE = 0
     # GNMI protocol reference
     E2CELL = 1
+    # P4RUNTIME protocol reference
+    E2T = 3
 
 
 class RanRelationKinds(betterproto.Enum):
@@ -505,6 +507,7 @@ class Filters(betterproto.Message):
     kind_filters: List["Filter"] = betterproto.message_field(1)
     label_filters: List["Filter"] = betterproto.message_field(2)
     relation_filter: "RelationFilter" = betterproto.message_field(3)
+    object_types: List["ObjectType"] = betterproto.enum_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()

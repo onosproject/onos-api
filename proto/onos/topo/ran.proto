@@ -25,6 +25,7 @@ import "gogoproto/gogo.proto";
 enum RANEntityKinds {
     E2NODE = 0;
     E2CELL = 1;
+    E2T = 3;
 }
 
 // Kinds of RAN relations
