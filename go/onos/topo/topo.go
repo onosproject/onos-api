@@ -32,14 +32,17 @@ const NullID = ""
 // Revision is an object revision
 type Revision uint64
 
-// Attribute keys
+// Entity and Relation Kinds
 const (
-	Address = "address"
-	Target  = "target"
-	Type    = "type"
-	Version = "version"
-	Timeout = "timeout"
-	Role    = "role"
+	// Relations
+	CONTROLS  = "controls"
+	CONTAINS  = "contains"
+	NEIGHBORS = "neighbors"
+
+	// RAN Entities
+	E2NODE = "e2node"
+	E2CELL = "e2cell"
+	E2T    = "e2t"
 )
 
 // TopoClientFactory : Default EntityServiceClient creation.
@@ -116,16 +119,16 @@ func (obj *Object) SetAspect(value proto.Message) error {
 	}
 	obj.Aspects[proto.MessageName(value)] = &types.Any{
 		TypeUrl: proto.MessageName(value),
-		Value: writer.Bytes(),
+		Value:   writer.Bytes(),
 	}
 	return nil
 }
 
 // SetAspectBytes applies the specified aspect as raw JSON bytes to the given object.
 func (obj *Object) SetAspectBytes(aspectType string, jsonValue []byte) error {
-	any := &types.Any {
+	any := &types.Any{
 		TypeUrl: aspectType,
-		Value: jsonValue,
+		Value:   jsonValue,
 	}
 	if obj.Aspects == nil {
 		obj.Aspects = make(map[string]*types.Any)
