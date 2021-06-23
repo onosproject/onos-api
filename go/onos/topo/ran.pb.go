@@ -25,6 +25,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// TODO: Deprecate! Use language specific constant definitions instead.
 // Kinds of RAN entities
 type RANEntityKinds int32
 
@@ -54,6 +55,7 @@ func (RANEntityKinds) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_23cc5f935e05bbb6, []int{0}
 }
 
+// TODO: Deprecate! Use language specific constant definitions instead.
 // Kinds of RAN relations
 type RANRelationKinds int32
 

@@ -173,7 +173,7 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| kind_filters | [Filter](#onos.topo.Filter) | repeated |  |
+| kind_filter | [Filter](#onos.topo.Filter) |  |  |
 | label_filters | [Filter](#onos.topo.Filter) | repeated |  |
 | relation_filter | [RelationFilter](#onos.topo.RelationFilter) |  |  |
 | object_types | [Object.Type](#onos.topo.Object.Type) | repeated |  |
