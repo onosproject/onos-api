@@ -52,6 +52,8 @@
 | pci | [uint32](#uint32) |  |  |
 | earfcn | [uint32](#uint32) |  |  |
 | cell_type | [CellType](#onos.ransim.types.CellType) |  |  |
+| rrc_idle_count | [uint32](#uint32) |  |  |
+| rrc_connected_count | [uint32](#uint32) |  |  |
 
 
 

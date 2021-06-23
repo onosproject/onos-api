@@ -105,6 +105,8 @@ class Cell(betterproto.Message):
     pci: int = betterproto.uint32_field(13)
     earfcn: int = betterproto.uint32_field(14)
     cell_type: "CellType" = betterproto.enum_field(15)
+    rrc_idle_count: int = betterproto.uint32_field(16)
+    rrc_connected_count: int = betterproto.uint32_field(17)
 
     def __post_init__(self) -> None:
         super().__post_init__()

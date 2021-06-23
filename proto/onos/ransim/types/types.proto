@@ -126,6 +126,11 @@ message Cell {
     uint32 earfcn = 14;
 
     CellType cell_type = 15;
+
+    uint32 rrc_idle_count = 16;
+
+    uint32 rrc_connected_count = 17;
+
 }
 
 message MeasurementParams {
