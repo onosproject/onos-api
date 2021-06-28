@@ -2,7 +2,7 @@
 # sources: onos/pci/pci.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import List
 
 import betterproto
 import grpclib
@@ -16,7 +16,7 @@ class CellType(betterproto.Enum):
 
 
 @dataclass(eq=False, repr=False)
-class GetNumConflictsRequest(betterproto.Message):
+class GetConflictsRequest(betterproto.Message):
     """if cell id is not specified, will return total number of conflicts"""
 
     cell_id: int = betterproto.uint64_field(1)
@@ -26,16 +26,16 @@ class GetNumConflictsRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class GetNumConflictsReponse(betterproto.Message):
-    count: int = betterproto.uint64_field(1)
+class GetConflictsReponse(betterproto.Message):
+    cells: List["PciCell"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class GetNeigborsRequest(betterproto.Message):
-    """must specify cell id: will only return a single cell's neigbors"""
+class GetCellRequest(betterproto.Message):
+    """cell id required"""
 
     cell_id: int = betterproto.uint64_field(1)
 
@@ -44,60 +44,40 @@ class GetNeigborsRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class GetNeigborsResponse(betterproto.Message):
-    neigbor_ids: List[int] = betterproto.uint64_field(1)
+class GetCellResponse(betterproto.Message):
+    cell: "PciCell" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class GetMetricRequest(betterproto.Message):
-    """if cell id is not specified, will return all metrics"""
+class GetCellsRequest(betterproto.Message):
+    """cell id required"""
 
-    cell_id: int = betterproto.uint64_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class GetMetricResponse(betterproto.Message):
-    metrics: Dict[int, "Metrics"] = betterproto.map_field(
-        1, betterproto.TYPE_UINT64, betterproto.TYPE_MESSAGE
-    )
+    pass
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class GetPciPoolRequest(betterproto.Message):
-    """if cell id is not specified, will return all"""
-
-    cell_id: int = betterproto.uint64_field(1)
+class GetCellsResponse(betterproto.Message):
+    cells: List["PciCell"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class GetPciPoolResponse(betterproto.Message):
-    pools: Dict[int, "PciRange"] = betterproto.map_field(
-        1, betterproto.TYPE_UINT64, betterproto.TYPE_MESSAGE
-    )
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Metrics(betterproto.Message):
-    """metrics for a cell"""
-
-    dlearfcn: int = betterproto.uint32_field(1)
-    cell_type: "CellType" = betterproto.enum_field(2)
-    pci: int = betterproto.uint32_field(3)
+class PciCell(betterproto.Message):
+    id: int = betterproto.uint64_field(1)
+    node_id: str = betterproto.string_field(2)
+    dlearfcn: int = betterproto.uint32_field(3)
+    cell_type: "CellType" = betterproto.enum_field(4)
+    pci: int = betterproto.uint32_field(5)
+    pci_pool: List["PciRange"] = betterproto.message_field(6)
+    neigbor_ids: List[int] = betterproto.uint64_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -113,38 +93,28 @@ class PciRange(betterproto.Message):
 
 
 class PciStub(betterproto.ServiceStub):
-    async def get_num_conflicts(self, *, cell_id: int = 0) -> "GetNumConflictsReponse":
+    async def get_num_conflicts(self, *, cell_id: int = 0) -> "GetConflictsReponse":
 
-        request = GetNumConflictsRequest()
+        request = GetConflictsRequest()
         request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNumConflicts", request, GetNumConflictsReponse
+            "/onos.pci.Pci/GetNumConflicts", request, GetConflictsReponse
         )
 
-    async def get_neighbors(self, *, cell_id: int = 0) -> "GetNeigborsResponse":
+    async def get_cell(self, *, cell_id: int = 0) -> "GetCellResponse":
 
-        request = GetNeigborsRequest()
+        request = GetCellRequest()
         request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNeighbors", request, GetNeigborsResponse
+            "/onos.pci.Pci/GetCell", request, GetCellResponse
         )
 
-    async def get_metric(self, *, cell_id: int = 0) -> "GetMetricResponse":
+    async def get_cells(self) -> "GetCellsResponse":
 
-        request = GetMetricRequest()
-        request.cell_id = cell_id
-
-        return await self._unary_unary(
-            "/onos.pci.Pci/GetMetric", request, GetMetricResponse
-        )
-
-    async def get_pci(self, *, cell_id: int = 0) -> "GetPciPoolResponse":
-
-        request = GetPciPoolRequest()
-        request.cell_id = cell_id
+        request = GetCellsRequest()
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetPci", request, GetPciPoolResponse
+            "/onos.pci.Pci/GetCells", request, GetCellsResponse
         )

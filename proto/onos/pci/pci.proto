@@ -18,53 +18,45 @@ syntax = "proto3";
 package onos.pci;
 
 service Pci {
-  rpc GetNumConflicts(GetNumConflictsRequest) returns (GetNumConflictsReponse) {}
-  rpc GetNeighbors(GetNeigborsRequest) returns (GetNeigborsResponse) {}
-  rpc GetMetric(GetMetricRequest) returns (GetMetricResponse) {}
-  rpc GetPci(GetPciPoolRequest) returns (GetPciPoolResponse) {}
+  rpc GetNumConflicts(GetConflictsRequest) returns (GetConflictsReponse) {}
+  rpc GetCell(GetCellRequest) returns (GetCellResponse) {}
+  rpc GetCells(GetCellsRequest) returns (GetCellsResponse) {}
 }
 
 // if cell id is not specified, will return total number of conflicts
-message GetNumConflictsRequest {
+message GetConflictsRequest {
   uint64 cell_id = 1;
 }
 
-message GetNumConflictsReponse {
-  uint64 count = 1;
+message GetConflictsReponse {
+  repeated PciCell cells = 1;
 }
 
-// must specify cell id: will only return a single cell's neigbors
-message GetNeigborsRequest {
+// cell id required
+message GetCellRequest {
   uint64 cell_id = 1;
 }
 
-message GetNeigborsResponse {
-  repeated uint64 neigbor_ids = 1;
+message GetCellResponse {
+  PciCell cell = 1;
 }
 
-// if cell id is not specified, will return all metrics 
-message GetMetricRequest {
-  uint64 cell_id = 1;
+// cell id required
+message GetCellsRequest {
 }
 
-message GetMetricResponse {
-  map<uint64,Metrics> metrics = 1;
+message GetCellsResponse {
+  repeated PciCell cells = 1;
 }
 
-// if cell id is not specified, will return all
-message GetPciPoolRequest {
-  uint64 cell_id = 1;
-}
-
-message GetPciPoolResponse {
-  map<uint64,PciRange> pools = 1;
-}
-
-// metrics for a cell
-message Metrics {
-  uint32 dlearfcn = 1;
-  CellType cell_type = 2;
-  uint32 pci = 3;
+message PciCell {
+  uint64 id = 1; 
+  string node_id = 2;
+  uint32 dlearfcn = 3;
+  CellType cell_type = 4;
+  uint32 pci = 5;
+  repeated PciRange pci_pool = 6;
+  repeated uint64 neigbor_ids = 7;
 }
 
 enum CellType {

@@ -4,17 +4,13 @@
 ## Table of Contents
 
 - [onos/pci/pci.proto](#onos/pci/pci.proto)
-    - [GetMetricRequest](#onos.pci.GetMetricRequest)
-    - [GetMetricResponse](#onos.pci.GetMetricResponse)
-    - [GetMetricResponse.MetricsEntry](#onos.pci.GetMetricResponse.MetricsEntry)
-    - [GetNeigborsRequest](#onos.pci.GetNeigborsRequest)
-    - [GetNeigborsResponse](#onos.pci.GetNeigborsResponse)
-    - [GetNumConflictsReponse](#onos.pci.GetNumConflictsReponse)
-    - [GetNumConflictsRequest](#onos.pci.GetNumConflictsRequest)
-    - [GetPciPoolRequest](#onos.pci.GetPciPoolRequest)
-    - [GetPciPoolResponse](#onos.pci.GetPciPoolResponse)
-    - [GetPciPoolResponse.PoolsEntry](#onos.pci.GetPciPoolResponse.PoolsEntry)
-    - [Metrics](#onos.pci.Metrics)
+    - [GetCellRequest](#onos.pci.GetCellRequest)
+    - [GetCellResponse](#onos.pci.GetCellResponse)
+    - [GetCellsRequest](#onos.pci.GetCellsRequest)
+    - [GetCellsResponse](#onos.pci.GetCellsResponse)
+    - [GetConflictsReponse](#onos.pci.GetConflictsReponse)
+    - [GetConflictsRequest](#onos.pci.GetConflictsRequest)
+    - [PciCell](#onos.pci.PciCell)
     - [PciRange](#onos.pci.PciRange)
   
     - [CellType](#onos.pci.CellType)
@@ -32,56 +28,10 @@
 
 
 
-<a name="onos.pci.GetMetricRequest"></a>
+<a name="onos.pci.GetCellRequest"></a>
 
-### GetMetricRequest
-if cell id is not specified, will return all metrics
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| cell_id | [uint64](#uint64) |  |  |
-
-
-
-
-
-
-<a name="onos.pci.GetMetricResponse"></a>
-
-### GetMetricResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| metrics | [GetMetricResponse.MetricsEntry](#onos.pci.GetMetricResponse.MetricsEntry) | repeated |  |
-
-
-
-
-
-
-<a name="onos.pci.GetMetricResponse.MetricsEntry"></a>
-
-### GetMetricResponse.MetricsEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [uint64](#uint64) |  |  |
-| value | [Metrics](#onos.pci.Metrics) |  |  |
-
-
-
-
-
-
-<a name="onos.pci.GetNeigborsRequest"></a>
-
-### GetNeigborsRequest
-must specify cell id: will only return a single cell&#39;s neigbors
+### GetCellRequest
+cell id required
 
 
 | Field | Type | Label | Description |
@@ -93,39 +43,64 @@ must specify cell id: will only return a single cell&#39;s neigbors
 
 
 
-<a name="onos.pci.GetNeigborsResponse"></a>
+<a name="onos.pci.GetCellResponse"></a>
 
-### GetNeigborsResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| neigbor_ids | [uint64](#uint64) | repeated |  |
-
-
-
-
-
-
-<a name="onos.pci.GetNumConflictsReponse"></a>
-
-### GetNumConflictsReponse
+### GetCellResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| count | [uint64](#uint64) |  |  |
+| cell | [PciCell](#onos.pci.PciCell) |  |  |
 
 
 
 
 
 
-<a name="onos.pci.GetNumConflictsRequest"></a>
+<a name="onos.pci.GetCellsRequest"></a>
 
-### GetNumConflictsRequest
+### GetCellsRequest
+cell id required
+
+
+
+
+
+
+<a name="onos.pci.GetCellsResponse"></a>
+
+### GetCellsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cells | [PciCell](#onos.pci.PciCell) | repeated |  |
+
+
+
+
+
+
+<a name="onos.pci.GetConflictsReponse"></a>
+
+### GetConflictsReponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cells | [PciCell](#onos.pci.PciCell) | repeated |  |
+
+
+
+
+
+
+<a name="onos.pci.GetConflictsRequest"></a>
+
+### GetConflictsRequest
 if cell id is not specified, will return total number of conflicts
 
 
@@ -138,63 +113,21 @@ if cell id is not specified, will return total number of conflicts
 
 
 
-<a name="onos.pci.GetPciPoolRequest"></a>
+<a name="onos.pci.PciCell"></a>
 
-### GetPciPoolRequest
-if cell id is not specified, will return all
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| cell_id | [uint64](#uint64) |  |  |
-
-
-
-
-
-
-<a name="onos.pci.GetPciPoolResponse"></a>
-
-### GetPciPoolResponse
+### PciCell
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pools | [GetPciPoolResponse.PoolsEntry](#onos.pci.GetPciPoolResponse.PoolsEntry) | repeated |  |
-
-
-
-
-
-
-<a name="onos.pci.GetPciPoolResponse.PoolsEntry"></a>
-
-### GetPciPoolResponse.PoolsEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [uint64](#uint64) |  |  |
-| value | [PciRange](#onos.pci.PciRange) |  |  |
-
-
-
-
-
-
-<a name="onos.pci.Metrics"></a>
-
-### Metrics
-metrics for a cell
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
+| id | [uint64](#uint64) |  |  |
+| node_id | [string](#string) |  |  |
 | dlearfcn | [uint32](#uint32) |  |  |
 | cell_type | [CellType](#onos.pci.CellType) |  |  |
 | pci | [uint32](#uint32) |  |  |
+| pci_pool | [PciRange](#onos.pci.PciRange) | repeated |  |
+| neigbor_ids | [uint64](#uint64) | repeated |  |
 
 
 
@@ -244,10 +177,9 @@ metrics for a cell
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetNumConflicts | [GetNumConflictsRequest](#onos.pci.GetNumConflictsRequest) | [GetNumConflictsReponse](#onos.pci.GetNumConflictsReponse) |  |
-| GetNeighbors | [GetNeigborsRequest](#onos.pci.GetNeigborsRequest) | [GetNeigborsResponse](#onos.pci.GetNeigborsResponse) |  |
-| GetMetric | [GetMetricRequest](#onos.pci.GetMetricRequest) | [GetMetricResponse](#onos.pci.GetMetricResponse) |  |
-| GetPci | [GetPciPoolRequest](#onos.pci.GetPciPoolRequest) | [GetPciPoolResponse](#onos.pci.GetPciPoolResponse) |  |
+| GetNumConflicts | [GetConflictsRequest](#onos.pci.GetConflictsRequest) | [GetConflictsReponse](#onos.pci.GetConflictsReponse) |  |
+| GetCell | [GetCellRequest](#onos.pci.GetCellRequest) | [GetCellResponse](#onos.pci.GetCellResponse) |  |
+| GetCells | [GetCellsRequest](#onos.pci.GetCellsRequest) | [GetCellsResponse](#onos.pci.GetCellsResponse) |  |
 
  
 

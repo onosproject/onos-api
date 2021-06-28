@@ -60,22 +60,22 @@ func (CellType) EnumDescriptor() ([]byte, []int) {
 }
 
 // if cell id is not specified, will return total number of conflicts
-type GetNumConflictsRequest struct {
+type GetConflictsRequest struct {
 	CellId uint64 `protobuf:"varint,1,opt,name=cell_id,json=cellId,proto3" json:"cell_id,omitempty"`
 }
 
-func (m *GetNumConflictsRequest) Reset()         { *m = GetNumConflictsRequest{} }
-func (m *GetNumConflictsRequest) String() string { return proto.CompactTextString(m) }
-func (*GetNumConflictsRequest) ProtoMessage()    {}
-func (*GetNumConflictsRequest) Descriptor() ([]byte, []int) {
+func (m *GetConflictsRequest) Reset()         { *m = GetConflictsRequest{} }
+func (m *GetConflictsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetConflictsRequest) ProtoMessage()    {}
+func (*GetConflictsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{0}
 }
-func (m *GetNumConflictsRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetConflictsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetNumConflictsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetConflictsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetNumConflictsRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetConflictsRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -85,41 +85,41 @@ func (m *GetNumConflictsRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *GetNumConflictsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetNumConflictsRequest.Merge(m, src)
+func (m *GetConflictsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetConflictsRequest.Merge(m, src)
 }
-func (m *GetNumConflictsRequest) XXX_Size() int {
+func (m *GetConflictsRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetNumConflictsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetNumConflictsRequest.DiscardUnknown(m)
+func (m *GetConflictsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetConflictsRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetNumConflictsRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetConflictsRequest proto.InternalMessageInfo
 
-func (m *GetNumConflictsRequest) GetCellId() uint64 {
+func (m *GetConflictsRequest) GetCellId() uint64 {
 	if m != nil {
 		return m.CellId
 	}
 	return 0
 }
 
-type GetNumConflictsReponse struct {
-	Count uint64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
+type GetConflictsReponse struct {
+	Cells []*PciCell `protobuf:"bytes,1,rep,name=cells,proto3" json:"cells,omitempty"`
 }
 
-func (m *GetNumConflictsReponse) Reset()         { *m = GetNumConflictsReponse{} }
-func (m *GetNumConflictsReponse) String() string { return proto.CompactTextString(m) }
-func (*GetNumConflictsReponse) ProtoMessage()    {}
-func (*GetNumConflictsReponse) Descriptor() ([]byte, []int) {
+func (m *GetConflictsReponse) Reset()         { *m = GetConflictsReponse{} }
+func (m *GetConflictsReponse) String() string { return proto.CompactTextString(m) }
+func (*GetConflictsReponse) ProtoMessage()    {}
+func (*GetConflictsReponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{1}
 }
-func (m *GetNumConflictsReponse) XXX_Unmarshal(b []byte) error {
+func (m *GetConflictsReponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetNumConflictsReponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetConflictsReponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetNumConflictsReponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetConflictsReponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -129,42 +129,42 @@ func (m *GetNumConflictsReponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *GetNumConflictsReponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetNumConflictsReponse.Merge(m, src)
+func (m *GetConflictsReponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetConflictsReponse.Merge(m, src)
 }
-func (m *GetNumConflictsReponse) XXX_Size() int {
+func (m *GetConflictsReponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetNumConflictsReponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetNumConflictsReponse.DiscardUnknown(m)
+func (m *GetConflictsReponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetConflictsReponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetNumConflictsReponse proto.InternalMessageInfo
+var xxx_messageInfo_GetConflictsReponse proto.InternalMessageInfo
 
-func (m *GetNumConflictsReponse) GetCount() uint64 {
+func (m *GetConflictsReponse) GetCells() []*PciCell {
 	if m != nil {
-		return m.Count
+		return m.Cells
 	}
-	return 0
+	return nil
 }
 
-// must specify cell id: will only return a single cell's neigbors
-type GetNeigborsRequest struct {
+// cell id required
+type GetCellRequest struct {
 	CellId uint64 `protobuf:"varint,1,opt,name=cell_id,json=cellId,proto3" json:"cell_id,omitempty"`
 }
 
-func (m *GetNeigborsRequest) Reset()         { *m = GetNeigborsRequest{} }
-func (m *GetNeigborsRequest) String() string { return proto.CompactTextString(m) }
-func (*GetNeigborsRequest) ProtoMessage()    {}
-func (*GetNeigborsRequest) Descriptor() ([]byte, []int) {
+func (m *GetCellRequest) Reset()         { *m = GetCellRequest{} }
+func (m *GetCellRequest) String() string { return proto.CompactTextString(m) }
+func (*GetCellRequest) ProtoMessage()    {}
+func (*GetCellRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{2}
 }
-func (m *GetNeigborsRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetCellRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetNeigborsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetCellRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetNeigborsRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetCellRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -174,41 +174,41 @@ func (m *GetNeigborsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *GetNeigborsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetNeigborsRequest.Merge(m, src)
+func (m *GetCellRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetCellRequest.Merge(m, src)
 }
-func (m *GetNeigborsRequest) XXX_Size() int {
+func (m *GetCellRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetNeigborsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetNeigborsRequest.DiscardUnknown(m)
+func (m *GetCellRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetCellRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetNeigborsRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetCellRequest proto.InternalMessageInfo
 
-func (m *GetNeigborsRequest) GetCellId() uint64 {
+func (m *GetCellRequest) GetCellId() uint64 {
 	if m != nil {
 		return m.CellId
 	}
 	return 0
 }
 
-type GetNeigborsResponse struct {
-	NeigborIds []uint64 `protobuf:"varint,1,rep,packed,name=neigbor_ids,json=neigborIds,proto3" json:"neigbor_ids,omitempty"`
+type GetCellResponse struct {
+	Cell *PciCell `protobuf:"bytes,1,opt,name=cell,proto3" json:"cell,omitempty"`
 }
 
-func (m *GetNeigborsResponse) Reset()         { *m = GetNeigborsResponse{} }
-func (m *GetNeigborsResponse) String() string { return proto.CompactTextString(m) }
-func (*GetNeigborsResponse) ProtoMessage()    {}
-func (*GetNeigborsResponse) Descriptor() ([]byte, []int) {
+func (m *GetCellResponse) Reset()         { *m = GetCellResponse{} }
+func (m *GetCellResponse) String() string { return proto.CompactTextString(m) }
+func (*GetCellResponse) ProtoMessage()    {}
+func (*GetCellResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{3}
 }
-func (m *GetNeigborsResponse) XXX_Unmarshal(b []byte) error {
+func (m *GetCellResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetNeigborsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetCellResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetNeigborsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetCellResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -218,42 +218,41 @@ func (m *GetNeigborsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *GetNeigborsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetNeigborsResponse.Merge(m, src)
+func (m *GetCellResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetCellResponse.Merge(m, src)
 }
-func (m *GetNeigborsResponse) XXX_Size() int {
+func (m *GetCellResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetNeigborsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetNeigborsResponse.DiscardUnknown(m)
+func (m *GetCellResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetCellResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetNeigborsResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetCellResponse proto.InternalMessageInfo
 
-func (m *GetNeigborsResponse) GetNeigborIds() []uint64 {
+func (m *GetCellResponse) GetCell() *PciCell {
 	if m != nil {
-		return m.NeigborIds
+		return m.Cell
 	}
 	return nil
 }
 
-// if cell id is not specified, will return all metrics
-type GetMetricRequest struct {
-	CellId uint64 `protobuf:"varint,1,opt,name=cell_id,json=cellId,proto3" json:"cell_id,omitempty"`
+// cell id required
+type GetCellsRequest struct {
 }
 
-func (m *GetMetricRequest) Reset()         { *m = GetMetricRequest{} }
-func (m *GetMetricRequest) String() string { return proto.CompactTextString(m) }
-func (*GetMetricRequest) ProtoMessage()    {}
-func (*GetMetricRequest) Descriptor() ([]byte, []int) {
+func (m *GetCellsRequest) Reset()         { *m = GetCellsRequest{} }
+func (m *GetCellsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetCellsRequest) ProtoMessage()    {}
+func (*GetCellsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{4}
 }
-func (m *GetMetricRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetCellsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetMetricRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetCellsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetMetricRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetCellsRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -263,41 +262,34 @@ func (m *GetMetricRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *GetMetricRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetMetricRequest.Merge(m, src)
+func (m *GetCellsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetCellsRequest.Merge(m, src)
 }
-func (m *GetMetricRequest) XXX_Size() int {
+func (m *GetCellsRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetMetricRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetMetricRequest.DiscardUnknown(m)
+func (m *GetCellsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetCellsRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetMetricRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetCellsRequest proto.InternalMessageInfo
 
-func (m *GetMetricRequest) GetCellId() uint64 {
-	if m != nil {
-		return m.CellId
-	}
-	return 0
+type GetCellsResponse struct {
+	Cells []*PciCell `protobuf:"bytes,1,rep,name=cells,proto3" json:"cells,omitempty"`
 }
 
-type GetMetricResponse struct {
-	Metrics map[uint64]*Metrics `protobuf:"bytes,1,rep,name=metrics,proto3" json:"metrics,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (m *GetMetricResponse) Reset()         { *m = GetMetricResponse{} }
-func (m *GetMetricResponse) String() string { return proto.CompactTextString(m) }
-func (*GetMetricResponse) ProtoMessage()    {}
-func (*GetMetricResponse) Descriptor() ([]byte, []int) {
+func (m *GetCellsResponse) Reset()         { *m = GetCellsResponse{} }
+func (m *GetCellsResponse) String() string { return proto.CompactTextString(m) }
+func (*GetCellsResponse) ProtoMessage()    {}
+func (*GetCellsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{5}
 }
-func (m *GetMetricResponse) XXX_Unmarshal(b []byte) error {
+func (m *GetCellsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetMetricResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetCellsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetMetricResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetCellsResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -307,42 +299,47 @@ func (m *GetMetricResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-func (m *GetMetricResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetMetricResponse.Merge(m, src)
+func (m *GetCellsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetCellsResponse.Merge(m, src)
 }
-func (m *GetMetricResponse) XXX_Size() int {
+func (m *GetCellsResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetMetricResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetMetricResponse.DiscardUnknown(m)
+func (m *GetCellsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetCellsResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetMetricResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetCellsResponse proto.InternalMessageInfo
 
-func (m *GetMetricResponse) GetMetrics() map[uint64]*Metrics {
+func (m *GetCellsResponse) GetCells() []*PciCell {
 	if m != nil {
-		return m.Metrics
+		return m.Cells
 	}
 	return nil
 }
 
-// if cell id is not specified, will return all
-type GetPciPoolRequest struct {
-	CellId uint64 `protobuf:"varint,1,opt,name=cell_id,json=cellId,proto3" json:"cell_id,omitempty"`
+type PciCell struct {
+	Id         uint64      `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	NodeId     string      `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	Dlearfcn   uint32      `protobuf:"varint,3,opt,name=dlearfcn,proto3" json:"dlearfcn,omitempty"`
+	CellType   CellType    `protobuf:"varint,4,opt,name=cell_type,json=cellType,proto3,enum=onos.pci.CellType" json:"cell_type,omitempty"`
+	Pci        uint32      `protobuf:"varint,5,opt,name=pci,proto3" json:"pci,omitempty"`
+	PciPool    []*PciRange `protobuf:"bytes,6,rep,name=pci_pool,json=pciPool,proto3" json:"pci_pool,omitempty"`
+	NeigborIds []uint64    `protobuf:"varint,7,rep,packed,name=neigbor_ids,json=neigborIds,proto3" json:"neigbor_ids,omitempty"`
 }
 
-func (m *GetPciPoolRequest) Reset()         { *m = GetPciPoolRequest{} }
-func (m *GetPciPoolRequest) String() string { return proto.CompactTextString(m) }
-func (*GetPciPoolRequest) ProtoMessage()    {}
-func (*GetPciPoolRequest) Descriptor() ([]byte, []int) {
+func (m *PciCell) Reset()         { *m = PciCell{} }
+func (m *PciCell) String() string { return proto.CompactTextString(m) }
+func (*PciCell) ProtoMessage()    {}
+func (*PciCell) Descriptor() ([]byte, []int) {
 	return fileDescriptor_baea7100bf0b1c43, []int{6}
 }
-func (m *GetPciPoolRequest) XXX_Unmarshal(b []byte) error {
+func (m *PciCell) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetPciPoolRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *PciCell) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetPciPoolRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_PciCell.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -352,128 +349,65 @@ func (m *GetPciPoolRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-func (m *GetPciPoolRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPciPoolRequest.Merge(m, src)
+func (m *PciCell) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PciCell.Merge(m, src)
 }
-func (m *GetPciPoolRequest) XXX_Size() int {
+func (m *PciCell) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetPciPoolRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPciPoolRequest.DiscardUnknown(m)
+func (m *PciCell) XXX_DiscardUnknown() {
+	xxx_messageInfo_PciCell.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetPciPoolRequest proto.InternalMessageInfo
+var xxx_messageInfo_PciCell proto.InternalMessageInfo
 
-func (m *GetPciPoolRequest) GetCellId() uint64 {
+func (m *PciCell) GetId() uint64 {
 	if m != nil {
-		return m.CellId
+		return m.Id
 	}
 	return 0
 }
 
-type GetPciPoolResponse struct {
-	Pools map[uint64]*PciRange `protobuf:"bytes,1,rep,name=pools,proto3" json:"pools,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (m *GetPciPoolResponse) Reset()         { *m = GetPciPoolResponse{} }
-func (m *GetPciPoolResponse) String() string { return proto.CompactTextString(m) }
-func (*GetPciPoolResponse) ProtoMessage()    {}
-func (*GetPciPoolResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{7}
-}
-func (m *GetPciPoolResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPciPoolResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPciPoolResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPciPoolResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPciPoolResponse.Merge(m, src)
-}
-func (m *GetPciPoolResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPciPoolResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPciPoolResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPciPoolResponse proto.InternalMessageInfo
-
-func (m *GetPciPoolResponse) GetPools() map[uint64]*PciRange {
+func (m *PciCell) GetNodeId() string {
 	if m != nil {
-		return m.Pools
+		return m.NodeId
 	}
-	return nil
+	return ""
 }
 
-// metrics for a cell
-type Metrics struct {
-	Dlearfcn uint32   `protobuf:"varint,1,opt,name=dlearfcn,proto3" json:"dlearfcn,omitempty"`
-	CellType CellType `protobuf:"varint,2,opt,name=cell_type,json=cellType,proto3,enum=onos.pci.CellType" json:"cell_type,omitempty"`
-	Pci      uint32   `protobuf:"varint,3,opt,name=pci,proto3" json:"pci,omitempty"`
-}
-
-func (m *Metrics) Reset()         { *m = Metrics{} }
-func (m *Metrics) String() string { return proto.CompactTextString(m) }
-func (*Metrics) ProtoMessage()    {}
-func (*Metrics) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{8}
-}
-func (m *Metrics) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Metrics) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Metrics.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Metrics) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Metrics.Merge(m, src)
-}
-func (m *Metrics) XXX_Size() int {
-	return m.Size()
-}
-func (m *Metrics) XXX_DiscardUnknown() {
-	xxx_messageInfo_Metrics.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Metrics proto.InternalMessageInfo
-
-func (m *Metrics) GetDlearfcn() uint32 {
+func (m *PciCell) GetDlearfcn() uint32 {
 	if m != nil {
 		return m.Dlearfcn
 	}
 	return 0
 }
 
-func (m *Metrics) GetCellType() CellType {
+func (m *PciCell) GetCellType() CellType {
 	if m != nil {
 		return m.CellType
 	}
 	return CellType_FEMTO
 }
 
-func (m *Metrics) GetPci() uint32 {
+func (m *PciCell) GetPci() uint32 {
 	if m != nil {
 		return m.Pci
 	}
 	return 0
+}
+
+func (m *PciCell) GetPciPool() []*PciRange {
+	if m != nil {
+		return m.PciPool
+	}
+	return nil
+}
+
+func (m *PciCell) GetNeigborIds() []uint64 {
+	if m != nil {
+		return m.NeigborIds
+	}
+	return nil
 }
 
 type PciRange struct {
@@ -485,7 +419,7 @@ func (m *PciRange) Reset()         { *m = PciRange{} }
 func (m *PciRange) String() string { return proto.CompactTextString(m) }
 func (*PciRange) ProtoMessage()    {}
 func (*PciRange) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{9}
+	return fileDescriptor_baea7100bf0b1c43, []int{7}
 }
 func (m *PciRange) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -530,61 +464,52 @@ func (m *PciRange) GetMax() uint32 {
 
 func init() {
 	proto.RegisterEnum("onos.pci.CellType", CellType_name, CellType_value)
-	proto.RegisterType((*GetNumConflictsRequest)(nil), "onos.pci.GetNumConflictsRequest")
-	proto.RegisterType((*GetNumConflictsReponse)(nil), "onos.pci.GetNumConflictsReponse")
-	proto.RegisterType((*GetNeigborsRequest)(nil), "onos.pci.GetNeigborsRequest")
-	proto.RegisterType((*GetNeigborsResponse)(nil), "onos.pci.GetNeigborsResponse")
-	proto.RegisterType((*GetMetricRequest)(nil), "onos.pci.GetMetricRequest")
-	proto.RegisterType((*GetMetricResponse)(nil), "onos.pci.GetMetricResponse")
-	proto.RegisterMapType((map[uint64]*Metrics)(nil), "onos.pci.GetMetricResponse.MetricsEntry")
-	proto.RegisterType((*GetPciPoolRequest)(nil), "onos.pci.GetPciPoolRequest")
-	proto.RegisterType((*GetPciPoolResponse)(nil), "onos.pci.GetPciPoolResponse")
-	proto.RegisterMapType((map[uint64]*PciRange)(nil), "onos.pci.GetPciPoolResponse.PoolsEntry")
-	proto.RegisterType((*Metrics)(nil), "onos.pci.Metrics")
+	proto.RegisterType((*GetConflictsRequest)(nil), "onos.pci.GetConflictsRequest")
+	proto.RegisterType((*GetConflictsReponse)(nil), "onos.pci.GetConflictsReponse")
+	proto.RegisterType((*GetCellRequest)(nil), "onos.pci.GetCellRequest")
+	proto.RegisterType((*GetCellResponse)(nil), "onos.pci.GetCellResponse")
+	proto.RegisterType((*GetCellsRequest)(nil), "onos.pci.GetCellsRequest")
+	proto.RegisterType((*GetCellsResponse)(nil), "onos.pci.GetCellsResponse")
+	proto.RegisterType((*PciCell)(nil), "onos.pci.PciCell")
 	proto.RegisterType((*PciRange)(nil), "onos.pci.PciRange")
 }
 
 func init() { proto.RegisterFile("onos/pci/pci.proto", fileDescriptor_baea7100bf0b1c43) }
 
 var fileDescriptor_baea7100bf0b1c43 = []byte{
-	// 577 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x54, 0xcf, 0x6e, 0xda, 0x4e,
-	0x10, 0xb6, 0x21, 0x04, 0x18, 0x92, 0xfc, 0xcc, 0xfe, 0xaa, 0x16, 0x39, 0xa9, 0x8b, 0x7c, 0x09,
-	0xea, 0x1f, 0x47, 0xa5, 0x52, 0x55, 0x55, 0xea, 0x21, 0xa1, 0x4e, 0x84, 0x84, 0x03, 0xda, 0x50,
-	0xf5, 0x88, 0xc8, 0xb2, 0x49, 0x56, 0x35, 0x5e, 0x17, 0x9b, 0x2a, 0xbc, 0x45, 0x5f, 0xa1, 0x97,
-	0x3e, 0x45, 0x1f, 0xa0, 0xc7, 0x1c, 0x7b, 0xac, 0xe0, 0x45, 0xaa, 0xf5, 0xda, 0x80, 0x53, 0x0a,
-	0x07, 0xa4, 0x9d, 0x6f, 0xbe, 0xf9, 0x66, 0xbf, 0x65, 0xc6, 0x80, 0xb8, 0xc7, 0x83, 0x23, 0x9f,
-	0x30, 0xf1, 0xb3, 0xfc, 0x11, 0x0f, 0x39, 0x2a, 0x08, 0xcc, 0xf2, 0x09, 0x33, 0x5f, 0xc2, 0xc3,
-	0x33, 0x1a, 0x9e, 0x8f, 0x87, 0x0d, 0xee, 0x5d, 0xb9, 0x8c, 0x84, 0x01, 0xa6, 0x9f, 0xc7, 0x34,
-	0x08, 0xd1, 0x23, 0xc8, 0x13, 0xea, 0xba, 0x3d, 0x36, 0xa8, 0xa8, 0x55, 0xb5, 0xb6, 0x85, 0xb7,
-	0x45, 0xd8, 0x1c, 0x98, 0xd6, 0x8a, 0x12, 0x9f, 0x7b, 0x01, 0x45, 0x0f, 0x20, 0x47, 0xf8, 0xd8,
-	0x0b, 0xe3, 0x02, 0x19, 0x98, 0x2f, 0x00, 0x09, 0x3e, 0x65, 0xd7, 0x97, 0x7c, 0xb4, 0x59, 0xfe,
-	0x35, 0xfc, 0x9f, 0xa2, 0x07, 0x52, 0xfb, 0x09, 0x94, 0x3c, 0x89, 0xf5, 0xd8, 0x20, 0xa8, 0xa8,
-	0xd5, 0x6c, 0x6d, 0x0b, 0x43, 0x0c, 0x35, 0x07, 0x81, 0xf9, 0x0c, 0xb4, 0x33, 0x1a, 0x3a, 0x34,
-	0x1c, 0x31, 0xb2, 0xb1, 0xc9, 0x77, 0x15, 0xca, 0x4b, 0xec, 0xb8, 0xc7, 0x09, 0xe4, 0x87, 0x11,
-	0x22, 0xf5, 0x4b, 0xf5, 0x9a, 0x95, 0x3c, 0x94, 0xf5, 0x17, 0xdb, 0x92, 0x61, 0x60, 0x7b, 0xe1,
-	0x68, 0x82, 0x93, 0x42, 0xdd, 0x81, 0x9d, 0xe5, 0x04, 0xd2, 0x20, 0xfb, 0x89, 0x4e, 0xe2, 0xf6,
-	0xe2, 0x88, 0x0e, 0x21, 0xf7, 0xa5, 0xef, 0x8e, 0x69, 0x25, 0x53, 0x55, 0x6b, 0xa5, 0x7a, 0x79,
-	0xd1, 0x23, 0x2e, 0xc4, 0x32, 0xff, 0x36, 0xf3, 0x46, 0x35, 0x9f, 0x47, 0xf7, 0xec, 0x10, 0xd6,
-	0xe1, 0xdc, 0xdd, 0x68, 0xeb, 0x9b, 0x1a, 0xbd, 0xf5, 0x9c, 0x1e, 0xfb, 0x7a, 0x07, 0x39, 0x9f,
-	0x73, 0x37, 0x71, 0x75, 0x98, 0x72, 0x75, 0x8f, 0x6c, 0x89, 0x20, 0x36, 0x25, 0xab, 0xf4, 0x16,
-	0xc0, 0x02, 0x5c, 0x61, 0xa8, 0x96, 0x36, 0x84, 0x16, 0xf2, 0x1d, 0xc2, 0x70, 0xdf, 0xbb, 0xa6,
-	0xcb, 0x8e, 0x6e, 0x20, 0x1f, 0xfb, 0x44, 0x3a, 0x14, 0x06, 0x2e, 0xed, 0x8f, 0xae, 0x88, 0x17,
-	0xe9, 0xed, 0xe2, 0x79, 0x8c, 0x8e, 0xa0, 0x18, 0x79, 0x0c, 0x27, 0xbe, 0x14, 0xde, 0x5b, 0x16,
-	0x6e, 0x50, 0xd7, 0xed, 0x4e, 0x7c, 0x8a, 0x0b, 0x24, 0x3e, 0x89, 0x7b, 0xf9, 0x84, 0x55, 0xb2,
-	0x91, 0x8e, 0x38, 0x9a, 0x16, 0x14, 0x92, 0x0b, 0x88, 0xec, 0x90, 0x25, 0x5d, 0xc4, 0x31, 0x42,
-	0xfa, 0xb7, 0x91, 0xb4, 0x40, 0xfa, 0xb7, 0x4f, 0x1b, 0x50, 0x48, 0x74, 0x51, 0x11, 0x72, 0xa7,
-	0xb6, 0xd3, 0x6d, 0x6b, 0x0a, 0xda, 0x03, 0xb0, 0xcf, 0xbb, 0x36, 0xee, 0xe0, 0xe6, 0x85, 0xad,
-	0xa9, 0xa8, 0x0c, 0xbb, 0xed, 0x0f, 0xdd, 0xf7, 0xed, 0x36, 0xee, 0x5d, 0x38, 0xc7, 0xad, 0x96,
-	0x96, 0x11, 0x6c, 0xe7, 0xb8, 0x81, 0xdb, 0x5a, 0xb6, 0xfe, 0x23, 0x03, 0xd9, 0x0e, 0x61, 0xe8,
-	0x23, 0xfc, 0x77, 0x6f, 0x4b, 0x50, 0x35, 0xf5, 0xee, 0x2b, 0x76, 0x4e, 0x5f, 0xc7, 0x88, 0xfe,
-	0x1d, 0x53, 0x41, 0x0e, 0xec, 0xc4, 0xfb, 0x71, 0x23, 0x16, 0x04, 0x1d, 0xa4, 0x6b, 0xd2, 0x6b,
-	0xa6, 0x3f, 0xfe, 0x47, 0x36, 0x48, 0xe4, 0x4e, 0xa1, 0x38, 0x1f, 0x6d, 0xa4, 0xaf, 0x9c, 0x77,
-	0xa9, 0xb4, 0xbf, 0x66, 0x17, 0x4c, 0x05, 0xd9, 0xb0, 0x2d, 0x87, 0x09, 0xed, 0xaf, 0x1e, 0x2f,
-	0xa9, 0x72, 0xb0, 0x6e, 0xf6, 0x4c, 0xe5, 0xa4, 0xf2, 0x73, 0x6a, 0xa8, 0x77, 0x53, 0x43, 0xfd,
-	0x3d, 0x35, 0xd4, 0xaf, 0x33, 0x43, 0xb9, 0x9b, 0x19, 0xca, 0xaf, 0x99, 0xa1, 0x5c, 0x6e, 0x47,
-	0x9f, 0xae, 0x57, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x39, 0x1b, 0xc1, 0x48, 0xd0, 0x04, 0x00,
-	0x00,
+	// 498 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0x5d, 0x8b, 0xd3, 0x40,
+	0x14, 0xed, 0x34, 0xfd, 0x48, 0xef, 0xd2, 0x9a, 0x5e, 0x1f, 0x8c, 0x05, 0x63, 0x08, 0x88, 0x51,
+	0x30, 0x0b, 0xf5, 0x45, 0x10, 0xc4, 0xb5, 0x56, 0x29, 0x6c, 0xb7, 0x75, 0xb6, 0x3e, 0x97, 0xee,
+	0x64, 0x76, 0x19, 0xc8, 0x66, 0x62, 0x27, 0x0b, 0xbb, 0xff, 0xc2, 0x9f, 0xe5, 0xe3, 0x3e, 0xfa,
+	0xa6, 0xb6, 0x7f, 0x44, 0x66, 0xb6, 0x49, 0x59, 0xad, 0xc8, 0x3e, 0x04, 0x66, 0xce, 0x39, 0x73,
+	0xcf, 0xb9, 0xdc, 0x1b, 0x40, 0x99, 0x4a, 0xb5, 0x9f, 0x31, 0xa1, 0xbf, 0x28, 0x5b, 0xca, 0x5c,
+	0xa2, 0xad, 0xb1, 0x28, 0x63, 0x22, 0x88, 0xe0, 0xfe, 0x47, 0x9e, 0x0f, 0x64, 0x7a, 0x9a, 0x08,
+	0x96, 0x2b, 0xca, 0xbf, 0x5c, 0x70, 0x95, 0xe3, 0x03, 0x68, 0x32, 0x9e, 0x24, 0x73, 0x11, 0xbb,
+	0xc4, 0x27, 0x61, 0x8d, 0x36, 0xf4, 0x75, 0x14, 0x07, 0x6f, 0xfe, 0xd4, 0x67, 0x32, 0x55, 0x1c,
+	0x9f, 0x42, 0x5d, 0x0b, 0x94, 0x4b, 0x7c, 0x2b, 0xdc, 0xeb, 0x77, 0xa3, 0xc2, 0x20, 0x9a, 0x32,
+	0x31, 0xe0, 0x49, 0x42, 0x6f, 0xf8, 0xe0, 0x19, 0x74, 0xf4, 0x7b, 0x8d, 0xfc, 0xcf, 0xea, 0x15,
+	0xdc, 0x2b, 0xa5, 0xea, 0xc6, 0xe6, 0x09, 0xd4, 0x34, 0x69, 0x84, 0x3b, 0x5d, 0x0c, 0x1d, 0x74,
+	0xcb, 0x97, 0x45, 0x43, 0xc1, 0x6b, 0x70, 0xb6, 0x90, 0xba, 0x63, 0xe8, 0x5f, 0x04, 0x9a, 0x1b,
+	0x08, 0x3b, 0x50, 0x2d, 0x93, 0x56, 0x45, 0xac, 0xe3, 0xa7, 0x32, 0xe6, 0x3a, 0x7e, 0xd5, 0x27,
+	0x61, 0x8b, 0x36, 0xf4, 0x75, 0x14, 0x63, 0x0f, 0xec, 0x38, 0xe1, 0x8b, 0xe5, 0x29, 0x4b, 0x5d,
+	0xcb, 0x27, 0x61, 0x9b, 0x96, 0x77, 0xdc, 0x87, 0x96, 0xe9, 0x39, 0xbf, 0xca, 0xb8, 0x5b, 0xf3,
+	0x49, 0xd8, 0xe9, 0xe3, 0xd6, 0x5d, 0xfb, 0xcc, 0xae, 0x32, 0x4e, 0x6d, 0xb6, 0x39, 0xa1, 0x03,
+	0x56, 0xc6, 0x84, 0x5b, 0x37, 0x75, 0xf4, 0x11, 0x5f, 0x80, 0x9d, 0x31, 0x31, 0xcf, 0xa4, 0x4c,
+	0xdc, 0x86, 0xc9, 0x8f, 0xb7, 0xf2, 0xd3, 0x45, 0x7a, 0xc6, 0x69, 0x33, 0x63, 0x62, 0x2a, 0x65,
+	0x82, 0x8f, 0x61, 0x2f, 0xe5, 0xe2, 0xec, 0x44, 0x2e, 0xe7, 0x22, 0x56, 0x6e, 0xd3, 0xb7, 0xc2,
+	0x1a, 0x85, 0x0d, 0x34, 0x8a, 0x55, 0x10, 0x81, 0x5d, 0xbc, 0xd2, 0x6e, 0xe7, 0x22, 0x35, 0x4d,
+	0xb6, 0xa9, 0x3e, 0x1a, 0x64, 0x71, 0x69, 0x3a, 0xd4, 0xc8, 0xe2, 0xf2, 0xf9, 0x00, 0xec, 0x22,
+	0x27, 0xb6, 0xa0, 0xfe, 0x61, 0x38, 0x9e, 0x4d, 0x9c, 0x0a, 0x76, 0x00, 0x86, 0x47, 0xb3, 0x21,
+	0x9d, 0xd2, 0xd1, 0xf1, 0xd0, 0x21, 0xd8, 0x85, 0xf6, 0xe4, 0xf3, 0xec, 0xfd, 0x64, 0x42, 0xe7,
+	0xc7, 0xe3, 0x83, 0xc3, 0x43, 0xa7, 0xaa, 0xd5, 0xe3, 0x83, 0x01, 0x9d, 0x38, 0x56, 0xff, 0x07,
+	0x01, 0x6b, 0xca, 0x04, 0x7e, 0x32, 0x03, 0x3b, 0xba, 0x38, 0x2f, 0x17, 0x0b, 0x1f, 0x6d, 0xbb,
+	0xd9, 0xb1, 0xa0, 0xbd, 0x7f, 0xd2, 0x66, 0xb4, 0x41, 0x05, 0xdf, 0x42, 0x73, 0x33, 0x70, 0x74,
+	0x6f, 0x6b, 0xb7, 0xbb, 0xd7, 0x7b, 0xb8, 0x83, 0x51, 0x45, 0x85, 0x01, 0xd8, 0xc5, 0xca, 0xe0,
+	0xdf, 0xc2, 0x32, 0x49, 0x6f, 0x17, 0x55, 0x14, 0x79, 0xe7, 0x7e, 0x5b, 0x79, 0xe4, 0x7a, 0xe5,
+	0x91, 0x9f, 0x2b, 0x8f, 0x7c, 0x5d, 0x7b, 0x95, 0xeb, 0xb5, 0x57, 0xf9, 0xbe, 0xf6, 0x2a, 0x27,
+	0x0d, 0xf3, 0x2b, 0xbe, 0xfc, 0x1d, 0x00, 0x00, 0xff, 0xff, 0x8f, 0x78, 0xf7, 0xf2, 0xa0, 0x03,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -599,10 +524,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PciClient interface {
-	GetNumConflicts(ctx context.Context, in *GetNumConflictsRequest, opts ...grpc.CallOption) (*GetNumConflictsReponse, error)
-	GetNeighbors(ctx context.Context, in *GetNeigborsRequest, opts ...grpc.CallOption) (*GetNeigborsResponse, error)
-	GetMetric(ctx context.Context, in *GetMetricRequest, opts ...grpc.CallOption) (*GetMetricResponse, error)
-	GetPci(ctx context.Context, in *GetPciPoolRequest, opts ...grpc.CallOption) (*GetPciPoolResponse, error)
+	GetNumConflicts(ctx context.Context, in *GetConflictsRequest, opts ...grpc.CallOption) (*GetConflictsReponse, error)
+	GetCell(ctx context.Context, in *GetCellRequest, opts ...grpc.CallOption) (*GetCellResponse, error)
+	GetCells(ctx context.Context, in *GetCellsRequest, opts ...grpc.CallOption) (*GetCellsResponse, error)
 }
 
 type pciClient struct {
@@ -613,8 +537,8 @@ func NewPciClient(cc *grpc.ClientConn) PciClient {
 	return &pciClient{cc}
 }
 
-func (c *pciClient) GetNumConflicts(ctx context.Context, in *GetNumConflictsRequest, opts ...grpc.CallOption) (*GetNumConflictsReponse, error) {
-	out := new(GetNumConflictsReponse)
+func (c *pciClient) GetNumConflicts(ctx context.Context, in *GetConflictsRequest, opts ...grpc.CallOption) (*GetConflictsReponse, error) {
+	out := new(GetConflictsReponse)
 	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetNumConflicts", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -622,27 +546,18 @@ func (c *pciClient) GetNumConflicts(ctx context.Context, in *GetNumConflictsRequ
 	return out, nil
 }
 
-func (c *pciClient) GetNeighbors(ctx context.Context, in *GetNeigborsRequest, opts ...grpc.CallOption) (*GetNeigborsResponse, error) {
-	out := new(GetNeigborsResponse)
-	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetNeighbors", in, out, opts...)
+func (c *pciClient) GetCell(ctx context.Context, in *GetCellRequest, opts ...grpc.CallOption) (*GetCellResponse, error) {
+	out := new(GetCellResponse)
+	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetCell", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *pciClient) GetMetric(ctx context.Context, in *GetMetricRequest, opts ...grpc.CallOption) (*GetMetricResponse, error) {
-	out := new(GetMetricResponse)
-	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetMetric", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *pciClient) GetPci(ctx context.Context, in *GetPciPoolRequest, opts ...grpc.CallOption) (*GetPciPoolResponse, error) {
-	out := new(GetPciPoolResponse)
-	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetPci", in, out, opts...)
+func (c *pciClient) GetCells(ctx context.Context, in *GetCellsRequest, opts ...grpc.CallOption) (*GetCellsResponse, error) {
+	out := new(GetCellsResponse)
+	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetCells", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -651,27 +566,23 @@ func (c *pciClient) GetPci(ctx context.Context, in *GetPciPoolRequest, opts ...g
 
 // PciServer is the server API for Pci service.
 type PciServer interface {
-	GetNumConflicts(context.Context, *GetNumConflictsRequest) (*GetNumConflictsReponse, error)
-	GetNeighbors(context.Context, *GetNeigborsRequest) (*GetNeigborsResponse, error)
-	GetMetric(context.Context, *GetMetricRequest) (*GetMetricResponse, error)
-	GetPci(context.Context, *GetPciPoolRequest) (*GetPciPoolResponse, error)
+	GetNumConflicts(context.Context, *GetConflictsRequest) (*GetConflictsReponse, error)
+	GetCell(context.Context, *GetCellRequest) (*GetCellResponse, error)
+	GetCells(context.Context, *GetCellsRequest) (*GetCellsResponse, error)
 }
 
 // UnimplementedPciServer can be embedded to have forward compatible implementations.
 type UnimplementedPciServer struct {
 }
 
-func (*UnimplementedPciServer) GetNumConflicts(ctx context.Context, req *GetNumConflictsRequest) (*GetNumConflictsReponse, error) {
+func (*UnimplementedPciServer) GetNumConflicts(ctx context.Context, req *GetConflictsRequest) (*GetConflictsReponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNumConflicts not implemented")
 }
-func (*UnimplementedPciServer) GetNeighbors(ctx context.Context, req *GetNeigborsRequest) (*GetNeigborsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNeighbors not implemented")
+func (*UnimplementedPciServer) GetCell(ctx context.Context, req *GetCellRequest) (*GetCellResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCell not implemented")
 }
-func (*UnimplementedPciServer) GetMetric(ctx context.Context, req *GetMetricRequest) (*GetMetricResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMetric not implemented")
-}
-func (*UnimplementedPciServer) GetPci(ctx context.Context, req *GetPciPoolRequest) (*GetPciPoolResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPci not implemented")
+func (*UnimplementedPciServer) GetCells(ctx context.Context, req *GetCellsRequest) (*GetCellsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCells not implemented")
 }
 
 func RegisterPciServer(s *grpc.Server, srv PciServer) {
@@ -679,7 +590,7 @@ func RegisterPciServer(s *grpc.Server, srv PciServer) {
 }
 
 func _Pci_GetNumConflicts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetNumConflictsRequest)
+	in := new(GetConflictsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -691,61 +602,43 @@ func _Pci_GetNumConflicts_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/onos.pci.Pci/GetNumConflicts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PciServer).GetNumConflicts(ctx, req.(*GetNumConflictsRequest))
+		return srv.(PciServer).GetNumConflicts(ctx, req.(*GetConflictsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Pci_GetNeighbors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetNeigborsRequest)
+func _Pci_GetCell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCellRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PciServer).GetNeighbors(ctx, in)
+		return srv.(PciServer).GetCell(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.pci.Pci/GetNeighbors",
+		FullMethod: "/onos.pci.Pci/GetCell",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PciServer).GetNeighbors(ctx, req.(*GetNeigborsRequest))
+		return srv.(PciServer).GetCell(ctx, req.(*GetCellRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Pci_GetMetric_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetMetricRequest)
+func _Pci_GetCells_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCellsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PciServer).GetMetric(ctx, in)
+		return srv.(PciServer).GetCells(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/onos.pci.Pci/GetMetric",
+		FullMethod: "/onos.pci.Pci/GetCells",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PciServer).GetMetric(ctx, req.(*GetMetricRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Pci_GetPci_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPciPoolRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PciServer).GetPci(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/onos.pci.Pci/GetPci",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PciServer).GetPci(ctx, req.(*GetPciPoolRequest))
+		return srv.(PciServer).GetCells(ctx, req.(*GetCellsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -759,23 +652,19 @@ var _Pci_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Pci_GetNumConflicts_Handler,
 		},
 		{
-			MethodName: "GetNeighbors",
-			Handler:    _Pci_GetNeighbors_Handler,
+			MethodName: "GetCell",
+			Handler:    _Pci_GetCell_Handler,
 		},
 		{
-			MethodName: "GetMetric",
-			Handler:    _Pci_GetMetric_Handler,
-		},
-		{
-			MethodName: "GetPci",
-			Handler:    _Pci_GetPci_Handler,
+			MethodName: "GetCells",
+			Handler:    _Pci_GetCells_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "onos/pci/pci.proto",
 }
 
-func (m *GetNumConflictsRequest) Marshal() (dAtA []byte, err error) {
+func (m *GetConflictsRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -785,12 +674,12 @@ func (m *GetNumConflictsRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetNumConflictsRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetConflictsRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetNumConflictsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetConflictsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -803,7 +692,7 @@ func (m *GetNumConflictsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *GetNumConflictsReponse) Marshal() (dAtA []byte, err error) {
+func (m *GetConflictsReponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -813,94 +702,97 @@ func (m *GetNumConflictsReponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetNumConflictsReponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetConflictsReponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetNumConflictsReponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetConflictsReponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Count != 0 {
-		i = encodeVarintPci(dAtA, i, uint64(m.Count))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetNeigborsRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetNeigborsRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetNeigborsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.CellId != 0 {
-		i = encodeVarintPci(dAtA, i, uint64(m.CellId))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetNeigborsResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetNeigborsResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetNeigborsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.NeigborIds) > 0 {
-		dAtA2 := make([]byte, len(m.NeigborIds)*10)
-		var j1 int
-		for _, num := range m.NeigborIds {
-			for num >= 1<<7 {
-				dAtA2[j1] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				j1++
+	if len(m.Cells) > 0 {
+		for iNdEx := len(m.Cells) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cells[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintPci(dAtA, i, uint64(size))
 			}
-			dAtA2[j1] = uint8(num)
-			j1++
+			i--
+			dAtA[i] = 0xa
 		}
-		i -= j1
-		copy(dAtA[i:], dAtA2[:j1])
-		i = encodeVarintPci(dAtA, i, uint64(j1))
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetCellRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetCellRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetCellRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.CellId != 0 {
+		i = encodeVarintPci(dAtA, i, uint64(m.CellId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetCellResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetCellResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetCellResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Cell != nil {
+		{
+			size, err := m.Cell.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPci(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
 
-func (m *GetMetricRequest) Marshal() (dAtA []byte, err error) {
+func (m *GetCellsRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -910,25 +802,20 @@ func (m *GetMetricRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetMetricRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetCellsRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetMetricRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetCellsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.CellId != 0 {
-		i = encodeVarintPci(dAtA, i, uint64(m.CellId))
-		i--
-		dAtA[i] = 0x8
-	}
 	return len(dAtA) - i, nil
 }
 
-func (m *GetMetricResponse) Marshal() (dAtA []byte, err error) {
+func (m *GetCellsResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -938,36 +825,26 @@ func (m *GetMetricResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetMetricResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetCellsResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetMetricResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetCellsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Metrics) > 0 {
-		for k := range m.Metrics {
-			v := m.Metrics[k]
-			baseI := i
-			if v != nil {
-				{
-					size, err := v.MarshalToSizedBuffer(dAtA[:i])
-					if err != nil {
-						return 0, err
-					}
-					i -= size
-					i = encodeVarintPci(dAtA, i, uint64(size))
+	if len(m.Cells) > 0 {
+		for iNdEx := len(m.Cells) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cells[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
 				}
-				i--
-				dAtA[i] = 0x12
+				i -= size
+				i = encodeVarintPci(dAtA, i, uint64(size))
 			}
-			i = encodeVarintPci(dAtA, i, uint64(k))
-			i--
-			dAtA[i] = 0x8
-			i = encodeVarintPci(dAtA, i, uint64(baseI-i))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -975,7 +852,7 @@ func (m *GetMetricResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetPciPoolRequest) Marshal() (dAtA []byte, err error) {
+func (m *PciCell) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -985,103 +862,72 @@ func (m *GetPciPoolRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetPciPoolRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *PciCell) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetPciPoolRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *PciCell) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.CellId != 0 {
-		i = encodeVarintPci(dAtA, i, uint64(m.CellId))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPciPoolResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPciPoolResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPciPoolResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Pools) > 0 {
-		for k := range m.Pools {
-			v := m.Pools[k]
-			baseI := i
-			if v != nil {
-				{
-					size, err := v.MarshalToSizedBuffer(dAtA[:i])
-					if err != nil {
-						return 0, err
-					}
-					i -= size
-					i = encodeVarintPci(dAtA, i, uint64(size))
-				}
-				i--
-				dAtA[i] = 0x12
+	if len(m.NeigborIds) > 0 {
+		dAtA3 := make([]byte, len(m.NeigborIds)*10)
+		var j2 int
+		for _, num := range m.NeigborIds {
+			for num >= 1<<7 {
+				dAtA3[j2] = uint8(uint64(num)&0x7f | 0x80)
+				num >>= 7
+				j2++
 			}
-			i = encodeVarintPci(dAtA, i, uint64(k))
+			dAtA3[j2] = uint8(num)
+			j2++
+		}
+		i -= j2
+		copy(dAtA[i:], dAtA3[:j2])
+		i = encodeVarintPci(dAtA, i, uint64(j2))
+		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.PciPool) > 0 {
+		for iNdEx := len(m.PciPool) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.PciPool[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintPci(dAtA, i, uint64(size))
+			}
 			i--
-			dAtA[i] = 0x8
-			i = encodeVarintPci(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0xa
+			dAtA[i] = 0x32
 		}
 	}
-	return len(dAtA) - i, nil
-}
-
-func (m *Metrics) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Metrics) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Metrics) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
 	if m.Pci != 0 {
 		i = encodeVarintPci(dAtA, i, uint64(m.Pci))
 		i--
-		dAtA[i] = 0x18
+		dAtA[i] = 0x28
 	}
 	if m.CellType != 0 {
 		i = encodeVarintPci(dAtA, i, uint64(m.CellType))
 		i--
-		dAtA[i] = 0x10
+		dAtA[i] = 0x20
 	}
 	if m.Dlearfcn != 0 {
 		i = encodeVarintPci(dAtA, i, uint64(m.Dlearfcn))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.NodeId) > 0 {
+		i -= len(m.NodeId)
+		copy(dAtA[i:], m.NodeId)
+		i = encodeVarintPci(dAtA, i, uint64(len(m.NodeId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Id != 0 {
+		i = encodeVarintPci(dAtA, i, uint64(m.Id))
 		i--
 		dAtA[i] = 0x8
 	}
@@ -1132,7 +978,7 @@ func encodeVarintPci(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *GetNumConflictsRequest) Size() (n int) {
+func (m *GetConflictsRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1144,81 +990,22 @@ func (m *GetNumConflictsRequest) Size() (n int) {
 	return n
 }
 
-func (m *GetNumConflictsReponse) Size() (n int) {
+func (m *GetConflictsReponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Count != 0 {
-		n += 1 + sovPci(uint64(m.Count))
-	}
-	return n
-}
-
-func (m *GetNeigborsRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.CellId != 0 {
-		n += 1 + sovPci(uint64(m.CellId))
-	}
-	return n
-}
-
-func (m *GetNeigborsResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.NeigborIds) > 0 {
-		l = 0
-		for _, e := range m.NeigborIds {
-			l += sovPci(uint64(e))
-		}
-		n += 1 + sovPci(uint64(l)) + l
-	}
-	return n
-}
-
-func (m *GetMetricRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.CellId != 0 {
-		n += 1 + sovPci(uint64(m.CellId))
-	}
-	return n
-}
-
-func (m *GetMetricResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Metrics) > 0 {
-		for k, v := range m.Metrics {
-			_ = k
-			_ = v
-			l = 0
-			if v != nil {
-				l = v.Size()
-				l += 1 + sovPci(uint64(l))
-			}
-			mapEntrySize := 1 + sovPci(uint64(k)) + l
-			n += mapEntrySize + 1 + sovPci(uint64(mapEntrySize))
+	if len(m.Cells) > 0 {
+		for _, e := range m.Cells {
+			l = e.Size()
+			n += 1 + l + sovPci(uint64(l))
 		}
 	}
 	return n
 }
 
-func (m *GetPciPoolRequest) Size() (n int) {
+func (m *GetCellRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1230,34 +1017,56 @@ func (m *GetPciPoolRequest) Size() (n int) {
 	return n
 }
 
-func (m *GetPciPoolResponse) Size() (n int) {
+func (m *GetCellResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if len(m.Pools) > 0 {
-		for k, v := range m.Pools {
-			_ = k
-			_ = v
-			l = 0
-			if v != nil {
-				l = v.Size()
-				l += 1 + sovPci(uint64(l))
-			}
-			mapEntrySize := 1 + sovPci(uint64(k)) + l
-			n += mapEntrySize + 1 + sovPci(uint64(mapEntrySize))
+	if m.Cell != nil {
+		l = m.Cell.Size()
+		n += 1 + l + sovPci(uint64(l))
+	}
+	return n
+}
+
+func (m *GetCellsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *GetCellsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Cells) > 0 {
+		for _, e := range m.Cells {
+			l = e.Size()
+			n += 1 + l + sovPci(uint64(l))
 		}
 	}
 	return n
 }
 
-func (m *Metrics) Size() (n int) {
+func (m *PciCell) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
+	if m.Id != 0 {
+		n += 1 + sovPci(uint64(m.Id))
+	}
+	l = len(m.NodeId)
+	if l > 0 {
+		n += 1 + l + sovPci(uint64(l))
+	}
 	if m.Dlearfcn != 0 {
 		n += 1 + sovPci(uint64(m.Dlearfcn))
 	}
@@ -1266,6 +1075,19 @@ func (m *Metrics) Size() (n int) {
 	}
 	if m.Pci != 0 {
 		n += 1 + sovPci(uint64(m.Pci))
+	}
+	if len(m.PciPool) > 0 {
+		for _, e := range m.PciPool {
+			l = e.Size()
+			n += 1 + l + sovPci(uint64(l))
+		}
+	}
+	if len(m.NeigborIds) > 0 {
+		l = 0
+		for _, e := range m.NeigborIds {
+			l += sovPci(uint64(e))
+		}
+		n += 1 + sovPci(uint64(l)) + l
 	}
 	return n
 }
@@ -1291,7 +1113,7 @@ func sovPci(x uint64) (n int) {
 func sozPci(x uint64) (n int) {
 	return sovPci(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *GetNumConflictsRequest) Unmarshal(dAtA []byte) error {
+func (m *GetConflictsRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1314,10 +1136,10 @@ func (m *GetNumConflictsRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetNumConflictsRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetConflictsRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetNumConflictsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetConflictsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1363,7 +1185,7 @@ func (m *GetNumConflictsRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetNumConflictsReponse) Unmarshal(dAtA []byte) error {
+func (m *GetConflictsReponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1386,17 +1208,17 @@ func (m *GetNumConflictsReponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetNumConflictsReponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetConflictsReponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetNumConflictsReponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetConflictsReponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cells", wireType)
 			}
-			m.Count = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowPci
@@ -1406,11 +1228,26 @@ func (m *GetNumConflictsReponse) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Count |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthPci
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPci
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cells = append(m.Cells, &PciCell{})
+			if err := m.Cells[len(m.Cells)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPci(dAtA[iNdEx:])
@@ -1435,7 +1272,7 @@ func (m *GetNumConflictsReponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetNeigborsRequest) Unmarshal(dAtA []byte) error {
+func (m *GetCellRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1458,10 +1295,10 @@ func (m *GetNeigborsRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetNeigborsRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetCellRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetNeigborsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetCellRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1507,7 +1344,7 @@ func (m *GetNeigborsRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetNeigborsResponse) Unmarshal(dAtA []byte) error {
+func (m *GetCellResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1530,13 +1367,384 @@ func (m *GetNeigborsResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetNeigborsResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetCellResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetNeigborsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetCellResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cell", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPci
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPci
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Cell == nil {
+				m.Cell = &PciCell{}
+			}
+			if err := m.Cell.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPci(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetCellsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPci
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetCellsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetCellsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPci(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetCellsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPci
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetCellsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetCellsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cells", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPci
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPci
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cells = append(m.Cells, &PciCell{})
+			if err := m.Cells[len(m.Cells)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPci(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PciCell) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPci
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PciCell: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PciCell: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NodeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPci
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPci
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NodeId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Dlearfcn", wireType)
+			}
+			m.Dlearfcn = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Dlearfcn |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CellType", wireType)
+			}
+			m.CellType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CellType |= CellType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pci", wireType)
+			}
+			m.Pci = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Pci |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PciPool", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPci
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPci
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PciPool = append(m.PciPool, &PciRange{})
+			if err := m.PciPool[len(m.PciPool)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
 			if wireType == 0 {
 				var v uint64
 				for shift := uint(0); ; shift += 7 {
@@ -1611,596 +1819,6 @@ func (m *GetNeigborsResponse) Unmarshal(dAtA []byte) error {
 				}
 			} else {
 				return fmt.Errorf("proto: wrong wireType = %d for field NeigborIds", wireType)
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipPci(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetMetricRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowPci
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetMetricRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetMetricRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CellId", wireType)
-			}
-			m.CellId = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.CellId |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipPci(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetMetricResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowPci
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetMetricResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetMetricResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Metrics", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthPci
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthPci
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Metrics == nil {
-				m.Metrics = make(map[uint64]*Metrics)
-			}
-			var mapkey uint64
-			var mapvalue *Metrics
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowPci
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowPci
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-				} else if fieldNum == 2 {
-					var mapmsglen int
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowPci
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapmsglen |= int(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					if mapmsglen < 0 {
-						return ErrInvalidLengthPci
-					}
-					postmsgIndex := iNdEx + mapmsglen
-					if postmsgIndex < 0 {
-						return ErrInvalidLengthPci
-					}
-					if postmsgIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = &Metrics{}
-					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
-						return err
-					}
-					iNdEx = postmsgIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipPci(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if skippy < 0 {
-						return ErrInvalidLengthPci
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Metrics[mapkey] = mapvalue
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipPci(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPciPoolRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowPci
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPciPoolRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPciPoolRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CellId", wireType)
-			}
-			m.CellId = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.CellId |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipPci(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPciPoolResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowPci
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPciPoolResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPciPoolResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pools", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthPci
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthPci
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Pools == nil {
-				m.Pools = make(map[uint64]*PciRange)
-			}
-			var mapkey uint64
-			var mapvalue *PciRange
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowPci
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowPci
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-				} else if fieldNum == 2 {
-					var mapmsglen int
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowPci
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapmsglen |= int(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					if mapmsglen < 0 {
-						return ErrInvalidLengthPci
-					}
-					postmsgIndex := iNdEx + mapmsglen
-					if postmsgIndex < 0 {
-						return ErrInvalidLengthPci
-					}
-					if postmsgIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = &PciRange{}
-					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
-						return err
-					}
-					iNdEx = postmsgIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipPci(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if skippy < 0 {
-						return ErrInvalidLengthPci
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Pools[mapkey] = mapvalue
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipPci(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthPci
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Metrics) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowPci
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Metrics: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Metrics: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Dlearfcn", wireType)
-			}
-			m.Dlearfcn = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Dlearfcn |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CellType", wireType)
-			}
-			m.CellType = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.CellType |= CellType(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Pci", wireType)
-			}
-			m.Pci = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPci
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Pci |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
 			}
 		default:
 			iNdEx = preIndex
