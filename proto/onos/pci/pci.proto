@@ -18,7 +18,7 @@ syntax = "proto3";
 package onos.pci;
 
 service Pci {
-  rpc GetNumConflicts(GetConflictsRequest) returns (GetConflictsReponse) {}
+  rpc GetNumConflicts(GetConflictsRequest) returns (GetConflictsResponse) {}
   rpc GetCell(GetCellRequest) returns (GetCellResponse) {}
   rpc GetCells(GetCellsRequest) returns (GetCellsResponse) {}
 }
@@ -28,7 +28,7 @@ message GetConflictsRequest {
   uint64 cell_id = 1;
 }
 
-message GetConflictsReponse {
+message GetConflictsResponse {
   repeated PciCell cells = 1;
 }
 
