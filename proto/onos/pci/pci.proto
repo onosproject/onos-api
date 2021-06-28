@@ -56,7 +56,7 @@ message PciCell {
   CellType cell_type = 4;
   uint32 pci = 5;
   repeated PciRange pci_pool = 6;
-  repeated uint64 neigbor_ids = 7;
+  repeated uint64 neighbor_ids = 7;
 }
 
 enum CellType {
