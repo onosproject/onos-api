@@ -2,103 +2,149 @@
 # sources: onos/pci/pci.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, List
 
 import betterproto
 import grpclib
 
 
+class CellType(betterproto.Enum):
+    FEMTO = 0
+    ENTERPRISE = 1
+    OUTDOOR_SMALL = 2
+    MACRO = 3
+
+
 @dataclass(eq=False, repr=False)
-class GetRequest(betterproto.Message):
-    id: str = betterproto.string_field(1)
+class GetNumConflictsRequest(betterproto.Message):
+    """if cell id is not specified, will return total number of conflicts"""
+
+    cell_id: int = betterproto.uint64_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class GetResponse(betterproto.Message):
-    object: "Object" = betterproto.message_field(1)
+class GetNumConflictsReponse(betterproto.Message):
+    count: int = betterproto.uint64_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class Object(betterproto.Message):
-    id: str = betterproto.string_field(1)
-    revision: int = betterproto.uint64_field(2)
-    attributes: Dict[str, str] = betterproto.map_field(
-        3, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+class GetNeigborsRequest(betterproto.Message):
+    """must specify cell id: will only return a single cell's neigbors"""
+
+    cell_id: int = betterproto.uint64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetNeigborsResponse(betterproto.Message):
+    neigbor_ids: List[int] = betterproto.uint64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetMetricRequest(betterproto.Message):
+    """if cell id is not specified, will return all metrics"""
+
+    cell_id: int = betterproto.uint64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetMetricResponse(betterproto.Message):
+    metrics: Dict[int, "Metrics"] = betterproto.map_field(
+        1, betterproto.TYPE_UINT64, betterproto.TYPE_MESSAGE
     )
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
+@dataclass(eq=False, repr=False)
+class GetPciPoolRequest(betterproto.Message):
+    """if cell id is not specified, will return all"""
+
+    cell_id: int = betterproto.uint64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetPciPoolResponse(betterproto.Message):
+    pools: Dict[int, "PciRange"] = betterproto.map_field(
+        1, betterproto.TYPE_UINT64, betterproto.TYPE_MESSAGE
+    )
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Metrics(betterproto.Message):
+    """metrics for a cell"""
+
+    dlearfcn: int = betterproto.uint32_field(1)
+    cell_type: "CellType" = betterproto.enum_field(2)
+    pci: int = betterproto.uint32_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class PciRange(betterproto.Message):
+    min: int = betterproto.uint32_field(1)
+    max: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
 class PciStub(betterproto.ServiceStub):
-    async def get_num_conflicts(self, *, id: str = "") -> "GetResponse":
+    async def get_num_conflicts(self, *, cell_id: int = 0) -> "GetNumConflictsReponse":
 
-        request = GetRequest()
-        request.id = id
-
-        return await self._unary_unary(
-            "/onos.pci.Pci/GetNumConflicts", request, GetResponse
-        )
-
-    async def get_num_conflicts_all(self, *, id: str = "") -> "GetResponse":
-
-        request = GetRequest()
-        request.id = id
+        request = GetNumConflictsRequest()
+        request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNumConflictsAll", request, GetResponse
+            "/onos.pci.Pci/GetNumConflicts", request, GetNumConflictsReponse
         )
 
-    async def get_neighbors(self, *, id: str = "") -> "GetResponse":
+    async def get_neighbors(self, *, cell_id: int = 0) -> "GetNeigborsResponse":
 
-        request = GetRequest()
-        request.id = id
+        request = GetNeigborsRequest()
+        request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNeighbors", request, GetResponse
+            "/onos.pci.Pci/GetNeighbors", request, GetNeigborsResponse
         )
 
-    async def get_neighbors_all(self, *, id: str = "") -> "GetResponse":
+    async def get_metric(self, *, cell_id: int = 0) -> "GetMetricResponse":
 
-        request = GetRequest()
-        request.id = id
+        request = GetMetricRequest()
+        request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNeighborsAll", request, GetResponse
+            "/onos.pci.Pci/GetMetric", request, GetMetricResponse
         )
 
-    async def get_metric(self, *, id: str = "") -> "GetResponse":
+    async def get_pci(self, *, cell_id: int = 0) -> "GetPciPoolResponse":
 
-        request = GetRequest()
-        request.id = id
-
-        return await self._unary_unary("/onos.pci.Pci/GetMetric", request, GetResponse)
-
-    async def get_metric_all(self, *, id: str = "") -> "GetResponse":
-
-        request = GetRequest()
-        request.id = id
+        request = GetPciPoolRequest()
+        request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetMetricAll", request, GetResponse
+            "/onos.pci.Pci/GetPci", request, GetPciPoolResponse
         )
-
-    async def get_pci(self, *, id: str = "") -> "GetResponse":
-
-        request = GetRequest()
-        request.id = id
-
-        return await self._unary_unary("/onos.pci.Pci/GetPci", request, GetResponse)
-
-    async def get_pci_all(self, *, id: str = "") -> "GetResponse":
-
-        request = GetRequest()
-        request.id = id
-
-        return await self._unary_unary("/onos.pci.Pci/GetPciAll", request, GetResponse)
