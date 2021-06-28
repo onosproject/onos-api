@@ -86,6 +86,12 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,pci.md \
     proto/onos/pci/pci.proto
 
+# mlb
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/mlb \
+    --doc_opt=markdown,mlb.md \
+    proto/onos/mlb/mlb.proto
+
 # ransim
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
@@ -194,6 +200,12 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/pci,plugins=grpc:./go \
     proto/onos/pci/*.proto
+
+# mlb
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/mlb,plugins=grpc:./go \
+    proto/onos/mlb/*.proto
+
 
 # mho
 protoc --proto_path=$proto_path \
