@@ -8,8 +8,8 @@
     - [GetCellResponse](#onos.pci.GetCellResponse)
     - [GetCellsRequest](#onos.pci.GetCellsRequest)
     - [GetCellsResponse](#onos.pci.GetCellsResponse)
-    - [GetConflictsReponse](#onos.pci.GetConflictsReponse)
     - [GetConflictsRequest](#onos.pci.GetConflictsRequest)
+    - [GetConflictsResponse](#onos.pci.GetConflictsResponse)
     - [PciCell](#onos.pci.PciCell)
     - [PciRange](#onos.pci.PciRange)
   
@@ -83,21 +83,6 @@ cell id required
 
 
 
-<a name="onos.pci.GetConflictsReponse"></a>
-
-### GetConflictsReponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| cells | [PciCell](#onos.pci.PciCell) | repeated |  |
-
-
-
-
-
-
 <a name="onos.pci.GetConflictsRequest"></a>
 
 ### GetConflictsRequest
@@ -107,6 +92,21 @@ if cell id is not specified, will return total number of conflicts
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | cell_id | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos.pci.GetConflictsResponse"></a>
+
+### GetConflictsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cells | [PciCell](#onos.pci.PciCell) | repeated |  |
 
 
 
@@ -127,7 +127,7 @@ if cell id is not specified, will return total number of conflicts
 | cell_type | [CellType](#onos.pci.CellType) |  |  |
 | pci | [uint32](#uint32) |  |  |
 | pci_pool | [PciRange](#onos.pci.PciRange) | repeated |  |
-| neigbor_ids | [uint64](#uint64) | repeated |  |
+| neighbor_ids | [uint64](#uint64) | repeated |  |
 
 
 
@@ -177,7 +177,7 @@ if cell id is not specified, will return total number of conflicts
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetNumConflicts | [GetConflictsRequest](#onos.pci.GetConflictsRequest) | [GetConflictsReponse](#onos.pci.GetConflictsReponse) |  |
+| GetNumConflicts | [GetConflictsRequest](#onos.pci.GetConflictsRequest) | [GetConflictsResponse](#onos.pci.GetConflictsResponse) |  |
 | GetCell | [GetCellRequest](#onos.pci.GetCellRequest) | [GetCellResponse](#onos.pci.GetCellResponse) |  |
 | GetCells | [GetCellsRequest](#onos.pci.GetCellsRequest) | [GetCellsResponse](#onos.pci.GetCellsResponse) |  |
 

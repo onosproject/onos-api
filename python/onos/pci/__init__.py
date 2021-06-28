@@ -26,7 +26,7 @@ class GetConflictsRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class GetConflictsReponse(betterproto.Message):
+class GetConflictsResponse(betterproto.Message):
     cells: List["PciCell"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -77,7 +77,7 @@ class PciCell(betterproto.Message):
     cell_type: "CellType" = betterproto.enum_field(4)
     pci: int = betterproto.uint32_field(5)
     pci_pool: List["PciRange"] = betterproto.message_field(6)
-    neigbor_ids: List[int] = betterproto.uint64_field(7)
+    neighbor_ids: List[int] = betterproto.uint64_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -93,13 +93,13 @@ class PciRange(betterproto.Message):
 
 
 class PciStub(betterproto.ServiceStub):
-    async def get_num_conflicts(self, *, cell_id: int = 0) -> "GetConflictsReponse":
+    async def get_num_conflicts(self, *, cell_id: int = 0) -> "GetConflictsResponse":
 
         request = GetConflictsRequest()
         request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNumConflicts", request, GetConflictsReponse
+            "/onos.pci.Pci/GetNumConflicts", request, GetConflictsResponse
         )
 
     async def get_cell(self, *, cell_id: int = 0) -> "GetCellResponse":
