@@ -1,0 +1,56 @@
+/*
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+*/
+
+syntax = "proto3";
+
+package onos.mlb;
+
+service Mlb {
+  // GetMlbParams gets MLB parameters
+  rpc GetMlbParams(GetMlbParamRequest) returns (GetMlbParamResponse);
+
+  // SetMlbParams sets MLB parameters
+  rpc SetMlbParams(SetMlbParamRequest) returns (SetMlbParamResponse);
+
+  // GetOcn gets Ocn map
+  rpc GetOcn(GetOcnRequest) returns (GetOcnResponse);
+}
+
+message GetMlbParamRequest {
+}
+
+message GetMlbParamResponse {
+  int32 interval = 1;
+  int32 overload_threshold = 2;
+  int32 target_threshold = 3;
+  int32 delta_ocn = 4;
+}
+
+message SetMlbParamRequest {
+  int32 interval = 1;
+  int32 overload_threshold = 2;
+  int32 target_threshold = 3;
+  int32 delta_ocn = 4;
+}
+
+message SetMlbParamResponse {
+  bool success = 1;
+}
+
+message GetOcnRequest {
+}
+
+message GetOcnResponse {
+  map <string, OcnRecord> ocn_map = 1;
+}
+
+message OcnRecord {
+  map<string, int32> ocn_record = 1;
+}
+
+message OcnIDs {
+
+}
