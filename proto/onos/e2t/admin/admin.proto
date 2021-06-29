@@ -75,12 +75,14 @@ message RANFunction {
 
 // ListE2NodeConnectionsResponse carries information about the SCTP connection to the remote E2 node.
 message ListE2NodeConnectionsResponse {
+    string id = 3;
     repeated string remote_ip = 1;
     uint32 remote_port = 2;
-    string id = 3;
+    string node_id = 7;
     string plmn_id = 4;
     E2NodeConnectionType connection_type = 5;
     repeated RANFunction ran_functions = 6;
+    int32 age_ms = 8;
 }
 
 // DropE2NodeConnectionsRequest carries drop connection request
