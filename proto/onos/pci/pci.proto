@@ -18,12 +18,12 @@ syntax = "proto3";
 package onos.pci;
 
 service Pci {
-  rpc GetNumConflicts(GetConflictsRequest) returns (GetConflictsResponse) {}
+  rpc GetConflicts(GetConflictsRequest) returns (GetConflictsResponse) {}
   rpc GetCell(GetCellRequest) returns (GetCellResponse) {}
   rpc GetCells(GetCellsRequest) returns (GetCellsResponse) {}
 }
 
-// if cell id is not specified, will return total number of conflicts
+// if cell id is not specified, will return all cells with conflicts
 message GetConflictsRequest {
   uint64 cell_id = 1;
 }
