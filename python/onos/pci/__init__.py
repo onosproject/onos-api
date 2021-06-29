@@ -17,7 +17,7 @@ class CellType(betterproto.Enum):
 
 @dataclass(eq=False, repr=False)
 class GetConflictsRequest(betterproto.Message):
-    """if cell id is not specified, will return total number of conflicts"""
+    """if cell id is not specified, will return all cells with conflicts"""
 
     cell_id: int = betterproto.uint64_field(1)
 
@@ -93,13 +93,13 @@ class PciRange(betterproto.Message):
 
 
 class PciStub(betterproto.ServiceStub):
-    async def get_num_conflicts(self, *, cell_id: int = 0) -> "GetConflictsResponse":
+    async def get_conflicts(self, *, cell_id: int = 0) -> "GetConflictsResponse":
 
         request = GetConflictsRequest()
         request.cell_id = cell_id
 
         return await self._unary_unary(
-            "/onos.pci.Pci/GetNumConflicts", request, GetConflictsResponse
+            "/onos.pci.Pci/GetConflicts", request, GetConflictsResponse
         )
 
     async def get_cell(self, *, cell_id: int = 0) -> "GetCellResponse":

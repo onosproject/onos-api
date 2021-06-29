@@ -86,7 +86,7 @@ cell id required
 <a name="onos.pci.GetConflictsRequest"></a>
 
 ### GetConflictsRequest
-if cell id is not specified, will return total number of conflicts
+if cell id is not specified, will return all cells with conflicts
 
 
 | Field | Type | Label | Description |
@@ -177,7 +177,7 @@ if cell id is not specified, will return total number of conflicts
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetNumConflicts | [GetConflictsRequest](#onos.pci.GetConflictsRequest) | [GetConflictsResponse](#onos.pci.GetConflictsResponse) |  |
+| GetConflicts | [GetConflictsRequest](#onos.pci.GetConflictsRequest) | [GetConflictsResponse](#onos.pci.GetConflictsResponse) |  |
 | GetCell | [GetCellRequest](#onos.pci.GetCellRequest) | [GetCellResponse](#onos.pci.GetCellResponse) |  |
 | GetCells | [GetCellsRequest](#onos.pci.GetCellsRequest) | [GetCellsResponse](#onos.pci.GetCellsResponse) |  |
 
