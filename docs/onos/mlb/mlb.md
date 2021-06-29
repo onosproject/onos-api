@@ -9,6 +9,7 @@
     - [GetOcnRequest](#onos.mlb.GetOcnRequest)
     - [GetOcnResponse](#onos.mlb.GetOcnResponse)
     - [GetOcnResponse.OcnMapEntry](#onos.mlb.GetOcnResponse.OcnMapEntry)
+    - [OcnIDs](#onos.mlb.OcnIDs)
     - [OcnRecord](#onos.mlb.OcnRecord)
     - [OcnRecord.OcnRecordEntry](#onos.mlb.OcnRecord.OcnRecordEntry)
     - [SetMlbParamRequest](#onos.mlb.SetMlbParamRequest)
@@ -90,6 +91,16 @@
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [OcnRecord](#onos.mlb.OcnRecord) |  |  |
+
+
+
+
+
+
+<a name="onos.mlb.OcnIDs"></a>
+
+### OcnIDs
+
 
 
 

@@ -74,6 +74,14 @@ class OcnRecord(betterproto.Message):
         super().__post_init__()
 
 
+@dataclass(eq=False, repr=False)
+class OcnIDs(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
 class MlbStub(betterproto.ServiceStub):
     async def get_mlb_params(self) -> "GetMlbParamResponse":
         """GetMlbParams gets MLB parameters"""
