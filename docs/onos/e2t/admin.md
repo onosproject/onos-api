@@ -77,12 +77,14 @@ ListE2NodeConnectionsResponse carries information about the SCTP connection to t
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 | remote_ip | [string](#string) | repeated |  |
 | remote_port | [uint32](#uint32) |  |  |
-| id | [string](#string) |  |  |
+| node_id | [string](#string) |  |  |
 | plmn_id | [string](#string) |  |  |
 | connection_type | [E2NodeConnectionType](#onos.e2t.admin.E2NodeConnectionType) |  |  |
 | ran_functions | [RANFunction](#onos.e2t.admin.RANFunction) | repeated |  |
+| age_ms | [int32](#int32) |  |  |
 
 
 

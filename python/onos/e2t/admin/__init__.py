@@ -114,12 +114,14 @@ class ListE2NodeConnectionsResponse(betterproto.Message):
     to the remote E2 node.
     """
 
+    id: str = betterproto.string_field(3)
     remote_ip: List[str] = betterproto.string_field(1)
     remote_port: int = betterproto.uint32_field(2)
-    id: str = betterproto.string_field(3)
+    node_id: str = betterproto.string_field(7)
     plmn_id: str = betterproto.string_field(4)
     connection_type: "E2NodeConnectionType" = betterproto.enum_field(5)
     ran_functions: List["RanFunction"] = betterproto.message_field(6)
+    age_ms: int = betterproto.int32_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
