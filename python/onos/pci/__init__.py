@@ -34,6 +34,35 @@ class GetConflictsResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class GetResolvedConflictsRequest(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetResolvedConflictsResponse(betterproto.Message):
+    """returns all the resolved conflicts in the store"""
+
+    cells: List["CellResolution"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CellResolution(betterproto.Message):
+    id: int = betterproto.uint64_field(1)
+    resolved_pci: int = betterproto.uint32_field(2)
+    original_pci: int = betterproto.uint32_field(3)
+    resolved_conflicts: int = betterproto.uint32_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class GetCellRequest(betterproto.Message):
     """cell id required"""
 
@@ -53,8 +82,6 @@ class GetCellResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetCellsRequest(betterproto.Message):
-    """cell id required"""
-
     pass
 
     def __post_init__(self) -> None:
@@ -100,6 +127,14 @@ class PciStub(betterproto.ServiceStub):
 
         return await self._unary_unary(
             "/onos.pci.Pci/GetConflicts", request, GetConflictsResponse
+        )
+
+    async def get_resolved_conflicts(self) -> "GetResolvedConflictsResponse":
+
+        request = GetResolvedConflictsRequest()
+
+        return await self._unary_unary(
+            "/onos.pci.Pci/GetResolvedConflicts", request, GetResolvedConflictsResponse
         )
 
     async def get_cell(self, *, cell_id: int = 0) -> "GetCellResponse":
