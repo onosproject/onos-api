@@ -22,6 +22,8 @@ package onos.e2t.e2.v1beta1;
 import "gogoproto/gogo.proto";
 import "onos/e2t/e2/v1beta1/e2.proto";
 
+option (gogoproto.goproto_registration) = true;
+
 service ControlService {
     rpc Control (ControlRequest) returns (ControlResponse);
 }

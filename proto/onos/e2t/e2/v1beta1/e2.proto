@@ -21,6 +21,8 @@ package onos.e2t.e2.v1beta1;
 
 import "gogoproto/gogo.proto";
 
+option (gogoproto.goproto_registration) = true;
+
 message RequestHeaders {
     string app_id = 1 [(gogoproto.customname) = "AppID", (gogoproto.casttype) = "AppID"];
     string app_instance_id = 2 [(gogoproto.customname) = "AppInstanceID", (gogoproto.casttype) = "AppInstanceID"];
