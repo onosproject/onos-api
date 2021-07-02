@@ -19,6 +19,7 @@ package onos.pci;
 
 service Pci {
   rpc GetConflicts(GetConflictsRequest) returns (GetConflictsResponse) {}
+  rpc GetResolvedConflicts(GetResolvedConflictsRequest) returns (GetResolvedConflictsResponse) {}
   rpc GetCell(GetCellRequest) returns (GetCellResponse) {}
   rpc GetCells(GetCellsRequest) returns (GetCellsResponse) {}
 }
@@ -32,6 +33,22 @@ message GetConflictsResponse {
   repeated PciCell cells = 1;
 }
 
+
+message GetResolvedConflictsRequest {
+}
+
+// returns all the resolved conflicts in the store
+message GetResolvedConflictsResponse {
+  repeated CellResolution cells = 1;
+}
+
+message CellResolution {
+  uint64 id = 1; 
+  uint32 resolved_pci = 2;
+  uint32 original_pci = 3;
+  uint32 resolved_conflicts = 4;
+}
+
 // cell id required
 message GetCellRequest {
   uint64 cell_id = 1;
@@ -41,7 +58,6 @@ message GetCellResponse {
   PciCell cell = 1;
 }
 
-// cell id required
 message GetCellsRequest {
 }
 
