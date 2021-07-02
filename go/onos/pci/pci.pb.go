@@ -148,6 +148,155 @@ func (m *GetConflictsResponse) GetCells() []*PciCell {
 	return nil
 }
 
+type GetResolvedConflictsRequest struct {
+}
+
+func (m *GetResolvedConflictsRequest) Reset()         { *m = GetResolvedConflictsRequest{} }
+func (m *GetResolvedConflictsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetResolvedConflictsRequest) ProtoMessage()    {}
+func (*GetResolvedConflictsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_baea7100bf0b1c43, []int{2}
+}
+func (m *GetResolvedConflictsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetResolvedConflictsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetResolvedConflictsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetResolvedConflictsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetResolvedConflictsRequest.Merge(m, src)
+}
+func (m *GetResolvedConflictsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetResolvedConflictsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetResolvedConflictsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetResolvedConflictsRequest proto.InternalMessageInfo
+
+// returns all the resolved conflicts in the store
+type GetResolvedConflictsResponse struct {
+	Cells []*CellResolution `protobuf:"bytes,1,rep,name=cells,proto3" json:"cells,omitempty"`
+}
+
+func (m *GetResolvedConflictsResponse) Reset()         { *m = GetResolvedConflictsResponse{} }
+func (m *GetResolvedConflictsResponse) String() string { return proto.CompactTextString(m) }
+func (*GetResolvedConflictsResponse) ProtoMessage()    {}
+func (*GetResolvedConflictsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_baea7100bf0b1c43, []int{3}
+}
+func (m *GetResolvedConflictsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetResolvedConflictsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetResolvedConflictsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetResolvedConflictsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetResolvedConflictsResponse.Merge(m, src)
+}
+func (m *GetResolvedConflictsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetResolvedConflictsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetResolvedConflictsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetResolvedConflictsResponse proto.InternalMessageInfo
+
+func (m *GetResolvedConflictsResponse) GetCells() []*CellResolution {
+	if m != nil {
+		return m.Cells
+	}
+	return nil
+}
+
+type CellResolution struct {
+	Id                uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ResolvedPci       uint32 `protobuf:"varint,2,opt,name=resolved_pci,json=resolvedPci,proto3" json:"resolved_pci,omitempty"`
+	OriginalPci       uint32 `protobuf:"varint,3,opt,name=original_pci,json=originalPci,proto3" json:"original_pci,omitempty"`
+	ResolvedConflicts uint32 `protobuf:"varint,4,opt,name=resolved_conflicts,json=resolvedConflicts,proto3" json:"resolved_conflicts,omitempty"`
+}
+
+func (m *CellResolution) Reset()         { *m = CellResolution{} }
+func (m *CellResolution) String() string { return proto.CompactTextString(m) }
+func (*CellResolution) ProtoMessage()    {}
+func (*CellResolution) Descriptor() ([]byte, []int) {
+	return fileDescriptor_baea7100bf0b1c43, []int{4}
+}
+func (m *CellResolution) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CellResolution) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CellResolution.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *CellResolution) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CellResolution.Merge(m, src)
+}
+func (m *CellResolution) XXX_Size() int {
+	return m.Size()
+}
+func (m *CellResolution) XXX_DiscardUnknown() {
+	xxx_messageInfo_CellResolution.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CellResolution proto.InternalMessageInfo
+
+func (m *CellResolution) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *CellResolution) GetResolvedPci() uint32 {
+	if m != nil {
+		return m.ResolvedPci
+	}
+	return 0
+}
+
+func (m *CellResolution) GetOriginalPci() uint32 {
+	if m != nil {
+		return m.OriginalPci
+	}
+	return 0
+}
+
+func (m *CellResolution) GetResolvedConflicts() uint32 {
+	if m != nil {
+		return m.ResolvedConflicts
+	}
+	return 0
+}
+
 // cell id required
 type GetCellRequest struct {
 	CellId uint64 `protobuf:"varint,1,opt,name=cell_id,json=cellId,proto3" json:"cell_id,omitempty"`
@@ -157,7 +306,7 @@ func (m *GetCellRequest) Reset()         { *m = GetCellRequest{} }
 func (m *GetCellRequest) String() string { return proto.CompactTextString(m) }
 func (*GetCellRequest) ProtoMessage()    {}
 func (*GetCellRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{2}
+	return fileDescriptor_baea7100bf0b1c43, []int{5}
 }
 func (m *GetCellRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -201,7 +350,7 @@ func (m *GetCellResponse) Reset()         { *m = GetCellResponse{} }
 func (m *GetCellResponse) String() string { return proto.CompactTextString(m) }
 func (*GetCellResponse) ProtoMessage()    {}
 func (*GetCellResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{3}
+	return fileDescriptor_baea7100bf0b1c43, []int{6}
 }
 func (m *GetCellResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -237,7 +386,6 @@ func (m *GetCellResponse) GetCell() *PciCell {
 	return nil
 }
 
-// cell id required
 type GetCellsRequest struct {
 }
 
@@ -245,7 +393,7 @@ func (m *GetCellsRequest) Reset()         { *m = GetCellsRequest{} }
 func (m *GetCellsRequest) String() string { return proto.CompactTextString(m) }
 func (*GetCellsRequest) ProtoMessage()    {}
 func (*GetCellsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{4}
+	return fileDescriptor_baea7100bf0b1c43, []int{7}
 }
 func (m *GetCellsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -282,7 +430,7 @@ func (m *GetCellsResponse) Reset()         { *m = GetCellsResponse{} }
 func (m *GetCellsResponse) String() string { return proto.CompactTextString(m) }
 func (*GetCellsResponse) ProtoMessage()    {}
 func (*GetCellsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{5}
+	return fileDescriptor_baea7100bf0b1c43, []int{8}
 }
 func (m *GetCellsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -332,7 +480,7 @@ func (m *PciCell) Reset()         { *m = PciCell{} }
 func (m *PciCell) String() string { return proto.CompactTextString(m) }
 func (*PciCell) ProtoMessage()    {}
 func (*PciCell) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{6}
+	return fileDescriptor_baea7100bf0b1c43, []int{9}
 }
 func (m *PciCell) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -419,7 +567,7 @@ func (m *PciRange) Reset()         { *m = PciRange{} }
 func (m *PciRange) String() string { return proto.CompactTextString(m) }
 func (*PciRange) ProtoMessage()    {}
 func (*PciRange) Descriptor() ([]byte, []int) {
-	return fileDescriptor_baea7100bf0b1c43, []int{7}
+	return fileDescriptor_baea7100bf0b1c43, []int{10}
 }
 func (m *PciRange) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -466,6 +614,9 @@ func init() {
 	proto.RegisterEnum("onos.pci.CellType", CellType_name, CellType_value)
 	proto.RegisterType((*GetConflictsRequest)(nil), "onos.pci.GetConflictsRequest")
 	proto.RegisterType((*GetConflictsResponse)(nil), "onos.pci.GetConflictsResponse")
+	proto.RegisterType((*GetResolvedConflictsRequest)(nil), "onos.pci.GetResolvedConflictsRequest")
+	proto.RegisterType((*GetResolvedConflictsResponse)(nil), "onos.pci.GetResolvedConflictsResponse")
+	proto.RegisterType((*CellResolution)(nil), "onos.pci.CellResolution")
 	proto.RegisterType((*GetCellRequest)(nil), "onos.pci.GetCellRequest")
 	proto.RegisterType((*GetCellResponse)(nil), "onos.pci.GetCellResponse")
 	proto.RegisterType((*GetCellsRequest)(nil), "onos.pci.GetCellsRequest")
@@ -477,39 +628,45 @@ func init() {
 func init() { proto.RegisterFile("onos/pci/pci.proto", fileDescriptor_baea7100bf0b1c43) }
 
 var fileDescriptor_baea7100bf0b1c43 = []byte{
-	// 497 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0x5d, 0x8b, 0xd3, 0x40,
-	0x14, 0xed, 0x34, 0xfd, 0x48, 0xef, 0x6e, 0x6b, 0x7a, 0x15, 0x8c, 0x05, 0x43, 0x0c, 0x88, 0x51,
-	0x30, 0x0b, 0xf5, 0x45, 0xf0, 0x41, 0xd7, 0x58, 0xa5, 0xb0, 0x35, 0x65, 0xb6, 0x3e, 0x97, 0xee,
-	0x64, 0x76, 0x1d, 0x88, 0x99, 0xb1, 0x89, 0xb0, 0xfb, 0x2f, 0xfc, 0x59, 0x3e, 0xee, 0xa3, 0x2f,
-	0x82, 0xb4, 0x7f, 0x44, 0x26, 0xdb, 0xa4, 0x16, 0x2b, 0xe2, 0x43, 0x60, 0xee, 0x39, 0x67, 0xee,
-	0x39, 0x97, 0xb9, 0x01, 0x94, 0xa9, 0xcc, 0x8e, 0x14, 0x13, 0xfa, 0x0b, 0xd4, 0x52, 0xe6, 0x12,
-	0x4d, 0x8d, 0x05, 0x8a, 0x09, 0x2f, 0x80, 0xdb, 0xef, 0x78, 0x1e, 0xca, 0xf4, 0x3c, 0x11, 0x2c,
-	0xcf, 0x28, 0xff, 0xfc, 0x85, 0x67, 0x39, 0xde, 0x85, 0x36, 0xe3, 0x49, 0x32, 0x17, 0xb1, 0x4d,
-	0x5c, 0xe2, 0x37, 0x68, 0x4b, 0x97, 0xe3, 0xd8, 0x7b, 0x09, 0x77, 0x76, 0xf5, 0x99, 0x92, 0x69,
-	0xc6, 0xf1, 0x11, 0x34, 0xb5, 0x22, 0xb3, 0x89, 0x6b, 0xf8, 0x07, 0xc3, 0x7e, 0x50, 0x3a, 0x04,
-	0x53, 0x26, 0x42, 0x9e, 0x24, 0xf4, 0x86, 0xf7, 0x1e, 0x43, 0x4f, 0x37, 0xd0, 0xc8, 0xbf, 0xbc,
-	0x9e, 0xc3, 0xad, 0x4a, 0xba, 0xb1, 0x79, 0x08, 0x0d, 0x4d, 0x16, 0xc2, 0xbd, 0x2e, 0x05, 0xed,
-	0xf5, 0xab, 0x9b, 0xe5, 0x44, 0xde, 0x0b, 0xb0, 0xb6, 0xd0, 0xff, 0x86, 0x5e, 0x13, 0x68, 0x6f,
-	0x20, 0xec, 0x41, 0xbd, 0x4a, 0x5a, 0x17, 0xb1, 0x8e, 0x9f, 0xca, 0x98, 0xeb, 0xf8, 0x75, 0x97,
-	0xf8, 0x1d, 0xda, 0xd2, 0xe5, 0x38, 0xc6, 0x01, 0x98, 0x71, 0xc2, 0x17, 0xcb, 0x73, 0x96, 0xda,
-	0x86, 0x4b, 0xfc, 0x2e, 0xad, 0x6a, 0x3c, 0x82, 0x4e, 0x31, 0x73, 0x7e, 0xa5, 0xb8, 0xdd, 0x70,
-	0x89, 0xdf, 0x1b, 0xe2, 0xd6, 0x5d, 0xfb, 0xcc, 0xae, 0x14, 0xa7, 0x26, 0xdb, 0x9c, 0xd0, 0x02,
-	0x43, 0x31, 0x61, 0x37, 0x8b, 0x3e, 0xfa, 0x88, 0x4f, 0xc1, 0x54, 0x4c, 0xcc, 0x95, 0x94, 0x89,
-	0xdd, 0x2a, 0xf2, 0xe3, 0x4e, 0x7e, 0xba, 0x48, 0x2f, 0x38, 0x6d, 0x2b, 0x26, 0xa6, 0x52, 0x26,
-	0xf8, 0x00, 0x0e, 0x53, 0x2e, 0x2e, 0x3e, 0x9e, 0xc9, 0xe5, 0x5c, 0xc4, 0x99, 0xdd, 0x76, 0x0d,
-	0xbf, 0x41, 0x0f, 0x4a, 0x6c, 0x1c, 0x67, 0x5e, 0x00, 0x66, 0x79, 0x4f, 0xfb, 0x7d, 0x12, 0x69,
-	0x31, 0x66, 0x97, 0xea, 0x63, 0x81, 0x2c, 0x2e, 0x8b, 0x19, 0x35, 0xb2, 0xb8, 0x7c, 0x12, 0x82,
-	0x59, 0x26, 0xc5, 0x0e, 0x34, 0xdf, 0x8e, 0x26, 0xb3, 0xc8, 0xaa, 0x61, 0x0f, 0x60, 0xf4, 0x7e,
-	0x36, 0xa2, 0x53, 0x3a, 0x3e, 0x1d, 0x59, 0x04, 0xfb, 0xd0, 0x8d, 0x3e, 0xcc, 0xde, 0x44, 0x11,
-	0x9d, 0x9f, 0x4e, 0x8e, 0x4f, 0x4e, 0xac, 0xba, 0x56, 0x4f, 0x8e, 0x43, 0x1a, 0x59, 0xc6, 0xf0,
-	0x07, 0x01, 0x63, 0xca, 0x04, 0x46, 0x70, 0xf8, 0xfb, 0x62, 0xe1, 0xfd, 0xed, 0x30, 0x7b, 0x16,
-	0x74, 0xe0, 0xfc, 0x8d, 0xbe, 0x79, 0x5a, 0xaf, 0x86, 0xaf, 0xa0, 0xbd, 0x79, 0x70, 0xb4, 0x77,
-	0xc5, 0xdb, 0xdd, 0x1b, 0xdc, 0xdb, 0xc3, 0x54, 0x1d, 0x42, 0x30, 0xcb, 0x95, 0xc1, 0x3f, 0x85,
-	0x55, 0x94, 0xc1, 0x3e, 0xaa, 0x6c, 0xf2, 0xda, 0xfe, 0xb6, 0x72, 0xc8, 0xf5, 0xca, 0x21, 0x3f,
-	0x57, 0x0e, 0xf9, 0xba, 0x76, 0x6a, 0xd7, 0x6b, 0xa7, 0xf6, 0x7d, 0xed, 0xd4, 0xce, 0x5a, 0xc5,
-	0xbf, 0xf8, 0xec, 0x57, 0x00, 0x00, 0x00, 0xff, 0xff, 0x6e, 0xc0, 0xb4, 0xc4, 0xa1, 0x03, 0x00,
-	0x00,
+	// 601 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0x41, 0x6f, 0xd3, 0x30,
+	0x14, 0x6e, 0x9a, 0xae, 0xc9, 0x5e, 0xd7, 0x92, 0x1a, 0xa4, 0x85, 0xc2, 0xa2, 0x12, 0x69, 0x50,
+	0x90, 0x96, 0x49, 0xe5, 0x82, 0xc4, 0x01, 0x46, 0x29, 0x53, 0xa5, 0x75, 0xa9, 0xbc, 0x72, 0xae,
+	0x3a, 0xc7, 0x2b, 0x96, 0x42, 0x1c, 0x92, 0x0c, 0xb1, 0x7f, 0xc1, 0x85, 0xbf, 0x84, 0x38, 0xee,
+	0xc8, 0x11, 0xb5, 0x7f, 0x04, 0xd9, 0x4d, 0x52, 0xb2, 0x76, 0x9a, 0x38, 0x44, 0xb2, 0xdf, 0xfb,
+	0xec, 0xef, 0x7b, 0x9f, 0xdf, 0x0b, 0x20, 0x1e, 0xf0, 0xf8, 0x30, 0x24, 0x4c, 0x7c, 0x4e, 0x18,
+	0xf1, 0x84, 0x23, 0x5d, 0xc4, 0x9c, 0x90, 0x30, 0xdb, 0x81, 0xfb, 0xc7, 0x34, 0xe9, 0xf1, 0xe0,
+	0xc2, 0x67, 0x24, 0x89, 0x31, 0xfd, 0x72, 0x49, 0xe3, 0x04, 0xed, 0x82, 0x46, 0xa8, 0xef, 0x4f,
+	0x98, 0x67, 0x2a, 0x6d, 0xa5, 0x53, 0xc1, 0x55, 0xb1, 0x1d, 0x78, 0xf6, 0x1b, 0x78, 0x50, 0xc4,
+	0xc7, 0x21, 0x0f, 0x62, 0x8a, 0x9e, 0xc1, 0x96, 0x40, 0xc4, 0xa6, 0xd2, 0x56, 0x3b, 0xb5, 0x6e,
+	0xd3, 0xc9, 0x18, 0x9c, 0x11, 0x61, 0x3d, 0xea, 0xfb, 0x78, 0x99, 0xb7, 0xf7, 0xe0, 0xd1, 0x31,
+	0x4d, 0x30, 0x8d, 0xb9, 0xff, 0x95, 0x7a, 0x37, 0x89, 0xed, 0x53, 0x78, 0xbc, 0x39, 0x9d, 0xf2,
+	0x38, 0x45, 0x1e, 0x73, 0xc5, 0x23, 0x49, 0xc4, 0xb9, 0xcb, 0x84, 0xf1, 0x20, 0xa3, 0xfb, 0xa1,
+	0x40, 0xa3, 0x98, 0x41, 0x0d, 0x28, 0xe7, 0x65, 0x95, 0x99, 0x87, 0x9e, 0xc0, 0x4e, 0x94, 0xf2,
+	0x4d, 0x42, 0xc2, 0xcc, 0x72, 0x5b, 0xe9, 0xd4, 0x71, 0x2d, 0x8b, 0x8d, 0x08, 0x13, 0x10, 0x1e,
+	0xb1, 0x19, 0x0b, 0xa6, 0xbe, 0x84, 0xa8, 0x4b, 0x48, 0x16, 0x13, 0x90, 0x03, 0x40, 0xf9, 0x2d,
+	0x24, 0x93, 0x6d, 0x56, 0x24, 0xb0, 0x19, 0xdd, 0xac, 0xc7, 0x7e, 0x0e, 0x0d, 0xe1, 0xa3, 0x54,
+	0x76, 0x87, 0xe5, 0xaf, 0xe0, 0x5e, 0x0e, 0x4d, 0x5d, 0xd8, 0x87, 0x8a, 0x48, 0x4a, 0xe0, 0x46,
+	0xb3, 0x65, 0xda, 0x6e, 0xe6, 0x27, 0x73, 0x7f, 0x5f, 0x83, 0xb1, 0x0a, 0xfd, 0xef, 0xdb, 0x2d,
+	0x14, 0xd0, 0xd2, 0xd0, 0x9a, 0x8b, 0xbb, 0xa0, 0x05, 0xdc, 0xa3, 0x42, 0xbe, 0x30, 0x70, 0x1b,
+	0x57, 0xc5, 0x76, 0xe0, 0xa1, 0x16, 0xe8, 0x9e, 0x4f, 0xa7, 0xd1, 0x05, 0x09, 0x52, 0xdf, 0xf2,
+	0x3d, 0x3a, 0x84, 0x6d, 0x59, 0x73, 0x72, 0x15, 0x52, 0xe9, 0x55, 0xa3, 0x8b, 0x8a, 0x2f, 0x3a,
+	0xbe, 0x0a, 0x29, 0xd6, 0x49, 0xba, 0x42, 0x06, 0xa8, 0xc2, 0xff, 0x2d, 0x79, 0x8f, 0x58, 0xa2,
+	0x03, 0xd0, 0x43, 0xc2, 0x26, 0x21, 0xe7, 0xbe, 0x59, 0x95, 0xfa, 0x51, 0x41, 0x3f, 0x9e, 0x06,
+	0x33, 0x8a, 0xb5, 0x90, 0xb0, 0x11, 0xe7, 0xbe, 0x78, 0xc9, 0x80, 0xb2, 0xd9, 0xa7, 0x73, 0x1e,
+	0x4d, 0x98, 0x17, 0x9b, 0x5a, 0x5b, 0xed, 0x54, 0x70, 0x2d, 0x8b, 0x0d, 0xbc, 0xd8, 0x76, 0x40,
+	0xcf, 0xce, 0x09, 0xbe, 0xcf, 0x2c, 0x90, 0x65, 0xd6, 0xb1, 0x58, 0xca, 0xc8, 0xf4, 0x5b, 0xda,
+	0x24, 0x62, 0xf9, 0xa2, 0x07, 0x7a, 0xa6, 0x14, 0x6d, 0xc3, 0xd6, 0x87, 0xfe, 0x70, 0xec, 0x1a,
+	0x25, 0xd4, 0x00, 0xe8, 0x9f, 0x8e, 0xfb, 0x78, 0x84, 0x07, 0x67, 0x7d, 0x43, 0x41, 0x4d, 0xa8,
+	0xbb, 0x1f, 0xc7, 0xef, 0x5d, 0x17, 0x4f, 0xce, 0x86, 0x47, 0x27, 0x27, 0x46, 0x59, 0xa0, 0x87,
+	0x47, 0x3d, 0xec, 0x1a, 0x6a, 0xf7, 0x67, 0x19, 0x54, 0xd1, 0x46, 0x2e, 0xec, 0xfc, 0x3b, 0x5f,
+	0x68, 0x6f, 0x55, 0xcc, 0x86, 0x39, 0x6d, 0x59, 0xb7, 0xa5, 0x97, 0x4f, 0x6b, 0x97, 0xd0, 0x4c,
+	0x0e, 0xec, 0xda, 0x40, 0xa1, 0xfd, 0xc2, 0xc9, 0xdb, 0xe6, 0xb1, 0xf5, 0xf4, 0x2e, 0x58, 0x4e,
+	0xf4, 0x16, 0xb4, 0xb4, 0xb3, 0x90, 0x59, 0x54, 0xb5, 0x6a, 0xf2, 0xd6, 0xc3, 0x0d, 0x99, 0xfc,
+	0x86, 0x1e, 0xe8, 0x59, 0x6f, 0xa2, 0x75, 0x60, 0x2e, 0xa9, 0xb5, 0x29, 0x95, 0x5d, 0xf2, 0xce,
+	0xfc, 0x35, 0xb7, 0x94, 0xeb, 0xb9, 0xa5, 0xfc, 0x99, 0x5b, 0xca, 0xf7, 0x85, 0x55, 0xba, 0x5e,
+	0x58, 0xa5, 0xdf, 0x0b, 0xab, 0x74, 0x5e, 0x95, 0xff, 0xbe, 0x97, 0x7f, 0x03, 0x00, 0x00, 0xff,
+	0xff, 0x66, 0xcb, 0x9e, 0x59, 0x11, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -525,6 +682,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PciClient interface {
 	GetConflicts(ctx context.Context, in *GetConflictsRequest, opts ...grpc.CallOption) (*GetConflictsResponse, error)
+	GetResolvedConflicts(ctx context.Context, in *GetResolvedConflictsRequest, opts ...grpc.CallOption) (*GetResolvedConflictsResponse, error)
 	GetCell(ctx context.Context, in *GetCellRequest, opts ...grpc.CallOption) (*GetCellResponse, error)
 	GetCells(ctx context.Context, in *GetCellsRequest, opts ...grpc.CallOption) (*GetCellsResponse, error)
 }
@@ -540,6 +698,15 @@ func NewPciClient(cc *grpc.ClientConn) PciClient {
 func (c *pciClient) GetConflicts(ctx context.Context, in *GetConflictsRequest, opts ...grpc.CallOption) (*GetConflictsResponse, error) {
 	out := new(GetConflictsResponse)
 	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetConflicts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pciClient) GetResolvedConflicts(ctx context.Context, in *GetResolvedConflictsRequest, opts ...grpc.CallOption) (*GetResolvedConflictsResponse, error) {
+	out := new(GetResolvedConflictsResponse)
+	err := c.cc.Invoke(ctx, "/onos.pci.Pci/GetResolvedConflicts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -567,6 +734,7 @@ func (c *pciClient) GetCells(ctx context.Context, in *GetCellsRequest, opts ...g
 // PciServer is the server API for Pci service.
 type PciServer interface {
 	GetConflicts(context.Context, *GetConflictsRequest) (*GetConflictsResponse, error)
+	GetResolvedConflicts(context.Context, *GetResolvedConflictsRequest) (*GetResolvedConflictsResponse, error)
 	GetCell(context.Context, *GetCellRequest) (*GetCellResponse, error)
 	GetCells(context.Context, *GetCellsRequest) (*GetCellsResponse, error)
 }
@@ -577,6 +745,9 @@ type UnimplementedPciServer struct {
 
 func (*UnimplementedPciServer) GetConflicts(ctx context.Context, req *GetConflictsRequest) (*GetConflictsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConflicts not implemented")
+}
+func (*UnimplementedPciServer) GetResolvedConflicts(ctx context.Context, req *GetResolvedConflictsRequest) (*GetResolvedConflictsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetResolvedConflicts not implemented")
 }
 func (*UnimplementedPciServer) GetCell(ctx context.Context, req *GetCellRequest) (*GetCellResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCell not implemented")
@@ -603,6 +774,24 @@ func _Pci_GetConflicts_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PciServer).GetConflicts(ctx, req.(*GetConflictsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pci_GetResolvedConflicts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetResolvedConflictsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PciServer).GetResolvedConflicts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.pci.Pci/GetResolvedConflicts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PciServer).GetResolvedConflicts(ctx, req.(*GetResolvedConflictsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -650,6 +839,10 @@ var _Pci_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetConflicts",
 			Handler:    _Pci_GetConflicts_Handler,
+		},
+		{
+			MethodName: "GetResolvedConflicts",
+			Handler:    _Pci_GetResolvedConflicts_Handler,
 		},
 		{
 			MethodName: "GetCell",
@@ -725,6 +918,109 @@ func (m *GetConflictsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i--
 			dAtA[i] = 0xa
 		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetResolvedConflictsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetResolvedConflictsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetResolvedConflictsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *GetResolvedConflictsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetResolvedConflictsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetResolvedConflictsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Cells) > 0 {
+		for iNdEx := len(m.Cells) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cells[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintPci(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *CellResolution) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *CellResolution) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CellResolution) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.ResolvedConflicts != 0 {
+		i = encodeVarintPci(dAtA, i, uint64(m.ResolvedConflicts))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.OriginalPci != 0 {
+		i = encodeVarintPci(dAtA, i, uint64(m.OriginalPci))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.ResolvedPci != 0 {
+		i = encodeVarintPci(dAtA, i, uint64(m.ResolvedPci))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Id != 0 {
+		i = encodeVarintPci(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -1005,6 +1301,51 @@ func (m *GetConflictsResponse) Size() (n int) {
 	return n
 }
 
+func (m *GetResolvedConflictsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *GetResolvedConflictsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Cells) > 0 {
+		for _, e := range m.Cells {
+			l = e.Size()
+			n += 1 + l + sovPci(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *CellResolution) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovPci(uint64(m.Id))
+	}
+	if m.ResolvedPci != 0 {
+		n += 1 + sovPci(uint64(m.ResolvedPci))
+	}
+	if m.OriginalPci != 0 {
+		n += 1 + sovPci(uint64(m.OriginalPci))
+	}
+	if m.ResolvedConflicts != 0 {
+		n += 1 + sovPci(uint64(m.ResolvedConflicts))
+	}
+	return n
+}
+
 func (m *GetCellRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1248,6 +1589,275 @@ func (m *GetConflictsResponse) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPci(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetResolvedConflictsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPci
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetResolvedConflictsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetResolvedConflictsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPci(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetResolvedConflictsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPci
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetResolvedConflictsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetResolvedConflictsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cells", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPci
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPci
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cells = append(m.Cells, &CellResolution{})
+			if err := m.Cells[len(m.Cells)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPci(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPci
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CellResolution) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPci
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CellResolution: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CellResolution: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ResolvedPci", wireType)
+			}
+			m.ResolvedPci = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ResolvedPci |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OriginalPci", wireType)
+			}
+			m.OriginalPci = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.OriginalPci |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ResolvedConflicts", wireType)
+			}
+			m.ResolvedConflicts = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPci
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ResolvedConflicts |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPci(dAtA[iNdEx:])
