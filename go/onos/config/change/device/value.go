@@ -15,9 +15,12 @@
 package device
 
 import (
-	"errors"
+	"fmt"
 	"regexp"
 )
+
+// PathRegexp - permissible values in paths
+const PathRegexp = `(/[a-zA-Z0-9:=\-\._[\]]+)+`
 
 // NewChangeValue decodes a path and value in to an object
 func NewChangeValue(path string, value *TypedValue, isRemove bool) (*ChangeValue, error) {
@@ -26,8 +29,7 @@ func NewChangeValue(path string, value *TypedValue, isRemove bool) (*ChangeValue
 		Value:   value,
 		Removed: isRemove,
 	}
-	err := IsPathValid(cv.GetPath())
-	if err != nil {
+	if err := IsPathValid(cv.GetPath()); err != nil {
 		return nil, err
 	}
 	return &cv, nil
@@ -40,11 +42,11 @@ func NewChangeValue(path string, value *TypedValue, isRemove bool) (*ChangeValue
 // Two contiguous slashes are not allowed
 // Paths not starting with slash are not allowed
 func IsPathValid(path string) error {
-	r1 := regexp.MustCompile(`(/[a-zA-Z0-9:=\-_,[\]]+)+`)
+	r1 := regexp.MustCompile(PathRegexp)
 
 	match := r1.FindString(path)
 	if path != match {
-		return errors.New(path)
+		return fmt.Errorf("invalid path %s. Must match %s", path, PathRegexp)
 	}
 	return nil
 }

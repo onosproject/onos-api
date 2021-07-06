@@ -383,3 +383,11 @@ func TestLeafListBytesCrash(t *testing.T) {
 	assert.Nil(t, value)
 	assert.Error(t, err)
 }
+
+func TestIsPathValid(t *testing.T) {
+	assert.Error(t, IsPathValid("/a/b/c[name=test,address=this.is.a.test]/def"))
+	assert.Error(t, IsPathValid("/a/b//c"))
+
+	assert.NoError(t, IsPathValid("/a1/b2/c3[name=test][address=this.is.a.test]/def"))
+	assert.NoError(t, IsPathValid("/a1/b2/c3[name_field=test-1_0][address=ff00::ab00]/def"))
+}
