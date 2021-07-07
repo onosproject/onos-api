@@ -330,6 +330,15 @@ class RcRanFunction(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class MhoRanFunction(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    report_styles: List["MhoReportStyle"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["KpmReportStyle"] = betterproto.message_field(2)
@@ -352,6 +361,15 @@ class KpmReportStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
     measurements: List["KpmMeasurement"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MhoReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
