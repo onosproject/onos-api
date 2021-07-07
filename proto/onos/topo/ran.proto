@@ -96,6 +96,11 @@ message RCRanFunction {
     repeated RCReportStyle report_styles = 2;
 }
 
+message MHORanFunction {
+    string id = 1 [(gogoproto.customname) = "ID"];
+    repeated MHOReportStyle report_styles = 2;
+}
+
 message KPMRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
     repeated KPMReportStyle report_styles = 2;
@@ -111,6 +116,11 @@ message KPMReportStyle {
     int32 type = 2;
     repeated KPMMeasurement measurements = 3;
 
+}
+
+message MHOReportStyle {
+    string name = 1;
+    int32 type = 2;
 }
 
 message KPMMeasurement {
