@@ -131,6 +131,22 @@ class EventType(betterproto.Enum):
     REMOVED = 3
 
 
+class SortOrder(betterproto.Enum):
+    """
+    ConnectivityState represents the L3 reachability of a device from the
+    service container (e.g. enos-config), independently of gRPC or the service
+    itself (e.g. gNMI)
+    """
+
+    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
+    # the 0 values
+    UNORDERED = 0
+    # REACHABLE indicates the the service can reach the device at L3
+    ASCENDING = 1
+    # UNREACHABLE indicates the the service can't reach the device at L3
+    DESCENDING = 2
+
+
 class ObjectType(betterproto.Enum):
     UNSPECIFIED = 0
     ENTITY = 1
@@ -534,6 +550,7 @@ class Filters(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
     filters: "Filters" = betterproto.message_field(1)
+    sort_order: "SortOrder" = betterproto.enum_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -646,11 +663,14 @@ class TopoStub(betterproto.ServiceStub):
             "/onos.topo.Topo/Delete", request, DeleteResponse
         )
 
-    async def list(self, *, filters: "Filters" = None) -> "ListResponse":
+    async def list(
+        self, *, filters: "Filters" = None, sort_order: "SortOrder" = None
+    ) -> "ListResponse":
 
         request = ListRequest()
         if filters is not None:
             request.filters = filters
+        request.sort_order = sort_order
 
         return await self._unary_unary("/onos.topo.Topo/List", request, ListResponse)
 

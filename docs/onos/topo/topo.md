@@ -32,6 +32,7 @@
   
     - [EventType](#onos.topo.EventType)
     - [Object.Type](#onos.topo.Object.Type)
+    - [SortOrder](#onos.topo.SortOrder)
   
     - [Topo](#onos.topo.Topo)
   
@@ -252,6 +253,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | filters | [Filters](#onos.topo.Filters) |  |  |
+| sort_order | [SortOrder](#onos.topo.SortOrder) |  |  |
 
 
 
@@ -464,6 +466,19 @@ EventType is a topo operation event type
 | ENTITY | 1 |  |
 | RELATION | 2 |  |
 | KIND | 3 |  |
+
+
+
+<a name="onos.topo.SortOrder"></a>
+
+### SortOrder
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNORDERED | 0 |  |
+| ASCENDING | 1 |  |
+| DESCENDING | 2 |  |
 
 
  
