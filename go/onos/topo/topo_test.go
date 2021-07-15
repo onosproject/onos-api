@@ -61,3 +61,11 @@ func TestAspects(t *testing.T) {
 	_, err = o.GetAspectBytes("onos.topo.TLSOptions")
 	assert.Error(t, err)
 }
+
+func TestRelationID(t *testing.T) {
+	id := RelationID("foo", "is", "bar")
+	assert.Equal(t, ID("foo-is-bar"), id)
+
+	id = MultiRelationID("foo", "implies", "bar", 42)
+	assert.Equal(t, ID("foo-implies-bar-42"), id)
+}
