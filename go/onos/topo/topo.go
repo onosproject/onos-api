@@ -17,6 +17,7 @@ package topo
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/types"
@@ -53,6 +54,18 @@ var TopoClientFactory = func(cc *grpc.ClientConn) TopoClient {
 // CreateTopoClient creates and returns a new topo device client
 func CreateTopoClient(cc *grpc.ClientConn) TopoClient {
 	return TopoClientFactory(cc)
+}
+
+// RelationID creates a unique relationship ID from the specified source, kind and target IDs
+func RelationID(srcID ID, relationKind ID, tgtID ID) ID {
+	return ID(fmt.Sprintf("%s-%s-%s", srcID, relationKind, tgtID))
+}
+
+// MultiRelationID creates a unique relationship ID from the specified source, kind and target IDs,
+// and also from an additional discriminant to allow for multiples of same kinds of relations between
+// the same two objects.
+func MultiRelationID(srcID ID, relationKind ID, tgtID ID, discriminant uint8) ID {
+	return ID(fmt.Sprintf("%s-%s-%s-%d", srcID, relationKind, tgtID, discriminant))
 }
 
 // GetAspect retrieves the specified aspect value from the given object.
