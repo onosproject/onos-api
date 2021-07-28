@@ -117,6 +117,13 @@ message RelationFilter {
   string src_id = 1;
   string relation_kind = 2;
   string target_kind = 3;
+  RelationFilterScope scope = 4;  
+}
+
+enum RelationFilterScope {
+  TARGET_ONLY = 0;
+  ALL = 1;
+  SOURCE_AND_TARGET = 2;
 }
 
 message Filters {

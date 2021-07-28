@@ -32,6 +32,7 @@
   
     - [EventType](#onos.topo.EventType)
     - [Object.Type](#onos.topo.Object.Type)
+    - [RelationFilterScope](#onos.topo.RelationFilterScope)
     - [SortOrder](#onos.topo.SortOrder)
   
     - [Topo](#onos.topo.Topo)
@@ -372,6 +373,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 | src_id | [string](#string) |  |  |
 | relation_kind | [string](#string) |  |  |
 | target_kind | [string](#string) |  |  |
+| scope | [RelationFilterScope](#onos.topo.RelationFilterScope) |  |  |
 
 
 
@@ -466,6 +468,19 @@ EventType is a topo operation event type
 | ENTITY | 1 |  |
 | RELATION | 2 |  |
 | KIND | 3 |  |
+
+
+
+<a name="onos.topo.RelationFilterScope"></a>
+
+### RelationFilterScope
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TARGET_ONLY | 0 |  |
+| ALL | 1 |  |
+| SOURCE_AND_TARGET | 2 |  |
 
 
 
