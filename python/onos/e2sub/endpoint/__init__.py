@@ -2,9 +2,10 @@
 # sources: onos/e2sub/endpoint/endpoint.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, List, Optional
+from typing import AsyncIterator, Dict, List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -28,9 +29,6 @@ class TerminationEndpoint(betterproto.Message):
     ip: str = betterproto.string_field(3)
     port: int = betterproto.uint32_field(4)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
@@ -38,9 +36,6 @@ class Event(betterproto.Message):
 
     type: "EventType" = betterproto.enum_field(1)
     endpoint: "TerminationEndpoint" = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -51,9 +46,6 @@ class AddTerminationRequest(betterproto.Message):
 
     endpoint: "TerminationEndpoint" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class AddTerminationResponse(betterproto.Message):
@@ -63,9 +55,6 @@ class AddTerminationResponse(betterproto.Message):
 
     pass
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class GetTerminationRequest(betterproto.Message):
@@ -74,9 +63,6 @@ class GetTerminationRequest(betterproto.Message):
     """
 
     id: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -88,18 +74,12 @@ class GetTerminationResponse(betterproto.Message):
 
     endpoint: "TerminationEndpoint" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class RemoveTerminationRequest(betterproto.Message):
     """RemoveTerminationRequest is a request for removing termination point"""
 
     id: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -110,9 +90,6 @@ class RemoveTerminationResponse(betterproto.Message):
 
     pass
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ListTerminationsRequest(betterproto.Message):
@@ -121,9 +98,6 @@ class ListTerminationsRequest(betterproto.Message):
     """
 
     pass
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -135,9 +109,6 @@ class ListTerminationsResponse(betterproto.Message):
 
     endpoints: List["TerminationEndpoint"] = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class WatchTerminationsRequest(betterproto.Message):
@@ -147,9 +118,6 @@ class WatchTerminationsRequest(betterproto.Message):
     """
 
     noreplay: bool = betterproto.bool_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -161,19 +129,11 @@ class WatchTerminationsResponse(betterproto.Message):
 
     event: "Event" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 class E2RegistryServiceStub(betterproto.ServiceStub):
-    """
-    E2RegistryService manages subscription and subscription delete requests
-    """
-
     async def add_termination(
         self, *, endpoint: "TerminationEndpoint" = None
     ) -> "AddTerminationResponse":
-        """AddTermination registers new E2 termination end-point."""
 
         request = AddTerminationRequest()
         if endpoint is not None:
@@ -186,7 +146,6 @@ class E2RegistryServiceStub(betterproto.ServiceStub):
         )
 
     async def get_termination(self, *, id: str = "") -> "GetTerminationResponse":
-        """GetTermination retrieves information about a specific end-point"""
 
         request = GetTerminationRequest()
         request.id = id
@@ -198,9 +157,6 @@ class E2RegistryServiceStub(betterproto.ServiceStub):
         )
 
     async def remove_termination(self, *, id: str = "") -> "RemoveTerminationResponse":
-        """
-        RemoveTermination removes the specified E2 termination end-point.
-        """
 
         request = RemoveTerminationRequest()
         request.id = id
@@ -212,10 +168,6 @@ class E2RegistryServiceStub(betterproto.ServiceStub):
         )
 
     async def list_terminations(self) -> "ListTerminationsResponse":
-        """
-        ListTerminations returns the list of currently registered E2
-        terminations.
-        """
 
         request = ListTerminationsRequest()
 
@@ -228,10 +180,6 @@ class E2RegistryServiceStub(betterproto.ServiceStub):
     async def watch_terminations(
         self, *, noreplay: bool = False
     ) -> AsyncIterator["WatchTerminationsResponse"]:
-        """
-        WatchTerminations returns a stream of changes in the set of available
-        E2 terminations.
-        """
 
         request = WatchTerminationsRequest()
         request.noreplay = noreplay
@@ -242,3 +190,109 @@ class E2RegistryServiceStub(betterproto.ServiceStub):
             WatchTerminationsResponse,
         ):
             yield response
+
+
+class E2RegistryServiceBase(ServiceBase):
+    async def add_termination(
+        self, endpoint: "TerminationEndpoint"
+    ) -> "AddTerminationResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def get_termination(self, id: str) -> "GetTerminationResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def remove_termination(self, id: str) -> "RemoveTerminationResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_terminations(self) -> "ListTerminationsResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def watch_terminations(
+        self, noreplay: bool
+    ) -> AsyncIterator["WatchTerminationsResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_add_termination(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "endpoint": request.endpoint,
+        }
+
+        response = await self.add_termination(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_get_termination(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+        }
+
+        response = await self.get_termination(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_remove_termination(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+        }
+
+        response = await self.remove_termination(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list_terminations(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        response = await self.list_terminations(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_watch_terminations(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "noreplay": request.noreplay,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.watch_terminations,
+            stream,
+            request_kwargs,
+        )
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.e2sub.endpoint.E2RegistryService/AddTermination": grpclib.const.Handler(
+                self.__rpc_add_termination,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                AddTerminationRequest,
+                AddTerminationResponse,
+            ),
+            "/onos.e2sub.endpoint.E2RegistryService/GetTermination": grpclib.const.Handler(
+                self.__rpc_get_termination,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                GetTerminationRequest,
+                GetTerminationResponse,
+            ),
+            "/onos.e2sub.endpoint.E2RegistryService/RemoveTermination": grpclib.const.Handler(
+                self.__rpc_remove_termination,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                RemoveTerminationRequest,
+                RemoveTerminationResponse,
+            ),
+            "/onos.e2sub.endpoint.E2RegistryService/ListTerminations": grpclib.const.Handler(
+                self.__rpc_list_terminations,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ListTerminationsRequest,
+                ListTerminationsResponse,
+            ),
+            "/onos.e2sub.endpoint.E2RegistryService/WatchTerminations": grpclib.const.Handler(
+                self.__rpc_watch_terminations,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                WatchTerminationsRequest,
+                WatchTerminationsResponse,
+            ),
+        }

@@ -2,9 +2,10 @@
 # sources: onos/e2sub/subscription/subscription.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, List, Optional
+from typing import AsyncIterator, Dict, List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -70,9 +71,6 @@ class Lifecycle(betterproto.Message):
 
     status: "Status" = betterproto.enum_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
@@ -81,9 +79,6 @@ class Event(betterproto.Message):
     type: "EventType" = betterproto.enum_field(1)
     subscription: "Subscription" = betterproto.message_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ServiceModel(betterproto.Message):
@@ -91,9 +86,6 @@ class ServiceModel(betterproto.Message):
 
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -106,9 +98,6 @@ class Subscription(betterproto.Message):
     details: "SubscriptionDetails" = betterproto.message_field(4)
     lifecycle: "Lifecycle" = betterproto.message_field(5)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class SubscriptionDetails(betterproto.Message):
@@ -117,25 +106,16 @@ class SubscriptionDetails(betterproto.Message):
     event_trigger: "EventTrigger" = betterproto.message_field(3)
     actions: List["Action"] = betterproto.message_field(4)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Payload(betterproto.Message):
     encoding: "Encoding" = betterproto.enum_field(1)
     data: bytes = betterproto.bytes_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class EventTrigger(betterproto.Message):
     payload: "Payload" = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -145,9 +125,6 @@ class Action(betterproto.Message):
     payload: "Payload" = betterproto.message_field(3)
     subsequent_action: "SubsequentAction" = betterproto.message_field(4)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class SubsequentAction(betterproto.Message):
@@ -156,18 +133,12 @@ class SubsequentAction(betterproto.Message):
     type: "SubsequentActionType" = betterproto.enum_field(1)
     time_to_wait: "TimeToWait" = betterproto.enum_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class AddSubscriptionRequest(betterproto.Message):
     """AddSubscriptionRequest a subscription request"""
 
     subscription: "Subscription" = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -176,18 +147,12 @@ class AddSubscriptionResponse(betterproto.Message):
 
     subscription: "Subscription" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class RemoveSubscriptionRequest(betterproto.Message):
     """RemoveSubscriptionRequest a subscription delete request"""
 
     id: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -196,67 +161,41 @@ class RemoveSubscriptionResponse(betterproto.Message):
 
     pass
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class GetSubscriptionRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetSubscriptionResponse(betterproto.Message):
     subscription: "Subscription" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ListSubscriptionsRequest(betterproto.Message):
     pass
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListSubscriptionsResponse(betterproto.Message):
     subscriptions: List["Subscription"] = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class WatchSubscriptionsRequest(betterproto.Message):
     noreplay: bool = betterproto.bool_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class WatchSubscriptionsResponse(betterproto.Message):
     event: "Event" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 class E2SubscriptionServiceStub(betterproto.ServiceStub):
-    """
-    SubscriptionService manages subscription and subscription delete requests
-    """
-
     async def add_subscription(
         self, *, subscription: "Subscription" = None
     ) -> "AddSubscriptionResponse":
-        """AddSubscription establishes E2 subscriptions on E2 Node."""
 
         request = AddSubscriptionRequest()
         if subscription is not None:
@@ -271,7 +210,6 @@ class E2SubscriptionServiceStub(betterproto.ServiceStub):
     async def remove_subscription(
         self, *, id: str = ""
     ) -> "RemoveSubscriptionResponse":
-        """RemoveSubscription removes E2 subscriptions on E2 Node."""
 
         request = RemoveSubscriptionRequest()
         request.id = id
@@ -283,10 +221,6 @@ class E2SubscriptionServiceStub(betterproto.ServiceStub):
         )
 
     async def get_subscription(self, *, id: str = "") -> "GetSubscriptionResponse":
-        """
-        GetSubscription retrieves information about a specific subscription in
-        the list of existing subscriptions
-        """
 
         request = GetSubscriptionRequest()
         request.id = id
@@ -298,9 +232,6 @@ class E2SubscriptionServiceStub(betterproto.ServiceStub):
         )
 
     async def list_subscriptions(self) -> "ListSubscriptionsResponse":
-        """
-        ListSubscriptions returns the list of current existing subscriptions
-        """
 
         request = ListSubscriptionsRequest()
 
@@ -313,7 +244,6 @@ class E2SubscriptionServiceStub(betterproto.ServiceStub):
     async def watch_subscriptions(
         self, *, noreplay: bool = False
     ) -> AsyncIterator["WatchSubscriptionsResponse"]:
-        """WatchSubscriptions returns a stream of subscription changes"""
 
         request = WatchSubscriptionsRequest()
         request.noreplay = noreplay
@@ -324,3 +254,109 @@ class E2SubscriptionServiceStub(betterproto.ServiceStub):
             WatchSubscriptionsResponse,
         ):
             yield response
+
+
+class E2SubscriptionServiceBase(ServiceBase):
+    async def add_subscription(
+        self, subscription: "Subscription"
+    ) -> "AddSubscriptionResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def remove_subscription(self, id: str) -> "RemoveSubscriptionResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def get_subscription(self, id: str) -> "GetSubscriptionResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_subscriptions(self) -> "ListSubscriptionsResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def watch_subscriptions(
+        self, noreplay: bool
+    ) -> AsyncIterator["WatchSubscriptionsResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_add_subscription(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "subscription": request.subscription,
+        }
+
+        response = await self.add_subscription(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_remove_subscription(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+        }
+
+        response = await self.remove_subscription(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_get_subscription(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+        }
+
+        response = await self.get_subscription(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list_subscriptions(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        response = await self.list_subscriptions(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_watch_subscriptions(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "noreplay": request.noreplay,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.watch_subscriptions,
+            stream,
+            request_kwargs,
+        )
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.e2sub.subscription.E2SubscriptionService/AddSubscription": grpclib.const.Handler(
+                self.__rpc_add_subscription,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                AddSubscriptionRequest,
+                AddSubscriptionResponse,
+            ),
+            "/onos.e2sub.subscription.E2SubscriptionService/RemoveSubscription": grpclib.const.Handler(
+                self.__rpc_remove_subscription,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                RemoveSubscriptionRequest,
+                RemoveSubscriptionResponse,
+            ),
+            "/onos.e2sub.subscription.E2SubscriptionService/GetSubscription": grpclib.const.Handler(
+                self.__rpc_get_subscription,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                GetSubscriptionRequest,
+                GetSubscriptionResponse,
+            ),
+            "/onos.e2sub.subscription.E2SubscriptionService/ListSubscriptions": grpclib.const.Handler(
+                self.__rpc_list_subscriptions,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ListSubscriptionsRequest,
+                ListSubscriptionsResponse,
+            ),
+            "/onos.e2sub.subscription.E2SubscriptionService/WatchSubscriptions": grpclib.const.Handler(
+                self.__rpc_watch_subscriptions,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                WatchSubscriptionsRequest,
+                WatchSubscriptionsResponse,
+            ),
+        }

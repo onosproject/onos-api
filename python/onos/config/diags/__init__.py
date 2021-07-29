@@ -2,9 +2,10 @@
 # sources: onos/config/diags/diags.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator
+from typing import AsyncIterator, Dict
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -37,9 +38,6 @@ class OpStateRequest(betterproto.Message):
     # client
     subscribe: bool = betterproto.bool_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class OpStateResponse(betterproto.Message):
@@ -47,9 +45,6 @@ class OpStateResponse(betterproto.Message):
     type: "_admin__.Type" = betterproto.enum_field(1)
     # device is the device on which the event occurred
     pathvalue: "_change_device__.PathValue" = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -73,9 +68,6 @@ class ListNetworkChangeRequest(betterproto.Message):
     # option to request only changes that happen after the call
     without_replay: bool = betterproto.bool_field(3)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ListNetworkChangeResponse(betterproto.Message):
@@ -85,9 +77,6 @@ class ListNetworkChangeResponse(betterproto.Message):
     change: "_change_network__.NetworkChange" = betterproto.message_field(1)
     # type is a qualification of the type of change being made
     type: "Type" = betterproto.enum_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -113,9 +102,6 @@ class ListDeviceChangeRequest(betterproto.Message):
     # option to request only changes that happen after the call
     without_replay: bool = betterproto.bool_field(4)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ListDeviceChangeResponse(betterproto.Message):
@@ -126,9 +112,6 @@ class ListDeviceChangeResponse(betterproto.Message):
     # type is a qualification of the type of change being made
     type: "Type" = betterproto.enum_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 class ChangeServiceStub(betterproto.ServiceStub):
     async def list_network_changes(
@@ -138,10 +121,6 @@ class ChangeServiceStub(betterproto.ServiceStub):
         changeid: str = "",
         without_replay: bool = False,
     ) -> AsyncIterator["ListNetworkChangeResponse"]:
-        """
-        List gets a stream of network change add/update/remove events for
-        network changes matching changeid
-        """
 
         request = ListNetworkChangeRequest()
         request.subscribe = subscribe
@@ -163,10 +142,6 @@ class ChangeServiceStub(betterproto.ServiceStub):
         device_version: str = "",
         without_replay: bool = False,
     ) -> AsyncIterator["ListDeviceChangeResponse"]:
-        """
-        List gets a stream of device change add/update/remove events for device
-        changes matching changeid
-        """
 
         request = ListDeviceChangeRequest()
         request.subscribe = subscribe
@@ -183,19 +158,9 @@ class ChangeServiceStub(betterproto.ServiceStub):
 
 
 class OpStateDiagsStub(betterproto.ServiceStub):
-    """
-    OpStateDiags provides means for obtaining diagnostic information about
-    internal system state.
-    """
-
     async def get_op_state(
         self, *, device_id: str = "", subscribe: bool = False
     ) -> AsyncIterator["OpStateResponse"]:
-        """
-        GetOpState returns a stream of submitted OperationalStateCache aimed at
-        individual devices. If subscribe is true keep on streaming after the
-        initial set are finished
-        """
 
         request = OpStateRequest()
         request.device_id = device_id
@@ -207,6 +172,96 @@ class OpStateDiagsStub(betterproto.ServiceStub):
             OpStateResponse,
         ):
             yield response
+
+
+class ChangeServiceBase(ServiceBase):
+    async def list_network_changes(
+        self, subscribe: bool, changeid: str, without_replay: bool
+    ) -> AsyncIterator["ListNetworkChangeResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_device_changes(
+        self, subscribe: bool, device_id: str, device_version: str, without_replay: bool
+    ) -> AsyncIterator["ListDeviceChangeResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_list_network_changes(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "subscribe": request.subscribe,
+            "changeid": request.changeid,
+            "without_replay": request.without_replay,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.list_network_changes,
+            stream,
+            request_kwargs,
+        )
+
+    async def __rpc_list_device_changes(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "subscribe": request.subscribe,
+            "device_id": request.device_id,
+            "device_version": request.device_version,
+            "without_replay": request.without_replay,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.list_device_changes,
+            stream,
+            request_kwargs,
+        )
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.config.diags.ChangeService/ListNetworkChanges": grpclib.const.Handler(
+                self.__rpc_list_network_changes,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ListNetworkChangeRequest,
+                ListNetworkChangeResponse,
+            ),
+            "/onos.config.diags.ChangeService/ListDeviceChanges": grpclib.const.Handler(
+                self.__rpc_list_device_changes,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ListDeviceChangeRequest,
+                ListDeviceChangeResponse,
+            ),
+        }
+
+
+class OpStateDiagsBase(ServiceBase):
+    async def get_op_state(
+        self, device_id: str, subscribe: bool
+    ) -> AsyncIterator["OpStateResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_get_op_state(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "device_id": request.device_id,
+            "subscribe": request.subscribe,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.get_op_state,
+            stream,
+            request_kwargs,
+        )
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.config.diags.OpStateDiags/GetOpState": grpclib.const.Handler(
+                self.__rpc_get_op_state,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                OpStateRequest,
+                OpStateResponse,
+            ),
+        }
 
 
 from .. import admin as _admin__

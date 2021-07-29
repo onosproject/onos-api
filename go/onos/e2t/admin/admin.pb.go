@@ -1579,10 +1579,7 @@ func (m *UploadRegisterServiceModelRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -1696,10 +1693,7 @@ func (m *UploadRegisterServiceModelResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -1813,10 +1807,7 @@ func (m *ListRegisteredServiceModelsResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -1930,10 +1921,7 @@ func (m *ListRegisteredServiceModelsRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -1983,10 +1971,7 @@ func (m *ListE2NodeConnectionsRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -2134,10 +2119,7 @@ func (m *RANFunction) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -2406,10 +2388,7 @@ func (m *ListE2NodeConnectionsResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -2493,10 +2472,7 @@ func (m *DropE2NodeConnectionsRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {
@@ -2616,10 +2592,7 @@ func (m *DropE2NodeConnectionsResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthAdmin
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthAdmin
 			}
 			if (iNdEx + skippy) > l {

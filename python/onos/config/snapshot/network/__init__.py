@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 @dataclass(eq=False, repr=False)
@@ -29,9 +30,6 @@ class NetworkSnapshot(betterproto.Message):
     # 'refs' is a set of references to stored device snapshots
     refs: List["DeviceSnapshotRef"] = betterproto.message_field(10)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class DeviceSnapshotRef(betterproto.Message):
@@ -39,9 +37,6 @@ class DeviceSnapshotRef(betterproto.Message):
 
     # 'device_snapshot_id' is the unique identifier of the device snapshot
     device_snapshot_id: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 from ... import snapshot as __snapshot__
