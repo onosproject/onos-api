@@ -235,3 +235,5 @@ mkdir -p ./python
 protoc --proto_path=$proto_path \
     --python_betterproto_out=./python \
     $(find proto -name "*.proto" | sort)
+
+git apply ./build/bin/patches/*.patch
