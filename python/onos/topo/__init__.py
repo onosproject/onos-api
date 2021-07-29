@@ -131,7 +131,7 @@ class EventType(betterproto.Enum):
     REMOVED = 3
 
 
-class SortOrder(betterproto.Enum):
+class RelationFilterScope(betterproto.Enum):
     """
     ConnectivityState represents the L3 reachability of a device from the
     service container (e.g. enos-config), independently of gRPC or the service
@@ -140,10 +140,27 @@ class SortOrder(betterproto.Enum):
 
     # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
     # the 0 values
-    UNORDERED = 0
+    TARGET_ONLY = 0
     # REACHABLE indicates the the service can reach the device at L3
-    ASCENDING = 1
+    ALL = 1
     # UNREACHABLE indicates the the service can't reach the device at L3
+    SOURCE_AND_TARGET = 2
+
+
+class SortOrder(betterproto.Enum):
+    """
+    ConnectivityState represents the state of a gRPC channel to the device from
+    the service container
+    """
+
+    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
+    # values
+    UNORDERED = 0
+    # CONNECTED indicates the corresponding grpc channel is connected on this
+    # device
+    ASCENDING = 1
+    # DISCONNECTED indicates the corresponding grpc channel is not connected on
+    # this device
     DESCENDING = 2
 
 
@@ -531,6 +548,7 @@ class RelationFilter(betterproto.Message):
     src_id: str = betterproto.string_field(1)
     relation_kind: str = betterproto.string_field(2)
     target_kind: str = betterproto.string_field(3)
+    scope: "RelationFilterScope" = betterproto.enum_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
