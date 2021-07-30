@@ -112,6 +112,8 @@ Entity represents any &#34;thing&#34; that is represented in the topology
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | kind_id | [string](#string) |  | user-defined entity kind |
+| src_relation_ids | [string](#string) | repeated | these lists are maintained by the system and are provided as read-only values for clients |
+| tgt_relation_ids | [string](#string) | repeated |  |
 
 
 
@@ -299,6 +301,7 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| uuid | [string](#string) |  |  |
 | id | [string](#string) |  |  |
 | revision | [uint64](#uint64) |  |  |
 | type | [Object.Type](#onos.topo.Object.Type) |  |  |

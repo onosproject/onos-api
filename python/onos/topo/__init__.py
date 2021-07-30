@@ -432,6 +432,7 @@ class Object(betterproto.Message):
     relation), an entity, a relation
     """
 
+    uuid: str = betterproto.string_field(9)
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
     type: "ObjectType" = betterproto.enum_field(3)
@@ -455,6 +456,10 @@ class Entity(betterproto.Message):
 
     # user-defined entity kind
     kind_id: str = betterproto.string_field(1)
+    # these lists are maintained by the system and are provided as read-only
+    # values for clients
+    src_relation_ids: List[str] = betterproto.string_field(2)
+    tgt_relation_ids: List[str] = betterproto.string_field(3)
 
 
 @dataclass(eq=False, repr=False)
