@@ -1872,10 +1872,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -1958,10 +1955,7 @@ func (m *CreateUERequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2011,10 +2005,7 @@ func (m *CreateUEResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2128,10 +2119,7 @@ func (m *GetUERequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2214,10 +2202,7 @@ func (m *GetUEResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2300,10 +2285,7 @@ func (m *UpdateUERequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2353,10 +2335,7 @@ func (m *UpdateUEResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2470,10 +2449,7 @@ func (m *DeleteUERequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2523,10 +2499,7 @@ func (m *DeleteUEResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2608,10 +2581,7 @@ func (m *ListUERequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2694,10 +2664,7 @@ func (m *ListUEResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2799,10 +2766,7 @@ func (m *WatchUERequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -2885,10 +2849,7 @@ func (m *WatchUEResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {
@@ -3082,7 +3043,7 @@ func (m *UE) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthUenib
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -3099,10 +3060,7 @@ func (m *UE) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthUenib
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthUenib
 			}
 			if (iNdEx + skippy) > l {

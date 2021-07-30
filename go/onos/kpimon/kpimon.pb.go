@@ -1027,10 +1027,7 @@ func (m *GetRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1192,7 +1189,7 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthKpimon
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -1209,10 +1206,7 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1296,10 +1290,7 @@ func (m *MeasurementItems) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1383,10 +1374,7 @@ func (m *MeasurementItem) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1455,10 +1443,7 @@ func (m *IntegerValue) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1519,10 +1504,7 @@ func (m *RealValue) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1591,10 +1573,7 @@ func (m *NoValue) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {
@@ -1731,10 +1710,7 @@ func (m *MeasurementRecord) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthKpimon
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthKpimon
 			}
 			if (iNdEx + skippy) > l {

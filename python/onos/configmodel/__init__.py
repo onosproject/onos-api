@@ -2,9 +2,10 @@
 # sources: onos/configmodel/registry.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -25,9 +26,6 @@ class ConfigModel(betterproto.Message):
     )
     get_state_mode: "GetStateMode" = betterproto.enum_field(5)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ConfigModule(betterproto.Message):
@@ -36,57 +34,36 @@ class ConfigModule(betterproto.Message):
     revision: str = betterproto.string_field(3)
     organization: str = betterproto.string_field(4)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class GetModelRequest(betterproto.Message):
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class GetModelResponse(betterproto.Message):
     model: "ConfigModel" = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListModelsRequest(betterproto.Message):
     pass
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ListModelsResponse(betterproto.Message):
     models: List["ConfigModel"] = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class PushModelRequest(betterproto.Message):
     model: "ConfigModel" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class PushModelResponse(betterproto.Message):
     pass
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -94,16 +71,10 @@ class DeleteModelRequest(betterproto.Message):
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class DeleteModelResponse(betterproto.Message):
     pass
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 class ConfigModelRegistryServiceStub(betterproto.ServiceStub):
@@ -156,3 +127,85 @@ class ConfigModelRegistryServiceStub(betterproto.ServiceStub):
             request,
             DeleteModelResponse,
         )
+
+
+class ConfigModelRegistryServiceBase(ServiceBase):
+    async def get_model(self, name: str, version: str) -> "GetModelResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_models(self) -> "ListModelsResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def push_model(self, model: "ConfigModel") -> "PushModelResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def delete_model(self, name: str, version: str) -> "DeleteModelResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_get_model(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "name": request.name,
+            "version": request.version,
+        }
+
+        response = await self.get_model(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list_models(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        response = await self.list_models(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_push_model(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "model": request.model,
+        }
+
+        response = await self.push_model(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_delete_model(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "name": request.name,
+            "version": request.version,
+        }
+
+        response = await self.delete_model(**request_kwargs)
+        await stream.send_message(response)
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.configmodel.ConfigModelRegistryService/GetModel": grpclib.const.Handler(
+                self.__rpc_get_model,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                GetModelRequest,
+                GetModelResponse,
+            ),
+            "/onos.configmodel.ConfigModelRegistryService/ListModels": grpclib.const.Handler(
+                self.__rpc_list_models,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ListModelsRequest,
+                ListModelsResponse,
+            ),
+            "/onos.configmodel.ConfigModelRegistryService/PushModel": grpclib.const.Handler(
+                self.__rpc_push_model,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                PushModelRequest,
+                PushModelResponse,
+            ),
+            "/onos.configmodel.ConfigModelRegistryService/DeleteModel": grpclib.const.Handler(
+                self.__rpc_delete_model,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                DeleteModelRequest,
+                DeleteModelResponse,
+            ),
+        }

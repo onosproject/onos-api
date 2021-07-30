@@ -1475,10 +1475,7 @@ func (m *MapLayoutRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -1568,10 +1565,7 @@ func (m *ListRoutesRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -1676,10 +1670,7 @@ func (m *ListRoutesResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -1729,10 +1720,7 @@ func (m *ListUesRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -1818,10 +1806,7 @@ func (m *ListUesResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -1911,10 +1896,7 @@ func (m *WatchUesRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -2038,10 +2020,7 @@ func (m *WatchUesResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -2110,10 +2089,7 @@ func (m *SetNumberUEsRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -2182,10 +2158,7 @@ func (m *SetNumberUEsResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {
@@ -2235,10 +2208,7 @@ func (m *ResetMetricsMsg) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthTrafficsim
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthTrafficsim
 			}
 			if (iNdEx + skippy) > l {

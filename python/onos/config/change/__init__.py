@@ -4,6 +4,7 @@
 from dataclasses import dataclass
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 class Phase(betterproto.Enum):
@@ -49,6 +50,3 @@ class Status(betterproto.Message):
     message: str = betterproto.string_field(4)
     # incarnation is the status incarnation number
     incarnation: int = betterproto.uint64_field(5)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()

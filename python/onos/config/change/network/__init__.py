@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 @dataclass(eq=False, repr=False)
@@ -43,9 +44,6 @@ class NetworkChange(betterproto.Message):
     # snapshot
     deleted: bool = betterproto.bool_field(9)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class DeviceChangeRef(betterproto.Message):
@@ -53,9 +51,6 @@ class DeviceChangeRef(betterproto.Message):
 
     # 'device_change_id' is the unique identifier of the device change
     device_change_id: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 from .. import device as _device__

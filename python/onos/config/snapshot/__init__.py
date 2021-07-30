@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 class Phase(betterproto.Enum):
@@ -36,9 +37,6 @@ class Status(betterproto.Message):
     # 'state' is the state of a snapshot
     state: "State" = betterproto.enum_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class RetentionOptions(betterproto.Message):
@@ -46,6 +44,3 @@ class RetentionOptions(betterproto.Message):
 
     # 'retain_window' is the duration for which to retain network changes
     retain_window: timedelta = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()

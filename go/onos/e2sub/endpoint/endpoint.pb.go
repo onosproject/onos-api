@@ -1625,10 +1625,7 @@ func (m *TerminationEndpoint) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -1730,10 +1727,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -1819,10 +1813,7 @@ func (m *AddTerminationRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -1872,10 +1863,7 @@ func (m *AddTerminationResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -1957,10 +1945,7 @@ func (m *GetTerminationRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2046,10 +2031,7 @@ func (m *GetTerminationResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2131,10 +2113,7 @@ func (m *RemoveTerminationRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2184,10 +2163,7 @@ func (m *RemoveTerminationResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2237,10 +2213,7 @@ func (m *ListTerminationsRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2324,10 +2297,7 @@ func (m *ListTerminationsResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2397,10 +2367,7 @@ func (m *WatchTerminationsRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {
@@ -2483,10 +2450,7 @@ func (m *WatchTerminationsResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthEndpoint
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthEndpoint
 			}
 			if (iNdEx + skippy) > l {

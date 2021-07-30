@@ -3,12 +3,12 @@
 # plugin: python-betterproto
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import AsyncIterable, AsyncIterator, Iterable, List, Optional, Union
+from typing import AsyncIterable, AsyncIterator, Dict, Iterable, List, Union
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 import gnmi.proto
-
 
 class Type(betterproto.Enum):
     """Streaming event type"""
@@ -35,9 +35,6 @@ class ReadOnlySubPath(betterproto.Message):
     # value_type is the datatype of the read only path
     value_type: "_change_device__.ValueType" = betterproto.enum_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ReadOnlyPath(betterproto.Message):
@@ -57,9 +54,6 @@ class ReadOnlyPath(betterproto.Message):
     # ReadOnlySubPath is a set of children of the path including an entry for the
     # type of the topmost object with subpath `/` An example is /list2b/index
     sub_path: List["ReadOnlySubPath"] = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -90,9 +84,6 @@ class ReadWritePath(betterproto.Message):
     # length is a defintion of the length restrictions for the attribute
     length: List[str] = betterproto.string_field(8)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ModelInfo(betterproto.Message):
@@ -105,7 +96,7 @@ class ModelInfo(betterproto.Message):
     # model_data is a set of metadata about the YANG files that went in to
     # generating the model plugin. It includes name, version and organization for
     # each YANG file, similar to how they are represented in gNMI Capabilities.
-    model_data: List[gnmi.proto.ModelData] = betterproto.message_field(3)
+    model_data: List["gnmi.proto.ModelData"] = betterproto.message_field(3)
     # module is the name of the Model Plugin on the file system - usually ending
     # in .so.<version>.
     module: str = betterproto.string_field(4)
@@ -127,9 +118,6 @@ class ModelInfo(betterproto.Message):
     # read_write_path is all of the read write paths for the model plugin.
     read_write_path: List["ReadWritePath"] = betterproto.message_field(8)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Chunk(betterproto.Message):
@@ -144,9 +132,6 @@ class Chunk(betterproto.Message):
     # content is the bytes content.
     content: bytes = betterproto.bytes_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class RegisterResponse(betterproto.Message):
@@ -156,9 +141,6 @@ class RegisterResponse(betterproto.Message):
     name: str = betterproto.string_field(1)
     # version is the semantic version of the model plugin.
     version: str = betterproto.string_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -174,9 +156,6 @@ class ListModelsRequest(betterproto.Message):
     model_name: str = betterproto.string_field(2)
     # An optional filter on the version of the model plugins to list
     model_version: str = betterproto.string_field(3)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -194,9 +173,6 @@ class RollbackRequest(betterproto.Message):
     # On optional comment to leave on the rollback.
     comment: str = betterproto.string_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class RollbackResponse(betterproto.Message):
@@ -204,9 +180,6 @@ class RollbackResponse(betterproto.Message):
 
     # A message showing the result of the rollback.
     message: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -223,9 +196,6 @@ class ListSnapshotsRequest(betterproto.Message):
     # support `*` (match many chars) or '?' (match one char) as wildcard
     id: str = betterproto.string_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class CompactChangesRequest(betterproto.Message):
@@ -240,9 +210,6 @@ class CompactChangesRequest(betterproto.Message):
     # not specified the duration is 0
     retention_period: timedelta = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class CompactChangesResponse(betterproto.Message):
@@ -250,24 +217,11 @@ class CompactChangesResponse(betterproto.Message):
 
     pass
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):
-    """
-    ConfigAdminService provides means for enhanced interactions with the
-    configuration subsystem.
-    """
-
     async def upload_register_model(
         self, request_iterator: Union[AsyncIterable["Chunk"], Iterable["Chunk"]]
     ) -> "RegisterResponse":
-        """
-        UploadRegisterModel uploads and adds the model plugin to the list of
-        supported models. The file is serialized in to Chunks of less than 4MB
-        so as not to break the gRPC byte array limit
-        """
 
         return await self._stream_unary(
             "/onos.config.admin.ConfigAdminService/UploadRegisterModel",
@@ -279,7 +233,6 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def list_registered_models(
         self, *, verbose: bool = False, model_name: str = "", model_version: str = ""
     ) -> AsyncIterator["ModelInfo"]:
-        """ListRegisteredModels returns a stream of registered models."""
 
         request = ListModelsRequest()
         request.verbose = verbose
@@ -296,10 +249,6 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def rollback_network_change(
         self, *, name: str = "", comment: str = ""
     ) -> "RollbackResponse":
-        """
-        RollbackNetworkChange rolls back the specified network change (or the
-        latest one).
-        """
 
         request = RollbackRequest()
         request.name = name
@@ -314,10 +263,6 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def list_snapshots(
         self, *, subscribe: bool = False, id: str = ""
     ) -> AsyncIterator["_snapshot_device__.Snapshot"]:
-        """
-        ListSnapshots gets a list of snapshots across all devices and versions,
-        and streams them back to the caller.
-        """
 
         request = ListSnapshotsRequest()
         request.subscribe = subscribe
@@ -333,15 +278,6 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def compact_changes(
         self, *, retention_period: timedelta = None
     ) -> "CompactChangesResponse":
-        """
-        CompactChanges requests a snapshot of NetworkChange and DeviceChange
-        stores. This will take all of the Network Changes older than the
-        retention period and flatten them down to just one snapshot (replacing
-        any older snapshot). This will act as a baseline for those changes
-        within the retention period and any future changes. DeviceChanges will
-        be snapshotted to correspond to these NetworkChange compactions leaving
-        an individual snapshot perv device and version combination.
-        """
 
         request = CompactChangesRequest()
         if retention_period is not None:
@@ -352,6 +288,125 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
             request,
             CompactChangesResponse,
         )
+
+
+class ConfigAdminServiceBase(ServiceBase):
+    async def upload_register_model(
+        self, request_iterator: AsyncIterator["Chunk"]
+    ) -> "RegisterResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_registered_models(
+        self, verbose: bool, model_name: str, model_version: str
+    ) -> AsyncIterator["ModelInfo"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def rollback_network_change(
+        self, name: str, comment: str
+    ) -> "RollbackResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_snapshots(
+        self, subscribe: bool, id: str
+    ) -> AsyncIterator["_snapshot_device__.Snapshot"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def compact_changes(
+        self, retention_period: timedelta
+    ) -> "CompactChangesResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_upload_register_model(self, stream: grpclib.server.Stream) -> None:
+        request_kwargs = {"request_iterator": stream.__aiter__()}
+
+        response = await self.upload_register_model(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list_registered_models(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "verbose": request.verbose,
+            "model_name": request.model_name,
+            "model_version": request.model_version,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.list_registered_models,
+            stream,
+            request_kwargs,
+        )
+
+    async def __rpc_rollback_network_change(
+        self, stream: grpclib.server.Stream
+    ) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "name": request.name,
+            "comment": request.comment,
+        }
+
+        response = await self.rollback_network_change(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list_snapshots(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "subscribe": request.subscribe,
+            "id": request.id,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.list_snapshots,
+            stream,
+            request_kwargs,
+        )
+
+    async def __rpc_compact_changes(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "retention_period": request.retention_period,
+        }
+
+        response = await self.compact_changes(**request_kwargs)
+        await stream.send_message(response)
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.config.admin.ConfigAdminService/UploadRegisterModel": grpclib.const.Handler(
+                self.__rpc_upload_register_model,
+                grpclib.const.Cardinality.STREAM_UNARY,
+                Chunk,
+                RegisterResponse,
+            ),
+            "/onos.config.admin.ConfigAdminService/ListRegisteredModels": grpclib.const.Handler(
+                self.__rpc_list_registered_models,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ListModelsRequest,
+                ModelInfo,
+            ),
+            "/onos.config.admin.ConfigAdminService/RollbackNetworkChange": grpclib.const.Handler(
+                self.__rpc_rollback_network_change,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                RollbackRequest,
+                RollbackResponse,
+            ),
+            "/onos.config.admin.ConfigAdminService/ListSnapshots": grpclib.const.Handler(
+                self.__rpc_list_snapshots,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ListSnapshotsRequest,
+                _snapshot_device__.Snapshot,
+            ),
+            "/onos.config.admin.ConfigAdminService/CompactChanges": grpclib.const.Handler(
+                self.__rpc_compact_changes,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                CompactChangesRequest,
+                CompactChangesResponse,
+            ),
+        }
 
 
 from ..change import device as _change_device__

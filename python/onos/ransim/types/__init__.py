@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Dict, List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 class CellType(betterproto.Enum):
@@ -19,9 +20,6 @@ class Point(betterproto.Message):
     lat: float = betterproto.double_field(1)
     lng: float = betterproto.double_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Sector(betterproto.Message):
@@ -30,9 +28,6 @@ class Sector(betterproto.Message):
     centroid: "Point" = betterproto.message_field(3)
     height: int = betterproto.int32_field(4)
     tilt: int = betterproto.int32_field(5)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -44,9 +39,6 @@ class Route(betterproto.Message):
     speed_stdev: int = betterproto.uint32_field(5)
     reverse: bool = betterproto.bool_field(6)
     next_point: int = betterproto.uint32_field(7)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -68,9 +60,6 @@ class Ue(betterproto.Message):
     metrics: "UeMetrics" = betterproto.message_field(17)
     rrc_state: int = betterproto.uint32_field(18)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class UeMetrics(betterproto.Message):
@@ -80,9 +69,6 @@ class UeMetrics(betterproto.Message):
     ho_report_timestamp: int = betterproto.int64_field(2)
     # flag to indicate the first measurement
     is_first: bool = betterproto.bool_field(3)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -108,9 +94,6 @@ class Cell(betterproto.Message):
     rrc_idle_count: int = betterproto.uint32_field(16)
     rrc_connected_count: int = betterproto.uint32_field(17)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class MeasurementParams(betterproto.Message):
@@ -123,17 +106,11 @@ class MeasurementParams(betterproto.Message):
     hysteresis: int = betterproto.int32_field(5)
     event_a3_params: "EventA3Params" = betterproto.message_field(6)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class EventA3Params(betterproto.Message):
     a3_offset: int = betterproto.int32_field(1)
     report_on_leave: bool = betterproto.bool_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -143,9 +120,6 @@ class Node(betterproto.Message):
     service_models: List[str] = betterproto.string_field(3)
     cell_ecgis: List[int] = betterproto.uint64_field(4)
     status: str = betterproto.string_field(5)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -169,6 +143,3 @@ class MapLayout(betterproto.Message):
     max_ues: int = betterproto.uint32_field(7)
     # the current number of routes
     current_routes: int = betterproto.uint32_field(8)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()

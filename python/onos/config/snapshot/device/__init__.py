@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 @dataclass(eq=False, repr=False)
@@ -35,9 +36,6 @@ class DeviceSnapshot(betterproto.Message):
     # 'updated' is the time at which the configuration was last updated
     updated: datetime = betterproto.message_field(10)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class NetworkSnapshotRef(betterproto.Message):
@@ -52,9 +50,6 @@ class NetworkSnapshotRef(betterproto.Message):
     # 'index' is the index of the network snapshot from which this snapshot was
     # created
     index: int = betterproto.uint64_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -75,9 +70,6 @@ class Snapshot(betterproto.Message):
     change_index: int = betterproto.uint64_field(6)
     # 'values' is a list of values to set
     values: List["__change_device__.PathValue"] = betterproto.message_field(7)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 from ... import snapshot as __snapshot__

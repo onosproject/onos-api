@@ -2,9 +2,10 @@
 # sources: onos/e2sub/task/task.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, List, Optional
+from typing import AsyncIterator, Dict, List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -78,9 +79,6 @@ class Lifecycle(betterproto.Message):
     status: "Status" = betterproto.enum_field(2)
     failure: "Failure" = betterproto.message_field(3)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Failure(betterproto.Message):
@@ -88,9 +86,6 @@ class Failure(betterproto.Message):
 
     cause: "Cause" = betterproto.enum_field(1)
     message: str = betterproto.string_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -106,9 +101,6 @@ class SubscriptionTask(betterproto.Message):
     endpoint_id: str = betterproto.string_field(4)
     lifecycle: "Lifecycle" = betterproto.message_field(5)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
@@ -116,9 +108,6 @@ class Event(betterproto.Message):
 
     type: "EventType" = betterproto.enum_field(1)
     task: "SubscriptionTask" = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -130,9 +119,6 @@ class GetSubscriptionTaskRequest(betterproto.Message):
 
     id: str = betterproto.string_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class GetSubscriptionTaskResponse(betterproto.Message):
@@ -142,9 +128,6 @@ class GetSubscriptionTaskResponse(betterproto.Message):
     """
 
     task: "SubscriptionTask" = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -157,9 +140,6 @@ class ListSubscriptionTasksRequest(betterproto.Message):
     subscription_id: str = betterproto.string_field(1)
     endpoint_id: str = betterproto.string_field(2)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class ListSubscriptionTasksResponse(betterproto.Message):
@@ -169,9 +149,6 @@ class ListSubscriptionTasksResponse(betterproto.Message):
     """
 
     tasks: List["SubscriptionTask"] = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -185,9 +162,6 @@ class WatchSubscriptionTasksRequest(betterproto.Message):
     subscription_id: str = betterproto.string_field(2)
     endpoint_id: str = betterproto.string_field(3)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class WatchSubscriptionTasksResponse(betterproto.Message):
@@ -197,9 +171,6 @@ class WatchSubscriptionTasksResponse(betterproto.Message):
     """
 
     event: "Event" = betterproto.message_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -211,9 +182,6 @@ class UpdateSubscriptionTaskRequest(betterproto.Message):
 
     task: "SubscriptionTask" = betterproto.message_field(1)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class UpdateSubscriptionTaskResponse(betterproto.Message):
@@ -224,20 +192,11 @@ class UpdateSubscriptionTaskResponse(betterproto.Message):
 
     pass
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 class E2SubscriptionTaskServiceStub(betterproto.ServiceStub):
-    """
-    E2SubscriptionTaskService manages subscription tasks between E2 termination
-    points and E2 nodes
-    """
-
     async def get_subscription_task(
         self, *, id: str = ""
     ) -> "GetSubscriptionTaskResponse":
-        """GetSubscriptionTask retrieves information about a specific task"""
 
         request = GetSubscriptionTaskRequest()
         request.id = id
@@ -251,10 +210,6 @@ class E2SubscriptionTaskServiceStub(betterproto.ServiceStub):
     async def list_subscription_tasks(
         self, *, subscription_id: str = "", endpoint_id: str = ""
     ) -> "ListSubscriptionTasksResponse":
-        """
-        ListSubscriptionTasks returns the list of currently registered E2
-        Tasks.
-        """
 
         request = ListSubscriptionTasksRequest()
         request.subscription_id = subscription_id
@@ -273,10 +228,6 @@ class E2SubscriptionTaskServiceStub(betterproto.ServiceStub):
         subscription_id: str = "",
         endpoint_id: str = "",
     ) -> AsyncIterator["WatchSubscriptionTasksResponse"]:
-        """
-        WatchSubscriptionTasks returns a stream of changes in the set of
-        available E2 Tasks.
-        """
 
         request = WatchSubscriptionTasksRequest()
         request.noreplay = noreplay
@@ -293,7 +244,6 @@ class E2SubscriptionTaskServiceStub(betterproto.ServiceStub):
     async def update_subscription_task(
         self, *, task: "SubscriptionTask" = None
     ) -> "UpdateSubscriptionTaskResponse":
-        """UpdateSubscriptionTask updates a task status"""
 
         request = UpdateSubscriptionTaskRequest()
         if task is not None:
@@ -304,3 +254,103 @@ class E2SubscriptionTaskServiceStub(betterproto.ServiceStub):
             request,
             UpdateSubscriptionTaskResponse,
         )
+
+
+class E2SubscriptionTaskServiceBase(ServiceBase):
+    async def get_subscription_task(self, id: str) -> "GetSubscriptionTaskResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list_subscription_tasks(
+        self, subscription_id: str, endpoint_id: str
+    ) -> "ListSubscriptionTasksResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def watch_subscription_tasks(
+        self, noreplay: bool, subscription_id: str, endpoint_id: str
+    ) -> AsyncIterator["WatchSubscriptionTasksResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def update_subscription_task(
+        self, task: "SubscriptionTask"
+    ) -> "UpdateSubscriptionTaskResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_get_subscription_task(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+        }
+
+        response = await self.get_subscription_task(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list_subscription_tasks(
+        self, stream: grpclib.server.Stream
+    ) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "subscription_id": request.subscription_id,
+            "endpoint_id": request.endpoint_id,
+        }
+
+        response = await self.list_subscription_tasks(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_watch_subscription_tasks(
+        self, stream: grpclib.server.Stream
+    ) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "noreplay": request.noreplay,
+            "subscription_id": request.subscription_id,
+            "endpoint_id": request.endpoint_id,
+        }
+
+        await self._call_rpc_handler_server_stream(
+            self.watch_subscription_tasks,
+            stream,
+            request_kwargs,
+        )
+
+    async def __rpc_update_subscription_task(
+        self, stream: grpclib.server.Stream
+    ) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "task": request.task,
+        }
+
+        response = await self.update_subscription_task(**request_kwargs)
+        await stream.send_message(response)
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.e2sub.task.E2SubscriptionTaskService/GetSubscriptionTask": grpclib.const.Handler(
+                self.__rpc_get_subscription_task,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                GetSubscriptionTaskRequest,
+                GetSubscriptionTaskResponse,
+            ),
+            "/onos.e2sub.task.E2SubscriptionTaskService/ListSubscriptionTasks": grpclib.const.Handler(
+                self.__rpc_list_subscription_tasks,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ListSubscriptionTasksRequest,
+                ListSubscriptionTasksResponse,
+            ),
+            "/onos.e2sub.task.E2SubscriptionTaskService/WatchSubscriptionTasks": grpclib.const.Handler(
+                self.__rpc_watch_subscription_tasks,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                WatchSubscriptionTasksRequest,
+                WatchSubscriptionTasksResponse,
+            ),
+            "/onos.e2sub.task.E2SubscriptionTaskService/UpdateSubscriptionTask": grpclib.const.Handler(
+                self.__rpc_update_subscription_task,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                UpdateSubscriptionTaskRequest,
+                UpdateSubscriptionTaskResponse,
+            ),
+        }

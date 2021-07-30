@@ -1057,10 +1057,7 @@ func (m *GetMlbParamRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1186,10 +1183,7 @@ func (m *GetMlbParamResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1315,10 +1309,7 @@ func (m *SetMlbParamRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1388,10 +1379,7 @@ func (m *SetMlbParamResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1441,10 +1429,7 @@ func (m *GetOcnRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1606,7 +1591,7 @@ func (m *GetOcnResponse) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthMlb
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -1623,10 +1608,7 @@ func (m *GetOcnResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1772,7 +1754,7 @@ func (m *OcnRecord) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthMlb
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -1789,10 +1771,7 @@ func (m *OcnRecord) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {
@@ -1842,10 +1821,7 @@ func (m *OcnIDs) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthMlb
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthMlb
 			}
 			if (iNdEx + skippy) > l {

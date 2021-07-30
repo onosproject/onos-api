@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import List
 
 import betterproto
+from betterproto.grpc.grpclib_server import ServiceBase
 
 
 class ValueType(betterproto.Enum):
@@ -55,9 +56,6 @@ class DeviceChange(betterproto.Message):
     # 'updated' is the time at which the change was last updated
     updated: datetime = betterproto.message_field(8)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class NetworkChangeRef(betterproto.Message):
@@ -72,9 +70,6 @@ class NetworkChangeRef(betterproto.Message):
     # 'index' is the index of the network change from which this change was
     # created
     index: int = betterproto.uint64_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -91,23 +86,17 @@ class Change(betterproto.Message):
     # 'values' is a set of change values to apply
     values: List["ChangeValue"] = betterproto.message_field(4)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class TypedValue(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
 
     # 'bytes' is the bytes array
-    bytes: bytes = betterproto.bytes_field(1)
+    bytes_: bytes = betterproto.bytes_field(1)
     # 'type' is the value type
     type: "ValueType" = betterproto.enum_field(2)
     # 'type_opts' is a set of type options
     type_opts: List[int] = betterproto.int32_field(3)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -124,9 +113,6 @@ class ChangeValue(betterproto.Message):
     # 'removed' indicates whether this is a delete
     removed: bool = betterproto.bool_field(3)
 
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
 
 @dataclass(eq=False, repr=False)
 class PathValue(betterproto.Message):
@@ -141,9 +127,6 @@ class PathValue(betterproto.Message):
     path: str = betterproto.string_field(1)
     # 'value' is the change value
     value: "TypedValue" = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 from ... import change as __change__

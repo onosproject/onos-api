@@ -1862,10 +1862,7 @@ func (m *RequestHeaders) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -1934,10 +1931,7 @@ func (m *ResponseHeaders) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2051,10 +2045,7 @@ func (m *ServiceModel) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2140,10 +2131,7 @@ func (m *Error) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2403,10 +2391,7 @@ func (m *Error_Cause) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2456,10 +2441,7 @@ func (m *Error_Cause_Unknown) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2528,10 +2510,7 @@ func (m *Error_Cause_Misc) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2600,10 +2579,7 @@ func (m *Error_Cause_Protocol) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2672,10 +2648,7 @@ func (m *Error_Cause_Ric) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2744,10 +2717,7 @@ func (m *Error_Cause_RicService) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
@@ -2816,10 +2786,7 @@ func (m *Error_Cause_Transport) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthE2
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthE2
 			}
 			if (iNdEx + skippy) > l {
