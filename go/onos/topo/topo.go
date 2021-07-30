@@ -24,10 +24,13 @@ import (
 	"google.golang.org/grpc"
 )
 
-// ID ...
+// UUID represents a system-assigned unique identifier of a topology object.
+type UUID string
+
+// ID represents a client-assigned unique identifier.
 type ID string
 
-// NullID ...
+// NullID represents a null/empty/omitted identifier; usually an indicator for system to generate one.
 const NullID = ""
 
 // Revision is an object revision

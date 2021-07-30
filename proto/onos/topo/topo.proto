@@ -160,6 +160,7 @@ message WatchResponse {
 
 // Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
 message Object {
+  string uuid = 9 [(gogoproto.customname) = "UUID", (gogoproto.casttype) = "UUID"];
   string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
   uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
 
@@ -181,13 +182,17 @@ message Object {
   map<string, google.protobuf.Any> aspects = 7;
 
   // Arbitrary labels for classification/search
-  map<string,string> labels = 8;
+  map<string, string> labels = 8;
 }
 
 // Entity represents any "thing" that is represented in the topology
 message Entity {
   // user-defined entity kind
   string kind_id = 1 [(gogoproto.customname) = "KindID", (gogoproto.casttype) = "ID"];
+
+  // these lists are maintained by the system and are provided as read-only values for clients
+  repeated string src_relation_ids = 2 [(gogoproto.customname) = "SrcRelationIDs", (gogoproto.casttype) = "ID"];
+  repeated string tgt_relation_ids = 3 [(gogoproto.customname) = "TgtRelationIDs", (gogoproto.casttype) = "ID"];
 }
 
 // Relation represents any "relation" between two entitites in the topology.
