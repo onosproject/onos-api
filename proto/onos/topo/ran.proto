@@ -42,6 +42,25 @@ enum CellGlobalIDType {
     ECGI = 1; // 4G cell ID
 }
 
+// NodeType is for use in encoding node type in topo Entity URI identifier; see section 9.2.6 of ORAN E2AP v02.00 spec
+enum NodeType {
+    NT_NONE = 0;
+    NT_GNB = 1;
+    NT_EN_GNB = 2;
+    NT_NG_ENB = 3;
+    NT_ENB = 4;
+    // Add new types here. DO NOT change ordinals of existing values.
+}
+
+// ComponentType is for use in encoding node component type in topo Entity URI identifier; see section 9.2.6 of ORAN E2AP v02.00 spec
+enum ComponentType {
+    CT_NONE = 0;
+    CT_CU = 1;
+    CT_CU_UP = 2;
+    CT_DU = 3;
+    CT_ENB = 4;
+    // Add new types here. DO NOT change ordinals of existing values.
+}
 
 // Geographical location; expected value type of "location" aspect
 message Location {
