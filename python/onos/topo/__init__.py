@@ -103,6 +103,32 @@ class CellGlobalIdType(betterproto.Enum):
     ECGI = 1
 
 
+class NodeType(betterproto.Enum):
+    """
+    NodeType is for use in encoding node type in topo Entity URI identifier;
+    see section 9.2.6 of ORAN E2AP v02.00 spec
+    """
+
+    NT_NONE = 0
+    NT_GNB = 1
+    NT_EN_GNB = 2
+    NT_NG_ENB = 3
+    NT_ENB = 4
+
+
+class ComponentType(betterproto.Enum):
+    """
+    ComponentType is for use in encoding node component type in topo Entity URI
+    identifier; see section 9.2.6 of ORAN E2AP v02.00 spec
+    """
+
+    CT_NONE = 0
+    CT_CU = 1
+    CT_CU_UP = 2
+    CT_DU = 3
+    CT_ENB = 4
+
+
 class EventType(betterproto.Enum):
     """EventType is a topo operation event type"""
 
