@@ -1,3 +1,4 @@
+
 /*
 SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
 
@@ -10,13 +11,15 @@ syntax = "proto3";
 
 package onos.mho;
 
-// Mho provides an API to show/adjust MHO app Parameters
-service Mho {
-    // To get MHO parameters
-    rpc GetMhoParams(GetMhoParamRequest) returns (GetMhoParamResponse);
+service mho {
+  // To get MHO parameters
+  rpc GetMhoParams(GetMhoParamRequest) returns (GetMhoParamResponse);
 
-    // To set MHO parameters
-    rpc SetMhoParams(SetMhoParamRequest) returns (SetMhoParamResponse);
+  // To set MHO parameters
+  rpc SetMhoParams(SetMhoParamRequest) returns (SetMhoParamResponse);
+
+  rpc GetUes(GetRequest) returns (UeList) {}
+  rpc GetCells(GetRequest) returns (CellList) {}
 }
 
 message GetMhoParamRequest{
@@ -63,4 +66,28 @@ enum MhoParamType {
     A3OFFSET = 1;
     HYSTERESIS = 2;
     TIMETOTRIGGER = 3;
+}
+
+message GetRequest {
+}
+
+message UeList {
+  repeated UE ues = 1;
+}
+
+message CellList {
+  repeated Cell cells = 1;
+}
+
+message UE {
+  string ue_id = 1;
+  string rrc_state = 2;
+  string cgi = 3;
+}
+
+message Cell {
+  string cgi = 1;
+  int64 num_ues = 2;
+  int64 cumulative_handovers_in = 4;
+  int64 cumulative_handovers_out = 5;
 }
