@@ -20,6 +20,7 @@ package onos.topo;
 
 import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
 
 // TODO: Deprecate! Use language specific constant definitions instead.
 // Kinds of RAN entities
@@ -79,6 +80,11 @@ message Coverage {
 // E2Node aspect; expected value type of "E2NODE" aspect and expected on entities of "E2NODE" kind
 message E2Node {
     map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
+}
+
+// Lease aspect with an expiration timestamp for RAN entities
+message Lease {
+    google.protobuf.Timestamp expiration = 1 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }
 
 // Interface determines address and type of an endpoint interface

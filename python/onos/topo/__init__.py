@@ -2,6 +2,7 @@
 # sources: onos/topo/config.proto, onos/topo/ran.proto, onos/topo/topo.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
+from datetime import datetime
 from typing import AsyncIterator, Dict, List
 
 import betterproto
@@ -269,6 +270,13 @@ class E2Node(betterproto.Message):
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+
+
+@dataclass(eq=False, repr=False)
+class Lease(betterproto.Message):
+    """Lease aspect with an expiration timestamp for RAN entities"""
+
+    expiration: datetime = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
