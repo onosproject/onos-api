@@ -276,7 +276,7 @@ class Address(betterproto.Message):
 class E2Termination(betterproto.Message):
     """E2T aspect;"""
 
-    address: List["Address"] = betterproto.message_field(1)
+    addresses: List["Address"] = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
