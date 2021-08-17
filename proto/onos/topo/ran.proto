@@ -83,6 +83,18 @@ message E2Node {
 
 
 
+// Address
+message Address {
+    string ip = 1;
+    uint32 port = 2;
+}
+
+// E2T aspect;
+message E2Termination {
+    repeated Address address = 1;
+}
+
+
 message CellGlobalID {
     string value = 1;
     CellGlobalIDType type = 2;

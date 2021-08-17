@@ -265,6 +265,21 @@ class E2Node(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Address(betterproto.Message):
+    """Address"""
+
+    ip: str = betterproto.string_field(1)
+    port: int = betterproto.uint32_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class E2Termination(betterproto.Message):
+    """E2T aspect;"""
+
+    address: List["Address"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
 class CellGlobalId(betterproto.Message):
     value: str = betterproto.string_field(1)
     type: "CellGlobalIdType" = betterproto.enum_field(2)
