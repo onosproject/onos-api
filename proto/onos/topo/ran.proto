@@ -104,8 +104,8 @@ message Interface {
 
 
 
-// E2T aspect;
-message E2Termination {
+// E2TInfo E2T aspect;
+message E2TInfo {
     repeated Interface interfaces = 1;
 }
 

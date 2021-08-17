@@ -289,8 +289,8 @@ class Interface(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class E2Termination(betterproto.Message):
-    """E2T aspect;"""
+class E2TInfo(betterproto.Message):
+    """E2TInfo E2T aspect;"""
 
     interfaces: List["Interface"] = betterproto.message_field(1)
 
