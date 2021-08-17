@@ -129,6 +129,13 @@ class ComponentType(betterproto.Enum):
     CT_ENB = 4
 
 
+class InterfaceType(betterproto.Enum):
+    INTERFACE_UNKNOWN = 0
+    INTERFACE_E2T = 1
+    INTERFACE_E2AP101 = 2
+    INTERFACE_E2AP200 = 3
+
+
 class EventType(betterproto.Enum):
     """EventType is a topo operation event type"""
 
@@ -265,18 +272,19 @@ class E2Node(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Address(betterproto.Message):
-    """Address"""
+class Interface(betterproto.Message):
+    """Interface determines address and type of an endpoint interface"""
 
-    ip: str = betterproto.string_field(1)
-    port: int = betterproto.uint32_field(2)
+    type: "InterfaceType" = betterproto.enum_field(1)
+    ip: str = betterproto.string_field(2)
+    port: int = betterproto.uint32_field(3)
 
 
 @dataclass(eq=False, repr=False)
 class E2Termination(betterproto.Message):
     """E2T aspect;"""
 
-    addresses: List["Address"] = betterproto.message_field(1)
+    interfaces: List["Interface"] = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)

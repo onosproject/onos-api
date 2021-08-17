@@ -81,17 +81,26 @@ message E2Node {
     map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
 }
 
+// Interface determines address and type of an endpoint interface
+message Interface {
+    Type type = 1;
+    string ip = 2 [(gogoproto.customname) = "IP"];
+    uint32 port = 3;
 
-
-// Address
-message Address {
-    string ip = 1  [(gogoproto.customname) = "IP"];
-    uint32 port = 2;
+    enum Type {
+        INTERFACE_UNKNOWN = 0;
+        INTERFACE_E2T = 1;
+        INTERFACE_E2AP101 = 2;
+        INTERFACE_E2AP200 = 3;
+    }
 }
+
+
+
 
 // E2T aspect;
 message E2Termination {
-    repeated Address addresses = 1;
+    repeated Interface interfaces = 1;
 }
 
 
