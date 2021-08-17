@@ -84,7 +84,7 @@ message E2Node {
 
 // Lease aspect with an expiration timestamp for RAN entities
 message Lease {
-    google.protobuf.Timestamp expiration = 1 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+    google.protobuf.Timestamp expiration = 1 [(gogoproto.stdtime) = true];
 }
 
 // Interface determines address and type of an endpoint interface
