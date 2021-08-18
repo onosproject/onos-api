@@ -2,6 +2,7 @@
 # sources: onos/topo/config.proto, onos/topo/ran.proto, onos/topo/topo.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
+from datetime import datetime
 from typing import AsyncIterator, Dict, List
 
 import betterproto
@@ -127,6 +128,13 @@ class ComponentType(betterproto.Enum):
     CT_CU_UP = 2
     CT_DU = 3
     CT_ENB = 4
+
+
+class InterfaceType(betterproto.Enum):
+    INTERFACE_UNKNOWN = 0
+    INTERFACE_E2T = 1
+    INTERFACE_E2AP101 = 2
+    INTERFACE_E2AP200 = 3
 
 
 class EventType(betterproto.Enum):
@@ -262,6 +270,29 @@ class E2Node(betterproto.Message):
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+
+
+@dataclass(eq=False, repr=False)
+class Lease(betterproto.Message):
+    """Lease aspect with an expiration timestamp for RAN entities"""
+
+    expiration: datetime = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class Interface(betterproto.Message):
+    """Interface determines address and type of an endpoint interface"""
+
+    type: "InterfaceType" = betterproto.enum_field(1)
+    ip: str = betterproto.string_field(2)
+    port: int = betterproto.uint32_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class E2TInfo(betterproto.Message):
+    """E2TInfo E2T aspect;"""
+
+    interfaces: List["Interface"] = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
