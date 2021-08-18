@@ -43,42 +43,24 @@ func CreateUEServiceClient(cc *grpc.ClientConn) UEServiceClient {
 }
 
 // GetAspect retrieves the specified aspect value from the given UE.
-func (ue *UE) GetAspect(destValue proto.Message) proto.Message {
+func (ue *UE) GetAspect(destValue proto.Message) error {
 	if ue.Aspects == nil {
-		return nil
-	}
-	aspectType := proto.MessageName(destValue)
-	any := ue.Aspects[aspectType]
-	if any == nil || any.TypeUrl != aspectType {
-		return nil
-	}
-	reader := bytes.NewReader(any.Value)
-	err := jsonpb.Unmarshal(reader, destValue)
-	if err != nil {
-		return nil
-	}
-	return destValue
-}
-
-// GetAspectSafe retrieves the specified aspect value from the given UE.
-func (ue *UE) GetAspectSafe(destValue proto.Message) (proto.Message, error) {
-	if ue.Aspects == nil {
-		return nil, errors.New("aspect not found")
+		return errors.New("aspect not found")
 	}
 	aspectType := proto.MessageName(destValue)
 	any := ue.Aspects[aspectType]
 	if any == nil {
-		return nil, errors.New("aspect not found")
+		return errors.New("aspect not found")
 	}
 	if any.TypeUrl != aspectType {
-		return nil, errors.New("unexpected aspect type")
+		return errors.New("unexpected aspect type")
 	}
 	reader := bytes.NewReader(any.Value)
 	err := jsonpb.Unmarshal(reader, destValue)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return destValue, nil
+	return nil
 }
 
 // GetAspectBytes applies the specified aspect as raw JSON bytes to the given UE.

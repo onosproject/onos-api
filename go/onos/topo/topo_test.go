@@ -24,7 +24,7 @@ func TestAspects(t *testing.T) {
 	o := &Object{}
 
 	// Test retrieval of non-existent aspects (before any aspects exist)
-	_, err := o.GetAspectSafe(&TLSOptions{})
+	err := o.GetAspect(&TLSOptions{})
 	assert.Error(t, err)
 	_, err = o.GetAspectBytes("onos.topo.TLSOptions")
 	assert.Error(t, err)
@@ -34,7 +34,9 @@ func TestAspects(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Fetch it...
-	loc := o.GetAspect(&Location{}).(*Location)
+	loc := &Location{}
+	err = o.GetAspect(loc)
+	assert.NoError(t, err)
 	assert.NotNil(t, loc)
 	assert.Equal(t, 1.23, loc.Lat)
 	assert.Equal(t, 3.21, loc.Lng)
@@ -43,10 +45,10 @@ func TestAspects(t *testing.T) {
 	err = o.SetAspectBytes("onos.topo.Location", bytes.NewBufferString("{\"lat\":3.14,\"lng\":6.28}").Bytes())
 	assert.NoError(t, err)
 
-	// Fetch it... safely.
-	msg, err := o.GetAspectSafe(&Location{})
+	// Fetch it... again.
+	loc = &Location{}
+	err = o.GetAspect(loc)
 	assert.NoError(t, err)
-	loc = msg.(*Location)
 	assert.Equal(t, 3.14, loc.Lat)
 	assert.Equal(t, 6.28, loc.Lng)
 
@@ -56,7 +58,8 @@ func TestAspects(t *testing.T) {
 	assert.Equal(t, "{\"lat\":3.14,\"lng\":6.28}", bytes.NewBuffer(b).String())
 
 	// Test retrieval of non-existent aspects (after some aspects exist)
-	_, err = o.GetAspectSafe(&TLSOptions{})
+	tls := &TLSOptions{}
+	err = o.GetAspect(tls)
 	assert.Error(t, err)
 	_, err = o.GetAspectBytes("onos.topo.TLSOptions")
 	assert.Error(t, err)
