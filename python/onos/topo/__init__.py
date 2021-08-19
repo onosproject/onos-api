@@ -409,6 +409,7 @@ class UpdateResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class DeleteRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
+    revision: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -566,10 +567,11 @@ class TopoStub(betterproto.ServiceStub):
             "/onos.topo.Topo/Update", request, UpdateResponse
         )
 
-    async def delete(self, *, id: str = "") -> "DeleteResponse":
+    async def delete(self, *, id: str = "", revision: int = 0) -> "DeleteResponse":
 
         request = DeleteRequest()
         request.id = id
+        request.revision = revision
 
         return await self._unary_unary(
             "/onos.topo.Topo/Delete", request, DeleteResponse
@@ -613,7 +615,7 @@ class TopoBase(ServiceBase):
     async def update(self, object: "Object") -> "UpdateResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
-    async def delete(self, id: str) -> "DeleteResponse":
+    async def delete(self, id: str, revision: int) -> "DeleteResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list(self, filters: "Filters", sort_order: "SortOrder") -> "ListResponse":
@@ -659,6 +661,7 @@ class TopoBase(ServiceBase):
 
         request_kwargs = {
             "id": request.id,
+            "revision": request.revision,
         }
 
         response = await self.delete(**request_kwargs)

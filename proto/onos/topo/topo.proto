@@ -89,6 +89,7 @@ message UpdateResponse {
 
 message DeleteRequest {
   string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+  uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
 }
 
 message DeleteResponse {
