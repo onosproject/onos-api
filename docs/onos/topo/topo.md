@@ -87,6 +87,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
+| revision | [uint64](#uint64) |  |  |
 
 
 
