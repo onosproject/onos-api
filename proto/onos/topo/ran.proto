@@ -33,7 +33,7 @@ enum RANEntityKinds {
 // TODO: Deprecate! Use language specific constant definitions instead.
 // Kinds of RAN relations
 enum RANRelationKinds {
-    CONTROLS = 0; 
+    CONTROLS = 0;
     CONTAINS = 1;
     NEIGHBORS = 2;
 }
@@ -115,6 +115,11 @@ message CellGlobalID {
     CellGlobalIDType type = 2;
 }
 
+message NeighborCellID {
+    CellGlobalID cell_global_id = 1 [(gogoproto.customname) = "CellGlobalID"];
+    string plmn_id = 2 [(gogoproto.customname) = "PlmnID"];
+}
+
 // E2Cell aspect; expected value type of "E2CELL" aspect and expected on entities of "E2CELL" kind
 message E2Cell {
     string cell_object_id = 1 [(gogoproto.customname) = "CellObjectID"];
@@ -123,6 +128,8 @@ message E2Cell {
     uint32 earfcn = 4 [(gogoproto.customname) = "EARFCN"];
     string cell_type = 5;
     uint32 pci = 6  [(gogoproto.customname) = "PCI"];
+    map<string, uint32> kpi_reports = 7 [(gogoproto.customname) = "KpiReports"];
+    repeated NeighborCellID neighbor_cell_ids = 8 [(gogoproto.customname) = "NeighborCellIDs"];
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
