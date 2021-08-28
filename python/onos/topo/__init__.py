@@ -302,6 +302,12 @@ class CellGlobalId(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class NeighborCellId(betterproto.Message):
+    cell_global_id: "CellGlobalId" = betterproto.message_field(1)
+    plmn_id: str = betterproto.string_field(2)
+
+
+@dataclass(eq=False, repr=False)
 class E2Cell(betterproto.Message):
     """
     E2Cell aspect; expected value type of "E2CELL" aspect and expected on
@@ -314,6 +320,10 @@ class E2Cell(betterproto.Message):
     earfcn: int = betterproto.uint32_field(4)
     cell_type: str = betterproto.string_field(5)
     pci: int = betterproto.uint32_field(6)
+    kpi_reports: Dict[str, int] = betterproto.map_field(
+        7, betterproto.TYPE_STRING, betterproto.TYPE_UINT32
+    )
+    neighbor_cell_ids: List["NeighborCellId"] = betterproto.message_field(8)
 
 
 @dataclass(eq=False, repr=False)
