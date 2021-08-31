@@ -229,6 +229,10 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/ransim/types,plugins=grpc:./go \
     proto/onos/ransim/types/*.proto
 
+# perf
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
+    proto/onos/perf/perf.proto
 
 ### Python Protobuf code generation
 mkdir -p ./python
