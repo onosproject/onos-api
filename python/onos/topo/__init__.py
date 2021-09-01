@@ -461,6 +461,7 @@ class RelationFilter(betterproto.Message):
     relation_kind: str = betterproto.string_field(2)
     target_kind: str = betterproto.string_field(3)
     scope: "RelationFilterScope" = betterproto.enum_field(4)
+    target_id: str = betterproto.string_field(5)
 
 
 @dataclass(eq=False, repr=False)
