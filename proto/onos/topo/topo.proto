@@ -118,7 +118,8 @@ message RelationFilter {
   string src_id = 1;
   string relation_kind = 2;
   string target_kind = 3;
-  RelationFilterScope scope = 4;  
+  RelationFilterScope scope = 4;
+  string target_id = 5;
 }
 
 enum RelationFilterScope {
@@ -132,7 +133,6 @@ message Filters {
   repeated Filter label_filters = 2;
   RelationFilter relation_filter = 3;
   repeated Object.Type object_types = 4;
-
 }
 
 enum SortOrder {

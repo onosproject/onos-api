@@ -378,6 +378,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 | relation_kind | [string](#string) |  |  |
 | target_kind | [string](#string) |  |  |
 | scope | [RelationFilterScope](#onos.topo.RelationFilterScope) |  |  |
+| target_id | [string](#string) |  |  |
 
 
 
