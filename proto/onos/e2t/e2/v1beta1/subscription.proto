@@ -21,6 +21,7 @@ package onos.e2t.e2.v1beta1;
 
 import "gogoproto/gogo.proto";
 import "onos/e2t/e2/v1beta1/e2.proto";
+import "google/protobuf/timestamp.proto";
 
 option (gogoproto.goproto_registration) = true;
 
@@ -232,6 +233,8 @@ message ChannelStatus {
     ChannelPhase phase = 1;
     ChannelState state = 2;
     Error error = 3;
+    google.protobuf.Timestamp timestamp = 4 [(gogoproto.stdtime) = true];
+    uint64 term = 5;
 }
 
 enum ChannelPhase {

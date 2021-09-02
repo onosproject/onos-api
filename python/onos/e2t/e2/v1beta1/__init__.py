@@ -2,6 +2,7 @@
 # sources: onos/e2t/e2/v1beta1/control.proto, onos/e2t/e2/v1beta1/e2.proto, onos/e2t/e2/v1beta1/subscription.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
+from datetime import datetime
 from typing import AsyncIterator, Dict, List
 
 import betterproto
@@ -399,6 +400,8 @@ class ChannelStatus(betterproto.Message):
     phase: "ChannelPhase" = betterproto.enum_field(1)
     state: "ChannelState" = betterproto.enum_field(2)
     error: "Error" = betterproto.message_field(3)
+    timestamp: datetime = betterproto.message_field(4)
+    term: int = betterproto.uint64_field(5)
 
 
 @dataclass(eq=False, repr=False)
