@@ -159,6 +159,37 @@ message KPMRanFunction {
     repeated KPMReportStyle report_styles = 2;
 }
 
+message RSMRanFunction {
+    string id = 1 [(gogoproto.customname) = "ID"];
+    repeated RSMNodeSlicingCapabilityItem ric_slicing_node_capability_list = 2;
+}
+
+message RSMNodeSlicingCapabilityItem {
+    int32 max_number_of_slices_dl = 1;
+    int32 max_number_of_slices_ul = 2;
+    RSMSlicingType slicing_type = 3;
+    int32 max_number_of_ues_per_slice = 4;
+    repeated RSMSupportedSlicingConfigItem supported_config = 5;
+}
+
+message RSMSupportedSlicingConfigItem {
+    E2SmRsmCommand slicing_config_type = 1;
+};
+
+enum E2SmRsmCommand {
+    E2_SM_RSM_COMMAND_SLICE_CREATE = 0;
+    E2_SM_RSM_COMMAND_SLICE_UPDATE = 1;
+    E2_SM_RSM_COMMAND_SLICE_DELETE = 2;
+    E2_SM_RSM_COMMAND_UE_ASSOCIATE = 3;
+    E2_SM_RSM_COMMAND_EVENT_TRIGGERS = 4;
+};
+
+enum RSMSlicingType {
+    SLICING_TYPE_STATIC = 0;
+    SLICING_TYPE_DYNAMIC = 1;
+};
+
+
 message RCReportStyle {
     string name = 1;
     int32 type = 2;
