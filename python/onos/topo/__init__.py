@@ -130,6 +130,19 @@ class ComponentType(betterproto.Enum):
     CT_ENB = 4
 
 
+class E2SmRsmCommand(betterproto.Enum):
+    E2_SM_RSM_COMMAND_SLICE_CREATE = 0
+    E2_SM_RSM_COMMAND_SLICE_UPDATE = 1
+    E2_SM_RSM_COMMAND_SLICE_DELETE = 2
+    E2_SM_RSM_COMMAND_UE_ASSOCIATE = 3
+    E2_SM_RSM_COMMAND_EVENT_TRIGGERS = 4
+
+
+class RsmSlicingType(betterproto.Enum):
+    SLICING_TYPE_STATIC = 0
+    SLICING_TYPE_DYNAMIC = 1
+
+
 class InterfaceType(betterproto.Enum):
     INTERFACE_UNKNOWN = 0
     INTERFACE_E2T = 1
@@ -351,6 +364,30 @@ class MhoRanFunction(betterproto.Message):
 class KpmRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["KpmReportStyle"] = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class RsmRanFunction(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    ric_slicing_node_capability_list: List[
+        "RsmNodeSlicingCapabilityItem"
+    ] = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class RsmNodeSlicingCapabilityItem(betterproto.Message):
+    max_number_of_slices_dl: int = betterproto.int32_field(1)
+    max_number_of_slices_ul: int = betterproto.int32_field(2)
+    slicing_type: "RsmSlicingType" = betterproto.enum_field(3)
+    max_number_of_ues_per_slice: int = betterproto.int32_field(4)
+    supported_config: List["RsmSupportedSlicingConfigItem"] = betterproto.message_field(
+        5
+    )
+
+
+@dataclass(eq=False, repr=False)
+class RsmSupportedSlicingConfigItem(betterproto.Message):
+    slicing_config_type: "E2SmRsmCommand" = betterproto.enum_field(1)
 
 
 @dataclass(eq=False, repr=False)
