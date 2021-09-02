@@ -2,7 +2,7 @@
 # sources: onos/e2t/e2/v1beta1/control.proto, onos/e2t/e2/v1beta1/e2.proto, onos/e2t/e2/v1beta1/subscription.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import AsyncIterator, Dict, List
 
 import betterproto
@@ -230,6 +230,7 @@ class SubscribeRequest(betterproto.Message):
     headers: "RequestHeaders" = betterproto.message_field(1)
     transaction_id: str = betterproto.string_field(2)
     subscription: "SubscriptionSpec" = betterproto.message_field(3)
+    timeout: timedelta = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -451,6 +452,7 @@ class SubscriptionServiceStub(betterproto.ServiceStub):
         headers: "RequestHeaders" = None,
         transaction_id: str = "",
         subscription: "SubscriptionSpec" = None,
+        timeout: timedelta = None,
     ) -> AsyncIterator["SubscribeResponse"]:
 
         request = SubscribeRequest()
@@ -459,6 +461,8 @@ class SubscriptionServiceStub(betterproto.ServiceStub):
         request.transaction_id = transaction_id
         if subscription is not None:
             request.subscription = subscription
+        if timeout is not None:
+            request.timeout = timeout
 
         async for response in self._unary_stream(
             "/onos.e2t.e2.v1beta1.SubscriptionService/Subscribe",
@@ -591,6 +595,7 @@ class SubscriptionServiceBase(ServiceBase):
         headers: "RequestHeaders",
         transaction_id: str,
         subscription: "SubscriptionSpec",
+        timeout: timedelta,
     ) -> AsyncIterator["SubscribeResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -606,6 +611,7 @@ class SubscriptionServiceBase(ServiceBase):
             "headers": request.headers,
             "transaction_id": request.transaction_id,
             "subscription": request.subscription,
+            "timeout": request.timeout,
         }
 
         await self._call_rpc_handler_server_stream(
