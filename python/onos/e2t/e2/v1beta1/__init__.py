@@ -2,7 +2,7 @@
 # sources: onos/e2t/e2/v1beta1/control.proto, onos/e2t/e2/v1beta1/e2.proto, onos/e2t/e2/v1beta1/subscription.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import AsyncIterator, Dict, List
 
 import betterproto
@@ -230,6 +230,7 @@ class SubscribeRequest(betterproto.Message):
     headers: "RequestHeaders" = betterproto.message_field(1)
     transaction_id: str = betterproto.string_field(2)
     subscription: "SubscriptionSpec" = betterproto.message_field(3)
+    transaction_timeout: timedelta = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -393,6 +394,7 @@ class Channel(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class ChannelSpec(betterproto.Message):
     subscription: "SubscriptionSpec" = betterproto.message_field(1)
+    transaction_timeout: timedelta = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -451,6 +453,7 @@ class SubscriptionServiceStub(betterproto.ServiceStub):
         headers: "RequestHeaders" = None,
         transaction_id: str = "",
         subscription: "SubscriptionSpec" = None,
+        transaction_timeout: timedelta = None,
     ) -> AsyncIterator["SubscribeResponse"]:
 
         request = SubscribeRequest()
@@ -459,6 +462,8 @@ class SubscriptionServiceStub(betterproto.ServiceStub):
         request.transaction_id = transaction_id
         if subscription is not None:
             request.subscription = subscription
+        if transaction_timeout is not None:
+            request.transaction_timeout = transaction_timeout
 
         async for response in self._unary_stream(
             "/onos.e2t.e2.v1beta1.SubscriptionService/Subscribe",
@@ -591,6 +596,7 @@ class SubscriptionServiceBase(ServiceBase):
         headers: "RequestHeaders",
         transaction_id: str,
         subscription: "SubscriptionSpec",
+        transaction_timeout: timedelta,
     ) -> AsyncIterator["SubscribeResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -606,6 +612,7 @@ class SubscriptionServiceBase(ServiceBase):
             "headers": request.headers,
             "transaction_id": request.transaction_id,
             "subscription": request.subscription,
+            "transaction_timeout": request.transaction_timeout,
         }
 
         await self._call_rpc_handler_server_stream(

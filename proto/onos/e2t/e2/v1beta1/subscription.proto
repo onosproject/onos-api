@@ -22,6 +22,8 @@ package onos.e2t.e2.v1beta1;
 import "gogoproto/gogo.proto";
 import "onos/e2t/e2/v1beta1/e2.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
 
 option (gogoproto.goproto_registration) = true;
 
@@ -34,6 +36,8 @@ message SubscribeRequest {
     RequestHeaders headers = 1 [(gogoproto.nullable) = false];
     string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
     SubscriptionSpec subscription = 3 [(gogoproto.nullable) = false];
+    google.protobuf.Duration transaction_timeout = 4 [(gogoproto.stdduration) = true];
+
 }
 
 message SubscribeResponse {
@@ -227,6 +231,8 @@ message Channel {
 
 message ChannelSpec {
     SubscriptionSpec subscription = 1 [(gogoproto.nullable) = false, (gogoproto.embed) = true];
+    google.protobuf.Duration transaction_timeout = 2 [(gogoproto.stdduration) = true];
+
 }
 
 message ChannelStatus {
