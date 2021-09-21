@@ -82,6 +82,12 @@ message E2Node {
     map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
 }
 
+// E2NodeConfig aspect tracks the managed configuration for an E2 node
+message E2NodeConfig {
+    repeated Interface connections = 1 [(gogoproto.nullable) = false];
+    uint64 version = 2;
+}
+
 // Lease aspect with an expiration timestamp for RAN entities
 message Lease {
     google.protobuf.Timestamp expiration = 1 [(gogoproto.stdtime) = true];

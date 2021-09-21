@@ -286,6 +286,14 @@ class E2Node(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class E2NodeConfig(betterproto.Message):
+    """E2NodeConfig aspect tracks the managed configuration for an E2 node"""
+
+    connections: List["Interface"] = betterproto.message_field(1)
+    version: int = betterproto.uint64_field(2)
+
+
+@dataclass(eq=False, repr=False)
 class Lease(betterproto.Message):
     """Lease aspect with an expiration timestamp for RAN entities"""
 
