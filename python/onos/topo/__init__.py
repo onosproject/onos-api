@@ -283,6 +283,7 @@ class E2Node(betterproto.Message):
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+    connections: List[str] = betterproto.string_field(2)
 
 
 @dataclass(eq=False, repr=False)
