@@ -283,7 +283,14 @@ class E2Node(betterproto.Message):
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
-    connections: List[str] = betterproto.string_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class E2NodeConfig(betterproto.Message):
+    """E2NodeConfig aspect tracks the managed configuration for an E2 node"""
+
+    connections: List["Interface"] = betterproto.message_field(1)
+    version: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)

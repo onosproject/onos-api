@@ -80,7 +80,12 @@ message Coverage {
 // E2Node aspect; expected value type of "E2NODE" aspect and expected on entities of "E2NODE" kind
 message E2Node {
     map<string, ServiceModelInfo> service_models = 1; // map of oid to service model info
-    repeated string connections = 2;
+}
+
+// E2NodeConfig aspect tracks the managed configuration for an E2 node
+message E2NodeConfig {
+    repeated Interface connections = 1 [(gogoproto.nullable) = false];
+    uint64 version = 2;
 }
 
 // Lease aspect with an expiration timestamp for RAN entities
