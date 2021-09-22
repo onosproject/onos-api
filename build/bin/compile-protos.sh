@@ -92,6 +92,12 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,mlb.md \
     proto/onos/mlb/mlb.proto
 
+# rsm
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/rsm \
+    --doc_opt=markdown,rsm.md \
+    proto/onos/rsm/rsm.proto
+
 # ransim
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
@@ -206,6 +212,10 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/mlb,plugins=grpc:./go \
     proto/onos/mlb/*.proto
 
+# rsm
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/rsm,plugins=grpc:./go \
+    proto/onos/rsm/*.proto
 
 # mho
 protoc --proto_path=$proto_path \
