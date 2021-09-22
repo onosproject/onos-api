@@ -1,0 +1,129 @@
+/*
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+*/
+
+syntax = "proto3";
+
+package onos.rsm;
+
+service Rsm {
+  // Slice management
+  rpc GetSlices (GetSlicesRequest) returns (GetSliceResponse);
+  rpc CreateSlice (CreateSliceRequest) returns (CreateSliceResponse);
+  rpc UpdateSlice (UpdateSliceRequest) returns (UpdateSliceResponse);
+  rpc DeleteSlice (DeleteSliceRequest) returns (DeleteSliceResponse);
+
+  // UE-Slice association
+  rpc GetUeSliceAssociation (GetUeSliceAssociationRequest) returns (GetUeSliceAssociationResponse);
+  rpc SetUeSliceAssociation (SetUeSliceAssociationRequest) returns (SetUeSliceAssociationResponse);
+
+  // ToDo: add APIs for policy management and parameters
+  // Policy management
+//  rpc GetPolicy () returns ();
+//  rpc SetPolicy () returns ();
+
+  // Parameters
+//  rpc GetRsmParameters () returns ();
+//  rpc SetRsmParameters () returns ();
+}
+
+message GetSlicesRequest {
+  string e2_node_id = 1;
+}
+
+message GetSliceResponse {
+  Ack ack = 1;
+  repeated SliceItem slice_items = 2;
+}
+
+message SliceItem {
+  string e2_node_id = 1;
+  repeated string slice_ids = 2;
+}
+
+message Ack {
+  bool success = 1;
+  string cause = 2;
+}
+
+message CreateSliceRequest {
+  string e2_node_id = 1;
+  string slice_id = 2;
+  SchedulerType scheduler_type = 3;
+  string weight = 4;
+}
+
+enum SchedulerType {
+  SCHEDULER_TYPE_ROUND_ROBIN = 0;
+  SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1;
+  SCHEDULER_TYPE_QOS_BASED = 2;
+};
+
+message CreateSliceResponse {
+  Ack ack = 1;
+}
+
+message UpdateSliceRequest {
+  string e2_node_id = 1;
+  string slice_id = 2;
+  SchedulerType scheduler_type = 3;
+  string weight = 4;
+}
+
+message UpdateSliceResponse {
+  Ack ack = 1;
+}
+
+message DeleteSliceRequest {
+  string e2_node_id = 1;
+  string slice_id = 2;
+}
+
+message DeleteSliceResponse {
+  Ack ack = 1;
+}
+
+message GetUeSliceAssociationRequest {
+  string e2_node_id = 1;
+  repeated UeId ue_id = 2;
+  string slice_id = 3;
+  string ue_slice_assoc_id = 4;
+}
+
+message GetUeSliceAssociationResponse {
+  Ack ack = 1;
+  repeated SliceAssocItem slice_assoc_items = 2;
+}
+
+message SliceAssocItem {
+  string ue_slice_assoc_id = 1;
+  string e2_node_id = 2;
+  repeated UeIdType ue_id = 3;
+  string slice_id = 4;
+}
+
+message UeId {
+  string ue_id = 1;
+  UeIdType type = 2;
+}
+
+enum UeIdType {
+  UE_ID_TYPE_CU_UE_F1_AP_ID = 0;
+  UE_ID_TYPE_DU_UE_F1_AP_ID = 1;
+  UE_ID_TYPE_RAN_UE_NGAP_ID = 2;
+  UE_ID_TYPE_AMF_UE_NGAP_ID = 3;
+  UE_ID_TYPE_ENB_UE_S1_AP_ID = 4;
+};
+
+message SetUeSliceAssociationRequest {
+  string e2_node_id = 1;
+  repeated UeId ue_id = 2;
+  string slice_id = 3;
+}
+
+message SetUeSliceAssociationResponse {
+  Ack ack = 1;
+  string assigned_ue_slice_assoc_id = 2;
+}
