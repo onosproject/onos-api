@@ -48,11 +48,17 @@ message Ack {
   string cause = 2;
 }
 
+enum SliceType {
+  SLICE_TYPE_DL_SLICE = 0;
+  SLICE_TYPE_UL_SLICE = 1;
+}
+
 message CreateSliceRequest {
   string e2_node_id = 1;
   string slice_id = 2;
   SchedulerType scheduler_type = 3;
   string weight = 4;
+  SliceType sliceType = 5;
 }
 
 enum SchedulerType {
@@ -70,6 +76,7 @@ message UpdateSliceRequest {
   string slice_id = 2;
   SchedulerType scheduler_type = 3;
   string weight = 4;
+  SliceType sliceType = 5;
 }
 
 message UpdateSliceResponse {
@@ -79,6 +86,7 @@ message UpdateSliceResponse {
 message DeleteSliceRequest {
   string e2_node_id = 1;
   string slice_id = 2;
+  SliceType sliceType = 3;
 }
 
 message DeleteSliceResponse {

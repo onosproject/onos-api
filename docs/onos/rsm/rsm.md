@@ -22,6 +22,7 @@
     - [UpdateSliceResponse](#onos.rsm.UpdateSliceResponse)
   
     - [SchedulerType](#onos.rsm.SchedulerType)
+    - [SliceType](#onos.rsm.SliceType)
     - [UeIdType](#onos.rsm.UeIdType)
   
     - [Rsm](#onos.rsm.Rsm)
@@ -65,6 +66,7 @@
 | slice_id | [string](#string) |  |  |
 | scheduler_type | [SchedulerType](#onos.rsm.SchedulerType) |  |  |
 | weight | [string](#string) |  |  |
+| sliceType | [SliceType](#onos.rsm.SliceType) |  |  |
 
 
 
@@ -96,6 +98,7 @@
 | ----- | ---- | ----- | ----------- |
 | e2_node_id | [string](#string) |  |  |
 | slice_id | [string](#string) |  |  |
+| sliceType | [SliceType](#onos.rsm.SliceType) |  |  |
 
 
 
@@ -277,6 +280,7 @@
 | slice_id | [string](#string) |  |  |
 | scheduler_type | [SchedulerType](#onos.rsm.SchedulerType) |  |  |
 | weight | [string](#string) |  |  |
+| sliceType | [SliceType](#onos.rsm.SliceType) |  |  |
 
 
 
@@ -310,6 +314,18 @@
 | SCHEDULER_TYPE_ROUND_ROBIN | 0 |  |
 | SCHEDULER_TYPE_PROPORTIONALLY_FAIR | 1 |  |
 | SCHEDULER_TYPE_QOS_BASED | 2 |  |
+
+
+
+<a name="onos.rsm.SliceType"></a>
+
+### SliceType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SLICE_TYPE_DL_SLICE | 0 |  |
+| SLICE_TYPE_UL_SLICE | 1 |  |
 
 
 
