@@ -161,7 +161,8 @@
 | ----- | ---- | ----- | ----------- |
 | e2_node_id | [string](#string) |  |  |
 | ue_id | [UeId](#onos.rsm.UeId) | repeated |  |
-| slice_id | [string](#string) |  |  |
+| dl_slice_id | [string](#string) |  |  |
+| ul_slice_id | [string](#string) |  |  |
 | ue_slice_assoc_id | [string](#string) |  |  |
 
 
@@ -195,7 +196,8 @@
 | ----- | ---- | ----- | ----------- |
 | e2_node_id | [string](#string) |  |  |
 | ue_id | [UeId](#onos.rsm.UeId) | repeated |  |
-| slice_id | [string](#string) |  |  |
+| dl_slice_id | [string](#string) |  |  |
+| ul_slice_id | [string](#string) |  |  |
 
 
 

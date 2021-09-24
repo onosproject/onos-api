@@ -96,8 +96,9 @@ message DeleteSliceResponse {
 message GetUeSliceAssociationRequest {
   string e2_node_id = 1;
   repeated UeId ue_id = 2;
-  string slice_id = 3;
-  string ue_slice_assoc_id = 4;
+  string dl_slice_id = 3;
+  string ul_slice_id = 4;
+  string ue_slice_assoc_id = 5;
 }
 
 message GetUeSliceAssociationResponse {
@@ -128,7 +129,8 @@ enum UeIdType {
 message SetUeSliceAssociationRequest {
   string e2_node_id = 1;
   repeated UeId ue_id = 2;
-  string slice_id = 3;
+  string dl_slice_id = 3;
+  string ul_slice_id = 4;
 }
 
 message SetUeSliceAssociationResponse {
