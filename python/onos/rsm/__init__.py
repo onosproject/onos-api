@@ -9,6 +9,11 @@ from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
+class SliceType(betterproto.Enum):
+    SLICE_TYPE_DL_SLICE = 0
+    SLICE_TYPE_UL_SLICE = 1
+
+
 class SchedulerType(betterproto.Enum):
     SCHEDULER_TYPE_ROUND_ROBIN = 0
     SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1
@@ -52,6 +57,7 @@ class CreateSliceRequest(betterproto.Message):
     slice_id: str = betterproto.string_field(2)
     scheduler_type: "SchedulerType" = betterproto.enum_field(3)
     weight: str = betterproto.string_field(4)
+    slice_type: "SliceType" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -65,6 +71,7 @@ class UpdateSliceRequest(betterproto.Message):
     slice_id: str = betterproto.string_field(2)
     scheduler_type: "SchedulerType" = betterproto.enum_field(3)
     weight: str = betterproto.string_field(4)
+    slice_type: "SliceType" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -76,6 +83,7 @@ class UpdateSliceResponse(betterproto.Message):
 class DeleteSliceRequest(betterproto.Message):
     e2_node_id: str = betterproto.string_field(1)
     slice_id: str = betterproto.string_field(2)
+    slice_type: "SliceType" = betterproto.enum_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -141,6 +149,7 @@ class RsmStub(betterproto.ServiceStub):
         slice_id: str = "",
         scheduler_type: "SchedulerType" = None,
         weight: str = "",
+        slice_type: "SliceType" = None,
     ) -> "CreateSliceResponse":
 
         request = CreateSliceRequest()
@@ -148,6 +157,7 @@ class RsmStub(betterproto.ServiceStub):
         request.slice_id = slice_id
         request.scheduler_type = scheduler_type
         request.weight = weight
+        request.slice_type = slice_type
 
         return await self._unary_unary(
             "/onos.rsm.Rsm/CreateSlice", request, CreateSliceResponse
@@ -160,6 +170,7 @@ class RsmStub(betterproto.ServiceStub):
         slice_id: str = "",
         scheduler_type: "SchedulerType" = None,
         weight: str = "",
+        slice_type: "SliceType" = None,
     ) -> "UpdateSliceResponse":
 
         request = UpdateSliceRequest()
@@ -167,18 +178,24 @@ class RsmStub(betterproto.ServiceStub):
         request.slice_id = slice_id
         request.scheduler_type = scheduler_type
         request.weight = weight
+        request.slice_type = slice_type
 
         return await self._unary_unary(
             "/onos.rsm.Rsm/UpdateSlice", request, UpdateSliceResponse
         )
 
     async def delete_slice(
-        self, *, e2_node_id: str = "", slice_id: str = ""
+        self,
+        *,
+        e2_node_id: str = "",
+        slice_id: str = "",
+        slice_type: "SliceType" = None,
     ) -> "DeleteSliceResponse":
 
         request = DeleteSliceRequest()
         request.e2_node_id = e2_node_id
         request.slice_id = slice_id
+        request.slice_type = slice_type
 
         return await self._unary_unary(
             "/onos.rsm.Rsm/DeleteSlice", request, DeleteSliceResponse
@@ -239,6 +256,7 @@ class RsmBase(ServiceBase):
         slice_id: str,
         scheduler_type: "SchedulerType",
         weight: str,
+        slice_type: "SliceType",
     ) -> "CreateSliceResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -248,11 +266,12 @@ class RsmBase(ServiceBase):
         slice_id: str,
         scheduler_type: "SchedulerType",
         weight: str,
+        slice_type: "SliceType",
     ) -> "UpdateSliceResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def delete_slice(
-        self, e2_node_id: str, slice_id: str
+        self, e2_node_id: str, slice_id: str, slice_type: "SliceType"
     ) -> "DeleteSliceResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -288,6 +307,7 @@ class RsmBase(ServiceBase):
             "slice_id": request.slice_id,
             "scheduler_type": request.scheduler_type,
             "weight": request.weight,
+            "slice_type": request.slice_type,
         }
 
         response = await self.create_slice(**request_kwargs)
@@ -301,6 +321,7 @@ class RsmBase(ServiceBase):
             "slice_id": request.slice_id,
             "scheduler_type": request.scheduler_type,
             "weight": request.weight,
+            "slice_type": request.slice_type,
         }
 
         response = await self.update_slice(**request_kwargs)
@@ -312,6 +333,7 @@ class RsmBase(ServiceBase):
         request_kwargs = {
             "e2_node_id": request.e2_node_id,
             "slice_id": request.slice_id,
+            "slice_type": request.slice_type,
         }
 
         response = await self.delete_slice(**request_kwargs)
