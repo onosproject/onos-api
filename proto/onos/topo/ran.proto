@@ -148,6 +148,7 @@ message ServiceModelInfo {
     string oid = 1 [(gogoproto.customname) = "OID"];
     string name = 2;
     repeated google.protobuf.Any ran_functions = 3;
+    repeated uint32 ranFunctionIDs = 4;
 }
 
 message RCRanFunction {
