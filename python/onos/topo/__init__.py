@@ -354,6 +354,7 @@ class ServiceModelInfo(betterproto.Message):
     ran_functions: List[
         "betterproto_lib_google_protobuf.Any"
     ] = betterproto.message_field(3)
+    ran_function_i_ds: List[int] = betterproto.uint32_field(4)
 
 
 @dataclass(eq=False, repr=False)
