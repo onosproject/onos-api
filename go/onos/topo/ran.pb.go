@@ -270,13 +270,17 @@ func (x Interface_Type) String() string {
 }
 
 func (Interface_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{5, 0}
+	return fileDescriptor_23cc5f935e05bbb6, []int{14, 0}
 }
 
-// Geographical location; expected value type of "location" aspect
 type Location struct {
-	Lat float64 `protobuf:"fixed64,1,opt,name=lat,proto3" json:"lat,omitempty"`
-	Lng float64 `protobuf:"fixed64,2,opt,name=lng,proto3" json:"lng,omitempty"`
+	// Legacy Geographical location; expected value type of "location" aspect
+	Lat float64 `protobuf:"fixed64,1,opt,name=lat,proto3" json:"lat,omitempty"` // Deprecated: Do not use.
+	Lng float64 `protobuf:"fixed64,2,opt,name=lng,proto3" json:"lng,omitempty"` // Deprecated: Do not use.
+	// Types that are valid to be assigned to Ext:
+	//	*Location_Wgs84
+	//	*Location_Cartesian
+	Ext isLocation_Ext `protobuf_oneof:"ext"`
 }
 
 func (m *Location) Reset()         { *m = Location{} }
@@ -312,6 +316,30 @@ func (m *Location) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Location proto.InternalMessageInfo
 
+type isLocation_Ext interface {
+	isLocation_Ext()
+	MarshalTo([]byte) (int, error)
+	Size() int
+}
+
+type Location_Wgs84 struct {
+	Wgs84 *Wgs84Location `protobuf:"bytes,3,opt,name=wgs84,proto3,oneof" json:"wgs84,omitempty"`
+}
+type Location_Cartesian struct {
+	Cartesian *CartesianLocation `protobuf:"bytes,4,opt,name=cartesian,proto3,oneof" json:"cartesian,omitempty"`
+}
+
+func (*Location_Wgs84) isLocation_Ext()     {}
+func (*Location_Cartesian) isLocation_Ext() {}
+
+func (m *Location) GetExt() isLocation_Ext {
+	if m != nil {
+		return m.Ext
+	}
+	return nil
+}
+
+// Deprecated: Do not use.
 func (m *Location) GetLat() float64 {
 	if m != nil {
 		return m.Lat
@@ -319,11 +347,664 @@ func (m *Location) GetLat() float64 {
 	return 0
 }
 
+// Deprecated: Do not use.
 func (m *Location) GetLng() float64 {
 	if m != nil {
 		return m.Lng
 	}
 	return 0
+}
+
+func (m *Location) GetWgs84() *Wgs84Location {
+	if x, ok := m.GetExt().(*Location_Wgs84); ok {
+		return x.Wgs84
+	}
+	return nil
+}
+
+func (m *Location) GetCartesian() *CartesianLocation {
+	if x, ok := m.GetExt().(*Location_Cartesian); ok {
+		return x.Cartesian
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Location) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*Location_Wgs84)(nil),
+		(*Location_Cartesian)(nil),
+	}
+}
+
+type Wgs84Location struct {
+	// Latitude in degrees, between +/- 90.
+	LatitudeDeg float64 `protobuf:"fixed64,1,opt,name=latitude_deg,json=latitudeDeg,proto3" json:"latitude_deg,omitempty"`
+	// Longitude in degrees, between +/- 180.
+	LongitudeDeg float64 `protobuf:"fixed64,2,opt,name=longitude_deg,json=longitudeDeg,proto3" json:"longitude_deg,omitempty"`
+	// Altitude in meters, from the surface of the WGS-84 ellipsoid.
+	AltitudeM float64 `protobuf:"fixed64,3,opt,name=altitude_m,json=altitudeM,proto3" json:"altitude_m,omitempty"`
+}
+
+func (m *Wgs84Location) Reset()         { *m = Wgs84Location{} }
+func (m *Wgs84Location) String() string { return proto.CompactTextString(m) }
+func (*Wgs84Location) ProtoMessage()    {}
+func (*Wgs84Location) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{1}
+}
+func (m *Wgs84Location) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Wgs84Location) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Wgs84Location.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Wgs84Location) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Wgs84Location.Merge(m, src)
+}
+func (m *Wgs84Location) XXX_Size() int {
+	return m.Size()
+}
+func (m *Wgs84Location) XXX_DiscardUnknown() {
+	xxx_messageInfo_Wgs84Location.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Wgs84Location proto.InternalMessageInfo
+
+func (m *Wgs84Location) GetLatitudeDeg() float64 {
+	if m != nil {
+		return m.LatitudeDeg
+	}
+	return 0
+}
+
+func (m *Wgs84Location) GetLongitudeDeg() float64 {
+	if m != nil {
+		return m.LongitudeDeg
+	}
+	return 0
+}
+
+func (m *Wgs84Location) GetAltitudeM() float64 {
+	if m != nil {
+		return m.AltitudeM
+	}
+	return 0
+}
+
+// ECEF-compatible cartesian coordinates.
+type CartesianLocation struct {
+	// X, Y, and Z coordinates in meters.
+	XM float64 `protobuf:"fixed64,1,opt,name=x_m,json=xM,proto3" json:"x_m,omitempty"`
+	YM float64 `protobuf:"fixed64,2,opt,name=y_m,json=yM,proto3" json:"y_m,omitempty"`
+	ZM float64 `protobuf:"fixed64,3,opt,name=z_m,json=zM,proto3" json:"z_m,omitempty"`
+}
+
+func (m *CartesianLocation) Reset()         { *m = CartesianLocation{} }
+func (m *CartesianLocation) String() string { return proto.CompactTextString(m) }
+func (*CartesianLocation) ProtoMessage()    {}
+func (*CartesianLocation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{2}
+}
+func (m *CartesianLocation) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CartesianLocation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CartesianLocation.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *CartesianLocation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CartesianLocation.Merge(m, src)
+}
+func (m *CartesianLocation) XXX_Size() int {
+	return m.Size()
+}
+func (m *CartesianLocation) XXX_DiscardUnknown() {
+	xxx_messageInfo_CartesianLocation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CartesianLocation proto.InternalMessageInfo
+
+func (m *CartesianLocation) GetXM() float64 {
+	if m != nil {
+		return m.XM
+	}
+	return 0
+}
+
+func (m *CartesianLocation) GetYM() float64 {
+	if m != nil {
+		return m.YM
+	}
+	return 0
+}
+
+func (m *CartesianLocation) GetZM() float64 {
+	if m != nil {
+		return m.ZM
+	}
+	return 0
+}
+
+type AzElOrientation struct {
+	// Azimuth angle in degrees.
+	AzimuthDeg float64 `protobuf:"fixed64,1,opt,name=azimuth_deg,json=azimuthDeg,proto3" json:"azimuth_deg,omitempty"`
+	// Elevation angle in degrees.
+	ElevationDeg float64 `protobuf:"fixed64,2,opt,name=elevation_deg,json=elevationDeg,proto3" json:"elevation_deg,omitempty"`
+	// Rotation around boresight in degrees.
+	RotationDeg float64 `protobuf:"fixed64,3,opt,name=rotation_deg,json=rotationDeg,proto3" json:"rotation_deg,omitempty"`
+}
+
+func (m *AzElOrientation) Reset()         { *m = AzElOrientation{} }
+func (m *AzElOrientation) String() string { return proto.CompactTextString(m) }
+func (*AzElOrientation) ProtoMessage()    {}
+func (*AzElOrientation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{3}
+}
+func (m *AzElOrientation) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *AzElOrientation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_AzElOrientation.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *AzElOrientation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AzElOrientation.Merge(m, src)
+}
+func (m *AzElOrientation) XXX_Size() int {
+	return m.Size()
+}
+func (m *AzElOrientation) XXX_DiscardUnknown() {
+	xxx_messageInfo_AzElOrientation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AzElOrientation proto.InternalMessageInfo
+
+func (m *AzElOrientation) GetAzimuthDeg() float64 {
+	if m != nil {
+		return m.AzimuthDeg
+	}
+	return 0
+}
+
+func (m *AzElOrientation) GetElevationDeg() float64 {
+	if m != nil {
+		return m.ElevationDeg
+	}
+	return 0
+}
+
+func (m *AzElOrientation) GetRotationDeg() float64 {
+	if m != nil {
+		return m.RotationDeg
+	}
+	return 0
+}
+
+type YprOrientation struct {
+	// Yaw angle around z-axis.
+	YawDeg float64 `protobuf:"fixed64,1,opt,name=yaw_deg,json=yawDeg,proto3" json:"yaw_deg,omitempty"`
+	// Pitch angle around y-axix.
+	PitchDeg float64 `protobuf:"fixed64,2,opt,name=pitch_deg,json=pitchDeg,proto3" json:"pitch_deg,omitempty"`
+	// Roll angle around x-axis.
+	RollDeg float64 `protobuf:"fixed64,3,opt,name=roll_deg,json=rollDeg,proto3" json:"roll_deg,omitempty"`
+}
+
+func (m *YprOrientation) Reset()         { *m = YprOrientation{} }
+func (m *YprOrientation) String() string { return proto.CompactTextString(m) }
+func (*YprOrientation) ProtoMessage()    {}
+func (*YprOrientation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{4}
+}
+func (m *YprOrientation) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *YprOrientation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_YprOrientation.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *YprOrientation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_YprOrientation.Merge(m, src)
+}
+func (m *YprOrientation) XXX_Size() int {
+	return m.Size()
+}
+func (m *YprOrientation) XXX_DiscardUnknown() {
+	xxx_messageInfo_YprOrientation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_YprOrientation proto.InternalMessageInfo
+
+func (m *YprOrientation) GetYawDeg() float64 {
+	if m != nil {
+		return m.YawDeg
+	}
+	return 0
+}
+
+func (m *YprOrientation) GetPitchDeg() float64 {
+	if m != nil {
+		return m.PitchDeg
+	}
+	return 0
+}
+
+func (m *YprOrientation) GetRollDeg() float64 {
+	if m != nil {
+		return m.RollDeg
+	}
+	return 0
+}
+
+type Orientation struct {
+	// Types that are valid to be assigned to Orientation:
+	//	*Orientation_Azel
+	//	*Orientation_Ypr
+	Orientation isOrientation_Orientation `protobuf_oneof:"orientation"`
+}
+
+func (m *Orientation) Reset()         { *m = Orientation{} }
+func (m *Orientation) String() string { return proto.CompactTextString(m) }
+func (*Orientation) ProtoMessage()    {}
+func (*Orientation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{5}
+}
+func (m *Orientation) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Orientation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Orientation.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Orientation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Orientation.Merge(m, src)
+}
+func (m *Orientation) XXX_Size() int {
+	return m.Size()
+}
+func (m *Orientation) XXX_DiscardUnknown() {
+	xxx_messageInfo_Orientation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Orientation proto.InternalMessageInfo
+
+type isOrientation_Orientation interface {
+	isOrientation_Orientation()
+	MarshalTo([]byte) (int, error)
+	Size() int
+}
+
+type Orientation_Azel struct {
+	Azel *AzElOrientation `protobuf:"bytes,1,opt,name=azel,proto3,oneof" json:"azel,omitempty"`
+}
+type Orientation_Ypr struct {
+	Ypr *YprOrientation `protobuf:"bytes,2,opt,name=ypr,proto3,oneof" json:"ypr,omitempty"`
+}
+
+func (*Orientation_Azel) isOrientation_Orientation() {}
+func (*Orientation_Ypr) isOrientation_Orientation()  {}
+
+func (m *Orientation) GetOrientation() isOrientation_Orientation {
+	if m != nil {
+		return m.Orientation
+	}
+	return nil
+}
+
+func (m *Orientation) GetAzel() *AzElOrientation {
+	if x, ok := m.GetOrientation().(*Orientation_Azel); ok {
+		return x.Azel
+	}
+	return nil
+}
+
+func (m *Orientation) GetYpr() *YprOrientation {
+	if x, ok := m.GetOrientation().(*Orientation_Ypr); ok {
+		return x.Ypr
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Orientation) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*Orientation_Azel)(nil),
+		(*Orientation_Ypr)(nil),
+	}
+}
+
+type Waypoint struct {
+	Time     *types.Timestamp `protobuf:"bytes,1,opt,name=time,proto3" json:"time,omitempty"`
+	Location *Location        `protobuf:"bytes,2,opt,name=location,proto3" json:"location,omitempty"`
+}
+
+func (m *Waypoint) Reset()         { *m = Waypoint{} }
+func (m *Waypoint) String() string { return proto.CompactTextString(m) }
+func (*Waypoint) ProtoMessage()    {}
+func (*Waypoint) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{6}
+}
+func (m *Waypoint) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Waypoint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Waypoint.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Waypoint) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Waypoint.Merge(m, src)
+}
+func (m *Waypoint) XXX_Size() int {
+	return m.Size()
+}
+func (m *Waypoint) XXX_DiscardUnknown() {
+	xxx_messageInfo_Waypoint.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Waypoint proto.InternalMessageInfo
+
+func (m *Waypoint) GetTime() *types.Timestamp {
+	if m != nil {
+		return m.Time
+	}
+	return nil
+}
+
+func (m *Waypoint) GetLocation() *Location {
+	if m != nil {
+		return m.Location
+	}
+	return nil
+}
+
+// A set of waypoints that can be interpolated.
+type Waypoints struct {
+	Waypoint []*Waypoint `protobuf:"bytes,1,rep,name=waypoint,proto3" json:"waypoint,omitempty"`
+}
+
+func (m *Waypoints) Reset()         { *m = Waypoints{} }
+func (m *Waypoints) String() string { return proto.CompactTextString(m) }
+func (*Waypoints) ProtoMessage()    {}
+func (*Waypoints) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{7}
+}
+func (m *Waypoints) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Waypoints) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Waypoints.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Waypoints) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Waypoints.Merge(m, src)
+}
+func (m *Waypoints) XXX_Size() int {
+	return m.Size()
+}
+func (m *Waypoints) XXX_DiscardUnknown() {
+	xxx_messageInfo_Waypoints.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Waypoints proto.InternalMessageInfo
+
+func (m *Waypoints) GetWaypoint() []*Waypoint {
+	if m != nil {
+		return m.Waypoint
+	}
+	return nil
+}
+
+// Minimal satellite orbit data, e.g. from a TLE, that can be propagated.
+type OrbitData struct {
+	Epoch *types.Timestamp `protobuf:"bytes,1,opt,name=epoch,proto3" json:"epoch,omitempty"`
+	// Orbit inclination in degrees.
+	InclinationDeg float64 `protobuf:"fixed64,2,opt,name=inclination_deg,json=inclinationDeg,proto3" json:"inclination_deg,omitempty"`
+	// Right ascension of the ascending node in degrees.
+	RaanDeg float64 `protobuf:"fixed64,3,opt,name=raan_deg,json=raanDeg,proto3" json:"raan_deg,omitempty"`
+	// Orbit eccentricity.
+	E float64 `protobuf:"fixed64,4,opt,name=e,proto3" json:"e,omitempty"`
+	// Argument of perigee in degrees.
+	ArgumentDeg float64 `protobuf:"fixed64,5,opt,name=argument_deg,json=argumentDeg,proto3" json:"argument_deg,omitempty"`
+	// Mean anomaly in degrees.
+	AnomalyDeg float64 `protobuf:"fixed64,6,opt,name=anomaly_deg,json=anomalyDeg,proto3" json:"anomaly_deg,omitempty"`
+	// Mean motion in revolutions per day.
+	MeanMotion float64 `protobuf:"fixed64,7,opt,name=mean_motion,json=meanMotion,proto3" json:"mean_motion,omitempty"`
+}
+
+func (m *OrbitData) Reset()         { *m = OrbitData{} }
+func (m *OrbitData) String() string { return proto.CompactTextString(m) }
+func (*OrbitData) ProtoMessage()    {}
+func (*OrbitData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{8}
+}
+func (m *OrbitData) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *OrbitData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_OrbitData.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *OrbitData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrbitData.Merge(m, src)
+}
+func (m *OrbitData) XXX_Size() int {
+	return m.Size()
+}
+func (m *OrbitData) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrbitData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrbitData proto.InternalMessageInfo
+
+func (m *OrbitData) GetEpoch() *types.Timestamp {
+	if m != nil {
+		return m.Epoch
+	}
+	return nil
+}
+
+func (m *OrbitData) GetInclinationDeg() float64 {
+	if m != nil {
+		return m.InclinationDeg
+	}
+	return 0
+}
+
+func (m *OrbitData) GetRaanDeg() float64 {
+	if m != nil {
+		return m.RaanDeg
+	}
+	return 0
+}
+
+func (m *OrbitData) GetE() float64 {
+	if m != nil {
+		return m.E
+	}
+	return 0
+}
+
+func (m *OrbitData) GetArgumentDeg() float64 {
+	if m != nil {
+		return m.ArgumentDeg
+	}
+	return 0
+}
+
+func (m *OrbitData) GetAnomalyDeg() float64 {
+	if m != nil {
+		return m.AnomalyDeg
+	}
+	return 0
+}
+
+func (m *OrbitData) GetMeanMotion() float64 {
+	if m != nil {
+		return m.MeanMotion
+	}
+	return 0
+}
+
+type Motion struct {
+	// Types that are valid to be assigned to Motion:
+	//	*Motion_FixedLocation
+	//	*Motion_Waypoints
+	//	*Motion_Orbit
+	Motion isMotion_Motion `protobuf_oneof:"motion"`
+}
+
+func (m *Motion) Reset()         { *m = Motion{} }
+func (m *Motion) String() string { return proto.CompactTextString(m) }
+func (*Motion) ProtoMessage()    {}
+func (*Motion) Descriptor() ([]byte, []int) {
+	return fileDescriptor_23cc5f935e05bbb6, []int{9}
+}
+func (m *Motion) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Motion) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Motion.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Motion) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Motion.Merge(m, src)
+}
+func (m *Motion) XXX_Size() int {
+	return m.Size()
+}
+func (m *Motion) XXX_DiscardUnknown() {
+	xxx_messageInfo_Motion.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Motion proto.InternalMessageInfo
+
+type isMotion_Motion interface {
+	isMotion_Motion()
+	MarshalTo([]byte) (int, error)
+	Size() int
+}
+
+type Motion_FixedLocation struct {
+	FixedLocation *Location `protobuf:"bytes,1,opt,name=fixed_location,json=fixedLocation,proto3,oneof" json:"fixed_location,omitempty"`
+}
+type Motion_Waypoints struct {
+	Waypoints *Waypoints `protobuf:"bytes,2,opt,name=waypoints,proto3,oneof" json:"waypoints,omitempty"`
+}
+type Motion_Orbit struct {
+	Orbit *OrbitData `protobuf:"bytes,3,opt,name=orbit,proto3,oneof" json:"orbit,omitempty"`
+}
+
+func (*Motion_FixedLocation) isMotion_Motion() {}
+func (*Motion_Waypoints) isMotion_Motion()     {}
+func (*Motion_Orbit) isMotion_Motion()         {}
+
+func (m *Motion) GetMotion() isMotion_Motion {
+	if m != nil {
+		return m.Motion
+	}
+	return nil
+}
+
+func (m *Motion) GetFixedLocation() *Location {
+	if x, ok := m.GetMotion().(*Motion_FixedLocation); ok {
+		return x.FixedLocation
+	}
+	return nil
+}
+
+func (m *Motion) GetWaypoints() *Waypoints {
+	if x, ok := m.GetMotion().(*Motion_Waypoints); ok {
+		return x.Waypoints
+	}
+	return nil
+}
+
+func (m *Motion) GetOrbit() *OrbitData {
+	if x, ok := m.GetMotion().(*Motion_Orbit); ok {
+		return x.Orbit
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Motion) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*Motion_FixedLocation)(nil),
+		(*Motion_Waypoints)(nil),
+		(*Motion_Orbit)(nil),
+	}
 }
 
 // Area of coverage; expected value type of "coverage" aspect
@@ -338,7 +1019,7 @@ func (m *Coverage) Reset()         { *m = Coverage{} }
 func (m *Coverage) String() string { return proto.CompactTextString(m) }
 func (*Coverage) ProtoMessage()    {}
 func (*Coverage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{1}
+	return fileDescriptor_23cc5f935e05bbb6, []int{10}
 }
 func (m *Coverage) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -404,7 +1085,7 @@ func (m *E2Node) Reset()         { *m = E2Node{} }
 func (m *E2Node) String() string { return proto.CompactTextString(m) }
 func (*E2Node) ProtoMessage()    {}
 func (*E2Node) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{2}
+	return fileDescriptor_23cc5f935e05bbb6, []int{11}
 }
 func (m *E2Node) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -450,7 +1131,7 @@ func (m *E2NodeConfig) Reset()         { *m = E2NodeConfig{} }
 func (m *E2NodeConfig) String() string { return proto.CompactTextString(m) }
 func (*E2NodeConfig) ProtoMessage()    {}
 func (*E2NodeConfig) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{3}
+	return fileDescriptor_23cc5f935e05bbb6, []int{12}
 }
 func (m *E2NodeConfig) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -502,7 +1183,7 @@ func (m *Lease) Reset()         { *m = Lease{} }
 func (m *Lease) String() string { return proto.CompactTextString(m) }
 func (*Lease) ProtoMessage()    {}
 func (*Lease) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{4}
+	return fileDescriptor_23cc5f935e05bbb6, []int{13}
 }
 func (m *Lease) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -549,7 +1230,7 @@ func (m *Interface) Reset()         { *m = Interface{} }
 func (m *Interface) String() string { return proto.CompactTextString(m) }
 func (*Interface) ProtoMessage()    {}
 func (*Interface) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{5}
+	return fileDescriptor_23cc5f935e05bbb6, []int{14}
 }
 func (m *Interface) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -608,7 +1289,7 @@ func (m *E2TInfo) Reset()         { *m = E2TInfo{} }
 func (m *E2TInfo) String() string { return proto.CompactTextString(m) }
 func (*E2TInfo) ProtoMessage()    {}
 func (*E2TInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{6}
+	return fileDescriptor_23cc5f935e05bbb6, []int{15}
 }
 func (m *E2TInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -653,7 +1334,7 @@ func (m *CellGlobalID) Reset()         { *m = CellGlobalID{} }
 func (m *CellGlobalID) String() string { return proto.CompactTextString(m) }
 func (*CellGlobalID) ProtoMessage()    {}
 func (*CellGlobalID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{7}
+	return fileDescriptor_23cc5f935e05bbb6, []int{16}
 }
 func (m *CellGlobalID) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -705,7 +1386,7 @@ func (m *NeighborCellID) Reset()         { *m = NeighborCellID{} }
 func (m *NeighborCellID) String() string { return proto.CompactTextString(m) }
 func (*NeighborCellID) ProtoMessage()    {}
 func (*NeighborCellID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{8}
+	return fileDescriptor_23cc5f935e05bbb6, []int{17}
 }
 func (m *NeighborCellID) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -764,7 +1445,7 @@ func (m *E2Cell) Reset()         { *m = E2Cell{} }
 func (m *E2Cell) String() string { return proto.CompactTextString(m) }
 func (*E2Cell) ProtoMessage()    {}
 func (*E2Cell) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{9}
+	return fileDescriptor_23cc5f935e05bbb6, []int{18}
 }
 func (m *E2Cell) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -860,7 +1541,7 @@ func (m *ServiceModelInfo) Reset()         { *m = ServiceModelInfo{} }
 func (m *ServiceModelInfo) String() string { return proto.CompactTextString(m) }
 func (*ServiceModelInfo) ProtoMessage()    {}
 func (*ServiceModelInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{10}
+	return fileDescriptor_23cc5f935e05bbb6, []int{19}
 }
 func (m *ServiceModelInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -926,7 +1607,7 @@ func (m *RCRanFunction) Reset()         { *m = RCRanFunction{} }
 func (m *RCRanFunction) String() string { return proto.CompactTextString(m) }
 func (*RCRanFunction) ProtoMessage()    {}
 func (*RCRanFunction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{11}
+	return fileDescriptor_23cc5f935e05bbb6, []int{20}
 }
 func (m *RCRanFunction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -978,7 +1659,7 @@ func (m *MHORanFunction) Reset()         { *m = MHORanFunction{} }
 func (m *MHORanFunction) String() string { return proto.CompactTextString(m) }
 func (*MHORanFunction) ProtoMessage()    {}
 func (*MHORanFunction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{12}
+	return fileDescriptor_23cc5f935e05bbb6, []int{21}
 }
 func (m *MHORanFunction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1030,7 +1711,7 @@ func (m *KPMRanFunction) Reset()         { *m = KPMRanFunction{} }
 func (m *KPMRanFunction) String() string { return proto.CompactTextString(m) }
 func (*KPMRanFunction) ProtoMessage()    {}
 func (*KPMRanFunction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{13}
+	return fileDescriptor_23cc5f935e05bbb6, []int{22}
 }
 func (m *KPMRanFunction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1082,7 +1763,7 @@ func (m *RSMRanFunction) Reset()         { *m = RSMRanFunction{} }
 func (m *RSMRanFunction) String() string { return proto.CompactTextString(m) }
 func (*RSMRanFunction) ProtoMessage()    {}
 func (*RSMRanFunction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{14}
+	return fileDescriptor_23cc5f935e05bbb6, []int{23}
 }
 func (m *RSMRanFunction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1137,7 +1818,7 @@ func (m *RSMNodeSlicingCapabilityItem) Reset()         { *m = RSMNodeSlicingCapa
 func (m *RSMNodeSlicingCapabilityItem) String() string { return proto.CompactTextString(m) }
 func (*RSMNodeSlicingCapabilityItem) ProtoMessage()    {}
 func (*RSMNodeSlicingCapabilityItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{15}
+	return fileDescriptor_23cc5f935e05bbb6, []int{24}
 }
 func (m *RSMNodeSlicingCapabilityItem) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1209,7 +1890,7 @@ func (m *RSMSupportedSlicingConfigItem) Reset()         { *m = RSMSupportedSlici
 func (m *RSMSupportedSlicingConfigItem) String() string { return proto.CompactTextString(m) }
 func (*RSMSupportedSlicingConfigItem) ProtoMessage()    {}
 func (*RSMSupportedSlicingConfigItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{16}
+	return fileDescriptor_23cc5f935e05bbb6, []int{25}
 }
 func (m *RSMSupportedSlicingConfigItem) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1254,7 +1935,7 @@ func (m *RCReportStyle) Reset()         { *m = RCReportStyle{} }
 func (m *RCReportStyle) String() string { return proto.CompactTextString(m) }
 func (*RCReportStyle) ProtoMessage()    {}
 func (*RCReportStyle) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{17}
+	return fileDescriptor_23cc5f935e05bbb6, []int{26}
 }
 func (m *RCReportStyle) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1307,7 +1988,7 @@ func (m *KPMReportStyle) Reset()         { *m = KPMReportStyle{} }
 func (m *KPMReportStyle) String() string { return proto.CompactTextString(m) }
 func (*KPMReportStyle) ProtoMessage()    {}
 func (*KPMReportStyle) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{18}
+	return fileDescriptor_23cc5f935e05bbb6, []int{27}
 }
 func (m *KPMReportStyle) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1366,7 +2047,7 @@ func (m *MHOReportStyle) Reset()         { *m = MHOReportStyle{} }
 func (m *MHOReportStyle) String() string { return proto.CompactTextString(m) }
 func (*MHOReportStyle) ProtoMessage()    {}
 func (*MHOReportStyle) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{19}
+	return fileDescriptor_23cc5f935e05bbb6, []int{28}
 }
 func (m *MHOReportStyle) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1418,7 +2099,7 @@ func (m *KPMMeasurement) Reset()         { *m = KPMMeasurement{} }
 func (m *KPMMeasurement) String() string { return proto.CompactTextString(m) }
 func (*KPMMeasurement) ProtoMessage()    {}
 func (*KPMMeasurement) Descriptor() ([]byte, []int) {
-	return fileDescriptor_23cc5f935e05bbb6, []int{20}
+	return fileDescriptor_23cc5f935e05bbb6, []int{29}
 }
 func (m *KPMMeasurement) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1471,6 +2152,15 @@ func init() {
 	proto.RegisterEnum("onos.topo.RSMSlicingType", RSMSlicingType_name, RSMSlicingType_value)
 	proto.RegisterEnum("onos.topo.Interface_Type", Interface_Type_name, Interface_Type_value)
 	proto.RegisterType((*Location)(nil), "onos.topo.Location")
+	proto.RegisterType((*Wgs84Location)(nil), "onos.topo.Wgs84Location")
+	proto.RegisterType((*CartesianLocation)(nil), "onos.topo.CartesianLocation")
+	proto.RegisterType((*AzElOrientation)(nil), "onos.topo.AzElOrientation")
+	proto.RegisterType((*YprOrientation)(nil), "onos.topo.YprOrientation")
+	proto.RegisterType((*Orientation)(nil), "onos.topo.Orientation")
+	proto.RegisterType((*Waypoint)(nil), "onos.topo.Waypoint")
+	proto.RegisterType((*Waypoints)(nil), "onos.topo.Waypoints")
+	proto.RegisterType((*OrbitData)(nil), "onos.topo.OrbitData")
+	proto.RegisterType((*Motion)(nil), "onos.topo.Motion")
 	proto.RegisterType((*Coverage)(nil), "onos.topo.Coverage")
 	proto.RegisterType((*E2Node)(nil), "onos.topo.E2Node")
 	proto.RegisterMapType((map[string]*ServiceModelInfo)(nil), "onos.topo.E2Node.ServiceModelsEntry")
@@ -1498,109 +2188,139 @@ func init() {
 func init() { proto.RegisterFile("onos/topo/ran.proto", fileDescriptor_23cc5f935e05bbb6) }
 
 var fileDescriptor_23cc5f935e05bbb6 = []byte{
-	// 1619 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0xcd, 0x6e, 0xe3, 0xc8,
-	0x11, 0x36, 0xf5, 0x63, 0x5b, 0x65, 0x49, 0xc3, 0x69, 0x3b, 0x33, 0x1a, 0xcf, 0xc6, 0x72, 0x98,
-	0x45, 0x76, 0x60, 0x20, 0xf2, 0x8c, 0xb2, 0x48, 0x36, 0xc9, 0x4c, 0x12, 0x89, 0xe2, 0x78, 0x09,
-	0x4b, 0x94, 0xd0, 0x94, 0xb2, 0xd8, 0x00, 0x49, 0x83, 0xa6, 0x5a, 0x32, 0x77, 0xc8, 0xa6, 0x40,
-	0x52, 0xb3, 0xa3, 0xdc, 0x72, 0xc9, 0x79, 0xaf, 0xb9, 0xe7, 0x11, 0xf2, 0x0c, 0x8b, 0x3d, 0xee,
-	0x31, 0xc8, 0xc1, 0x09, 0x34, 0x2f, 0x12, 0x74, 0x93, 0x94, 0x28, 0xff, 0x61, 0xf3, 0x73, 0xab,
-	0xaa, 0xfe, 0xaa, 0xea, 0xeb, 0xaa, 0xee, 0xea, 0x86, 0x7d, 0x9f, 0xf9, 0xe1, 0x69, 0xe4, 0xcf,
-	0xfc, 0xd3, 0xc0, 0x62, 0x8d, 0x59, 0xe0, 0x47, 0x3e, 0x2a, 0x71, 0x63, 0x83, 0x1b, 0x0f, 0x9f,
-	0x4c, 0x7d, 0x7f, 0xea, 0xd2, 0x53, 0xb1, 0x70, 0x31, 0x9f, 0x9c, 0x5a, 0x6c, 0x11, 0xa3, 0x0e,
-	0x0f, 0xa6, 0xfe, 0xd4, 0x17, 0xe2, 0x29, 0x97, 0x12, 0x6b, 0xfd, 0xba, 0x43, 0xe4, 0x78, 0x34,
-	0x8c, 0x2c, 0x6f, 0x16, 0x03, 0x94, 0x06, 0xec, 0x76, 0x7d, 0xdb, 0x8a, 0x1c, 0x9f, 0x21, 0x19,
-	0xf2, 0xae, 0x15, 0xd5, 0xa4, 0x63, 0xe9, 0x99, 0x84, 0xb9, 0x28, 0x2c, 0x6c, 0x5a, 0xcb, 0x25,
-	0x16, 0x36, 0x55, 0x3c, 0xd8, 0x55, 0xfd, 0xb7, 0x34, 0xb0, 0xa6, 0x14, 0x3d, 0x82, 0xed, 0x4b,
-	0xea, 0x4c, 0x2f, 0x63, 0x97, 0x22, 0x4e, 0x34, 0xf4, 0x14, 0x4a, 0x56, 0x60, 0x93, 0x2f, 0x9d,
-	0x71, 0x74, 0x29, 0x7c, 0x8b, 0x78, 0xd7, 0x0a, 0xec, 0xcf, 0xb8, 0x8e, 0x6a, 0xb0, 0x63, 0xfd,
-	0xd1, 0xf1, 0xe6, 0xd1, 0x65, 0x2d, 0x2f, 0x96, 0x52, 0x15, 0x21, 0x28, 0x44, 0x8e, 0x1b, 0xd5,
-	0x0a, 0xc2, 0x2c, 0x64, 0xe5, 0x6f, 0x12, 0x6c, 0x6b, 0x4d, 0xc3, 0x1f, 0x53, 0x74, 0x0e, 0xd5,
-	0x90, 0x06, 0x6f, 0x1d, 0x9b, 0x12, 0xcf, 0x1f, 0x53, 0x37, 0xac, 0x49, 0xc7, 0xf9, 0x67, 0x7b,
-	0xcd, 0x0f, 0x1b, 0xab, 0xfa, 0x34, 0x62, 0x68, 0xc3, 0x8c, 0x71, 0x3d, 0x01, 0xd3, 0x58, 0x14,
-	0x2c, 0x70, 0x25, 0xcc, 0xda, 0x0e, 0x7f, 0x0f, 0xe8, 0x26, 0x88, 0x6f, 0xf7, 0x0d, 0x5d, 0x88,
-	0xdd, 0x94, 0x30, 0x17, 0xd1, 0x0b, 0x28, 0xbe, 0xb5, 0xdc, 0x39, 0x15, 0xdb, 0xd8, 0x6b, 0x3e,
-	0xcd, 0xe4, 0xca, 0xfa, 0xeb, 0x6c, 0xe2, 0xe3, 0x18, 0xf9, 0x8b, 0xdc, 0x27, 0x92, 0x32, 0x81,
-	0x72, 0x4c, 0x45, 0xf5, 0xd9, 0xc4, 0x99, 0xa2, 0x97, 0xb0, 0x67, 0xfb, 0x8c, 0x51, 0x9b, 0xd7,
-	0x39, 0x25, 0x7e, 0x90, 0x09, 0xa6, 0xb3, 0x88, 0x06, 0x13, 0xcb, 0xa6, 0xed, 0xc2, 0x37, 0x57,
-	0xf5, 0x2d, 0x9c, 0x85, 0xf3, 0x92, 0xbd, 0xa5, 0x41, 0xe8, 0xf8, 0x4c, 0xd0, 0x28, 0xe0, 0x54,
-	0x55, 0x74, 0x28, 0x76, 0xa9, 0x15, 0x52, 0xf4, 0x1b, 0x00, 0xfa, 0x6e, 0xe6, 0x04, 0xa2, 0x91,
-	0x62, 0x03, 0x7b, 0xcd, 0xc3, 0x46, 0xdc, 0xfc, 0x46, 0xda, 0xfc, 0xc6, 0x30, 0x6d, 0x7e, 0xbb,
-	0xf0, 0xd5, 0x3f, 0xeb, 0x12, 0xce, 0xf8, 0x28, 0x5f, 0x4b, 0x50, 0x5a, 0xb1, 0x40, 0x3f, 0x86,
-	0x42, 0xb4, 0x98, 0x51, 0x11, 0xa9, 0xda, 0x7c, 0x72, 0x1b, 0xd3, 0xc6, 0x70, 0x31, 0xa3, 0x58,
-	0xc0, 0xd0, 0x23, 0xc8, 0x39, 0x33, 0x41, 0xae, 0xd4, 0xde, 0x5e, 0x5e, 0xd5, 0x73, 0xfa, 0x00,
-	0xe7, 0x9c, 0x19, 0x6f, 0xe9, 0xcc, 0x0f, 0x22, 0xd1, 0xe9, 0x0a, 0x16, 0xb2, 0xf2, 0x07, 0x28,
-	0x70, 0x4f, 0xf4, 0x3d, 0x78, 0xa8, 0x1b, 0x43, 0x0d, 0xbf, 0x6e, 0xa9, 0x1a, 0x19, 0x19, 0xe7,
-	0x46, 0xff, 0x33, 0x43, 0xde, 0x42, 0x0f, 0xa1, 0xb2, 0x36, 0x6b, 0xcd, 0xa1, 0x2c, 0x6d, 0x22,
-	0xb5, 0x66, 0x6b, 0xf0, 0xe2, 0xf9, 0x0b, 0x39, 0x77, 0xd3, 0xdc, 0x7c, 0xfe, 0x5c, 0xce, 0x2b,
-	0xbf, 0x86, 0x1d, 0xad, 0x39, 0xe4, 0x1d, 0x41, 0x1f, 0x03, 0x38, 0x29, 0xdd, 0x7b, 0xab, 0x8e,
-	0x33, 0x38, 0x65, 0x04, 0x65, 0x95, 0xba, 0xee, 0x99, 0xeb, 0x5f, 0x58, 0xae, 0xde, 0x41, 0x07,
-	0xe9, 0x19, 0x88, 0xcf, 0x45, 0xac, 0xa0, 0xd3, 0xa4, 0x42, 0x39, 0x51, 0xa1, 0xec, 0xc1, 0xc8,
-	0x3a, 0xaf, 0x6b, 0xa4, 0xfc, 0x59, 0x82, 0xaa, 0xc1, 0x2f, 0xc8, 0x85, 0x1f, 0x70, 0x88, 0xde,
-	0x41, 0x7d, 0xa8, 0xda, 0xd4, 0x75, 0xc9, 0x54, 0xa0, 0x89, 0x33, 0x4e, 0x3a, 0xf7, 0xf8, 0x8e,
-	0x68, 0x6d, 0x79, 0x79, 0x55, 0xdf, 0x20, 0x87, 0xcb, 0xf6, 0x5a, 0x1b, 0xa3, 0x1f, 0xc2, 0xce,
-	0xcc, 0xf5, 0x18, 0x8f, 0x14, 0x37, 0x03, 0x96, 0x57, 0xf5, 0xed, 0x81, 0xeb, 0x31, 0xbd, 0x83,
-	0xb7, 0xf9, 0x92, 0x3e, 0x56, 0xfe, 0x54, 0xe0, 0x77, 0x8a, 0x47, 0x41, 0x3f, 0x4d, 0x08, 0xf8,
-	0x17, 0x5f, 0x50, 0x3b, 0x4a, 0x09, 0x94, 0xd6, 0x79, 0xfa, 0x62, 0x21, 0xcd, 0x93, 0x68, 0xe3,
-	0x5b, 0x88, 0xe7, 0xfe, 0x57, 0xe2, 0x15, 0x8b, 0x45, 0x94, 0x31, 0x8b, 0xd8, 0xfe, 0x9c, 0xa5,
-	0x27, 0xa6, 0x9c, 0x18, 0x55, 0x6e, 0x43, 0x0a, 0x6c, 0x53, 0x2b, 0x98, 0xd8, 0x4c, 0x8c, 0x88,
-	0x4a, 0xbc, 0x39, 0xad, 0x85, 0x5f, 0xab, 0x06, 0x4e, 0x56, 0xf8, 0xec, 0x11, 0xcc, 0x44, 0x6f,
-	0x8a, 0xa2, 0x61, 0xbb, 0xdc, 0x20, 0x8e, 0xdc, 0x13, 0xc8, 0xcf, 0x6c, 0xa7, 0xb6, 0x2d, 0xbc,
-	0x77, 0x96, 0x57, 0xf5, 0xfc, 0x40, 0xd5, 0x31, 0xb7, 0x21, 0x0c, 0x7b, 0x6f, 0x66, 0x0e, 0x09,
-	0x28, 0x3f, 0xa3, 0x61, 0x6d, 0x47, 0x9c, 0x95, 0x1f, 0x6c, 0x8c, 0x16, 0x4e, 0xbf, 0x71, 0x3e,
-	0x73, 0x70, 0x8c, 0x11, 0x23, 0xa3, 0x5d, 0x5d, 0x5e, 0xd5, 0x61, 0x6d, 0xc4, 0xf0, 0x66, 0x25,
-	0xa3, 0xdf, 0xc1, 0x43, 0x96, 0x34, 0x9c, 0x08, 0x52, 0xce, 0x38, 0xac, 0xed, 0x8a, 0xc8, 0xd9,
-	0x1b, 0xb5, 0x79, 0x28, 0xda, 0xfb, 0xcb, 0xab, 0xfa, 0x83, 0x4d, 0x5b, 0x88, 0x1f, 0xb0, 0xac,
-	0x61, 0x1c, 0x1e, 0xbe, 0x82, 0x07, 0xd7, 0xa8, 0xdc, 0x32, 0xbd, 0x0e, 0xb2, 0xd3, 0xab, 0x92,
-	0x1d, 0x50, 0x7f, 0x95, 0x40, 0xbe, 0x3e, 0xc0, 0x78, 0x79, 0xfc, 0xd5, 0x11, 0x10, 0xe5, 0xe9,
-	0xeb, 0x1d, 0xcc, 0x6d, 0xfc, 0x22, 0x33, 0xcb, 0x8b, 0x03, 0x95, 0xb0, 0x90, 0xd1, 0xcf, 0xa1,
-	0x12, 0x58, 0x8c, 0x4c, 0xe6, 0x2c, 0x19, 0x6b, 0xf9, 0xe4, 0x82, 0x5d, 0x1f, 0x3b, 0x2d, 0xb6,
-	0xc0, 0xe5, 0xc0, 0x62, 0xaf, 0x53, 0x24, 0xfa, 0x11, 0x54, 0x33, 0xba, 0xde, 0x09, 0x6b, 0x85,
-	0xe3, 0xfc, 0xb3, 0x0a, 0xbe, 0x66, 0x55, 0x26, 0x50, 0xc1, 0x2a, 0x5e, 0xdb, 0xc4, 0xa0, 0x49,
-	0x19, 0xc6, 0x83, 0xa6, 0x83, 0x73, 0xce, 0x18, 0xbd, 0x82, 0x4a, 0xdc, 0x3a, 0x12, 0x46, 0x0b,
-	0x97, 0x86, 0xb5, 0x9c, 0xe0, 0x52, 0xcb, 0x94, 0x19, 0xab, 0x71, 0xb5, 0x4c, 0x0e, 0xc0, 0xe5,
-	0x60, 0xad, 0x84, 0xca, 0x25, 0x54, 0x7b, 0x9f, 0xf6, 0xbf, 0x4b, 0xa2, 0x5f, 0xdd, 0x9e, 0x28,
-	0xdb, 0x4f, 0x1e, 0xe9, 0xbe, 0x4c, 0xe7, 0x83, 0xde, 0xff, 0x29, 0x13, 0x8f, 0x74, 0x67, 0xa6,
-	0xbf, 0x48, 0x50, 0xc5, 0xe6, 0x77, 0x4a, 0xe5, 0xc3, 0x71, 0xe0, 0xd8, 0x24, 0x74, 0x1d, 0xdb,
-	0x61, 0x53, 0xc2, 0xfc, 0x31, 0x25, 0xb6, 0x35, 0xb3, 0x2e, 0x1c, 0xd7, 0x89, 0x16, 0xc4, 0x75,
-	0xc2, 0x28, 0xc9, 0xfe, 0x51, 0xb6, 0xa0, 0x66, 0x8f, 0x3f, 0x71, 0x66, 0xec, 0xa5, 0xae, 0xf0,
-	0x7a, 0x44, 0x3d, 0xfc, 0x41, 0xe0, 0xd8, 0xc9, 0x8a, 0x78, 0x07, 0x57, 0xab, 0x5d, 0x27, 0x8c,
-	0x94, 0x7f, 0xe4, 0xe0, 0x83, 0xfb, 0xdc, 0xd1, 0xc7, 0xf0, 0xd8, 0xb3, 0xde, 0x11, 0x36, 0xf7,
-	0x2e, 0x68, 0x40, 0xfc, 0x89, 0xe0, 0x46, 0x43, 0x32, 0x76, 0x93, 0xbf, 0xc6, 0xbe, 0x67, 0xbd,
-	0x33, 0xc4, 0x6a, 0x7f, 0x62, 0x8a, 0xb5, 0x8e, 0x7b, 0xa7, 0xd7, 0xdc, 0x4d, 0xbe, 0x21, 0x37,
-	0xbd, 0x46, 0x2e, 0x7a, 0x09, 0xe5, 0x74, 0xe7, 0x62, 0x6a, 0xe4, 0x6f, 0xbc, 0x79, 0xd8, 0xec,
-	0x25, 0x34, 0xc5, 0x3c, 0xdf, 0x0b, 0xd7, 0x0a, 0xfa, 0x25, 0x3c, 0xdd, 0xcc, 0x39, 0xa7, 0x21,
-	0x99, 0xd1, 0x20, 0xce, 0x9d, 0x7c, 0x66, 0x1e, 0x65, 0xf2, 0x8e, 0x68, 0x38, 0xa0, 0x81, 0xc8,
-	0x8e, 0x4c, 0x90, 0xc3, 0xf9, 0x8c, 0x37, 0x8d, 0x8e, 0x89, 0x2d, 0xfe, 0x0a, 0xb5, 0xa2, 0x28,
-	0xf4, 0xb3, 0x6b, 0xe9, 0x53, 0x54, 0x5a, 0x2e, 0x81, 0x15, 0x95, 0x7e, 0xb0, 0x8a, 0x10, 0x1b,
-	0x95, 0x2f, 0xe0, 0xfb, 0xf7, 0x7a, 0x20, 0x1d, 0xf6, 0xd3, 0x0d, 0xc7, 0x39, 0xc9, 0x1d, 0x6f,
-	0xbd, 0xd6, 0x34, 0x3d, 0x1c, 0x7a, 0xaa, 0xef, 0x79, 0x16, 0x1b, 0xe3, 0x87, 0x61, 0x36, 0x14,
-	0xdf, 0xbd, 0xf2, 0x33, 0x71, 0x41, 0xd7, 0xc7, 0x6e, 0x35, 0x28, 0xa4, 0xcc, 0xa0, 0x40, 0x99,
-	0xa7, 0xb2, 0x98, 0xbc, 0x86, 0x5f, 0xc6, 0xf7, 0xe0, 0x3f, 0xf7, 0x44, 0xaf, 0xa0, 0xec, 0x51,
-	0x2b, 0x9c, 0x07, 0xd4, 0xa3, 0x2c, 0x4a, 0xa7, 0xce, 0xb5, 0x6b, 0xd1, 0x5b, 0x23, 0xf0, 0x06,
-	0x5c, 0xf9, 0x24, 0xbe, 0xea, 0xff, 0x05, 0xe5, 0x97, 0x82, 0x72, 0x26, 0xf2, 0x9d, 0xf7, 0xe9,
-	0x96, 0x69, 0x79, 0xf2, 0x02, 0xaa, 0xb8, 0x65, 0x68, 0x2c, 0x72, 0xa2, 0xc5, 0xb9, 0xc3, 0xc6,
-	0x21, 0x02, 0xf1, 0xb5, 0xed, 0x77, 0x34, 0x79, 0x2b, 0x96, 0x55, 0xad, 0xdb, 0x95, 0x25, 0xb4,
-	0x03, 0x79, 0xfe, 0xef, 0xc9, 0x9f, 0xbc, 0x02, 0x19, 0xb7, 0x0c, 0x4c, 0x5d, 0xf1, 0x43, 0x8b,
-	0x9d, 0xca, 0xb0, 0xab, 0xf6, 0x8d, 0x21, 0xee, 0x77, 0x4d, 0x79, 0x2b, 0xd5, 0x5a, 0xba, 0x61,
-	0xca, 0x12, 0xaa, 0x40, 0xc9, 0xd0, 0xf4, 0xb3, 0x4f, 0xdb, 0x7d, 0x6c, 0xca, 0xb9, 0x93, 0x8f,
-	0x40, 0xbe, 0xfe, 0x15, 0x41, 0x25, 0x28, 0x1a, 0x58, 0x3d, 0xd3, 0xe5, 0x2d, 0xb4, 0x0b, 0x05,
-	0x8d, 0x4b, 0xd2, 0x49, 0x0f, 0x76, 0xf9, 0x4d, 0x14, 0x80, 0x3d, 0xd8, 0x31, 0x86, 0xc4, 0xe8,
-	0x1b, 0x09, 0x2b, 0x63, 0x48, 0xce, 0x8c, 0x76, 0x12, 0x7c, 0x48, 0x34, 0x43, 0xa8, 0xb9, 0x44,
-	0x35, 0xce, 0x88, 0x66, 0xb4, 0xe5, 0x7c, 0x82, 0xe4, 0x72, 0xe1, 0xa4, 0x0b, 0x15, 0xd5, 0xf7,
-	0x66, 0x3e, 0xa3, 0x2c, 0x4a, 0x63, 0xaa, 0xab, 0x98, 0x25, 0x28, 0xaa, 0x43, 0xa2, 0x8e, 0x64,
-	0x49, 0xb0, 0xe7, 0x22, 0x19, 0x0d, 0xe4, 0x5c, 0xb2, 0xd0, 0x19, 0xc5, 0xd1, 0xd4, 0x34, 0xda,
-	0xd7, 0x12, 0x54, 0x37, 0xcf, 0x21, 0x52, 0xe0, 0x48, 0x6b, 0x12, 0xb3, 0x47, 0xb0, 0xd9, 0x23,
-	0x6a, 0xbf, 0xd7, 0x6b, 0x19, 0x1d, 0x62, 0x76, 0x75, 0x55, 0x23, 0x2a, 0xd6, 0x5a, 0x43, 0x9e,
-	0xe6, 0x1e, 0xcc, 0x68, 0xd0, 0xe1, 0x18, 0xe9, 0x3e, 0x4c, 0x47, 0xeb, 0x6a, 0x43, 0x4d, 0xce,
-	0xdd, 0x8e, 0x19, 0x69, 0xa4, 0x65, 0x9a, 0x7d, 0x55, 0xe7, 0x71, 0xf2, 0xe8, 0x43, 0x38, 0xbe,
-	0x89, 0xd1, 0x7e, 0xab, 0x19, 0x43, 0x32, 0xc4, 0xfa, 0xd9, 0x99, 0x86, 0x4d, 0xb9, 0x70, 0xa2,
-	0x8a, 0x71, 0x9c, 0x99, 0x23, 0xe8, 0x31, 0xec, 0xf3, 0x6c, 0xba, 0x71, 0x46, 0x86, 0x9f, 0x0f,
-	0x34, 0x62, 0x0e, 0x5b, 0x43, 0x5d, 0x95, 0xb7, 0x50, 0x0d, 0x0e, 0x36, 0x16, 0x3a, 0x9f, 0x1b,
-	0xad, 0x9e, 0xae, 0xca, 0x52, 0xbb, 0xf6, 0xcd, 0xf2, 0x48, 0xfa, 0x76, 0x79, 0x24, 0xfd, 0x6b,
-	0x79, 0x24, 0x7d, 0xf5, 0xfe, 0x68, 0xeb, 0xdb, 0xf7, 0x47, 0x5b, 0x7f, 0x7f, 0x7f, 0xb4, 0x75,
-	0xb1, 0x2d, 0x9e, 0xdb, 0x9f, 0xfc, 0x3b, 0x00, 0x00, 0xff, 0xff, 0xf8, 0x47, 0xdb, 0x0a, 0x43,
-	0x0e, 0x00, 0x00,
+	// 2103 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0x4b, 0x6f, 0xdb, 0xc8,
+	0x1d, 0x17, 0xf5, 0xb0, 0xa5, 0xbf, 0x1e, 0x66, 0xc6, 0x6e, 0xa2, 0x3c, 0xd6, 0x76, 0xb8, 0x8b,
+	0x26, 0x30, 0xba, 0x76, 0xe2, 0x06, 0x6d, 0xda, 0x3a, 0x6d, 0x25, 0x8a, 0xb1, 0x09, 0x5b, 0x94,
+	0x31, 0x92, 0x1b, 0xa4, 0x40, 0x4b, 0xd0, 0xd4, 0x48, 0xe6, 0x86, 0x1c, 0x12, 0x24, 0x65, 0x5b,
+	0x06, 0x7a, 0xe8, 0xa5, 0xe7, 0xbd, 0xf6, 0xde, 0x6b, 0x6f, 0xfd, 0x0c, 0x8b, 0x3d, 0xee, 0xb1,
+	0xe8, 0xc1, 0x2d, 0x9c, 0xaf, 0xd0, 0x0f, 0x50, 0xcc, 0x90, 0x94, 0x28, 0xf9, 0x81, 0xb4, 0xdd,
+	0xdb, 0xcc, 0x6f, 0x7e, 0xff, 0xc7, 0xfc, 0x5f, 0x33, 0xb0, 0xec, 0x52, 0x37, 0xd8, 0x0a, 0x5d,
+	0xcf, 0xdd, 0xf2, 0x0d, 0xba, 0xe9, 0xf9, 0x6e, 0xe8, 0xa2, 0x12, 0x03, 0x37, 0x19, 0xf8, 0xe8,
+	0xe1, 0xd0, 0x75, 0x87, 0x36, 0xd9, 0xe2, 0x07, 0xc7, 0xa3, 0xc1, 0x96, 0x41, 0xc7, 0x11, 0xeb,
+	0xd1, 0xca, 0xd0, 0x1d, 0xba, 0x7c, 0xb9, 0xc5, 0x56, 0x31, 0xba, 0x36, 0x2f, 0x10, 0x5a, 0x0e,
+	0x09, 0x42, 0xc3, 0xf1, 0x22, 0x82, 0xf4, 0x57, 0x01, 0x8a, 0x07, 0xae, 0x69, 0x84, 0x96, 0x4b,
+	0xd1, 0x0a, 0xe4, 0x6c, 0x23, 0xac, 0x0b, 0xeb, 0xc2, 0x73, 0xa1, 0x99, 0xad, 0x0b, 0x98, 0x6d,
+	0x39, 0x4a, 0x87, 0xf5, 0x6c, 0x0a, 0xa5, 0x43, 0xf4, 0x02, 0x0a, 0x67, 0xc3, 0xe0, 0xf5, 0xab,
+	0x7a, 0x6e, 0x5d, 0x78, 0x5e, 0xde, 0xae, 0x6f, 0x4e, 0xbc, 0xdc, 0x7c, 0xc7, 0xf0, 0x44, 0xe9,
+	0x5e, 0x06, 0x47, 0x44, 0xb4, 0x03, 0x25, 0xd3, 0xf0, 0x43, 0x12, 0x58, 0x06, 0xad, 0xe7, 0xb9,
+	0xd4, 0x93, 0x94, 0x94, 0x9c, 0x9c, 0xa5, 0x24, 0xa7, 0x02, 0xcd, 0x02, 0xe4, 0xc8, 0x79, 0x28,
+	0x9d, 0x42, 0x75, 0x46, 0x3d, 0x7a, 0x0a, 0x15, 0xdb, 0x08, 0xad, 0x70, 0xd4, 0x27, 0x7a, 0x9f,
+	0x0c, 0x23, 0xe7, 0x71, 0x39, 0xc1, 0x5a, 0x64, 0x88, 0x3e, 0x87, 0xaa, 0xed, 0xd2, 0xe1, 0x94,
+	0xc3, 0xaf, 0x82, 0x2b, 0x13, 0x90, 0x91, 0x3e, 0x03, 0x30, 0xec, 0x58, 0x8f, 0xc3, 0x2f, 0x25,
+	0xe0, 0x52, 0x82, 0xb4, 0xa5, 0xb7, 0x70, 0xef, 0x9a, 0x83, 0x68, 0x09, 0x72, 0xe7, 0xba, 0x13,
+	0x9b, 0xcc, 0x9e, 0xb7, 0x19, 0x30, 0xd6, 0x9d, 0x58, 0x7f, 0x76, 0xcc, 0x81, 0x8b, 0x89, 0xba,
+	0xec, 0x45, 0x5b, 0xba, 0x80, 0xa5, 0xc6, 0x85, 0x62, 0x77, 0x7c, 0x8b, 0xd0, 0x30, 0xd2, 0xb2,
+	0x06, 0x65, 0xe3, 0xc2, 0x72, 0x46, 0xe1, 0x49, 0xea, 0x02, 0x10, 0x43, 0xb1, 0xff, 0xc4, 0x26,
+	0xa7, 0x9c, 0x9d, 0xf6, 0x7f, 0x02, 0x32, 0xd2, 0x53, 0xa8, 0xf8, 0x6e, 0x38, 0xe5, 0x44, 0x26,
+	0xcb, 0x09, 0xd6, 0x22, 0x43, 0xc9, 0x80, 0xda, 0x7b, 0xcf, 0x4f, 0x9b, 0x7e, 0x00, 0x8b, 0x63,
+	0xe3, 0x2c, 0x65, 0x76, 0x61, 0x6c, 0x9c, 0x31, 0x6d, 0x8f, 0xa1, 0xe4, 0x59, 0xa1, 0x79, 0x92,
+	0x32, 0x57, 0xe4, 0x00, 0x3b, 0x7c, 0x08, 0x45, 0xdf, 0xb5, 0xed, 0x94, 0x99, 0x45, 0xb6, 0x67,
+	0x26, 0xfe, 0x00, 0xe5, 0xb4, 0xfe, 0x17, 0x90, 0x37, 0x2e, 0x88, 0xcd, 0x95, 0x97, 0xb7, 0x1f,
+	0xa5, 0xb2, 0x3d, 0x17, 0x84, 0xbd, 0x0c, 0xe6, 0x4c, 0xf4, 0x25, 0xe4, 0xc6, 0x9e, 0xcf, 0x4d,
+	0x96, 0xb7, 0x1f, 0xa6, 0x04, 0x66, 0x3d, 0xdf, 0xcb, 0x60, 0xc6, 0x6b, 0x56, 0xa1, 0xec, 0x4e,
+	0x51, 0xe9, 0x03, 0x14, 0xdf, 0x19, 0x63, 0xcf, 0xb5, 0x68, 0x88, 0x36, 0x21, 0xcf, 0x8a, 0x7d,
+	0x62, 0x3b, 0xea, 0x84, 0xcd, 0xa4, 0x13, 0x36, 0x7b, 0x49, 0x27, 0x60, 0xce, 0x43, 0x5b, 0x50,
+	0xb4, 0xe3, 0xc4, 0xc6, 0xe6, 0x97, 0x53, 0xe6, 0x93, 0x9c, 0xe3, 0x09, 0x49, 0xda, 0x81, 0x52,
+	0x62, 0x2c, 0x60, 0xd2, 0x67, 0xf1, 0xa6, 0x2e, 0xac, 0xe7, 0xe6, 0xa4, 0x13, 0x1e, 0x9e, 0x90,
+	0xa4, 0x7f, 0x0b, 0x50, 0xea, 0xf8, 0xc7, 0x56, 0xd8, 0x32, 0x42, 0x83, 0x75, 0x13, 0xf1, 0x5c,
+	0xf3, 0xe4, 0x13, 0xbc, 0x8d, 0x88, 0xe8, 0x19, 0x2c, 0x59, 0xd4, 0xb4, 0x2d, 0x3a, 0x5f, 0x16,
+	0xb5, 0x14, 0x9c, 0x64, 0xcb, 0x30, 0xe8, 0x4c, 0xb6, 0x0c, 0x83, 0x1f, 0x55, 0x40, 0x20, 0xbc,
+	0x13, 0x05, 0x2c, 0x10, 0x56, 0x41, 0x86, 0x3f, 0x1c, 0x39, 0x84, 0x86, 0x9c, 0x5c, 0x88, 0x2a,
+	0x28, 0xc1, 0x98, 0x00, 0x2b, 0x55, 0xea, 0x3a, 0x86, 0x3d, 0xe6, 0x8c, 0x85, 0xb8, 0x54, 0x23,
+	0x28, 0x26, 0x38, 0xc4, 0xa0, 0xba, 0xe3, 0xf2, 0x38, 0x2e, 0x46, 0x04, 0x06, 0xb5, 0x39, 0x22,
+	0xfd, 0x4d, 0x80, 0x85, 0x68, 0x89, 0x76, 0xa0, 0x36, 0xb0, 0xce, 0x49, 0x5f, 0x9f, 0x84, 0x5d,
+	0xb8, 0x35, 0xec, 0x7b, 0x19, 0x5c, 0xe5, 0xe4, 0x49, 0xef, 0xbd, 0x82, 0x52, 0x12, 0xcb, 0x20,
+	0xce, 0xd7, 0xca, 0x0d, 0x11, 0x0f, 0xd8, 0x14, 0x99, 0x10, 0xd1, 0x8f, 0xa0, 0xe0, 0xb2, 0xa0,
+	0xc7, 0x53, 0x2b, 0x2d, 0x31, 0x49, 0x06, 0x9b, 0x58, 0x9c, 0xd4, 0x2c, 0xc2, 0x42, 0x74, 0x11,
+	0xc9, 0x81, 0xa2, 0xec, 0x9e, 0x12, 0xdf, 0x18, 0x12, 0x74, 0x1f, 0x16, 0x4e, 0x88, 0x35, 0x3c,
+	0x89, 0x06, 0x65, 0x01, 0xc7, 0x3b, 0xd6, 0x33, 0x86, 0x6f, 0xea, 0x67, 0x56, 0x3f, 0x3c, 0xe1,
+	0x1e, 0x15, 0x70, 0xd1, 0xf0, 0xcd, 0x77, 0x6c, 0x8f, 0xea, 0xb0, 0x18, 0x77, 0x34, 0x37, 0x5d,
+	0xc0, 0xc9, 0x16, 0x21, 0x56, 0xa7, 0x76, 0xc8, 0xf3, 0x50, 0xc0, 0x7c, 0xcd, 0xa3, 0xa4, 0x6c,
+	0x6b, 0x6e, 0x9f, 0xa0, 0x7d, 0xa8, 0x05, 0xc4, 0x3f, 0xb5, 0x4c, 0xa2, 0x3b, 0x6e, 0x9f, 0xd8,
+	0x41, 0x5c, 0x5e, 0x5f, 0xa4, 0x5c, 0x8f, 0xa8, 0x9b, 0xdd, 0x88, 0xd7, 0xe6, 0x34, 0x85, 0x86,
+	0xfe, 0x18, 0x57, 0x83, 0x34, 0xf6, 0xe8, 0x77, 0x80, 0xae, 0x93, 0x90, 0x08, 0xb9, 0x0f, 0x64,
+	0xcc, 0x6f, 0x53, 0xc2, 0x6c, 0x89, 0x5e, 0x42, 0xe1, 0xd4, 0xb0, 0x47, 0x24, 0x0e, 0xec, 0xe3,
+	0x94, 0xad, 0xb4, 0xbc, 0x4a, 0x07, 0x2e, 0x8e, 0x98, 0x3f, 0xcf, 0xbe, 0x16, 0xa4, 0x01, 0x54,
+	0x22, 0x57, 0x64, 0x97, 0x0e, 0xac, 0x21, 0xda, 0x81, 0xb2, 0xe9, 0x52, 0x4a, 0x4c, 0x16, 0xc3,
+	0xc4, 0xf1, 0x74, 0xcc, 0x55, 0x1a, 0x12, 0x7f, 0x60, 0x98, 0xa4, 0x99, 0xff, 0xf6, 0x72, 0x2d,
+	0x83, 0xd3, 0x74, 0x16, 0xb2, 0x53, 0xe2, 0x07, 0x49, 0x3f, 0xe6, 0x71, 0xb2, 0x95, 0x54, 0x28,
+	0x1c, 0x10, 0x23, 0x20, 0xe8, 0xd7, 0x00, 0xe4, 0xdc, 0xb3, 0xfc, 0x74, 0xf9, 0xdc, 0xd1, 0x3b,
+	0xcd, 0xfc, 0xd7, 0xff, 0x5c, 0x13, 0x70, 0x4a, 0x46, 0xfa, 0x46, 0x80, 0xd2, 0xc4, 0x0b, 0xf4,
+	0x25, 0xe4, 0xc3, 0xb1, 0x17, 0xcd, 0x8c, 0xda, 0xcc, 0xf8, 0x99, 0x70, 0x36, 0x7b, 0x63, 0x8f,
+	0x60, 0x4e, 0x43, 0xf7, 0x21, 0x6b, 0x79, 0xdc, 0xb9, 0x52, 0x73, 0xe1, 0xea, 0x72, 0x2d, 0xab,
+	0x1e, 0xe2, 0xac, 0xe5, 0xb1, 0x94, 0x7a, 0xae, 0x1f, 0x15, 0x59, 0x15, 0xf3, 0xb5, 0xf4, 0x7b,
+	0xc8, 0x33, 0x49, 0xf4, 0x03, 0xb8, 0xa7, 0x6a, 0x3d, 0x05, 0xbf, 0x6d, 0xc8, 0x8a, 0x7e, 0xa4,
+	0xed, 0x6b, 0x9d, 0x77, 0x9a, 0x98, 0x41, 0xf7, 0xa0, 0x3a, 0x85, 0x95, 0xed, 0x9e, 0x28, 0xcc,
+	0x32, 0x95, 0xed, 0xc6, 0xe1, 0xcb, 0x17, 0x2f, 0xc5, 0xec, 0x75, 0x78, 0xfb, 0xc5, 0x0b, 0x31,
+	0x27, 0xfd, 0x0a, 0x16, 0x95, 0xed, 0x1e, 0xcb, 0x08, 0x7a, 0x05, 0x60, 0x25, 0xee, 0xde, 0x19,
+	0x75, 0x9c, 0xe2, 0x49, 0x47, 0x50, 0x91, 0x89, 0x6d, 0xef, 0xda, 0xee, 0xb1, 0x61, 0xab, 0x2d,
+	0xb4, 0x92, 0xd4, 0x40, 0x54, 0x17, 0xd1, 0x06, 0x6d, 0xc5, 0x11, 0xca, 0xf2, 0x08, 0xa5, 0x0b,
+	0x23, 0x2d, 0x3c, 0x8d, 0x91, 0xf4, 0x27, 0x01, 0x6a, 0x1a, 0x6b, 0x90, 0x63, 0xd7, 0x67, 0x14,
+	0xb5, 0x85, 0x3a, 0x50, 0x33, 0x89, 0x6d, 0xeb, 0x43, 0xce, 0xd6, 0xad, 0x7e, 0x9c, 0xb9, 0x07,
+	0xb7, 0x68, 0x6b, 0x8a, 0x57, 0x97, 0x6b, 0x33, 0xce, 0xe1, 0x8a, 0x39, 0xdd, 0xf5, 0xd1, 0xe7,
+	0xb0, 0xe8, 0xd9, 0x0e, 0x65, 0x9a, 0xa2, 0x64, 0xc0, 0xd5, 0xe5, 0xda, 0xc2, 0xa1, 0xed, 0x50,
+	0xb5, 0x85, 0x17, 0xd8, 0x91, 0xda, 0x97, 0xfe, 0x98, 0x67, 0x3d, 0xc5, 0xb4, 0xa0, 0x9f, 0xc4,
+	0x0e, 0xb8, 0xc7, 0x5f, 0x11, 0x33, 0x4c, 0x1c, 0x28, 0x4d, 0xed, 0x74, 0xf8, 0x41, 0x62, 0x27,
+	0xde, 0xf5, 0x6f, 0x70, 0x3c, 0xfb, 0xff, 0x3a, 0x5e, 0x35, 0x68, 0x48, 0x28, 0x35, 0x74, 0xd3,
+	0x1d, 0xd1, 0xa4, 0x62, 0x2a, 0x31, 0x28, 0x33, 0x0c, 0x49, 0xb0, 0x40, 0x0c, 0x7f, 0x60, 0x46,
+	0x9f, 0xa6, 0x6a, 0x74, 0x39, 0xa5, 0x81, 0xdf, 0xca, 0x1a, 0x8e, 0x4f, 0xd8, 0xec, 0xe1, 0x9e,
+	0xf1, 0xdc, 0x14, 0x78, 0xc2, 0x8a, 0x0c, 0xe0, 0x25, 0xf7, 0x10, 0x72, 0x9e, 0x69, 0xf1, 0x69,
+	0x5d, 0x6d, 0x2e, 0x5e, 0x5d, 0xae, 0xe5, 0x0e, 0x65, 0x15, 0x33, 0x0c, 0x61, 0x28, 0x7f, 0xf0,
+	0x2c, 0xdd, 0x27, 0xac, 0x46, 0x83, 0xfa, 0x22, 0xaf, 0x95, 0xa7, 0x33, 0xa3, 0x85, 0xb9, 0xbf,
+	0xb9, 0xef, 0x59, 0x38, 0xe2, 0xf0, 0x91, 0xd1, 0xac, 0x5d, 0x5d, 0xae, 0xc1, 0x14, 0xc4, 0xf0,
+	0x61, 0xb2, 0x46, 0xbf, 0x85, 0x7b, 0x34, 0x4e, 0xb8, 0xce, 0x9d, 0xb2, 0xfa, 0x41, 0xbd, 0xc8,
+	0x35, 0xa7, 0x3b, 0x6a, 0xb6, 0x28, 0x9a, 0xcb, 0x57, 0x97, 0x6b, 0x4b, 0xb3, 0x58, 0x80, 0x97,
+	0x68, 0x1a, 0xe8, 0x07, 0x8f, 0xde, 0xc0, 0xd2, 0x9c, 0x2b, 0x37, 0x4c, 0xaf, 0x95, 0xf4, 0xf4,
+	0xaa, 0xa6, 0x07, 0xd4, 0x5f, 0x04, 0x10, 0xe7, 0x07, 0x18, 0x0b, 0x8f, 0x3b, 0x29, 0x01, 0x1e,
+	0x9e, 0x8e, 0xda, 0xc2, 0x0c, 0x63, 0x8d, 0x4c, 0x0d, 0x27, 0x52, 0x54, 0xc2, 0x7c, 0x8d, 0x7e,
+	0x06, 0x55, 0xdf, 0xa0, 0xfa, 0x60, 0x44, 0xe3, 0xb1, 0x96, 0x8b, 0x1b, 0x6c, 0x7e, 0xec, 0x34,
+	0xe8, 0x18, 0x57, 0x7c, 0x83, 0xbe, 0x4d, 0x98, 0xe8, 0x87, 0x50, 0x4b, 0xed, 0xd5, 0x56, 0x50,
+	0xcf, 0xaf, 0xe7, 0x9e, 0x57, 0xf1, 0x1c, 0x2a, 0x0d, 0xa0, 0x8a, 0x65, 0x3c, 0xc5, 0xf8, 0xa0,
+	0x49, 0x3c, 0x8c, 0x06, 0x4d, 0x0b, 0x67, 0xad, 0x3e, 0x7a, 0x03, 0xd5, 0x28, 0x75, 0x7a, 0x10,
+	0x8e, 0x6d, 0xc2, 0x1e, 0xc2, 0xdc, 0xdc, 0x67, 0x1c, 0xcb, 0x51, 0xb4, 0xba, 0x8c, 0x80, 0x2b,
+	0xfe, 0x74, 0x13, 0x48, 0x27, 0x50, 0x6b, 0xef, 0x75, 0x3e, 0xc5, 0xd0, 0x2f, 0x6f, 0x36, 0x94,
+	0xce, 0x27, 0xd3, 0x74, 0x97, 0xa5, 0xfd, 0xc3, 0xf6, 0xf7, 0x64, 0x89, 0x69, 0xba, 0xd5, 0xd2,
+	0x9f, 0x05, 0xa8, 0xe1, 0xee, 0x27, 0x99, 0x72, 0x61, 0xdd, 0xb7, 0x4c, 0x3d, 0xb0, 0x2d, 0xd3,
+	0xa2, 0x43, 0x9d, 0xba, 0x7d, 0xa2, 0x9b, 0x86, 0x67, 0x1c, 0x5b, 0xb6, 0x15, 0x8e, 0x75, 0xdb,
+	0x0a, 0xc2, 0xd8, 0xfa, 0xb3, 0x74, 0x40, 0xbb, 0x6d, 0xf6, 0xc4, 0x75, 0x23, 0x29, 0x79, 0xc2,
+	0x57, 0x43, 0xe2, 0xe0, 0x27, 0xbe, 0x65, 0xc6, 0x27, 0xfc, 0x1d, 0x9c, 0x9c, 0x1e, 0x58, 0x41,
+	0x28, 0xfd, 0x23, 0x0b, 0x4f, 0xee, 0x12, 0x47, 0xaf, 0xe0, 0x81, 0x63, 0x9c, 0xeb, 0x74, 0xe4,
+	0x1c, 0x13, 0x5f, 0x77, 0x07, 0xdc, 0x37, 0x12, 0xe8, 0x7d, 0x3b, 0xfe, 0x6b, 0x2c, 0x3b, 0xc6,
+	0xb9, 0xc6, 0x4f, 0x3b, 0x83, 0x2e, 0x3f, 0x6b, 0xd9, 0xb7, 0x4a, 0x8d, 0xec, 0xf8, 0x1b, 0x72,
+	0x5d, 0xea, 0xc8, 0x46, 0x3b, 0x50, 0x49, 0x6e, 0xce, 0xa7, 0x46, 0xee, 0xda, 0x9b, 0x87, 0xbb,
+	0xed, 0xd8, 0x4d, 0x3e, 0xcf, 0xcb, 0xc1, 0x74, 0x83, 0x7e, 0x01, 0x8f, 0x67, 0x6d, 0x8e, 0x48,
+	0xa0, 0x7b, 0xc4, 0x8f, 0x6c, 0xc7, 0x9f, 0x99, 0xfb, 0x29, 0xbb, 0x47, 0x24, 0x38, 0x24, 0x3e,
+	0xb7, 0x8e, 0xba, 0x20, 0x06, 0x23, 0x8f, 0x25, 0x8d, 0xf4, 0x75, 0x93, 0xff, 0x15, 0xea, 0x05,
+	0x1e, 0xe8, 0xe7, 0x73, 0xe6, 0x13, 0x56, 0x12, 0x2e, 0xce, 0xe5, 0x91, 0x5e, 0x9a, 0x68, 0x88,
+	0x40, 0xe9, 0x2b, 0xf8, 0xec, 0x4e, 0x09, 0xa4, 0xc2, 0x72, 0x72, 0xe1, 0xc8, 0xa6, 0x7e, 0xcb,
+	0x5b, 0xaf, 0x6c, 0x77, 0x1d, 0x1c, 0x38, 0xb2, 0xeb, 0x38, 0x06, 0xed, 0xe3, 0x7b, 0x41, 0x5a,
+	0x15, 0xbb, 0xbd, 0xf4, 0x53, 0xde, 0xa0, 0xd3, 0xb2, 0x9b, 0x0c, 0x0a, 0x21, 0x35, 0x28, 0x50,
+	0xea, 0xa9, 0x2c, 0xc4, 0xaf, 0xe1, 0x59, 0xd4, 0x07, 0xff, 0xbd, 0x24, 0x7a, 0x03, 0x15, 0x87,
+	0x18, 0xc1, 0xc8, 0x27, 0xec, 0x33, 0x9e, 0x4c, 0x9d, 0xb9, 0xb6, 0x68, 0x4f, 0x19, 0x78, 0x86,
+	0x2e, 0xbd, 0x8e, 0x5a, 0xfd, 0x7f, 0x70, 0x79, 0x87, 0xbb, 0x9c, 0xd2, 0x7c, 0x6b, 0x3f, 0xdd,
+	0x30, 0x2d, 0x37, 0x5e, 0x42, 0x0d, 0x37, 0x34, 0x85, 0x86, 0x56, 0x38, 0xde, 0xb7, 0x68, 0x3f,
+	0x40, 0xc0, 0xbf, 0xb6, 0x9d, 0x96, 0x22, 0x66, 0xa2, 0xb5, 0xac, 0x1c, 0x1c, 0x88, 0x02, 0x5a,
+	0x84, 0x1c, 0xfb, 0xf7, 0xe4, 0x36, 0xde, 0x80, 0x88, 0x1b, 0x1a, 0x26, 0x36, 0xff, 0xa1, 0x45,
+	0x42, 0x15, 0x28, 0xca, 0x1d, 0xad, 0x87, 0x3b, 0x07, 0x5d, 0x31, 0x93, 0xec, 0x1a, 0xaa, 0xd6,
+	0x15, 0x05, 0x54, 0x85, 0x92, 0xa6, 0xa8, 0xbb, 0x7b, 0xcd, 0x0e, 0xee, 0x8a, 0xd9, 0x8d, 0x67,
+	0x20, 0xce, 0x7f, 0x45, 0x50, 0x09, 0x0a, 0x1a, 0x96, 0x77, 0x55, 0x31, 0x83, 0x8a, 0x90, 0x57,
+	0xd8, 0x4a, 0xd8, 0x68, 0x43, 0x91, 0x75, 0x22, 0x27, 0x94, 0x61, 0x51, 0xeb, 0xe9, 0x5a, 0x47,
+	0x8b, 0xbd, 0xd2, 0x7a, 0xfa, 0xae, 0xd6, 0x8c, 0x95, 0xf7, 0x74, 0x45, 0xe3, 0xdb, 0x6c, 0xbc,
+	0xd5, 0x76, 0x75, 0x45, 0x6b, 0x8a, 0xb9, 0x98, 0xc9, 0xd6, 0xf9, 0x8d, 0x03, 0xa8, 0xca, 0xae,
+	0xe3, 0xb9, 0x94, 0xd0, 0x30, 0xd1, 0x29, 0x4f, 0x74, 0x96, 0xa0, 0x20, 0xf7, 0x74, 0xf9, 0x48,
+	0x14, 0xb8, 0xf7, 0x6c, 0xa9, 0x1f, 0x1d, 0x8a, 0xd9, 0xf8, 0xa0, 0x75, 0x14, 0x69, 0x93, 0x13,
+	0x6d, 0xdf, 0x08, 0x50, 0x9b, 0xad, 0x43, 0x24, 0xc1, 0xaa, 0xb2, 0xad, 0x77, 0xdb, 0x3a, 0xee,
+	0xb6, 0x75, 0xb9, 0xd3, 0x6e, 0x37, 0xb4, 0x96, 0xde, 0x3d, 0x50, 0x65, 0x45, 0x97, 0xb1, 0xd2,
+	0xe8, 0x31, 0x33, 0x77, 0x70, 0x8e, 0x0e, 0x5b, 0x8c, 0x23, 0xdc, 0xc5, 0x69, 0x29, 0x07, 0x4a,
+	0x4f, 0x11, 0xb3, 0x37, 0x73, 0x8e, 0x14, 0xbd, 0xd1, 0xed, 0x76, 0x64, 0x95, 0xe9, 0xc9, 0xa1,
+	0x2f, 0x60, 0xfd, 0x3a, 0x47, 0xf9, 0x8d, 0xa2, 0xf5, 0xf4, 0x1e, 0x56, 0x77, 0x77, 0x15, 0xdc,
+	0x15, 0xf3, 0x1b, 0x32, 0x1f, 0xc7, 0xa9, 0x39, 0x82, 0x1e, 0xc0, 0x32, 0xb3, 0xa6, 0x6a, 0xbb,
+	0x7a, 0xef, 0xfd, 0xa1, 0xa2, 0x77, 0x7b, 0x8d, 0x9e, 0x2a, 0x8b, 0x19, 0x54, 0x87, 0x95, 0x99,
+	0x83, 0xd6, 0x7b, 0xad, 0xd1, 0x56, 0x65, 0x51, 0x68, 0xd6, 0xbf, 0xbd, 0x5a, 0x15, 0xbe, 0xbb,
+	0x5a, 0x15, 0xfe, 0x75, 0xb5, 0x2a, 0x7c, 0xfd, 0x71, 0x35, 0xf3, 0xdd, 0xc7, 0xd5, 0xcc, 0xdf,
+	0x3f, 0xae, 0x66, 0x8e, 0x17, 0xf8, 0x73, 0xfb, 0xe3, 0xff, 0x04, 0x00, 0x00, 0xff, 0xff, 0xce,
+	0x96, 0x35, 0x80, 0x3a, 0x13, 0x00, 0x00,
 }
 
 func (m *Location) Marshal() (dAtA []byte, err error) {
@@ -1623,6 +2343,15 @@ func (m *Location) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.Ext != nil {
+		{
+			size := m.Ext.Size()
+			i -= size
+			if _, err := m.Ext.MarshalTo(dAtA[i:]); err != nil {
+				return 0, err
+			}
+		}
+	}
 	if m.Lng != 0 {
 		i -= 8
 		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Lng))))
@@ -1638,6 +2367,536 @@ func (m *Location) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *Location_Wgs84) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Location_Wgs84) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Wgs84 != nil {
+		{
+			size, err := m.Wgs84.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Location_Cartesian) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Location_Cartesian) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Cartesian != nil {
+		{
+			size, err := m.Cartesian.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Wgs84Location) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Wgs84Location) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Wgs84Location) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.AltitudeM != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.AltitudeM))))
+		i--
+		dAtA[i] = 0x19
+	}
+	if m.LongitudeDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.LongitudeDeg))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if m.LatitudeDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.LatitudeDeg))))
+		i--
+		dAtA[i] = 0x9
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *CartesianLocation) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *CartesianLocation) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CartesianLocation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.ZM != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.ZM))))
+		i--
+		dAtA[i] = 0x19
+	}
+	if m.YM != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.YM))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if m.XM != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.XM))))
+		i--
+		dAtA[i] = 0x9
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *AzElOrientation) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *AzElOrientation) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *AzElOrientation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.RotationDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.RotationDeg))))
+		i--
+		dAtA[i] = 0x19
+	}
+	if m.ElevationDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.ElevationDeg))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if m.AzimuthDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.AzimuthDeg))))
+		i--
+		dAtA[i] = 0x9
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *YprOrientation) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *YprOrientation) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *YprOrientation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.RollDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.RollDeg))))
+		i--
+		dAtA[i] = 0x19
+	}
+	if m.PitchDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.PitchDeg))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if m.YawDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.YawDeg))))
+		i--
+		dAtA[i] = 0x9
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Orientation) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Orientation) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Orientation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Orientation != nil {
+		{
+			size := m.Orientation.Size()
+			i -= size
+			if _, err := m.Orientation.MarshalTo(dAtA[i:]); err != nil {
+				return 0, err
+			}
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Orientation_Azel) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Orientation_Azel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Azel != nil {
+		{
+			size, err := m.Azel.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Orientation_Ypr) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Orientation_Ypr) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Ypr != nil {
+		{
+			size, err := m.Ypr.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Waypoint) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Waypoint) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Waypoint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Location != nil {
+		{
+			size, err := m.Location.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Time != nil {
+		{
+			size, err := m.Time.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Waypoints) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Waypoints) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Waypoints) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Waypoint) > 0 {
+		for iNdEx := len(m.Waypoint) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Waypoint[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintRan(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *OrbitData) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *OrbitData) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *OrbitData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.MeanMotion != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.MeanMotion))))
+		i--
+		dAtA[i] = 0x39
+	}
+	if m.AnomalyDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.AnomalyDeg))))
+		i--
+		dAtA[i] = 0x31
+	}
+	if m.ArgumentDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.ArgumentDeg))))
+		i--
+		dAtA[i] = 0x29
+	}
+	if m.E != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.E))))
+		i--
+		dAtA[i] = 0x21
+	}
+	if m.RaanDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.RaanDeg))))
+		i--
+		dAtA[i] = 0x19
+	}
+	if m.InclinationDeg != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.InclinationDeg))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if m.Epoch != nil {
+		{
+			size, err := m.Epoch.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Motion) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Motion) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Motion) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Motion != nil {
+		{
+			size := m.Motion.Size()
+			i -= size
+			if _, err := m.Motion.MarshalTo(dAtA[i:]); err != nil {
+				return 0, err
+			}
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Motion_FixedLocation) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Motion_FixedLocation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.FixedLocation != nil {
+		{
+			size, err := m.FixedLocation.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Motion_Waypoints) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Motion_Waypoints) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Waypoints != nil {
+		{
+			size, err := m.Waypoints.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Motion_Orbit) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Motion_Orbit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.Orbit != nil {
+		{
+			size, err := m.Orbit.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintRan(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	return len(dAtA) - i, nil
+}
 func (m *Coverage) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1793,12 +3052,12 @@ func (m *Lease) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if m.Expiration != nil {
-		n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.Expiration, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.Expiration):])
-		if err2 != nil {
-			return 0, err2
+		n12, err12 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.Expiration, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.Expiration):])
+		if err12 != nil {
+			return 0, err12
 		}
-		i -= n2
-		i = encodeVarintRan(dAtA, i, uint64(n2))
+		i -= n12
+		i = encodeVarintRan(dAtA, i, uint64(n12))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -2075,20 +3334,20 @@ func (m *ServiceModelInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if len(m.RanFunctionIDs) > 0 {
-		dAtA6 := make([]byte, len(m.RanFunctionIDs)*10)
-		var j5 int
+		dAtA16 := make([]byte, len(m.RanFunctionIDs)*10)
+		var j15 int
 		for _, num := range m.RanFunctionIDs {
 			for num >= 1<<7 {
-				dAtA6[j5] = uint8(uint64(num)&0x7f | 0x80)
+				dAtA16[j15] = uint8(uint64(num)&0x7f | 0x80)
 				num >>= 7
-				j5++
+				j15++
 			}
-			dAtA6[j5] = uint8(num)
-			j5++
+			dAtA16[j15] = uint8(num)
+			j15++
 		}
-		i -= j5
-		copy(dAtA[i:], dAtA6[:j5])
-		i = encodeVarintRan(dAtA, i, uint64(j5))
+		i -= j15
+		copy(dAtA[i:], dAtA16[:j15])
+		i = encodeVarintRan(dAtA, i, uint64(j15))
 		i--
 		dAtA[i] = 0x22
 	}
@@ -2563,9 +3822,255 @@ func (m *Location) Size() (n int) {
 	if m.Lng != 0 {
 		n += 9
 	}
+	if m.Ext != nil {
+		n += m.Ext.Size()
+	}
 	return n
 }
 
+func (m *Location_Wgs84) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Wgs84 != nil {
+		l = m.Wgs84.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+func (m *Location_Cartesian) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Cartesian != nil {
+		l = m.Cartesian.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+func (m *Wgs84Location) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LatitudeDeg != 0 {
+		n += 9
+	}
+	if m.LongitudeDeg != 0 {
+		n += 9
+	}
+	if m.AltitudeM != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *CartesianLocation) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.XM != 0 {
+		n += 9
+	}
+	if m.YM != 0 {
+		n += 9
+	}
+	if m.ZM != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *AzElOrientation) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.AzimuthDeg != 0 {
+		n += 9
+	}
+	if m.ElevationDeg != 0 {
+		n += 9
+	}
+	if m.RotationDeg != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *YprOrientation) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.YawDeg != 0 {
+		n += 9
+	}
+	if m.PitchDeg != 0 {
+		n += 9
+	}
+	if m.RollDeg != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *Orientation) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Orientation != nil {
+		n += m.Orientation.Size()
+	}
+	return n
+}
+
+func (m *Orientation_Azel) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Azel != nil {
+		l = m.Azel.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+func (m *Orientation_Ypr) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Ypr != nil {
+		l = m.Ypr.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+func (m *Waypoint) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Time != nil {
+		l = m.Time.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	if m.Location != nil {
+		l = m.Location.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+
+func (m *Waypoints) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Waypoint) > 0 {
+		for _, e := range m.Waypoint {
+			l = e.Size()
+			n += 1 + l + sovRan(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *OrbitData) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Epoch != nil {
+		l = m.Epoch.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	if m.InclinationDeg != 0 {
+		n += 9
+	}
+	if m.RaanDeg != 0 {
+		n += 9
+	}
+	if m.E != 0 {
+		n += 9
+	}
+	if m.ArgumentDeg != 0 {
+		n += 9
+	}
+	if m.AnomalyDeg != 0 {
+		n += 9
+	}
+	if m.MeanMotion != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *Motion) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Motion != nil {
+		n += m.Motion.Size()
+	}
+	return n
+}
+
+func (m *Motion_FixedLocation) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.FixedLocation != nil {
+		l = m.FixedLocation.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+func (m *Motion_Waypoints) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Waypoints != nil {
+		l = m.Waypoints.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
+func (m *Motion_Orbit) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Orbit != nil {
+		l = m.Orbit.Size()
+		n += 1 + l + sovRan(uint64(l))
+	}
+	return n
+}
 func (m *Coverage) Size() (n int) {
 	if m == nil {
 		return 0
@@ -3024,6 +4529,1041 @@ func (m *Location) Unmarshal(dAtA []byte) error {
 			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
 			iNdEx += 8
 			m.Lng = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Wgs84", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &Wgs84Location{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Ext = &Location_Wgs84{v}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cartesian", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &CartesianLocation{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Ext = &Location_Cartesian{v}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Wgs84Location) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Wgs84Location: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Wgs84Location: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LatitudeDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.LatitudeDeg = float64(math.Float64frombits(v))
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LongitudeDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.LongitudeDeg = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AltitudeM", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.AltitudeM = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CartesianLocation) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CartesianLocation: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CartesianLocation: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field XM", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.XM = float64(math.Float64frombits(v))
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field YM", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.YM = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ZM", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.ZM = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *AzElOrientation) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AzElOrientation: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AzElOrientation: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AzimuthDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.AzimuthDeg = float64(math.Float64frombits(v))
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ElevationDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.ElevationDeg = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RotationDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.RotationDeg = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *YprOrientation) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: YprOrientation: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: YprOrientation: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field YawDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.YawDeg = float64(math.Float64frombits(v))
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PitchDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.PitchDeg = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RollDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.RollDeg = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Orientation) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Orientation: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Orientation: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Azel", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &AzElOrientation{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Orientation = &Orientation_Azel{v}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ypr", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &YprOrientation{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Orientation = &Orientation_Ypr{v}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Waypoint) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Waypoint: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Waypoint: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Time", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Time == nil {
+				m.Time = &types.Timestamp{}
+			}
+			if err := m.Time.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Location", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Location == nil {
+				m.Location = &Location{}
+			}
+			if err := m.Location.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Waypoints) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Waypoints: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Waypoints: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Waypoint", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Waypoint = append(m.Waypoint, &Waypoint{})
+			if err := m.Waypoint[len(m.Waypoint)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *OrbitData) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: OrbitData: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: OrbitData: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Epoch", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Epoch == nil {
+				m.Epoch = &types.Timestamp{}
+			}
+			if err := m.Epoch.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InclinationDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.InclinationDeg = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RaanDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.RaanDeg = float64(math.Float64frombits(v))
+		case 4:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field E", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.E = float64(math.Float64frombits(v))
+		case 5:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ArgumentDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.ArgumentDeg = float64(math.Float64frombits(v))
+		case 6:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AnomalyDeg", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.AnomalyDeg = float64(math.Float64frombits(v))
+		case 7:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MeanMotion", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.MeanMotion = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRan(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthRan
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Motion) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRan
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Motion: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Motion: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FixedLocation", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &Location{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Motion = &Motion_FixedLocation{v}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Waypoints", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &Waypoints{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Motion = &Motion_Waypoints{v}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Orbit", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRan
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthRan
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthRan
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &OrbitData{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Motion = &Motion_Orbit{v}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipRan(dAtA[iNdEx:])

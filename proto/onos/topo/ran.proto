@@ -63,10 +63,94 @@ enum ComponentType {
     // Add new types here. DO NOT change ordinals of existing values.
 }
 
-// Geographical location; expected value type of "location" aspect
 message Location {
-    double lat = 1;
-    double lng = 2;
+    // Legacy Geographical location; expected value type of "location" aspect
+    double lat = 1 [deprecated=true];
+    double lng = 2 [deprecated=true];
+    oneof ext {
+        Wgs84Location wgs84 = 3;
+        CartesianLocation cartesian = 4;
+    }
+}
+
+message Wgs84Location {
+    // Latitude in degrees, between +/- 90.
+    double latitude_deg = 1;
+
+    // Longitude in degrees, between +/- 180.
+    double longitude_deg = 2;
+
+    // Altitude in meters, from the surface of the WGS-84 ellipsoid.
+    double altitude_m = 3;
+}
+
+// ECEF-compatible cartesian coordinates.
+message CartesianLocation {
+    // X, Y, and Z coordinates in meters.
+    double x_m = 1;
+    double y_m = 2;
+    double z_m = 3;
+}
+
+message AzElOrientation {
+    // Azimuth angle in degrees.
+    double azimuth_deg = 1;
+    // Elevation angle in degrees.
+    double elevation_deg = 2;
+    // Rotation around boresight in degrees.
+    double rotation_deg = 3;
+}
+
+message YprOrientation {
+    // Yaw angle around z-axis.
+    double yaw_deg = 1;
+    // Pitch angle around y-axix.
+    double pitch_deg = 2;
+    // Roll angle around x-axis.
+    double roll_deg = 3;
+}
+
+message Orientation {
+  oneof orientation {
+    AzElOrientation azel = 1;
+    YprOrientation ypr = 2;
+  }
+}
+
+message Waypoint {
+    google.protobuf.Timestamp time = 1;
+    Location location = 2;
+}
+
+// A set of waypoints that can be interpolated.
+message Waypoints {
+    repeated Waypoint waypoint = 1;
+}
+
+// Minimal satellite orbit data, e.g. from a TLE, that can be propagated.
+message OrbitData {
+    google.protobuf.Timestamp epoch = 1;
+
+    // Orbit inclination in degrees.
+    double inclination_deg = 2;
+    // Right ascension of the ascending node in degrees.
+    double raan_deg = 3;
+    // Orbit eccentricity.
+    double e = 4;
+    // Argument of perigee in degrees.
+    double argument_deg = 5;
+    // Mean anomaly in degrees.
+    double anomaly_deg = 6;
+    // Mean motion in revolutions per day.
+    double mean_motion = 7;
+}
+
+message Motion {
+    oneof motion {
+        Location fixed_location = 1;
+        Waypoints waypoints = 2;
+        OrbitData orbit = 3;
+    }
 }
 
 // Area of coverage; expected value type of "coverage" aspect
