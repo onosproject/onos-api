@@ -39,7 +39,7 @@ twine: # @HELP install twine if not present
 	twine --version || pip install twine
 
 license_check: build-tools # @HELP examine and ensure license headers exist
-	./../build-tools/licensing/boilerplate.py -v --rootdir=/go/src/github.com/onosproject/onos-api/proto
+	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR}/proto
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
