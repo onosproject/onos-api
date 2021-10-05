@@ -31,3 +31,134 @@ message CellInfo {
     CellConnection serving_cell = 1;
     repeated CellConnection candidate_cells = 2;
 }
+
+// For RSM
+/// *** ///
+
+enum UeIdType {
+    UE_ID_TYPE_CU_UE_F1_AP_ID = 0;
+    UE_ID_TYPE_DU_UE_F1_AP_ID = 1;
+    UE_ID_TYPE_RAN_UE_NGAP_ID = 2;
+    UE_ID_TYPE_AMF_UE_NGAP_ID = 3;
+    UE_ID_TYPE_ENB_UE_S1_AP_ID = 4;
+};
+
+message DuUeF1apID {
+    int64 value = 1;
+}
+
+message CuUeF1apID {
+    int64 value = 1;
+}
+
+message RanUeNgapID {
+    int64 value = 1;
+}
+
+message EnbUeS1apID {
+    int32 value = 1;
+}
+
+message AmfUeNgapID {
+    int64 value = 1;
+}
+
+message UeIdentity {
+    DuUeF1apID du_ue_f1ap_id = 1 [(gogoproto.customname) = "DuUeF1apID"];
+    CuUeF1apID cu_ue_f1ap_id = 2 [(gogoproto.customname) = "CuUeF1apID"];
+    RanUeNgapID ran_ue_ngap_id = 3 [(gogoproto.customname) = "RANUeNgapID"];
+    EnbUeS1apID enb_ue_s1ap_id = 4 [(gogoproto.customname) = "EnbUeS1apID"];
+    AmfUeNgapID amf_ue_ngap_id = 5 [(gogoproto.customname) = "AMFUeNgapID"];
+    UeIdType preferred_id_type = 6 [(gogoproto.customname) = "PreferredIDType"];
+}
+
+message BearerId {
+    oneof bearer_id {
+        DrbId drb_id = 1 [ json_name="drbID"];
+    }
+}
+
+message DrbId {
+    oneof drb_id {
+        FourGDrbId four_gdrb_id = 1 [ json_name="fourGDrbID"];
+        FiveGDrbId five_gdrb_id = 2 [ json_name="fiveGDrbID"];
+    }
+}
+
+message FiveGDrbId {
+    int32 value = 1;
+    Qfi qfi = 2;
+    repeated QoSflowLevelParameters flows_map_to_drb = 3;
+}
+
+message Qfi {
+    int32 value = 1;
+}
+
+message QoSflowLevelParameters {
+    oneof qos_flow_level_parameters {
+        DynamicFiveQi dynamic_five_qi = 1;
+        NonDynamicFiveQi non_dynamic_five_qi = 2;
+    }
+}
+
+message DynamicFiveQi {
+    int32 priority_level = 1;
+    int32 packet_delay_budge = 2;
+    int32 packet_error_rate = 3;
+}
+
+message NonDynamicFiveQi {
+    FiveQi five_qi = 1;
+}
+
+message FiveQi {
+    int32 value = 1;
+}
+
+message FourGDrbId {
+    int32 value = 1;
+    Qci qci = 2;
+}
+
+message Qci {
+    int32 value = 1;
+}
+
+message RsmUeInfo {
+    string global_ue_id = 1 [(gogoproto.customname) = "GlobalUeID"];
+    UeIdentity ue_id_list = 2;
+    repeated BearerId bearer_id_list = 3;
+    string cell_global_id = 4;
+    string cu_e2_node_id = 5;
+    string du_e2_node_id = 6;
+    repeated SliceInfo slice_list = 7;
+}
+
+message SliceInfo {
+    string du_e2_node_id = 1;
+    string cu_e2_node_id = 2;
+    string id = 3 [(gogoproto.customname) = "ID"];
+    string slice_desc = 4;
+    RSMSliceParameters slice_parameters = 5;
+    RSMSliceType slice_type = 6;
+}
+
+message RSMSliceParameters {
+    RSMSchedulerType scheduler_type = 1;
+    int32 weight = 2;
+    int32 qos_level = 3;
+}
+
+enum RSMSchedulerType {
+    SCHEDULER_TYPE_ROUND_ROBIN = 0;
+    SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1;
+    SCHEDULER_TYPE_QOS_BASED = 2;
+}
+
+enum RSMSliceType {
+    SLICE_TYPE_DL_SLICE = 0;
+    SLICE_TYPE_UL_SLICE = 1;
+}
+
+/// *** ///

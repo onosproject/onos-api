@@ -20,32 +20,12 @@ package onos.rsm;
 
 service Rsm {
   // Slice management
-  rpc GetSlices (GetSlicesRequest) returns (GetSliceResponse);
   rpc CreateSlice (CreateSliceRequest) returns (CreateSliceResponse);
   rpc UpdateSlice (UpdateSliceRequest) returns (UpdateSliceResponse);
   rpc DeleteSlice (DeleteSliceRequest) returns (DeleteSliceResponse);
 
   // UE-Slice association
-  rpc GetUeSliceAssociation (GetUeSliceAssociationRequest) returns (GetUeSliceAssociationResponse);
   rpc SetUeSliceAssociation (SetUeSliceAssociationRequest) returns (SetUeSliceAssociationResponse);
-
-  // ToDo: add APIs for policy management and parameters
-  // Policy management
-//  rpc GetPolicy () returns ();
-//  rpc SetPolicy () returns ();
-
-  // Parameters
-//  rpc GetRsmParameters () returns ();
-//  rpc SetRsmParameters () returns ();
-}
-
-message GetSlicesRequest {
-  string e2_node_id = 1;
-}
-
-message GetSliceResponse {
-  Ack ack = 1;
-  repeated SliceItem slice_items = 2;
 }
 
 message SliceItem {
@@ -103,19 +83,6 @@ message DeleteSliceResponse {
   Ack ack = 1;
 }
 
-message GetUeSliceAssociationRequest {
-  string e2_node_id = 1;
-  repeated UeId ue_id = 2;
-  string dl_slice_id = 3;
-  string ul_slice_id = 4;
-  string ue_slice_assoc_id = 5;
-}
-
-message GetUeSliceAssociationResponse {
-  Ack ack = 1;
-  repeated SliceAssocItem slice_assoc_items = 2;
-}
-
 message SliceAssocItem {
   string ue_slice_assoc_id = 1;
   string e2_node_id = 2;
@@ -141,6 +108,7 @@ message SetUeSliceAssociationRequest {
   repeated UeId ue_id = 2;
   string dl_slice_id = 3;
   string ul_slice_id = 4;
+  string drb_id = 5;
 }
 
 message SetUeSliceAssociationResponse {

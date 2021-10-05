@@ -9,6 +9,25 @@ from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
+class UeIdType(betterproto.Enum):
+    UE_ID_TYPE_CU_UE_F1_AP_ID = 0
+    UE_ID_TYPE_DU_UE_F1_AP_ID = 1
+    UE_ID_TYPE_RAN_UE_NGAP_ID = 2
+    UE_ID_TYPE_AMF_UE_NGAP_ID = 3
+    UE_ID_TYPE_ENB_UE_S1_AP_ID = 4
+
+
+class RsmSchedulerType(betterproto.Enum):
+    SCHEDULER_TYPE_ROUND_ROBIN = 0
+    SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1
+    SCHEDULER_TYPE_QOS_BASED = 2
+
+
+class RsmSliceType(betterproto.Enum):
+    SLICE_TYPE_DL_SLICE = 0
+    SLICE_TYPE_UL_SLICE = 1
+
+
 class EventType(betterproto.Enum):
     """EventType is a UE operation event type"""
 
@@ -32,6 +51,130 @@ class CellInfo(betterproto.Message):
 
     serving_cell: "CellConnection" = betterproto.message_field(1)
     candidate_cells: List["CellConnection"] = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class DuUeF1ApId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class CuUeF1ApId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class RanUeNgapId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class EnbUeS1ApId(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class AmfUeNgapId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class UeIdentity(betterproto.Message):
+    du_ue_f1_ap_id: "DuUeF1ApId" = betterproto.message_field(1)
+    cu_ue_f1_ap_id: "CuUeF1ApId" = betterproto.message_field(2)
+    ran_ue_ngap_id: "RanUeNgapId" = betterproto.message_field(3)
+    enb_ue_s1_ap_id: "EnbUeS1ApId" = betterproto.message_field(4)
+    amf_ue_ngap_id: "AmfUeNgapId" = betterproto.message_field(5)
+    preferred_id_type: "UeIdType" = betterproto.enum_field(6)
+
+
+@dataclass(eq=False, repr=False)
+class BearerId(betterproto.Message):
+    drb_id: "DrbId" = betterproto.message_field(1, group="bearer_id")
+
+
+@dataclass(eq=False, repr=False)
+class DrbId(betterproto.Message):
+    four_gdrb_id: "FourGDrbId" = betterproto.message_field(1, group="drb_id")
+    five_gdrb_id: "FiveGDrbId" = betterproto.message_field(2, group="drb_id")
+
+
+@dataclass(eq=False, repr=False)
+class FiveGDrbId(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+    qfi: "Qfi" = betterproto.message_field(2)
+    flows_map_to_drb: List["QoSflowLevelParameters"] = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class Qfi(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class QoSflowLevelParameters(betterproto.Message):
+    dynamic_five_qi: "DynamicFiveQi" = betterproto.message_field(
+        1, group="qos_flow_level_parameters"
+    )
+    non_dynamic_five_qi: "NonDynamicFiveQi" = betterproto.message_field(
+        2, group="qos_flow_level_parameters"
+    )
+
+
+@dataclass(eq=False, repr=False)
+class DynamicFiveQi(betterproto.Message):
+    priority_level: int = betterproto.int32_field(1)
+    packet_delay_budge: int = betterproto.int32_field(2)
+    packet_error_rate: int = betterproto.int32_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class NonDynamicFiveQi(betterproto.Message):
+    five_qi: "FiveQi" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class FiveQi(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class FourGDrbId(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+    qci: "Qci" = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class Qci(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class RsmUeInfo(betterproto.Message):
+    global_ue_id: str = betterproto.string_field(1)
+    ue_id_list: "UeIdentity" = betterproto.message_field(2)
+    bearer_id_list: List["BearerId"] = betterproto.message_field(3)
+    cell_global_id: str = betterproto.string_field(4)
+    cu_e2_node_id: str = betterproto.string_field(5)
+    du_e2_node_id: str = betterproto.string_field(6)
+    slice_list: List["SliceInfo"] = betterproto.message_field(7)
+
+
+@dataclass(eq=False, repr=False)
+class SliceInfo(betterproto.Message):
+    du_e2_node_id: str = betterproto.string_field(1)
+    cu_e2_node_id: str = betterproto.string_field(2)
+    id: str = betterproto.string_field(3)
+    slice_desc: str = betterproto.string_field(4)
+    slice_parameters: "RsmSliceParameters" = betterproto.message_field(5)
+    slice_type: "RsmSliceType" = betterproto.enum_field(6)
+
+
+@dataclass(eq=False, repr=False)
+class RsmSliceParameters(betterproto.Message):
+    scheduler_type: "RsmSchedulerType" = betterproto.enum_field(1)
+    weight: int = betterproto.int32_field(2)
+    qos_level: int = betterproto.int32_field(3)
 
 
 @dataclass(eq=False, repr=False)

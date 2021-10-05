@@ -113,102 +113,6 @@ func (UeIdType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_a53e011a0fb63e56, []int{2}
 }
 
-type GetSlicesRequest struct {
-	E2NodeId string `protobuf:"bytes,1,opt,name=e2_node_id,json=e2NodeId,proto3" json:"e2_node_id,omitempty"`
-}
-
-func (m *GetSlicesRequest) Reset()         { *m = GetSlicesRequest{} }
-func (m *GetSlicesRequest) String() string { return proto.CompactTextString(m) }
-func (*GetSlicesRequest) ProtoMessage()    {}
-func (*GetSlicesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{0}
-}
-func (m *GetSlicesRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetSlicesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetSlicesRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetSlicesRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetSlicesRequest.Merge(m, src)
-}
-func (m *GetSlicesRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetSlicesRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetSlicesRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetSlicesRequest proto.InternalMessageInfo
-
-func (m *GetSlicesRequest) GetE2NodeId() string {
-	if m != nil {
-		return m.E2NodeId
-	}
-	return ""
-}
-
-type GetSliceResponse struct {
-	Ack        *Ack         `protobuf:"bytes,1,opt,name=ack,proto3" json:"ack,omitempty"`
-	SliceItems []*SliceItem `protobuf:"bytes,2,rep,name=slice_items,json=sliceItems,proto3" json:"slice_items,omitempty"`
-}
-
-func (m *GetSliceResponse) Reset()         { *m = GetSliceResponse{} }
-func (m *GetSliceResponse) String() string { return proto.CompactTextString(m) }
-func (*GetSliceResponse) ProtoMessage()    {}
-func (*GetSliceResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{1}
-}
-func (m *GetSliceResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetSliceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetSliceResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetSliceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetSliceResponse.Merge(m, src)
-}
-func (m *GetSliceResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetSliceResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetSliceResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetSliceResponse proto.InternalMessageInfo
-
-func (m *GetSliceResponse) GetAck() *Ack {
-	if m != nil {
-		return m.Ack
-	}
-	return nil
-}
-
-func (m *GetSliceResponse) GetSliceItems() []*SliceItem {
-	if m != nil {
-		return m.SliceItems
-	}
-	return nil
-}
-
 type SliceItem struct {
 	E2NodeId string   `protobuf:"bytes,1,opt,name=e2_node_id,json=e2NodeId,proto3" json:"e2_node_id,omitempty"`
 	SliceIds []string `protobuf:"bytes,2,rep,name=slice_ids,json=sliceIds,proto3" json:"slice_ids,omitempty"`
@@ -218,7 +122,7 @@ func (m *SliceItem) Reset()         { *m = SliceItem{} }
 func (m *SliceItem) String() string { return proto.CompactTextString(m) }
 func (*SliceItem) ProtoMessage()    {}
 func (*SliceItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{2}
+	return fileDescriptor_a53e011a0fb63e56, []int{0}
 }
 func (m *SliceItem) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -270,7 +174,7 @@ func (m *Ack) Reset()         { *m = Ack{} }
 func (m *Ack) String() string { return proto.CompactTextString(m) }
 func (*Ack) ProtoMessage()    {}
 func (*Ack) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{3}
+	return fileDescriptor_a53e011a0fb63e56, []int{1}
 }
 func (m *Ack) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -325,7 +229,7 @@ func (m *CreateSliceRequest) Reset()         { *m = CreateSliceRequest{} }
 func (m *CreateSliceRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateSliceRequest) ProtoMessage()    {}
 func (*CreateSliceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{4}
+	return fileDescriptor_a53e011a0fb63e56, []int{2}
 }
 func (m *CreateSliceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -397,7 +301,7 @@ func (m *CreateSliceResponse) Reset()         { *m = CreateSliceResponse{} }
 func (m *CreateSliceResponse) String() string { return proto.CompactTextString(m) }
 func (*CreateSliceResponse) ProtoMessage()    {}
 func (*CreateSliceResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{5}
+	return fileDescriptor_a53e011a0fb63e56, []int{3}
 }
 func (m *CreateSliceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -445,7 +349,7 @@ func (m *UpdateSliceRequest) Reset()         { *m = UpdateSliceRequest{} }
 func (m *UpdateSliceRequest) String() string { return proto.CompactTextString(m) }
 func (*UpdateSliceRequest) ProtoMessage()    {}
 func (*UpdateSliceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{6}
+	return fileDescriptor_a53e011a0fb63e56, []int{4}
 }
 func (m *UpdateSliceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -517,7 +421,7 @@ func (m *UpdateSliceResponse) Reset()         { *m = UpdateSliceResponse{} }
 func (m *UpdateSliceResponse) String() string { return proto.CompactTextString(m) }
 func (*UpdateSliceResponse) ProtoMessage()    {}
 func (*UpdateSliceResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{7}
+	return fileDescriptor_a53e011a0fb63e56, []int{5}
 }
 func (m *UpdateSliceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -563,7 +467,7 @@ func (m *DeleteSliceRequest) Reset()         { *m = DeleteSliceRequest{} }
 func (m *DeleteSliceRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteSliceRequest) ProtoMessage()    {}
 func (*DeleteSliceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{8}
+	return fileDescriptor_a53e011a0fb63e56, []int{6}
 }
 func (m *DeleteSliceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -621,7 +525,7 @@ func (m *DeleteSliceResponse) Reset()         { *m = DeleteSliceResponse{} }
 func (m *DeleteSliceResponse) String() string { return proto.CompactTextString(m) }
 func (*DeleteSliceResponse) ProtoMessage()    {}
 func (*DeleteSliceResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{9}
+	return fileDescriptor_a53e011a0fb63e56, []int{7}
 }
 func (m *DeleteSliceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -657,134 +561,6 @@ func (m *DeleteSliceResponse) GetAck() *Ack {
 	return nil
 }
 
-type GetUeSliceAssociationRequest struct {
-	E2NodeId       string  `protobuf:"bytes,1,opt,name=e2_node_id,json=e2NodeId,proto3" json:"e2_node_id,omitempty"`
-	UeId           []*UeId `protobuf:"bytes,2,rep,name=ue_id,json=ueId,proto3" json:"ue_id,omitempty"`
-	DlSliceId      string  `protobuf:"bytes,3,opt,name=dl_slice_id,json=dlSliceId,proto3" json:"dl_slice_id,omitempty"`
-	UlSliceId      string  `protobuf:"bytes,4,opt,name=ul_slice_id,json=ulSliceId,proto3" json:"ul_slice_id,omitempty"`
-	UeSliceAssocId string  `protobuf:"bytes,5,opt,name=ue_slice_assoc_id,json=ueSliceAssocId,proto3" json:"ue_slice_assoc_id,omitempty"`
-}
-
-func (m *GetUeSliceAssociationRequest) Reset()         { *m = GetUeSliceAssociationRequest{} }
-func (m *GetUeSliceAssociationRequest) String() string { return proto.CompactTextString(m) }
-func (*GetUeSliceAssociationRequest) ProtoMessage()    {}
-func (*GetUeSliceAssociationRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{10}
-}
-func (m *GetUeSliceAssociationRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetUeSliceAssociationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetUeSliceAssociationRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetUeSliceAssociationRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetUeSliceAssociationRequest.Merge(m, src)
-}
-func (m *GetUeSliceAssociationRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetUeSliceAssociationRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetUeSliceAssociationRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetUeSliceAssociationRequest proto.InternalMessageInfo
-
-func (m *GetUeSliceAssociationRequest) GetE2NodeId() string {
-	if m != nil {
-		return m.E2NodeId
-	}
-	return ""
-}
-
-func (m *GetUeSliceAssociationRequest) GetUeId() []*UeId {
-	if m != nil {
-		return m.UeId
-	}
-	return nil
-}
-
-func (m *GetUeSliceAssociationRequest) GetDlSliceId() string {
-	if m != nil {
-		return m.DlSliceId
-	}
-	return ""
-}
-
-func (m *GetUeSliceAssociationRequest) GetUlSliceId() string {
-	if m != nil {
-		return m.UlSliceId
-	}
-	return ""
-}
-
-func (m *GetUeSliceAssociationRequest) GetUeSliceAssocId() string {
-	if m != nil {
-		return m.UeSliceAssocId
-	}
-	return ""
-}
-
-type GetUeSliceAssociationResponse struct {
-	Ack             *Ack              `protobuf:"bytes,1,opt,name=ack,proto3" json:"ack,omitempty"`
-	SliceAssocItems []*SliceAssocItem `protobuf:"bytes,2,rep,name=slice_assoc_items,json=sliceAssocItems,proto3" json:"slice_assoc_items,omitempty"`
-}
-
-func (m *GetUeSliceAssociationResponse) Reset()         { *m = GetUeSliceAssociationResponse{} }
-func (m *GetUeSliceAssociationResponse) String() string { return proto.CompactTextString(m) }
-func (*GetUeSliceAssociationResponse) ProtoMessage()    {}
-func (*GetUeSliceAssociationResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{11}
-}
-func (m *GetUeSliceAssociationResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetUeSliceAssociationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetUeSliceAssociationResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetUeSliceAssociationResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetUeSliceAssociationResponse.Merge(m, src)
-}
-func (m *GetUeSliceAssociationResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetUeSliceAssociationResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetUeSliceAssociationResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetUeSliceAssociationResponse proto.InternalMessageInfo
-
-func (m *GetUeSliceAssociationResponse) GetAck() *Ack {
-	if m != nil {
-		return m.Ack
-	}
-	return nil
-}
-
-func (m *GetUeSliceAssociationResponse) GetSliceAssocItems() []*SliceAssocItem {
-	if m != nil {
-		return m.SliceAssocItems
-	}
-	return nil
-}
-
 type SliceAssocItem struct {
 	UeSliceAssocId string     `protobuf:"bytes,1,opt,name=ue_slice_assoc_id,json=ueSliceAssocId,proto3" json:"ue_slice_assoc_id,omitempty"`
 	E2NodeId       string     `protobuf:"bytes,2,opt,name=e2_node_id,json=e2NodeId,proto3" json:"e2_node_id,omitempty"`
@@ -796,7 +572,7 @@ func (m *SliceAssocItem) Reset()         { *m = SliceAssocItem{} }
 func (m *SliceAssocItem) String() string { return proto.CompactTextString(m) }
 func (*SliceAssocItem) ProtoMessage()    {}
 func (*SliceAssocItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{12}
+	return fileDescriptor_a53e011a0fb63e56, []int{8}
 }
 func (m *SliceAssocItem) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -862,7 +638,7 @@ func (m *UeId) Reset()         { *m = UeId{} }
 func (m *UeId) String() string { return proto.CompactTextString(m) }
 func (*UeId) ProtoMessage()    {}
 func (*UeId) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{13}
+	return fileDescriptor_a53e011a0fb63e56, []int{9}
 }
 func (m *UeId) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -910,13 +686,14 @@ type SetUeSliceAssociationRequest struct {
 	UeId      []*UeId `protobuf:"bytes,2,rep,name=ue_id,json=ueId,proto3" json:"ue_id,omitempty"`
 	DlSliceId string  `protobuf:"bytes,3,opt,name=dl_slice_id,json=dlSliceId,proto3" json:"dl_slice_id,omitempty"`
 	UlSliceId string  `protobuf:"bytes,4,opt,name=ul_slice_id,json=ulSliceId,proto3" json:"ul_slice_id,omitempty"`
+	DrbId     string  `protobuf:"bytes,5,opt,name=drb_id,json=drbId,proto3" json:"drb_id,omitempty"`
 }
 
 func (m *SetUeSliceAssociationRequest) Reset()         { *m = SetUeSliceAssociationRequest{} }
 func (m *SetUeSliceAssociationRequest) String() string { return proto.CompactTextString(m) }
 func (*SetUeSliceAssociationRequest) ProtoMessage()    {}
 func (*SetUeSliceAssociationRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{14}
+	return fileDescriptor_a53e011a0fb63e56, []int{10}
 }
 func (m *SetUeSliceAssociationRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -973,6 +750,13 @@ func (m *SetUeSliceAssociationRequest) GetUlSliceId() string {
 	return ""
 }
 
+func (m *SetUeSliceAssociationRequest) GetDrbId() string {
+	if m != nil {
+		return m.DrbId
+	}
+	return ""
+}
+
 type SetUeSliceAssociationResponse struct {
 	Ack                    *Ack   `protobuf:"bytes,1,opt,name=ack,proto3" json:"ack,omitempty"`
 	AssignedUeSliceAssocId string `protobuf:"bytes,2,opt,name=assigned_ue_slice_assoc_id,json=assignedUeSliceAssocId,proto3" json:"assigned_ue_slice_assoc_id,omitempty"`
@@ -982,7 +766,7 @@ func (m *SetUeSliceAssociationResponse) Reset()         { *m = SetUeSliceAssocia
 func (m *SetUeSliceAssociationResponse) String() string { return proto.CompactTextString(m) }
 func (*SetUeSliceAssociationResponse) ProtoMessage()    {}
 func (*SetUeSliceAssociationResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a53e011a0fb63e56, []int{15}
+	return fileDescriptor_a53e011a0fb63e56, []int{11}
 }
 func (m *SetUeSliceAssociationResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1029,8 +813,6 @@ func init() {
 	proto.RegisterEnum("onos.rsm.SliceType", SliceType_name, SliceType_value)
 	proto.RegisterEnum("onos.rsm.SchedulerType", SchedulerType_name, SchedulerType_value)
 	proto.RegisterEnum("onos.rsm.UeIdType", UeIdType_name, UeIdType_value)
-	proto.RegisterType((*GetSlicesRequest)(nil), "onos.rsm.GetSlicesRequest")
-	proto.RegisterType((*GetSliceResponse)(nil), "onos.rsm.GetSliceResponse")
 	proto.RegisterType((*SliceItem)(nil), "onos.rsm.SliceItem")
 	proto.RegisterType((*Ack)(nil), "onos.rsm.Ack")
 	proto.RegisterType((*CreateSliceRequest)(nil), "onos.rsm.CreateSliceRequest")
@@ -1039,8 +821,6 @@ func init() {
 	proto.RegisterType((*UpdateSliceResponse)(nil), "onos.rsm.UpdateSliceResponse")
 	proto.RegisterType((*DeleteSliceRequest)(nil), "onos.rsm.DeleteSliceRequest")
 	proto.RegisterType((*DeleteSliceResponse)(nil), "onos.rsm.DeleteSliceResponse")
-	proto.RegisterType((*GetUeSliceAssociationRequest)(nil), "onos.rsm.GetUeSliceAssociationRequest")
-	proto.RegisterType((*GetUeSliceAssociationResponse)(nil), "onos.rsm.GetUeSliceAssociationResponse")
 	proto.RegisterType((*SliceAssocItem)(nil), "onos.rsm.SliceAssocItem")
 	proto.RegisterType((*UeId)(nil), "onos.rsm.UeId")
 	proto.RegisterType((*SetUeSliceAssociationRequest)(nil), "onos.rsm.SetUeSliceAssociationRequest")
@@ -1050,62 +830,57 @@ func init() {
 func init() { proto.RegisterFile("onos/rsm/rsm.proto", fileDescriptor_a53e011a0fb63e56) }
 
 var fileDescriptor_a53e011a0fb63e56 = []byte{
-	// 880 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xdc, 0x56, 0x4d, 0x6f, 0xe3, 0x44,
-	0x18, 0xce, 0xc4, 0xe9, 0x6e, 0xf2, 0x46, 0x0d, 0xd9, 0x29, 0xec, 0x7a, 0x43, 0x6a, 0x2a, 0x23,
-	0x75, 0x4b, 0x0f, 0x85, 0x0d, 0x1f, 0x07, 0x24, 0x90, 0xdc, 0xd8, 0x2d, 0x5e, 0x85, 0xa4, 0x8c,
-	0xeb, 0xc3, 0x9e, 0x46, 0xc1, 0x1e, 0x6d, 0xad, 0x26, 0x71, 0xc8, 0xd8, 0x42, 0x2b, 0x71, 0x40,
-	0x1c, 0x38, 0xf3, 0x07, 0x38, 0x70, 0xe1, 0xb7, 0x70, 0xe0, 0xb0, 0xc7, 0x3d, 0xa2, 0xf6, 0x8f,
-	0x20, 0x8f, 0xed, 0xf8, 0xa3, 0xe9, 0xd6, 0x12, 0x1c, 0x10, 0x87, 0x4a, 0x9d, 0x3c, 0xcf, 0x3c,
-	0xef, 0xa7, 0xdf, 0x77, 0x00, 0xfb, 0x0b, 0x9f, 0x7f, 0xb8, 0xe2, 0xf3, 0xe8, 0xef, 0x68, 0xb9,
-	0xf2, 0x03, 0x1f, 0x37, 0xa3, 0xdf, 0x8e, 0x56, 0x7c, 0xae, 0x7e, 0x04, 0xdd, 0x53, 0x16, 0x58,
-	0x33, 0xcf, 0x61, 0x9c, 0xb0, 0xef, 0x42, 0xc6, 0x03, 0xdc, 0x07, 0x60, 0x03, 0xba, 0xf0, 0x5d,
-	0x46, 0x3d, 0x57, 0x46, 0x7b, 0xe8, 0xa0, 0x45, 0x9a, 0x6c, 0x30, 0xf6, 0x5d, 0x66, 0xba, 0xaa,
-	0x97, 0xdd, 0x20, 0x8c, 0x2f, 0xfd, 0x05, 0x67, 0xf8, 0x3d, 0x90, 0xa6, 0xce, 0xa5, 0xa0, 0xb6,
-	0x07, 0xdb, 0x47, 0xa9, 0xfa, 0x91, 0xe6, 0x5c, 0x92, 0x08, 0xc1, 0x9f, 0x40, 0x9b, 0x47, 0x37,
-	0xa8, 0x17, 0xb0, 0x39, 0x97, 0xeb, 0x7b, 0xd2, 0x41, 0x7b, 0xb0, 0x93, 0x11, 0x85, 0x9c, 0x19,
-	0xb0, 0x39, 0x01, 0x9e, 0xfe, 0xcb, 0xd5, 0x13, 0x68, 0xad, 0x81, 0x37, 0x7b, 0x85, 0xdf, 0x85,
-	0x56, 0x62, 0xc0, 0x8d, 0xe5, 0x5b, 0xa4, 0x19, 0x2b, 0xb9, 0x5c, 0xfd, 0x14, 0x24, 0xcd, 0xb9,
-	0xc4, 0x32, 0xdc, 0xe7, 0xa1, 0xe3, 0x30, 0xce, 0xc5, 0xf5, 0x26, 0x49, 0x8f, 0xf8, 0x6d, 0xd8,
-	0x72, 0xa6, 0x21, 0x67, 0x72, 0x5d, 0xc8, 0xc6, 0x07, 0xf5, 0x35, 0x02, 0x3c, 0x5c, 0xb1, 0x69,
-	0xc0, 0x92, 0x68, 0x2b, 0xa4, 0x07, 0x3f, 0x86, 0x66, 0xea, 0x48, 0xa2, 0x76, 0x3f, 0xf1, 0x03,
-	0x7f, 0x09, 0x1d, 0xee, 0x5c, 0x30, 0x37, 0x9c, 0xb1, 0x15, 0x0d, 0x5e, 0x2e, 0x99, 0x2c, 0xed,
-	0xa1, 0x83, 0xce, 0xe0, 0x51, 0x2e, 0x0f, 0x29, 0x7e, 0xfe, 0x72, 0xc9, 0xc8, 0x36, 0xcf, 0x1f,
-	0xf1, 0x43, 0xb8, 0xf7, 0x3d, 0xf3, 0x5e, 0x5c, 0x04, 0x72, 0x43, 0x08, 0x27, 0x27, 0xfc, 0x34,
-	0x89, 0x3d, 0x22, 0xc9, 0x5b, 0x42, 0xb2, 0x9c, 0x5a, 0x21, 0x97, 0xb1, 0xd4, 0xcf, 0x60, 0xa7,
-	0x10, 0x59, 0xc5, 0x3a, 0x8a, 0x94, 0xd8, 0x4b, 0xf7, 0x7f, 0x9a, 0x92, 0x42, 0x64, 0x55, 0x53,
-	0xf2, 0x23, 0x02, 0xac, 0xb3, 0x19, 0xfb, 0xb7, 0x52, 0x52, 0x70, 0x5d, 0xaa, 0xea, 0x7a, 0xc1,
-	0x83, 0xaa, 0xae, 0xff, 0x89, 0xa0, 0x7f, 0xca, 0x02, 0x3b, 0xbe, 0xa7, 0x71, 0xee, 0x3b, 0xde,
-	0x34, 0xf0, 0xfc, 0x45, 0xb5, 0x20, 0xde, 0x87, 0xad, 0x30, 0x89, 0x20, 0xfa, 0x9c, 0x3b, 0x99,
-	0x05, 0x9b, 0x99, 0x2e, 0x69, 0x84, 0x11, 0x49, 0x81, 0xb6, 0x3b, 0xa3, 0xeb, 0x60, 0x25, 0xa1,
-	0xd1, 0x72, 0x67, 0x56, 0x12, 0xae, 0x02, 0xed, 0x30, 0x87, 0xc7, 0x65, 0x6c, 0x85, 0x6b, 0xfc,
-	0x03, 0x78, 0x10, 0xb2, 0x04, 0x9f, 0x46, 0x1e, 0x46, 0xac, 0x2d, 0xc1, 0xea, 0x84, 0x39, 0xc7,
-	0x4d, 0x57, 0xfd, 0x19, 0xc1, 0xee, 0x2d, 0xe1, 0x54, 0x9d, 0x53, 0x3a, 0x3c, 0x28, 0x98, 0xca,
-	0x4d, 0x2b, 0xb9, 0x54, 0x84, 0xd8, 0x6a, 0x34, 0xb2, 0xde, 0xe2, 0x85, 0x33, 0x57, 0x7f, 0x45,
-	0xd0, 0x29, 0x72, 0x36, 0x87, 0x81, 0x36, 0x85, 0x51, 0x4a, 0x7a, 0xbd, 0x94, 0xf4, 0x27, 0x69,
-	0xd2, 0xa5, 0x3d, 0xe9, 0xa0, 0x33, 0xc0, 0xc5, 0xa4, 0x8b, 0xce, 0x88, 0x13, 0x9f, 0x6f, 0xb1,
-	0x46, 0xa1, 0xc5, 0xd4, 0x21, 0x34, 0x22, 0x32, 0xde, 0x49, 0xb5, 0x62, 0x47, 0xe2, 0x7b, 0xfb,
-	0xd0, 0x10, 0x1f, 0x62, 0x5d, 0xb4, 0xde, 0x46, 0xfd, 0x08, 0x57, 0x7f, 0x43, 0xd0, 0xb7, 0xfe,
-	0xdb, 0xcd, 0xa3, 0xfe, 0x00, 0xbb, 0xd6, 0x3f, 0x6b, 0x88, 0xcf, 0xa1, 0x37, 0xe5, 0xdc, 0x7b,
-	0xb1, 0x60, 0x2e, 0xbd, 0x59, 0xc0, 0xb8, 0x38, 0x0f, 0x53, 0x86, 0x5d, 0x28, 0xe4, 0xe1, 0x17,
-	0xc9, 0xfa, 0x12, 0x93, 0xea, 0x11, 0xec, 0x58, 0x23, 0x73, 0x68, 0xd0, 0xf3, 0xe7, 0x67, 0x06,
-	0xd5, 0x47, 0x54, 0x9c, 0xba, 0xb5, 0x12, 0x60, 0xa7, 0x00, 0x3a, 0x0c, 0x61, 0xbb, 0x30, 0xfb,
-	0xb0, 0x02, 0x3d, 0x6b, 0xf8, 0x95, 0xa1, 0xdb, 0x23, 0x83, 0xc4, 0x6c, 0x32, 0xb1, 0xc7, 0x3a,
-	0x25, 0x93, 0x63, 0x73, 0xdc, 0xad, 0xe1, 0x7d, 0x50, 0x4b, 0xf8, 0x19, 0x99, 0x9c, 0x4d, 0xc8,
-	0xb9, 0x39, 0x19, 0x6b, 0xa3, 0xd1, 0x73, 0x7a, 0xa2, 0x99, 0xa4, 0x8b, 0x70, 0x1f, 0xe4, 0x12,
-	0xef, 0x9b, 0x89, 0x45, 0x8f, 0x35, 0xcb, 0xd0, 0xbb, 0xf5, 0xc3, 0xdf, 0x11, 0x34, 0xd3, 0x52,
-	0xe3, 0x5d, 0x78, 0x6c, 0x1b, 0xd4, 0xd4, 0x63, 0xda, 0xd0, 0xa6, 0xb6, 0x41, 0x4f, 0x9e, 0x52,
-	0xed, 0x8c, 0x9a, 0x7a, 0xb7, 0x56, 0x82, 0xf5, 0x22, 0x8c, 0x4a, 0x30, 0xd1, 0xc6, 0x11, 0x3e,
-	0x3e, 0x8d, 0xe1, 0x7a, 0x09, 0xd6, 0xbe, 0x3e, 0xc9, 0xc3, 0x52, 0x14, 0x6e, 0x0e, 0x36, 0xc6,
-	0xc7, 0x11, 0x6c, 0xa5, 0xea, 0x8d, 0xc1, 0x4f, 0x0d, 0x90, 0x08, 0x9f, 0xe3, 0x21, 0xb4, 0xd6,
-	0x4f, 0x18, 0xdc, 0xcb, 0x6a, 0x58, 0x7e, 0xd7, 0xf4, 0x36, 0x60, 0xeb, 0x46, 0x78, 0x06, 0xed,
-	0xdc, 0x42, 0xc4, 0xfd, 0x8c, 0x7a, 0xf3, 0x05, 0xd0, 0xdb, 0xbd, 0x05, 0xcd, 0xb4, 0x72, 0x9b,
-	0x24, 0xaf, 0x75, 0x73, 0x75, 0xe6, 0xb5, 0x36, 0xad, 0x9f, 0x67, 0xd0, 0xce, 0x8d, 0xf6, 0xbc,
-	0xd6, 0xcd, 0x9d, 0x93, 0xd7, 0xda, 0xb4, 0x0f, 0x2e, 0xe0, 0x9d, 0x8d, 0xe3, 0x11, 0xef, 0x17,
-	0x12, 0x73, 0xeb, 0x17, 0xdd, 0x7b, 0x72, 0x27, 0x2f, 0xb3, 0x64, 0xdd, 0x65, 0xc9, 0xaa, 0x68,
-	0xe9, 0x8d, 0x1f, 0xf0, 0xb1, 0xfc, 0xc7, 0x95, 0x82, 0x5e, 0x5d, 0x29, 0xe8, 0xaf, 0x2b, 0x05,
-	0xfd, 0x72, 0xad, 0xd4, 0x5e, 0x5d, 0x2b, 0xb5, 0xd7, 0xd7, 0x4a, 0xed, 0xdb, 0x7b, 0xe2, 0xa9,
-	0xfb, 0xf1, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x8d, 0x89, 0x79, 0xad, 0x00, 0x0b, 0x00, 0x00,
+	// 787 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xdc, 0x96, 0xc1, 0x6e, 0xea, 0x46,
+	0x14, 0x86, 0x31, 0x86, 0x5c, 0x38, 0x28, 0x88, 0x0e, 0xbd, 0xf7, 0x3a, 0x94, 0xb8, 0xc8, 0x95,
+	0x92, 0x34, 0x0b, 0xaa, 0x50, 0xb5, 0x8b, 0x4a, 0xad, 0x64, 0xb0, 0x69, 0x1d, 0x51, 0xa0, 0x76,
+	0xbc, 0xc8, 0x6a, 0x44, 0x3c, 0xa3, 0x04, 0x05, 0x30, 0x65, 0x6c, 0x55, 0x91, 0xba, 0xe8, 0x23,
+	0xf4, 0x05, 0xba, 0xed, 0x33, 0xf4, 0x11, 0xba, 0x8c, 0xd4, 0x4d, 0x96, 0x55, 0xf2, 0x22, 0x95,
+	0xc7, 0x76, 0xb0, 0x0d, 0x69, 0x58, 0x74, 0xd5, 0x45, 0x16, 0xe3, 0xef, 0xcc, 0x3f, 0xff, 0x39,
+	0x67, 0xe6, 0x04, 0x40, 0xee, 0xc2, 0x65, 0x9f, 0xad, 0xd8, 0x3c, 0xf8, 0x6b, 0x2f, 0x57, 0xae,
+	0xe7, 0xa2, 0x52, 0xf0, 0xad, 0xbd, 0x62, 0x73, 0xa5, 0x0f, 0x65, 0x6b, 0x36, 0x75, 0xa8, 0xe1,
+	0xd1, 0x39, 0x6a, 0x02, 0xd0, 0x0e, 0x5e, 0xb8, 0x84, 0xe2, 0x29, 0x91, 0x84, 0x96, 0x70, 0x52,
+	0x36, 0x4b, 0xb4, 0x33, 0x74, 0x09, 0x35, 0x08, 0xfa, 0x08, 0xca, 0x2c, 0x08, 0xc5, 0x53, 0xc2,
+	0xa4, 0x7c, 0x4b, 0x0c, 0x20, 0xff, 0x60, 0x10, 0xa6, 0x7c, 0x01, 0xa2, 0xea, 0xdc, 0x22, 0x09,
+	0xde, 0x30, 0xdf, 0x71, 0x28, 0x63, 0x7c, 0x7b, 0xc9, 0x8c, 0x97, 0xe8, 0x43, 0x28, 0x3a, 0x13,
+	0x9f, 0x51, 0x29, 0xcf, 0x65, 0xc3, 0x85, 0xf2, 0x20, 0x00, 0xea, 0xad, 0xe8, 0xc4, 0xa3, 0xdc,
+	0x85, 0x49, 0x7f, 0xf4, 0x29, 0xf3, 0x5e, 0x31, 0x72, 0x00, 0xa5, 0xd8, 0x48, 0xa4, 0xf6, 0x26,
+	0xf2, 0x81, 0xbe, 0x81, 0x2a, 0x73, 0x6e, 0x28, 0xf1, 0x67, 0x74, 0x85, 0xbd, 0xbb, 0x25, 0x95,
+	0xc4, 0x96, 0x70, 0x52, 0xed, 0xbc, 0x6f, 0xc7, 0x19, 0xb7, 0xad, 0x98, 0x5f, 0xdc, 0x2d, 0xa9,
+	0xb9, 0xcf, 0x92, 0x4b, 0xf4, 0x0e, 0xf6, 0x7e, 0xa2, 0xd3, 0xeb, 0x1b, 0x4f, 0x2a, 0x70, 0xe1,
+	0x68, 0x85, 0xce, 0xa2, 0xdc, 0x83, 0x20, 0xa9, 0xc8, 0x25, 0xeb, 0x09, 0xc9, 0x18, 0x99, 0xeb,
+	0x28, 0xe5, 0x4b, 0xa8, 0xa7, 0x32, 0x63, 0x4b, 0x77, 0xc1, 0x28, 0xfa, 0x18, 0xc4, 0x89, 0x73,
+	0xcb, 0x73, 0xaa, 0x74, 0xf6, 0xd7, 0x1a, 0xaa, 0x73, 0x6b, 0x06, 0x84, 0x97, 0xc4, 0x5e, 0x92,
+	0xff, 0x69, 0x49, 0x52, 0x99, 0xed, 0x5a, 0x92, 0x5f, 0x04, 0x40, 0x1a, 0x9d, 0xd1, 0xff, 0xaa,
+	0x24, 0x29, 0xeb, 0xe2, 0xae, 0xd6, 0x53, 0x0e, 0x76, 0xb5, 0xfe, 0x9b, 0x00, 0x55, 0xbe, 0x45,
+	0x65, 0xcc, 0x75, 0xf8, 0x2b, 0xfb, 0x14, 0x3e, 0xf0, 0x29, 0x0e, 0xbd, 0x4d, 0x82, 0xaf, 0x6b,
+	0xf7, 0x55, 0x9f, 0x26, 0x82, 0x49, 0x26, 0xc3, 0x7c, 0x26, 0xc3, 0x63, 0x28, 0xfa, 0x1c, 0x88,
+	0x2d, 0xf1, 0xa4, 0xda, 0x41, 0xeb, 0xe3, 0x6d, 0x6a, 0x10, 0x9e, 0x41, 0xc1, 0xcf, 0x96, 0xa2,
+	0x90, 0x2a, 0x85, 0xd2, 0x83, 0x42, 0x10, 0x8c, 0xea, 0xb1, 0x56, 0x68, 0x24, 0xdc, 0x77, 0x04,
+	0x05, 0x7e, 0x61, 0xf2, 0xbc, 0x44, 0x5b, 0xf5, 0x03, 0xae, 0xfc, 0x21, 0x40, 0xd3, 0xa2, 0x9e,
+	0x9d, 0x30, 0x3f, 0x9d, 0x78, 0x53, 0x77, 0xb1, 0x5b, 0xa7, 0x3e, 0x89, 0xcf, 0x0e, 0x86, 0x4a,
+	0xa5, 0x53, 0x4d, 0x9f, 0x13, 0x79, 0x91, 0xa1, 0x42, 0x66, 0xf8, 0x39, 0x0d, 0x91, 0x6b, 0x94,
+	0xc9, 0xcc, 0x8a, 0x7a, 0x2a, 0x43, 0xc5, 0x4f, 0xf0, 0x30, 0xcd, 0xb2, 0xff, 0xcc, 0xdf, 0xc2,
+	0x1e, 0x59, 0x5d, 0x05, 0xa8, 0x18, 0x0e, 0x20, 0xb2, 0xba, 0x32, 0x88, 0xf2, 0x33, 0x1c, 0xbe,
+	0xe0, 0x7c, 0xc7, 0x0e, 0xa3, 0xaf, 0xa0, 0x31, 0x61, 0x6c, 0x7a, 0xbd, 0xa0, 0x04, 0x6f, 0xf6,
+	0x35, 0xec, 0xd9, 0xbb, 0x38, 0xc2, 0x4e, 0xf5, 0xf7, 0xf4, 0xeb, 0x68, 0xfa, 0xf2, 0x87, 0xf6,
+	0x1e, 0xea, 0xd6, 0xc0, 0xe8, 0xe9, 0xf8, 0xe2, 0x72, 0xac, 0x63, 0x6d, 0x80, 0xf9, 0xaa, 0x96,
+	0xcb, 0x00, 0x3b, 0x06, 0xc2, 0xa9, 0x0f, 0xfb, 0xa9, 0xa7, 0x8b, 0x64, 0x68, 0x58, 0xbd, 0xef,
+	0x74, 0xcd, 0x1e, 0xe8, 0x66, 0x18, 0x6d, 0x8e, 0xec, 0xa1, 0x86, 0xcd, 0x51, 0xd7, 0x18, 0xd6,
+	0x72, 0xe8, 0x08, 0x94, 0x0c, 0x1f, 0x9b, 0xa3, 0xf1, 0xc8, 0xbc, 0x30, 0x46, 0x43, 0x75, 0x30,
+	0xb8, 0xc4, 0x7d, 0xd5, 0x30, 0x6b, 0x02, 0x6a, 0x82, 0x94, 0x89, 0xfb, 0x61, 0x64, 0xe1, 0xae,
+	0x6a, 0xe9, 0x5a, 0x2d, 0x7f, 0xfa, 0xbb, 0x00, 0xa5, 0xf8, 0x06, 0xa0, 0x43, 0x38, 0xb0, 0x75,
+	0x6c, 0x68, 0x61, 0x58, 0xcf, 0xc6, 0xb6, 0x8e, 0xfb, 0x67, 0x58, 0x1d, 0x63, 0x43, 0xab, 0xe5,
+	0x32, 0x58, 0x4b, 0x63, 0x21, 0x83, 0x4d, 0x75, 0x18, 0xf0, 0xe1, 0xb7, 0x21, 0xce, 0x67, 0xb0,
+	0xfa, 0x7d, 0x3f, 0x89, 0xc5, 0x20, 0xdd, 0x04, 0xd6, 0x87, 0xdd, 0x00, 0x5b, 0xb1, 0x7a, 0xa1,
+	0xf3, 0x57, 0x1e, 0x44, 0x93, 0xcd, 0xd1, 0x39, 0x54, 0x12, 0xa3, 0x18, 0x35, 0xd7, 0x5d, 0xdc,
+	0xfc, 0xdf, 0xd3, 0x38, 0x7c, 0x81, 0x46, 0xf7, 0xe1, 0x1c, 0x2a, 0x89, 0x19, 0x96, 0xd4, 0xda,
+	0x1c, 0xda, 0x49, 0xad, 0x6d, 0x83, 0xef, 0x1c, 0x2a, 0x89, 0xa1, 0x92, 0xd4, 0xda, 0x9c, 0x76,
+	0x49, 0xad, 0x6d, 0x93, 0xe8, 0x06, 0xde, 0x6e, 0xbd, 0xc8, 0xe8, 0x28, 0x31, 0xd9, 0xfe, 0xe5,
+	0x8d, 0x36, 0x8e, 0x5f, 0x8d, 0x0b, 0x4f, 0xea, 0x4a, 0x7f, 0x3e, 0xca, 0xc2, 0xfd, 0xa3, 0x2c,
+	0xfc, 0xfd, 0x28, 0x0b, 0xbf, 0x3e, 0xc9, 0xb9, 0xfb, 0x27, 0x39, 0xf7, 0xf0, 0x24, 0xe7, 0xae,
+	0xf6, 0xf8, 0xaf, 0x8b, 0xcf, 0xff, 0x09, 0x00, 0x00, 0xff, 0xff, 0x2f, 0xcc, 0x7f, 0xea, 0x73,
+	0x08, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1121,12 +896,10 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type RsmClient interface {
 	// Slice management
-	GetSlices(ctx context.Context, in *GetSlicesRequest, opts ...grpc.CallOption) (*GetSliceResponse, error)
 	CreateSlice(ctx context.Context, in *CreateSliceRequest, opts ...grpc.CallOption) (*CreateSliceResponse, error)
 	UpdateSlice(ctx context.Context, in *UpdateSliceRequest, opts ...grpc.CallOption) (*UpdateSliceResponse, error)
 	DeleteSlice(ctx context.Context, in *DeleteSliceRequest, opts ...grpc.CallOption) (*DeleteSliceResponse, error)
 	// UE-Slice association
-	GetUeSliceAssociation(ctx context.Context, in *GetUeSliceAssociationRequest, opts ...grpc.CallOption) (*GetUeSliceAssociationResponse, error)
 	SetUeSliceAssociation(ctx context.Context, in *SetUeSliceAssociationRequest, opts ...grpc.CallOption) (*SetUeSliceAssociationResponse, error)
 }
 
@@ -1136,15 +909,6 @@ type rsmClient struct {
 
 func NewRsmClient(cc *grpc.ClientConn) RsmClient {
 	return &rsmClient{cc}
-}
-
-func (c *rsmClient) GetSlices(ctx context.Context, in *GetSlicesRequest, opts ...grpc.CallOption) (*GetSliceResponse, error) {
-	out := new(GetSliceResponse)
-	err := c.cc.Invoke(ctx, "/onos.rsm.Rsm/GetSlices", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *rsmClient) CreateSlice(ctx context.Context, in *CreateSliceRequest, opts ...grpc.CallOption) (*CreateSliceResponse, error) {
@@ -1174,15 +938,6 @@ func (c *rsmClient) DeleteSlice(ctx context.Context, in *DeleteSliceRequest, opt
 	return out, nil
 }
 
-func (c *rsmClient) GetUeSliceAssociation(ctx context.Context, in *GetUeSliceAssociationRequest, opts ...grpc.CallOption) (*GetUeSliceAssociationResponse, error) {
-	out := new(GetUeSliceAssociationResponse)
-	err := c.cc.Invoke(ctx, "/onos.rsm.Rsm/GetUeSliceAssociation", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *rsmClient) SetUeSliceAssociation(ctx context.Context, in *SetUeSliceAssociationRequest, opts ...grpc.CallOption) (*SetUeSliceAssociationResponse, error) {
 	out := new(SetUeSliceAssociationResponse)
 	err := c.cc.Invoke(ctx, "/onos.rsm.Rsm/SetUeSliceAssociation", in, out, opts...)
@@ -1195,12 +950,10 @@ func (c *rsmClient) SetUeSliceAssociation(ctx context.Context, in *SetUeSliceAss
 // RsmServer is the server API for Rsm service.
 type RsmServer interface {
 	// Slice management
-	GetSlices(context.Context, *GetSlicesRequest) (*GetSliceResponse, error)
 	CreateSlice(context.Context, *CreateSliceRequest) (*CreateSliceResponse, error)
 	UpdateSlice(context.Context, *UpdateSliceRequest) (*UpdateSliceResponse, error)
 	DeleteSlice(context.Context, *DeleteSliceRequest) (*DeleteSliceResponse, error)
 	// UE-Slice association
-	GetUeSliceAssociation(context.Context, *GetUeSliceAssociationRequest) (*GetUeSliceAssociationResponse, error)
 	SetUeSliceAssociation(context.Context, *SetUeSliceAssociationRequest) (*SetUeSliceAssociationResponse, error)
 }
 
@@ -1208,9 +961,6 @@ type RsmServer interface {
 type UnimplementedRsmServer struct {
 }
 
-func (*UnimplementedRsmServer) GetSlices(ctx context.Context, req *GetSlicesRequest) (*GetSliceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSlices not implemented")
-}
 func (*UnimplementedRsmServer) CreateSlice(ctx context.Context, req *CreateSliceRequest) (*CreateSliceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSlice not implemented")
 }
@@ -1220,33 +970,12 @@ func (*UnimplementedRsmServer) UpdateSlice(ctx context.Context, req *UpdateSlice
 func (*UnimplementedRsmServer) DeleteSlice(ctx context.Context, req *DeleteSliceRequest) (*DeleteSliceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSlice not implemented")
 }
-func (*UnimplementedRsmServer) GetUeSliceAssociation(ctx context.Context, req *GetUeSliceAssociationRequest) (*GetUeSliceAssociationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUeSliceAssociation not implemented")
-}
 func (*UnimplementedRsmServer) SetUeSliceAssociation(ctx context.Context, req *SetUeSliceAssociationRequest) (*SetUeSliceAssociationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetUeSliceAssociation not implemented")
 }
 
 func RegisterRsmServer(s *grpc.Server, srv RsmServer) {
 	s.RegisterService(&_Rsm_serviceDesc, srv)
-}
-
-func _Rsm_GetSlices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSlicesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RsmServer).GetSlices(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/onos.rsm.Rsm/GetSlices",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RsmServer).GetSlices(ctx, req.(*GetSlicesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Rsm_CreateSlice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1303,24 +1032,6 @@ func _Rsm_DeleteSlice_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Rsm_GetUeSliceAssociation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUeSliceAssociationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RsmServer).GetUeSliceAssociation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/onos.rsm.Rsm/GetUeSliceAssociation",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RsmServer).GetUeSliceAssociation(ctx, req.(*GetUeSliceAssociationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Rsm_SetUeSliceAssociation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetUeSliceAssociationRequest)
 	if err := dec(in); err != nil {
@@ -1344,10 +1055,6 @@ var _Rsm_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*RsmServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetSlices",
-			Handler:    _Rsm_GetSlices_Handler,
-		},
-		{
 			MethodName: "CreateSlice",
 			Handler:    _Rsm_CreateSlice_Handler,
 		},
@@ -1360,95 +1067,12 @@ var _Rsm_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Rsm_DeleteSlice_Handler,
 		},
 		{
-			MethodName: "GetUeSliceAssociation",
-			Handler:    _Rsm_GetUeSliceAssociation_Handler,
-		},
-		{
 			MethodName: "SetUeSliceAssociation",
 			Handler:    _Rsm_SetUeSliceAssociation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "onos/rsm/rsm.proto",
-}
-
-func (m *GetSlicesRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetSlicesRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetSlicesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.E2NodeId) > 0 {
-		i -= len(m.E2NodeId)
-		copy(dAtA[i:], m.E2NodeId)
-		i = encodeVarintRsm(dAtA, i, uint64(len(m.E2NodeId)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetSliceResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetSliceResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetSliceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.SliceItems) > 0 {
-		for iNdEx := len(m.SliceItems) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.SliceItems[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintRsm(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x12
-		}
-	}
-	if m.Ack != nil {
-		{
-			size, err := m.Ack.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintRsm(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
 }
 
 func (m *SliceItem) Marshal() (dAtA []byte, err error) {
@@ -1785,120 +1409,6 @@ func (m *DeleteSliceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetUeSliceAssociationRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetUeSliceAssociationRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetUeSliceAssociationRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.UeSliceAssocId) > 0 {
-		i -= len(m.UeSliceAssocId)
-		copy(dAtA[i:], m.UeSliceAssocId)
-		i = encodeVarintRsm(dAtA, i, uint64(len(m.UeSliceAssocId)))
-		i--
-		dAtA[i] = 0x2a
-	}
-	if len(m.UlSliceId) > 0 {
-		i -= len(m.UlSliceId)
-		copy(dAtA[i:], m.UlSliceId)
-		i = encodeVarintRsm(dAtA, i, uint64(len(m.UlSliceId)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if len(m.DlSliceId) > 0 {
-		i -= len(m.DlSliceId)
-		copy(dAtA[i:], m.DlSliceId)
-		i = encodeVarintRsm(dAtA, i, uint64(len(m.DlSliceId)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.UeId) > 0 {
-		for iNdEx := len(m.UeId) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.UeId[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintRsm(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x12
-		}
-	}
-	if len(m.E2NodeId) > 0 {
-		i -= len(m.E2NodeId)
-		copy(dAtA[i:], m.E2NodeId)
-		i = encodeVarintRsm(dAtA, i, uint64(len(m.E2NodeId)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetUeSliceAssociationResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetUeSliceAssociationResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetUeSliceAssociationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.SliceAssocItems) > 0 {
-		for iNdEx := len(m.SliceAssocItems) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.SliceAssocItems[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintRsm(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x12
-		}
-	}
-	if m.Ack != nil {
-		{
-			size, err := m.Ack.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintRsm(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func (m *SliceAssocItem) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1927,20 +1437,20 @@ func (m *SliceAssocItem) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x22
 	}
 	if len(m.UeId) > 0 {
-		dAtA7 := make([]byte, len(m.UeId)*10)
-		var j6 int
+		dAtA5 := make([]byte, len(m.UeId)*10)
+		var j4 int
 		for _, num := range m.UeId {
 			for num >= 1<<7 {
-				dAtA7[j6] = uint8(uint64(num)&0x7f | 0x80)
+				dAtA5[j4] = uint8(uint64(num)&0x7f | 0x80)
 				num >>= 7
-				j6++
+				j4++
 			}
-			dAtA7[j6] = uint8(num)
-			j6++
+			dAtA5[j4] = uint8(num)
+			j4++
 		}
-		i -= j6
-		copy(dAtA[i:], dAtA7[:j6])
-		i = encodeVarintRsm(dAtA, i, uint64(j6))
+		i -= j4
+		copy(dAtA[i:], dAtA5[:j4])
+		i = encodeVarintRsm(dAtA, i, uint64(j4))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -2016,6 +1526,13 @@ func (m *SetUeSliceAssociationRequest) MarshalToSizedBuffer(dAtA []byte) (int, e
 	_ = i
 	var l int
 	_ = l
+	if len(m.DrbId) > 0 {
+		i -= len(m.DrbId)
+		copy(dAtA[i:], m.DrbId)
+		i = encodeVarintRsm(dAtA, i, uint64(len(m.DrbId)))
+		i--
+		dAtA[i] = 0x2a
+	}
 	if len(m.UlSliceId) > 0 {
 		i -= len(m.UlSliceId)
 		copy(dAtA[i:], m.UlSliceId)
@@ -2107,38 +1624,6 @@ func encodeVarintRsm(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *GetSlicesRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.E2NodeId)
-	if l > 0 {
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	return n
-}
-
-func (m *GetSliceResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Ack != nil {
-		l = m.Ack.Size()
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	if len(m.SliceItems) > 0 {
-		for _, e := range m.SliceItems {
-			l = e.Size()
-			n += 1 + l + sovRsm(uint64(l))
-		}
-	}
-	return n
-}
-
 func (m *SliceItem) Size() (n int) {
 	if m == nil {
 		return 0
@@ -2287,56 +1772,6 @@ func (m *DeleteSliceResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetUeSliceAssociationRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.E2NodeId)
-	if l > 0 {
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	if len(m.UeId) > 0 {
-		for _, e := range m.UeId {
-			l = e.Size()
-			n += 1 + l + sovRsm(uint64(l))
-		}
-	}
-	l = len(m.DlSliceId)
-	if l > 0 {
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	l = len(m.UlSliceId)
-	if l > 0 {
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	l = len(m.UeSliceAssocId)
-	if l > 0 {
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	return n
-}
-
-func (m *GetUeSliceAssociationResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Ack != nil {
-		l = m.Ack.Size()
-		n += 1 + l + sovRsm(uint64(l))
-	}
-	if len(m.SliceAssocItems) > 0 {
-		for _, e := range m.SliceAssocItems {
-			l = e.Size()
-			n += 1 + l + sovRsm(uint64(l))
-		}
-	}
-	return n
-}
-
 func (m *SliceAssocItem) Size() (n int) {
 	if m == nil {
 		return 0
@@ -2405,6 +1840,10 @@ func (m *SetUeSliceAssociationRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovRsm(uint64(l))
 	}
+	l = len(m.DrbId)
+	if l > 0 {
+		n += 1 + l + sovRsm(uint64(l))
+	}
 	return n
 }
 
@@ -2430,208 +1869,6 @@ func sovRsm(x uint64) (n int) {
 }
 func sozRsm(x uint64) (n int) {
 	return sovRsm(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (m *GetSlicesRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRsm
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetSlicesRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetSlicesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field E2NodeId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.E2NodeId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRsm(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetSliceResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRsm
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetSliceResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetSliceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ack", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ack == nil {
-				m.Ack = &Ack{}
-			}
-			if err := m.Ack.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SliceItems", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.SliceItems = append(m.SliceItems, &SliceItem{})
-			if err := m.SliceItems[len(m.SliceItems)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRsm(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
 }
 func (m *SliceItem) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -3608,338 +2845,6 @@ func (m *DeleteSliceResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetUeSliceAssociationRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRsm
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetUeSliceAssociationRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetUeSliceAssociationRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field E2NodeId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.E2NodeId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UeId", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.UeId = append(m.UeId, &UeId{})
-			if err := m.UeId[len(m.UeId)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DlSliceId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.DlSliceId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UlSliceId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.UlSliceId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UeSliceAssocId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.UeSliceAssocId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRsm(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetUeSliceAssociationResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRsm
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetUeSliceAssociationResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetUeSliceAssociationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ack", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ack == nil {
-				m.Ack = &Ack{}
-			}
-			if err := m.Ack.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SliceAssocItems", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRsm
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRsm
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.SliceAssocItems = append(m.SliceAssocItems, &SliceAssocItem{})
-			if err := m.SliceAssocItems[len(m.SliceAssocItems)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRsm(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthRsm
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
 func (m *SliceAssocItem) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -4414,6 +3319,38 @@ func (m *SetUeSliceAssociationRequest) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.UlSliceId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DrbId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRsm
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthRsm
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthRsm
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DrbId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

@@ -144,6 +144,25 @@ class RsmSlicingType(betterproto.Enum):
     SLICING_TYPE_DYNAMIC = 1
 
 
+class RsmSchedulerType(betterproto.Enum):
+    SCHEDULER_TYPE_ROUND_ROBIN = 0
+    SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1
+    SCHEDULER_TYPE_QOS_BASED = 2
+
+
+class RsmSliceType(betterproto.Enum):
+    SLICE_TYPE_DL_SLICE = 0
+    SLICE_TYPE_UL_SLICE = 1
+
+
+class UeIdType(betterproto.Enum):
+    UE_ID_TYPE_CU_UE_F1_AP_ID = 0
+    UE_ID_TYPE_DU_UE_F1_AP_ID = 1
+    UE_ID_TYPE_RAN_UE_NGAP_ID = 2
+    UE_ID_TYPE_AMF_UE_NGAP_ID = 3
+    UE_ID_TYPE_ENB_UE_S1_AP_ID = 4
+
+
 class InterfaceType(betterproto.Enum):
     INTERFACE_UNKNOWN = 0
     INTERFACE_E2T = 1
@@ -493,6 +512,62 @@ class RsmNodeSlicingCapabilityItem(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class RsmSupportedSlicingConfigItem(betterproto.Message):
     slicing_config_type: "E2SmRsmCommand" = betterproto.enum_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class RsmSliceItemList(betterproto.Message):
+    rsm_slice_list: List["RsmSlicingItem"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class RsmSlicingItem(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    slice_desc: str = betterproto.string_field(2)
+    slice_parameters: "RsmSliceParameters" = betterproto.message_field(3)
+    slice_type: "RsmSliceType" = betterproto.enum_field(4)
+    ue_id_list: List["UeIdentity"] = betterproto.message_field(5)
+
+
+@dataclass(eq=False, repr=False)
+class RsmSliceParameters(betterproto.Message):
+    scheduler_type: "RsmSchedulerType" = betterproto.enum_field(1)
+    weight: int = betterproto.int32_field(2)
+    qos_level: int = betterproto.int32_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class DuUeF1ApId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class CuUeF1ApId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class RanUeNgapId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class EnbUeS1ApId(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class AmfUeNgapId(betterproto.Message):
+    value: int = betterproto.int64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class UeIdentity(betterproto.Message):
+    du_ue_f1_ap_id: "DuUeF1ApId" = betterproto.message_field(1)
+    cu_ue_f1_ap_id: "CuUeF1ApId" = betterproto.message_field(2)
+    ran_ue_ngap_id: "RanUeNgapId" = betterproto.message_field(3)
+    enb_ue_s1_ap_id: "EnbUeS1ApId" = betterproto.message_field(4)
+    amf_ue_ngap_id: "AmfUeNgapId" = betterproto.message_field(5)
+    preferred_id_type: "UeIdType" = betterproto.enum_field(6)
 
 
 @dataclass(eq=False, repr=False)
