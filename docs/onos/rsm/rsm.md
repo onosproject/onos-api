@@ -9,10 +9,6 @@
     - [CreateSliceResponse](#onos.rsm.CreateSliceResponse)
     - [DeleteSliceRequest](#onos.rsm.DeleteSliceRequest)
     - [DeleteSliceResponse](#onos.rsm.DeleteSliceResponse)
-    - [GetSliceResponse](#onos.rsm.GetSliceResponse)
-    - [GetSlicesRequest](#onos.rsm.GetSlicesRequest)
-    - [GetUeSliceAssociationRequest](#onos.rsm.GetUeSliceAssociationRequest)
-    - [GetUeSliceAssociationResponse](#onos.rsm.GetUeSliceAssociationResponse)
     - [SetUeSliceAssociationRequest](#onos.rsm.SetUeSliceAssociationRequest)
     - [SetUeSliceAssociationResponse](#onos.rsm.SetUeSliceAssociationResponse)
     - [SliceAssocItem](#onos.rsm.SliceAssocItem)
@@ -120,72 +116,6 @@
 
 
 
-<a name="onos.rsm.GetSliceResponse"></a>
-
-### GetSliceResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ack | [Ack](#onos.rsm.Ack) |  |  |
-| slice_items | [SliceItem](#onos.rsm.SliceItem) | repeated |  |
-
-
-
-
-
-
-<a name="onos.rsm.GetSlicesRequest"></a>
-
-### GetSlicesRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| e2_node_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="onos.rsm.GetUeSliceAssociationRequest"></a>
-
-### GetUeSliceAssociationRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| e2_node_id | [string](#string) |  |  |
-| ue_id | [UeId](#onos.rsm.UeId) | repeated |  |
-| dl_slice_id | [string](#string) |  |  |
-| ul_slice_id | [string](#string) |  |  |
-| ue_slice_assoc_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="onos.rsm.GetUeSliceAssociationResponse"></a>
-
-### GetUeSliceAssociationResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ack | [Ack](#onos.rsm.Ack) |  |  |
-| slice_assoc_items | [SliceAssocItem](#onos.rsm.SliceAssocItem) | repeated |  |
-
-
-
-
-
-
 <a name="onos.rsm.SetUeSliceAssociationRequest"></a>
 
 ### SetUeSliceAssociationRequest
@@ -198,6 +128,7 @@
 | ue_id | [UeId](#onos.rsm.UeId) | repeated |  |
 | dl_slice_id | [string](#string) |  |  |
 | ul_slice_id | [string](#string) |  |  |
+| drb_id | [string](#string) |  |  |
 
 
 
@@ -357,12 +288,10 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetSlices | [GetSlicesRequest](#onos.rsm.GetSlicesRequest) | [GetSliceResponse](#onos.rsm.GetSliceResponse) | Slice management |
-| CreateSlice | [CreateSliceRequest](#onos.rsm.CreateSliceRequest) | [CreateSliceResponse](#onos.rsm.CreateSliceResponse) |  |
+| CreateSlice | [CreateSliceRequest](#onos.rsm.CreateSliceRequest) | [CreateSliceResponse](#onos.rsm.CreateSliceResponse) | Slice management |
 | UpdateSlice | [UpdateSliceRequest](#onos.rsm.UpdateSliceRequest) | [UpdateSliceResponse](#onos.rsm.UpdateSliceResponse) |  |
 | DeleteSlice | [DeleteSliceRequest](#onos.rsm.DeleteSliceRequest) | [DeleteSliceResponse](#onos.rsm.DeleteSliceResponse) |  |
-| GetUeSliceAssociation | [GetUeSliceAssociationRequest](#onos.rsm.GetUeSliceAssociationRequest) | [GetUeSliceAssociationResponse](#onos.rsm.GetUeSliceAssociationResponse) | UE-Slice association |
-| SetUeSliceAssociation | [SetUeSliceAssociationRequest](#onos.rsm.SetUeSliceAssociationRequest) | [SetUeSliceAssociationResponse](#onos.rsm.SetUeSliceAssociationResponse) |  |
+| SetUeSliceAssociation | [SetUeSliceAssociationRequest](#onos.rsm.SetUeSliceAssociationRequest) | [SetUeSliceAssociationResponse](#onos.rsm.SetUeSliceAssociationResponse) | UE-Slice association |
 
  
 

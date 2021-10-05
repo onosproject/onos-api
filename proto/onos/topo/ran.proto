@@ -107,14 +107,10 @@ message Interface {
     }
 }
 
-
-
-
 // E2TInfo E2T aspect;
 message E2TInfo {
     repeated Interface interfaces = 1;
 }
-
 
 message CellGlobalID {
     string value = 1;
@@ -180,7 +176,7 @@ message RSMNodeSlicingCapabilityItem {
 
 message RSMSupportedSlicingConfigItem {
     E2SmRsmCommand slicing_config_type = 1;
-};
+}
 
 enum E2SmRsmCommand {
     E2_SM_RSM_COMMAND_SLICE_CREATE = 0;
@@ -188,13 +184,78 @@ enum E2SmRsmCommand {
     E2_SM_RSM_COMMAND_SLICE_DELETE = 2;
     E2_SM_RSM_COMMAND_UE_ASSOCIATE = 3;
     E2_SM_RSM_COMMAND_EVENT_TRIGGERS = 4;
-};
+}
 
 enum RSMSlicingType {
     SLICING_TYPE_STATIC = 0;
     SLICING_TYPE_DYNAMIC = 1;
-};
+}
 
+enum RSMSchedulerType {
+    SCHEDULER_TYPE_ROUND_ROBIN = 0;
+    SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1;
+    SCHEDULER_TYPE_QOS_BASED = 2;
+}
+
+message RSMSliceItemList {
+    repeated RSMSlicingItem rsm_slice_list = 1;
+}
+
+message RSMSlicingItem {
+    string id = 1 [(gogoproto.customname) = "ID"];
+    string slice_desc = 2;
+    RSMSliceParameters slice_parameters = 3;
+    RSMSliceType slice_type = 4;
+    repeated UeIdentity ue_id_list = 5;
+}
+
+enum RSMSliceType {
+    SLICE_TYPE_DL_SLICE = 0;
+    SLICE_TYPE_UL_SLICE = 1;
+}
+
+message RSMSliceParameters {
+    RSMSchedulerType scheduler_type = 1;
+    int32 weight = 2;
+    int32 qos_level = 3;
+}
+
+enum UeIdType {
+    UE_ID_TYPE_CU_UE_F1_AP_ID = 0;
+    UE_ID_TYPE_DU_UE_F1_AP_ID = 1;
+    UE_ID_TYPE_RAN_UE_NGAP_ID = 2;
+    UE_ID_TYPE_AMF_UE_NGAP_ID = 3;
+    UE_ID_TYPE_ENB_UE_S1_AP_ID = 4;
+}
+
+message DuUeF1apID {
+    int64 value = 1;
+}
+
+message CuUeF1apID {
+    int64 value = 1;
+}
+
+message RanUeNgapID {
+    int64 value = 1;
+}
+
+message EnbUeS1apID {
+    int32 value = 1;
+}
+
+message AmfUeNgapID {
+    int64 value = 1;
+}
+
+message UeIdentity {
+    DuUeF1apID du_ue_f1ap_id = 1 [(gogoproto.customname) = "DuUeF1apID"];
+    CuUeF1apID cu_ue_f1ap_id = 2 [(gogoproto.customname) = "CuUeF1apID"];
+    RanUeNgapID ran_ue_ngap_id = 3 [(gogoproto.customname) = "RANUeNgapID"];
+    EnbUeS1apID enb_ue_s1ap_id = 4 [(gogoproto.customname) = "EnbUeS1apID"];
+    AmfUeNgapID amf_ue_ngap_id = 5 [(gogoproto.customname) = "AMFUeNgapID"];
+    UeIdType preferred_id_type = 6 [(gogoproto.customname) = "PreferredIDType"];
+}
 
 message RCReportStyle {
     string name = 1;
