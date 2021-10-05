@@ -29,17 +29,6 @@ class UeIdType(betterproto.Enum):
 
 
 @dataclass(eq=False, repr=False)
-class GetSlicesRequest(betterproto.Message):
-    e2_node_id: str = betterproto.string_field(1)
-
-
-@dataclass(eq=False, repr=False)
-class GetSliceResponse(betterproto.Message):
-    ack: "Ack" = betterproto.message_field(1)
-    slice_items: List["SliceItem"] = betterproto.message_field(2)
-
-
-@dataclass(eq=False, repr=False)
 class SliceItem(betterproto.Message):
     e2_node_id: str = betterproto.string_field(1)
     slice_ids: List[str] = betterproto.string_field(2)
@@ -92,21 +81,6 @@ class DeleteSliceResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class GetUeSliceAssociationRequest(betterproto.Message):
-    e2_node_id: str = betterproto.string_field(1)
-    ue_id: List["UeId"] = betterproto.message_field(2)
-    dl_slice_id: str = betterproto.string_field(3)
-    ul_slice_id: str = betterproto.string_field(4)
-    ue_slice_assoc_id: str = betterproto.string_field(5)
-
-
-@dataclass(eq=False, repr=False)
-class GetUeSliceAssociationResponse(betterproto.Message):
-    ack: "Ack" = betterproto.message_field(1)
-    slice_assoc_items: List["SliceAssocItem"] = betterproto.message_field(2)
-
-
-@dataclass(eq=False, repr=False)
 class SliceAssocItem(betterproto.Message):
     ue_slice_assoc_id: str = betterproto.string_field(1)
     e2_node_id: str = betterproto.string_field(2)
@@ -126,6 +100,7 @@ class SetUeSliceAssociationRequest(betterproto.Message):
     ue_id: List["UeId"] = betterproto.message_field(2)
     dl_slice_id: str = betterproto.string_field(3)
     ul_slice_id: str = betterproto.string_field(4)
+    drb_id: str = betterproto.string_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -135,15 +110,6 @@ class SetUeSliceAssociationResponse(betterproto.Message):
 
 
 class RsmStub(betterproto.ServiceStub):
-    async def get_slices(self, *, e2_node_id: str = "") -> "GetSliceResponse":
-
-        request = GetSlicesRequest()
-        request.e2_node_id = e2_node_id
-
-        return await self._unary_unary(
-            "/onos.rsm.Rsm/GetSlices", request, GetSliceResponse
-        )
-
     async def create_slice(
         self,
         *,
@@ -203,31 +169,6 @@ class RsmStub(betterproto.ServiceStub):
             "/onos.rsm.Rsm/DeleteSlice", request, DeleteSliceResponse
         )
 
-    async def get_ue_slice_association(
-        self,
-        *,
-        e2_node_id: str = "",
-        ue_id: Optional[List["UeId"]] = None,
-        dl_slice_id: str = "",
-        ul_slice_id: str = "",
-        ue_slice_assoc_id: str = "",
-    ) -> "GetUeSliceAssociationResponse":
-        ue_id = ue_id or []
-
-        request = GetUeSliceAssociationRequest()
-        request.e2_node_id = e2_node_id
-        if ue_id is not None:
-            request.ue_id = ue_id
-        request.dl_slice_id = dl_slice_id
-        request.ul_slice_id = ul_slice_id
-        request.ue_slice_assoc_id = ue_slice_assoc_id
-
-        return await self._unary_unary(
-            "/onos.rsm.Rsm/GetUeSliceAssociation",
-            request,
-            GetUeSliceAssociationResponse,
-        )
-
     async def set_ue_slice_association(
         self,
         *,
@@ -235,6 +176,7 @@ class RsmStub(betterproto.ServiceStub):
         ue_id: Optional[List["UeId"]] = None,
         dl_slice_id: str = "",
         ul_slice_id: str = "",
+        drb_id: str = "",
     ) -> "SetUeSliceAssociationResponse":
         ue_id = ue_id or []
 
@@ -244,6 +186,7 @@ class RsmStub(betterproto.ServiceStub):
             request.ue_id = ue_id
         request.dl_slice_id = dl_slice_id
         request.ul_slice_id = ul_slice_id
+        request.drb_id = drb_id
 
         return await self._unary_unary(
             "/onos.rsm.Rsm/SetUeSliceAssociation",
@@ -253,9 +196,6 @@ class RsmStub(betterproto.ServiceStub):
 
 
 class RsmBase(ServiceBase):
-    async def get_slices(self, e2_node_id: str) -> "GetSliceResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
     async def create_slice(
         self,
         e2_node_id: str,
@@ -281,34 +221,15 @@ class RsmBase(ServiceBase):
     ) -> "DeleteSliceResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
-    async def get_ue_slice_association(
-        self,
-        e2_node_id: str,
-        ue_id: Optional[List["UeId"]],
-        dl_slice_id: str,
-        ul_slice_id: str,
-        ue_slice_assoc_id: str,
-    ) -> "GetUeSliceAssociationResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
     async def set_ue_slice_association(
         self,
         e2_node_id: str,
         ue_id: Optional[List["UeId"]],
         dl_slice_id: str,
         ul_slice_id: str,
+        drb_id: str,
     ) -> "SetUeSliceAssociationResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_slices(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "e2_node_id": request.e2_node_id,
-        }
-
-        response = await self.get_slices(**request_kwargs)
-        await stream.send_message(response)
 
     async def __rpc_create_slice(self, stream: grpclib.server.Stream) -> None:
         request = await stream.recv_message()
@@ -350,22 +271,6 @@ class RsmBase(ServiceBase):
         response = await self.delete_slice(**request_kwargs)
         await stream.send_message(response)
 
-    async def __rpc_get_ue_slice_association(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "e2_node_id": request.e2_node_id,
-            "ue_id": request.ue_id,
-            "dl_slice_id": request.dl_slice_id,
-            "ul_slice_id": request.ul_slice_id,
-            "ue_slice_assoc_id": request.ue_slice_assoc_id,
-        }
-
-        response = await self.get_ue_slice_association(**request_kwargs)
-        await stream.send_message(response)
-
     async def __rpc_set_ue_slice_association(
         self, stream: grpclib.server.Stream
     ) -> None:
@@ -376,6 +281,7 @@ class RsmBase(ServiceBase):
             "ue_id": request.ue_id,
             "dl_slice_id": request.dl_slice_id,
             "ul_slice_id": request.ul_slice_id,
+            "drb_id": request.drb_id,
         }
 
         response = await self.set_ue_slice_association(**request_kwargs)
@@ -383,12 +289,6 @@ class RsmBase(ServiceBase):
 
     def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
         return {
-            "/onos.rsm.Rsm/GetSlices": grpclib.const.Handler(
-                self.__rpc_get_slices,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetSlicesRequest,
-                GetSliceResponse,
-            ),
             "/onos.rsm.Rsm/CreateSlice": grpclib.const.Handler(
                 self.__rpc_create_slice,
                 grpclib.const.Cardinality.UNARY_UNARY,
@@ -406,12 +306,6 @@ class RsmBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 DeleteSliceRequest,
                 DeleteSliceResponse,
-            ),
-            "/onos.rsm.Rsm/GetUeSliceAssociation": grpclib.const.Handler(
-                self.__rpc_get_ue_slice_association,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetUeSliceAssociationRequest,
-                GetUeSliceAssociationResponse,
             ),
             "/onos.rsm.Rsm/SetUeSliceAssociation": grpclib.const.Handler(
                 self.__rpc_set_ue_slice_association,
