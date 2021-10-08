@@ -568,6 +568,63 @@ class UeIdentity(betterproto.Message):
     enb_ue_s1_ap_id: "EnbUeS1ApId" = betterproto.message_field(4)
     amf_ue_ngap_id: "AmfUeNgapId" = betterproto.message_field(5)
     preferred_id_type: "UeIdType" = betterproto.enum_field(6)
+    drb_id: "DrbId" = betterproto.message_field(7)
+
+
+@dataclass(eq=False, repr=False)
+class DrbId(betterproto.Message):
+    four_gdrb_id: "FourGDrbId" = betterproto.message_field(1, group="drb_id")
+    five_gdrb_id: "FiveGDrbId" = betterproto.message_field(2, group="drb_id")
+
+
+@dataclass(eq=False, repr=False)
+class FiveGDrbId(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+    qfi: "Qfi" = betterproto.message_field(2)
+    flows_map_to_drb: List["QoSflowLevelParameters"] = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class Qfi(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class QoSflowLevelParameters(betterproto.Message):
+    dynamic_five_qi: "DynamicFiveQi" = betterproto.message_field(
+        1, group="qos_flow_level_parameters"
+    )
+    non_dynamic_five_qi: "NonDynamicFiveQi" = betterproto.message_field(
+        2, group="qos_flow_level_parameters"
+    )
+
+
+@dataclass(eq=False, repr=False)
+class DynamicFiveQi(betterproto.Message):
+    priority_level: int = betterproto.int32_field(1)
+    packet_delay_budge: int = betterproto.int32_field(2)
+    packet_error_rate: int = betterproto.int32_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class NonDynamicFiveQi(betterproto.Message):
+    five_qi: "FiveQi" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class FiveQi(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class FourGDrbId(betterproto.Message):
+    value: int = betterproto.int32_field(1)
+    qci: "Qci" = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class Qci(betterproto.Message):
+    value: int = betterproto.int32_field(1)
 
 
 @dataclass(eq=False, repr=False)
