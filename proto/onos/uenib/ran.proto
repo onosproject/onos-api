@@ -142,6 +142,7 @@ message SliceInfo {
     string slice_desc = 4;
     RSMSliceParameters slice_parameters = 5;
     RSMSliceType slice_type = 6;
+    DrbId drb_id = 7;
 }
 
 message RSMSliceParameters {

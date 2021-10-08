@@ -168,6 +168,7 @@ class SliceInfo(betterproto.Message):
     slice_desc: str = betterproto.string_field(4)
     slice_parameters: "RsmSliceParameters" = betterproto.message_field(5)
     slice_type: "RsmSliceType" = betterproto.enum_field(6)
+    drb_id: "DrbId" = betterproto.message_field(7)
 
 
 @dataclass(eq=False, repr=False)

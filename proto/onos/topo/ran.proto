@@ -340,6 +340,54 @@ message UeIdentity {
     EnbUeS1apID enb_ue_s1ap_id = 4 [(gogoproto.customname) = "EnbUeS1apID"];
     AmfUeNgapID amf_ue_ngap_id = 5 [(gogoproto.customname) = "AMFUeNgapID"];
     UeIdType preferred_id_type = 6 [(gogoproto.customname) = "PreferredIDType"];
+    DrbId drb_id = 7;
+}
+
+message DrbId {
+    oneof drb_id {
+        FourGDrbId four_gdrb_id = 1 [ json_name="fourGDrbID"];
+        FiveGDrbId five_gdrb_id = 2 [ json_name="fiveGDrbID"];
+    }
+}
+
+message FiveGDrbId {
+    int32 value = 1;
+    Qfi qfi = 2;
+    repeated QoSflowLevelParameters flows_map_to_drb = 3;
+}
+
+message Qfi {
+    int32 value = 1;
+}
+
+message QoSflowLevelParameters {
+    oneof qos_flow_level_parameters {
+        DynamicFiveQi dynamic_five_qi = 1;
+        NonDynamicFiveQi non_dynamic_five_qi = 2;
+    }
+}
+
+message DynamicFiveQi {
+    int32 priority_level = 1;
+    int32 packet_delay_budge = 2;
+    int32 packet_error_rate = 3;
+}
+
+message NonDynamicFiveQi {
+    FiveQi five_qi = 1;
+}
+
+message FiveQi {
+    int32 value = 1;
+}
+
+message FourGDrbId {
+    int32 value = 1;
+    Qci qci = 2;
+}
+
+message Qci {
+    int32 value = 1;
 }
 
 message RCReportStyle {
