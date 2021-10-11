@@ -241,6 +241,7 @@ message ChannelStatus {
     Error error = 3;
     google.protobuf.Timestamp timestamp = 4 [(gogoproto.stdtime) = true];
     uint64 term = 5;
+    string master = 6;
 }
 
 enum ChannelPhase {

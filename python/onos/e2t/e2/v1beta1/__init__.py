@@ -404,6 +404,7 @@ class ChannelStatus(betterproto.Message):
     error: "Error" = betterproto.message_field(3)
     timestamp: datetime = betterproto.message_field(4)
     term: int = betterproto.uint64_field(5)
+    master: str = betterproto.string_field(6)
 
 
 @dataclass(eq=False, repr=False)
