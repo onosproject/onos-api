@@ -381,6 +381,7 @@ class ChannelMeta(betterproto.Message):
     # encoding indicates the type of encoding used within the parent message
     encoding: "Encoding" = betterproto.enum_field(7)
     revision: int = betterproto.uint64_field(8)
+    finalizers: List[str] = betterproto.string_field(9)
 
 
 @dataclass(eq=False, repr=False)
@@ -413,6 +414,7 @@ class SubscriptionMeta(betterproto.Message):
     service_model: "ServiceModel" = betterproto.message_field(2)
     encoding: "Encoding" = betterproto.enum_field(3)
     revision: int = betterproto.uint64_field(4)
+    finalizers: List[str] = betterproto.string_field(5)
 
 
 @dataclass(eq=False, repr=False)
