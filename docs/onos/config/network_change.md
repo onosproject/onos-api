@@ -69,6 +69,7 @@ NetworkChangeRef is a reference to a network change
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| none | [google.protobuf.Empty](#google.protobuf.Empty) |  |  |
 | network_change_id | [string](#string) |  |  |
 
 

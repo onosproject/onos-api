@@ -19,6 +19,7 @@ syntax = "proto3";
 package onos.config.change.network;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 import "gogoproto/gogo.proto";
 import "onos/config/change/types.proto";
 import "onos/config/change/device/types.proto";
@@ -70,7 +71,10 @@ message NetworkChange {
 
 // NetworkChangeRef is a reference to a network change
 message NetworkChangeRef {
-    string network_change_id = 1 [(gogoproto.customname) = "NetworkChangeID", (gogoproto.casttype) = "ID"];
+    oneof id {
+        google.protobuf.Empty none = 1;
+        string network_change_id = 2 [(gogoproto.customname) = "NetworkChangeID", (gogoproto.casttype) = "ID"];
+    }
 }
 
 // DeviceChangeRef is a reference to a device change

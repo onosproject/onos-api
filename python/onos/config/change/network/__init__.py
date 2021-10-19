@@ -55,7 +55,10 @@ class NetworkChange(betterproto.Message):
 class NetworkChangeRef(betterproto.Message):
     """NetworkChangeRef is a reference to a network change"""
 
-    network_change_id: str = betterproto.string_field(1)
+    none: "betterproto_lib_google_protobuf.Empty" = betterproto.message_field(
+        1, group="id"
+    )
+    network_change_id: str = betterproto.string_field(2, group="id")
 
 
 @dataclass(eq=False, repr=False)
@@ -68,3 +71,4 @@ class DeviceChangeRef(betterproto.Message):
 
 from .. import device as _device__
 from ... import change as __change__
+import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf
