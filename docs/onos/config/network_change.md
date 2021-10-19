@@ -6,6 +6,7 @@
 - [onos/config/change/network/types.proto](#onos/config/change/network/types.proto)
     - [DeviceChangeRef](#onos.config.change.network.DeviceChangeRef)
     - [NetworkChange](#onos.config.change.network.NetworkChange)
+    - [NetworkChangeRef](#onos.config.change.network.NetworkChangeRef)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -52,6 +53,24 @@ per-device changes to be applied to the network.
 | changes | [onos.config.change.device.Change](#onos.config.change.device.Change) | repeated | &#39;changes&#39; is a set of changes to apply to devices The list of changes should contain only a single change per device/version pair. |
 | refs | [DeviceChangeRef](#onos.config.change.network.DeviceChangeRef) | repeated | &#39;refs&#39; is a set of references to stored device changes |
 | deleted | [bool](#bool) |  | &#39;deleted&#39; is a flag indicating whether this change is being deleted by a snapshot |
+| dependency | [NetworkChangeRef](#onos.config.change.network.NetworkChangeRef) |  | &#39;dependency&#39; is a reference to the network change on which this change is dependent |
+| dependents | [NetworkChangeRef](#onos.config.change.network.NetworkChangeRef) | repeated | &#39;dependents&#39; is a list of references to network changes that depend on this change |
+
+
+
+
+
+
+<a name="onos.config.change.network.NetworkChangeRef"></a>
+
+### NetworkChangeRef
+NetworkChangeRef is a reference to a network change
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| none | [google.protobuf.Empty](#google.protobuf.Empty) |  |  |
+| network_change_id | [string](#string) |  |  |
 
 
 
