@@ -60,6 +60,17 @@ message NetworkChange {
 
     // 'deleted' is a flag indicating whether this change is being deleted by a snapshot
     bool deleted = 9;
+
+    // 'dependency' is a reference to the network change on which this change is dependent
+    NetworkChangeRef dependency = 10;
+
+    // 'dependents' is a list of references to network changes that depend on this change
+    repeated NetworkChangeRef dependents = 11;
+}
+
+// NetworkChangeRef is a reference to a network change
+message NetworkChangeRef {
+    string network_change_id = 1 [(gogoproto.customname) = "NetworkChangeID", (gogoproto.casttype) = "ID"];
 }
 
 // DeviceChangeRef is a reference to a device change

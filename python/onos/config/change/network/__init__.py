@@ -43,6 +43,19 @@ class NetworkChange(betterproto.Message):
     # 'deleted' is a flag indicating whether this change is being deleted by a
     # snapshot
     deleted: bool = betterproto.bool_field(9)
+    # 'dependency' is a reference to the network change on which this change is
+    # dependent
+    dependency: "NetworkChangeRef" = betterproto.message_field(10)
+    # 'dependents' is a list of references to network changes that depend on this
+    # change
+    dependents: List["NetworkChangeRef"] = betterproto.message_field(11)
+
+
+@dataclass(eq=False, repr=False)
+class NetworkChangeRef(betterproto.Message):
+    """NetworkChangeRef is a reference to a network change"""
+
+    network_change_id: str = betterproto.string_field(1)
 
 
 @dataclass(eq=False, repr=False)
