@@ -431,6 +431,8 @@ class SubscriptionStatus(betterproto.Message):
     state: "SubscriptionState" = betterproto.enum_field(2)
     error: "Error" = betterproto.message_field(3)
     channels: List[str] = betterproto.string_field(4)
+    term: int = betterproto.uint64_field(5)
+    master: str = betterproto.string_field(6)
 
 
 class ControlServiceStub(betterproto.ServiceStub):
