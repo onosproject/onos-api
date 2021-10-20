@@ -55,6 +55,7 @@ per-device changes to be applied to the network.
 | deleted | [bool](#bool) |  | &#39;deleted&#39; is a flag indicating whether this change is being deleted by a snapshot |
 | dependency | [NetworkChangeRef](#onos.config.change.network.NetworkChangeRef) |  | &#39;dependency&#39; is a reference to the network change on which this change is dependent |
 | dependents | [NetworkChangeRef](#onos.config.change.network.NetworkChangeRef) | repeated | &#39;dependents&#39; is a list of references to network changes that depend on this change |
+| username | [string](#string) |  | &#39;username&#39; is the name of the user that made the network change |
 
 
 
