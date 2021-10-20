@@ -67,6 +67,9 @@ message NetworkChange {
 
     // 'dependents' is a list of references to network changes that depend on this change
     repeated NetworkChangeRef dependents = 11 [(gogoproto.nullable) = false];
+
+    // 'username' is the name of the user that made the network change
+    string username = 12;
 }
 
 // NetworkChangeRef is a reference to a network change

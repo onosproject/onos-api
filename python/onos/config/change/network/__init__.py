@@ -49,6 +49,8 @@ class NetworkChange(betterproto.Message):
     # 'dependents' is a list of references to network changes that depend on this
     # change
     dependents: List["NetworkChangeRef"] = betterproto.message_field(11)
+    # 'username' is the name of the user that made the network change
+    username: str = betterproto.string_field(12)
 
 
 @dataclass(eq=False, repr=False)

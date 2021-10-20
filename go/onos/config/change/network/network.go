@@ -42,3 +42,8 @@ func NewNetworkChange(networkChangeID string, changes []*devicechange.Change) (*
 		Changes: changes,
 	}, nil
 }
+
+func (n *NetworkChange) WithUsername(username string) *NetworkChange {
+	n.Username = username
+	return n
+}
