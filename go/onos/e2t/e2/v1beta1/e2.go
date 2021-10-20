@@ -46,3 +46,6 @@ type E2TInstanceID string
 
 // TermID is a mastership term identifier
 type TermID uint64
+
+// MasterID is a master identifier
+type MasterID string
