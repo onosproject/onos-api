@@ -40,3 +40,9 @@ type SubscriptionID string
 
 // Revision is a subscription revision number
 type Revision uint64
+
+// E2TInstanceID is an E2T instance identifier
+type E2TInstanceID string
+
+// TermID is a mastership term identifier
+type TermID uint64
