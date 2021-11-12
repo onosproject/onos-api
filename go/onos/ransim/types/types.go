@@ -24,7 +24,7 @@ import (
 type PlmnID uint32
 
 // GnbID is a 5G gNodeB Identifier
-type GnbID uint64
+type GnbID uint32
 
 // EnbID is an eNodeB Identifier
 type EnbID uint32
