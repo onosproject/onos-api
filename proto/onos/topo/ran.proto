@@ -188,6 +188,8 @@ message Interface {
         INTERFACE_E2T = 1;
         INTERFACE_E2AP101 = 2;
         INTERFACE_E2AP200 = 3;
+        INTERFACE_ONOS_CONFIG = 4;
+        INTERFACE_GNMI = 5;
     }
 }
 

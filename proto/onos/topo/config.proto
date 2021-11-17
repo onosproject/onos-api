@@ -18,6 +18,9 @@ syntax = "proto3";
 
 package onos.topo;
 
+import "onos/topo/ran.proto";
+
+
 // Basic asset information
 message Asset {
     string name = 1;
@@ -134,4 +137,11 @@ enum ServiceState {
 //Protocols 
 message Protocols {
     repeated ProtocolState state = 1;
+}
+
+
+
+// OnosConfigInfo onos-config information aspect
+message OnosConfigInfo {
+    repeated Interface interfaces = 1;
 }

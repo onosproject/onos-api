@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/types"
@@ -47,6 +48,9 @@ const (
 	E2NODE = "e2node"
 	E2CELL = "e2cell"
 	E2T    = "e2t"
+
+	// onos-config entity
+	ONOS_CONFIG = "onos-config"
 )
 
 // TopoClientFactory : Default EntityServiceClient creation.
