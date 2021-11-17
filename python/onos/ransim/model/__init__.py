@@ -77,7 +77,7 @@ class CreateNodeResponse(betterproto.Message):
 class GetNodeRequest(betterproto.Message):
     """GetNodeRequest get a node request"""
 
-    enbid: int = betterproto.uint32_field(1)
+    enbid: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -105,7 +105,7 @@ class UpdateNodeResponse(betterproto.Message):
 class DeleteNodeRequest(betterproto.Message):
     """DeleteNodeRequest delete a node request"""
 
-    enbid: int = betterproto.uint32_field(1)
+    enbid: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -139,7 +139,7 @@ class WatchNodesResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class AgentControlRequest(betterproto.Message):
-    enbid: int = betterproto.uint32_field(1)
+    enbid: int = betterproto.uint64_field(1)
     command: str = betterproto.string_field(2)
     args: List[str] = betterproto.string_field(3)
 
@@ -161,7 +161,7 @@ class CreateCellResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetCellRequest(betterproto.Message):
-    ecgi: int = betterproto.uint32_field(1)
+    ecgi: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -181,7 +181,7 @@ class UpdateCellResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class DeleteCellRequest(betterproto.Message):
-    enbid: int = betterproto.uint32_field(1)
+    enbid: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -233,7 +233,7 @@ class GetRouteResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class DeleteRouteRequest(betterproto.Message):
-    enbid: int = betterproto.uint32_field(1)
+    enbid: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)

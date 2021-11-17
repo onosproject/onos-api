@@ -91,7 +91,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| enbid | [uint32](#uint32) |  |  |
+| enbid | [uint64](#uint64) |  |  |
 | command | [string](#string) |  | start, stop, drop, reconnect, etc. |
 | args | [string](#string) | repeated | optional command parameters |
 
@@ -239,7 +239,7 @@ CreateNodeResponse create a node response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| enbid | [uint32](#uint32) |  |  |
+| enbid | [uint64](#uint64) |  |  |
 
 
 
@@ -264,7 +264,7 @@ DeleteNodeRequest delete a node request
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| enbid | [uint32](#uint32) |  |  |
+| enbid | [uint64](#uint64) |  |  |
 
 
 
@@ -289,7 +289,7 @@ DeleteNodeResponse delete a node response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| enbid | [uint32](#uint32) |  |  |
+| enbid | [uint64](#uint64) |  |  |
 
 
 
@@ -339,7 +339,7 @@ DeleteNodeResponse delete a node response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ecgi | [uint32](#uint32) |  |  |
+| ecgi | [uint64](#uint64) |  |  |
 
 
 
@@ -369,7 +369,7 @@ GetNodeRequest get a node request
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| enbid | [uint32](#uint32) |  |  |
+| enbid | [uint64](#uint64) |  |  |
 
 
 
