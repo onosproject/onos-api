@@ -215,3 +215,33 @@ service ConfigAdminService {
     // leaving an individual snapshot perv device and version combination.
     rpc CompactChanges(CompactChangesRequest) returns (CompactChangesResponse);
 }
+
+
+// ModelPluginService is to be implemented by model plugin sidecar
+service ModelPluginService {
+    // GetModelInfo provides information about the model
+    rpc GetModelInfo(ModelInfoRequest) returns (ModelInfoResponse);
+
+    // ValidateConfig validates the provided configuration data against the model
+    rpc ValidateConfig(ValidateConfigRequest) returns (ValidateConfigResponse);
+}
+
+// ModelInfoRequest carries request for the model information
+message ModelInfoRequest {
+}
+
+// ModelInfoResponse carries response for the model information query
+message ModelInfoResponse {
+    ModelInfo modelInfo = 1;
+}
+
+// ValidateConfigRequest carries configuration data to be validated as a JSON blob
+message ValidateConfigRequest {
+    bytes json = 1;
+}
+
+// ValidateConfigResponse carries the result of the validation
+message ValidateConfigResponse {
+    bool valid = 1;
+    string message = 2;
+}
