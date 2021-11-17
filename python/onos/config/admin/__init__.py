@@ -218,6 +218,38 @@ class CompactChangesResponse(betterproto.Message):
     pass
 
 
+@dataclass(eq=False, repr=False)
+class ModelInfoRequest(betterproto.Message):
+    """ModelInfoRequest carries request for the model information"""
+
+    pass
+
+
+@dataclass(eq=False, repr=False)
+class ModelInfoResponse(betterproto.Message):
+    """ModelInfoResponse carries response for the model information query"""
+
+    model_info: "ModelInfo" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ValidateConfigRequest(betterproto.Message):
+    """
+    ValidateConfigRequest carries configuration data to be validated as a JSON
+    blob
+    """
+
+    json: bytes = betterproto.bytes_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ValidateConfigResponse(betterproto.Message):
+    """ValidateConfigResponse carries the result of the validation"""
+
+    valid: bool = betterproto.bool_field(1)
+    message: str = betterproto.string_field(2)
+
+
 class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def upload_register_model(
         self, request_iterator: Union[AsyncIterable["Chunk"], Iterable["Chunk"]]
@@ -287,6 +319,29 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
             "/onos.config.admin.ConfigAdminService/CompactChanges",
             request,
             CompactChangesResponse,
+        )
+
+
+class ModelPluginServiceStub(betterproto.ServiceStub):
+    async def get_model_info(self) -> "ModelInfoResponse":
+
+        request = ModelInfoRequest()
+
+        return await self._unary_unary(
+            "/onos.config.admin.ModelPluginService/GetModelInfo",
+            request,
+            ModelInfoResponse,
+        )
+
+    async def validate_config(self, *, json: bytes = b"") -> "ValidateConfigResponse":
+
+        request = ValidateConfigRequest()
+        request.json = json
+
+        return await self._unary_unary(
+            "/onos.config.admin.ModelPluginService/ValidateConfig",
+            request,
+            ValidateConfigResponse,
         )
 
 
@@ -405,6 +460,48 @@ class ConfigAdminServiceBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 CompactChangesRequest,
                 CompactChangesResponse,
+            ),
+        }
+
+
+class ModelPluginServiceBase(ServiceBase):
+    async def get_model_info(self) -> "ModelInfoResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def validate_config(self, json: bytes) -> "ValidateConfigResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_get_model_info(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        response = await self.get_model_info(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_validate_config(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "json": request.json,
+        }
+
+        response = await self.validate_config(**request_kwargs)
+        await stream.send_message(response)
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.config.admin.ModelPluginService/GetModelInfo": grpclib.const.Handler(
+                self.__rpc_get_model_info,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ModelInfoRequest,
+                ModelInfoResponse,
+            ),
+            "/onos.config.admin.ModelPluginService/ValidateConfig": grpclib.const.Handler(
+                self.__rpc_validate_config,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ValidateConfigRequest,
+                ValidateConfigResponse,
             ),
         }
 

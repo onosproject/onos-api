@@ -10,16 +10,21 @@
     - [ListModelsRequest](#onos.config.admin.ListModelsRequest)
     - [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest)
     - [ModelInfo](#onos.config.admin.ModelInfo)
+    - [ModelInfoRequest](#onos.config.admin.ModelInfoRequest)
+    - [ModelInfoResponse](#onos.config.admin.ModelInfoResponse)
     - [ReadOnlyPath](#onos.config.admin.ReadOnlyPath)
     - [ReadOnlySubPath](#onos.config.admin.ReadOnlySubPath)
     - [ReadWritePath](#onos.config.admin.ReadWritePath)
     - [RegisterResponse](#onos.config.admin.RegisterResponse)
     - [RollbackRequest](#onos.config.admin.RollbackRequest)
     - [RollbackResponse](#onos.config.admin.RollbackResponse)
+    - [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest)
+    - [ValidateConfigResponse](#onos.config.admin.ValidateConfigResponse)
   
     - [Type](#onos.config.admin.Type)
   
     - [ConfigAdminService](#onos.config.admin.ConfigAdminService)
+    - [ModelPluginService](#onos.config.admin.ModelPluginService)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -123,6 +128,31 @@ ModelInfo is general information about a model plugin.
 | getStateMode | [uint32](#uint32) |  | getStateMode is flag that defines how the &#34;get state&#34; operation works. 0) means that no retrieval of state is attempted 1) means that the synchronizer will make 2 requests to the device - one for Get with State and another for Get with Operational. 2) means that the synchronizer will do a Get request comprising of each one of the ReadOnlyPaths and their sub paths. If there is a `list` in any one of these paths it will be sent down as is, expecting the devices implementation of gNMI will be able to expand wildcards. 3) means that the synchronizer will do a Get request comprising of each one of the ReadOnlyPaths and their sub paths. If there is a `list` in any one of these paths, a separate call will be made first to find all the instances in the list and a Get including these expanded wildcards will be sent down to the device. |
 | read_only_path | [ReadOnlyPath](#onos.config.admin.ReadOnlyPath) | repeated | read_only_path is all of the read only paths for the model plugin. |
 | read_write_path | [ReadWritePath](#onos.config.admin.ReadWritePath) | repeated | read_write_path is all of the read write paths for the model plugin. |
+
+
+
+
+
+
+<a name="onos.config.admin.ModelInfoRequest"></a>
+
+### ModelInfoRequest
+ModelInfoRequest carries request for the model information
+
+
+
+
+
+
+<a name="onos.config.admin.ModelInfoResponse"></a>
+
+### ModelInfoResponse
+ModelInfoResponse carries response for the model information query
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| modelInfo | [ModelInfo](#onos.config.admin.ModelInfo) |  |  |
 
 
 
@@ -241,6 +271,37 @@ RollbackResponse carries the response of the rollback operation
 
 
 
+
+<a name="onos.config.admin.ValidateConfigRequest"></a>
+
+### ValidateConfigRequest
+ValidateConfigRequest carries configuration data to be validated as a JSON blob
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| json | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.ValidateConfigResponse"></a>
+
+### ValidateConfigResponse
+ValidateConfigResponse carries the result of the validation
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| valid | [bool](#bool) |  |  |
+| message | [string](#string) |  |  |
+
+
+
+
+
  
 
 
@@ -274,6 +335,17 @@ ConfigAdminService provides means for enhanced interactions with the configurati
 | RollbackNetworkChange | [RollbackRequest](#onos.config.admin.RollbackRequest) | [RollbackResponse](#onos.config.admin.RollbackResponse) | RollbackNetworkChange rolls back the specified network change (or the latest one). |
 | ListSnapshots | [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest) | [.onos.config.snapshot.device.Snapshot](#onos.config.snapshot.device.Snapshot) stream | ListSnapshots gets a list of snapshots across all devices and versions, and streams them back to the caller. |
 | CompactChanges | [CompactChangesRequest](#onos.config.admin.CompactChangesRequest) | [CompactChangesResponse](#onos.config.admin.CompactChangesResponse) | CompactChanges requests a snapshot of NetworkChange and DeviceChange stores. This will take all of the Network Changes older than the retention period and flatten them down to just one snapshot (replacing any older snapshot). This will act as a baseline for those changes within the retention period and any future changes. DeviceChanges will be snapshotted to correspond to these NetworkChange compactions leaving an individual snapshot perv device and version combination. |
+
+
+<a name="onos.config.admin.ModelPluginService"></a>
+
+### ModelPluginService
+ModelPluginService is to be implemented by model plugin sidecar
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetModelInfo | [ModelInfoRequest](#onos.config.admin.ModelInfoRequest) | [ModelInfoResponse](#onos.config.admin.ModelInfoResponse) | GetModelInfo provides information about the model |
+| ValidateConfig | [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest) | [ValidateConfigResponse](#onos.config.admin.ValidateConfigResponse) | ValidateConfig validates the provided configuration data against the model |
 
  
 
