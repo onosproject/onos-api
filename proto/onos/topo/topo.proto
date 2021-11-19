@@ -133,6 +133,7 @@ message Filters {
   repeated Filter label_filters = 2;
   RelationFilter relation_filter = 3;
   repeated Object.Type object_types = 4;
+  repeated string with_aspects = 6;
 }
 
 enum SortOrder {

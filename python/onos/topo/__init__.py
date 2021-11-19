@@ -744,6 +744,7 @@ class Filters(betterproto.Message):
     label_filters: List["Filter"] = betterproto.message_field(2)
     relation_filter: "RelationFilter" = betterproto.message_field(3)
     object_types: List["ObjectType"] = betterproto.enum_field(4)
+    with_aspects: List[str] = betterproto.string_field(6)
 
 
 @dataclass(eq=False, repr=False)
