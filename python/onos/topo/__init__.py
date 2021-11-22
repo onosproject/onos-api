@@ -11,6 +11,73 @@ from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
+class Protocol(betterproto.Enum):
+    """Protocol to interact with a device"""
+
+    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
+    # values
+    UNKNOWN_PROTOCOL = 0
+    # GNMI protocol reference
+    GNMI = 1
+    # P4RUNTIME protocol reference
+    P4RUNTIME = 2
+    # GNOI protocol reference
+    GNOI = 3
+    # E2 Control Plane Protocol
+    E2AP = 4
+
+
+class ConnectivityState(betterproto.Enum):
+    """
+    ConnectivityState represents the L3 reachability of a device from the
+    service container (e.g. enos-config), independently of gRPC or the service
+    itself (e.g. gNMI)
+    """
+
+    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
+    # the 0 values
+    UNKNOWN_CONNECTIVITY_STATE = 0
+    # REACHABLE indicates the the service can reach the device at L3
+    REACHABLE = 1
+    # UNREACHABLE indicates the the service can't reach the device at L3
+    UNREACHABLE = 2
+
+
+class ChannelState(betterproto.Enum):
+    """
+    ConnectivityState represents the state of a gRPC channel to the device from
+    the service container
+    """
+
+    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
+    # values
+    UNKNOWN_CHANNEL_STATE = 0
+    # CONNECTED indicates the corresponding grpc channel is connected on this
+    # device
+    CONNECTED = 1
+    # DISCONNECTED indicates the corresponding grpc channel is not connected on
+    # this device
+    DISCONNECTED = 2
+
+
+class ServiceState(betterproto.Enum):
+    """
+    ServiceState represents the state of the gRPC service (e.g. gNMI) to the
+    device from the service container
+    """
+
+    # UNKNOWN_SERVICE_STATE constant needed to go around proto3 nullifying the 0
+    # values
+    UNKNOWN_SERVICE_STATE = 0
+    # AVAILABLE indicates the corresponding grpc service is available
+    AVAILABLE = 1
+    # UNAVAILABLE indicates the corresponding grpc service is not available
+    UNAVAILABLE = 2
+    # CONNECTING indicates the corresponding protocol is in the connecting phase
+    # on this device
+    CONNECTING = 3
+
+
 class RanEntityKinds(betterproto.Enum):
     """
     TODO: Deprecate! Use language specific constant definitions instead. Kinds
@@ -101,75 +168,6 @@ class InterfaceType(betterproto.Enum):
     INTERFACE_E2T = 1
     INTERFACE_E2AP101 = 2
     INTERFACE_E2AP200 = 3
-    INTERFACE_ONOS_CONFIG = 4
-    INTERFACE_GNMI = 5
-
-
-class Protocol(betterproto.Enum):
-    """Protocol to interact with a device"""
-
-    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
-    # values
-    UNKNOWN_PROTOCOL = 0
-    # GNMI protocol reference
-    GNMI = 1
-    # P4RUNTIME protocol reference
-    P4RUNTIME = 2
-    # GNOI protocol reference
-    GNOI = 3
-    # E2 Control Plane Protocol
-    E2AP = 4
-
-
-class ConnectivityState(betterproto.Enum):
-    """
-    ConnectivityState represents the L3 reachability of a device from the
-    service container (e.g. enos-config), independently of gRPC or the service
-    itself (e.g. gNMI)
-    """
-
-    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
-    # the 0 values
-    UNKNOWN_CONNECTIVITY_STATE = 0
-    # REACHABLE indicates the the service can reach the device at L3
-    REACHABLE = 1
-    # UNREACHABLE indicates the the service can't reach the device at L3
-    UNREACHABLE = 2
-
-
-class ChannelState(betterproto.Enum):
-    """
-    ConnectivityState represents the state of a gRPC channel to the device from
-    the service container
-    """
-
-    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
-    # values
-    UNKNOWN_CHANNEL_STATE = 0
-    # CONNECTED indicates the corresponding grpc channel is connected on this
-    # device
-    CONNECTED = 1
-    # DISCONNECTED indicates the corresponding grpc channel is not connected on
-    # this device
-    DISCONNECTED = 2
-
-
-class ServiceState(betterproto.Enum):
-    """
-    ServiceState represents the state of the gRPC service (e.g. gNMI) to the
-    device from the service container
-    """
-
-    # UNKNOWN_SERVICE_STATE constant needed to go around proto3 nullifying the 0
-    # values
-    UNKNOWN_SERVICE_STATE = 0
-    # AVAILABLE indicates the corresponding grpc service is available
-    AVAILABLE = 1
-    # UNAVAILABLE indicates the corresponding grpc service is not available
-    UNAVAILABLE = 2
-    # CONNECTING indicates the corresponding protocol is in the connecting phase
-    # on this device
-    CONNECTING = 3
 
 
 class EventType(betterproto.Enum):
@@ -198,6 +196,83 @@ class ObjectType(betterproto.Enum):
     ENTITY = 1
     RELATION = 2
     KIND = 3
+
+
+@dataclass(eq=False, repr=False)
+class Asset(betterproto.Message):
+    """Basic asset information"""
+
+    name: str = betterproto.string_field(1)
+    manufacturer: str = betterproto.string_field(2)
+    model: str = betterproto.string_field(3)
+    serial: str = betterproto.string_field(4)
+    asset: str = betterproto.string_field(5)
+    sw_version: str = betterproto.string_field(6)
+    role: str = betterproto.string_field(8)
+
+
+@dataclass(eq=False, repr=False)
+class Configurable(betterproto.Message):
+    """Configurable device aspect"""
+
+    type: str = betterproto.string_field(1)
+    address: str = betterproto.string_field(2)
+    target: str = betterproto.string_field(3)
+    version: str = betterproto.string_field(4)
+    timeout: int = betterproto.uint64_field(5)
+
+
+@dataclass(eq=False, repr=False)
+class MastershipState(betterproto.Message):
+    """Aspect for tracking device mastership"""
+
+    term: int = betterproto.uint64_field(1)
+    node_id: str = betterproto.string_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class TlsOptions(betterproto.Message):
+    """TLS connectivity aspect"""
+
+    insecure: bool = betterproto.bool_field(1)
+    plain: bool = betterproto.bool_field(2)
+    key: str = betterproto.string_field(3)
+    ca_cert: str = betterproto.string_field(4)
+    cert: str = betterproto.string_field(5)
+
+
+@dataclass(eq=False, repr=False)
+class AdHoc(betterproto.Message):
+    """Aspect for ad-hoc properties"""
+
+    properties: Dict[str, str] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
+
+
+@dataclass(eq=False, repr=False)
+class ProtocolState(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
+    protocol: "Protocol" = betterproto.enum_field(1)
+    # ConnectivityState contains the L3 connectivity information
+    connectivity_state: "ConnectivityState" = betterproto.enum_field(2)
+    # ChannelState relates to the availability of the gRPC channel
+    channel_state: "ChannelState" = betterproto.enum_field(3)
+    # ServiceState indicates the availability of the gRPC servic on top of the
+    # channel
+    service_state: "ServiceState" = betterproto.enum_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class Protocols(betterproto.Message):
+    """Protocols"""
+
+    state: List["ProtocolState"] = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -575,83 +650,6 @@ class MhoReportStyle(betterproto.Message):
 class KpmMeasurement(betterproto.Message):
     id: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class Asset(betterproto.Message):
-    """Basic asset information"""
-
-    name: str = betterproto.string_field(1)
-    manufacturer: str = betterproto.string_field(2)
-    model: str = betterproto.string_field(3)
-    serial: str = betterproto.string_field(4)
-    asset: str = betterproto.string_field(5)
-    sw_version: str = betterproto.string_field(6)
-    role: str = betterproto.string_field(8)
-
-
-@dataclass(eq=False, repr=False)
-class Configurable(betterproto.Message):
-    """Configurable device aspect"""
-
-    type: str = betterproto.string_field(1)
-    address: str = betterproto.string_field(2)
-    target: str = betterproto.string_field(3)
-    version: str = betterproto.string_field(4)
-    timeout: int = betterproto.uint64_field(5)
-
-
-@dataclass(eq=False, repr=False)
-class MastershipState(betterproto.Message):
-    """Aspect for tracking device mastership"""
-
-    term: int = betterproto.uint64_field(1)
-    node_id: str = betterproto.string_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class TlsOptions(betterproto.Message):
-    """TLS connectivity aspect"""
-
-    insecure: bool = betterproto.bool_field(1)
-    plain: bool = betterproto.bool_field(2)
-    key: str = betterproto.string_field(3)
-    ca_cert: str = betterproto.string_field(4)
-    cert: str = betterproto.string_field(5)
-
-
-@dataclass(eq=False, repr=False)
-class AdHoc(betterproto.Message):
-    """Aspect for ad-hoc properties"""
-
-    properties: Dict[str, str] = betterproto.map_field(
-        1, betterproto.TYPE_STRING, betterproto.TYPE_STRING
-    )
-
-
-@dataclass(eq=False, repr=False)
-class ProtocolState(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
-
-    # The protocol to which state relates
-    protocol: "Protocol" = betterproto.enum_field(1)
-    # ConnectivityState contains the L3 connectivity information
-    connectivity_state: "ConnectivityState" = betterproto.enum_field(2)
-    # ChannelState relates to the availability of the gRPC channel
-    channel_state: "ChannelState" = betterproto.enum_field(3)
-    # ServiceState indicates the availability of the gRPC servic on top of the
-    # channel
-    service_state: "ServiceState" = betterproto.enum_field(4)
-
-
-@dataclass(eq=False, repr=False)
-class Protocols(betterproto.Message):
-    """Protocols"""
-
-    state: List["ProtocolState"] = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
