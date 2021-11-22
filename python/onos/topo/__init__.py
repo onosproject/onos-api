@@ -655,13 +655,6 @@ class Protocols(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class OnosConfigInfo(betterproto.Message):
-    """OnosConfigInfo onos-config information aspect"""
-
-    interfaces: List["Interface"] = betterproto.message_field(1)
-
-
-@dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
     """Event is a topo operation event"""
 

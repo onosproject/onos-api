@@ -138,10 +138,3 @@ enum ServiceState {
 message Protocols {
     repeated ProtocolState state = 1;
 }
-
-
-
-// OnosConfigInfo onos-config information aspect
-message OnosConfigInfo {
-    repeated Interface interfaces = 1;
-}
