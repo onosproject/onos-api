@@ -87,6 +87,8 @@ class RanEntityKinds(betterproto.Enum):
     E2NODE = 0
     E2CELL = 1
     E2T = 3
+    XAPP = 4
+    A1T = 5
 
 
 class RanRelationKinds(betterproto.Enum):

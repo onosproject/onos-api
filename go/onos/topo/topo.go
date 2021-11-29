@@ -48,6 +48,8 @@ const (
 	E2NODE = "e2node"
 	E2CELL = "e2cell"
 	E2T    = "e2t"
+	XAPP   = "xapp"
+	A1T    = "a1t"
 
 	// onos-config entity
 	ONOS_CONFIG = "onos-config"
