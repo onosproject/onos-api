@@ -20,50 +20,6 @@ package onos.config.v2;
 
 import "gogoproto/gogo.proto";
 
-// Status is the status of a NetworkChange
-message Status {
-    // 'phase' is the current phase of the
-    Phase phase = 1;
-
-    // 'state' is the state of the change within a Phase
-    State state = 2;
-
-    // 'reason' is a failure reason
-    Reason reason = 3;
-
-    // message is a result message
-    string message = 4;
-}
-
-// Phase is the phase of a NetworkChange
-enum Phase {
-    // CHANGE indicates the change has been requested
-    CHANGE = 0;
-
-    // ROLLBACK indicates a rollback has been requested for the change
-    ROLLBACK = 1;
-}
-
-// State is the state of a phase
-enum State {
-    // PENDING indicates the phase is pending
-    PENDING = 0;
-
-    // COMPLETE indicates the phase is complete
-    COMPLETE = 2;
-
-    // FAILED indicates the phase failed
-    FAILED = 3;
-}
-
-// Reason is a reason for a FAILED state
-enum Reason {
-    // NONE indicates no error has occurred
-    NONE = 0;
-
-    // ERROR indicates an error occurred when applying the change
-    ERROR = 1;
-}
 
 
 // ValueType is the type for a value

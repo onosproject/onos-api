@@ -8,6 +8,17 @@ import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
 
 
+class State(betterproto.Enum):
+    """State is the state of a phase"""
+
+    # PENDING indicates the phase is pending
+    PENDING = 0
+    # COMPLETE indicates the phase is complete
+    COMPLETE = 2
+    # FAILED indicates the phase failed
+    FAILED = 3
+
+
 @dataclass(eq=False, repr=False)
 class Configuration(betterproto.Message):
     """Configuration represents complete desired target configuration"""

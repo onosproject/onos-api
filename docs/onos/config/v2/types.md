@@ -5,12 +5,8 @@
 
 - [onos/config/v2/types.proto](#onos/config/v2/types.proto)
     - [PathValue](#onos.config.v2.PathValue)
-    - [Status](#onos.config.v2.Status)
     - [TypedValue](#onos.config.v2.TypedValue)
   
-    - [Phase](#onos.config.v2.Phase)
-    - [Reason](#onos.config.v2.Reason)
-    - [State](#onos.config.v2.State)
     - [ValueType](#onos.config.v2.ValueType)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -40,24 +36,6 @@ PathValue is an individual Path/Value combination
 
 
 
-<a name="onos.config.v2.Status"></a>
-
-### Status
-Status is the status of a NetworkChange
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| phase | [Phase](#onos.config.v2.Phase) |  | &#39;phase&#39; is the current phase of the |
-| state | [State](#onos.config.v2.State) |  | &#39;state&#39; is the state of the change within a Phase |
-| reason | [Reason](#onos.config.v2.Reason) |  | &#39;reason&#39; is a failure reason |
-| message | [string](#string) |  | message is a result message |
-
-
-
-
-
-
 <a name="onos.config.v2.TypedValue"></a>
 
 ### TypedValue
@@ -75,43 +53,6 @@ TypedValue is a value represented as a byte array
 
 
  
-
-
-<a name="onos.config.v2.Phase"></a>
-
-### Phase
-Phase is the phase of a NetworkChange
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| CHANGE | 0 | CHANGE indicates the change has been requested |
-| ROLLBACK | 1 | ROLLBACK indicates a rollback has been requested for the change |
-
-
-
-<a name="onos.config.v2.Reason"></a>
-
-### Reason
-Reason is a reason for a FAILED state
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NONE | 0 | NONE indicates no error has occurred |
-| ERROR | 1 | ERROR indicates an error occurred when applying the change |
-
-
-
-<a name="onos.config.v2.State"></a>
-
-### State
-State is the state of a phase
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| PENDING | 0 | PENDING indicates the phase is pending |
-| COMPLETE | 2 | COMPLETE indicates the phase is complete |
-| FAILED | 3 | FAILED indicates the phase failed |
-
 
 
 <a name="onos.config.v2.ValueType"></a>

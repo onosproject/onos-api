@@ -23,9 +23,10 @@ import "google/protobuf/empty.proto";
 import "gogoproto/gogo.proto";
 import "onos/config/v2/types.proto";
 
+
 // Transaction refers to a multi-target transactional change
 message Transaction {
-    // 'id' is the unique identifier of the change
+    // 'id' is the unique identifier of the transaction
     // This field should be set prior to persisting the object.
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
 
@@ -41,7 +42,7 @@ message Transaction {
     uint64 revision = 3 [(gogoproto.casttype) = "Revision"];
 
     // 'status' is the current lifecycle status of the transaction
-    onos.config.v2.Status status = 4 [(gogoproto.nullable) = false];
+    Status status = 4 [(gogoproto.nullable) = false];
 
     // 'created' is the time at which the transaction was created
     google.protobuf.Timestamp created = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
@@ -53,10 +54,10 @@ message Transaction {
     // The list of changes should contain only a single change per target/version pair.
     repeated Change changes = 7;
 
-    // 'deleted' is a flag indicating whether this change is being deleted by a snapshot
+    // 'deleted' is a flag indicating whether this transaction is being deleted by a snapshot
     bool deleted = 9;
 
-    // 'dependency' is a reference to the transaction on which this change is dependent
+    // 'dependency' is a reference to the transaction on which this transaction is dependent
     TransactionRef dependency = 10;
 
     // 'dependents' is a list of references to transactions that depend on this transaction
@@ -103,3 +104,59 @@ message ChangeValue {
 }
 
 
+
+// Status is the status of a Transaction
+message Status {
+    // 'phase' is the current phase of the
+    Phase phase = 1;
+
+    // 'state' is the state of the transaction within a Phase
+    State state = 2;
+
+    // 'reason' is a failure reason
+    Reason reason = 3;
+
+    // message is a result message
+    string message = 4;
+
+    // MastershipState mastership info
+    MastershipState mastershipState = 5;
+}
+
+// Mastership state
+message MastershipState {
+    uint64 term = 1;
+    string node_id = 2;
+}
+
+// State is the state of a phase
+enum State {
+    // PENDING indicates the phase is pending
+    PENDING = 0;
+
+    // COMPLETE indicates the phase is complete
+    COMPLETE = 2;
+
+    // FAILED indicates the phase failed
+    FAILED = 3;
+}
+
+
+// Phase is the phase of a Transaction
+enum Phase {
+    // TRANSACTION indicates the transaction has been requested
+    TRANSACTION = 0;
+
+    // ROLLBACK indicates a rollback has been requested for the transaction
+    ROLLBACK = 1;
+}
+
+
+// Reason is a reason for a FAILED state
+enum Reason {
+    // NONE indicates no error has occurred
+    NONE = 0;
+
+    // ERROR indicates an error occurred when applying the change
+    ERROR = 1;
+}

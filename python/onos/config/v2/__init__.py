@@ -8,35 +8,6 @@ import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
 
 
-class Phase(betterproto.Enum):
-    """Phase is the phase of a NetworkChange"""
-
-    # CHANGE indicates the change has been requested
-    CHANGE = 0
-    # ROLLBACK indicates a rollback has been requested for the change
-    ROLLBACK = 1
-
-
-class State(betterproto.Enum):
-    """State is the state of a phase"""
-
-    # PENDING indicates the phase is pending
-    PENDING = 0
-    # COMPLETE indicates the phase is complete
-    COMPLETE = 2
-    # FAILED indicates the phase failed
-    FAILED = 3
-
-
-class Reason(betterproto.Enum):
-    """Reason is a reason for a FAILED state"""
-
-    # NONE indicates no error has occurred
-    NONE = 0
-    # ERROR indicates an error occurred when applying the change
-    ERROR = 1
-
-
 class ValueType(betterproto.Enum):
     """ValueType is the type for a value"""
 
@@ -55,20 +26,6 @@ class ValueType(betterproto.Enum):
     LEAFLIST_DECIMAL = 12
     LEAFLIST_FLOAT = 13
     LEAFLIST_BYTES = 14
-
-
-@dataclass(eq=False, repr=False)
-class Status(betterproto.Message):
-    """Status is the status of a NetworkChange"""
-
-    # 'phase' is the current phase of the
-    phase: "Phase" = betterproto.enum_field(1)
-    # 'state' is the state of the change within a Phase
-    state: "State" = betterproto.enum_field(2)
-    # 'reason' is a failure reason
-    reason: "Reason" = betterproto.enum_field(3)
-    # message is a result message
-    message: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)

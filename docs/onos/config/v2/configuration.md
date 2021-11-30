@@ -6,6 +6,8 @@
 - [onos/config/v2/configuration/types.proto](#onos/config/v2/configuration/types.proto)
     - [Configuration](#onos.config.v2.configuration.Configuration)
   
+    - [State](#onos.config.v2.configuration.State)
+  
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -36,6 +38,19 @@ Configuration represents complete desired target configuration
 
 
  
+
+
+<a name="onos.config.v2.configuration.State"></a>
+
+### State
+State is the state of a phase
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PENDING | 0 | PENDING indicates the phase is pending |
+| COMPLETE | 2 | COMPLETE indicates the phase is complete |
+| FAILED | 3 | FAILED indicates the phase failed |
+
 
  
 

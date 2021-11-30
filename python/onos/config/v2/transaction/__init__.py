@@ -9,12 +9,41 @@ import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
 
 
+class State(betterproto.Enum):
+    """State is the state of a phase"""
+
+    # PENDING indicates the phase is pending
+    PENDING = 0
+    # COMPLETE indicates the phase is complete
+    COMPLETE = 2
+    # FAILED indicates the phase failed
+    FAILED = 3
+
+
+class Phase(betterproto.Enum):
+    """Phase is the phase of a Transaction"""
+
+    # TRANSACTION indicates the transaction has been requested
+    TRANSACTION = 0
+    # ROLLBACK indicates a rollback has been requested for the transaction
+    ROLLBACK = 1
+
+
+class Reason(betterproto.Enum):
+    """Reason is a reason for a FAILED state"""
+
+    # NONE indicates no error has occurred
+    NONE = 0
+    # ERROR indicates an error occurred when applying the change
+    ERROR = 1
+
+
 @dataclass(eq=False, repr=False)
 class Transaction(betterproto.Message):
     """Transaction refers to a multi-target transactional change"""
 
-    # 'id' is the unique identifier of the change This field should be set prior
-    # to persisting the object.
+    # 'id' is the unique identifier of the transaction This field should be set
+    # prior to persisting the object.
     id: str = betterproto.string_field(1)
     # 'index' is a monotonically increasing, globally unique index of the change
     # The index is provided by the store, is static and unique for each unique
@@ -26,7 +55,7 @@ class Transaction(betterproto.Message):
     # optimistic concurrency control when updating or deleting the change state.
     revision: int = betterproto.uint64_field(3)
     # 'status' is the current lifecycle status of the transaction
-    status: "__v2__.Status" = betterproto.message_field(4)
+    status: "Status" = betterproto.message_field(4)
     # 'created' is the time at which the transaction was created
     created: datetime = betterproto.message_field(5)
     # 'updated' is the time at which the transaction was last updated
@@ -34,10 +63,10 @@ class Transaction(betterproto.Message):
     # 'changes' is a set of changes to apply to targets The list of changes
     # should contain only a single change per target/version pair.
     changes: List["Change"] = betterproto.message_field(7)
-    # 'deleted' is a flag indicating whether this change is being deleted by a
-    # snapshot
+    # 'deleted' is a flag indicating whether this transaction is being deleted by
+    # a snapshot
     deleted: bool = betterproto.bool_field(9)
-    # 'dependency' is a reference to the transaction on which this change is
+    # 'dependency' is a reference to the transaction on which this transaction is
     # dependent
     dependency: "TransactionRef" = betterproto.message_field(10)
     # 'dependents' is a list of references to transactions that depend on this
@@ -85,6 +114,30 @@ class ChangeValue(betterproto.Message):
     value: "__v2__.TypedValue" = betterproto.message_field(2)
     # 'removed' indicates whether this is a delete
     removed: bool = betterproto.bool_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class Status(betterproto.Message):
+    """Status is the status of a Transaction"""
+
+    # 'phase' is the current phase of the
+    phase: "Phase" = betterproto.enum_field(1)
+    # 'state' is the state of the transaction within a Phase
+    state: "State" = betterproto.enum_field(2)
+    # 'reason' is a failure reason
+    reason: "Reason" = betterproto.enum_field(3)
+    # message is a result message
+    message: str = betterproto.string_field(4)
+    # MastershipState mastership info
+    mastership_state: "MastershipState" = betterproto.message_field(5)
+
+
+@dataclass(eq=False, repr=False)
+class MastershipState(betterproto.Message):
+    """Mastership state"""
+
+    term: int = betterproto.uint64_field(1)
+    node_id: str = betterproto.string_field(2)
 
 
 from ... import v2 as __v2__

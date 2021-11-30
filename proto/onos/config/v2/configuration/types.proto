@@ -39,3 +39,15 @@ message Configuration {
   repeated onos.config.v2.PathValue values = 7;
 
 }
+
+// State is the state of a phase
+enum State {
+  // PENDING indicates the phase is pending
+  PENDING = 0;
+
+  // COMPLETE indicates the phase is complete
+  COMPLETE = 2;
+
+  // FAILED indicates the phase failed
+  FAILED = 3;
+}
