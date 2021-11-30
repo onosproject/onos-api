@@ -190,11 +190,30 @@ message Interface {
         INTERFACE_E2T = 1;
         INTERFACE_E2AP101 = 2;
         INTERFACE_E2AP200 = 3;
+        INTERFACE_A1T = 4;
+        INTERFACE_A1AP = 5;
     }
 }
 
 // E2TInfo E2T aspect;
 message E2TInfo {
+    repeated Interface interfaces = 1;
+}
+
+message XAppInfo {
+    repeated Interface interfaces = 1;
+    XAppA1PolicyInfo xapp_policy_info = 2;
+}
+
+message XAppA1PolicyInfo {
+    map<string, A1PolicyObject> policy_objects = 1;
+}
+
+message A1PolicyObject {
+    string policy_object_json = 1;
+}
+
+message A1TInfo {
     repeated Interface interfaces = 1;
 }
 
