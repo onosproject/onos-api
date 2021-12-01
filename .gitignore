@@ -33,3 +33,5 @@ python/gogoproto/
 # PyPI generated directories
 .eggs/
 dist/
+
+build/build-tools

@@ -1,8 +1,10 @@
 .PHONY: build
 
-ONOS_BUILD_VERSION := v0.6.9
 ONOS_PROTOC_VERSION := v0.6.9
 BUF_VERSION := 0.47.0
+
+build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
+include ./build/build-tools/make/onf-common.mk
 
 all: protos golang
 
@@ -10,36 +12,27 @@ golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos golang license_check linters deps
+test: protos golang license_check-proto linters-go deps-go
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: build-tools jenkins-tools test deps
-	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ./../../build-tools/build/jenkins/make-unit
+jenkins-test: jenkins-tools test deps-go
+	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ../build/build-tools/build/jenkins/make-unit
 	mv go/*.xml .
 
-deps: # @HELP ensure that the required dependencies are in place
+deps-go: # @HELP ensure that the required dependencies are in place
 	cd go && go build -v ./...
 	bash -c "diff -u <(echo -n) <(git diff go/go.mod)"
 	bash -c "diff -u <(echo -n) <(git diff go/go.sum)"
 
-linters: golang-ci # @HELP examines Go source code and reports coding problems
-	cd go && golangci-lint run --timeout 5m
-
-build-tools: # @HELP install the ONOS build tools if needed
-	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-
-jenkins-tools: # @HELP installs tooling needed for Jenkins
-	cd .. && go get -u github.com/jstemmer/go-junit-report && go get github.com/t-yuki/gocover-cobertura
-
-golang-ci: # @HELP install golang-ci if not present
-	golangci-lint --version || curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b `go env GOPATH`/bin v1.36.0
+linters-go: golang-ci # @HELP examines Go source code and reports coding problems
+	cd go && golangci-lint run --timeout 15m
 
 twine: # @HELP install twine if not present
 	twine --version || pip install twine
 
-license_check: build-tools # @HELP examine and ensure license headers exist
-	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR}/proto
+license_check-proto: # @HELP examine and ensure license headers exist
+	./build/build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR}/proto
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
@@ -59,19 +52,12 @@ mocks:
 
 publish: twine # @HELP publish version on github, dockerhub, abd PyPI
 	BASEDIR=. PYPI_INDEX=pypi ./../build-tools/publish-python-version
-	./../build-tools/publish-version ${VERSION}
-	./../build-tools/publish-version go/${VERSION}
+	./build/build-tools/publish-version ${VERSION}
+	./build/build-tools/publish-version go/${VERSION}
 
-jenkins-publish: build-tools jenkins-tools # @HELP Jenkins calls this to publish artifacts
-	../build-tools/release-merge-commit
+jenkins-publish: jenkins-tools # @HELP Jenkins calls this to publish artifacts
+	./build/build-tools/release-merge-commit
 
-clean: # @HELP remove all the build artifacts
+clean:: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor
 
-help:
-	@grep -E '^.*: *# *@HELP' $(MAKEFILE_LIST) \
-    | sort \
-    | awk ' \
-        BEGIN {FS = ": *# *@HELP"}; \
-        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
-    '
