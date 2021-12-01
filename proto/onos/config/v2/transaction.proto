@@ -16,7 +16,7 @@ limitations under the License.
 
 syntax = "proto3";
 
-package onos.config.v2.transaction;
+package onos.config.v2;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
@@ -28,7 +28,7 @@ import "onos/config/v2/types.proto";
 message Transaction {
     // 'id' is the unique identifier of the transaction
     // This field should be set prior to persisting the object.
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ID"];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
 
     // 'index' is a monotonically increasing, globally unique index of the change
     // The index is provided by the store, is static and unique for each unique change identifier,
@@ -42,7 +42,7 @@ message Transaction {
     uint64 revision = 3 [(gogoproto.casttype) = "Revision"];
 
     // 'status' is the current lifecycle status of the transaction
-    Status status = 4 [(gogoproto.nullable) = false];
+    TransactionStatus status = 4 [(gogoproto.nullable) = false];
 
     // 'created' is the time at which the transaction was created
     google.protobuf.Timestamp created = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
@@ -71,20 +71,20 @@ message Transaction {
 message TransactionRef {
     oneof id {
         google.protobuf.Empty none = 1;
-        string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "ID"];
+        string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
     }
 }
 
 // Change represents a configuration change to a single target
 message Change {
     // 'target_id' is the identifier of the target to which this change applies
-    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2/target.ID"];
+    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
 
     // 'target_version' is an optional target version to which to apply this change
-    string target_version = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2/target.Version"];
+    string target_version = 2 [(gogoproto.casttype) = "TargetVersion"];
 
     // 'target_type' is an optional target type to which to apply this change
-    string target_type = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2/target.Type"];
+    string target_type = 3 [(gogoproto.casttype) = "TargetType"];
 
     // 'values' is a set of change values to apply
     repeated ChangeValue values = 4;
@@ -105,58 +105,82 @@ message ChangeValue {
 
 
 
-// Status is the status of a Transaction
-message Status {
+// TransactionStatus is the status of a Transaction
+message TransactionStatus {
     // 'phase' is the current phase of the
-    Phase phase = 1;
+    TransactionPhase phase = 1;
 
     // 'state' is the state of the transaction within a Phase
-    State state = 2;
+    TransactionState state = 2;
 
-    // 'reason' is a failure reason
-    Reason reason = 3;
+    // 'failure_reason' is a failure reason
+    FailureReason failure_reason = 3;
 
     // message is a result message
     string message = 4;
-
-    // MastershipState mastership info
-    MastershipState mastershipState = 5;
-}
-
-// Mastership state
-message MastershipState {
-    uint64 term = 1;
-    string node_id = 2;
-}
-
-// State is the state of a phase
-enum State {
-    // PENDING indicates the phase is pending
-    PENDING = 0;
-
-    // COMPLETE indicates the phase is complete
-    COMPLETE = 2;
-
-    // FAILED indicates the phase failed
-    FAILED = 3;
 }
 
 
-// Phase is the phase of a Transaction
-enum Phase {
-    // CHANGE indicates the transaction has been requested
-    CHANGE = 0;
 
-    // ROLLBACK indicates a rollback has been requested for the transaction
-    ROLLBACK = 1;
+// TransactionState is the transaction state of a transaction phase
+enum TransactionState {
+    // TRANSACTION_PENDING indicates the transaction is pending
+    TRANSACTION_PENDING = 0;
+
+    // TRANSACTION_COMPLETE indicates the transaction is complete
+    TRANSACTION_COMPLETE = 2;
+
+    // TRANSACTION_FAILED indicates the transaction failed
+    TRANSACTION_FAILED = 3;
+
+    // TRANSACTION_VALIDATING indicates the transaction is in the validating state
+    TRANSACTION_VALIDATING = 4;
+
+    // TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed
+    TRANSACTION_VALIDATION_FAILED = 5;
+
+}
+
+// TransactionPhase is the phase of a Transaction
+enum TransactionPhase {
+    // TRANSACTION_CHANGE indicates the transaction has been requested
+    TRANSACTION_CHANGE = 0;
+
+    // TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction
+    TRANSACTION_ROLLBACK = 1;
 }
 
 
-// Reason is a reason for a FAILED state
-enum Reason {
-    // NONE indicates no error has occurred
-    NONE = 0;
 
-    // ERROR indicates an error occurred when applying the change
-    ERROR = 1;
+// FailureReason failure reason
+message FailureReason {
+    Cause cause = 1;
+
+    message Cause {
+        oneof cause {
+            Validation validation = 1;
+            Transaction transaction = 2;
+        }
+    }
+
+    message  Validation {
+        Type type = 1;
+        enum Type {
+            UNSPECIFIED = 0;
+            ERROR = 1;
+        }
+    }
+
+    message Transaction {
+        Type type = 1;
+        enum Type {
+            UNSPECIFIED = 0;
+            ERROR = 1;
+        }
+    }
+
 }
+
+
+
+

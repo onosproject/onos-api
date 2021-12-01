@@ -3,30 +3,34 @@
 
 ## Table of Contents
 
-- [onos/config/v2/transaction/types.proto](#onos/config/v2/transaction/types.proto)
-    - [Change](#onos.config.v2.transaction.Change)
-    - [ChangeValue](#onos.config.v2.transaction.ChangeValue)
-    - [MastershipState](#onos.config.v2.transaction.MastershipState)
-    - [Status](#onos.config.v2.transaction.Status)
-    - [Transaction](#onos.config.v2.transaction.Transaction)
-    - [TransactionRef](#onos.config.v2.transaction.TransactionRef)
+- [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
+    - [Change](#onos.config.v2.Change)
+    - [ChangeValue](#onos.config.v2.ChangeValue)
+    - [FailureReason](#onos.config.v2.FailureReason)
+    - [FailureReason.Cause](#onos.config.v2.FailureReason.Cause)
+    - [FailureReason.Transaction](#onos.config.v2.FailureReason.Transaction)
+    - [FailureReason.Validation](#onos.config.v2.FailureReason.Validation)
+    - [Transaction](#onos.config.v2.Transaction)
+    - [TransactionRef](#onos.config.v2.TransactionRef)
+    - [TransactionStatus](#onos.config.v2.TransactionStatus)
   
-    - [Phase](#onos.config.v2.transaction.Phase)
-    - [Reason](#onos.config.v2.transaction.Reason)
-    - [State](#onos.config.v2.transaction.State)
+    - [FailureReason.Transaction.Type](#onos.config.v2.FailureReason.Transaction.Type)
+    - [FailureReason.Validation.Type](#onos.config.v2.FailureReason.Validation.Type)
+    - [TransactionPhase](#onos.config.v2.TransactionPhase)
+    - [TransactionState](#onos.config.v2.TransactionState)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/config/v2/transaction/types.proto"></a>
+<a name="onos/config/v2/transaction.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/v2/transaction/types.proto
+## onos/config/v2/transaction.proto
 
 
 
-<a name="onos.config.v2.transaction.Change"></a>
+<a name="onos.config.v2.Change"></a>
 
 ### Change
 Change represents a configuration change to a single target
@@ -37,14 +41,14 @@ Change represents a configuration change to a single target
 | target_id | [string](#string) |  | &#39;target_id&#39; is the identifier of the target to which this change applies |
 | target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
-| values | [ChangeValue](#onos.config.v2.transaction.ChangeValue) | repeated | &#39;values&#39; is a set of change values to apply |
+| values | [ChangeValue](#onos.config.v2.ChangeValue) | repeated | &#39;values&#39; is a set of change values to apply |
 
 
 
 
 
 
-<a name="onos.config.v2.transaction.ChangeValue"></a>
+<a name="onos.config.v2.ChangeValue"></a>
 
 ### ChangeValue
 ChangeValue is an individual Path/Value and removed flag combination in a Change
@@ -53,7 +57,7 @@ ChangeValue is an individual Path/Value and removed flag combination in a Change
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
-| value | [onos.config.v2.TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
+| value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | removed | [bool](#bool) |  | &#39;removed&#39; indicates whether this is a delete |
 
 
@@ -61,42 +65,68 @@ ChangeValue is an individual Path/Value and removed flag combination in a Change
 
 
 
-<a name="onos.config.v2.transaction.MastershipState"></a>
+<a name="onos.config.v2.FailureReason"></a>
 
-### MastershipState
-Mastership state
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| term | [uint64](#uint64) |  |  |
-| node_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.transaction.Status"></a>
-
-### Status
-Status is the status of a Transaction
+### FailureReason
+FailureReason failure reason
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| phase | [Phase](#onos.config.v2.transaction.Phase) |  | &#39;phase&#39; is the current phase of the |
-| state | [State](#onos.config.v2.transaction.State) |  | &#39;state&#39; is the state of the transaction within a Phase |
-| reason | [Reason](#onos.config.v2.transaction.Reason) |  | &#39;reason&#39; is a failure reason |
-| message | [string](#string) |  | message is a result message |
-| mastershipState | [MastershipState](#onos.config.v2.transaction.MastershipState) |  | MastershipState mastership info |
+| cause | [FailureReason.Cause](#onos.config.v2.FailureReason.Cause) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.transaction.Transaction"></a>
+<a name="onos.config.v2.FailureReason.Cause"></a>
+
+### FailureReason.Cause
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| validation | [FailureReason.Validation](#onos.config.v2.FailureReason.Validation) |  |  |
+| transaction | [FailureReason.Transaction](#onos.config.v2.FailureReason.Transaction) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.FailureReason.Transaction"></a>
+
+### FailureReason.Transaction
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [FailureReason.Transaction.Type](#onos.config.v2.FailureReason.Transaction.Type) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.FailureReason.Validation"></a>
+
+### FailureReason.Validation
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [FailureReason.Validation.Type](#onos.config.v2.FailureReason.Validation.Type) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.Transaction"></a>
 
 ### Transaction
 Transaction refers to a multi-target transactional change
@@ -107,13 +137,13 @@ Transaction refers to a multi-target transactional change
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the transaction This field should be set prior to persisting the object. |
 | index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change The index is provided by the store, is static and unique for each unique change identifier, and should not be modified by client code. |
 | revision | [uint64](#uint64) |  | &#39;revision&#39; is the change revision number The revision number is provided by the store and should not be modified by client code. Each unique state of the change will be assigned a unique revision number which can be used for optimistic concurrency control when updating or deleting the change state. |
-| status | [Status](#onos.config.v2.transaction.Status) |  | &#39;status&#39; is the current lifecycle status of the transaction |
+| status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
 | created | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | &#39;created&#39; is the time at which the transaction was created |
 | updated | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | &#39;updated&#39; is the time at which the transaction was last updated |
-| changes | [Change](#onos.config.v2.transaction.Change) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
+| changes | [Change](#onos.config.v2.Change) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
 | deleted | [bool](#bool) |  | &#39;deleted&#39; is a flag indicating whether this transaction is being deleted by a snapshot |
-| dependency | [TransactionRef](#onos.config.v2.transaction.TransactionRef) |  | &#39;dependency&#39; is a reference to the transaction on which this transaction is dependent |
-| dependents | [TransactionRef](#onos.config.v2.transaction.TransactionRef) | repeated | &#39;dependents&#39; is a list of references to transactions that depend on this transaction |
+| dependency | [TransactionRef](#onos.config.v2.TransactionRef) |  | &#39;dependency&#39; is a reference to the transaction on which this transaction is dependent |
+| dependents | [TransactionRef](#onos.config.v2.TransactionRef) | repeated | &#39;dependents&#39; is a list of references to transactions that depend on this transaction |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
 
 
@@ -121,7 +151,7 @@ Transaction refers to a multi-target transactional change
 
 
 
-<a name="onos.config.v2.transaction.TransactionRef"></a>
+<a name="onos.config.v2.TransactionRef"></a>
 
 ### TransactionRef
 TransactionRef is a reference to a transaction
@@ -136,43 +166,75 @@ TransactionRef is a reference to a transaction
 
 
 
+
+<a name="onos.config.v2.TransactionStatus"></a>
+
+### TransactionStatus
+TransactionStatus is the status of a Transaction
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| phase | [TransactionPhase](#onos.config.v2.TransactionPhase) |  | &#39;phase&#39; is the current phase of the |
+| state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction within a Phase |
+| failure_reason | [FailureReason](#onos.config.v2.FailureReason) |  | &#39;failure_reason&#39; is a failure reason |
+| message | [string](#string) |  | message is a result message |
+
+
+
+
+
  
 
 
-<a name="onos.config.v2.transaction.Phase"></a>
+<a name="onos.config.v2.FailureReason.Transaction.Type"></a>
 
-### Phase
-Phase is the phase of a Transaction
+### FailureReason.Transaction.Type
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CHANGE | 0 | CHANGE indicates the transaction has been requested |
-| ROLLBACK | 1 | ROLLBACK indicates a rollback has been requested for the transaction |
+| UNSPECIFIED | 0 |  |
+| ERROR | 1 |  |
 
 
 
-<a name="onos.config.v2.transaction.Reason"></a>
+<a name="onos.config.v2.FailureReason.Validation.Type"></a>
 
-### Reason
-Reason is a reason for a FAILED state
+### FailureReason.Validation.Type
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| NONE | 0 | NONE indicates no error has occurred |
-| ERROR | 1 | ERROR indicates an error occurred when applying the change |
+| UNSPECIFIED | 0 |  |
+| ERROR | 1 |  |
 
 
 
-<a name="onos.config.v2.transaction.State"></a>
+<a name="onos.config.v2.TransactionPhase"></a>
 
-### State
-State is the state of a phase
+### TransactionPhase
+TransactionPhase is the phase of a Transaction
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PENDING | 0 | PENDING indicates the phase is pending |
-| COMPLETE | 2 | COMPLETE indicates the phase is complete |
-| FAILED | 3 | FAILED indicates the phase failed |
+| TRANSACTION_CHANGE | 0 | TRANSACTION_CHANGE indicates the transaction has been requested |
+| TRANSACTION_ROLLBACK | 1 | TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction |
+
+
+
+<a name="onos.config.v2.TransactionState"></a>
+
+### TransactionState
+TransactionState is the transaction state of a transaction phase
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TRANSACTION_PENDING | 0 | TRANSACTION_PENDING indicates the transaction is pending |
+| TRANSACTION_COMPLETE | 2 | TRANSACTION_COMPLETE indicates the transaction is complete |
+| TRANSACTION_FAILED | 3 | TRANSACTION_FAILED indicates the transaction failed |
+| TRANSACTION_VALIDATING | 4 | TRANSACTION_VALIDATING indicates the transaction is in the validating state |
+| TRANSACTION_VALIDATION_FAILED | 5 | TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed |
 
 
  

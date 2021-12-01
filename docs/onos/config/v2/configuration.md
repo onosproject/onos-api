@@ -3,23 +3,25 @@
 
 ## Table of Contents
 
-- [onos/config/v2/configuration/types.proto](#onos/config/v2/configuration/types.proto)
-    - [Configuration](#onos.config.v2.configuration.Configuration)
+- [onos/config/v2/configuration.proto](#onos/config/v2/configuration.proto)
+    - [Configuration](#onos.config.v2.Configuration)
+    - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
+    - [MastershipState](#onos.config.v2.MastershipState)
   
-    - [State](#onos.config.v2.configuration.State)
+    - [ConfigurationState](#onos.config.v2.ConfigurationState)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/config/v2/configuration/types.proto"></a>
+<a name="onos/config/v2/configuration.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/v2/configuration/types.proto
+## onos/config/v2/configuration.proto
 
 
 
-<a name="onos.config.v2.configuration.Configuration"></a>
+<a name="onos.config.v2.Configuration"></a>
 
 ### Configuration
 Configuration represents complete desired target configuration
@@ -31,7 +33,40 @@ Configuration represents complete desired target configuration
 | target_id | [string](#string) |  | &#39;target_id&#39; is the target to which the desired target configuration applies |
 | target_version | [string](#string) |  | &#39;target_version&#39; is the version to which desired target configuration applies |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this desired target configuration |
-| values | [onos.config.v2.PathValue](#onos.config.v2.PathValue) | repeated | &#39;values&#39; is a list of path/values to set |
+| values | [PathValue](#onos.config.v2.PathValue) | repeated | &#39;values&#39; is a list of path/values to set |
+| status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
+
+
+
+
+
+
+<a name="onos.config.v2.ConfigurationStatus"></a>
+
+### ConfigurationStatus
+ConfigurationStatus is the status of a Configuration
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
+| message | [string](#string) |  | message is a result message |
+| mastershipState | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
+
+
+
+
+
+
+<a name="onos.config.v2.MastershipState"></a>
+
+### MastershipState
+Mastership state
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| term | [uint64](#uint64) |  |  |
 
 
 
@@ -40,16 +75,15 @@ Configuration represents complete desired target configuration
  
 
 
-<a name="onos.config.v2.configuration.State"></a>
+<a name="onos.config.v2.ConfigurationState"></a>
 
-### State
-State is the state of a phase
+### ConfigurationState
+ConfigurationState is the configuration state of a configuration phase
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PENDING | 0 | PENDING indicates the phase is pending |
-| COMPLETE | 2 | COMPLETE indicates the phase is complete |
-| FAILED | 3 | FAILED indicates the phase failed |
+| CONFIGURATION_PENDING | 0 | CONFIGURATION_PENDING indicates the configuration is PENDING |
+| CONFIGURATION_COMPLETE | 2 | COMPLETE indicates the configuration is COMPLETE |
 
 
  

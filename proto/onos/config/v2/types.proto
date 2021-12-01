@@ -20,8 +20,6 @@ package onos.config.v2;
 
 import "gogoproto/gogo.proto";
 
-
-
 // ValueType is the type for a value
 enum ValueType {
     EMPTY = 0;
