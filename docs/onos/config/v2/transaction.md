@@ -146,7 +146,7 @@ Phase is the phase of a Transaction
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| TRANSACTION | 0 | TRANSACTION indicates the transaction has been requested |
+| CHANGE | 0 | CHANGE indicates the transaction has been requested |
 | ROLLBACK | 1 | ROLLBACK indicates a rollback has been requested for the transaction |
 
 

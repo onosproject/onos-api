@@ -23,8 +23,8 @@ class State(betterproto.Enum):
 class Phase(betterproto.Enum):
     """Phase is the phase of a Transaction"""
 
-    # TRANSACTION indicates the transaction has been requested
-    TRANSACTION = 0
+    # CHANGE indicates the transaction has been requested
+    CHANGE = 0
     # ROLLBACK indicates a rollback has been requested for the transaction
     ROLLBACK = 1
 
