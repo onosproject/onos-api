@@ -170,7 +170,7 @@ class InterfaceType(betterproto.Enum):
     INTERFACE_E2T = 1
     INTERFACE_E2AP101 = 2
     INTERFACE_E2AP200 = 3
-    INTERFACE_A1T = 4
+    INTERFACE_A1_XAPP = 4
     INTERFACE_A1AP = 5
 
 
