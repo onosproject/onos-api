@@ -64,6 +64,9 @@ type TargetVersion string
 // TargetVersionedID is a versioned target ID
 type TargetVersionedID types.ID
 
+// MastershipTerm mastership term
+type MastershipTerm uint64
+
 // NewTargetVersionedID returns a new versioned target identifier
 func NewTargetVersionedID(id ID, version TargetVersion) TargetVersionedID {
 	return TargetVersionedID(fmt.Sprintf("%s%s%s", id, separator, version))

@@ -51,7 +51,7 @@ ConfigurationEvent configuration store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [ConfigurationEventType](#onos.config.v2.ConfigurationEventType) |  |  |
+| type | [ConfigurationEventType](#onos.config.v2.ConfigurationEventType) |  | ConfigurationEventType configuration event type |
 | configuration | [Configuration](#onos.config.v2.Configuration) |  |  |
 
 
@@ -68,8 +68,7 @@ ConfigurationStatus is the status of a Configuration
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
-| message | [string](#string) |  | message is a result message |
-| mastershipState | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
+| mastership_state | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
 
 
 
@@ -100,11 +99,11 @@ ConfigurationEventType configuration event types for configuration store
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CONFIGURATION_EVENT_UNKNOWN | 0 |  |
-| CONFIGURATION_CREATED | 1 |  |
-| CONFIGURATION_UPDATED | 2 |  |
-| CONFIGURATION_DELETED | 3 |  |
-| CONFIGURATION_REPLAYED | 4 |  |
+| CONFIGURATION_EVENT_UNKNOWN | 0 | CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event |
+| CONFIGURATION_CREATED | 1 | CONFIGURATION_CREATED indicates the configuration entry in the store is created |
+| CONFIGURATION_UPDATED | 2 | CONFIGURATION_UPDATED indicates the configuration entry in the store is updated |
+| CONFIGURATION_DELETED | 3 | CONFIGURATION_DELETED indicates the configuration entry in the store is deleted |
+| CONFIGURATION_REPLAYED | 4 | CONFIGURATION_REPLAYED |
 
 
 

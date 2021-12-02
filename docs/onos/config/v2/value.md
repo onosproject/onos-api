@@ -3,7 +3,7 @@
 
 ## Table of Contents
 
-- [onos/config/v2/types.proto](#onos/config/v2/types.proto)
+- [onos/config/v2/value.proto](#onos/config/v2/value.proto)
     - [PathValue](#onos.config.v2.PathValue)
     - [TypedValue](#onos.config.v2.TypedValue)
   
@@ -13,10 +13,10 @@
 
 
 
-<a name="onos/config/v2/types.proto"></a>
+<a name="onos/config/v2/value.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/config/v2/types.proto
+## onos/config/v2/value.proto
 
 
 

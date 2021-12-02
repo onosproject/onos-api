@@ -19,7 +19,7 @@ syntax = "proto3";
 package onos.config.v2;
 
 import "gogoproto/gogo.proto";
-import "onos/config/v2/types.proto";
+import "onos/config/v2/value.proto";
 
 // Configuration represents complete desired target configuration
 message Configuration {
@@ -40,25 +40,20 @@ message Configuration {
 
   // 'ConfigurationStatus' is the current lifecycle status of the configuration
   ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
-
 }
 
 // ConfigurationStatus is the status of a Configuration
 message ConfigurationStatus {
   // 'state' is the state of the transaction within a Phase
-  ConfigurationState state = 2;
-
-  // message is a result message
-  string message = 4;
+  ConfigurationState state = 1;
 
   // mastershipState mastership info
-  MastershipState mastershipState = 5;
+  MastershipState mastership_state = 2 [(gogoproto.nullable) = false];
 }
-
 
 // Mastership state
 message MastershipState {
-  uint64 term = 1;
+  uint64 term = 1 [(gogoproto.casttype) = "MastershipTerm"];
 }
 
 // ConfigurationState is the configuration state of a configuration phase
@@ -73,16 +68,21 @@ enum ConfigurationState {
 
 // ConfigurationEventType configuration event types for configuration store
 enum ConfigurationEventType {
+  // CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
   CONFIGURATION_EVENT_UNKNOWN = 0;
+  // CONFIGURATION_CREATED indicates the configuration entry in the store is created
   CONFIGURATION_CREATED = 1;
+  // CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
   CONFIGURATION_UPDATED = 2;
+  // CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
   CONFIGURATION_DELETED = 3;
+  // CONFIGURATION_REPLAYED
   CONFIGURATION_REPLAYED = 4;
 }
 
 // ConfigurationEvent configuration store event
 message ConfigurationEvent {
+  // ConfigurationEventType configuration event type
   ConfigurationEventType type = 1;
   Configuration configuration = 2 [(gogoproto.nullable) = false];
 }
-

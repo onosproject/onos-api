@@ -6,17 +6,11 @@
 - [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
     - [Change](#onos.config.v2.Change)
     - [ChangeValue](#onos.config.v2.ChangeValue)
-    - [FailureReason](#onos.config.v2.FailureReason)
-    - [FailureReason.Cause](#onos.config.v2.FailureReason.Cause)
-    - [FailureReason.Transaction](#onos.config.v2.FailureReason.Transaction)
-    - [FailureReason.Validation](#onos.config.v2.FailureReason.Validation)
     - [Transaction](#onos.config.v2.Transaction)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
     - [TransactionRef](#onos.config.v2.TransactionRef)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
   
-    - [FailureReason.Transaction.Type](#onos.config.v2.FailureReason.Transaction.Type)
-    - [FailureReason.Validation.Type](#onos.config.v2.FailureReason.Validation.Type)
     - [TransactionEventType](#onos.config.v2.TransactionEventType)
     - [TransactionPhase](#onos.config.v2.TransactionPhase)
     - [TransactionState](#onos.config.v2.TransactionState)
@@ -61,67 +55,6 @@ ChangeValue is an individual Path/Value and removed flag combination in a Change
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | removed | [bool](#bool) |  | &#39;removed&#39; indicates whether this is a delete |
-
-
-
-
-
-
-<a name="onos.config.v2.FailureReason"></a>
-
-### FailureReason
-FailureReason failure reason
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| cause | [FailureReason.Cause](#onos.config.v2.FailureReason.Cause) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.FailureReason.Cause"></a>
-
-### FailureReason.Cause
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| validation | [FailureReason.Validation](#onos.config.v2.FailureReason.Validation) |  |  |
-| transaction | [FailureReason.Transaction](#onos.config.v2.FailureReason.Transaction) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.FailureReason.Transaction"></a>
-
-### FailureReason.Transaction
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [FailureReason.Transaction.Type](#onos.config.v2.FailureReason.Transaction.Type) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.FailureReason.Validation"></a>
-
-### FailureReason.Validation
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [FailureReason.Validation.Type](#onos.config.v2.FailureReason.Validation.Type) |  |  |
 
 
 
@@ -195,38 +128,12 @@ TransactionStatus is the status of a Transaction
 | ----- | ---- | ----- | ----------- |
 | phase | [TransactionPhase](#onos.config.v2.TransactionPhase) |  | &#39;phase&#39; is the current phase of the |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction within a Phase |
-| failure_reason | [FailureReason](#onos.config.v2.FailureReason) |  | &#39;failure_reason&#39; is a failure reason |
-| message | [string](#string) |  | message is a result message |
 
 
 
 
 
  
-
-
-<a name="onos.config.v2.FailureReason.Transaction.Type"></a>
-
-### FailureReason.Transaction.Type
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNSPECIFIED | 0 |  |
-| ERROR | 1 |  |
-
-
-
-<a name="onos.config.v2.FailureReason.Validation.Type"></a>
-
-### FailureReason.Validation.Type
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNSPECIFIED | 0 |  |
-| ERROR | 1 |  |
-
 
 
 <a name="onos.config.v2.TransactionEventType"></a>
@@ -267,7 +174,8 @@ TransactionState is the transaction state of a transaction phase
 | TRANSACTION_COMPLETE | 2 | TRANSACTION_COMPLETE indicates the transaction is complete |
 | TRANSACTION_FAILED | 3 | TRANSACTION_FAILED indicates the transaction failed |
 | TRANSACTION_VALIDATING | 4 | TRANSACTION_VALIDATING indicates the transaction is in the validating state |
-| TRANSACTION_VALIDATION_FAILED | 5 | TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed |
+| TRANSACTION_VALIDATED | 5 | TRANSACTION_VALIDATED indicates the transaction is validated successfully |
+| TRANSACTION_VALIDATION_FAILED | 6 | TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed |
 
 
  

@@ -39,8 +39,10 @@ const (
 	TransactionState_TRANSACTION_FAILED TransactionState = 3
 	// TRANSACTION_VALIDATING indicates the transaction is in the validating state
 	TransactionState_TRANSACTION_VALIDATING TransactionState = 4
+	// TRANSACTION_VALIDATED indicates the transaction is validated successfully
+	TransactionState_TRANSACTION_VALIDATED TransactionState = 5
 	// TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed
-	TransactionState_TRANSACTION_VALIDATION_FAILED TransactionState = 5
+	TransactionState_TRANSACTION_VALIDATION_FAILED TransactionState = 6
 )
 
 var TransactionState_name = map[int32]string{
@@ -48,7 +50,8 @@ var TransactionState_name = map[int32]string{
 	2: "TRANSACTION_COMPLETE",
 	3: "TRANSACTION_FAILED",
 	4: "TRANSACTION_VALIDATING",
-	5: "TRANSACTION_VALIDATION_FAILED",
+	5: "TRANSACTION_VALIDATED",
+	6: "TRANSACTION_VALIDATION_FAILED",
 }
 
 var TransactionState_value = map[string]int32{
@@ -56,7 +59,8 @@ var TransactionState_value = map[string]int32{
 	"TRANSACTION_COMPLETE":          2,
 	"TRANSACTION_FAILED":            3,
 	"TRANSACTION_VALIDATING":        4,
-	"TRANSACTION_VALIDATION_FAILED": 5,
+	"TRANSACTION_VALIDATED":         5,
+	"TRANSACTION_VALIDATION_FAILED": 6,
 }
 
 func (x TransactionState) String() string {
@@ -130,56 +134,6 @@ func (TransactionEventType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_c3a2d73bdadccc35, []int{2}
 }
 
-type FailureReason_Validation_Type int32
-
-const (
-	FailureReason_Validation_UNSPECIFIED FailureReason_Validation_Type = 0
-	FailureReason_Validation_ERROR       FailureReason_Validation_Type = 1
-)
-
-var FailureReason_Validation_Type_name = map[int32]string{
-	0: "UNSPECIFIED",
-	1: "ERROR",
-}
-
-var FailureReason_Validation_Type_value = map[string]int32{
-	"UNSPECIFIED": 0,
-	"ERROR":       1,
-}
-
-func (x FailureReason_Validation_Type) String() string {
-	return proto.EnumName(FailureReason_Validation_Type_name, int32(x))
-}
-
-func (FailureReason_Validation_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5, 1, 0}
-}
-
-type FailureReason_Transaction_Type int32
-
-const (
-	FailureReason_Transaction_UNSPECIFIED FailureReason_Transaction_Type = 0
-	FailureReason_Transaction_ERROR       FailureReason_Transaction_Type = 1
-)
-
-var FailureReason_Transaction_Type_name = map[int32]string{
-	0: "UNSPECIFIED",
-	1: "ERROR",
-}
-
-var FailureReason_Transaction_Type_value = map[string]int32{
-	"UNSPECIFIED": 0,
-	"ERROR":       1,
-}
-
-func (x FailureReason_Transaction_Type) String() string {
-	return proto.EnumName(FailureReason_Transaction_Type_name, int32(x))
-}
-
-func (FailureReason_Transaction_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5, 2, 0}
-}
-
 // Transaction refers to a multi-target transactional change
 type Transaction struct {
 	// 'id' is the unique identifier of the transaction
@@ -202,15 +156,15 @@ type Transaction struct {
 	Updated time.Time `protobuf:"bytes,6,opt,name=updated,proto3,stdtime" json:"updated"`
 	// 'changes' is a set of changes to apply to targets
 	// The list of changes should contain only a single change per target/version pair.
-	Changes []*Change `protobuf:"bytes,7,rep,name=changes,proto3" json:"changes,omitempty"`
+	Changes []Change `protobuf:"bytes,7,rep,name=changes,proto3" json:"changes"`
 	// 'deleted' is a flag indicating whether this transaction is being deleted by a snapshot
-	Deleted bool `protobuf:"varint,9,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	Deleted bool `protobuf:"varint,8,opt,name=deleted,proto3" json:"deleted,omitempty"`
 	// 'dependency' is a reference to the transaction on which this transaction is dependent
-	Dependency *TransactionRef `protobuf:"bytes,10,opt,name=dependency,proto3" json:"dependency,omitempty"`
+	Dependency *TransactionRef `protobuf:"bytes,9,opt,name=dependency,proto3" json:"dependency,omitempty"`
 	// 'dependents' is a list of references to transactions that depend on this transaction
-	Dependents []TransactionRef `protobuf:"bytes,11,rep,name=dependents,proto3" json:"dependents"`
+	Dependents []TransactionRef `protobuf:"bytes,10,rep,name=dependents,proto3" json:"dependents"`
 	// 'username' is the name of the user that made the transaction
-	Username string `protobuf:"bytes,12,opt,name=username,proto3" json:"username,omitempty"`
+	Username string `protobuf:"bytes,11,opt,name=username,proto3" json:"username,omitempty"`
 }
 
 func (m *Transaction) Reset()         { *m = Transaction{} }
@@ -288,7 +242,7 @@ func (m *Transaction) GetUpdated() time.Time {
 	return time.Time{}
 }
 
-func (m *Transaction) GetChanges() []*Change {
+func (m *Transaction) GetChanges() []Change {
 	if m != nil {
 		return m.Changes
 	}
@@ -418,7 +372,7 @@ type Change struct {
 	// 'target_type' is an optional target type to which to apply this change
 	TargetType TargetType `protobuf:"bytes,3,opt,name=target_type,json=targetType,proto3,casttype=TargetType" json:"target_type,omitempty"`
 	// 'values' is a set of change values to apply
-	Values []*ChangeValue `protobuf:"bytes,4,rep,name=values,proto3" json:"values,omitempty"`
+	Values []ChangeValue `protobuf:"bytes,4,rep,name=values,proto3" json:"values"`
 }
 
 func (m *Change) Reset()         { *m = Change{} }
@@ -475,7 +429,7 @@ func (m *Change) GetTargetType() TargetType {
 	return ""
 }
 
-func (m *Change) GetValues() []*ChangeValue {
+func (m *Change) GetValues() []ChangeValue {
 	if m != nil {
 		return m.Values
 	}
@@ -487,7 +441,7 @@ type ChangeValue struct {
 	// 'path' is the path to change
 	Path string `protobuf:"bytes,1,opt,name=path,json=Path,proto3" json:"Path,omitempty"`
 	// 'value' is the change value
-	Value *TypedValue `protobuf:"bytes,2,opt,name=value,json=Value,proto3" json:"Value,omitempty"`
+	Value TypedValue `protobuf:"bytes,2,opt,name=value,json=Value,proto3" json:"Value,omitempty"`
 	// 'removed' indicates whether this is a delete
 	Removed bool `protobuf:"varint,3,opt,name=removed,proto3" json:"Remove,omitempty"`
 }
@@ -532,11 +486,11 @@ func (m *ChangeValue) GetPath() string {
 	return ""
 }
 
-func (m *ChangeValue) GetValue() *TypedValue {
+func (m *ChangeValue) GetValue() TypedValue {
 	if m != nil {
 		return m.Value
 	}
-	return nil
+	return TypedValue{}
 }
 
 func (m *ChangeValue) GetRemoved() bool {
@@ -552,10 +506,6 @@ type TransactionStatus struct {
 	Phase TransactionPhase `protobuf:"varint,1,opt,name=phase,proto3,enum=onos.config.v2.TransactionPhase" json:"phase,omitempty"`
 	// 'state' is the state of the transaction within a Phase
 	State TransactionState `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.TransactionState" json:"state,omitempty"`
-	// 'failure_reason' is a failure reason
-	FailureReason *FailureReason `protobuf:"bytes,3,opt,name=failure_reason,json=failureReason,proto3" json:"failure_reason,omitempty"`
-	// message is a result message
-	Message string `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *TransactionStatus) Reset()         { *m = TransactionStatus{} }
@@ -605,238 +555,6 @@ func (m *TransactionStatus) GetState() TransactionState {
 	return TransactionState_TRANSACTION_PENDING
 }
 
-func (m *TransactionStatus) GetFailureReason() *FailureReason {
-	if m != nil {
-		return m.FailureReason
-	}
-	return nil
-}
-
-func (m *TransactionStatus) GetMessage() string {
-	if m != nil {
-		return m.Message
-	}
-	return ""
-}
-
-// FailureReason failure reason
-type FailureReason struct {
-	Cause *FailureReason_Cause `protobuf:"bytes,1,opt,name=cause,proto3" json:"cause,omitempty"`
-}
-
-func (m *FailureReason) Reset()         { *m = FailureReason{} }
-func (m *FailureReason) String() string { return proto.CompactTextString(m) }
-func (*FailureReason) ProtoMessage()    {}
-func (*FailureReason) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5}
-}
-func (m *FailureReason) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *FailureReason) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_FailureReason.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *FailureReason) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FailureReason.Merge(m, src)
-}
-func (m *FailureReason) XXX_Size() int {
-	return m.Size()
-}
-func (m *FailureReason) XXX_DiscardUnknown() {
-	xxx_messageInfo_FailureReason.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FailureReason proto.InternalMessageInfo
-
-func (m *FailureReason) GetCause() *FailureReason_Cause {
-	if m != nil {
-		return m.Cause
-	}
-	return nil
-}
-
-type FailureReason_Cause struct {
-	// Types that are valid to be assigned to Cause:
-	//	*FailureReason_Cause_Validation
-	//	*FailureReason_Cause_Transaction
-	Cause isFailureReason_Cause_Cause `protobuf_oneof:"cause"`
-}
-
-func (m *FailureReason_Cause) Reset()         { *m = FailureReason_Cause{} }
-func (m *FailureReason_Cause) String() string { return proto.CompactTextString(m) }
-func (*FailureReason_Cause) ProtoMessage()    {}
-func (*FailureReason_Cause) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5, 0}
-}
-func (m *FailureReason_Cause) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *FailureReason_Cause) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_FailureReason_Cause.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *FailureReason_Cause) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FailureReason_Cause.Merge(m, src)
-}
-func (m *FailureReason_Cause) XXX_Size() int {
-	return m.Size()
-}
-func (m *FailureReason_Cause) XXX_DiscardUnknown() {
-	xxx_messageInfo_FailureReason_Cause.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FailureReason_Cause proto.InternalMessageInfo
-
-type isFailureReason_Cause_Cause interface {
-	isFailureReason_Cause_Cause()
-	MarshalTo([]byte) (int, error)
-	Size() int
-}
-
-type FailureReason_Cause_Validation struct {
-	Validation *FailureReason_Validation `protobuf:"bytes,1,opt,name=validation,proto3,oneof" json:"validation,omitempty"`
-}
-type FailureReason_Cause_Transaction struct {
-	Transaction *FailureReason_Transaction `protobuf:"bytes,2,opt,name=transaction,proto3,oneof" json:"transaction,omitempty"`
-}
-
-func (*FailureReason_Cause_Validation) isFailureReason_Cause_Cause()  {}
-func (*FailureReason_Cause_Transaction) isFailureReason_Cause_Cause() {}
-
-func (m *FailureReason_Cause) GetCause() isFailureReason_Cause_Cause {
-	if m != nil {
-		return m.Cause
-	}
-	return nil
-}
-
-func (m *FailureReason_Cause) GetValidation() *FailureReason_Validation {
-	if x, ok := m.GetCause().(*FailureReason_Cause_Validation); ok {
-		return x.Validation
-	}
-	return nil
-}
-
-func (m *FailureReason_Cause) GetTransaction() *FailureReason_Transaction {
-	if x, ok := m.GetCause().(*FailureReason_Cause_Transaction); ok {
-		return x.Transaction
-	}
-	return nil
-}
-
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*FailureReason_Cause) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
-		(*FailureReason_Cause_Validation)(nil),
-		(*FailureReason_Cause_Transaction)(nil),
-	}
-}
-
-type FailureReason_Validation struct {
-	Type FailureReason_Validation_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.FailureReason_Validation_Type" json:"type,omitempty"`
-}
-
-func (m *FailureReason_Validation) Reset()         { *m = FailureReason_Validation{} }
-func (m *FailureReason_Validation) String() string { return proto.CompactTextString(m) }
-func (*FailureReason_Validation) ProtoMessage()    {}
-func (*FailureReason_Validation) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5, 1}
-}
-func (m *FailureReason_Validation) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *FailureReason_Validation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_FailureReason_Validation.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *FailureReason_Validation) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FailureReason_Validation.Merge(m, src)
-}
-func (m *FailureReason_Validation) XXX_Size() int {
-	return m.Size()
-}
-func (m *FailureReason_Validation) XXX_DiscardUnknown() {
-	xxx_messageInfo_FailureReason_Validation.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FailureReason_Validation proto.InternalMessageInfo
-
-func (m *FailureReason_Validation) GetType() FailureReason_Validation_Type {
-	if m != nil {
-		return m.Type
-	}
-	return FailureReason_Validation_UNSPECIFIED
-}
-
-type FailureReason_Transaction struct {
-	Type FailureReason_Transaction_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.FailureReason_Transaction_Type" json:"type,omitempty"`
-}
-
-func (m *FailureReason_Transaction) Reset()         { *m = FailureReason_Transaction{} }
-func (m *FailureReason_Transaction) String() string { return proto.CompactTextString(m) }
-func (*FailureReason_Transaction) ProtoMessage()    {}
-func (*FailureReason_Transaction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5, 2}
-}
-func (m *FailureReason_Transaction) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *FailureReason_Transaction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_FailureReason_Transaction.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *FailureReason_Transaction) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FailureReason_Transaction.Merge(m, src)
-}
-func (m *FailureReason_Transaction) XXX_Size() int {
-	return m.Size()
-}
-func (m *FailureReason_Transaction) XXX_DiscardUnknown() {
-	xxx_messageInfo_FailureReason_Transaction.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FailureReason_Transaction proto.InternalMessageInfo
-
-func (m *FailureReason_Transaction) GetType() FailureReason_Transaction_Type {
-	if m != nil {
-		return m.Type
-	}
-	return FailureReason_Transaction_UNSPECIFIED
-}
-
 // TransactionEvent transaction store event
 type TransactionEvent struct {
 	Type        TransactionEventType `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.TransactionEventType" json:"type,omitempty"`
@@ -847,7 +565,7 @@ func (m *TransactionEvent) Reset()         { *m = TransactionEvent{} }
 func (m *TransactionEvent) String() string { return proto.CompactTextString(m) }
 func (*TransactionEvent) ProtoMessage()    {}
 func (*TransactionEvent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{6}
+	return fileDescriptor_c3a2d73bdadccc35, []int{5}
 }
 func (m *TransactionEvent) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -894,93 +612,77 @@ func init() {
 	proto.RegisterEnum("onos.config.v2.TransactionState", TransactionState_name, TransactionState_value)
 	proto.RegisterEnum("onos.config.v2.TransactionPhase", TransactionPhase_name, TransactionPhase_value)
 	proto.RegisterEnum("onos.config.v2.TransactionEventType", TransactionEventType_name, TransactionEventType_value)
-	proto.RegisterEnum("onos.config.v2.FailureReason_Validation_Type", FailureReason_Validation_Type_name, FailureReason_Validation_Type_value)
-	proto.RegisterEnum("onos.config.v2.FailureReason_Transaction_Type", FailureReason_Transaction_Type_name, FailureReason_Transaction_Type_value)
 	proto.RegisterType((*Transaction)(nil), "onos.config.v2.Transaction")
 	proto.RegisterType((*TransactionRef)(nil), "onos.config.v2.TransactionRef")
 	proto.RegisterType((*Change)(nil), "onos.config.v2.Change")
 	proto.RegisterType((*ChangeValue)(nil), "onos.config.v2.ChangeValue")
 	proto.RegisterType((*TransactionStatus)(nil), "onos.config.v2.TransactionStatus")
-	proto.RegisterType((*FailureReason)(nil), "onos.config.v2.FailureReason")
-	proto.RegisterType((*FailureReason_Cause)(nil), "onos.config.v2.FailureReason.Cause")
-	proto.RegisterType((*FailureReason_Validation)(nil), "onos.config.v2.FailureReason.Validation")
-	proto.RegisterType((*FailureReason_Transaction)(nil), "onos.config.v2.FailureReason.Transaction")
 	proto.RegisterType((*TransactionEvent)(nil), "onos.config.v2.TransactionEvent")
 }
 
 func init() { proto.RegisterFile("onos/config/v2/transaction.proto", fileDescriptor_c3a2d73bdadccc35) }
 
 var fileDescriptor_c3a2d73bdadccc35 = []byte{
-	// 1092 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0xcd, 0x6e, 0xdb, 0x46,
-	0x17, 0x25, 0x65, 0xca, 0x92, 0xae, 0x62, 0x85, 0x99, 0x18, 0x0e, 0x3f, 0x19, 0x16, 0x15, 0x7d,
-	0x45, 0xab, 0x1a, 0x29, 0x55, 0x28, 0x68, 0x91, 0x6e, 0x52, 0x88, 0x22, 0x1d, 0xb3, 0x56, 0x64,
-	0x61, 0x2c, 0xbb, 0xe8, 0xca, 0x60, 0xc4, 0xb1, 0x4c, 0xc0, 0x22, 0x05, 0x91, 0x12, 0xea, 0xb7,
-	0x48, 0xb7, 0x45, 0xdf, 0xa0, 0x5d, 0xf4, 0x31, 0xb2, 0xcc, 0xb2, 0x2b, 0xa5, 0x90, 0xbb, 0xf2,
-	0x23, 0x78, 0x55, 0xcc, 0x90, 0x92, 0x47, 0xb4, 0xa1, 0x26, 0xbb, 0x99, 0x7b, 0xcf, 0xb9, 0x7f,
-	0x3c, 0x77, 0x08, 0x65, 0xdf, 0xf3, 0x83, 0x5a, 0xcf, 0xf7, 0xce, 0xdc, 0x7e, 0x6d, 0x52, 0xaf,
-	0x85, 0x23, 0xdb, 0x0b, 0xec, 0x5e, 0xe8, 0xfa, 0x9e, 0x36, 0x1c, 0xf9, 0xa1, 0x8f, 0x0a, 0x14,
-	0xa1, 0x45, 0x08, 0x6d, 0x52, 0x2f, 0xaa, 0x7d, 0xdf, 0xef, 0x5f, 0x90, 0x1a, 0xf3, 0xbe, 0x19,
-	0x9f, 0xd5, 0x42, 0x77, 0x40, 0x82, 0xd0, 0x1e, 0x0c, 0x23, 0x42, 0x71, 0x3b, 0x09, 0x20, 0x83,
-	0x61, 0x78, 0x19, 0x3b, 0x37, 0xfb, 0x7e, 0xdf, 0x67, 0xc7, 0x1a, 0x3d, 0xc5, 0xd6, 0x62, 0xb2,
-	0x8a, 0xcb, 0x21, 0x09, 0x22, 0x5f, 0xe5, 0x4f, 0x09, 0xf2, 0xdd, 0xdb, 0xaa, 0xd0, 0x17, 0x90,
-	0x72, 0x1d, 0x45, 0x2c, 0x8b, 0xd5, 0x9c, 0xfe, 0x64, 0x36, 0x55, 0x53, 0x96, 0x71, 0x33, 0x55,
-	0x37, 0x38, 0x88, 0x65, 0xe0, 0x94, 0xeb, 0x20, 0x15, 0xd2, 0xae, 0xe7, 0x90, 0x9f, 0x95, 0x54,
-	0x59, 0xac, 0x4a, 0x7a, 0xee, 0x66, 0xaa, 0xa6, 0x2d, 0x6a, 0xc0, 0x91, 0x1d, 0x55, 0x21, 0x3b,
-	0x22, 0x13, 0x37, 0x70, 0x7d, 0x4f, 0x59, 0x63, 0x98, 0x07, 0x37, 0x53, 0x35, 0x8b, 0x63, 0x1b,
-	0x5e, 0x78, 0xd1, 0xf7, 0xb0, 0x1e, 0x84, 0x76, 0x38, 0x0e, 0x14, 0xa9, 0x2c, 0x56, 0xf3, 0xf5,
-	0xa7, 0xda, 0xf2, 0x50, 0x34, 0x2e, 0xfb, 0x11, 0x03, 0xea, 0xd2, 0xbb, 0xa9, 0x2a, 0xe0, 0x98,
-	0x86, 0x5e, 0x42, 0xa6, 0x37, 0x22, 0x76, 0x48, 0x1c, 0x25, 0xcd, 0x22, 0x14, 0xb5, 0x68, 0x4a,
-	0xda, 0x7c, 0x4a, 0x5a, 0x77, 0x3e, 0x46, 0x3d, 0x4b, 0xa9, 0x6f, 0x3f, 0xa8, 0x22, 0x9e, 0x93,
-	0x28, 0x7f, 0x3c, 0x74, 0x18, 0x7f, 0xfd, 0x53, 0xf8, 0x31, 0x09, 0x7d, 0x0d, 0x99, 0xde, 0xb9,
-	0xed, 0xf5, 0x49, 0xa0, 0x64, 0xca, 0x6b, 0xd5, 0x7c, 0x7d, 0x2b, 0xd9, 0x41, 0x93, 0xb9, 0xf1,
-	0x1c, 0x86, 0x14, 0xc8, 0x38, 0xe4, 0x82, 0xd0, 0x8c, 0xb9, 0xb2, 0x58, 0xcd, 0xe2, 0xf9, 0x15,
-	0xbd, 0x04, 0x70, 0xc8, 0x90, 0x78, 0x0e, 0xf1, 0x7a, 0x97, 0x0a, 0xb0, 0x72, 0x4a, 0x2b, 0x06,
-	0x82, 0xc9, 0x19, 0xe6, 0x18, 0xc8, 0xb8, 0xe5, 0x87, 0x81, 0x92, 0x67, 0xe5, 0xfc, 0x07, 0x3f,
-	0x9e, 0x26, 0xc7, 0x43, 0x45, 0xc8, 0x8e, 0x03, 0x32, 0xf2, 0xec, 0x01, 0x51, 0x1e, 0x50, 0x31,
-	0xe0, 0xc5, 0xbd, 0xf2, 0x8b, 0x08, 0x85, 0xe5, 0x00, 0xe8, 0x19, 0x48, 0x9e, 0xef, 0x11, 0xa6,
-	0x1b, 0xda, 0x7d, 0x72, 0x7a, 0x26, 0xd5, 0xe8, 0xbe, 0x80, 0x19, 0x0a, 0x1d, 0x40, 0x81, 0x5b,
-	0x84, 0x53, 0xd7, 0x61, 0x1a, 0xca, 0xe9, 0x95, 0x59, 0x52, 0x69, 0x77, 0xa4, 0xb7, 0x2f, 0xe0,
-	0x0d, 0x8e, 0x6b, 0x39, 0xba, 0x44, 0x05, 0x5b, 0xf9, 0x20, 0xc2, 0x7a, 0x34, 0x63, 0xf4, 0x0d,
-	0xe4, 0x42, 0x7b, 0xd4, 0x27, 0xe1, 0xe9, 0x42, 0xc8, 0xca, 0x6c, 0xaa, 0x66, 0xbb, 0xcc, 0xc8,
-	0x62, 0x2e, 0xce, 0x38, 0x1b, 0x41, 0x2d, 0x07, 0xbd, 0x80, 0x42, 0x4c, 0x9b, 0x90, 0x11, 0x13,
-	0x6d, 0x54, 0xd4, 0x23, 0x56, 0x03, 0xf3, 0x9c, 0x44, 0x0e, 0xbc, 0x11, 0xf2, 0x57, 0x54, 0x83,
-	0x7c, 0xcc, 0xa4, 0x8b, 0xc5, 0xb4, 0x9e, 0xd3, 0x0b, 0x37, 0x53, 0x15, 0x22, 0x5a, 0xf7, 0x72,
-	0x48, 0x30, 0x84, 0x8b, 0x33, 0x7a, 0x0e, 0xeb, 0x13, 0xfb, 0x62, 0x4c, 0xa8, 0xde, 0xe9, 0xe7,
-	0xd9, 0xbe, 0x5f, 0x2d, 0x27, 0x14, 0x83, 0x63, 0x68, 0xe5, 0x0f, 0x11, 0xf2, 0x9c, 0x1d, 0x7d,
-	0x0e, 0xd2, 0xd0, 0x0e, 0xcf, 0xe3, 0x0e, 0xd1, 0xf5, 0x54, 0x2d, 0x74, 0xec, 0xf0, 0xfc, 0x99,
-	0x3f, 0x70, 0x43, 0xf6, 0x24, 0x60, 0x89, 0xde, 0x91, 0x09, 0x69, 0x16, 0x81, 0xb5, 0x43, 0x95,
-	0x9d, 0x94, 0xc2, 0xe5, 0x90, 0x38, 0x2c, 0xa4, 0xfe, 0xf8, 0x7a, 0xaa, 0x3e, 0x64, 0x47, 0x2e,
-	0x4a, 0x3a, 0x4a, 0xa7, 0x41, 0x66, 0x44, 0x06, 0xfe, 0x84, 0x38, 0xac, 0xc1, 0xac, 0xbe, 0x79,
-	0x3d, 0x55, 0x65, 0xcc, 0x4c, 0x1c, 0x7a, 0x0e, 0xaa, 0x5c, 0x89, 0xf0, 0xe8, 0xce, 0xda, 0xa2,
-	0x6f, 0x21, 0x3d, 0x3c, 0xb7, 0x83, 0x48, 0x28, 0x85, 0x7a, 0x79, 0x85, 0x2e, 0x3b, 0x14, 0x87,
-	0x23, 0x38, 0xe5, 0xd1, 0x55, 0x8f, 0x9a, 0x58, 0xcd, 0xa3, 0x99, 0x08, 0x8e, 0xe0, 0xc8, 0x80,
-	0xc2, 0x99, 0xed, 0x5e, 0x8c, 0x47, 0xe4, 0x74, 0x44, 0xec, 0x20, 0x7e, 0x89, 0xf2, 0xf5, 0x9d,
-	0x64, 0x80, 0xbd, 0x08, 0x85, 0x19, 0x08, 0x6f, 0x9c, 0xf1, 0x57, 0xba, 0xac, 0x03, 0x12, 0x04,
-	0x76, 0x9f, 0xb0, 0x07, 0x2a, 0x87, 0xe7, 0xd7, 0xca, 0x3f, 0x6b, 0xb0, 0xb1, 0x44, 0x45, 0xdf,
-	0x41, 0xba, 0x67, 0x8f, 0x83, 0xf9, 0x2a, 0xfc, 0x7f, 0x65, 0x22, 0xad, 0x49, 0xa1, 0x38, 0x62,
-	0x14, 0x7f, 0x17, 0x21, 0xcd, 0x0c, 0xe8, 0x07, 0x80, 0x89, 0x7d, 0xe1, 0x3a, 0x36, 0x6d, 0x28,
-	0x8e, 0x54, 0x5d, 0x1d, 0xe9, 0x64, 0x81, 0xdf, 0x17, 0x30, 0xc7, 0x46, 0xaf, 0x21, 0xcf, 0x2d,
-	0x4c, 0xac, 0x82, 0x2f, 0x57, 0x07, 0xe3, 0xc6, 0xb9, 0x2f, 0x60, 0x9e, 0xaf, 0x67, 0xe2, 0xfe,
-	0x8a, 0x01, 0xc0, 0x6d, 0x4e, 0xd4, 0x00, 0x89, 0x89, 0x3f, 0xfa, 0xae, 0x5f, 0x7d, 0x6c, 0xad,
-	0x4c, 0x7d, 0x98, 0x51, 0x2b, 0x15, 0x90, 0xd8, 0x76, 0x3c, 0x84, 0xfc, 0x71, 0xfb, 0xa8, 0x63,
-	0x36, 0xad, 0x3d, 0xcb, 0x34, 0x64, 0x01, 0xe5, 0x20, 0x6d, 0x62, 0x7c, 0x88, 0x65, 0xb1, 0x38,
-	0x5e, 0xfe, 0x59, 0xe9, 0x4b, 0x59, 0xb5, 0x8f, 0x6e, 0xea, 0x13, 0xd3, 0xd2, 0x17, 0x4f, 0xe6,
-	0xe8, 0xe6, 0x84, 0x78, 0x21, 0x7a, 0xb1, 0x94, 0xfc, 0xb3, 0x15, 0x92, 0x64, 0xf8, 0xdb, 0x94,
-	0xa8, 0x79, 0xdf, 0x27, 0xd9, 0x5e, 0x11, 0x20, 0x7e, 0xa0, 0x79, 0xd6, 0xee, 0x6f, 0xcb, 0x35,
-	0x31, 0xd9, 0xa3, 0x27, 0xf0, 0xb8, 0x8b, 0x1b, 0xed, 0xa3, 0x46, 0xb3, 0x6b, 0x1d, 0xb6, 0x4f,
-	0x3b, 0x66, 0xdb, 0xb0, 0xda, 0xaf, 0x64, 0x01, 0x29, 0xb0, 0xc9, 0x3b, 0x9a, 0x87, 0xaf, 0x3b,
-	0x2d, 0xb3, 0x6b, 0xca, 0x29, 0xb4, 0x05, 0x88, 0xf7, 0xec, 0x35, 0xac, 0x96, 0x69, 0xc8, 0x6b,
-	0xa8, 0x08, 0x5b, 0xbc, 0xfd, 0xa4, 0xd1, 0xb2, 0x8c, 0x46, 0x97, 0x46, 0x93, 0xd0, 0x53, 0xd8,
-	0xb9, 0xcf, 0x77, 0x4b, 0x4f, 0xef, 0x1a, 0x4b, 0xd5, 0xb1, 0x65, 0x4e, 0xa6, 0x6a, 0xee, 0x37,
-	0xda, 0xaf, 0xcc, 0xbb, 0xc5, 0xe1, 0xc3, 0x56, 0x4b, 0x6f, 0x34, 0x0f, 0x64, 0x71, 0xf7, 0x57,
-	0x11, 0x36, 0xef, 0x1b, 0x24, 0xda, 0x81, 0xff, 0xf1, 0x14, 0xf3, 0xc4, 0x6c, 0x77, 0x4f, 0x8f,
-	0xdb, 0x07, 0xed, 0xc3, 0x1f, 0xdb, 0xb2, 0x90, 0x9c, 0x43, 0x13, 0x9b, 0x8d, 0xae, 0x69, 0xc8,
-	0x62, 0xd2, 0x71, 0xdc, 0x31, 0x98, 0x23, 0x95, 0x74, 0x18, 0x26, 0x1d, 0x0f, 0x9d, 0x43, 0xb2,
-	0x38, 0xb3, 0xd3, 0x6a, 0xfc, 0x64, 0x1a, 0xb2, 0xa4, 0x2b, 0xef, 0x66, 0x25, 0xf1, 0xfd, 0xac,
-	0x24, 0xfe, 0x3d, 0x2b, 0x89, 0x6f, 0xaf, 0x4a, 0xc2, 0xfb, 0xab, 0x92, 0xf0, 0xd7, 0x55, 0x49,
-	0x78, 0xb3, 0xce, 0x7e, 0x7c, 0xcf, 0xff, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xc9, 0xea, 0xb4, 0x85,
-	0xff, 0x09, 0x00, 0x00,
+	// 932 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0x41, 0x6f, 0xe2, 0x46,
+	0x18, 0xc5, 0xc4, 0x10, 0xf8, 0x68, 0x28, 0x3b, 0x4d, 0x13, 0x2f, 0xd1, 0x62, 0x16, 0x55, 0x2d,
+	0x8a, 0x56, 0x20, 0x51, 0x75, 0xb5, 0xbd, 0x6c, 0x85, 0xb1, 0xbb, 0xb1, 0x42, 0x09, 0x9a, 0xf5,
+	0xa6, 0xea, 0x29, 0xf2, 0xe2, 0x09, 0xb1, 0x14, 0x6c, 0x0b, 0x0f, 0xa8, 0x9c, 0xfb, 0x07, 0xb6,
+	0xd7, 0xfe, 0x8a, 0x9e, 0xda, 0xbf, 0xb0, 0xc7, 0x3d, 0xf6, 0xe4, 0x56, 0x44, 0xbd, 0xe4, 0x27,
+	0xe4, 0x54, 0xcd, 0x8c, 0x21, 0x8e, 0x13, 0x51, 0xed, 0xcd, 0xf3, 0xbd, 0xf7, 0xbe, 0x79, 0xf3,
+	0xcd, 0x1b, 0x43, 0xdd, 0xf7, 0xfc, 0xb0, 0x3d, 0xf2, 0xbd, 0x73, 0x77, 0xdc, 0x9e, 0x77, 0xda,
+	0x74, 0x6a, 0x7b, 0xa1, 0x3d, 0xa2, 0xae, 0xef, 0xb5, 0x82, 0xa9, 0x4f, 0x7d, 0x54, 0x66, 0x8c,
+	0x96, 0x60, 0xb4, 0xe6, 0x9d, 0xaa, 0x3a, 0xf6, 0xfd, 0xf1, 0x25, 0x69, 0x73, 0xf4, 0xed, 0xec,
+	0xbc, 0x4d, 0xdd, 0x09, 0x09, 0xa9, 0x3d, 0x09, 0x84, 0xa0, 0x7a, 0x90, 0x26, 0x90, 0x49, 0x40,
+	0x17, 0x31, 0xb8, 0x3b, 0xf6, 0xc7, 0x3e, 0xff, 0x6c, 0xb3, 0xaf, 0xb8, 0x5a, 0x4d, 0xb9, 0x98,
+	0xdb, 0x97, 0x33, 0x22, 0xb0, 0xc6, 0x1f, 0x32, 0x94, 0xac, 0x5b, 0x57, 0xe8, 0x2b, 0xc8, 0xba,
+	0x8e, 0x22, 0xd5, 0xa5, 0x66, 0x51, 0xdb, 0x5f, 0x46, 0x6a, 0xd6, 0xd4, 0x6f, 0x22, 0x75, 0x27,
+	0x41, 0x31, 0x75, 0x9c, 0x75, 0x1d, 0xa4, 0x42, 0xce, 0xf5, 0x1c, 0xf2, 0xb3, 0x92, 0xad, 0x4b,
+	0x4d, 0x59, 0x2b, 0xde, 0x44, 0x6a, 0xce, 0x64, 0x05, 0x2c, 0xea, 0xa8, 0x09, 0x85, 0x29, 0x99,
+	0xbb, 0xa1, 0xeb, 0x7b, 0xca, 0x16, 0xe7, 0x7c, 0x72, 0x13, 0xa9, 0x05, 0x1c, 0xd7, 0xf0, 0x1a,
+	0x45, 0xdf, 0x41, 0x3e, 0xa4, 0x36, 0x9d, 0x85, 0x8a, 0x5c, 0x97, 0x9a, 0xa5, 0xce, 0xd3, 0xd6,
+	0xdd, 0xa1, 0xb4, 0x12, 0xbb, 0xbf, 0xe6, 0x44, 0x4d, 0x7e, 0x1f, 0xa9, 0x19, 0x1c, 0xcb, 0xd0,
+	0x4b, 0xd8, 0x1e, 0x4d, 0x89, 0x4d, 0x89, 0xa3, 0xe4, 0x78, 0x87, 0x6a, 0x4b, 0x4c, 0xa9, 0xb5,
+	0x9a, 0x52, 0xcb, 0x5a, 0x8d, 0x51, 0x2b, 0x30, 0xe9, 0xbb, 0xbf, 0x55, 0x09, 0xaf, 0x44, 0x4c,
+	0x3f, 0x0b, 0x1c, 0xae, 0xcf, 0x7f, 0x8c, 0x3e, 0x16, 0xa1, 0xe7, 0xb0, 0x3d, 0xba, 0xb0, 0xbd,
+	0x31, 0x09, 0x95, 0xed, 0xfa, 0x56, 0xb3, 0xd4, 0xd9, 0x4b, 0x9f, 0xa0, 0xc7, 0xe1, 0xd8, 0xf6,
+	0x8a, 0x8c, 0x14, 0xd8, 0x76, 0xc8, 0x25, 0x61, 0xfb, 0x16, 0xea, 0x52, 0xb3, 0x80, 0x57, 0x4b,
+	0xf4, 0x12, 0xc0, 0x21, 0x01, 0xf1, 0x1c, 0xe2, 0x8d, 0x16, 0x4a, 0x91, 0x9b, 0xaa, 0x6d, 0x18,
+	0x0b, 0x26, 0xe7, 0x38, 0xa1, 0x40, 0xfa, 0xad, 0x9e, 0x86, 0x0a, 0x70, 0x53, 0xff, 0xa3, 0x8f,
+	0xcd, 0x25, 0x74, 0xa8, 0x0a, 0x85, 0x59, 0x48, 0xa6, 0x9e, 0x3d, 0x21, 0x4a, 0x89, 0x45, 0x02,
+	0xaf, 0xd7, 0x8d, 0x5f, 0x25, 0x28, 0xdf, 0x6d, 0x80, 0x9e, 0x81, 0xec, 0xf9, 0x1e, 0xe1, 0xe9,
+	0x61, 0x33, 0x48, 0xcf, 0xd0, 0x60, 0x49, 0x3d, 0xca, 0x60, 0xce, 0x42, 0xc7, 0x50, 0x4e, 0x3c,
+	0x87, 0x33, 0xd7, 0xe1, 0x49, 0x2a, 0x6a, 0x8d, 0x65, 0x3a, 0x6f, 0xf7, 0x02, 0x78, 0x94, 0xc1,
+	0x3b, 0x09, 0xad, 0xe9, 0x68, 0x32, 0x8b, 0x6d, 0xe3, 0x5f, 0x09, 0xf2, 0x62, 0xd2, 0xe8, 0x1b,
+	0x28, 0x52, 0x7b, 0x3a, 0x26, 0xf4, 0x6c, 0x1d, 0x67, 0x65, 0x19, 0xa9, 0x05, 0x8b, 0x17, 0x79,
+	0xcf, 0xf5, 0x37, 0x2e, 0x08, 0xaa, 0xe9, 0xa0, 0x17, 0x50, 0x8e, 0x65, 0x73, 0x32, 0xe5, 0xd1,
+	0x15, 0xa6, 0x1e, 0x71, 0x0f, 0x1c, 0x39, 0x15, 0x00, 0xde, 0xa1, 0xc9, 0x25, 0x6a, 0x43, 0x29,
+	0x56, 0xd2, 0x45, 0x40, 0x78, 0xe2, 0x8b, 0x5a, 0xf9, 0x26, 0x52, 0x41, 0xc8, 0xac, 0x45, 0x40,
+	0x30, 0xd0, 0xf5, 0x37, 0xfa, 0x16, 0xf2, 0xfc, 0x21, 0xb2, 0xd4, 0xb3, 0xeb, 0x39, 0x78, 0x38,
+	0x33, 0xa7, 0x8c, 0xb3, 0xca, 0xbb, 0x10, 0x34, 0x7e, 0x97, 0xa0, 0x94, 0x40, 0xd1, 0x97, 0x20,
+	0x07, 0x36, 0xbd, 0x88, 0xcf, 0x89, 0xae, 0x23, 0xb5, 0x3c, 0xb4, 0xe9, 0xc5, 0x33, 0x7f, 0xe2,
+	0x52, 0xfe, 0x7b, 0xc0, 0x32, 0x5b, 0x23, 0x13, 0x72, 0xbc, 0x03, 0x3f, 0x14, 0x4b, 0x79, 0x3a,
+	0x10, 0x8b, 0x80, 0x38, 0x62, 0xc3, 0x7d, 0xb6, 0xe1, 0x75, 0xa4, 0x7e, 0xca, 0x97, 0x89, 0x4e,
+	0x39, 0xb1, 0x65, 0x0b, 0xb6, 0xa7, 0x64, 0xe2, 0xcf, 0x89, 0xc3, 0x8f, 0x5a, 0xd0, 0x76, 0xaf,
+	0x23, 0xb5, 0x82, 0x79, 0x29, 0xc1, 0x5e, 0x91, 0x1a, 0xbf, 0x48, 0xf0, 0xe8, 0xde, 0x33, 0x46,
+	0xcf, 0x21, 0x17, 0x5c, 0xd8, 0xa1, 0x88, 0x4c, 0xb9, 0x53, 0xdf, 0x90, 0xd0, 0x21, 0xe3, 0x61,
+	0x41, 0x67, 0x3a, 0xf6, 0xf4, 0xc5, 0x41, 0x36, 0xeb, 0xd8, 0x4e, 0x04, 0x0b, 0x3a, 0x0b, 0x6d,
+	0x25, 0x81, 0x19, 0x73, 0xe2, 0x51, 0xf4, 0x02, 0x64, 0x7e, 0x65, 0xc2, 0xc3, 0x17, 0x1b, 0x7a,
+	0x71, 0x3e, 0xbf, 0x48, 0xae, 0x40, 0x3d, 0x28, 0x25, 0x62, 0x18, 0x4f, 0xf5, 0x60, 0x43, 0x83,
+	0xf8, 0x1e, 0x93, 0xaa, 0xc3, 0x3f, 0xef, 0x7a, 0xe2, 0x7e, 0xd1, 0x3e, 0x7c, 0x66, 0xe1, 0xee,
+	0xe0, 0x75, 0xb7, 0x67, 0x99, 0x27, 0x83, 0xb3, 0xa1, 0x31, 0xd0, 0xcd, 0xc1, 0xab, 0x4a, 0x06,
+	0x29, 0xb0, 0x9b, 0x04, 0x7a, 0x27, 0x3f, 0x0c, 0xfb, 0x86, 0x65, 0x54, 0xb2, 0x68, 0x0f, 0x50,
+	0x12, 0xf9, 0xbe, 0x6b, 0xf6, 0x0d, 0xbd, 0xb2, 0x85, 0xaa, 0xb0, 0x97, 0xac, 0x9f, 0x76, 0xfb,
+	0xa6, 0xde, 0xb5, 0x58, 0x37, 0x19, 0x3d, 0x86, 0xcf, 0x1f, 0xc0, 0x0c, 0xbd, 0x92, 0x43, 0x4f,
+	0xe1, 0xc9, 0x43, 0xb2, 0xdb, 0xce, 0xf9, 0x43, 0xfd, 0x8e, 0x71, 0x7e, 0x41, 0x69, 0x17, 0xbd,
+	0xa3, 0xee, 0xe0, 0x95, 0x71, 0xdf, 0x37, 0x3e, 0xe9, 0xf7, 0xb5, 0x6e, 0xef, 0xb8, 0x22, 0x1d,
+	0xfe, 0x26, 0xc1, 0xee, 0x43, 0x33, 0x46, 0x4f, 0xe0, 0x71, 0x52, 0x62, 0x9c, 0x1a, 0x03, 0xeb,
+	0xec, 0xcd, 0xe0, 0x78, 0x70, 0xf2, 0xe3, 0xa0, 0x92, 0x49, 0x8f, 0xa8, 0x87, 0x0d, 0xee, 0x5c,
+	0x4a, 0x03, 0x6f, 0x86, 0xe2, 0x48, 0xd9, 0x34, 0xa0, 0x1b, 0x6c, 0x72, 0x6c, 0x44, 0x69, 0x73,
+	0xc6, 0xb0, 0xdf, 0xfd, 0xc9, 0xd0, 0x2b, 0xb2, 0xa6, 0xbc, 0x5f, 0xd6, 0xa4, 0x0f, 0xcb, 0x9a,
+	0xf4, 0xcf, 0xb2, 0x26, 0xbd, 0xbb, 0xaa, 0x65, 0x3e, 0x5c, 0xd5, 0x32, 0x7f, 0x5d, 0xd5, 0x32,
+	0x6f, 0xf3, 0xfc, 0xb7, 0xf6, 0xf5, 0x7f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x88, 0x63, 0xbf, 0xf5,
+	0xe3, 0x07, 0x00, 0x00,
 }
 
 func (m *Transaction) Marshal() (dAtA []byte, err error) {
@@ -1008,7 +710,7 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.Username)
 		i = encodeVarintTransaction(dAtA, i, uint64(len(m.Username)))
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x5a
 	}
 	if len(m.Dependents) > 0 {
 		for iNdEx := len(m.Dependents) - 1; iNdEx >= 0; iNdEx-- {
@@ -1021,7 +723,7 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				i = encodeVarintTransaction(dAtA, i, uint64(size))
 			}
 			i--
-			dAtA[i] = 0x5a
+			dAtA[i] = 0x52
 		}
 	}
 	if m.Dependency != nil {
@@ -1034,7 +736,7 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i = encodeVarintTransaction(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x4a
 	}
 	if m.Deleted {
 		i--
@@ -1044,7 +746,7 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0
 		}
 		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x40
 	}
 	if len(m.Changes) > 0 {
 		for iNdEx := len(m.Changes) - 1; iNdEx >= 0; iNdEx-- {
@@ -1261,18 +963,16 @@ func (m *ChangeValue) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x18
 	}
-	if m.Value != nil {
-		{
-			size, err := m.Value.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTransaction(dAtA, i, uint64(size))
+	{
+		size, err := m.Value.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i--
-		dAtA[i] = 0x12
+		i -= size
+		i = encodeVarintTransaction(dAtA, i, uint64(size))
 	}
+	i--
+	dAtA[i] = 0x12
 	if len(m.Path) > 0 {
 		i -= len(m.Path)
 		copy(dAtA[i:], m.Path)
@@ -1303,25 +1003,6 @@ func (m *TransactionStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Message) > 0 {
-		i -= len(m.Message)
-		copy(dAtA[i:], m.Message)
-		i = encodeVarintTransaction(dAtA, i, uint64(len(m.Message)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if m.FailureReason != nil {
-		{
-			size, err := m.FailureReason.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTransaction(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x1a
-	}
 	if m.State != 0 {
 		i = encodeVarintTransaction(dAtA, i, uint64(m.State))
 		i--
@@ -1329,171 +1010,6 @@ func (m *TransactionStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	}
 	if m.Phase != 0 {
 		i = encodeVarintTransaction(dAtA, i, uint64(m.Phase))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *FailureReason) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *FailureReason) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FailureReason) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Cause != nil {
-		{
-			size, err := m.Cause.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTransaction(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *FailureReason_Cause) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *FailureReason_Cause) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FailureReason_Cause) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Cause != nil {
-		{
-			size := m.Cause.Size()
-			i -= size
-			if _, err := m.Cause.MarshalTo(dAtA[i:]); err != nil {
-				return 0, err
-			}
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *FailureReason_Cause_Validation) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FailureReason_Cause_Validation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	if m.Validation != nil {
-		{
-			size, err := m.Validation.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTransaction(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-func (m *FailureReason_Cause_Transaction) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FailureReason_Cause_Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	if m.Transaction != nil {
-		{
-			size, err := m.Transaction.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTransaction(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x12
-	}
-	return len(dAtA) - i, nil
-}
-func (m *FailureReason_Validation) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *FailureReason_Validation) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FailureReason_Validation) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Type != 0 {
-		i = encodeVarintTransaction(dAtA, i, uint64(m.Type))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *FailureReason_Transaction) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *FailureReason_Transaction) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FailureReason_Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Type != 0 {
-		i = encodeVarintTransaction(dAtA, i, uint64(m.Type))
 		i--
 		dAtA[i] = 0x8
 	}
@@ -1668,10 +1184,8 @@ func (m *ChangeValue) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTransaction(uint64(l))
 	}
-	if m.Value != nil {
-		l = m.Value.Size()
-		n += 1 + l + sovTransaction(uint64(l))
-	}
+	l = m.Value.Size()
+	n += 1 + l + sovTransaction(uint64(l))
 	if m.Removed {
 		n += 2
 	}
@@ -1689,87 +1203,6 @@ func (m *TransactionStatus) Size() (n int) {
 	}
 	if m.State != 0 {
 		n += 1 + sovTransaction(uint64(m.State))
-	}
-	if m.FailureReason != nil {
-		l = m.FailureReason.Size()
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	l = len(m.Message)
-	if l > 0 {
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	return n
-}
-
-func (m *FailureReason) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Cause != nil {
-		l = m.Cause.Size()
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	return n
-}
-
-func (m *FailureReason_Cause) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Cause != nil {
-		n += m.Cause.Size()
-	}
-	return n
-}
-
-func (m *FailureReason_Cause_Validation) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Validation != nil {
-		l = m.Validation.Size()
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	return n
-}
-func (m *FailureReason_Cause_Transaction) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Transaction != nil {
-		l = m.Transaction.Size()
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	return n
-}
-func (m *FailureReason_Validation) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Type != 0 {
-		n += 1 + sovTransaction(uint64(m.Type))
-	}
-	return n
-}
-
-func (m *FailureReason_Transaction) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Type != 0 {
-		n += 1 + sovTransaction(uint64(m.Type))
 	}
 	return n
 }
@@ -2021,12 +1454,12 @@ func (m *Transaction) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Changes = append(m.Changes, &Change{})
+			m.Changes = append(m.Changes, Change{})
 			if err := m.Changes[len(m.Changes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
-		case 9:
+		case 8:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Deleted", wireType)
 			}
@@ -2046,7 +1479,7 @@ func (m *Transaction) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.Deleted = bool(v != 0)
-		case 10:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Dependency", wireType)
 			}
@@ -2082,7 +1515,7 @@ func (m *Transaction) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 11:
+		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Dependents", wireType)
 			}
@@ -2116,7 +1549,7 @@ func (m *Transaction) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 12:
+		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Username", wireType)
 			}
@@ -2440,7 +1873,7 @@ func (m *Change) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Values = append(m.Values, &ChangeValue{})
+			m.Values = append(m.Values, ChangeValue{})
 			if err := m.Values[len(m.Values)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -2556,9 +1989,6 @@ func (m *ChangeValue) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Value == nil {
-				m.Value = &TypedValue{}
-			}
 			if err := m.Value.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -2667,418 +2097,6 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 				b := dAtA[iNdEx]
 				iNdEx++
 				m.State |= TransactionState(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field FailureReason", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.FailureReason == nil {
-				m.FailureReason = &FailureReason{}
-			}
-			if err := m.FailureReason.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Message = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTransaction(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *FailureReason) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTransaction
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: FailureReason: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: FailureReason: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Cause", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Cause == nil {
-				m.Cause = &FailureReason_Cause{}
-			}
-			if err := m.Cause.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTransaction(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *FailureReason_Cause) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTransaction
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Cause: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Cause: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Validation", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			v := &FailureReason_Validation{}
-			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			m.Cause = &FailureReason_Cause_Validation{v}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Transaction", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			v := &FailureReason_Transaction{}
-			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			m.Cause = &FailureReason_Cause_Transaction{v}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTransaction(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *FailureReason_Validation) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTransaction
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Validation: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Validation: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
-			}
-			m.Type = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Type |= FailureReason_Validation_Type(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTransaction(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *FailureReason_Transaction) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTransaction
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Transaction: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Transaction: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
-			}
-			m.Type = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Type |= FailureReason_Transaction_Type(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
