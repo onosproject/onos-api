@@ -11,11 +11,13 @@
     - [FailureReason.Transaction](#onos.config.v2.FailureReason.Transaction)
     - [FailureReason.Validation](#onos.config.v2.FailureReason.Validation)
     - [Transaction](#onos.config.v2.Transaction)
+    - [TransactionEvent](#onos.config.v2.TransactionEvent)
     - [TransactionRef](#onos.config.v2.TransactionRef)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
   
     - [FailureReason.Transaction.Type](#onos.config.v2.FailureReason.Transaction.Type)
     - [FailureReason.Validation.Type](#onos.config.v2.FailureReason.Validation.Type)
+    - [TransactionEventType](#onos.config.v2.TransactionEventType)
     - [TransactionPhase](#onos.config.v2.TransactionPhase)
     - [TransactionState](#onos.config.v2.TransactionState)
   
@@ -151,6 +153,22 @@ Transaction refers to a multi-target transactional change
 
 
 
+<a name="onos.config.v2.TransactionEvent"></a>
+
+### TransactionEvent
+TransactionEvent transaction store event
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [TransactionEventType](#onos.config.v2.TransactionEventType) |  |  |
+| transaction | [Transaction](#onos.config.v2.Transaction) |  |  |
+
+
+
+
+
+
 <a name="onos.config.v2.TransactionRef"></a>
 
 ### TransactionRef
@@ -208,6 +226,21 @@ TransactionStatus is the status of a Transaction
 | ---- | ------ | ----------- |
 | UNSPECIFIED | 0 |  |
 | ERROR | 1 |  |
+
+
+
+<a name="onos.config.v2.TransactionEventType"></a>
+
+### TransactionEventType
+TransactionEventType transaction event types for transaction store
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TRANSACTION_EVENT_UNKNOWN | 0 |  |
+| TRANSACTION_CREATED | 1 |  |
+| TRANSACTION_UPDATED | 2 |  |
+| TRANSACTION_DELETED | 3 |  |
+| TRANSACTION_REPLAYED | 4 |  |
 
 
 

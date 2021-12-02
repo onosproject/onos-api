@@ -181,6 +181,20 @@ message FailureReason {
 
 }
 
+// TransactionEventType transaction event types for transaction store
+enum TransactionEventType {
+    TRANSACTION_EVENT_UNKNOWN = 0;
+    TRANSACTION_CREATED = 1;
+    TRANSACTION_UPDATED = 2;
+    TRANSACTION_DELETED = 3;
+    TRANSACTION_REPLAYED = 4;
+}
+
+// TransactionEvent transaction store event
+message TransactionEvent {
+    TransactionEventType type = 1;
+    Transaction transaction = 2 [(gogoproto.nullable) = false];
+}
 
 
 

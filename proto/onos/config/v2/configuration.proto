@@ -71,3 +71,18 @@ enum ConfigurationState {
 
 }
 
+// ConfigurationEventType configuration event types for configuration store
+enum ConfigurationEventType {
+  CONFIGURATION_EVENT_UNKNOWN = 0;
+  CONFIGURATION_CREATED = 1;
+  CONFIGURATION_UPDATED = 2;
+  CONFIGURATION_DELETED = 3;
+  CONFIGURATION_REPLAYED = 4;
+}
+
+// ConfigurationEvent configuration store event
+message ConfigurationEvent {
+  ConfigurationEventType type = 1;
+  Configuration configuration = 2 [(gogoproto.nullable) = false];
+}
+

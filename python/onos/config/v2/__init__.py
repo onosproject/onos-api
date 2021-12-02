@@ -40,6 +40,18 @@ class ConfigurationState(betterproto.Enum):
     CONFIGURATION_COMPLETE = 2
 
 
+class ConfigurationEventType(betterproto.Enum):
+    """
+    ConfigurationEventType configuration event types for configuration store
+    """
+
+    CONFIGURATION_EVENT_UNKNOWN = 0
+    CONFIGURATION_CREATED = 1
+    CONFIGURATION_UPDATED = 2
+    CONFIGURATION_DELETED = 3
+    CONFIGURATION_REPLAYED = 4
+
+
 class TransactionState(betterproto.Enum):
     """TransactionState is the transaction state of a transaction phase"""
 
@@ -64,6 +76,16 @@ class TransactionPhase(betterproto.Enum):
     # TRANSACTION_ROLLBACK indicates a rollback has been requested for the
     # transaction
     TRANSACTION_ROLLBACK = 1
+
+
+class TransactionEventType(betterproto.Enum):
+    """TransactionEventType transaction event types for transaction store"""
+
+    TRANSACTION_EVENT_UNKNOWN = 0
+    TRANSACTION_CREATED = 1
+    TRANSACTION_UPDATED = 2
+    TRANSACTION_DELETED = 3
+    TRANSACTION_REPLAYED = 4
 
 
 class FailureReasonValidationType(betterproto.Enum):
@@ -135,6 +157,14 @@ class MastershipState(betterproto.Message):
     """Mastership state"""
 
     term: int = betterproto.uint64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ConfigurationEvent(betterproto.Message):
+    """ConfigurationEvent configuration store event"""
+
+    type: "ConfigurationEventType" = betterproto.enum_field(1)
+    configuration: "Configuration" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -252,6 +282,14 @@ class FailureReasonValidation(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class FailureReasonTransaction(betterproto.Message):
     type: "FailureReasonTransactionType" = betterproto.enum_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionEvent(betterproto.Message):
+    """TransactionEvent transaction store event"""
+
+    type: "TransactionEventType" = betterproto.enum_field(1)
+    transaction: "Transaction" = betterproto.message_field(2)
 
 
 import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf

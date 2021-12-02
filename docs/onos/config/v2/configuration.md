@@ -5,9 +5,11 @@
 
 - [onos/config/v2/configuration.proto](#onos/config/v2/configuration.proto)
     - [Configuration](#onos.config.v2.Configuration)
+    - [ConfigurationEvent](#onos.config.v2.ConfigurationEvent)
     - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
     - [MastershipState](#onos.config.v2.MastershipState)
   
+    - [ConfigurationEventType](#onos.config.v2.ConfigurationEventType)
     - [ConfigurationState](#onos.config.v2.ConfigurationState)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -35,6 +37,22 @@ Configuration represents complete desired target configuration
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this desired target configuration |
 | values | [PathValue](#onos.config.v2.PathValue) | repeated | &#39;values&#39; is a list of path/values to set |
 | status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
+
+
+
+
+
+
+<a name="onos.config.v2.ConfigurationEvent"></a>
+
+### ConfigurationEvent
+ConfigurationEvent configuration store event
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [ConfigurationEventType](#onos.config.v2.ConfigurationEventType) |  |  |
+| configuration | [Configuration](#onos.config.v2.Configuration) |  |  |
 
 
 
@@ -73,6 +91,21 @@ Mastership state
 
 
  
+
+
+<a name="onos.config.v2.ConfigurationEventType"></a>
+
+### ConfigurationEventType
+ConfigurationEventType configuration event types for configuration store
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| CONFIGURATION_EVENT_UNKNOWN | 0 |  |
+| CONFIGURATION_CREATED | 1 |  |
+| CONFIGURATION_UPDATED | 2 |  |
+| CONFIGURATION_DELETED | 3 |  |
+| CONFIGURATION_REPLAYED | 4 |  |
+
 
 
 <a name="onos.config.v2.ConfigurationState"></a>
