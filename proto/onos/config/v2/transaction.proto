@@ -1,0 +1,157 @@
+/*
+Copyright 2021-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+package onos.config.v2;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "gogoproto/gogo.proto";
+import "onos/config/v2/value.proto";
+
+
+// Transaction refers to a multi-target transactional change
+message Transaction {
+    // 'id' is the unique identifier of the transaction
+    // This field should be set prior to persisting the object.
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
+
+    // 'index' is a monotonically increasing, globally unique index of the change
+    // The index is provided by the store, is static and unique for each unique change identifier,
+    // and should not be modified by client code.
+    uint64 index = 2 [(gogoproto.casttype) = "Index"];
+
+    // 'revision' is the change revision number
+    // The revision number is provided by the store and should not be modified by client code.
+    // Each unique state of the change will be assigned a unique revision number which can be
+    // used for optimistic concurrency control when updating or deleting the change state.
+    uint64 revision = 3 [(gogoproto.casttype) = "Revision"];
+
+    // 'status' is the current lifecycle status of the transaction
+    TransactionStatus status = 4 [(gogoproto.nullable) = false];
+
+    // 'created' is the time at which the transaction was created
+    google.protobuf.Timestamp created = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+
+    // 'updated' is the time at which the transaction was last updated
+    google.protobuf.Timestamp updated = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+
+    // 'changes' is a set of changes to apply to targets
+    // The list of changes should contain only a single change per target/version pair.
+    repeated Change changes = 7 [(gogoproto.nullable) = false];
+
+    // 'deleted' is a flag indicating whether this transaction is being deleted by a snapshot
+    bool deleted = 8;
+
+    // 'dependency' is a reference to the transaction on which this transaction is dependent
+    TransactionRef dependency = 9;
+
+    // 'dependents' is a list of references to transactions that depend on this transaction
+    repeated TransactionRef dependents = 10 [(gogoproto.nullable) = false];
+
+    // 'username' is the name of the user that made the transaction
+    string username = 11;
+}
+
+// TransactionRef is a reference to a transaction
+message TransactionRef {
+    oneof id {
+        google.protobuf.Empty none = 1;
+        string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
+    }
+}
+
+// Change represents a configuration change to a single target
+message Change {
+    // 'target_id' is the identifier of the target to which this change applies
+    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
+
+    // 'target_version' is an optional target version to which to apply this change
+    string target_version = 2 [(gogoproto.casttype) = "TargetVersion"];
+
+    // 'target_type' is an optional target type to which to apply this change
+    string target_type = 3 [(gogoproto.casttype) = "TargetType"];
+
+    // 'values' is a set of change values to apply
+    repeated ChangeValue values = 4 [(gogoproto.nullable) = false];
+}
+
+// ChangeValue is an individual Path/Value and removed flag combination in a Change
+message ChangeValue {
+    // 'path' is the path to change
+    string path = 1 [json_name="Path", (gogoproto.jsontag) = "Path,omitempty"];
+
+    // 'value' is the change value
+    TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
+
+    // 'removed' indicates whether this is a delete
+    bool removed = 3 [(gogoproto.jsontag) = "Remove,omitempty"];
+}
+
+// TransactionStatus is the status of a Transaction
+message TransactionStatus {
+    // 'phase' is the current phase of the
+    TransactionPhase phase = 1;
+
+    // 'state' is the state of the transaction within a Phase
+    TransactionState state = 2;
+}
+
+// TransactionState is the transaction state of a transaction phase
+enum TransactionState {
+    // TRANSACTION_PENDING indicates the transaction is pending
+    TRANSACTION_PENDING = 0;
+
+    // TRANSACTION_COMPLETE indicates the transaction is complete
+    TRANSACTION_COMPLETE = 2;
+
+    // TRANSACTION_FAILED indicates the transaction failed
+    TRANSACTION_FAILED = 3;
+
+    // TRANSACTION_VALIDATING indicates the transaction is in the validating state
+    TRANSACTION_VALIDATING = 4;
+
+    // TRANSACTION_VALIDATED indicates the transaction is validated successfully
+    TRANSACTION_VALIDATED = 5;
+
+    // TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed
+    TRANSACTION_VALIDATION_FAILED = 6;
+}
+
+// TransactionPhase is the phase of a Transaction
+enum TransactionPhase {
+    // TRANSACTION_CHANGE indicates the transaction has been requested
+    TRANSACTION_CHANGE = 0;
+
+    // TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction
+    TRANSACTION_ROLLBACK = 1;
+}
+
+// TransactionEventType transaction event types for transaction store
+enum TransactionEventType {
+    TRANSACTION_EVENT_UNKNOWN = 0;
+    TRANSACTION_CREATED = 1;
+    TRANSACTION_UPDATED = 2;
+    TRANSACTION_DELETED = 3;
+    TRANSACTION_REPLAYED = 4;
+}
+
+// TransactionEvent transaction store event
+message TransactionEvent {
+    TransactionEventType type = 1;
+    Transaction transaction = 2 [(gogoproto.nullable) = false];
+}

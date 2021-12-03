@@ -68,6 +68,24 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,network_snapshot.md \
     proto/onos/config/snapshot/network/types.proto
 
+## onos-config v2 API
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,value.md \
+    proto/onos/config/v2/value.proto
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,transaction.md \
+    proto/onos/config/v2/transaction.proto
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,configuration.md \
+    proto/onos/config/v2/configuration.proto
+
+
 #configmodel
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/configmodel \
@@ -134,6 +152,11 @@ go_import_paths="${go_import_paths},Monos/config/change/network/types.proto=gith
 go_import_paths="${go_import_paths},Monos/config/snapshot/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot"
 go_import_paths="${go_import_paths},Monos/config/snapshot/device/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/onosproject/onos-api/go/onos/ransim/types"
+go_import_paths="${go_import_paths},Monos/config/v2/value.proto=github.com/onosproject/onos-api/go/onos/config/v2"
+go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v2"
+go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"
+
+
 # topo and UE-NIB
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
@@ -186,6 +209,12 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/diags,plugins=grpc:./go \
     proto/onos/config/diags/*.proto
+
+# onos-config v2 API
+
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/config/v2,plugins=grpc:./go \
+    proto/onos/config/v2/*.proto
 
 #configmodel
 protoc --proto_path=$proto_path \

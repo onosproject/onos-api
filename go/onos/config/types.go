@@ -25,7 +25,6 @@ type Index uint64
 // Revision is a revision number
 type Revision uint64
 
-
 // NewUUID generates a new uuid
 func NewUUID() uuid.UUID {
 	newUUID, err := uuid.NewUUID()
