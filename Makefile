@@ -3,10 +3,10 @@
 ONOS_PROTOC_VERSION := v0.6.9
 BUF_VERSION := 0.47.0
 
+all: protos golang
+
 build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
 include ./build/build-tools/make/onf-common.mk
-
-all: protos golang
 
 golang: # @HELP compile Golang sources
 	cd go && go build ./...
@@ -51,7 +51,7 @@ mocks:
 	./build/bin/generate-mocks.sh
 
 publish: twine # @HELP publish version on github, dockerhub, abd PyPI
-	BASEDIR=. PYPI_INDEX=pypi ./../build-tools/publish-python-version
+	BASEDIR=. PYPI_INDEX=pypi ./build/build-tools/publish-python-version
 	./build/build-tools/publish-version ${VERSION}
 	./build/build-tools/publish-version go/${VERSION}
 
