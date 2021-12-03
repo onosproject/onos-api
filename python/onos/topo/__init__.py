@@ -170,6 +170,8 @@ class InterfaceType(betterproto.Enum):
     INTERFACE_E2T = 1
     INTERFACE_E2AP101 = 2
     INTERFACE_E2AP200 = 3
+    INTERFACE_A1_XAPP = 4
+    INTERFACE_A1AP = 5
 
 
 class EventType(betterproto.Enum):
@@ -430,6 +432,29 @@ class Interface(betterproto.Message):
 class E2TInfo(betterproto.Message):
     """E2TInfo E2T aspect;"""
 
+    interfaces: List["Interface"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class XAppInfo(betterproto.Message):
+    interfaces: List["Interface"] = betterproto.message_field(1)
+    xapp_policy_info: "XAppA1PolicyInfo" = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class XAppA1PolicyInfo(betterproto.Message):
+    policy_objects: Dict[str, "A1PolicyObject"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
+
+
+@dataclass(eq=False, repr=False)
+class A1PolicyObject(betterproto.Message):
+    policy_object_json: str = betterproto.string_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class A1TInfo(betterproto.Message):
     interfaces: List["Interface"] = betterproto.message_field(1)
 
 
