@@ -40,6 +40,10 @@ message Configuration {
 
   // 'ConfigurationStatus' is the current lifecycle status of the configuration
   ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
+
+  // revision is configuration revision
+  uint64 revision = 7 [(gogoproto.casttype) = "Revision"];
+
 }
 
 // ConfigurationStatus is the status of a Configuration

@@ -138,6 +138,8 @@ class Configuration(betterproto.Message):
     values: List["PathValue"] = betterproto.message_field(5)
     # 'ConfigurationStatus' is the current lifecycle status of the configuration
     status: "ConfigurationStatus" = betterproto.message_field(6)
+    # revision is configuration revision
+    revision: int = betterproto.uint64_field(7)
 
 
 @dataclass(eq=False, repr=False)
