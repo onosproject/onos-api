@@ -206,10 +206,10 @@ message XAppInfo {
 }
 
 message A1PolicyType {
-    string a1_policy_type_id = 1;
-    string a1_type_name = 2;
-    string a1_type_version = 3;
-    string a1_type_description = 4;
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PolicyTypeID"];
+    string name = 2 [(gogoproto.customname) = "Name", (gogoproto.casttype) = "PolicyTypeName"];
+    string version = 3 [(gogoproto.customname) = "Version", (gogoproto.casttype) = "PolicyTypeVersion"];
+    string description = 4 [(gogoproto.customname) = "Description", (gogoproto.casttype) = "PolicyTypeDescription"];
 }
 
 message A1TInfo {

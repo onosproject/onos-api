@@ -55,6 +55,18 @@ const (
 	ONOS_CONFIG = "onos-config"
 )
 
+// PolicyTypeID is an identifier of A1 policy type
+type PolicyTypeID string
+
+// PolicyTypeName is a name of A1 policy type
+type PolicyTypeName string
+
+// PolicyTypeVersion is a version of A1 policy type
+type PolicyTypeVersion string
+
+// PolicyTypeDescription describe what this A1 policy is
+type PolicyTypeDescription string
+
 // TopoClientFactory : Default EntityServiceClient creation.
 var TopoClientFactory = func(cc *grpc.ClientConn) TopoClient {
 	return NewTopoClient(cc)

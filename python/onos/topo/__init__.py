@@ -443,10 +443,10 @@ class XAppInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class A1PolicyType(betterproto.Message):
-    a1_policy_type_id: str = betterproto.string_field(1)
-    a1_type_name: str = betterproto.string_field(2)
-    a1_type_version: str = betterproto.string_field(3)
-    a1_type_description: str = betterproto.string_field(4)
+    id: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(2)
+    version: str = betterproto.string_field(3)
+    description: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)
