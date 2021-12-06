@@ -438,18 +438,15 @@ class E2TInfo(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class XAppInfo(betterproto.Message):
     interfaces: List["Interface"] = betterproto.message_field(1)
-    xapp_a1_policy_types: List["A1PolicyType"] = betterproto.message_field(2)
+    a1_policy_types: List["A1PolicyType"] = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class A1PolicyType(betterproto.Message):
-    xapp_a1_policy_type_id: str = betterproto.string_field(1)
-    xapp_a1_policies: List["A1Policy"] = betterproto.message_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class A1Policy(betterproto.Message):
-    xapp_a1_policy_id: str = betterproto.string_field(1)
+    a1_policy_type_id: str = betterproto.string_field(1)
+    a1_type_name: str = betterproto.string_field(2)
+    a1_type_version: str = betterproto.string_field(3)
+    a1_type_description: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)

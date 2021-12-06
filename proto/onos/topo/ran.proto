@@ -202,16 +202,14 @@ message E2TInfo {
 
 message XAppInfo {
     repeated Interface interfaces = 1;
-    repeated A1PolicyType xapp_a1_policy_types = 2;
+    repeated A1PolicyType a1_policy_types = 2;
 }
 
 message A1PolicyType {
-    string xapp_a1_policy_type_id = 1;
-    repeated A1Policy xapp_a1_policies = 2;
-}
-
-message A1Policy {
-    string xapp_a1_policy_id = 1;
+    string a1_policy_type_id = 1;
+    string a1_type_name = 2;
+    string a1_type_version = 3;
+    string a1_type_description = 4;
 }
 
 message A1TInfo {
