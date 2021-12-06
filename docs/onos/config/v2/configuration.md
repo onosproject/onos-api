@@ -37,6 +37,7 @@ Configuration represents complete desired target configuration
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this desired target configuration |
 | values | [PathValue](#onos.config.v2.PathValue) | repeated | &#39;values&#39; is a list of path/values to set |
 | status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
+| revision | [uint64](#uint64) |  | revision is configuration revision |
 
 
 
