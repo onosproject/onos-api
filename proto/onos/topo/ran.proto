@@ -202,15 +202,14 @@ message E2TInfo {
 
 message XAppInfo {
     repeated Interface interfaces = 1;
-    XAppA1PolicyInfo xapp_policy_info = 2;
+    repeated A1PolicyType a1_policy_types = 2;
 }
 
-message XAppA1PolicyInfo {
-    map<string, A1PolicyObject> policy_objects = 1;
-}
-
-message A1PolicyObject {
-    string policy_object_json = 1;
+message A1PolicyType {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PolicyTypeID"];
+    string name = 2 [(gogoproto.customname) = "Name", (gogoproto.casttype) = "PolicyTypeName"];
+    string version = 3 [(gogoproto.customname) = "Version", (gogoproto.casttype) = "PolicyTypeVersion"];
+    string description = 4 [(gogoproto.customname) = "Description", (gogoproto.casttype) = "PolicyTypeDescription"];
 }
 
 message A1TInfo {

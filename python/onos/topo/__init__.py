@@ -438,19 +438,15 @@ class E2TInfo(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class XAppInfo(betterproto.Message):
     interfaces: List["Interface"] = betterproto.message_field(1)
-    xapp_policy_info: "XAppA1PolicyInfo" = betterproto.message_field(2)
+    a1_policy_types: List["A1PolicyType"] = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
-class XAppA1PolicyInfo(betterproto.Message):
-    policy_objects: Dict[str, "A1PolicyObject"] = betterproto.map_field(
-        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
-
-
-@dataclass(eq=False, repr=False)
-class A1PolicyObject(betterproto.Message):
-    policy_object_json: str = betterproto.string_field(1)
+class A1PolicyType(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(2)
+    version: str = betterproto.string_field(3)
+    description: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)
