@@ -1,0 +1,63 @@
+/*
+Copyright 2020-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package onos.a1t.a1 defines the interior gRPC interfaces for xApps to interact with A1T.
+package onos.a1t.a1;
+
+import "gogoproto/gogo.proto";
+import "onos/a1t/a1/a1.proto";
+
+option (gogoproto.goproto_registration) = true;
+
+service PolicyService {
+  rpc PolicySetup (PolicyRequestMessage) returns (PolicyResultMessage);
+  rpc PolicyUpdate (PolicyRequestMessage) returns (PolicyResultMessage);
+  rpc PolicyDelete (PolicyRequestMessage) returns (PolicyResultMessage);
+  rpc PolicyQuery (PolicyRequestMessage) returns (PolicyResultMessage);
+  rpc PolicyStatus (stream PolicyAckMessage) returns (stream PolicyStatusMessage);
+}
+
+message PolicyType {
+  string id = 1;
+  string name = 2;
+  string version = 3;
+}
+
+message PolicyRequestMessage {
+  Header header = 1;
+  PolicyType policy_type = 2;
+  RequestMessage message = 3;
+}
+
+message PolicyResultMessage {
+  Header header = 1;
+  PolicyType policy_type = 2;
+  ResultMessage message = 3;
+}
+
+message PolicyStatusMessage {
+  Header header = 1;
+  PolicyType policy_type = 2;
+  StatusMessage message = 3;
+}
+
+message PolicyAckMessage {
+  Header header = 1;
+  PolicyType policy_type = 2;
+  AckMessage message = 3;
+}
