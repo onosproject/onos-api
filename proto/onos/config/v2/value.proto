@@ -58,4 +58,7 @@ message PathValue {
 
     // 'value' is the change value
     TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
+
+    // 'removed' indicates whether this is a delete
+    bool removed = 3 [(gogoproto.jsontag) = "Remove,omitempty"];
 }

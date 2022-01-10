@@ -118,6 +118,8 @@ class PathValue(betterproto.Message):
     path: str = betterproto.string_field(1)
     # 'value' is the change value
     value: "TypedValue" = betterproto.message_field(2)
+    # 'removed' indicates whether this is a delete
+    removed: bool = betterproto.bool_field(3)
 
 
 @dataclass(eq=False, repr=False)
