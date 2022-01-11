@@ -185,7 +185,7 @@ PathValuesResponse carries a list of typed path values
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pathValues | [onos.config.change.device.PathValue](#onos.config.change.device.PathValue) | repeated |  |
+| pathValues | [onos.config.v2.PathValue](#onos.config.v2.PathValue) | repeated |  |
 
 
 

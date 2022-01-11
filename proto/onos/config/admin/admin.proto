@@ -24,6 +24,7 @@ import "gogoproto/gogo.proto";
 import "github.com/openconfig/gnmi/proto/gnmi/gnmi.proto";
 import "onos/config/change/device/types.proto";
 import "onos/config/snapshot/device/types.proto";
+import "onos/config/v2/value.proto";
 
 // Streaming event type
 enum Type {
@@ -257,5 +258,5 @@ message PathValuesRequest {
 
 // PathValuesResponse carries a list of typed path values
 message PathValuesResponse {
-    repeated onos.config.change.device.PathValue pathValues = 1;
+    repeated onos.config.v2.PathValue pathValues = 1;
 }

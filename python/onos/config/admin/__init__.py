@@ -8,7 +8,7 @@ from typing import AsyncIterable, AsyncIterator, Dict, Iterable, List, Union
 import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
-import gnmi.proto
+
 
 class Type(betterproto.Enum):
     """Streaming event type"""
@@ -96,7 +96,7 @@ class ModelInfo(betterproto.Message):
     # model_data is a set of metadata about the YANG files that went in to
     # generating the model plugin. It includes name, version and organization for
     # each YANG file, similar to how they are represented in gNMI Capabilities.
-    model_data: List["gnmi.proto.ModelData"] = betterproto.message_field(3)
+    model_data: List["___gnmi__.ModelData"] = betterproto.message_field(3)
     # module is the name of the Model Plugin on the file system - usually ending
     # in .so.<version>.
     module: str = betterproto.string_field(4)
@@ -262,7 +262,7 @@ class PathValuesRequest(betterproto.Message):
 class PathValuesResponse(betterproto.Message):
     """PathValuesResponse carries a list of typed path values"""
 
-    path_values: List["_change_device__.PathValue"] = betterproto.message_field(1)
+    path_values: List["_v2__.PathValue"] = betterproto.message_field(1)
 
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):
@@ -557,5 +557,7 @@ class ModelPluginServiceBase(ServiceBase):
         }
 
 
+from .. import v2 as _v2__
+from .... import gnmi as ___gnmi__
 from ..change import device as _change_device__
 from ..snapshot import device as _snapshot_device__
