@@ -224,7 +224,7 @@ the subpath
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | sub_path | [string](#string) |  | sub_path is the relative path of a child object e.g. /list2b/index |
-| value_type | [onos.config.change.device.ValueType](#onos.config.change.device.ValueType) |  | value_type is the datatype of the read only path |
+| value_type | [onos.config.v2.ValueType](#onos.config.v2.ValueType) |  | value_type is the datatype of the read only path |
 
 
 
@@ -243,7 +243,7 @@ Each configurable item has metadata with meanings taken from the YANG specificat
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | path is the full path to the attribute (leaf or leaf-list) |
-| value_type | [onos.config.change.device.ValueType](#onos.config.change.device.ValueType) |  | value_type is the data type of the attribute |
+| value_type | [onos.config.v2.ValueType](#onos.config.v2.ValueType) |  | value_type is the data type of the attribute |
 | units | [string](#string) |  | units is the unit of measurement e.g. dB, mV |
 | description | [string](#string) |  | description is an explaination of the meaning of the attribute |
 | mandatory | [bool](#bool) |  | mandatory shows whether the attribute is optional (false) or required (true) |

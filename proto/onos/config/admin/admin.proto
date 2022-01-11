@@ -22,7 +22,6 @@ package onos.config.admin;
 import "google/protobuf/duration.proto";
 import "gogoproto/gogo.proto";
 import "github.com/openconfig/gnmi/proto/gnmi/gnmi.proto";
-import "onos/config/change/device/types.proto";
 import "onos/config/snapshot/device/types.proto";
 import "onos/config/v2/value.proto";
 
@@ -47,7 +46,7 @@ message ReadOnlySubPath {
     // sub_path is the relative path of a child object e.g. /list2b/index
     string sub_path = 1;
     // value_type is the datatype of the read only path
-    onos.config.change.device.ValueType value_type = 2;
+    onos.config.v2.ValueType value_type = 2;
 }
 
 // ReadOnlyPath extracted from the model plugin as the definition of a tree of read only items.
@@ -74,7 +73,7 @@ message ReadWritePath {
     // path is the full path to the attribute (leaf or leaf-list)
     string path = 1;
     // value_type is the data type of the attribute
-    onos.config.change.device.ValueType value_type = 2;
+    onos.config.v2.ValueType value_type = 2;
     // units is the unit of measurement e.g. dB, mV
     string units = 3;
     // description is an explaination of the meaning of the attribute
