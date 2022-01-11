@@ -11,7 +11,7 @@ index 24868f2..b79742b 100644
  
  class Type(betterproto.Enum):
      """Streaming event type"""
-@@ -96,7 +96,7 @@ class ModelInfo(betterproto.Message):
+@@ -99,7 +99,7 @@ class ModelInfo(betterproto.Message):
      # model_data is a set of metadata about the YANG files that went in to
      # generating the model plugin. It includes name, version and organization for
      # each YANG file, similar to how they are represented in gNMI Capabilities.

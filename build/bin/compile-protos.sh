@@ -291,4 +291,5 @@ protoc --proto_path=$proto_path \
     --python_betterproto_out=./python \
     $(find proto -name "*.proto" | sort)
 
-git apply ./build/bin/patches/*.patch
+# FIXME: come up with a better way to patch python files; this is too brittle
+# git apply ./build/bin/patches/*.patch

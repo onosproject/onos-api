@@ -12,6 +12,8 @@
     - [ModelInfo](#onos.config.admin.ModelInfo)
     - [ModelInfoRequest](#onos.config.admin.ModelInfoRequest)
     - [ModelInfoResponse](#onos.config.admin.ModelInfoResponse)
+    - [PathValuesRequest](#onos.config.admin.PathValuesRequest)
+    - [PathValuesResponse](#onos.config.admin.PathValuesResponse)
     - [ReadOnlyPath](#onos.config.admin.ReadOnlyPath)
     - [ReadOnlySubPath](#onos.config.admin.ReadOnlySubPath)
     - [ReadWritePath](#onos.config.admin.ReadWritePath)
@@ -153,6 +155,37 @@ ModelInfoResponse carries response for the model information query
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | modelInfo | [ModelInfo](#onos.config.admin.ModelInfo) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.PathValuesRequest"></a>
+
+### PathValuesRequest
+PathValuesRequest carries configuration change as a JSON blob
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pathPrefix | [string](#string) |  |  |
+| json | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.PathValuesResponse"></a>
+
+### PathValuesResponse
+PathValuesResponse carries a list of typed path values
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pathValues | [onos.config.v2.PathValue](#onos.config.v2.PathValue) | repeated |  |
 
 
 
@@ -346,6 +379,7 @@ ModelPluginService is to be implemented by model plugin sidecar
 | ----------- | ------------ | ------------- | ------------|
 | GetModelInfo | [ModelInfoRequest](#onos.config.admin.ModelInfoRequest) | [ModelInfoResponse](#onos.config.admin.ModelInfoResponse) | GetModelInfo provides information about the model |
 | ValidateConfig | [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest) | [ValidateConfigResponse](#onos.config.admin.ValidateConfigResponse) | ValidateConfig validates the provided configuration data against the model |
+| GetPathValues | [PathValuesRequest](#onos.config.admin.PathValuesRequest) | [PathValuesResponse](#onos.config.admin.PathValuesResponse) | GetPathValues produces list of typed path value entries from the specified configuration change JSON tree |
 
  
 

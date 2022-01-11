@@ -8,7 +8,7 @@ from typing import AsyncIterable, AsyncIterator, Dict, Iterable, List, Union
 import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
-import gnmi.proto
+
 
 class Type(betterproto.Enum):
     """Streaming event type"""
@@ -96,7 +96,7 @@ class ModelInfo(betterproto.Message):
     # model_data is a set of metadata about the YANG files that went in to
     # generating the model plugin. It includes name, version and organization for
     # each YANG file, similar to how they are represented in gNMI Capabilities.
-    model_data: List["gnmi.proto.ModelData"] = betterproto.message_field(3)
+    model_data: List["___gnmi__.ModelData"] = betterproto.message_field(3)
     # module is the name of the Model Plugin on the file system - usually ending
     # in .so.<version>.
     module: str = betterproto.string_field(4)
@@ -250,6 +250,21 @@ class ValidateConfigResponse(betterproto.Message):
     message: str = betterproto.string_field(2)
 
 
+@dataclass(eq=False, repr=False)
+class PathValuesRequest(betterproto.Message):
+    """PathValuesRequest carries configuration change as a JSON blob"""
+
+    path_prefix: str = betterproto.string_field(1)
+    json: bytes = betterproto.bytes_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class PathValuesResponse(betterproto.Message):
+    """PathValuesResponse carries a list of typed path values"""
+
+    path_values: List["_v2__.PathValue"] = betterproto.message_field(1)
+
+
 class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def upload_register_model(
         self, request_iterator: Union[AsyncIterable["Chunk"], Iterable["Chunk"]]
@@ -342,6 +357,20 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
             "/onos.config.admin.ModelPluginService/ValidateConfig",
             request,
             ValidateConfigResponse,
+        )
+
+    async def get_path_values(
+        self, *, path_prefix: str = "", json: bytes = b""
+    ) -> "PathValuesResponse":
+
+        request = PathValuesRequest()
+        request.path_prefix = path_prefix
+        request.json = json
+
+        return await self._unary_unary(
+            "/onos.config.admin.ModelPluginService/GetPathValues",
+            request,
+            PathValuesResponse,
         )
 
 
@@ -471,6 +500,11 @@ class ModelPluginServiceBase(ServiceBase):
     async def validate_config(self, json: bytes) -> "ValidateConfigResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
+    async def get_path_values(
+        self, path_prefix: str, json: bytes
+    ) -> "PathValuesResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
     async def __rpc_get_model_info(self, stream: grpclib.server.Stream) -> None:
         request = await stream.recv_message()
 
@@ -489,6 +523,17 @@ class ModelPluginServiceBase(ServiceBase):
         response = await self.validate_config(**request_kwargs)
         await stream.send_message(response)
 
+    async def __rpc_get_path_values(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "path_prefix": request.path_prefix,
+            "json": request.json,
+        }
+
+        response = await self.get_path_values(**request_kwargs)
+        await stream.send_message(response)
+
     def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
         return {
             "/onos.config.admin.ModelPluginService/GetModelInfo": grpclib.const.Handler(
@@ -503,8 +548,16 @@ class ModelPluginServiceBase(ServiceBase):
                 ValidateConfigRequest,
                 ValidateConfigResponse,
             ),
+            "/onos.config.admin.ModelPluginService/GetPathValues": grpclib.const.Handler(
+                self.__rpc_get_path_values,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                PathValuesRequest,
+                PathValuesResponse,
+            ),
         }
 
 
+from .. import v2 as _v2__
+from .... import gnmi as ___gnmi__
 from ..change import device as _change_device__
 from ..snapshot import device as _snapshot_device__
