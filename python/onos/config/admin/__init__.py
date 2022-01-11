@@ -33,7 +33,7 @@ class ReadOnlySubPath(betterproto.Message):
     # sub_path is the relative path of a child object e.g. /list2b/index
     sub_path: str = betterproto.string_field(1)
     # value_type is the datatype of the read only path
-    value_type: "_change_device__.ValueType" = betterproto.enum_field(2)
+    value_type: "_v2__.ValueType" = betterproto.enum_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -69,7 +69,7 @@ class ReadWritePath(betterproto.Message):
     # path is the full path to the attribute (leaf or leaf-list)
     path: str = betterproto.string_field(1)
     # value_type is the data type of the attribute
-    value_type: "_change_device__.ValueType" = betterproto.enum_field(2)
+    value_type: "_v2__.ValueType" = betterproto.enum_field(2)
     # units is the unit of measurement e.g. dB, mV
     units: str = betterproto.string_field(3)
     # description is an explaination of the meaning of the attribute
@@ -559,5 +559,4 @@ class ModelPluginServiceBase(ServiceBase):
 
 from .. import v2 as _v2__
 from .... import gnmi as ___gnmi__
-from ..change import device as _change_device__
 from ..snapshot import device as _snapshot_device__
