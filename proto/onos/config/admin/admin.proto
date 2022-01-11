@@ -224,6 +224,9 @@ service ModelPluginService {
 
     // ValidateConfig validates the provided configuration data against the model
     rpc ValidateConfig(ValidateConfigRequest) returns (ValidateConfigResponse);
+
+    // GetPathValues produces list of typed path value entries from the specified configuration change JSON tree
+    rpc GetPathValues(PathValuesRequest) returns (PathValuesResponse);
 }
 
 // ModelInfoRequest carries request for the model information
@@ -244,4 +247,15 @@ message ValidateConfigRequest {
 message ValidateConfigResponse {
     bool valid = 1;
     string message = 2;
+}
+
+// PathValuesRequest carries configuration change as a JSON blob
+message PathValuesRequest {
+    string pathPrefix = 1;
+    bytes json = 2;
+}
+
+// PathValuesResponse carries a list of typed path values
+message PathValuesResponse {
+    repeated onos.config.change.device.PathValue pathValues = 1;
 }
