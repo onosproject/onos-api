@@ -1,0 +1,142 @@
+/*
+Copyright 2020-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package onos.a1t defines interfaces for managing the A1T component. 
+package onos.a1t.a1t;
+
+import "gogoproto/gogo.proto";
+
+option (gogoproto.goproto_registration) = true;
+
+enum Encoding {
+  PROTO = 0;
+  JSON = 1;
+}
+
+service A1TService {
+  rpc Create (CreateRequest) returns (CreateResponse) {
+  }
+
+  rpc Get (GetRequest) returns (GetResponse) {
+  }
+
+  rpc Update (UpdateRequest) returns (UpdateResponse) {
+  }
+
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {
+  }
+
+  rpc List (GetRequest) returns (ListResponse) {
+  }
+
+  rpc Watch (GetRequest) returns (stream GetResponse) {
+  }
+}
+
+message CreateRequest {
+    Object object = 1;
+}
+
+message CreateResponse {
+    Object object = 1;
+}
+
+message GetRequest {
+    Object object = 1;
+}
+
+message GetResponse {
+    Object object = 1;
+}
+
+message ListResponse {
+    repeated Object objects = 1;
+}
+
+message UpdateRequest {
+    Object object = 1;
+}
+
+message UpdateResponse {
+    Object object = 1;
+}
+
+message DeleteRequest {
+    Object object = 1;
+}
+
+message DeleteResponse {
+    Object object = 1;
+}
+
+message Object {
+    enum Type {
+      UNSPECIFIED = 0;
+      POLICY = 1;
+      EIJOB = 2;
+      SUBSCRIPTION = 3;
+    }
+    Type type = 1;
+  
+    oneof obj {
+      Policy policy = 2;
+      EIJob eijob = 3;
+      Subscription subscription = 4;
+    } 
+}
+
+message Policy {
+    string id = 1;
+    string typeid = 2;
+    bytes object = 3;
+    Status status = 4;
+    Encoding encoding = 5;
+}
+
+message EIJob {
+    string id = 1;
+    string typeid = 2;
+    bytes object = 3;
+    Status status = 4;   
+    Encoding encoding = 5;
+}
+
+message Status {
+    message Problem {
+        string detail = 1;
+        string instance = 2;
+        string status = 3;
+        string title = 4;
+        string type = 5;
+    }
+
+    bool ok = 1;
+    Problem problem = 2;
+}
+
+message Subscription {
+    string id = 1;
+    
+    enum Type {
+        POLICY = 0;
+        EIJOB = 1;
+      }
+
+    Type type = 2;
+    string address = 3;   
+}
