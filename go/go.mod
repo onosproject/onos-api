@@ -10,6 +10,7 @@ require (
 	github.com/google/uuid v1.1.2
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/openconfig/gnmi v0.0.0-20200617225440-d2b4e6a45802
+	github.com/openconfig/goyang v0.0.0-20200115183954-d0a48929f0ea
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b // indirect
