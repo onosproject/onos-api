@@ -5,6 +5,7 @@
 
 - [onos/config/v2/configuration.proto](#onos/config/v2/configuration.proto)
     - [Configuration](#onos.config.v2.Configuration)
+    - [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry)
     - [ConfigurationEvent](#onos.config.v2.ConfigurationEvent)
     - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
     - [MastershipState](#onos.config.v2.MastershipState)
@@ -35,9 +36,25 @@ Configuration represents complete desired target configuration
 | target_id | [string](#string) |  | &#39;target_id&#39; is the target to which the desired target configuration applies |
 | target_version | [string](#string) |  | &#39;target_version&#39; is the version to which desired target configuration applies |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this desired target configuration |
-| values | [PathValue](#onos.config.v2.PathValue) | repeated | &#39;values&#39; is a list of path/values to set |
+| values | [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
 | status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
 | revision | [uint64](#uint64) |  | revision is configuration revision |
+
+
+
+
+
+
+<a name="onos.config.v2.Configuration.ValuesEntry"></a>
+
+### Configuration.ValuesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [PathValue](#onos.config.v2.PathValue) |  |  |
 
 
 

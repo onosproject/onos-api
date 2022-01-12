@@ -3,7 +3,7 @@
 # plugin: python-betterproto
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
+from typing import Dict, List
 
 import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
@@ -136,8 +136,10 @@ class Configuration(betterproto.Message):
     # 'target_type' is an optional target type to which to apply this desired
     # target configuration
     target_type: str = betterproto.string_field(4)
-    # 'values' is a list of path/values to set
-    values: List["PathValue"] = betterproto.message_field(5)
+    # 'values' is a map of path/values to set
+    values: Dict[str, "PathValue"] = betterproto.map_field(
+        5, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
     # 'ConfigurationStatus' is the current lifecycle status of the configuration
     status: "ConfigurationStatus" = betterproto.message_field(6)
     # revision is configuration revision
