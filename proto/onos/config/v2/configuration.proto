@@ -35,8 +35,8 @@ message Configuration {
   // 'target_type' is an optional target type to which to apply this desired target configuration
   string target_type = 4 [(gogoproto.casttype) = "TargetType"];
 
-  // 'values' is a list of path/values to set
-  repeated onos.config.v2.PathValue values = 5;
+  // 'values' is a map of path/values to set
+  map <string, onos.config.v2.PathValue> values = 5;
 
   // 'ConfigurationStatus' is the current lifecycle status of the configuration
   ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
