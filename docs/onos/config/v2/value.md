@@ -31,6 +31,7 @@ PathValue is an individual Path/Value combination
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | deleted | [bool](#bool) |  | &#39;deleted&#39; indicates whether this is a delete |
+| index | [uint64](#uint64) |  | &#39;index&#39; |
 
 
 

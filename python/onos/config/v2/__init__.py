@@ -117,6 +117,8 @@ class PathValue(betterproto.Message):
     value: "TypedValue" = betterproto.message_field(2)
     # 'deleted' indicates whether this is a delete
     deleted: bool = betterproto.bool_field(3)
+    # 'index'
+    index: int = betterproto.uint64_field(4)
 
 
 @dataclass(eq=False, repr=False)
