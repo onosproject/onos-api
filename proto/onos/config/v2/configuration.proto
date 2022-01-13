@@ -44,6 +44,11 @@ message Configuration {
   // revision is configuration revision
   uint64 revision = 7 [(gogoproto.casttype) = "Revision"];
 
+  // 'index' is a monotonically increasing, globally unique index of the configuration
+  // The index is provided by the store, is static and unique for each unique configuration identifier,
+  // and should not be modified by client code.
+  uint64 index = 8 [(gogoproto.casttype) = "Index"];
+
 }
 
 // ConfigurationStatus is the status of a Configuration

@@ -65,6 +65,9 @@ message Transaction {
 
     // 'username' is the name of the user that made the transaction
     string username = 11;
+
+    // atomic determines if a transaction is atomic or not
+    bool atomic = 12;
 }
 
 // TransactionRef is a reference to a transaction
@@ -98,8 +101,8 @@ message ChangeValue {
     // 'value' is the change value
     TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
 
-    // 'removed' indicates whether this is a delete
-    bool removed = 3 [(gogoproto.jsontag) = "Removed,omitempty"];
+    // 'delete' indicates whether this is a delete
+    bool delete = 3 [(gogoproto.jsontag) = "Delete,omitempty"];
 }
 
 // TransactionStatus is the status of a Transaction
@@ -125,11 +128,8 @@ enum TransactionState {
     // TRANSACTION_VALIDATING indicates the transaction is in the validating state
     TRANSACTION_VALIDATING = 4;
 
-    // TRANSACTION_VALIDATED indicates the transaction is validated successfully
-    TRANSACTION_VALIDATED = 5;
-
-    // TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed
-    TRANSACTION_VALIDATION_FAILED = 6;
+    // TRANSACTION_APPLYING indicates the transaction is in the applying state
+    TRANSACTION_APPLYING = 5;
 }
 
 // TransactionPhase is the phase of a Transaction

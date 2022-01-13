@@ -39,6 +39,7 @@ Configuration represents complete desired target configuration
 | values | [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
 | status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
 | revision | [uint64](#uint64) |  | revision is configuration revision |
+| index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the configuration The index is provided by the store, is static and unique for each unique configuration identifier, and should not be modified by client code. |
 
 
 

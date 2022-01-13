@@ -54,7 +54,7 @@ ChangeValue is an individual Path/Value and removed flag combination in a Change
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
-| removed | [bool](#bool) |  | &#39;removed&#39; indicates whether this is a delete |
+| delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
 
 
 
@@ -80,6 +80,7 @@ Transaction refers to a multi-target transactional change
 | dependency | [TransactionRef](#onos.config.v2.TransactionRef) |  | &#39;dependency&#39; is a reference to the transaction on which this transaction is dependent |
 | dependents | [TransactionRef](#onos.config.v2.TransactionRef) | repeated | &#39;dependents&#39; is a list of references to transactions that depend on this transaction |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
+| atomic | [bool](#bool) |  | atomic determines if a transaction is atomic or not |
 
 
 
@@ -174,8 +175,7 @@ TransactionState is the transaction state of a transaction phase
 | TRANSACTION_COMPLETE | 2 | TRANSACTION_COMPLETE indicates the transaction is complete |
 | TRANSACTION_FAILED | 3 | TRANSACTION_FAILED indicates the transaction failed |
 | TRANSACTION_VALIDATING | 4 | TRANSACTION_VALIDATING indicates the transaction is in the validating state |
-| TRANSACTION_VALIDATED | 5 | TRANSACTION_VALIDATED indicates the transaction is validated successfully |
-| TRANSACTION_VALIDATION_FAILED | 6 | TRANSACTION_VALIDATION_FAILED indicates the transaction validation is failed |
+| TRANSACTION_APPLYING | 5 | TRANSACTION_APPLYING indicates the transaction is in the applying state |
 
 
  
