@@ -16,10 +16,11 @@ class Encoding(betterproto.Enum):
 
 @dataclass(eq=False, repr=False)
 class Header(betterproto.Message):
-    app_id: str = betterproto.string_field(1)
-    app_instance_id: str = betterproto.string_field(2)
-    a1_node_id: str = betterproto.string_field(3)
-    encoding: "Encoding" = betterproto.enum_field(4)
+    request_id: str = betterproto.string_field(1)
+    app_id: str = betterproto.string_field(2)
+    app_instance_id: str = betterproto.string_field(3)
+    a1_node_id: str = betterproto.string_field(4)
+    encoding: "Encoding" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
