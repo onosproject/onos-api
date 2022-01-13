@@ -29,10 +29,11 @@ enum Encoding {
 }
 
 message Header {
-  string app_id = 1;
-  string app_instance_id = 2;
-  string a1_node_id = 3;
-  Encoding encoding = 4;
+  string request_id = 1;
+  string app_id = 2;
+  string app_instance_id = 3;
+  string a1_node_id = 4;
+  Encoding encoding = 5;
 }
 
 message RequestMessage {
