@@ -154,6 +154,10 @@ class ConfigurationStatus(betterproto.Message):
     state: "ConfigurationState" = betterproto.enum_field(1)
     # mastershipState mastership info
     mastership_state: "MastershipState" = betterproto.message_field(2)
+    # transaction_index highest Transaction index applied to the Configuration
+    transaction_index: int = betterproto.uint64_field(3)
+    # target_index highest transaction index applied to the target.
+    target_index: int = betterproto.uint64_field(4)
 
 
 @dataclass(eq=False, repr=False)

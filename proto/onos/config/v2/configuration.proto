@@ -53,6 +53,12 @@ message ConfigurationStatus {
 
   // mastershipState mastership info
   MastershipState mastership_state = 2 [(gogoproto.nullable) = false];
+
+  // transaction_index highest Transaction index applied to the Configuration
+  uint64 transaction_index = 3 [(gogoproto.casttype) = "Index"];
+
+  // target_index highest transaction index applied to the target.
+  uint64 target_index = 4 [(gogoproto.casttype) = "Index"];
 }
 
 // Mastership state
