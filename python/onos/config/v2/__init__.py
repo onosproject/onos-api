@@ -71,11 +71,8 @@ class TransactionState(betterproto.Enum):
     TRANSACTION_FAILED = 3
     # TRANSACTION_VALIDATING indicates the transaction is in the validating state
     TRANSACTION_VALIDATING = 4
-    # TRANSACTION_VALIDATED indicates the transaction is validated successfully
-    TRANSACTION_VALIDATED = 5
-    # TRANSACTION_VALIDATION_FAILED indicates the transaction validation is
-    # failed
-    TRANSACTION_VALIDATION_FAILED = 6
+    # TRANSACTION_APPLYING indicates the transaction is in the applying state
+    TRANSACTION_APPLYING = 5
 
 
 class TransactionPhase(betterproto.Enum):
@@ -118,8 +115,8 @@ class PathValue(betterproto.Message):
     path: str = betterproto.string_field(1)
     # 'value' is the change value
     value: "TypedValue" = betterproto.message_field(2)
-    # 'removed' indicates whether this is a delete
-    removed: bool = betterproto.bool_field(3)
+    # 'deleted' indicates whether this is a delete
+    deleted: bool = betterproto.bool_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -144,6 +141,11 @@ class Configuration(betterproto.Message):
     status: "ConfigurationStatus" = betterproto.message_field(6)
     # revision is configuration revision
     revision: int = betterproto.uint64_field(7)
+    # 'index' is a monotonically increasing, globally unique index of the
+    # configuration The index is provided by the store, is static and unique for
+    # each unique configuration identifier, and should not be modified by client
+    # code.
+    index: int = betterproto.uint64_field(8)
 
 
 @dataclass(eq=False, repr=False)
@@ -154,6 +156,10 @@ class ConfigurationStatus(betterproto.Message):
     state: "ConfigurationState" = betterproto.enum_field(1)
     # mastershipState mastership info
     mastership_state: "MastershipState" = betterproto.message_field(2)
+    # transaction_index highest Transaction index applied to the Configuration
+    transaction_index: int = betterproto.uint64_field(3)
+    # target_index highest transaction index applied to the target.
+    target_index: int = betterproto.uint64_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -208,6 +214,8 @@ class Transaction(betterproto.Message):
     dependents: List["TransactionRef"] = betterproto.message_field(10)
     # 'username' is the name of the user that made the transaction
     username: str = betterproto.string_field(11)
+    # atomic determines if a transaction is atomic or not
+    atomic: bool = betterproto.bool_field(12)
 
 
 @dataclass(eq=False, repr=False)
@@ -246,8 +254,8 @@ class ChangeValue(betterproto.Message):
     path: str = betterproto.string_field(1)
     # 'value' is the change value
     value: "TypedValue" = betterproto.message_field(2)
-    # 'removed' indicates whether this is a delete
-    removed: bool = betterproto.bool_field(3)
+    # 'delete' indicates whether this is a delete
+    delete: bool = betterproto.bool_field(3)
 
 
 @dataclass(eq=False, repr=False)
