@@ -36,8 +36,14 @@ class ConfigurationState(betterproto.Enum):
 
     # CONFIGURATION_PENDING indicates the configuration is PENDING
     CONFIGURATION_PENDING = 0
-    # COMPLETE indicates the configuration is COMPLETE
-    CONFIGURATION_COMPLETE = 2
+    # CONFIGURATION_INITIALIZING indicates the configuration is initializing
+    CONFIGURATION_INITIALIZING = 1
+    # CONFIGURATION_UPDATING indicates the configuration is updating
+    CONFIGURATION_UPDATING = 2
+    # CONFIGURATION_COMPLETE indicates the configuration is complete
+    CONFIGURATION_COMPLETE = 3
+    # CONFIGURATION_FAILED indicates the configuration is failed
+    CONFIGURATION_FAILED = 4
 
 
 class ConfigurationEventType(betterproto.Enum):

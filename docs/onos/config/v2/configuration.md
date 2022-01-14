@@ -136,7 +136,10 @@ ConfigurationState is the configuration state of a configuration phase
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | CONFIGURATION_PENDING | 0 | CONFIGURATION_PENDING indicates the configuration is PENDING |
-| CONFIGURATION_COMPLETE | 2 | COMPLETE indicates the configuration is COMPLETE |
+| CONFIGURATION_INITIALIZING | 1 | CONFIGURATION_INITIALIZING indicates the configuration is initializing |
+| CONFIGURATION_UPDATING | 2 | CONFIGURATION_UPDATING indicates the configuration is updating |
+| CONFIGURATION_COMPLETE | 3 | CONFIGURATION_COMPLETE indicates the configuration is complete |
+| CONFIGURATION_FAILED | 4 | CONFIGURATION_FAILED indicates the configuration is failed |
 
 
  
