@@ -89,7 +89,7 @@ ConfigurationStatus is the status of a Configuration
 | state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
 | mastership_state | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
 | transaction_index | [uint64](#uint64) |  | transaction_index highest Transaction index applied to the Configuration |
-| target_index | [uint64](#uint64) |  | target_index highest transaction index applied to the target. |
+| sync_index | [uint64](#uint64) |  | sync_index highest transaction index applied to the target. |
 
 
 

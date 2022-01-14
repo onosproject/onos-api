@@ -62,8 +62,8 @@ message ConfigurationStatus {
   // transaction_index highest Transaction index applied to the Configuration
   uint64 transaction_index = 3 [(gogoproto.casttype) = "Index"];
 
-  // target_index highest transaction index applied to the target.
-  uint64 target_index = 4 [(gogoproto.casttype) = "Index"];
+  // sync_index highest transaction index applied to the target.
+  uint64 sync_index = 4 [(gogoproto.casttype) = "Index"];
 }
 
 // Mastership state
