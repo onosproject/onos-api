@@ -47,6 +47,12 @@ message ReadOnlySubPath {
     string sub_path = 1;
     // value_type is the datatype of the read only path
     onos.config.v2.ValueType value_type = 2;
+
+    repeated uint64 type_opts = 3;
+    string description = 4;
+    string units = 5;
+    bool IsAKey = 6;
+    string AttrName = 7;
 }
 
 // ReadOnlyPath extracted from the model plugin as the definition of a tree of read only items.
@@ -63,12 +69,6 @@ message ReadOnlyPath {
     // type of the topmost object with subpath `/`
     // An example is /list2b/index
     repeated ReadOnlySubPath sub_path = 2;
-
-    repeated uint64 type_opts = 4;
-    string description = 5;
-    string units = 6;
-    bool IsAKey = 7;
-    string AttrName = 8;
 }
 
 // ReadWritePath is extracted from the model plugin as the definition of a writeable attributes.

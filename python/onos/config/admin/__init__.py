@@ -34,6 +34,11 @@ class ReadOnlySubPath(betterproto.Message):
     sub_path: str = betterproto.string_field(1)
     # value_type is the datatype of the read only path
     value_type: "_v2__.ValueType" = betterproto.enum_field(2)
+    type_opts: List[int] = betterproto.uint64_field(3)
+    description: str = betterproto.string_field(4)
+    units: str = betterproto.string_field(5)
+    is_a_key: bool = betterproto.bool_field(6)
+    attr_name: str = betterproto.string_field(7)
 
 
 @dataclass(eq=False, repr=False)
@@ -54,11 +59,6 @@ class ReadOnlyPath(betterproto.Message):
     # ReadOnlySubPath is a set of children of the path including an entry for the
     # type of the topmost object with subpath `/` An example is /list2b/index
     sub_path: List["ReadOnlySubPath"] = betterproto.message_field(2)
-    type_opts: List[int] = betterproto.uint64_field(4)
-    description: str = betterproto.string_field(5)
-    units: str = betterproto.string_field(6)
-    is_a_key: bool = betterproto.bool_field(7)
-    attr_name: str = betterproto.string_field(8)
 
 
 @dataclass(eq=False, repr=False)
