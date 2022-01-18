@@ -209,11 +209,6 @@ The complete read only path then will be a concatenation of both e.g.
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | path of the topmost `config false` object e.g. /cont1a/cont1b-state |
 | sub_path | [ReadOnlySubPath](#onos.config.admin.ReadOnlySubPath) | repeated | ReadOnlySubPath is a set of children of the path including an entry for the type of the topmost object with subpath `/` An example is /list2b/index |
-| type_opts | [uint64](#uint64) | repeated |  |
-| description | [string](#string) |  |  |
-| units | [string](#string) |  |  |
-| IsAKey | [bool](#bool) |  |  |
-| AttrName | [string](#string) |  |  |
 
 
 
@@ -231,6 +226,11 @@ the subpath
 | ----- | ---- | ----- | ----------- |
 | sub_path | [string](#string) |  | sub_path is the relative path of a child object e.g. /list2b/index |
 | value_type | [onos.config.v2.ValueType](#onos.config.v2.ValueType) |  | value_type is the datatype of the read only path |
+| type_opts | [uint64](#uint64) | repeated |  |
+| description | [string](#string) |  |  |
+| units | [string](#string) |  |  |
+| IsAKey | [bool](#bool) |  |  |
+| AttrName | [string](#string) |  |  |
 
 
 
