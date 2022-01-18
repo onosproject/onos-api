@@ -54,6 +54,11 @@ class ReadOnlyPath(betterproto.Message):
     # ReadOnlySubPath is a set of children of the path including an entry for the
     # type of the topmost object with subpath `/` An example is /list2b/index
     sub_path: List["ReadOnlySubPath"] = betterproto.message_field(2)
+    type_opts: List[int] = betterproto.uint64_field(4)
+    description: str = betterproto.string_field(5)
+    units: str = betterproto.string_field(6)
+    is_a_key: bool = betterproto.bool_field(7)
+    attr_name: str = betterproto.string_field(8)
 
 
 @dataclass(eq=False, repr=False)
@@ -83,6 +88,9 @@ class ReadWritePath(betterproto.Message):
     range: List[str] = betterproto.string_field(7)
     # length is a defintion of the length restrictions for the attribute
     length: List[str] = betterproto.string_field(8)
+    type_opts: List[int] = betterproto.uint64_field(9)
+    is_a_key: bool = betterproto.bool_field(10)
+    attr_name: str = betterproto.string_field(11)
 
 
 @dataclass(eq=False, repr=False)
@@ -117,6 +125,7 @@ class ModelInfo(betterproto.Message):
     read_only_path: List["ReadOnlyPath"] = betterproto.message_field(7)
     # read_write_path is all of the read write paths for the model plugin.
     read_write_path: List["ReadWritePath"] = betterproto.message_field(8)
+    supported_encodings: List["___gnmi__.Encoding"] = betterproto.enum_field(9)
 
 
 @dataclass(eq=False, repr=False)

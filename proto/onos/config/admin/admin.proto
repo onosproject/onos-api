@@ -63,6 +63,12 @@ message ReadOnlyPath {
     // type of the topmost object with subpath `/`
     // An example is /list2b/index
     repeated ReadOnlySubPath sub_path = 2;
+
+    repeated uint64 type_opts = 4;
+    string description = 5;
+    string units = 6;
+    bool IsAKey = 7;
+    string AttrName = 8;
 }
 
 // ReadWritePath is extracted from the model plugin as the definition of a writeable attributes.
@@ -86,6 +92,10 @@ message ReadWritePath {
     repeated string range = 7;
     // length is a defintion of the length restrictions for the attribute
     repeated string length = 8;
+
+    repeated uint64 type_opts = 9;
+    bool IsAKey = 10;
+    string AttrName = 11;
 }
 
 // ModelInfo is general information about a model plugin.
@@ -118,6 +128,8 @@ message ModelInfo {
     repeated ReadOnlyPath read_only_path = 7;
     // read_write_path is all of the read write paths for the model plugin.
     repeated ReadWritePath read_write_path = 8;
+
+    repeated gnmi.Encoding supported_encodings = 9;
 }
 
 // Chunk is for streaming a model plugin file to the server.
