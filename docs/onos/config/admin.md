@@ -130,6 +130,7 @@ ModelInfo is general information about a model plugin.
 | getStateMode | [uint32](#uint32) |  | getStateMode is flag that defines how the &#34;get state&#34; operation works. 0) means that no retrieval of state is attempted 1) means that the synchronizer will make 2 requests to the device - one for Get with State and another for Get with Operational. 2) means that the synchronizer will do a Get request comprising of each one of the ReadOnlyPaths and their sub paths. If there is a `list` in any one of these paths it will be sent down as is, expecting the devices implementation of gNMI will be able to expand wildcards. 3) means that the synchronizer will do a Get request comprising of each one of the ReadOnlyPaths and their sub paths. If there is a `list` in any one of these paths, a separate call will be made first to find all the instances in the list and a Get including these expanded wildcards will be sent down to the device. |
 | read_only_path | [ReadOnlyPath](#onos.config.admin.ReadOnlyPath) | repeated | read_only_path is all of the read only paths for the model plugin. |
 | read_write_path | [ReadWritePath](#onos.config.admin.ReadWritePath) | repeated | read_write_path is all of the read write paths for the model plugin. |
+| supported_encodings | [gnmi.Encoding](#gnmi.Encoding) | repeated |  |
 
 
 
@@ -208,6 +209,11 @@ The complete read only path then will be a concatenation of both e.g.
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | path of the topmost `config false` object e.g. /cont1a/cont1b-state |
 | sub_path | [ReadOnlySubPath](#onos.config.admin.ReadOnlySubPath) | repeated | ReadOnlySubPath is a set of children of the path including an entry for the type of the topmost object with subpath `/` An example is /list2b/index |
+| type_opts | [uint64](#uint64) | repeated |  |
+| description | [string](#string) |  |  |
+| units | [string](#string) |  |  |
+| IsAKey | [bool](#bool) |  |  |
+| AttrName | [string](#string) |  |  |
 
 
 
@@ -250,6 +256,9 @@ Each configurable item has metadata with meanings taken from the YANG specificat
 | default | [string](#string) |  | default is a default value used with optional attributes |
 | range | [string](#string) | repeated | range is definition of the range of values a value is allowed |
 | length | [string](#string) | repeated | length is a defintion of the length restrictions for the attribute |
+| type_opts | [uint64](#uint64) | repeated |  |
+| IsAKey | [bool](#bool) |  |  |
+| AttrName | [string](#string) |  |  |
 
 
 
