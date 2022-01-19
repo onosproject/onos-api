@@ -66,15 +66,6 @@ class ConfigurationEventType(betterproto.Enum):
     CONFIGURATION_REPLAYED = 4
 
 
-class TransactionType(betterproto.Enum):
-    """TransactionType is the type of a transaction"""
-
-    # TRANSACTION_CHANGE indicates a change transaction
-    TRANSACTION_CHANGE = 0
-    # TRANSACTION_ROLLBACK indicates a rollback transaction
-    TRANSACTION_ROLLBACK = 1
-
-
 class TransactionState(betterproto.Enum):
     """TransactionState is the transaction state of a transaction phase"""
 
@@ -186,8 +177,25 @@ class ConfigurationEvent(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class TransactionChange(betterproto.Message):
+    """TransactionChange  refers to a multi-target transactional change"""
+
+    # 'changes' is a set of changes to apply to targets The list of changes
+    # should contain only a single change per target/version pair.
+    changes: List["Change"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionRollback(betterproto.Message):
+    """TransactionRollback"""
+
+    # 'index' is a monotonically increasing, globally unique index of the change
+    index: int = betterproto.uint64_field(1)
+
+
+@dataclass(eq=False, repr=False)
 class Transaction(betterproto.Message):
-    """Transaction refers to a multi-target transactional change"""
+    """Transaction refers to a transaction change or transaction rollback"""
 
     # 'id' is the unique identifier of the transaction This field should be set
     # prior to persisting the object.
@@ -207,34 +215,15 @@ class Transaction(betterproto.Message):
     created: datetime = betterproto.message_field(5)
     # 'updated' is the time at which the transaction was last updated
     updated: datetime = betterproto.message_field(6)
-    # 'changes' is a set of changes to apply to targets The list of changes
-    # should contain only a single change per target/version pair.
-    changes: List["Change"] = betterproto.message_field(7)
     # 'deleted' is a flag indicating whether this transaction is being deleted by
     # a snapshot
-    deleted: bool = betterproto.bool_field(8)
-    # 'dependency' is a reference to the transaction on which this transaction is
-    # dependent
-    dependency: "TransactionRef" = betterproto.message_field(9)
-    # 'dependents' is a list of references to transactions that depend on this
-    # transaction
-    dependents: List["TransactionRef"] = betterproto.message_field(10)
+    deleted: bool = betterproto.bool_field(7)
     # 'username' is the name of the user that made the transaction
-    username: str = betterproto.string_field(11)
+    username: str = betterproto.string_field(8)
     # atomic determines if a transaction is atomic or not
-    atomic: bool = betterproto.bool_field(12)
-    # type transaction type
-    type: "TransactionType" = betterproto.enum_field(13)
-
-
-@dataclass(eq=False, repr=False)
-class TransactionRef(betterproto.Message):
-    """TransactionRef is a reference to a transaction"""
-
-    none: "betterproto_lib_google_protobuf.Empty" = betterproto.message_field(
-        1, group="id"
-    )
-    transaction_id: str = betterproto.string_field(2, group="id")
+    atomic: bool = betterproto.bool_field(9)
+    change: "TransactionChange" = betterproto.message_field(10, group="transaction")
+    rollback: "TransactionRollback" = betterproto.message_field(11, group="transaction")
 
 
 @dataclass(eq=False, repr=False)
@@ -272,7 +261,11 @@ class TransactionStatus(betterproto.Message):
     """TransactionStatus is the status of a Transaction"""
 
     # 'state' is the state of the transaction within a Phase
-    state: "TransactionState" = betterproto.enum_field(2)
+    state: "TransactionState" = betterproto.enum_field(1)
+    # sources source configuration modified.
+    sources: Dict[str, "Source"] = betterproto.map_field(
+        2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -283,4 +276,11 @@ class TransactionEvent(betterproto.Message):
     transaction: "Transaction" = betterproto.message_field(2)
 
 
-import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf
+@dataclass(eq=False, repr=False)
+class Source(betterproto.Message):
+    """Source source configuration"""
+
+    # 'values' is a map of path/index
+    values: Dict[str, int] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_UINT64
+    )
