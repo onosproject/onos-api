@@ -68,6 +68,9 @@ message Transaction {
 
     // atomic determines if a transaction is atomic or not
     bool atomic = 12;
+
+    // type transaction type
+    TransactionType type = 13;
 }
 
 // TransactionRef is a reference to a transaction
@@ -107,11 +110,17 @@ message ChangeValue {
 
 // TransactionStatus is the status of a Transaction
 message TransactionStatus {
-    // 'phase' is the current phase of the
-    TransactionPhase phase = 1;
-
     // 'state' is the state of the transaction within a Phase
     TransactionState state = 2;
+}
+
+// TransactionType is the type of a transaction
+enum  TransactionType {
+    // TRANSACTION_CHANGE indicates a change transaction
+    TRANSACTION_CHANGE = 0;
+
+    // TRANSACTION_ROLLBACK indicates a rollback transaction
+    TRANSACTION_ROLLBACK = 1;
 }
 
 // TransactionState is the transaction state of a transaction phase
@@ -132,14 +141,7 @@ enum TransactionState {
     TRANSACTION_APPLYING = 5;
 }
 
-// TransactionPhase is the phase of a Transaction
-enum TransactionPhase {
-    // TRANSACTION_CHANGE indicates the transaction has been requested
-    TRANSACTION_CHANGE = 0;
 
-    // TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction
-    TRANSACTION_ROLLBACK = 1;
-}
 
 // TransactionEventType transaction event types for transaction store
 enum TransactionEventType {

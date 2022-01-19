@@ -12,8 +12,8 @@
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
   
     - [TransactionEventType](#onos.config.v2.TransactionEventType)
-    - [TransactionPhase](#onos.config.v2.TransactionPhase)
     - [TransactionState](#onos.config.v2.TransactionState)
+    - [TransactionType](#onos.config.v2.TransactionType)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -81,6 +81,7 @@ Transaction refers to a multi-target transactional change
 | dependents | [TransactionRef](#onos.config.v2.TransactionRef) | repeated | &#39;dependents&#39; is a list of references to transactions that depend on this transaction |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
 | atomic | [bool](#bool) |  | atomic determines if a transaction is atomic or not |
+| type | [TransactionType](#onos.config.v2.TransactionType) |  | type transaction type |
 
 
 
@@ -127,7 +128,6 @@ TransactionStatus is the status of a Transaction
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| phase | [TransactionPhase](#onos.config.v2.TransactionPhase) |  | &#39;phase&#39; is the current phase of the |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction within a Phase |
 
 
@@ -152,18 +152,6 @@ TransactionEventType transaction event types for transaction store
 
 
 
-<a name="onos.config.v2.TransactionPhase"></a>
-
-### TransactionPhase
-TransactionPhase is the phase of a Transaction
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| TRANSACTION_CHANGE | 0 | TRANSACTION_CHANGE indicates the transaction has been requested |
-| TRANSACTION_ROLLBACK | 1 | TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction |
-
-
-
 <a name="onos.config.v2.TransactionState"></a>
 
 ### TransactionState
@@ -176,6 +164,18 @@ TransactionState is the transaction state of a transaction phase
 | TRANSACTION_FAILED | 3 | TRANSACTION_FAILED indicates the transaction failed |
 | TRANSACTION_VALIDATING | 4 | TRANSACTION_VALIDATING indicates the transaction is in the validating state |
 | TRANSACTION_APPLYING | 5 | TRANSACTION_APPLYING indicates the transaction is in the applying state |
+
+
+
+<a name="onos.config.v2.TransactionType"></a>
+
+### TransactionType
+TransactionType is the type of a transaction
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TRANSACTION_CHANGE | 0 | TRANSACTION_CHANGE indicates a change transaction |
+| TRANSACTION_ROLLBACK | 1 | TRANSACTION_ROLLBACK indicates a rollback transaction |
 
 
  

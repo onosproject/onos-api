@@ -66,6 +66,15 @@ class ConfigurationEventType(betterproto.Enum):
     CONFIGURATION_REPLAYED = 4
 
 
+class TransactionType(betterproto.Enum):
+    """TransactionType is the type of a transaction"""
+
+    # TRANSACTION_CHANGE indicates a change transaction
+    TRANSACTION_CHANGE = 0
+    # TRANSACTION_ROLLBACK indicates a rollback transaction
+    TRANSACTION_ROLLBACK = 1
+
+
 class TransactionState(betterproto.Enum):
     """TransactionState is the transaction state of a transaction phase"""
 
@@ -79,16 +88,6 @@ class TransactionState(betterproto.Enum):
     TRANSACTION_VALIDATING = 4
     # TRANSACTION_APPLYING indicates the transaction is in the applying state
     TRANSACTION_APPLYING = 5
-
-
-class TransactionPhase(betterproto.Enum):
-    """TransactionPhase is the phase of a Transaction"""
-
-    # TRANSACTION_CHANGE indicates the transaction has been requested
-    TRANSACTION_CHANGE = 0
-    # TRANSACTION_ROLLBACK indicates a rollback has been requested for the
-    # transaction
-    TRANSACTION_ROLLBACK = 1
 
 
 class TransactionEventType(betterproto.Enum):
@@ -224,6 +223,8 @@ class Transaction(betterproto.Message):
     username: str = betterproto.string_field(11)
     # atomic determines if a transaction is atomic or not
     atomic: bool = betterproto.bool_field(12)
+    # type transaction type
+    type: "TransactionType" = betterproto.enum_field(13)
 
 
 @dataclass(eq=False, repr=False)
@@ -270,8 +271,6 @@ class ChangeValue(betterproto.Message):
 class TransactionStatus(betterproto.Message):
     """TransactionStatus is the status of a Transaction"""
 
-    # 'phase' is the current phase of the
-    phase: "TransactionPhase" = betterproto.enum_field(1)
     # 'state' is the state of the transaction within a Phase
     state: "TransactionState" = betterproto.enum_field(2)
 
