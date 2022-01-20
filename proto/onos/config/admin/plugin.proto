@@ -1,0 +1,66 @@
+/*
+Copyright 2022-present Open Networking Foundation.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this filexcept in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+// Package admin defines the administrative gRPC interfaces.
+package onos.config.admin;
+
+import "onos/config/admin/admin.proto";
+import "onos/config/v2/value.proto";
+
+// ModelPluginService is to be implemented by model plugin sidecar
+service ModelPluginService {
+    // GetModelInfo provides information about the model
+    rpc GetModelInfo(ModelInfoRequest) returns (ModelInfoResponse);
+
+    // ValidateConfig validates the provided configuration data against the model
+    rpc ValidateConfig(ValidateConfigRequest) returns (ValidateConfigResponse);
+
+    // GetPathValues produces list of typed path value entries from the specified configuration change JSON tree
+    rpc GetPathValues(PathValuesRequest) returns (PathValuesResponse);
+}
+
+// ModelInfoRequest carries request for the model information
+message ModelInfoRequest {
+}
+
+// ModelInfoResponse carries response for the model information query
+message ModelInfoResponse {
+    ModelInfo modelInfo = 1;
+}
+
+// ValidateConfigRequest carries configuration data to be validated as a JSON blob
+message ValidateConfigRequest {
+    bytes json = 1;
+}
+
+// ValidateConfigResponse carries the result of the validation
+message ValidateConfigResponse {
+    bool valid = 1;
+    string message = 2;
+}
+
+// PathValuesRequest carries configuration change as a JSON blob
+message PathValuesRequest {
+    string pathPrefix = 1;
+    bytes json = 2;
+}
+
+// PathValuesResponse carries a list of typed path values
+message PathValuesResponse {
+    repeated onos.config.v2.PathValue pathValues = 1;
+}
