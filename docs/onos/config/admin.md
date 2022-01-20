@@ -20,6 +20,7 @@
     - [ModelInfo](#onos.config.admin.ModelInfo)
     - [ModelInfoRequest](#onos.config.admin.ModelInfoRequest)
     - [ModelInfoResponse](#onos.config.admin.ModelInfoResponse)
+    - [ModelPlugin](#onos.config.admin.ModelPlugin)
     - [PathValuesRequest](#onos.config.admin.PathValuesRequest)
     - [PathValuesResponse](#onos.config.admin.PathValuesResponse)
     - [ReadOnlyPath](#onos.config.admin.ReadOnlyPath)
@@ -287,6 +288,25 @@ ModelInfoResponse carries response for the model information query
 
 
 
+<a name="onos.config.admin.ModelPlugin"></a>
+
+### ModelPlugin
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| port | [uint32](#uint32) |  |  |
+| info | [ModelInfo](#onos.config.admin.ModelInfo) |  |  |
+| status | [string](#string) |  |  |
+| error | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="onos.config.admin.PathValuesRequest"></a>
 
 ### PathValuesRequest
@@ -548,7 +568,7 @@ ConfigAdminService provides means for enhanced interactions with the configurati
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | UploadRegisterModel | [Chunk](#onos.config.admin.Chunk) stream | [RegisterResponse](#onos.config.admin.RegisterResponse) | UploadRegisterModel uploads and adds the model plugin to the list of supported models. The file is serialized in to Chunks of less than 4MB so as not to break the gRPC byte array limit |
-| ListRegisteredModels | [ListModelsRequest](#onos.config.admin.ListModelsRequest) | [ModelInfo](#onos.config.admin.ModelInfo) stream | ListRegisteredModels returns a stream of registered models. |
+| ListRegisteredModels | [ListModelsRequest](#onos.config.admin.ListModelsRequest) | [ModelPlugin](#onos.config.admin.ModelPlugin) stream | ListRegisteredModels returns a stream of registered models. |
 | RollbackNetworkChange | [RollbackRequest](#onos.config.admin.RollbackRequest) | [RollbackResponse](#onos.config.admin.RollbackResponse) | RollbackNetworkChange rolls back the specified network change (or the latest one). |
 | ListSnapshots | [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest) | [.onos.config.snapshot.device.Snapshot](#onos.config.snapshot.device.Snapshot) stream | ListSnapshots gets a list of snapshots across all devices and versions, and streams them back to the caller. |
 | CompactChanges | [CompactChangesRequest](#onos.config.admin.CompactChangesRequest) | [CompactChangesResponse](#onos.config.admin.CompactChangesResponse) | CompactChanges requests a snapshot of NetworkChange and DeviceChange stores. This will take all of the Network Changes older than the retention period and flatten them down to just one snapshot (replacing any older snapshot). This will act as a baseline for those changes within the retention period and any future changes. DeviceChanges will be snapshotted to correspond to these NetworkChange compactions leaving an individual snapshot perv device and version combination. |

@@ -129,6 +129,15 @@ class ModelInfo(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ModelPlugin(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    port: int = betterproto.uint32_field(2)
+    info: "ModelInfo" = betterproto.message_field(3)
+    status: str = betterproto.string_field(10)
+    error: str = betterproto.string_field(11)
+
+
+@dataclass(eq=False, repr=False)
 class Chunk(betterproto.Message):
     """
     Chunk is for streaming a model plugin file to the server. There is a built
@@ -349,7 +358,7 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
 
     async def list_registered_models(
         self, *, verbose: bool = False, model_name: str = "", model_version: str = ""
-    ) -> AsyncIterator["ModelInfo"]:
+    ) -> AsyncIterator["ModelPlugin"]:
 
         request = ListModelsRequest()
         request.verbose = verbose
@@ -359,7 +368,7 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
         async for response in self._unary_stream(
             "/onos.config.admin.ConfigAdminService/ListRegisteredModels",
             request,
-            ModelInfo,
+            ModelPlugin,
         ):
             yield response
 
@@ -521,7 +530,7 @@ class ConfigAdminServiceBase(ServiceBase):
 
     async def list_registered_models(
         self, verbose: bool, model_name: str, model_version: str
-    ) -> AsyncIterator["ModelInfo"]:
+    ) -> AsyncIterator["ModelPlugin"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def rollback_network_change(
@@ -609,7 +618,7 @@ class ConfigAdminServiceBase(ServiceBase):
                 self.__rpc_list_registered_models,
                 grpclib.const.Cardinality.UNARY_STREAM,
                 ListModelsRequest,
-                ModelInfo,
+                ModelPlugin,
             ),
             "/onos.config.admin.ConfigAdminService/RollbackNetworkChange": grpclib.const.Handler(
                 self.__rpc_rollback_network_change,
