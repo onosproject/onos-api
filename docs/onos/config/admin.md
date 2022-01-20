@@ -119,7 +119,7 @@ CompactChangesResponse is a response to the Compact Changes command
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| transaction | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
+| configuration | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
 
 
 
@@ -175,7 +175,7 @@ CompactChangesResponse is a response to the Compact Changes command
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| transaction | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
+| configuration | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
 
 
 

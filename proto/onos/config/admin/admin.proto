@@ -340,14 +340,14 @@ message GetConfigurationRequest {
 }
 
 message GetConfigurationResponse {
-    onos.config.v2.Configuration transaction = 1;
+    onos.config.v2.Configuration configuration = 1;
 }
 
 message ListConfigurationsRequest {
 }
 
 message ListConfigurationsResponse {
-    onos.config.v2.Configuration transaction = 1;
+    onos.config.v2.Configuration configuration = 1;
 }
 
 message WatchConfigurationsRequest {

@@ -312,7 +312,7 @@ class GetConfigurationRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetConfigurationResponse(betterproto.Message):
-    transaction: "_v2__.Configuration" = betterproto.message_field(1)
+    configuration: "_v2__.Configuration" = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -322,7 +322,7 @@ class ListConfigurationsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListConfigurationsResponse(betterproto.Message):
-    transaction: "_v2__.Configuration" = betterproto.message_field(1)
+    configuration: "_v2__.Configuration" = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
