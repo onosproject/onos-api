@@ -274,6 +274,67 @@ class PathValuesResponse(betterproto.Message):
     path_values: List["_v2__.PathValue"] = betterproto.message_field(1)
 
 
+@dataclass(eq=False, repr=False)
+class GetTransactionRequest(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    index: int = betterproto.uint64_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class GetTransactionResponse(betterproto.Message):
+    transaction: "_v2__.Transaction" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ListTransactionsRequest(betterproto.Message):
+    pass
+
+
+@dataclass(eq=False, repr=False)
+class ListTransactionsResponse(betterproto.Message):
+    transaction: "_v2__.Transaction" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class WatchTransactionsRequest(betterproto.Message):
+    pass
+
+
+@dataclass(eq=False, repr=False)
+class WatchTransactionsResponse(betterproto.Message):
+    event: "_v2__.TransactionEvent" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class GetConfigurationRequest(betterproto.Message):
+    id: str = betterproto.string_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class GetConfigurationResponse(betterproto.Message):
+    configuration: "_v2__.Configuration" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ListConfigurationsRequest(betterproto.Message):
+    pass
+
+
+@dataclass(eq=False, repr=False)
+class ListConfigurationsResponse(betterproto.Message):
+    configuration: "_v2__.Configuration" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class WatchConfigurationsRequest(betterproto.Message):
+    pass
+
+
+@dataclass(eq=False, repr=False)
+class WatchConfigurationsResponse(betterproto.Message):
+    event: "_v2__.ConfigurationEvent" = betterproto.message_field(1)
+
+
 class ConfigAdminServiceStub(betterproto.ServiceStub):
     async def upload_register_model(
         self, request_iterator: Union[AsyncIterable["Chunk"], Iterable["Chunk"]]
@@ -381,6 +442,75 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
             request,
             PathValuesResponse,
         )
+
+
+class TransactionServiceStub(betterproto.ServiceStub):
+    async def get(self, *, id: str = "", index: int = 0) -> "GetTransactionResponse":
+
+        request = GetTransactionRequest()
+        request.id = id
+        request.index = index
+
+        return await self._unary_unary(
+            "/onos.config.admin.TransactionService/Get", request, GetTransactionResponse
+        )
+
+    async def list(self) -> AsyncIterator["ListTransactionsResponse"]:
+
+        request = ListTransactionsRequest()
+
+        async for response in self._unary_stream(
+            "/onos.config.admin.TransactionService/List",
+            request,
+            ListTransactionsResponse,
+        ):
+            yield response
+
+    async def watch(self) -> AsyncIterator["WatchTransactionsResponse"]:
+
+        request = WatchTransactionsRequest()
+
+        async for response in self._unary_stream(
+            "/onos.config.admin.TransactionService/Watch",
+            request,
+            WatchTransactionsResponse,
+        ):
+            yield response
+
+
+class ConfigurationServiceStub(betterproto.ServiceStub):
+    async def get(self, *, id: str = "") -> "GetConfigurationResponse":
+
+        request = GetConfigurationRequest()
+        request.id = id
+
+        return await self._unary_unary(
+            "/onos.config.admin.ConfigurationService/Get",
+            request,
+            GetConfigurationResponse,
+        )
+
+    async def list(self) -> AsyncIterator["ListConfigurationsResponse"]:
+
+        request = ListConfigurationsRequest()
+
+        async for response in self._unary_stream(
+            "/onos.config.admin.ConfigurationService/List",
+            request,
+            ListConfigurationsResponse,
+        ):
+            yield response
+
+    async def watch(self) -> AsyncIterator["WatchConfigurationsResponse"]:
+
+        request = WatchConfigurationsRequest()
+
+        async for response in self._unary_stream(
+            "/onos.config.admin.ConfigurationService/Watch",
+            request,
+            WatchConfigurationsResponse,
+        ):
+            yield response
 
 
 class ConfigAdminServiceBase(ServiceBase):
@@ -562,6 +692,137 @@ class ModelPluginServiceBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 PathValuesRequest,
                 PathValuesResponse,
+            ),
+        }
+
+
+class TransactionServiceBase(ServiceBase):
+    async def get(self, id: str, index: int) -> "GetTransactionResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list(self) -> AsyncIterator["ListTransactionsResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def watch(self) -> AsyncIterator["WatchTransactionsResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_get(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+            "index": request.index,
+        }
+
+        response = await self.get(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        await self._call_rpc_handler_server_stream(
+            self.list,
+            stream,
+            request_kwargs,
+        )
+
+    async def __rpc_watch(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        await self._call_rpc_handler_server_stream(
+            self.watch,
+            stream,
+            request_kwargs,
+        )
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.config.admin.TransactionService/Get": grpclib.const.Handler(
+                self.__rpc_get,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                GetTransactionRequest,
+                GetTransactionResponse,
+            ),
+            "/onos.config.admin.TransactionService/List": grpclib.const.Handler(
+                self.__rpc_list,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ListTransactionsRequest,
+                ListTransactionsResponse,
+            ),
+            "/onos.config.admin.TransactionService/Watch": grpclib.const.Handler(
+                self.__rpc_watch,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                WatchTransactionsRequest,
+                WatchTransactionsResponse,
+            ),
+        }
+
+
+class ConfigurationServiceBase(ServiceBase):
+    async def get(self, id: str) -> "GetConfigurationResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def list(self) -> AsyncIterator["ListConfigurationsResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def watch(self) -> AsyncIterator["WatchConfigurationsResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def __rpc_get(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {
+            "id": request.id,
+        }
+
+        response = await self.get(**request_kwargs)
+        await stream.send_message(response)
+
+    async def __rpc_list(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        await self._call_rpc_handler_server_stream(
+            self.list,
+            stream,
+            request_kwargs,
+        )
+
+    async def __rpc_watch(self, stream: grpclib.server.Stream) -> None:
+        request = await stream.recv_message()
+
+        request_kwargs = {}
+
+        await self._call_rpc_handler_server_stream(
+            self.watch,
+            stream,
+            request_kwargs,
+        )
+
+    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
+        return {
+            "/onos.config.admin.ConfigurationService/Get": grpclib.const.Handler(
+                self.__rpc_get,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                GetConfigurationRequest,
+                GetConfigurationResponse,
+            ),
+            "/onos.config.admin.ConfigurationService/List": grpclib.const.Handler(
+                self.__rpc_list,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ListConfigurationsRequest,
+                ListConfigurationsResponse,
+            ),
+            "/onos.config.admin.ConfigurationService/Watch": grpclib.const.Handler(
+                self.__rpc_watch,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                WatchConfigurationsRequest,
+                WatchConfigurationsResponse,
             ),
         }
 

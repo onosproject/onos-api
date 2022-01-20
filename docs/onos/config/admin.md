@@ -7,8 +7,16 @@
     - [Chunk](#onos.config.admin.Chunk)
     - [CompactChangesRequest](#onos.config.admin.CompactChangesRequest)
     - [CompactChangesResponse](#onos.config.admin.CompactChangesResponse)
+    - [GetConfigurationRequest](#onos.config.admin.GetConfigurationRequest)
+    - [GetConfigurationResponse](#onos.config.admin.GetConfigurationResponse)
+    - [GetTransactionRequest](#onos.config.admin.GetTransactionRequest)
+    - [GetTransactionResponse](#onos.config.admin.GetTransactionResponse)
+    - [ListConfigurationsRequest](#onos.config.admin.ListConfigurationsRequest)
+    - [ListConfigurationsResponse](#onos.config.admin.ListConfigurationsResponse)
     - [ListModelsRequest](#onos.config.admin.ListModelsRequest)
     - [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest)
+    - [ListTransactionsRequest](#onos.config.admin.ListTransactionsRequest)
+    - [ListTransactionsResponse](#onos.config.admin.ListTransactionsResponse)
     - [ModelInfo](#onos.config.admin.ModelInfo)
     - [ModelInfoRequest](#onos.config.admin.ModelInfoRequest)
     - [ModelInfoResponse](#onos.config.admin.ModelInfoResponse)
@@ -22,11 +30,17 @@
     - [RollbackResponse](#onos.config.admin.RollbackResponse)
     - [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest)
     - [ValidateConfigResponse](#onos.config.admin.ValidateConfigResponse)
+    - [WatchConfigurationsRequest](#onos.config.admin.WatchConfigurationsRequest)
+    - [WatchConfigurationsResponse](#onos.config.admin.WatchConfigurationsResponse)
+    - [WatchTransactionsRequest](#onos.config.admin.WatchTransactionsRequest)
+    - [WatchTransactionsResponse](#onos.config.admin.WatchTransactionsResponse)
   
     - [Type](#onos.config.admin.Type)
   
     - [ConfigAdminService](#onos.config.admin.ConfigAdminService)
+    - [ConfigurationService](#onos.config.admin.ConfigurationService)
     - [ModelPluginService](#onos.config.admin.ModelPluginService)
+    - [TransactionService](#onos.config.admin.TransactionService)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -82,6 +96,92 @@ CompactChangesResponse is a response to the Compact Changes command
 
 
 
+<a name="onos.config.admin.GetConfigurationRequest"></a>
+
+### GetConfigurationRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.GetConfigurationResponse"></a>
+
+### GetConfigurationResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| configuration | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.GetTransactionRequest"></a>
+
+### GetTransactionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| index | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.GetTransactionResponse"></a>
+
+### GetTransactionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| transaction | [onos.config.v2.Transaction](#onos.config.v2.Transaction) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.ListConfigurationsRequest"></a>
+
+### ListConfigurationsRequest
+
+
+
+
+
+
+
+<a name="onos.config.admin.ListConfigurationsResponse"></a>
+
+### ListConfigurationsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| configuration | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
+
+
+
+
+
+
 <a name="onos.config.admin.ListModelsRequest"></a>
 
 ### ListModelsRequest
@@ -109,6 +209,31 @@ ListSnapshotsRequest requests a list of snapshots for all devices and versions.
 | ----- | ---- | ----- | ----------- |
 | subscribe | [bool](#bool) |  | subscribe indicates whether to subscribe to events (e.g. ADD, UPDATE, and REMOVE) that occur after all devices have been streamed to the client |
 | id | [string](#string) |  | option to specify a specific device - if blank or &#39;*&#39; then select all Can support `*` (match many chars) or &#39;?&#39; (match one char) as wildcard |
+
+
+
+
+
+
+<a name="onos.config.admin.ListTransactionsRequest"></a>
+
+### ListTransactionsRequest
+
+
+
+
+
+
+
+<a name="onos.config.admin.ListTransactionsResponse"></a>
+
+### ListTransactionsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| transaction | [onos.config.v2.Transaction](#onos.config.v2.Transaction) |  |  |
 
 
 
@@ -344,6 +469,56 @@ ValidateConfigResponse carries the result of the validation
 
 
 
+
+<a name="onos.config.admin.WatchConfigurationsRequest"></a>
+
+### WatchConfigurationsRequest
+
+
+
+
+
+
+
+<a name="onos.config.admin.WatchConfigurationsResponse"></a>
+
+### WatchConfigurationsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| event | [onos.config.v2.ConfigurationEvent](#onos.config.v2.ConfigurationEvent) |  |  |
+
+
+
+
+
+
+<a name="onos.config.admin.WatchTransactionsRequest"></a>
+
+### WatchTransactionsRequest
+
+
+
+
+
+
+
+<a name="onos.config.admin.WatchTransactionsResponse"></a>
+
+### WatchTransactionsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| event | [onos.config.v2.TransactionEvent](#onos.config.v2.TransactionEvent) |  |  |
+
+
+
+
+
  
 
 
@@ -379,6 +554,18 @@ ConfigAdminService provides means for enhanced interactions with the configurati
 | CompactChanges | [CompactChangesRequest](#onos.config.admin.CompactChangesRequest) | [CompactChangesResponse](#onos.config.admin.CompactChangesResponse) | CompactChanges requests a snapshot of NetworkChange and DeviceChange stores. This will take all of the Network Changes older than the retention period and flatten them down to just one snapshot (replacing any older snapshot). This will act as a baseline for those changes within the retention period and any future changes. DeviceChanges will be snapshotted to correspond to these NetworkChange compactions leaving an individual snapshot perv device and version combination. |
 
 
+<a name="onos.config.admin.ConfigurationService"></a>
+
+### ConfigurationService
+ConfigurationService provides means to inspect the contents of the internal configurations store.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Get | [GetConfigurationRequest](#onos.config.admin.GetConfigurationRequest) | [GetConfigurationResponse](#onos.config.admin.GetConfigurationResponse) | Get configuration by its target ID |
+| List | [ListConfigurationsRequest](#onos.config.admin.ListConfigurationsRequest) | [ListConfigurationsResponse](#onos.config.admin.ListConfigurationsResponse) stream | List returns all target configurations |
+| Watch | [WatchConfigurationsRequest](#onos.config.admin.WatchConfigurationsRequest) | [WatchConfigurationsResponse](#onos.config.admin.WatchConfigurationsResponse) stream | Watch returns a stream of configuration change notifications |
+
+
 <a name="onos.config.admin.ModelPluginService"></a>
 
 ### ModelPluginService
@@ -389,6 +576,18 @@ ModelPluginService is to be implemented by model plugin sidecar
 | GetModelInfo | [ModelInfoRequest](#onos.config.admin.ModelInfoRequest) | [ModelInfoResponse](#onos.config.admin.ModelInfoResponse) | GetModelInfo provides information about the model |
 | ValidateConfig | [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest) | [ValidateConfigResponse](#onos.config.admin.ValidateConfigResponse) | ValidateConfig validates the provided configuration data against the model |
 | GetPathValues | [PathValuesRequest](#onos.config.admin.PathValuesRequest) | [PathValuesResponse](#onos.config.admin.PathValuesResponse) | GetPathValues produces list of typed path value entries from the specified configuration change JSON tree |
+
+
+<a name="onos.config.admin.TransactionService"></a>
+
+### TransactionService
+TransactionService provides means to inspect the contents of the internal transactions store.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Get | [GetTransactionRequest](#onos.config.admin.GetTransactionRequest) | [GetTransactionResponse](#onos.config.admin.GetTransactionResponse) | Get transaction by its ID or index |
+| List | [ListTransactionsRequest](#onos.config.admin.ListTransactionsRequest) | [ListTransactionsResponse](#onos.config.admin.ListTransactionsResponse) stream | List returns all configuration transactions |
+| Watch | [WatchTransactionsRequest](#onos.config.admin.WatchTransactionsRequest) | [WatchTransactionsResponse](#onos.config.admin.WatchTransactionsResponse) stream | Watch returns a stream of configuration transaction change notifications |
 
  
 

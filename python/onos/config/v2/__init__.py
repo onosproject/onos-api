@@ -29,6 +29,31 @@ class ValueType(betterproto.Enum):
     LEAFLIST_BYTES = 14
 
 
+class TransactionState(betterproto.Enum):
+    """TransactionState is the transaction state of a transaction phase"""
+
+    # TRANSACTION_PENDING indicates the transaction is pending
+    TRANSACTION_PENDING = 0
+    # TRANSACTION_COMPLETE indicates the transaction is complete
+    TRANSACTION_COMPLETE = 2
+    # TRANSACTION_FAILED indicates the transaction failed
+    TRANSACTION_FAILED = 3
+    # TRANSACTION_VALIDATING indicates the transaction is in the validating state
+    TRANSACTION_VALIDATING = 4
+    # TRANSACTION_APPLYING indicates the transaction is in the applying state
+    TRANSACTION_APPLYING = 5
+
+
+class TransactionEventType(betterproto.Enum):
+    """TransactionEventType transaction event types for transaction store"""
+
+    TRANSACTION_EVENT_UNKNOWN = 0
+    TRANSACTION_CREATED = 1
+    TRANSACTION_UPDATED = 2
+    TRANSACTION_DELETED = 3
+    TRANSACTION_REPLAYED = 4
+
+
 class ConfigurationState(betterproto.Enum):
     """
     ConfigurationState is the configuration state of a configuration phase
@@ -66,31 +91,6 @@ class ConfigurationEventType(betterproto.Enum):
     CONFIGURATION_REPLAYED = 4
 
 
-class TransactionState(betterproto.Enum):
-    """TransactionState is the transaction state of a transaction phase"""
-
-    # TRANSACTION_PENDING indicates the transaction is pending
-    TRANSACTION_PENDING = 0
-    # TRANSACTION_COMPLETE indicates the transaction is complete
-    TRANSACTION_COMPLETE = 2
-    # TRANSACTION_FAILED indicates the transaction failed
-    TRANSACTION_FAILED = 3
-    # TRANSACTION_VALIDATING indicates the transaction is in the validating state
-    TRANSACTION_VALIDATING = 4
-    # TRANSACTION_APPLYING indicates the transaction is in the applying state
-    TRANSACTION_APPLYING = 5
-
-
-class TransactionEventType(betterproto.Enum):
-    """TransactionEventType transaction event types for transaction store"""
-
-    TRANSACTION_EVENT_UNKNOWN = 0
-    TRANSACTION_CREATED = 1
-    TRANSACTION_UPDATED = 2
-    TRANSACTION_DELETED = 3
-    TRANSACTION_REPLAYED = 4
-
-
 @dataclass(eq=False, repr=False)
 class TypedValue(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
@@ -115,65 +115,6 @@ class PathValue(betterproto.Message):
     deleted: bool = betterproto.bool_field(3)
     # 'index'
     index: int = betterproto.uint64_field(4)
-
-
-@dataclass(eq=False, repr=False)
-class Configuration(betterproto.Message):
-    """Configuration represents complete desired target configuration"""
-
-    # 'id' is a unique configuration identifier
-    id: str = betterproto.string_field(1)
-    # 'target_id' is the target to which the desired target configuration applies
-    target_id: str = betterproto.string_field(2)
-    # 'target_version' is the version to which desired target configuration
-    # applies
-    target_version: str = betterproto.string_field(3)
-    # 'target_type' is an optional target type to which to apply this desired
-    # target configuration
-    target_type: str = betterproto.string_field(4)
-    # 'values' is a map of path/values to set
-    values: Dict[str, "PathValue"] = betterproto.map_field(
-        5, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
-    # 'ConfigurationStatus' is the current lifecycle status of the configuration
-    status: "ConfigurationStatus" = betterproto.message_field(6)
-    # revision is configuration revision
-    revision: int = betterproto.uint64_field(7)
-    # 'index' is a monotonically increasing, globally unique index of the
-    # configuration The index is provided by the store, is static and unique for
-    # each unique configuration identifier, and should not be modified by client
-    # code.
-    index: int = betterproto.uint64_field(8)
-
-
-@dataclass(eq=False, repr=False)
-class ConfigurationStatus(betterproto.Message):
-    """ConfigurationStatus is the status of a Configuration"""
-
-    # 'state' is the state of the transaction within a Phase
-    state: "ConfigurationState" = betterproto.enum_field(1)
-    # mastershipState mastership info
-    mastership_state: "MastershipState" = betterproto.message_field(2)
-    # transaction_index highest Transaction index applied to the Configuration
-    transaction_index: int = betterproto.uint64_field(3)
-    # sync_index highest transaction index applied to the target.
-    sync_index: int = betterproto.uint64_field(4)
-
-
-@dataclass(eq=False, repr=False)
-class MastershipState(betterproto.Message):
-    """Mastership state"""
-
-    term: int = betterproto.uint64_field(1)
-
-
-@dataclass(eq=False, repr=False)
-class ConfigurationEvent(betterproto.Message):
-    """ConfigurationEvent configuration store event"""
-
-    # ConfigurationEventType configuration event type
-    type: "ConfigurationEventType" = betterproto.enum_field(1)
-    configuration: "Configuration" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -284,3 +225,62 @@ class Source(betterproto.Message):
     values: Dict[str, int] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_UINT64
     )
+
+
+@dataclass(eq=False, repr=False)
+class Configuration(betterproto.Message):
+    """Configuration represents complete desired target configuration"""
+
+    # 'id' is a unique configuration identifier
+    id: str = betterproto.string_field(1)
+    # 'target_id' is the target to which the desired target configuration applies
+    target_id: str = betterproto.string_field(2)
+    # 'target_version' is the version to which desired target configuration
+    # applies
+    target_version: str = betterproto.string_field(3)
+    # 'target_type' is an optional target type to which to apply this desired
+    # target configuration
+    target_type: str = betterproto.string_field(4)
+    # 'values' is a map of path/values to set
+    values: Dict[str, "PathValue"] = betterproto.map_field(
+        5, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
+    # 'ConfigurationStatus' is the current lifecycle status of the configuration
+    status: "ConfigurationStatus" = betterproto.message_field(6)
+    # revision is configuration revision
+    revision: int = betterproto.uint64_field(7)
+    # 'index' is a monotonically increasing, globally unique index of the
+    # configuration The index is provided by the store, is static and unique for
+    # each unique configuration identifier, and should not be modified by client
+    # code.
+    index: int = betterproto.uint64_field(8)
+
+
+@dataclass(eq=False, repr=False)
+class ConfigurationStatus(betterproto.Message):
+    """ConfigurationStatus is the status of a Configuration"""
+
+    # 'state' is the state of the transaction within a Phase
+    state: "ConfigurationState" = betterproto.enum_field(1)
+    # mastershipState mastership info
+    mastership_state: "MastershipState" = betterproto.message_field(2)
+    # transaction_index highest Transaction index applied to the Configuration
+    transaction_index: int = betterproto.uint64_field(3)
+    # sync_index highest transaction index applied to the target.
+    sync_index: int = betterproto.uint64_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class MastershipState(betterproto.Message):
+    """Mastership state"""
+
+    term: int = betterproto.uint64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ConfigurationEvent(betterproto.Message):
+    """ConfigurationEvent configuration store event"""
+
+    # ConfigurationEventType configuration event type
+    type: "ConfigurationEventType" = betterproto.enum_field(1)
+    configuration: "Configuration" = betterproto.message_field(2)
