@@ -19,12 +19,25 @@ syntax = "proto3";
 package onos.config.v2;
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
 import "gogoproto/gogo.proto";
 import "onos/config/v2/value.proto";
 
 
-// Transaction refers to a multi-target transactional change
+// TransactionChange  refers to a multi-target transactional change
+message TransactionChange {
+    // 'changes' is a set of changes to apply to targets
+    // The list of changes should contain only a single change per target/version pair.
+    repeated Change changes = 1 [(gogoproto.nullable) = false];
+
+}
+
+// TransactionRollback
+message TransactionRollback {
+    // 'index' is a monotonically increasing, globally unique index of the change
+    uint64 index = 1 [(gogoproto.casttype) = "Index"];
+}
+
+// Transaction refers to a transaction change or transaction rollback
 message Transaction {
     // 'id' is the unique identifier of the transaction
     // This field should be set prior to persisting the object.
@@ -50,34 +63,20 @@ message Transaction {
     // 'updated' is the time at which the transaction was last updated
     google.protobuf.Timestamp updated = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 
-    // 'changes' is a set of changes to apply to targets
-    // The list of changes should contain only a single change per target/version pair.
-    repeated Change changes = 7 [(gogoproto.nullable) = false];
-
     // 'deleted' is a flag indicating whether this transaction is being deleted by a snapshot
-    bool deleted = 8;
-
-    // 'dependency' is a reference to the transaction on which this transaction is dependent
-    TransactionRef dependency = 9;
-
-    // 'dependents' is a list of references to transactions that depend on this transaction
-    repeated TransactionRef dependents = 10 [(gogoproto.nullable) = false];
+    bool deleted = 7;
 
     // 'username' is the name of the user that made the transaction
-    string username = 11;
+    string username = 8;
 
     // atomic determines if a transaction is atomic or not
-    bool atomic = 12;
-}
+    bool atomic = 9;
 
-// TransactionRef is a reference to a transaction
-message TransactionRef {
-    oneof id {
-        google.protobuf.Empty none = 1;
-        string transaction_id = 2 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
+    oneof transaction {
+        TransactionChange change = 10;
+        TransactionRollback rollback = 11;
     }
 }
-
 // Change represents a configuration change to a single target
 message Change {
     // 'target_id' is the identifier of the target to which this change applies
@@ -107,11 +106,11 @@ message ChangeValue {
 
 // TransactionStatus is the status of a Transaction
 message TransactionStatus {
-    // 'phase' is the current phase of the
-    TransactionPhase phase = 1;
-
     // 'state' is the state of the transaction within a Phase
-    TransactionState state = 2;
+    TransactionState state = 1;
+
+    // sources source configuration modified.
+    map<string, Source> sources = 2 [(gogoproto.castkey) = "TargetID"];;
 }
 
 // TransactionState is the transaction state of a transaction phase
@@ -132,15 +131,6 @@ enum TransactionState {
     TRANSACTION_APPLYING = 5;
 }
 
-// TransactionPhase is the phase of a Transaction
-enum TransactionPhase {
-    // TRANSACTION_CHANGE indicates the transaction has been requested
-    TRANSACTION_CHANGE = 0;
-
-    // TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction
-    TRANSACTION_ROLLBACK = 1;
-}
-
 // TransactionEventType transaction event types for transaction store
 enum TransactionEventType {
     TRANSACTION_EVENT_UNKNOWN = 0;
@@ -154,4 +144,10 @@ enum TransactionEventType {
 message TransactionEvent {
     TransactionEventType type = 1;
     Transaction transaction = 2 [(gogoproto.nullable) = false];
+}
+
+// Source source configuration
+message Source {
+    // 'values' is a map of path/index
+    map <string, uint64> values = 1 [(gogoproto.castvalue) = "Index"];
 }

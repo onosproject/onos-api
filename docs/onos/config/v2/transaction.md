@@ -6,13 +6,16 @@
 - [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
     - [Change](#onos.config.v2.Change)
     - [ChangeValue](#onos.config.v2.ChangeValue)
+    - [Source](#onos.config.v2.Source)
+    - [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
+    - [TransactionChange](#onos.config.v2.TransactionChange)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
-    - [TransactionRef](#onos.config.v2.TransactionRef)
+    - [TransactionRollback](#onos.config.v2.TransactionRollback)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
+    - [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry)
   
     - [TransactionEventType](#onos.config.v2.TransactionEventType)
-    - [TransactionPhase](#onos.config.v2.TransactionPhase)
     - [TransactionState](#onos.config.v2.TransactionState)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -61,10 +64,41 @@ ChangeValue is an individual Path/Value and removed flag combination in a Change
 
 
 
+<a name="onos.config.v2.Source"></a>
+
+### Source
+Source source configuration
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry) | repeated | &#39;values&#39; is a map of path/index |
+
+
+
+
+
+
+<a name="onos.config.v2.Source.ValuesEntry"></a>
+
+### Source.ValuesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [uint64](#uint64) |  |  |
+
+
+
+
+
+
 <a name="onos.config.v2.Transaction"></a>
 
 ### Transaction
-Transaction refers to a multi-target transactional change
+Transaction refers to a transaction change or transaction rollback
 
 
 | Field | Type | Label | Description |
@@ -75,12 +109,26 @@ Transaction refers to a multi-target transactional change
 | status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
 | created | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | &#39;created&#39; is the time at which the transaction was created |
 | updated | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | &#39;updated&#39; is the time at which the transaction was last updated |
-| changes | [Change](#onos.config.v2.Change) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
 | deleted | [bool](#bool) |  | &#39;deleted&#39; is a flag indicating whether this transaction is being deleted by a snapshot |
-| dependency | [TransactionRef](#onos.config.v2.TransactionRef) |  | &#39;dependency&#39; is a reference to the transaction on which this transaction is dependent |
-| dependents | [TransactionRef](#onos.config.v2.TransactionRef) | repeated | &#39;dependents&#39; is a list of references to transactions that depend on this transaction |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
 | atomic | [bool](#bool) |  | atomic determines if a transaction is atomic or not |
+| change | [TransactionChange](#onos.config.v2.TransactionChange) |  |  |
+| rollback | [TransactionRollback](#onos.config.v2.TransactionRollback) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionChange"></a>
+
+### TransactionChange
+TransactionChange  refers to a multi-target transactional change
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| changes | [Change](#onos.config.v2.Change) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
 
 
 
@@ -103,16 +151,15 @@ TransactionEvent transaction store event
 
 
 
-<a name="onos.config.v2.TransactionRef"></a>
+<a name="onos.config.v2.TransactionRollback"></a>
 
-### TransactionRef
-TransactionRef is a reference to a transaction
+### TransactionRollback
+TransactionRollback
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| none | [google.protobuf.Empty](#google.protobuf.Empty) |  |  |
-| transaction_id | [string](#string) |  |  |
+| index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change |
 
 
 
@@ -127,8 +174,24 @@ TransactionStatus is the status of a Transaction
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| phase | [TransactionPhase](#onos.config.v2.TransactionPhase) |  | &#39;phase&#39; is the current phase of the |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction within a Phase |
+| sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | sources source configuration modified. |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionStatus.SourcesEntry"></a>
+
+### TransactionStatus.SourcesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Source](#onos.config.v2.Source) |  |  |
 
 
 
@@ -149,18 +212,6 @@ TransactionEventType transaction event types for transaction store
 | TRANSACTION_UPDATED | 2 |  |
 | TRANSACTION_DELETED | 3 |  |
 | TRANSACTION_REPLAYED | 4 |  |
-
-
-
-<a name="onos.config.v2.TransactionPhase"></a>
-
-### TransactionPhase
-TransactionPhase is the phase of a Transaction
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| TRANSACTION_CHANGE | 0 | TRANSACTION_CHANGE indicates the transaction has been requested |
-| TRANSACTION_ROLLBACK | 1 | TRANSACTION_ROLLBACK indicates a rollback has been requested for the transaction |
 
 
 
