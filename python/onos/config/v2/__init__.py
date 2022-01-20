@@ -29,6 +29,41 @@ class ValueType(betterproto.Enum):
     LEAFLIST_BYTES = 14
 
 
+class TransactionState(betterproto.Enum):
+    """TransactionState is the transaction state of a transaction phase"""
+
+    # TRANSACTION_PENDING indicates the transaction is pending
+    TRANSACTION_PENDING = 0
+    # TRANSACTION_COMPLETE indicates the transaction is complete
+    TRANSACTION_COMPLETE = 2
+    # TRANSACTION_FAILED indicates the transaction failed
+    TRANSACTION_FAILED = 3
+    # TRANSACTION_VALIDATING indicates the transaction is in the validating state
+    TRANSACTION_VALIDATING = 4
+    # TRANSACTION_APPLYING indicates the transaction is in the applying state
+    TRANSACTION_APPLYING = 5
+
+
+class TransactionPhase(betterproto.Enum):
+    """TransactionPhase is the phase of a Transaction"""
+
+    # TRANSACTION_CHANGE indicates the transaction has been requested
+    TRANSACTION_CHANGE = 0
+    # TRANSACTION_ROLLBACK indicates a rollback has been requested for the
+    # transaction
+    TRANSACTION_ROLLBACK = 1
+
+
+class TransactionEventType(betterproto.Enum):
+    """TransactionEventType transaction event types for transaction store"""
+
+    TRANSACTION_EVENT_UNKNOWN = 0
+    TRANSACTION_CREATED = 1
+    TRANSACTION_UPDATED = 2
+    TRANSACTION_DELETED = 3
+    TRANSACTION_REPLAYED = 4
+
+
 class ConfigurationState(betterproto.Enum):
     """
     ConfigurationState is the configuration state of a configuration phase

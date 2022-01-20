@@ -47,18 +47,6 @@ protoc --proto_path=$proto_path \
     proto/onos/config/admin/admin.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
-    --doc_opt=markdown,admin.md \
-    proto/onos/config/admin/plugin.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,admin.md \
-    proto/onos/config/admin/transaction.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,admin.md \
-    proto/onos/config/admin/configuration.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
     --doc_opt=markdown,diags.md \
     proto/onos/config/diags/diags.proto
 protoc --proto_path=$proto_path \
