@@ -7,7 +7,6 @@
     - [Chunk](#onos.config.admin.Chunk)
     - [CompactChangesRequest](#onos.config.admin.CompactChangesRequest)
     - [CompactChangesResponse](#onos.config.admin.CompactChangesResponse)
-    - [ConfigurationEvent](#onos.config.admin.ConfigurationEvent)
     - [GetConfigurationRequest](#onos.config.admin.GetConfigurationRequest)
     - [GetConfigurationResponse](#onos.config.admin.GetConfigurationResponse)
     - [GetTransactionRequest](#onos.config.admin.GetTransactionRequest)
@@ -29,7 +28,6 @@
     - [RegisterResponse](#onos.config.admin.RegisterResponse)
     - [RollbackRequest](#onos.config.admin.RollbackRequest)
     - [RollbackResponse](#onos.config.admin.RollbackResponse)
-    - [TransactionEvent](#onos.config.admin.TransactionEvent)
     - [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest)
     - [ValidateConfigResponse](#onos.config.admin.ValidateConfigResponse)
     - [WatchConfigurationsRequest](#onos.config.admin.WatchConfigurationsRequest)
@@ -92,22 +90,6 @@ CompactChangesRequest requests a compaction of the Network Change and Device Cha
 
 ### CompactChangesResponse
 CompactChangesResponse is a response to the Compact Changes command
-
-
-
-
-
-
-<a name="onos.config.admin.ConfigurationEvent"></a>
-
-### ConfigurationEvent
-Event is a topo operation event
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [Type](#onos.config.admin.Type) |  |  |
-| configuration | [onos.config.v2.Configuration](#onos.config.v2.Configuration) |  |  |
 
 
 
@@ -457,22 +439,6 @@ RollbackResponse carries the response of the rollback operation
 
 
 
-<a name="onos.config.admin.TransactionEvent"></a>
-
-### TransactionEvent
-Event is a topo operation event
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [Type](#onos.config.admin.Type) |  |  |
-| transaction | [onos.config.v2.Transaction](#onos.config.v2.Transaction) |  |  |
-
-
-
-
-
-
 <a name="onos.config.admin.ValidateConfigRequest"></a>
 
 ### ValidateConfigRequest
@@ -522,7 +488,7 @@ ValidateConfigResponse carries the result of the validation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| event | [ConfigurationEvent](#onos.config.admin.ConfigurationEvent) |  |  |
+| event | [onos.config.v2.ConfigurationEvent](#onos.config.v2.ConfigurationEvent) |  |  |
 
 
 
@@ -547,7 +513,7 @@ ValidateConfigResponse carries the result of the validation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| event | [TransactionEvent](#onos.config.admin.TransactionEvent) |  |  |
+| event | [onos.config.v2.TransactionEvent](#onos.config.v2.TransactionEvent) |  |  |
 
 
 

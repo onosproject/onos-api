@@ -314,14 +314,8 @@ message ListTransactionsResponse {
 message WatchTransactionsRequest {
 }
 
-// Event is a topo operation event
-message TransactionEvent {
-    Type type = 1;
-    onos.config.v2.Transaction transaction = 2 [(gogoproto.nullable) = false];
-}
-
 message WatchTransactionsResponse {
-    TransactionEvent event = 1 [(gogoproto.nullable) = false];
+    onos.config.v2.TransactionEvent event = 1 [(gogoproto.nullable) = false];
 }
 
 // Configurations -------------------------------------
@@ -359,12 +353,6 @@ message ListConfigurationsResponse {
 message WatchConfigurationsRequest {
 }
 
-// Event is a topo operation event
-message ConfigurationEvent {
-    Type type = 1;
-    onos.config.v2.Configuration configuration = 2 [(gogoproto.nullable) = false];
-}
-
 message WatchConfigurationsResponse {
-    ConfigurationEvent event = 1 [(gogoproto.nullable) = false];
+    onos.config.v2.ConfigurationEvent event = 1 [(gogoproto.nullable) = false];
 }

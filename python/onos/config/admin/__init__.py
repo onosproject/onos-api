@@ -301,16 +301,8 @@ class WatchTransactionsRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class TransactionEvent(betterproto.Message):
-    """Event is a topo operation event"""
-
-    type: "Type" = betterproto.enum_field(1)
-    transaction: "_v2__.Transaction" = betterproto.message_field(2)
-
-
-@dataclass(eq=False, repr=False)
 class WatchTransactionsResponse(betterproto.Message):
-    event: "TransactionEvent" = betterproto.message_field(1)
+    event: "_v2__.TransactionEvent" = betterproto.message_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -339,16 +331,8 @@ class WatchConfigurationsRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class ConfigurationEvent(betterproto.Message):
-    """Event is a topo operation event"""
-
-    type: "Type" = betterproto.enum_field(1)
-    configuration: "_v2__.Configuration" = betterproto.message_field(2)
-
-
-@dataclass(eq=False, repr=False)
 class WatchConfigurationsResponse(betterproto.Message):
-    event: "ConfigurationEvent" = betterproto.message_field(1)
+    event: "_v2__.ConfigurationEvent" = betterproto.message_field(1)
 
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):
