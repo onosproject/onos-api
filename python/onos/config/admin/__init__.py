@@ -316,7 +316,7 @@ class WatchTransactionsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetConfigurationRequest(betterproto.Message):
-    id: str = betterproto.string_field(1)
+    target_id: str = betterproto.string_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -492,10 +492,12 @@ class TransactionServiceStub(betterproto.ServiceStub):
 
 
 class ConfigurationServiceStub(betterproto.ServiceStub):
-    async def get_configuration(self, *, id: str = "") -> "GetConfigurationResponse":
+    async def get_configuration(
+        self, *, target_id: str = ""
+    ) -> "GetConfigurationResponse":
 
         request = GetConfigurationRequest()
-        request.id = id
+        request.target_id = target_id
 
         return await self._unary_unary(
             "/onos.config.admin.ConfigurationService/GetConfiguration",
@@ -778,7 +780,7 @@ class TransactionServiceBase(ServiceBase):
 
 
 class ConfigurationServiceBase(ServiceBase):
-    async def get_configuration(self, id: str) -> "GetConfigurationResponse":
+    async def get_configuration(self, target_id: str) -> "GetConfigurationResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list_configurations(self) -> AsyncIterator["ListConfigurationsResponse"]:
@@ -793,7 +795,7 @@ class ConfigurationServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
-            "id": request.id,
+            "target_id": request.target_id,
         }
 
         response = await self.get_configuration(**request_kwargs)

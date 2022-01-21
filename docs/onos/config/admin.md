@@ -105,7 +105,7 @@ CompactChangesResponse is a response to the Compact Changes command
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
+| target_id | [string](#string) |  |  |
 
 
 
