@@ -291,15 +291,15 @@ message PathValuesResponse {
 // TransactionService provides means to inspect the contents of the internal transactions store.
 service TransactionService {
     // Get transaction by its ID or index
-    rpc Get (GetTransactionRequest) returns (GetTransactionResponse) {
+    rpc GetTransaction (GetTransactionRequest) returns (GetTransactionResponse) {
     }
 
     // List returns all configuration transactions
-    rpc List (ListTransactionsRequest) returns (stream ListTransactionsResponse) {
+    rpc ListTransactions (ListTransactionsRequest) returns (stream ListTransactionsResponse) {
     }
 
     // Watch returns a stream of configuration transaction change notifications
-    rpc Watch (WatchTransactionsRequest) returns (stream WatchTransactionsResponse) {
+    rpc WatchTransactions (WatchTransactionsRequest) returns (stream WatchTransactionsResponse) {
     }
 }
 
@@ -331,15 +331,15 @@ message WatchTransactionsResponse {
 // ConfigurationService provides means to inspect the contents of the internal configurations store.
 service ConfigurationService {
     // Get configuration by its target ID
-    rpc Get (GetConfigurationRequest) returns (GetConfigurationResponse) {
+    rpc GetConfiguration (GetConfigurationRequest) returns (GetConfigurationResponse) {
     }
 
     // List returns all target configurations
-    rpc List (ListConfigurationsRequest) returns (stream ListConfigurationsResponse) {
+    rpc ListConfigurations (ListConfigurationsRequest) returns (stream ListConfigurationsResponse) {
     }
 
     // Watch returns a stream of configuration change notifications
-    rpc Watch (WatchConfigurationsRequest) returns (stream WatchConfigurationsResponse) {
+    rpc WatchConfigurations (WatchConfigurationsRequest) returns (stream WatchConfigurationsResponse) {
     }
 }
 

@@ -581,9 +581,9 @@ ConfigurationService provides means to inspect the contents of the internal conf
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetConfigurationRequest](#onos.config.admin.GetConfigurationRequest) | [GetConfigurationResponse](#onos.config.admin.GetConfigurationResponse) | Get configuration by its target ID |
-| List | [ListConfigurationsRequest](#onos.config.admin.ListConfigurationsRequest) | [ListConfigurationsResponse](#onos.config.admin.ListConfigurationsResponse) stream | List returns all target configurations |
-| Watch | [WatchConfigurationsRequest](#onos.config.admin.WatchConfigurationsRequest) | [WatchConfigurationsResponse](#onos.config.admin.WatchConfigurationsResponse) stream | Watch returns a stream of configuration change notifications |
+| GetConfiguration | [GetConfigurationRequest](#onos.config.admin.GetConfigurationRequest) | [GetConfigurationResponse](#onos.config.admin.GetConfigurationResponse) | Get configuration by its target ID |
+| ListConfigurations | [ListConfigurationsRequest](#onos.config.admin.ListConfigurationsRequest) | [ListConfigurationsResponse](#onos.config.admin.ListConfigurationsResponse) stream | List returns all target configurations |
+| WatchConfigurations | [WatchConfigurationsRequest](#onos.config.admin.WatchConfigurationsRequest) | [WatchConfigurationsResponse](#onos.config.admin.WatchConfigurationsResponse) stream | Watch returns a stream of configuration change notifications |
 
 
 <a name="onos.config.admin.ModelPluginService"></a>
@@ -605,9 +605,9 @@ TransactionService provides means to inspect the contents of the internal transa
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetTransactionRequest](#onos.config.admin.GetTransactionRequest) | [GetTransactionResponse](#onos.config.admin.GetTransactionResponse) | Get transaction by its ID or index |
-| List | [ListTransactionsRequest](#onos.config.admin.ListTransactionsRequest) | [ListTransactionsResponse](#onos.config.admin.ListTransactionsResponse) stream | List returns all configuration transactions |
-| Watch | [WatchTransactionsRequest](#onos.config.admin.WatchTransactionsRequest) | [WatchTransactionsResponse](#onos.config.admin.WatchTransactionsResponse) stream | Watch returns a stream of configuration transaction change notifications |
+| GetTransaction | [GetTransactionRequest](#onos.config.admin.GetTransactionRequest) | [GetTransactionResponse](#onos.config.admin.GetTransactionResponse) | Get transaction by its ID or index |
+| ListTransactions | [ListTransactionsRequest](#onos.config.admin.ListTransactionsRequest) | [ListTransactionsResponse](#onos.config.admin.ListTransactionsResponse) stream | List returns all configuration transactions |
+| WatchTransactions | [WatchTransactionsRequest](#onos.config.admin.WatchTransactionsRequest) | [WatchTransactionsResponse](#onos.config.admin.WatchTransactionsResponse) stream | Watch returns a stream of configuration transaction change notifications |
 
  
 
