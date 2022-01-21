@@ -344,7 +344,7 @@ service ConfigurationService {
 }
 
 message GetConfigurationRequest {
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.ConfigurationID"];
+    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TargetID"];
 }
 
 message GetConfigurationResponse {
