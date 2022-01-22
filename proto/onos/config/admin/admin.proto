@@ -320,11 +320,11 @@ message ListTransactionsResponse {
 }
 
 message WatchTransactionsRequest {
+    bool noreplay = 2;
 }
 
 message WatchTransactionsResponse {
     onos.config.v2.TransactionEvent event = 1 [(gogoproto.nullable) = false];
-    bool noreplay = 2;
 }
 
 // Configurations -------------------------------------
@@ -360,9 +360,9 @@ message ListConfigurationsResponse {
 }
 
 message WatchConfigurationsRequest {
+    bool noreplay = 2;
 }
 
 message WatchConfigurationsResponse {
     onos.config.v2.ConfigurationEvent event = 1 [(gogoproto.nullable) = false];
-    bool noreplay = 2;
 }

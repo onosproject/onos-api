@@ -306,13 +306,12 @@ class ListTransactionsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchTransactionsRequest(betterproto.Message):
-    pass
+    noreplay: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class WatchTransactionsResponse(betterproto.Message):
     event: "_v2__.TransactionEvent" = betterproto.message_field(1)
-    noreplay: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -337,13 +336,12 @@ class ListConfigurationsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchConfigurationsRequest(betterproto.Message):
-    pass
+    noreplay: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class WatchConfigurationsResponse(betterproto.Message):
     event: "_v2__.ConfigurationEvent" = betterproto.message_field(1)
-    noreplay: bool = betterproto.bool_field(2)
 
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):
@@ -481,9 +479,12 @@ class TransactionServiceStub(betterproto.ServiceStub):
         ):
             yield response
 
-    async def watch_transactions(self) -> AsyncIterator["WatchTransactionsResponse"]:
+    async def watch_transactions(
+        self, *, noreplay: bool = False
+    ) -> AsyncIterator["WatchTransactionsResponse"]:
 
         request = WatchTransactionsRequest()
+        request.noreplay = noreplay
 
         async for response in self._unary_stream(
             "/onos.config.admin.TransactionService/WatchTransactions",
@@ -519,10 +520,11 @@ class ConfigurationServiceStub(betterproto.ServiceStub):
             yield response
 
     async def watch_configurations(
-        self,
+        self, *, noreplay: bool = False
     ) -> AsyncIterator["WatchConfigurationsResponse"]:
 
         request = WatchConfigurationsRequest()
+        request.noreplay = noreplay
 
         async for response in self._unary_stream(
             "/onos.config.admin.ConfigurationService/WatchConfigurations",
@@ -722,7 +724,9 @@ class TransactionServiceBase(ServiceBase):
     async def list_transactions(self) -> AsyncIterator["ListTransactionsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
-    async def watch_transactions(self) -> AsyncIterator["WatchTransactionsResponse"]:
+    async def watch_transactions(
+        self, noreplay: bool
+    ) -> AsyncIterator["WatchTransactionsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def __rpc_get_transaction(self, stream: grpclib.server.Stream) -> None:
@@ -750,7 +754,9 @@ class TransactionServiceBase(ServiceBase):
     async def __rpc_watch_transactions(self, stream: grpclib.server.Stream) -> None:
         request = await stream.recv_message()
 
-        request_kwargs = {}
+        request_kwargs = {
+            "noreplay": request.noreplay,
+        }
 
         await self._call_rpc_handler_server_stream(
             self.watch_transactions,
@@ -789,7 +795,7 @@ class ConfigurationServiceBase(ServiceBase):
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def watch_configurations(
-        self,
+        self, noreplay: bool
     ) -> AsyncIterator["WatchConfigurationsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -817,7 +823,9 @@ class ConfigurationServiceBase(ServiceBase):
     async def __rpc_watch_configurations(self, stream: grpclib.server.Stream) -> None:
         request = await stream.recv_message()
 
-        request_kwargs = {}
+        request_kwargs = {
+            "noreplay": request.noreplay,
+        }
 
         await self._call_rpc_handler_server_stream(
             self.watch_configurations,
