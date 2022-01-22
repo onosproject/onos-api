@@ -312,6 +312,7 @@ class WatchTransactionsRequest(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class WatchTransactionsResponse(betterproto.Message):
     event: "_v2__.TransactionEvent" = betterproto.message_field(1)
+    noreplay: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -342,6 +343,7 @@ class WatchConfigurationsRequest(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class WatchConfigurationsResponse(betterproto.Message):
     event: "_v2__.ConfigurationEvent" = betterproto.message_field(1)
+    noreplay: bool = betterproto.bool_field(2)
 
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):

@@ -324,6 +324,7 @@ message WatchTransactionsRequest {
 
 message WatchTransactionsResponse {
     onos.config.v2.TransactionEvent event = 1 [(gogoproto.nullable) = false];
+    bool noreplay = 2;
 }
 
 // Configurations -------------------------------------
@@ -363,4 +364,5 @@ message WatchConfigurationsRequest {
 
 message WatchConfigurationsResponse {
     onos.config.v2.ConfigurationEvent event = 1 [(gogoproto.nullable) = false];
+    bool noreplay = 2;
 }

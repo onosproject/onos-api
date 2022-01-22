@@ -509,6 +509,7 @@ ValidateConfigResponse carries the result of the validation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | event | [onos.config.v2.ConfigurationEvent](#onos.config.v2.ConfigurationEvent) |  |  |
+| noreplay | [bool](#bool) |  |  |
 
 
 
@@ -534,6 +535,7 @@ ValidateConfigResponse carries the result of the validation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | event | [onos.config.v2.TransactionEvent](#onos.config.v2.TransactionEvent) |  |  |
+| noreplay | [bool](#bool) |  |  |
 
 
 
