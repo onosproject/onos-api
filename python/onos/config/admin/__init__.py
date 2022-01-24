@@ -131,7 +131,7 @@ class ModelInfo(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class ModelPlugin(betterproto.Message):
     id: str = betterproto.string_field(1)
-    port: int = betterproto.uint32_field(2)
+    endpoint: str = betterproto.string_field(2)
     info: "ModelInfo" = betterproto.message_field(3)
     status: str = betterproto.string_field(10)
     error: str = betterproto.string_field(11)

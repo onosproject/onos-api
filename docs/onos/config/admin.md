@@ -297,7 +297,7 @@ ModelInfoResponse carries response for the model information query
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| port | [uint32](#uint32) |  |  |
+| endpoint | [string](#string) |  |  |
 | info | [ModelInfo](#onos.config.admin.ModelInfo) |  |  |
 | status | [string](#string) |  |  |
 | error | [string](#string) |  |  |
