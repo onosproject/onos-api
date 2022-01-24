@@ -136,7 +136,7 @@ message ModelInfo {
 
 message ModelPlugin {
     string id = 1;
-    uint32 port = 2;
+    string endpoint = 2;
     ModelInfo info = 3;
     string status = 10;
     string error = 11;
