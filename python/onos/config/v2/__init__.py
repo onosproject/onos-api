@@ -123,7 +123,9 @@ class TransactionChange(betterproto.Message):
 
     # 'changes' is a set of changes to apply to targets The list of changes
     # should contain only a single change per target/version pair.
-    changes: List["Change"] = betterproto.message_field(1)
+    changes: Dict[str, "Change"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -171,8 +173,6 @@ class Transaction(betterproto.Message):
 class Change(betterproto.Message):
     """Change represents a configuration change to a single target"""
 
-    # 'target_id' is the identifier of the target to which this change applies
-    target_id: str = betterproto.string_field(1)
     # 'target_version' is an optional target version to which to apply this
     # change
     target_version: str = betterproto.string_field(2)

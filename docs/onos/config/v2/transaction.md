@@ -9,6 +9,7 @@
     - [ChangeValue](#onos.config.v2.ChangeValue)
     - [Transaction](#onos.config.v2.Transaction)
     - [TransactionChange](#onos.config.v2.TransactionChange)
+    - [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
     - [TransactionRollback](#onos.config.v2.TransactionRollback)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
@@ -35,7 +36,6 @@ Change represents a configuration change to a single target
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| target_id | [string](#string) |  | &#39;target_id&#39; is the identifier of the target to which this change applies |
 | target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
 | values | [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
@@ -110,7 +110,23 @@ TransactionChange  refers to a multi-target transactional change
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| changes | [Change](#onos.config.v2.Change) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
+| changes | [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionChange.ChangesEntry"></a>
+
+### TransactionChange.ChangesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Change](#onos.config.v2.Change) |  |  |
 
 
 

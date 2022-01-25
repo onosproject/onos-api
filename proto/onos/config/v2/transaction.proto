@@ -26,7 +26,7 @@ import "onos/config/v2/value.proto";
 message TransactionChange {
     // 'changes' is a set of changes to apply to targets
     // The list of changes should contain only a single change per target/version pair.
-    repeated Change changes = 1 [(gogoproto.nullable) = false];
+    map<string, Change> changes = 1 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
 }
 
 // TransactionRollback
@@ -78,9 +78,6 @@ message Transaction {
 
 // Change represents a configuration change to a single target
 message Change {
-    // 'target_id' is the identifier of the target to which this change applies
-    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
-
     // 'target_version' is an optional target version to which to apply this change
     string target_version = 2 [(gogoproto.casttype) = "TargetVersion"];
 
