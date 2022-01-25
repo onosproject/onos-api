@@ -104,17 +104,25 @@ class TypedValue(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class PathValue(betterproto.Message):
-    """PathValue is an individual Path/Value combination"""
+class Value(betterproto.Message):
+    """Value is the state of a value in the configuration tree"""
 
-    # 'path' is the path to change
-    path: str = betterproto.string_field(1)
     # 'value' is the change value
     value: "TypedValue" = betterproto.message_field(2)
     # 'deleted' indicates whether this is a delete
     deleted: bool = betterproto.bool_field(3)
     # 'index'
     index: int = betterproto.uint64_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class PathValue(betterproto.Message):
+    """PathValue is the state of a path/value in the configuration tree"""
+
+    # 'path' is the path to change
+    path: str = betterproto.string_field(1)
+    # 'value' is the change value
+    value: "Value" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -233,7 +241,7 @@ class Configuration(betterproto.Message):
     # target configuration
     target_type: str = betterproto.string_field(4)
     # 'values' is a map of path/values to set
-    values: Dict[str, "PathValue"] = betterproto.map_field(
+    values: Dict[str, "Value"] = betterproto.map_field(
         5, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
     # 'ConfigurationStatus' is the current lifecycle status of the configuration

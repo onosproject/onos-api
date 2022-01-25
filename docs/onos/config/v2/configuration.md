@@ -55,7 +55,7 @@ Configuration represents complete desired target configuration
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [Value](#onos.config.v2.Value) |  |  |
 
 
 

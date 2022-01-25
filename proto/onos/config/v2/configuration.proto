@@ -36,7 +36,7 @@ message Configuration {
     string target_type = 4 [(gogoproto.casttype) = "TargetType"];
 
     // 'values' is a map of path/values to set
-    map<string, PathValue> values = 5;
+    map<string, Value> values = 5;
 
     // 'ConfigurationStatus' is the current lifecycle status of the configuration
     ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
