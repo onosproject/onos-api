@@ -205,7 +205,9 @@ class TransactionStatus(betterproto.Message):
     state: "TransactionState" = betterproto.enum_field(1)
     # 'sources' is a set of changes needed to revert back to the source of the
     # transaction This field should only be updated from within onos-config
-    sources: List["Change"] = betterproto.message_field(2)
+    sources: Dict[str, "Change"] = betterproto.map_field(
+        2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
 
 @dataclass(eq=False, repr=False)

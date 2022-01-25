@@ -13,6 +13,7 @@
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
     - [TransactionRollback](#onos.config.v2.TransactionRollback)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
+    - [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry)
   
     - [TransactionEventType](#onos.config.v2.TransactionEventType)
     - [TransactionState](#onos.config.v2.TransactionState)
@@ -173,7 +174,23 @@ TransactionStatus is the status of a Transaction
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
-| sources | [Change](#onos.config.v2.Change) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
+| sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionStatus.SourcesEntry"></a>
+
+### TransactionStatus.SourcesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Change](#onos.config.v2.Change) |  |  |
 
 
 
