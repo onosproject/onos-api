@@ -7,6 +7,8 @@
     - [Change](#onos.config.v2.Change)
     - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
     - [ChangeValue](#onos.config.v2.ChangeValue)
+    - [Source](#onos.config.v2.Source)
+    - [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
     - [TransactionChange](#onos.config.v2.TransactionChange)
     - [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry)
@@ -72,6 +74,39 @@ ChangeValue represents a change requested for an individual path/value
 | ----- | ---- | ----- | ----------- |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
+
+
+
+
+
+
+<a name="onos.config.v2.Source"></a>
+
+### Source
+Source is a transaction source
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
+| target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
+| values | [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry) | repeated | &#39;values&#39; is the set of values for the source |
+
+
+
+
+
+
+<a name="onos.config.v2.Source.ValuesEntry"></a>
+
+### Source.ValuesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Value](#onos.config.v2.Value) |  |  |
 
 
 
@@ -190,7 +225,7 @@ TransactionStatus is the status of a Transaction
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Change](#onos.config.v2.Change) |  |  |
+| value | [Source](#onos.config.v2.Source) |  |  |
 
 
 
