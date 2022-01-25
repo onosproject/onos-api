@@ -22,13 +22,11 @@ import "google/protobuf/timestamp.proto";
 import "gogoproto/gogo.proto";
 import "onos/config/v2/value.proto";
 
-
 // TransactionChange  refers to a multi-target transactional change
 message TransactionChange {
     // 'changes' is a set of changes to apply to targets
     // The list of changes should contain only a single change per target/version pair.
     repeated Change changes = 1 [(gogoproto.nullable) = false];
-
 }
 
 // TransactionRollback
@@ -77,6 +75,7 @@ message Transaction {
         TransactionRollback rollback = 11;
     }
 }
+
 // Change represents a configuration change to a single target
 message Change {
     // 'target_id' is the identifier of the target to which this change applies
@@ -89,14 +88,11 @@ message Change {
     string target_type = 3 [(gogoproto.casttype) = "TargetType"];
 
     // 'values' is a set of change values to apply
-    repeated ChangeValue values = 4 [(gogoproto.nullable) = false];
+    map<string, ChangeValue> values = 4 [(gogoproto.nullable) = false];
 }
 
-// ChangeValue is an individual Path/Value and removed flag combination in a Change
+// ChangeValue represents a change requested for an individual path/value
 message ChangeValue {
-    // 'path' is the path to change
-    string path = 1 [json_name="Path", (gogoproto.jsontag) = "Path,omitempty"];
-
     // 'value' is the change value
     TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
 
@@ -106,11 +102,13 @@ message ChangeValue {
 
 // TransactionStatus is the status of a Transaction
 message TransactionStatus {
-    // 'state' is the state of the transaction within a Phase
+    // 'state' is the state of the transaction
+    // This field should only be updated from within onos-config.
     TransactionState state = 1;
 
-    // sources source configuration modified.
-    map<string, Source> sources = 2 [(gogoproto.castkey) = "TargetID"];;
+    // 'sources' is a set of changes needed to revert back to the source of the transaction
+    // This field should only be updated from within onos-config
+    repeated Change sources = 2 [(gogoproto.nullable) = false];
 }
 
 // TransactionState is the transaction state of a transaction phase
@@ -144,10 +142,4 @@ enum TransactionEventType {
 message TransactionEvent {
     TransactionEventType type = 1;
     Transaction transaction = 2 [(gogoproto.nullable) = false];
-}
-
-// Source source configuration
-message Source {
-    // 'values' is a map of path/index
-    map <string, uint64> values = 1 [(gogoproto.castvalue) = "Index"];
 }

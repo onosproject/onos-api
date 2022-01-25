@@ -179,18 +179,17 @@ class Change(betterproto.Message):
     # 'target_type' is an optional target type to which to apply this change
     target_type: str = betterproto.string_field(3)
     # 'values' is a set of change values to apply
-    values: List["ChangeValue"] = betterproto.message_field(4)
+    values: Dict[str, "ChangeValue"] = betterproto.map_field(
+        4, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
 
 @dataclass(eq=False, repr=False)
 class ChangeValue(betterproto.Message):
     """
-    ChangeValue is an individual Path/Value and removed flag combination in a
-    Change
+    ChangeValue represents a change requested for an individual path/value
     """
 
-    # 'path' is the path to change
-    path: str = betterproto.string_field(1)
     # 'value' is the change value
     value: "TypedValue" = betterproto.message_field(2)
     # 'delete' indicates whether this is a delete
@@ -201,12 +200,12 @@ class ChangeValue(betterproto.Message):
 class TransactionStatus(betterproto.Message):
     """TransactionStatus is the status of a Transaction"""
 
-    # 'state' is the state of the transaction within a Phase
+    # 'state' is the state of the transaction This field should only be updated
+    # from within onos-config.
     state: "TransactionState" = betterproto.enum_field(1)
-    # sources source configuration modified.
-    sources: Dict[str, "Source"] = betterproto.map_field(
-        2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
+    # 'sources' is a set of changes needed to revert back to the source of the
+    # transaction This field should only be updated from within onos-config
+    sources: List["Change"] = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -215,16 +214,6 @@ class TransactionEvent(betterproto.Message):
 
     type: "TransactionEventType" = betterproto.enum_field(1)
     transaction: "Transaction" = betterproto.message_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class Source(betterproto.Message):
-    """Source source configuration"""
-
-    # 'values' is a map of path/index
-    values: Dict[str, int] = betterproto.map_field(
-        1, betterproto.TYPE_STRING, betterproto.TYPE_UINT64
-    )
 
 
 @dataclass(eq=False, repr=False)
