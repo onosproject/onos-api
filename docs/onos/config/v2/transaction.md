@@ -106,7 +106,7 @@ Source is a transaction source
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Value](#onos.config.v2.Value) |  |  |
+| value | [PathValue](#onos.config.v2.PathValue) |  |  |
 
 
 

@@ -6,7 +6,6 @@
 - [onos/config/v2/value.proto](#onos/config/v2/value.proto)
     - [PathValue](#onos.config.v2.PathValue)
     - [TypedValue](#onos.config.v2.TypedValue)
-    - [Value](#onos.config.v2.Value)
   
     - [ValueType](#onos.config.v2.ValueType)
   
@@ -30,7 +29,9 @@ PathValue is the state of a path/value in the configuration tree
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
-| value | [Value](#onos.config.v2.Value) |  | &#39;value&#39; is the change value |
+| value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
+| deleted | [bool](#bool) |  | &#39;deleted&#39; indicates whether this is a delete |
+| index | [uint64](#uint64) |  | &#39;index&#39; |
 
 
 
@@ -48,23 +49,6 @@ TypedValue is a value represented as a byte array
 | bytes | [bytes](#bytes) |  | &#39;bytes&#39; is the bytes array |
 | type | [ValueType](#onos.config.v2.ValueType) |  | &#39;type&#39; is the value type |
 | type_opts | [int32](#int32) | repeated | &#39;type_opts&#39; is a set of type options |
-
-
-
-
-
-
-<a name="onos.config.v2.Value"></a>
-
-### Value
-Value is the state of a value in the configuration tree
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
-| deleted | [bool](#bool) |  | &#39;deleted&#39; indicates whether this is a delete |
-| index | [uint64](#uint64) |  | &#39;index&#39; |
 
 
 
