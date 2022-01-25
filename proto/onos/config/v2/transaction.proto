@@ -117,7 +117,7 @@ message Source {
     string target_type = 2 [(gogoproto.casttype) = "TargetType"];
 
     // 'values' is the set of values for the source
-    map<string, Value> values = 3;
+    map<string, Value> values = 3 [(gogoproto.nullable) = false];
 }
 
 // TransactionState is the transaction state of a transaction phase
