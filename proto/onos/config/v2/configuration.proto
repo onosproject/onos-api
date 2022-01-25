@@ -23,90 +23,88 @@ import "onos/config/v2/value.proto";
 
 // Configuration represents complete desired target configuration
 message Configuration {
-  // 'id' is a unique configuration identifier
-  string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ConfigurationID"];
+    // 'id' is a unique configuration identifier
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "ConfigurationID"];
 
-  // 'target_id' is the target to which the desired target configuration applies
-  string target_id = 2 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
+    // 'target_id' is the target to which the desired target configuration applies
+    string target_id = 2 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
 
-  // 'target_version' is the version to which desired target configuration applies
-  string target_version = 3 [(gogoproto.casttype) = "TargetVersion"];
+    // 'target_version' is the version to which desired target configuration applies
+    string target_version = 3 [(gogoproto.casttype) = "TargetVersion"];
 
-  // 'target_type' is an optional target type to which to apply this desired target configuration
-  string target_type = 4 [(gogoproto.casttype) = "TargetType"];
+    // 'target_type' is an optional target type to which to apply this desired target configuration
+    string target_type = 4 [(gogoproto.casttype) = "TargetType"];
 
-  // 'values' is a map of path/values to set
-  map <string, onos.config.v2.PathValue> values = 5;
+    // 'values' is a map of path/values to set
+    map<string, Value> values = 5;
 
-  // 'ConfigurationStatus' is the current lifecycle status of the configuration
-  ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
+    // 'ConfigurationStatus' is the current lifecycle status of the configuration
+    ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
 
-  // revision is configuration revision
-  uint64 revision = 7 [(gogoproto.casttype) = "Revision"];
+    // revision is configuration revision
+    uint64 revision = 7 [(gogoproto.casttype) = "Revision"];
 
-  // 'index' is a monotonically increasing, globally unique index of the configuration
-  // The index is provided by the store, is static and unique for each unique configuration identifier,
-  // and should not be modified by client code.
-  uint64 index = 8 [(gogoproto.casttype) = "Index"];
-
+    // 'index' is a monotonically increasing, globally unique index of the configuration
+    // The index is provided by the store, is static and unique for each unique configuration identifier,
+    // and should not be modified by client code.
+    uint64 index = 8 [(gogoproto.casttype) = "Index"];
 }
 
 // ConfigurationStatus is the status of a Configuration
 message ConfigurationStatus {
-  // 'state' is the state of the transaction within a Phase
-  ConfigurationState state = 1;
+    // 'state' is the state of the transaction within a Phase
+    ConfigurationState state = 1;
 
-  // mastershipState mastership info
-  MastershipState mastership_state = 2 [(gogoproto.nullable) = false];
+    // mastershipState mastership info
+    MastershipState mastership_state = 2 [(gogoproto.nullable) = false];
 
-  // transaction_index highest Transaction index applied to the Configuration
-  uint64 transaction_index = 3 [(gogoproto.casttype) = "Index"];
+    // transaction_index highest Transaction index applied to the Configuration
+    uint64 transaction_index = 3 [(gogoproto.casttype) = "Index"];
 
-  // sync_index highest transaction index applied to the target.
-  uint64 sync_index = 4 [(gogoproto.casttype) = "Index"];
+    // sync_index highest transaction index applied to the target.
+    uint64 sync_index = 4 [(gogoproto.casttype) = "Index"];
 }
 
 // Mastership state
 message MastershipState {
-  uint64 term = 1 [(gogoproto.casttype) = "MastershipTerm"];
+    uint64 term = 1 [(gogoproto.casttype) = "MastershipTerm"];
 }
 
 // ConfigurationState is the configuration state of a configuration phase
 enum ConfigurationState {
-  // CONFIGURATION_PENDING indicates the configuration is PENDING
-  CONFIGURATION_PENDING = 0;
+    // CONFIGURATION_PENDING indicates the configuration is PENDING
+    CONFIGURATION_PENDING = 0;
 
-  // CONFIGURATION_INITIALIZING indicates the configuration is initializing
-  CONFIGURATION_INITIALIZING = 1;
+    // CONFIGURATION_INITIALIZING indicates the configuration is initializing
+    CONFIGURATION_INITIALIZING = 1;
 
-  // CONFIGURATION_UPDATING indicates the configuration is updating
-  CONFIGURATION_UPDATING = 2;
+    // CONFIGURATION_UPDATING indicates the configuration is updating
+    CONFIGURATION_UPDATING = 2;
 
-  // CONFIGURATION_COMPLETE indicates the configuration is complete
-  CONFIGURATION_COMPLETE = 3;
+    // CONFIGURATION_COMPLETE indicates the configuration is complete
+    CONFIGURATION_COMPLETE = 3;
 
-  // CONFIGURATION_FAILED indicates the configuration is failed
-  CONFIGURATION_FAILED = 4;
-
+    // CONFIGURATION_FAILED indicates the configuration is failed
+    CONFIGURATION_FAILED = 4;
 }
 
 // ConfigurationEventType configuration event types for configuration store
 enum ConfigurationEventType {
-  // CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
-  CONFIGURATION_EVENT_UNKNOWN = 0;
-  // CONFIGURATION_CREATED indicates the configuration entry in the store is created
-  CONFIGURATION_CREATED = 1;
-  // CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
-  CONFIGURATION_UPDATED = 2;
-  // CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
-  CONFIGURATION_DELETED = 3;
-  // CONFIGURATION_REPLAYED
-  CONFIGURATION_REPLAYED = 4;
+    // CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
+    CONFIGURATION_EVENT_UNKNOWN = 0;
+    // CONFIGURATION_CREATED indicates the configuration entry in the store is created
+    CONFIGURATION_CREATED = 1;
+    // CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
+    CONFIGURATION_UPDATED = 2;
+    // CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
+    CONFIGURATION_DELETED = 3;
+    // CONFIGURATION_REPLAYED
+    CONFIGURATION_REPLAYED = 4;
 }
 
 // ConfigurationEvent configuration store event
 message ConfigurationEvent {
-  // ConfigurationEventType configuration event type
-  ConfigurationEventType type = 1;
-  Configuration configuration = 2 [(gogoproto.nullable) = false];
+    // ConfigurationEventType configuration event type
+    ConfigurationEventType type = 1;
+    Configuration configuration = 2 [(gogoproto.nullable) = false];
 }

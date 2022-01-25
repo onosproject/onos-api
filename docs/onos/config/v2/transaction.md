@@ -5,11 +5,11 @@
 
 - [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
     - [Change](#onos.config.v2.Change)
+    - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
     - [ChangeValue](#onos.config.v2.ChangeValue)
-    - [Source](#onos.config.v2.Source)
-    - [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
     - [TransactionChange](#onos.config.v2.TransactionChange)
+    - [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
     - [TransactionRollback](#onos.config.v2.TransactionRollback)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
@@ -37,10 +37,25 @@ Change represents a configuration change to a single target
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| target_id | [string](#string) |  | &#39;target_id&#39; is the identifier of the target to which this change applies |
 | target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
-| values | [ChangeValue](#onos.config.v2.ChangeValue) | repeated | &#39;values&#39; is a set of change values to apply |
+| values | [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
+
+
+
+
+
+
+<a name="onos.config.v2.Change.ValuesEntry"></a>
+
+### Change.ValuesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [ChangeValue](#onos.config.v2.ChangeValue) |  |  |
 
 
 
@@ -50,45 +65,13 @@ Change represents a configuration change to a single target
 <a name="onos.config.v2.ChangeValue"></a>
 
 ### ChangeValue
-ChangeValue is an individual Path/Value and removed flag combination in a Change
+ChangeValue represents a change requested for an individual path/value
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| path | [string](#string) |  | &#39;path&#39; is the path to change |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
-
-
-
-
-
-
-<a name="onos.config.v2.Source"></a>
-
-### Source
-Source source configuration
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| values | [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry) | repeated | &#39;values&#39; is a map of path/index |
-
-
-
-
-
-
-<a name="onos.config.v2.Source.ValuesEntry"></a>
-
-### Source.ValuesEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [uint64](#uint64) |  |  |
 
 
 
@@ -128,7 +111,23 @@ TransactionChange  refers to a multi-target transactional change
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| changes | [Change](#onos.config.v2.Change) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
+| changes | [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionChange.ChangesEntry"></a>
+
+### TransactionChange.ChangesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Change](#onos.config.v2.Change) |  |  |
 
 
 
@@ -174,8 +173,8 @@ TransactionStatus is the status of a Transaction
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction within a Phase |
-| sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | sources source configuration modified. |
+| state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
+| sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
 
 
 
@@ -191,7 +190,7 @@ TransactionStatus is the status of a Transaction
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Source](#onos.config.v2.Source) |  |  |
+| value | [Change](#onos.config.v2.Change) |  |  |
 
 
 

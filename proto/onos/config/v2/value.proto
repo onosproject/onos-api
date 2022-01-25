@@ -51,11 +51,8 @@ message TypedValue {
     repeated int32 type_opts = 3  [json_name="TypeOpts", (gogoproto.jsontag) = "TypeOpts,omitempty"];
 }
 
-// PathValue is an individual Path/Value combination
-message PathValue {
-    // 'path' is the path to change
-    string path = 1 [json_name="Path", (gogoproto.jsontag) = "Path,omitempty"];
-
+// Value is the state of a value in the configuration tree
+message Value {
     // 'value' is the change value
     TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
 
@@ -64,4 +61,13 @@ message PathValue {
 
     // 'index'
     uint64 index = 4 [(gogoproto.casttype) = "Index"];
+}
+
+// PathValue is the state of a path/value in the configuration tree
+message PathValue {
+    // 'path' is the path to change
+    string path = 1 [json_name="Path", (gogoproto.jsontag) = "Path,omitempty"];
+
+    // 'value' is the change value
+    Value value = 2 [json_name="Value", (gogoproto.embed) = true, (gogoproto.nullable) = false];
 }

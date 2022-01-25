@@ -106,7 +106,7 @@ func (TransactionEventType) EnumDescriptor() ([]byte, []int) {
 type TransactionChange struct {
 	// 'changes' is a set of changes to apply to targets
 	// The list of changes should contain only a single change per target/version pair.
-	Changes []Change `protobuf:"bytes,1,rep,name=changes,proto3" json:"changes"`
+	Changes map[TargetID]Change `protobuf:"bytes,1,rep,name=changes,proto3,castkey=TargetID" json:"changes" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *TransactionChange) Reset()         { *m = TransactionChange{} }
@@ -142,7 +142,7 @@ func (m *TransactionChange) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TransactionChange proto.InternalMessageInfo
 
-func (m *TransactionChange) GetChanges() []Change {
+func (m *TransactionChange) GetChanges() map[TargetID]Change {
 	if m != nil {
 		return m.Changes
 	}
@@ -370,14 +370,12 @@ func (*Transaction) XXX_OneofWrappers() []interface{} {
 
 // Change represents a configuration change to a single target
 type Change struct {
-	// 'target_id' is the identifier of the target to which this change applies
-	TargetID TargetID `protobuf:"bytes,1,opt,name=target_id,json=targetId,proto3,casttype=TargetID" json:"target_id,omitempty"`
 	// 'target_version' is an optional target version to which to apply this change
 	TargetVersion TargetVersion `protobuf:"bytes,2,opt,name=target_version,json=targetVersion,proto3,casttype=TargetVersion" json:"target_version,omitempty"`
 	// 'target_type' is an optional target type to which to apply this change
 	TargetType TargetType `protobuf:"bytes,3,opt,name=target_type,json=targetType,proto3,casttype=TargetType" json:"target_type,omitempty"`
 	// 'values' is a set of change values to apply
-	Values []ChangeValue `protobuf:"bytes,4,rep,name=values,proto3" json:"values"`
+	Values map[string]ChangeValue `protobuf:"bytes,4,rep,name=values,proto3" json:"values" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *Change) Reset()         { *m = Change{} }
@@ -413,13 +411,6 @@ func (m *Change) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Change proto.InternalMessageInfo
 
-func (m *Change) GetTargetID() TargetID {
-	if m != nil {
-		return m.TargetID
-	}
-	return ""
-}
-
 func (m *Change) GetTargetVersion() TargetVersion {
 	if m != nil {
 		return m.TargetVersion
@@ -434,17 +425,15 @@ func (m *Change) GetTargetType() TargetType {
 	return ""
 }
 
-func (m *Change) GetValues() []ChangeValue {
+func (m *Change) GetValues() map[string]ChangeValue {
 	if m != nil {
 		return m.Values
 	}
 	return nil
 }
 
-// ChangeValue is an individual Path/Value and removed flag combination in a Change
+// ChangeValue represents a change requested for an individual path/value
 type ChangeValue struct {
-	// 'path' is the path to change
-	Path string `protobuf:"bytes,1,opt,name=path,json=Path,proto3" json:"Path,omitempty"`
 	// 'value' is the change value
 	Value TypedValue `protobuf:"bytes,2,opt,name=value,json=Value,proto3" json:"Value,omitempty"`
 	// 'delete' indicates whether this is a delete
@@ -484,13 +473,6 @@ func (m *ChangeValue) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ChangeValue proto.InternalMessageInfo
 
-func (m *ChangeValue) GetPath() string {
-	if m != nil {
-		return m.Path
-	}
-	return ""
-}
-
 func (m *ChangeValue) GetValue() TypedValue {
 	if m != nil {
 		return m.Value
@@ -507,10 +489,12 @@ func (m *ChangeValue) GetDelete() bool {
 
 // TransactionStatus is the status of a Transaction
 type TransactionStatus struct {
-	// 'state' is the state of the transaction within a Phase
+	// 'state' is the state of the transaction
+	// This field should only be updated from within onos-config.
 	State TransactionState `protobuf:"varint,1,opt,name=state,proto3,enum=onos.config.v2.TransactionState" json:"state,omitempty"`
-	// sources source configuration modified.
-	Sources map[TargetID]*Source `protobuf:"bytes,2,rep,name=sources,proto3,castkey=TargetID" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// 'sources' is a set of changes needed to revert back to the source of the transaction
+	// This field should only be updated from within onos-config
+	Sources map[TargetID]Change `protobuf:"bytes,2,rep,name=sources,proto3,castkey=TargetID" json:"sources" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *TransactionStatus) Reset()         { *m = TransactionStatus{} }
@@ -553,7 +537,7 @@ func (m *TransactionStatus) GetState() TransactionState {
 	return TransactionState_TRANSACTION_PENDING
 }
 
-func (m *TransactionStatus) GetSources() map[TargetID]*Source {
+func (m *TransactionStatus) GetSources() map[TargetID]Change {
 	if m != nil {
 		return m.Sources
 	}
@@ -613,132 +597,83 @@ func (m *TransactionEvent) GetTransaction() Transaction {
 	return Transaction{}
 }
 
-// Source source configuration
-type Source struct {
-	// 'values' is a map of path/index
-	Values map[string]Index `protobuf:"bytes,1,rep,name=values,proto3,castvalue=Index" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
-}
-
-func (m *Source) Reset()         { *m = Source{} }
-func (m *Source) String() string { return proto.CompactTextString(m) }
-func (*Source) ProtoMessage()    {}
-func (*Source) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{7}
-}
-func (m *Source) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Source) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Source.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Source) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Source.Merge(m, src)
-}
-func (m *Source) XXX_Size() int {
-	return m.Size()
-}
-func (m *Source) XXX_DiscardUnknown() {
-	xxx_messageInfo_Source.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Source proto.InternalMessageInfo
-
-func (m *Source) GetValues() map[string]Index {
-	if m != nil {
-		return m.Values
-	}
-	return nil
-}
-
 func init() {
 	proto.RegisterEnum("onos.config.v2.TransactionState", TransactionState_name, TransactionState_value)
 	proto.RegisterEnum("onos.config.v2.TransactionEventType", TransactionEventType_name, TransactionEventType_value)
 	proto.RegisterType((*TransactionChange)(nil), "onos.config.v2.TransactionChange")
+	proto.RegisterMapType((map[TargetID]Change)(nil), "onos.config.v2.TransactionChange.ChangesEntry")
 	proto.RegisterType((*TransactionRollback)(nil), "onos.config.v2.TransactionRollback")
 	proto.RegisterType((*Transaction)(nil), "onos.config.v2.Transaction")
 	proto.RegisterType((*Change)(nil), "onos.config.v2.Change")
+	proto.RegisterMapType((map[string]ChangeValue)(nil), "onos.config.v2.Change.ValuesEntry")
 	proto.RegisterType((*ChangeValue)(nil), "onos.config.v2.ChangeValue")
 	proto.RegisterType((*TransactionStatus)(nil), "onos.config.v2.TransactionStatus")
-	proto.RegisterMapType((map[TargetID]*Source)(nil), "onos.config.v2.TransactionStatus.SourcesEntry")
+	proto.RegisterMapType((map[TargetID]Change)(nil), "onos.config.v2.TransactionStatus.SourcesEntry")
 	proto.RegisterType((*TransactionEvent)(nil), "onos.config.v2.TransactionEvent")
-	proto.RegisterType((*Source)(nil), "onos.config.v2.Source")
-	proto.RegisterMapType((map[string]Index)(nil), "onos.config.v2.Source.ValuesEntry")
 }
 
 func init() { proto.RegisterFile("onos/config/v2/transaction.proto", fileDescriptor_c3a2d73bdadccc35) }
 
 var fileDescriptor_c3a2d73bdadccc35 = []byte{
-	// 970 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0x4f, 0x6f, 0xe2, 0x46,
-	0x14, 0xc7, 0xc4, 0x10, 0xf3, 0x48, 0x52, 0x76, 0x36, 0x4a, 0x5c, 0x56, 0xc5, 0x94, 0x56, 0x2d,
-	0x5a, 0x45, 0x46, 0xa2, 0x6a, 0x94, 0x6d, 0xa5, 0x56, 0x80, 0xdd, 0x2e, 0x5a, 0x4a, 0xd0, 0xc4,
-	0x4b, 0xb5, 0xa7, 0xc8, 0x81, 0x59, 0x62, 0x2d, 0xd8, 0xc8, 0x1e, 0x50, 0xb9, 0xf6, 0xb8, 0xa7,
-	0xad, 0x7a, 0xeb, 0xa5, 0xdf, 0xa0, 0x9f, 0x63, 0x8f, 0x7b, 0xec, 0xc9, 0xa9, 0x88, 0x7a, 0xc9,
-	0x17, 0xa8, 0x94, 0x53, 0xe5, 0x19, 0xc3, 0x0e, 0x14, 0x25, 0xea, 0x6d, 0xe6, 0xbd, 0xdf, 0xef,
-	0xcd, 0xfb, 0xf3, 0x7b, 0x36, 0x14, 0x3d, 0xd7, 0x0b, 0x2a, 0x3d, 0xcf, 0x7d, 0xe9, 0x0c, 0x2a,
-	0xd3, 0x6a, 0x85, 0xfa, 0xb6, 0x1b, 0xd8, 0x3d, 0xea, 0x78, 0xae, 0x3e, 0xf6, 0x3d, 0xea, 0xa1,
-	0xbd, 0x08, 0xa1, 0x73, 0x84, 0x3e, 0xad, 0xe6, 0xb5, 0x81, 0xe7, 0x0d, 0x86, 0xa4, 0xc2, 0xbc,
-	0x17, 0x93, 0x97, 0x15, 0xea, 0x8c, 0x48, 0x40, 0xed, 0xd1, 0x98, 0x13, 0xf2, 0xfb, 0x03, 0x6f,
-	0xe0, 0xb1, 0x63, 0x25, 0x3a, 0xc5, 0xd6, 0xfc, 0xda, 0x43, 0x53, 0x7b, 0x38, 0x21, 0xdc, 0x57,
-	0x7a, 0x06, 0x0f, 0xac, 0xf7, 0xef, 0x36, 0x2e, 0x6d, 0x77, 0x40, 0xd0, 0x31, 0x6c, 0xf7, 0xd8,
-	0x29, 0x50, 0xa5, 0xe2, 0x56, 0x39, 0x5b, 0x3d, 0xd0, 0x57, 0x33, 0xd1, 0x39, 0xb0, 0x2e, 0xbf,
-	0x0d, 0xb5, 0x04, 0x5e, 0x80, 0x4b, 0xc7, 0xf0, 0x50, 0x08, 0x86, 0xbd, 0xe1, 0xf0, 0xc2, 0xee,
-	0xbd, 0x42, 0x1a, 0xa4, 0x1c, 0xb7, 0x4f, 0x7e, 0x52, 0xa5, 0xa2, 0x54, 0x96, 0xeb, 0x99, 0xdb,
-	0x50, 0x4b, 0x35, 0x23, 0x03, 0xe6, 0xf6, 0xd2, 0xef, 0x32, 0x64, 0x05, 0x22, 0xfa, 0x1c, 0x92,
-	0x4e, 0x9f, 0xa1, 0x33, 0xf5, 0xc3, 0x79, 0xa8, 0x25, 0x9b, 0xc6, 0x6d, 0xa8, 0xed, 0x0a, 0x90,
-	0xa6, 0x81, 0x93, 0x4e, 0xff, 0x7d, 0xe4, 0xe4, 0xe6, 0xc8, 0xa8, 0x0c, 0x8a, 0x4f, 0xa6, 0x4e,
-	0xe0, 0x78, 0xae, 0xba, 0xc5, 0x30, 0x3b, 0xb7, 0xa1, 0xa6, 0xe0, 0xd8, 0x86, 0x97, 0x5e, 0xf4,
-	0x2d, 0xa4, 0x03, 0x6a, 0xd3, 0x49, 0xa0, 0xca, 0x45, 0xa9, 0x9c, 0xad, 0x7e, 0xbc, 0x5e, 0xb2,
-	0xf0, 0xfa, 0x19, 0x03, 0xc6, 0xd5, 0xc7, 0x34, 0xf4, 0x0d, 0x6c, 0xf7, 0x7c, 0x62, 0x53, 0xd2,
-	0x57, 0x53, 0x2c, 0x42, 0x5e, 0xe7, 0xe3, 0xd2, 0x17, 0xe3, 0xd2, 0xad, 0xc5, 0xb8, 0xea, 0x4a,
-	0x44, 0x7d, 0x73, 0xa5, 0x49, 0x78, 0x41, 0x8a, 0xf8, 0x93, 0x71, 0x9f, 0xf1, 0xd3, 0xff, 0x87,
-	0x1f, 0x93, 0x90, 0x0a, 0xdb, 0x7d, 0x32, 0x24, 0x11, 0x7f, 0xbb, 0x28, 0x95, 0x15, 0xbc, 0xb8,
-	0xa2, 0x3c, 0x28, 0x93, 0x80, 0xf8, 0xae, 0x3d, 0x22, 0xaa, 0x12, 0x35, 0x15, 0x2f, 0xef, 0xe8,
-	0x00, 0xd2, 0x36, 0xf5, 0x46, 0x4e, 0x4f, 0xcd, 0x30, 0x52, 0x7c, 0x43, 0x5f, 0x43, 0x9a, 0x4f,
-	0x55, 0x85, 0x7b, 0xdb, 0xc1, 0xc5, 0xf0, 0x34, 0x81, 0x63, 0x0a, 0xaa, 0x81, 0xe2, 0xc7, 0xc3,
-	0x57, 0xb3, 0x8c, 0xfe, 0xc9, 0x1d, 0xf4, 0x85, 0x4e, 0x9e, 0x26, 0xf0, 0x92, 0x56, 0xdf, 0x85,
-	0xac, 0xb0, 0x0f, 0xa5, 0xbf, 0x25, 0x48, 0xc7, 0xe2, 0xfc, 0x12, 0x32, 0xd4, 0xf6, 0x07, 0x84,
-	0x9e, 0x2f, 0x35, 0xa2, 0xce, 0x43, 0x4d, 0xb1, 0x98, 0x91, 0x29, 0x65, 0x79, 0xc6, 0x0a, 0x87,
-	0x36, 0xfb, 0xe8, 0x04, 0xf6, 0x62, 0xda, 0x94, 0xf8, 0x4c, 0x0f, 0x49, 0xc6, 0x7d, 0xc0, 0x94,
-	0xc5, 0x3c, 0x5d, 0xee, 0xc0, 0xbb, 0x54, 0xbc, 0xa2, 0x0a, 0x64, 0x63, 0x26, 0x9d, 0x8d, 0x09,
-	0x93, 0x51, 0xa6, 0xbe, 0x77, 0x1b, 0x6a, 0xc0, 0x69, 0xd6, 0x6c, 0x4c, 0x30, 0xd0, 0xe5, 0x19,
-	0x3d, 0x81, 0x34, 0x5b, 0xb1, 0x48, 0x4a, 0xd1, 0xf6, 0x3c, 0xda, 0xbc, 0x3d, 0xdd, 0x08, 0xb3,
-	0x10, 0x11, 0x27, 0x94, 0xfe, 0x90, 0x20, 0x2b, 0x78, 0xd1, 0x67, 0x20, 0x8f, 0x6d, 0x7a, 0x19,
-	0xd7, 0x89, 0x6e, 0x42, 0x6d, 0xaf, 0x63, 0xd3, 0xcb, 0x23, 0x6f, 0xe4, 0x50, 0x32, 0x1a, 0xd3,
-	0x19, 0x96, 0xa3, 0x3b, 0x6a, 0x42, 0x8a, 0x45, 0x60, 0x45, 0x45, 0xd2, 0x59, 0x6f, 0xf7, 0x6c,
-	0x4c, 0xfa, 0xfc, 0xc1, 0xc3, 0xe8, 0xc1, 0x9b, 0x50, 0xfb, 0x80, 0x5d, 0x85, 0x48, 0x29, 0xfe,
-	0xe4, 0x11, 0xa4, 0xb9, 0x70, 0x58, 0xa5, 0x4a, 0x7d, 0xff, 0x26, 0xd4, 0x72, 0x06, 0xb3, 0x08,
-	0xe0, 0x18, 0x53, 0xfa, 0x47, 0x5a, 0xf9, 0x80, 0xf0, 0xcd, 0x40, 0xc7, 0x90, 0x8a, 0xb6, 0x82,
-	0xb0, 0xbc, 0xf7, 0xaa, 0xc5, 0x7b, 0x76, 0x89, 0x60, 0x0e, 0x47, 0x5d, 0xd8, 0x0e, 0xbc, 0x89,
-	0xdf, 0x23, 0x81, 0x9a, 0x64, 0xad, 0xd3, 0xef, 0xdd, 0x42, 0xfd, 0x8c, 0x13, 0x4c, 0x97, 0xfa,
-	0xb3, 0xfa, 0xce, 0xcf, 0x57, 0xc2, 0xf4, 0x17, 0xc1, 0xf2, 0x18, 0x76, 0x44, 0x18, 0xca, 0xc1,
-	0xd6, 0x2b, 0x32, 0xe3, 0x5d, 0xc5, 0xd1, 0x11, 0x1d, 0xad, 0x36, 0xf0, 0x3f, 0x1f, 0x3c, 0x4e,
-	0xc7, 0x1c, 0xf4, 0x55, 0xf2, 0x44, 0x2a, 0xfd, 0x22, 0x41, 0x4e, 0xc8, 0xc6, 0x9c, 0x12, 0x97,
-	0xa2, 0x13, 0x90, 0x99, 0x48, 0x78, 0xdd, 0x9f, 0xde, 0x91, 0x3d, 0xc3, 0x33, 0xe9, 0x30, 0x06,
-	0x6a, 0xac, 0x08, 0x3e, 0x4e, 0xe3, 0xd1, 0x1d, 0x01, 0x62, 0xe5, 0xac, 0xac, 0xc9, 0x6b, 0x09,
-	0xd2, 0x3c, 0x53, 0x64, 0x2e, 0x45, 0xc8, 0x3f, 0xe1, 0xa5, 0xcd, 0x15, 0xe9, 0x6c, 0xe8, 0x71,
-	0xf7, 0x32, 0xaf, 0xaf, 0x16, 0xdf, 0xcf, 0x98, 0x9c, 0x7f, 0x02, 0x59, 0x01, 0xb1, 0xa1, 0x71,
-	0xfb, 0x62, 0xe3, 0x64, 0xa1, 0x41, 0x8f, 0x7f, 0x5d, 0x6d, 0x10, 0x1b, 0x34, 0x3a, 0x84, 0x87,
-	0x16, 0xae, 0xb5, 0xcf, 0x6a, 0x0d, 0xab, 0x79, 0xda, 0x3e, 0xef, 0x98, 0x6d, 0xa3, 0xd9, 0xfe,
-	0x3e, 0x97, 0x40, 0x2a, 0xec, 0x8b, 0x8e, 0xc6, 0xe9, 0x0f, 0x9d, 0x96, 0x69, 0x99, 0xb9, 0x24,
-	0x3a, 0x00, 0x24, 0x7a, 0xbe, 0xab, 0x35, 0x5b, 0xa6, 0x91, 0xdb, 0x42, 0x79, 0x38, 0x10, 0xed,
-	0xdd, 0x5a, 0xab, 0x69, 0xd4, 0xac, 0x28, 0x9a, 0xbc, 0x1e, 0xad, 0xd6, 0xe9, 0xb4, 0x5e, 0x44,
-	0x9e, 0xd4, 0xe3, 0xdf, 0x24, 0xd8, 0xdf, 0x34, 0x06, 0xf4, 0x11, 0x7c, 0x28, 0x52, 0xcc, 0xae,
-	0xd9, 0xb6, 0xce, 0x9f, 0xb7, 0x9f, 0xb5, 0x4f, 0x7f, 0x6c, 0xe7, 0x12, 0xeb, 0x89, 0x37, 0xb0,
-	0x59, 0xb3, 0x4c, 0x23, 0x27, 0xad, 0x3b, 0x9e, 0x77, 0x0c, 0xe6, 0x48, 0xae, 0x3b, 0x0c, 0x33,
-	0xaa, 0x27, 0x4a, 0x7c, 0x2d, 0x39, 0x6c, 0x76, 0x5a, 0xb5, 0x17, 0xa6, 0x91, 0x93, 0xeb, 0xea,
-	0xdb, 0x79, 0x41, 0x7a, 0x37, 0x2f, 0x48, 0x7f, 0xcd, 0x0b, 0xd2, 0x9b, 0xeb, 0x42, 0xe2, 0xdd,
-	0x75, 0x21, 0xf1, 0xe7, 0x75, 0x21, 0x71, 0x91, 0x66, 0x3f, 0x81, 0x2f, 0xfe, 0x0d, 0x00, 0x00,
-	0xff, 0xff, 0xbc, 0x06, 0x77, 0x88, 0x35, 0x08, 0x00, 0x00,
+	// 924 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xc1, 0x6f, 0xe3, 0xc4,
+	0x17, 0x8e, 0xdd, 0x24, 0x4d, 0x5f, 0xb6, 0xfd, 0x79, 0x67, 0xab, 0xd6, 0xbf, 0x20, 0xe2, 0x10,
+	0x90, 0x88, 0x56, 0x95, 0x23, 0x82, 0xb4, 0xaa, 0x40, 0x02, 0xe2, 0xd8, 0xb0, 0x16, 0x21, 0x8d,
+	0xa6, 0xde, 0xa0, 0xe5, 0x52, 0xb9, 0xc9, 0x6c, 0xb0, 0x36, 0xb1, 0x23, 0x7b, 0x12, 0x91, 0x2b,
+	0x07, 0x6e, 0x48, 0x8b, 0xb8, 0x71, 0xe1, 0x8f, 0xe1, 0xb2, 0xc7, 0x3d, 0x72, 0xca, 0xa2, 0xf6,
+	0xb6, 0x7f, 0x42, 0xb9, 0xa0, 0x99, 0x71, 0xba, 0x93, 0x6c, 0xb6, 0x15, 0x12, 0x27, 0xcf, 0xcc,
+	0xf7, 0x7d, 0x6f, 0xde, 0x3c, 0x7f, 0xef, 0x41, 0x25, 0x0a, 0xa3, 0xa4, 0xde, 0x8f, 0xc2, 0x27,
+	0xc1, 0xb0, 0x3e, 0x6b, 0xd4, 0x69, 0xec, 0x87, 0x89, 0xdf, 0xa7, 0x41, 0x14, 0x9a, 0x93, 0x38,
+	0xa2, 0x11, 0xda, 0x63, 0x0c, 0x53, 0x30, 0xcc, 0x59, 0xa3, 0x64, 0x0c, 0xa3, 0x68, 0x38, 0x22,
+	0x75, 0x8e, 0x9e, 0x4f, 0x9f, 0xd4, 0x69, 0x30, 0x26, 0x09, 0xf5, 0xc7, 0x13, 0x21, 0x28, 0xed,
+	0x0f, 0xa3, 0x61, 0xc4, 0x97, 0x75, 0xb6, 0x4a, 0x4f, 0x4b, 0x6b, 0x17, 0xcd, 0xfc, 0xd1, 0x94,
+	0x08, 0xac, 0xfa, 0x87, 0x02, 0x77, 0xbd, 0xd7, 0x17, 0xb7, 0xbe, 0xf7, 0xc3, 0x21, 0x41, 0xdf,
+	0xc1, 0x76, 0x9f, 0xaf, 0x12, 0x5d, 0xa9, 0x6c, 0xd5, 0x8a, 0x0d, 0xd3, 0x5c, 0x4d, 0xc5, 0x7c,
+	0x43, 0x63, 0x8a, 0x4f, 0xe2, 0x84, 0x34, 0x9e, 0x5b, 0xda, 0xf3, 0x85, 0x91, 0xf9, 0xf1, 0xa5,
+	0x51, 0xf0, 0xfc, 0x78, 0x48, 0xa8, 0x6b, 0xe3, 0x65, 0xc0, 0x12, 0x86, 0x3b, 0x32, 0x15, 0x69,
+	0xb0, 0xf5, 0x94, 0xcc, 0x75, 0xa5, 0xa2, 0xd4, 0x76, 0x30, 0x5b, 0xa2, 0x23, 0xc8, 0xf1, 0x14,
+	0x75, 0xb5, 0xa2, 0xd4, 0x8a, 0x8d, 0x83, 0xf5, 0xbb, 0x85, 0x1c, 0x0b, 0xd2, 0x27, 0xea, 0xb1,
+	0x52, 0x7d, 0x00, 0xf7, 0xa4, 0x84, 0x70, 0x34, 0x1a, 0x9d, 0xfb, 0xfd, 0xa7, 0xc8, 0x80, 0x5c,
+	0x10, 0x0e, 0xc8, 0x0f, 0x3c, 0x78, 0xd6, 0xda, 0xb9, 0x5a, 0x18, 0x39, 0x97, 0x1d, 0x60, 0x71,
+	0x5e, 0xfd, 0x3d, 0x0b, 0x45, 0x49, 0x88, 0x3e, 0x04, 0x35, 0x18, 0x88, 0x54, 0xac, 0xc3, 0x8b,
+	0x85, 0xa1, 0xba, 0xf6, 0xd5, 0xc2, 0xd8, 0x95, 0x28, 0xae, 0x8d, 0xd5, 0x60, 0xf0, 0x3a, 0xb2,
+	0xba, 0x39, 0x32, 0xaa, 0x41, 0x21, 0x26, 0xb3, 0x20, 0x09, 0xa2, 0x50, 0xdf, 0xe2, 0x9c, 0x3b,
+	0x57, 0x0b, 0xa3, 0x80, 0xd3, 0x33, 0x7c, 0x8d, 0xa2, 0xcf, 0x21, 0x9f, 0x50, 0x9f, 0x4e, 0x13,
+	0x3d, 0xcb, 0x9f, 0xfb, 0xde, 0x0d, 0xa5, 0x3e, 0xe5, 0x44, 0x2b, 0xcb, 0xaa, 0x8b, 0x53, 0x19,
+	0xfa, 0x0c, 0xb6, 0xfb, 0x31, 0xf1, 0x29, 0x19, 0xe8, 0x39, 0x1e, 0xa1, 0x64, 0x0a, 0x9f, 0x98,
+	0x4b, 0x9f, 0x98, 0xde, 0xd2, 0x27, 0x56, 0x81, 0x49, 0x9f, 0xbd, 0x34, 0x14, 0xbc, 0x14, 0x31,
+	0xfd, 0x74, 0x32, 0xe0, 0xfa, 0xfc, 0xbf, 0xd1, 0xa7, 0x22, 0xa4, 0xc3, 0xf6, 0x80, 0x8c, 0x08,
+	0xd3, 0x6f, 0x57, 0x94, 0x5a, 0x01, 0x2f, 0xb7, 0xa8, 0x04, 0x85, 0x69, 0x42, 0xe2, 0xd0, 0x1f,
+	0x13, 0xbd, 0xc0, 0xff, 0xef, 0xf5, 0x1e, 0x1d, 0x40, 0xde, 0xa7, 0xd1, 0x38, 0xe8, 0xeb, 0x3b,
+	0x5c, 0x94, 0xee, 0xd0, 0xa7, 0x90, 0x17, 0x4e, 0xd1, 0xe1, 0xd6, 0x72, 0x08, 0x23, 0x3c, 0xcc,
+	0xe0, 0x54, 0x82, 0x9a, 0x50, 0x88, 0xd3, 0x9f, 0xaf, 0x17, 0xb9, 0xfc, 0xfd, 0x1b, 0xe4, 0x4b,
+	0x9f, 0x3c, 0xcc, 0xe0, 0x6b, 0x99, 0xb5, 0x0b, 0x45, 0xa9, 0x11, 0xab, 0x3f, 0xab, 0x90, 0x4f,
+	0x9b, 0xe2, 0x18, 0xf6, 0x28, 0x77, 0xf3, 0xd9, 0x8c, 0xc4, 0xfc, 0xc7, 0xaa, 0xdc, 0x28, 0x77,
+	0xb9, 0x45, 0x38, 0xd2, 0x13, 0x00, 0xde, 0xa5, 0xf2, 0x16, 0xd5, 0xa1, 0x98, 0x2a, 0xe9, 0x7c,
+	0x42, 0xb8, 0x1f, 0x76, 0xac, 0xbd, 0xab, 0x85, 0x01, 0x42, 0xe6, 0xcd, 0x27, 0x04, 0x03, 0xbd,
+	0x5e, 0xa3, 0x2f, 0x20, 0xcf, 0xcd, 0xcd, 0x3c, 0xc1, 0xda, 0xaf, 0xba, 0xb9, 0x05, 0xcc, 0x1e,
+	0x27, 0x89, 0x96, 0x4b, 0x4d, 0x21, 0x74, 0xa5, 0x1e, 0x14, 0x25, 0x70, 0x43, 0x93, 0x7d, 0xb4,
+	0xda, 0x64, 0xef, 0x6c, 0xbe, 0x81, 0xc7, 0x90, 0x3b, 0xed, 0x27, 0x05, 0x8a, 0x12, 0x84, 0xdc,
+	0xd5, 0x30, 0xa5, 0x37, 0xca, 0x3d, 0x9f, 0x90, 0x01, 0xa7, 0x5a, 0x87, 0x2c, 0xc1, 0x57, 0x0b,
+	0xe3, 0x7f, 0x7c, 0x7b, 0x14, 0x8d, 0x03, 0x4a, 0xc6, 0x13, 0x3a, 0xc7, 0x39, 0x11, 0xea, 0x08,
+	0xf2, 0xc2, 0x38, 0xbc, 0x40, 0x05, 0x6b, 0xff, 0xd5, 0xc2, 0xd0, 0x6c, 0x7e, 0x22, 0x91, 0x53,
+	0x4e, 0xf5, 0xef, 0xd5, 0xc1, 0x25, 0x3a, 0x03, 0x3d, 0x80, 0x1c, 0xeb, 0x0a, 0xc2, 0x5f, 0xba,
+	0xd7, 0xa8, 0xdc, 0xd2, 0x4b, 0x04, 0x0b, 0x3a, 0x1b, 0x78, 0x49, 0x34, 0x8d, 0xfb, 0x24, 0xd1,
+	0xd5, 0x5b, 0x07, 0x9e, 0xb8, 0xcb, 0x3c, 0x15, 0x82, 0xb7, 0x0e, 0xbc, 0x34, 0x20, 0x1b, 0x78,
+	0x32, 0xf5, 0x3f, 0x19, 0x78, 0xbf, 0x28, 0xa0, 0x49, 0x19, 0x39, 0x33, 0x12, 0x52, 0x74, 0x0c,
+	0x59, 0xee, 0x2f, 0xf1, 0xf6, 0x0f, 0x6e, 0x78, 0x01, 0xe7, 0x73, 0xd7, 0x71, 0x05, 0x6a, 0xad,
+	0x98, 0xfe, 0x6d, 0x96, 0x90, 0x02, 0xa4, 0x6e, 0x93, 0x55, 0xf7, 0x7f, 0x5d, 0xcd, 0x89, 0xd7,
+	0x17, 0x1d, 0xc2, 0x3d, 0x0f, 0x37, 0x3b, 0xa7, 0xcd, 0x96, 0xe7, 0x9e, 0x74, 0xce, 0xba, 0x4e,
+	0xc7, 0x76, 0x3b, 0x5f, 0x69, 0x19, 0xa4, 0xc3, 0xbe, 0x0c, 0xb4, 0x4e, 0xbe, 0xe9, 0xb6, 0x1d,
+	0xcf, 0xd1, 0x54, 0x74, 0x00, 0x48, 0x46, 0xbe, 0x6c, 0xba, 0x6d, 0xc7, 0xd6, 0xb6, 0x50, 0x09,
+	0x0e, 0xe4, 0xf3, 0x5e, 0xb3, 0xed, 0xda, 0x4d, 0x8f, 0x45, 0xcb, 0xae, 0x47, 0x6b, 0x76, 0xbb,
+	0xed, 0xc7, 0x0c, 0xc9, 0xdd, 0xff, 0x4d, 0x81, 0xfd, 0x4d, 0x2f, 0x47, 0xef, 0xc2, 0xff, 0x65,
+	0x89, 0xd3, 0x73, 0x3a, 0xde, 0xd9, 0xa3, 0xce, 0xd7, 0x9d, 0x93, 0x6f, 0x3b, 0x5a, 0x66, 0x3d,
+	0xf1, 0x16, 0x76, 0x9a, 0x9e, 0x63, 0x6b, 0xca, 0x3a, 0xf0, 0xa8, 0x6b, 0x73, 0x40, 0x5d, 0x07,
+	0x6c, 0x87, 0xbd, 0x87, 0x25, 0xbe, 0x96, 0x1c, 0x76, 0xba, 0xed, 0xe6, 0x63, 0xc7, 0xd6, 0xb2,
+	0x96, 0xfe, 0xfc, 0xa2, 0xac, 0xbc, 0xb8, 0x28, 0x2b, 0x7f, 0x5d, 0x94, 0x95, 0x67, 0x97, 0xe5,
+	0xcc, 0x8b, 0xcb, 0x72, 0xe6, 0xcf, 0xcb, 0x72, 0xe6, 0x3c, 0xcf, 0x67, 0xef, 0xc7, 0xff, 0x04,
+	0x00, 0x00, 0xff, 0xff, 0x37, 0x58, 0x70, 0xff, 0x25, 0x08, 0x00, 0x00,
 }
 
 func (m *TransactionChange) Marshal() (dAtA []byte, err error) {
@@ -762,15 +697,25 @@ func (m *TransactionChange) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if len(m.Changes) > 0 {
-		for iNdEx := len(m.Changes) - 1; iNdEx >= 0; iNdEx-- {
+		for k := range m.Changes {
+			v := m.Changes[k]
+			baseI := i
 			{
-				size, err := m.Changes[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
 				i -= size
 				i = encodeVarintTransaction(dAtA, i, uint64(size))
 			}
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -862,20 +807,20 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x38
 	}
-	n1, err1 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Updated, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Updated):])
-	if err1 != nil {
-		return 0, err1
-	}
-	i -= n1
-	i = encodeVarintTransaction(dAtA, i, uint64(n1))
-	i--
-	dAtA[i] = 0x32
-	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Created, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Created):])
+	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Updated, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Updated):])
 	if err2 != nil {
 		return 0, err2
 	}
 	i -= n2
 	i = encodeVarintTransaction(dAtA, i, uint64(n2))
+	i--
+	dAtA[i] = 0x32
+	n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Created, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Created):])
+	if err3 != nil {
+		return 0, err3
+	}
+	i -= n3
+	i = encodeVarintTransaction(dAtA, i, uint64(n3))
 	i--
 	dAtA[i] = 0x2a
 	{
@@ -971,15 +916,25 @@ func (m *Change) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if len(m.Values) > 0 {
-		for iNdEx := len(m.Values) - 1; iNdEx >= 0; iNdEx-- {
+		for k := range m.Values {
+			v := m.Values[k]
+			baseI := i
 			{
-				size, err := m.Values[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
 				i -= size
 				i = encodeVarintTransaction(dAtA, i, uint64(size))
 			}
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
 			i--
 			dAtA[i] = 0x22
 		}
@@ -997,13 +952,6 @@ func (m *Change) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintTransaction(dAtA, i, uint64(len(m.TargetVersion)))
 		i--
 		dAtA[i] = 0x12
-	}
-	if len(m.TargetID) > 0 {
-		i -= len(m.TargetID)
-		copy(dAtA[i:], m.TargetID)
-		i = encodeVarintTransaction(dAtA, i, uint64(len(m.TargetID)))
-		i--
-		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -1048,13 +996,6 @@ func (m *ChangeValue) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	}
 	i--
 	dAtA[i] = 0x12
-	if len(m.Path) > 0 {
-		i -= len(m.Path)
-		copy(dAtA[i:], m.Path)
-		i = encodeVarintTransaction(dAtA, i, uint64(len(m.Path)))
-		i--
-		dAtA[i] = 0xa
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -1082,18 +1023,16 @@ func (m *TransactionStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		for k := range m.Sources {
 			v := m.Sources[k]
 			baseI := i
-			if v != nil {
-				{
-					size, err := v.MarshalToSizedBuffer(dAtA[:i])
-					if err != nil {
-						return 0, err
-					}
-					i -= size
-					i = encodeVarintTransaction(dAtA, i, uint64(size))
+			{
+				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
 				}
-				i--
-				dAtA[i] = 0x12
+				i -= size
+				i = encodeVarintTransaction(dAtA, i, uint64(size))
 			}
+			i--
+			dAtA[i] = 0x12
 			i -= len(k)
 			copy(dAtA[i:], k)
 			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
@@ -1150,46 +1089,6 @@ func (m *TransactionEvent) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *Source) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Source) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Source) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Values) > 0 {
-		for k := range m.Values {
-			v := m.Values[k]
-			baseI := i
-			i = encodeVarintTransaction(dAtA, i, uint64(v))
-			i--
-			dAtA[i] = 0x10
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
 func encodeVarintTransaction(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTransaction(v)
 	base := offset
@@ -1208,9 +1107,12 @@ func (m *TransactionChange) Size() (n int) {
 	var l int
 	_ = l
 	if len(m.Changes) > 0 {
-		for _, e := range m.Changes {
-			l = e.Size()
-			n += 1 + l + sovTransaction(uint64(l))
+		for k, v := range m.Changes {
+			_ = k
+			_ = v
+			l = v.Size()
+			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + l + sovTransaction(uint64(l))
+			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
 		}
 	}
 	return n
@@ -1296,10 +1198,6 @@ func (m *Change) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TargetID)
-	if l > 0 {
-		n += 1 + l + sovTransaction(uint64(l))
-	}
 	l = len(m.TargetVersion)
 	if l > 0 {
 		n += 1 + l + sovTransaction(uint64(l))
@@ -1309,9 +1207,12 @@ func (m *Change) Size() (n int) {
 		n += 1 + l + sovTransaction(uint64(l))
 	}
 	if len(m.Values) > 0 {
-		for _, e := range m.Values {
-			l = e.Size()
-			n += 1 + l + sovTransaction(uint64(l))
+		for k, v := range m.Values {
+			_ = k
+			_ = v
+			l = v.Size()
+			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + l + sovTransaction(uint64(l))
+			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
 		}
 	}
 	return n
@@ -1323,10 +1224,6 @@ func (m *ChangeValue) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Path)
-	if l > 0 {
-		n += 1 + l + sovTransaction(uint64(l))
-	}
 	l = m.Value.Size()
 	n += 1 + l + sovTransaction(uint64(l))
 	if m.Delete {
@@ -1348,12 +1245,8 @@ func (m *TransactionStatus) Size() (n int) {
 		for k, v := range m.Sources {
 			_ = k
 			_ = v
-			l = 0
-			if v != nil {
-				l = v.Size()
-				l += 1 + sovTransaction(uint64(l))
-			}
-			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + l
+			l = v.Size()
+			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + l + sovTransaction(uint64(l))
 			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
 		}
 	}
@@ -1371,23 +1264,6 @@ func (m *TransactionEvent) Size() (n int) {
 	}
 	l = m.Transaction.Size()
 	n += 1 + l + sovTransaction(uint64(l))
-	return n
-}
-
-func (m *Source) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Values) > 0 {
-		for k, v := range m.Values {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + sovTransaction(uint64(v))
-			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
-		}
-	}
 	return n
 }
 
@@ -1455,10 +1331,105 @@ func (m *TransactionChange) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Changes = append(m.Changes, Change{})
-			if err := m.Changes[len(m.Changes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
+			if m.Changes == nil {
+				m.Changes = make(map[TargetID]Change)
 			}
+			var mapkey TargetID
+			mapvalue := &Change{}
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowTransaction
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowTransaction
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = TargetID(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var mapmsglen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowTransaction
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapmsglen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if mapmsglen < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					if postmsgIndex > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = &Change{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipTransaction(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.Changes[TargetID(mapkey)] = *mapvalue
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1940,38 +1911,6 @@ func (m *Change) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Change: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TargetID", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TargetID = TargetID(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TargetVersion", wireType)
@@ -2065,10 +2004,105 @@ func (m *Change) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Values = append(m.Values, ChangeValue{})
-			if err := m.Values[len(m.Values)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
+			if m.Values == nil {
+				m.Values = make(map[string]ChangeValue)
 			}
+			var mapkey string
+			mapvalue := &ChangeValue{}
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowTransaction
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowTransaction
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var mapmsglen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowTransaction
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapmsglen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if mapmsglen < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					if postmsgIndex > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = &ChangeValue{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipTransaction(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
+						return ErrInvalidLengthTransaction
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.Values[mapkey] = *mapvalue
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2120,38 +2154,6 @@ func (m *ChangeValue) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: ChangeValue: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Path", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Path = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
@@ -2304,10 +2306,10 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Sources == nil {
-				m.Sources = make(map[TargetID]*Source)
+				m.Sources = make(map[TargetID]Change)
 			}
 			var mapkey TargetID
-			var mapvalue *Source
+			mapvalue := &Change{}
 			for iNdEx < postIndex {
 				entryPreIndex := iNdEx
 				var wire uint64
@@ -2381,7 +2383,7 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 					if postmsgIndex > l {
 						return io.ErrUnexpectedEOF
 					}
-					mapvalue = &Source{}
+					mapvalue = &Change{}
 					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
 						return err
 					}
@@ -2401,7 +2403,7 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 					iNdEx += skippy
 				}
 			}
-			m.Sources[TargetID(mapkey)] = mapvalue
+			m.Sources[TargetID(mapkey)] = *mapvalue
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2504,169 +2506,6 @@ func (m *TransactionEvent) Unmarshal(dAtA []byte) error {
 			if err := m.Transaction.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTransaction(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Source) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTransaction
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Source: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Source: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Values", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Values == nil {
-				m.Values = make(map[string]Index)
-			}
-			var mapkey string
-			var mapvalue uint64
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTransaction
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTransaction
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTransaction
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapvalue |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipTransaction(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Values[mapkey] = ((Index)(mapvalue))
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
