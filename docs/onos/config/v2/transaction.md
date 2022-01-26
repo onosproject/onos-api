@@ -121,13 +121,10 @@ Transaction refers to a transaction change or transaction rollback
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the transaction This field should be set prior to persisting the object. |
 | index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change The index is provided by the store, is static and unique for each unique change identifier, and should not be modified by client code. |
-| revision | [uint64](#uint64) |  | &#39;revision&#39; is the change revision number The revision number is provided by the store and should not be modified by client code. Each unique state of the change will be assigned a unique revision number which can be used for optimistic concurrency control when updating or deleting the change state. |
 | status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
-| created | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | &#39;created&#39; is the time at which the transaction was created |
-| updated | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | &#39;updated&#39; is the time at which the transaction was last updated |
-| deleted | [bool](#bool) |  | &#39;deleted&#39; is a flag indicating whether this transaction is being deleted by a snapshot |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
 | atomic | [bool](#bool) |  | atomic determines if a transaction is atomic or not |
 | change | [TransactionChange](#onos.config.v2.TransactionChange) |  |  |
@@ -208,6 +205,7 @@ TransactionStatus is the status of a Transaction
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
 | sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
 
