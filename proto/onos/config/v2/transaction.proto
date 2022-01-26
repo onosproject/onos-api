@@ -105,7 +105,19 @@ message TransactionStatus {
 
     // 'sources' is a set of changes needed to revert back to the source of the transaction
     // This field should only be updated from within onos-config
-    map<string, Change> sources = 2 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+    map<string, Source> sources = 2 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+}
+
+// Source is a transaction source
+message Source {
+    // 'target_version' is an optional target version to which to apply this change
+    string target_version = 1 [(gogoproto.casttype) = "TargetVersion"];
+
+    // 'target_type' is an optional target type to which to apply this change
+    string target_type = 2 [(gogoproto.casttype) = "TargetType"];
+
+    // 'values' is the set of values for the source
+    map<string, PathValue> values = 3 [(gogoproto.nullable) = false];
 }
 
 // TransactionState is the transaction state of a transaction phase

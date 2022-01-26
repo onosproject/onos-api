@@ -104,25 +104,17 @@ class TypedValue(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Value(betterproto.Message):
-    """Value is the state of a value in the configuration tree"""
-
-    # 'value' is the change value
-    value: "TypedValue" = betterproto.message_field(2)
-    # 'deleted' indicates whether this is a delete
-    deleted: bool = betterproto.bool_field(3)
-    # 'index'
-    index: int = betterproto.uint64_field(4)
-
-
-@dataclass(eq=False, repr=False)
 class PathValue(betterproto.Message):
     """PathValue is the state of a path/value in the configuration tree"""
 
     # 'path' is the path to change
     path: str = betterproto.string_field(1)
     # 'value' is the change value
-    value: "Value" = betterproto.message_field(2)
+    value: "TypedValue" = betterproto.message_field(2)
+    # 'deleted' indicates whether this is a delete
+    deleted: bool = betterproto.bool_field(3)
+    # 'index'
+    index: int = betterproto.uint64_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -213,8 +205,23 @@ class TransactionStatus(betterproto.Message):
     state: "TransactionState" = betterproto.enum_field(1)
     # 'sources' is a set of changes needed to revert back to the source of the
     # transaction This field should only be updated from within onos-config
-    sources: Dict[str, "Change"] = betterproto.map_field(
+    sources: Dict[str, "Source"] = betterproto.map_field(
         2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
+
+
+@dataclass(eq=False, repr=False)
+class Source(betterproto.Message):
+    """Source is a transaction source"""
+
+    # 'target_version' is an optional target version to which to apply this
+    # change
+    target_version: str = betterproto.string_field(1)
+    # 'target_type' is an optional target type to which to apply this change
+    target_type: str = betterproto.string_field(2)
+    # 'values' is the set of values for the source
+    values: Dict[str, "PathValue"] = betterproto.map_field(
+        3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
 
 
@@ -241,7 +248,7 @@ class Configuration(betterproto.Message):
     # target configuration
     target_type: str = betterproto.string_field(4)
     # 'values' is a map of path/values to set
-    values: Dict[str, "Value"] = betterproto.map_field(
+    values: Dict[str, "PathValue"] = betterproto.map_field(
         5, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
     # 'ConfigurationStatus' is the current lifecycle status of the configuration
