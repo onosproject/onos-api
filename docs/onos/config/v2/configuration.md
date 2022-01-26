@@ -12,7 +12,7 @@
     - [MastershipState](#onos.config.v2.MastershipState)
     - [PathStatus](#onos.config.v2.PathStatus)
   
-    - [ConfigurationEventType](#onos.config.v2.ConfigurationEventType)
+    - [ConfigurationEvent.ConfigurationEventType](#onos.config.v2.ConfigurationEvent.ConfigurationEventType)
     - [ConfigurationState](#onos.config.v2.ConfigurationState)
     - [PathState](#onos.config.v2.PathState)
   
@@ -72,7 +72,7 @@ ConfigurationEvent configuration store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [ConfigurationEventType](#onos.config.v2.ConfigurationEventType) |  | ConfigurationEventType configuration event type |
+| type | [ConfigurationEvent.ConfigurationEventType](#onos.config.v2.ConfigurationEvent.ConfigurationEventType) |  | ConfigurationEventType configuration event type |
 | configuration | [Configuration](#onos.config.v2.Configuration) |  |  |
 
 
@@ -147,9 +147,9 @@ PathStatus is the status of a Configuration path
  
 
 
-<a name="onos.config.v2.ConfigurationEventType"></a>
+<a name="onos.config.v2.ConfigurationEvent.ConfigurationEventType"></a>
 
-### ConfigurationEventType
+### ConfigurationEvent.ConfigurationEventType
 ConfigurationEventType configuration event types for configuration store
 
 | Name | Number | Description |

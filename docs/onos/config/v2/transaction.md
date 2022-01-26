@@ -17,7 +17,7 @@
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
     - [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry)
   
-    - [TransactionEventType](#onos.config.v2.TransactionEventType)
+    - [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType)
     - [TransactionState](#onos.config.v2.TransactionState)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -174,7 +174,7 @@ TransactionEvent transaction store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [TransactionEventType](#onos.config.v2.TransactionEventType) |  |  |
+| type | [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType) |  |  |
 | transaction | [Transaction](#onos.config.v2.Transaction) |  |  |
 
 
@@ -232,9 +232,9 @@ TransactionStatus is the status of a Transaction
  
 
 
-<a name="onos.config.v2.TransactionEventType"></a>
+<a name="onos.config.v2.TransactionEvent.TransactionEventType"></a>
 
-### TransactionEventType
+### TransactionEvent.TransactionEventType
 TransactionEventType transaction event types for transaction store
 
 | Name | Number | Description |

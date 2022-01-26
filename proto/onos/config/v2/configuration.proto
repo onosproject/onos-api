@@ -92,22 +92,22 @@ enum ConfigurationState {
     CONFIGURATION_FAILED = 3;
 }
 
-// ConfigurationEventType configuration event types for configuration store
-enum ConfigurationEventType {
-    // CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
-    CONFIGURATION_EVENT_UNKNOWN = 0;
-    // CONFIGURATION_CREATED indicates the configuration entry in the store is created
-    CONFIGURATION_CREATED = 1;
-    // CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
-    CONFIGURATION_UPDATED = 2;
-    // CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
-    CONFIGURATION_DELETED = 3;
-    // CONFIGURATION_REPLAYED
-    CONFIGURATION_REPLAYED = 4;
-}
 
 // ConfigurationEvent configuration store event
 message ConfigurationEvent {
+    // ConfigurationEventType configuration event types for configuration store
+    enum ConfigurationEventType {
+        // CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
+        CONFIGURATION_EVENT_UNKNOWN = 0;
+        // CONFIGURATION_CREATED indicates the configuration entry in the store is created
+        CONFIGURATION_CREATED = 1;
+        // CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
+        CONFIGURATION_UPDATED = 2;
+        // CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
+        CONFIGURATION_DELETED = 3;
+        // CONFIGURATION_REPLAYED
+        CONFIGURATION_REPLAYED = 4;
+    }
     // ConfigurationEventType configuration event type
     ConfigurationEventType type = 1;
     Configuration configuration = 2 [(gogoproto.nullable) = false];
