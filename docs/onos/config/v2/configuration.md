@@ -8,10 +8,13 @@
     - [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry)
     - [ConfigurationEvent](#onos.config.v2.ConfigurationEvent)
     - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
+    - [ConfigurationStatus.PathsEntry](#onos.config.v2.ConfigurationStatus.PathsEntry)
     - [MastershipState](#onos.config.v2.MastershipState)
+    - [PathStatus](#onos.config.v2.PathStatus)
   
     - [ConfigurationEventType](#onos.config.v2.ConfigurationEventType)
     - [ConfigurationState](#onos.config.v2.ConfigurationState)
+    - [PathState](#onos.config.v2.PathState)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -32,14 +35,13 @@ Configuration represents complete desired target configuration
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is a unique configuration identifier |
 | target_id | [string](#string) |  | &#39;target_id&#39; is the target to which the desired target configuration applies |
 | target_version | [string](#string) |  | &#39;target_version&#39; is the version to which desired target configuration applies |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this desired target configuration |
 | values | [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
 | status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
-| revision | [uint64](#uint64) |  | revision is configuration revision |
-| index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the configuration The index is provided by the store, is static and unique for each unique configuration identifier, and should not be modified by client code. |
 
 
 
@@ -86,10 +88,26 @@ ConfigurationStatus is the status of a Configuration
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
 | state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
 | mastership_state | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
-| transaction_index | [uint64](#uint64) |  | transaction_index highest Transaction index applied to the Configuration |
-| sync_index | [uint64](#uint64) |  | sync_index highest transaction index applied to the target. |
+| paths | [ConfigurationStatus.PathsEntry](#onos.config.v2.ConfigurationStatus.PathsEntry) | repeated | paths a set of path statuses |
+
+
+
+
+
+
+<a name="onos.config.v2.ConfigurationStatus.PathsEntry"></a>
+
+### ConfigurationStatus.PathsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [PathStatus](#onos.config.v2.PathStatus) |  |  |
 
 
 
@@ -105,6 +123,22 @@ Mastership state
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | term | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.PathStatus"></a>
+
+### PathStatus
+PathStatus is the status of a Configuration path
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [PathState](#onos.config.v2.PathState) |  |  |
+| update_index | [uint64](#uint64) |  |  |
 
 
 
@@ -136,10 +170,21 @@ ConfigurationState is the configuration state of a configuration phase
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | CONFIGURATION_PENDING | 0 | CONFIGURATION_PENDING indicates the configuration is PENDING |
-| CONFIGURATION_INITIALIZING | 1 | CONFIGURATION_INITIALIZING indicates the configuration is initializing |
-| CONFIGURATION_UPDATING | 2 | CONFIGURATION_UPDATING indicates the configuration is updating |
-| CONFIGURATION_COMPLETE | 3 | CONFIGURATION_COMPLETE indicates the configuration is complete |
-| CONFIGURATION_FAILED | 4 | CONFIGURATION_FAILED indicates the configuration is failed |
+| CONFIGURATION_SYNCHRONIZING | 1 | CONFIGURATION_SYNCHRONIZING indicates the configuration is synchronizing |
+| CONFIGURATION_COMPLETE | 2 | CONFIGURATION_COMPLETE indicates the configuration is complete |
+| CONFIGURATION_FAILED | 3 | CONFIGURATION_FAILED indicates the configuration is failed |
+
+
+
+<a name="onos.config.v2.PathState"></a>
+
+### PathState
+PathState is the state of a configuration path
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PATH_UPDATE_PENDING | 0 |  |
+| PATH_UPDATE_COMPLETE | 1 |  |
 
 
  

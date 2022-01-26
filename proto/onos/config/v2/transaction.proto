@@ -18,8 +18,8 @@ syntax = "proto3";
 
 package onos.config.v2;
 
-import "google/protobuf/timestamp.proto";
 import "gogoproto/gogo.proto";
+import "onos/config/v2/object.proto";
 import "onos/config/v2/value.proto";
 
 // TransactionChange  refers to a multi-target transactional change
@@ -37,42 +37,29 @@ message TransactionRollback {
 
 // Transaction refers to a transaction change or transaction rollback
 message Transaction {
+    ObjectMeta meta = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
+
     // 'id' is the unique identifier of the transaction
     // This field should be set prior to persisting the object.
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
+    string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
 
     // 'index' is a monotonically increasing, globally unique index of the change
     // The index is provided by the store, is static and unique for each unique change identifier,
     // and should not be modified by client code.
-    uint64 index = 2 [(gogoproto.casttype) = "Index"];
-
-    // 'revision' is the change revision number
-    // The revision number is provided by the store and should not be modified by client code.
-    // Each unique state of the change will be assigned a unique revision number which can be
-    // used for optimistic concurrency control when updating or deleting the change state.
-    uint64 revision = 3 [(gogoproto.casttype) = "Revision"];
+    uint64 index = 3 [(gogoproto.casttype) = "Index"];
 
     // 'status' is the current lifecycle status of the transaction
     TransactionStatus status = 4 [(gogoproto.nullable) = false];
 
-    // 'created' is the time at which the transaction was created
-    google.protobuf.Timestamp created = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
-
-    // 'updated' is the time at which the transaction was last updated
-    google.protobuf.Timestamp updated = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
-
-    // 'deleted' is a flag indicating whether this transaction is being deleted by a snapshot
-    bool deleted = 7;
-
     // 'username' is the name of the user that made the transaction
-    string username = 8;
+    string username = 5;
 
     // atomic determines if a transaction is atomic or not
-    bool atomic = 9;
+    bool atomic = 6;
 
     oneof transaction {
-        TransactionChange change = 10;
-        TransactionRollback rollback = 11;
+        TransactionChange change = 7;
+        TransactionRollback rollback = 8;
     }
 }
 
@@ -99,13 +86,16 @@ message ChangeValue {
 
 // TransactionStatus is the status of a Transaction
 message TransactionStatus {
+    // revision is the highest revision number that's been reconciled
+    uint64 revision = 1 [(gogoproto.casttype) = "Revision"];
+
     // 'state' is the state of the transaction
     // This field should only be updated from within onos-config.
-    TransactionState state = 1;
+    TransactionState state = 2;
 
     // 'sources' is a set of changes needed to revert back to the source of the transaction
     // This field should only be updated from within onos-config
-    map<string, Source> sources = 2 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+    map<string, Source> sources = 3 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
 }
 
 // Source is a transaction source

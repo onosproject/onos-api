@@ -23,36 +23,58 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// PathState is the state of a configuration path
+type PathState int32
+
+const (
+	PathState_PATH_UPDATE_PENDING  PathState = 0
+	PathState_PATH_UPDATE_COMPLETE PathState = 1
+)
+
+var PathState_name = map[int32]string{
+	0: "PATH_UPDATE_PENDING",
+	1: "PATH_UPDATE_COMPLETE",
+}
+
+var PathState_value = map[string]int32{
+	"PATH_UPDATE_PENDING":  0,
+	"PATH_UPDATE_COMPLETE": 1,
+}
+
+func (x PathState) String() string {
+	return proto.EnumName(PathState_name, int32(x))
+}
+
+func (PathState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{0}
+}
+
 // ConfigurationState is the configuration state of a configuration phase
 type ConfigurationState int32
 
 const (
 	// CONFIGURATION_PENDING indicates the configuration is PENDING
 	ConfigurationState_CONFIGURATION_PENDING ConfigurationState = 0
-	// CONFIGURATION_INITIALIZING indicates the configuration is initializing
-	ConfigurationState_CONFIGURATION_INITIALIZING ConfigurationState = 1
-	// CONFIGURATION_UPDATING indicates the configuration is updating
-	ConfigurationState_CONFIGURATION_UPDATING ConfigurationState = 2
+	// CONFIGURATION_SYNCHRONIZING indicates the configuration is synchronizing
+	ConfigurationState_CONFIGURATION_SYNCHRONIZING ConfigurationState = 1
 	// CONFIGURATION_COMPLETE indicates the configuration is complete
-	ConfigurationState_CONFIGURATION_COMPLETE ConfigurationState = 3
+	ConfigurationState_CONFIGURATION_COMPLETE ConfigurationState = 2
 	// CONFIGURATION_FAILED indicates the configuration is failed
-	ConfigurationState_CONFIGURATION_FAILED ConfigurationState = 4
+	ConfigurationState_CONFIGURATION_FAILED ConfigurationState = 3
 )
 
 var ConfigurationState_name = map[int32]string{
 	0: "CONFIGURATION_PENDING",
-	1: "CONFIGURATION_INITIALIZING",
-	2: "CONFIGURATION_UPDATING",
-	3: "CONFIGURATION_COMPLETE",
-	4: "CONFIGURATION_FAILED",
+	1: "CONFIGURATION_SYNCHRONIZING",
+	2: "CONFIGURATION_COMPLETE",
+	3: "CONFIGURATION_FAILED",
 }
 
 var ConfigurationState_value = map[string]int32{
-	"CONFIGURATION_PENDING":      0,
-	"CONFIGURATION_INITIALIZING": 1,
-	"CONFIGURATION_UPDATING":     2,
-	"CONFIGURATION_COMPLETE":     3,
-	"CONFIGURATION_FAILED":       4,
+	"CONFIGURATION_PENDING":       0,
+	"CONFIGURATION_SYNCHRONIZING": 1,
+	"CONFIGURATION_COMPLETE":      2,
+	"CONFIGURATION_FAILED":        3,
 }
 
 func (x ConfigurationState) String() string {
@@ -60,7 +82,7 @@ func (x ConfigurationState) String() string {
 }
 
 func (ConfigurationState) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{0}
+	return fileDescriptor_a1b457d3c759d10b, []int{1}
 }
 
 // ConfigurationEventType configuration event types for configuration store
@@ -100,29 +122,24 @@ func (x ConfigurationEventType) String() string {
 }
 
 func (ConfigurationEventType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{1}
+	return fileDescriptor_a1b457d3c759d10b, []int{2}
 }
 
 // Configuration represents complete desired target configuration
 type Configuration struct {
+	ObjectMeta `protobuf:"bytes,1,opt,name=meta,proto3,embedded=meta" json:"meta"`
 	// 'id' is a unique configuration identifier
-	ID ConfigurationID `protobuf:"bytes,1,opt,name=id,proto3,casttype=ConfigurationID" json:"id,omitempty"`
+	ID ConfigurationID `protobuf:"bytes,2,opt,name=id,proto3,casttype=ConfigurationID" json:"id,omitempty"`
 	// 'target_id' is the target to which the desired target configuration applies
-	TargetID TargetID `protobuf:"bytes,2,opt,name=target_id,json=targetId,proto3,casttype=TargetID" json:"target_id,omitempty"`
+	TargetID TargetID `protobuf:"bytes,3,opt,name=target_id,json=targetId,proto3,casttype=TargetID" json:"target_id,omitempty"`
 	// 'target_version' is the version to which desired target configuration applies
-	TargetVersion TargetVersion `protobuf:"bytes,3,opt,name=target_version,json=targetVersion,proto3,casttype=TargetVersion" json:"target_version,omitempty"`
+	TargetVersion TargetVersion `protobuf:"bytes,4,opt,name=target_version,json=targetVersion,proto3,casttype=TargetVersion" json:"target_version,omitempty"`
 	// 'target_type' is an optional target type to which to apply this desired target configuration
-	TargetType TargetType `protobuf:"bytes,4,opt,name=target_type,json=targetType,proto3,casttype=TargetType" json:"target_type,omitempty"`
+	TargetType TargetType `protobuf:"bytes,5,opt,name=target_type,json=targetType,proto3,casttype=TargetType" json:"target_type,omitempty"`
 	// 'values' is a map of path/values to set
-	Values map[string]*PathValue `protobuf:"bytes,5,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Values map[string]*PathValue `protobuf:"bytes,6,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// 'ConfigurationStatus' is the current lifecycle status of the configuration
-	Status ConfigurationStatus `protobuf:"bytes,6,opt,name=status,proto3" json:"status"`
-	// revision is configuration revision
-	Revision Revision `protobuf:"varint,7,opt,name=revision,proto3,casttype=Revision" json:"revision,omitempty"`
-	// 'index' is a monotonically increasing, globally unique index of the configuration
-	// The index is provided by the store, is static and unique for each unique configuration identifier,
-	// and should not be modified by client code.
-	Index Index `protobuf:"varint,8,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
+	Status ConfigurationStatus `protobuf:"bytes,7,opt,name=status,proto3" json:"status"`
 }
 
 func (m *Configuration) Reset()         { *m = Configuration{} }
@@ -200,30 +217,16 @@ func (m *Configuration) GetStatus() ConfigurationStatus {
 	return ConfigurationStatus{}
 }
 
-func (m *Configuration) GetRevision() Revision {
-	if m != nil {
-		return m.Revision
-	}
-	return 0
-}
-
-func (m *Configuration) GetIndex() Index {
-	if m != nil {
-		return m.Index
-	}
-	return 0
-}
-
 // ConfigurationStatus is the status of a Configuration
 type ConfigurationStatus struct {
+	// revision is the highest revision number that's been reconciled
+	Revision Revision `protobuf:"varint,1,opt,name=revision,proto3,casttype=Revision" json:"revision,omitempty"`
 	// 'state' is the state of the transaction within a Phase
-	State ConfigurationState `protobuf:"varint,1,opt,name=state,proto3,enum=onos.config.v2.ConfigurationState" json:"state,omitempty"`
+	State ConfigurationState `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.ConfigurationState" json:"state,omitempty"`
 	// mastershipState mastership info
-	MastershipState MastershipState `protobuf:"bytes,2,opt,name=mastership_state,json=mastershipState,proto3" json:"mastership_state"`
-	// transaction_index highest Transaction index applied to the Configuration
-	TransactionIndex Index `protobuf:"varint,3,opt,name=transaction_index,json=transactionIndex,proto3,casttype=Index" json:"transaction_index,omitempty"`
-	// sync_index highest transaction index applied to the target.
-	SyncIndex Index `protobuf:"varint,4,opt,name=sync_index,json=syncIndex,proto3,casttype=Index" json:"sync_index,omitempty"`
+	MastershipState MastershipState `protobuf:"bytes,3,opt,name=mastership_state,json=mastershipState,proto3" json:"mastership_state"`
+	// paths a set of path statuses
+	Paths map[string]*PathStatus `protobuf:"bytes,4,rep,name=paths,proto3" json:"paths,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *ConfigurationStatus) Reset()         { *m = ConfigurationStatus{} }
@@ -259,6 +262,13 @@ func (m *ConfigurationStatus) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ConfigurationStatus proto.InternalMessageInfo
 
+func (m *ConfigurationStatus) GetRevision() Revision {
+	if m != nil {
+		return m.Revision
+	}
+	return 0
+}
+
 func (m *ConfigurationStatus) GetState() ConfigurationState {
 	if m != nil {
 		return m.State
@@ -273,16 +283,62 @@ func (m *ConfigurationStatus) GetMastershipState() MastershipState {
 	return MastershipState{}
 }
 
-func (m *ConfigurationStatus) GetTransactionIndex() Index {
+func (m *ConfigurationStatus) GetPaths() map[string]*PathStatus {
 	if m != nil {
-		return m.TransactionIndex
+		return m.Paths
 	}
-	return 0
+	return nil
 }
 
-func (m *ConfigurationStatus) GetSyncIndex() Index {
+// PathStatus is the status of a Configuration path
+type PathStatus struct {
+	State       PathState `protobuf:"varint,1,opt,name=state,proto3,enum=onos.config.v2.PathState" json:"state,omitempty"`
+	UpdateIndex Index     `protobuf:"varint,3,opt,name=update_index,json=updateIndex,proto3,casttype=Index" json:"update_index,omitempty"`
+}
+
+func (m *PathStatus) Reset()         { *m = PathStatus{} }
+func (m *PathStatus) String() string { return proto.CompactTextString(m) }
+func (*PathStatus) ProtoMessage()    {}
+func (*PathStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{2}
+}
+func (m *PathStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PathStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PathStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PathStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PathStatus.Merge(m, src)
+}
+func (m *PathStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *PathStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_PathStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PathStatus proto.InternalMessageInfo
+
+func (m *PathStatus) GetState() PathState {
 	if m != nil {
-		return m.SyncIndex
+		return m.State
+	}
+	return PathState_PATH_UPDATE_PENDING
+}
+
+func (m *PathStatus) GetUpdateIndex() Index {
+	if m != nil {
+		return m.UpdateIndex
 	}
 	return 0
 }
@@ -296,7 +352,7 @@ func (m *MastershipState) Reset()         { *m = MastershipState{} }
 func (m *MastershipState) String() string { return proto.CompactTextString(m) }
 func (*MastershipState) ProtoMessage()    {}
 func (*MastershipState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{2}
+	return fileDescriptor_a1b457d3c759d10b, []int{3}
 }
 func (m *MastershipState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -343,7 +399,7 @@ func (m *ConfigurationEvent) Reset()         { *m = ConfigurationEvent{} }
 func (m *ConfigurationEvent) String() string { return proto.CompactTextString(m) }
 func (*ConfigurationEvent) ProtoMessage()    {}
 func (*ConfigurationEvent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{3}
+	return fileDescriptor_a1b457d3c759d10b, []int{4}
 }
 func (m *ConfigurationEvent) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -387,11 +443,14 @@ func (m *ConfigurationEvent) GetConfiguration() Configuration {
 }
 
 func init() {
+	proto.RegisterEnum("onos.config.v2.PathState", PathState_name, PathState_value)
 	proto.RegisterEnum("onos.config.v2.ConfigurationState", ConfigurationState_name, ConfigurationState_value)
 	proto.RegisterEnum("onos.config.v2.ConfigurationEventType", ConfigurationEventType_name, ConfigurationEventType_value)
 	proto.RegisterType((*Configuration)(nil), "onos.config.v2.Configuration")
 	proto.RegisterMapType((map[string]*PathValue)(nil), "onos.config.v2.Configuration.ValuesEntry")
 	proto.RegisterType((*ConfigurationStatus)(nil), "onos.config.v2.ConfigurationStatus")
+	proto.RegisterMapType((map[string]*PathStatus)(nil), "onos.config.v2.ConfigurationStatus.PathsEntry")
+	proto.RegisterType((*PathStatus)(nil), "onos.config.v2.PathStatus")
 	proto.RegisterType((*MastershipState)(nil), "onos.config.v2.MastershipState")
 	proto.RegisterType((*ConfigurationEvent)(nil), "onos.config.v2.ConfigurationEvent")
 }
@@ -401,51 +460,57 @@ func init() {
 }
 
 var fileDescriptor_a1b457d3c759d10b = []byte{
-	// 704 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x54, 0x41, 0x6f, 0xd2, 0x60,
-	0x18, 0xa6, 0xa5, 0x4c, 0x78, 0x11, 0xd6, 0x7d, 0xce, 0xa5, 0xc3, 0x48, 0x09, 0x26, 0x0b, 0xdb,
-	0x01, 0x12, 0x8c, 0x66, 0xee, 0x06, 0xb4, 0x5b, 0x1a, 0x59, 0x21, 0x9f, 0xdd, 0x8c, 0x5e, 0x48,
-	0x1d, 0x95, 0x35, 0x4a, 0x4b, 0xda, 0x6f, 0x44, 0xce, 0xfb, 0x03, 0xde, 0x3d, 0x79, 0xf1, 0xb7,
-	0xec, 0xb8, 0xa3, 0xa7, 0xc6, 0xb0, 0x7f, 0xc1, 0xc9, 0xf4, 0xfb, 0x1a, 0xa4, 0x65, 0x99, 0xb7,
-	0x77, 0xef, 0xf3, 0x3c, 0x6f, 0x9f, 0xe7, 0x69, 0x07, 0x54, 0x5d, 0xc7, 0xf5, 0x1b, 0x17, 0xae,
-	0xf3, 0xd9, 0x1e, 0x35, 0xa6, 0xcd, 0x68, 0xba, 0xf2, 0x4c, 0x62, 0xbb, 0x4e, 0x7d, 0xe2, 0xb9,
-	0xc4, 0x45, 0xc5, 0x90, 0x53, 0x67, 0x48, 0x7d, 0xda, 0x2c, 0x6d, 0x8f, 0xdc, 0x91, 0x4b, 0xa1,
-	0x46, 0x38, 0x31, 0x56, 0xa9, 0x94, 0xb8, 0x34, 0x35, 0xbf, 0x5e, 0x59, 0x0c, 0xab, 0x5e, 0x0b,
-	0x50, 0xe8, 0xac, 0x5e, 0x46, 0xfb, 0xc0, 0xdb, 0x43, 0x89, 0xab, 0x70, 0xb5, 0x5c, 0x7b, 0x77,
-	0x1e, 0xc8, 0xbc, 0xa6, 0x2c, 0x02, 0x79, 0x33, 0x46, 0xd2, 0x14, 0xcc, 0xdb, 0x43, 0xf4, 0x0a,
-	0x72, 0xc4, 0xf4, 0x46, 0x16, 0x19, 0xd8, 0x43, 0x89, 0xa7, 0x0a, 0x69, 0x1e, 0xc8, 0x59, 0x83,
-	0x2e, 0xa9, 0x6e, 0x39, 0xe3, 0x2c, 0xa3, 0x6a, 0x43, 0x74, 0x08, 0xc5, 0x48, 0x36, 0xb5, 0x3c,
-	0xdf, 0x76, 0x1d, 0x29, 0x4d, 0xb5, 0x5b, 0x8b, 0x40, 0x2e, 0x30, 0xfe, 0x39, 0x03, 0x70, 0x81,
-	0xac, 0xfe, 0x89, 0x1a, 0x90, 0x8f, 0x94, 0x64, 0x36, 0xb1, 0x24, 0x81, 0xca, 0x8a, 0x8b, 0x40,
-	0x06, 0x26, 0x33, 0x66, 0x13, 0x0b, 0x03, 0x59, 0xce, 0xa8, 0x05, 0x1b, 0x34, 0xad, 0x2f, 0x65,
-	0x2a, 0xe9, 0x5a, 0xbe, 0xb9, 0x5f, 0x8f, 0x37, 0x56, 0x8f, 0xc5, 0xaa, 0x9f, 0x53, 0xae, 0xea,
-	0x10, 0x6f, 0x86, 0x23, 0x61, 0x78, 0xc2, 0x27, 0x26, 0xb9, 0xf2, 0xa5, 0x8d, 0x0a, 0x57, 0xcb,
-	0x37, 0x5f, 0x3c, 0x78, 0xe2, 0x1d, 0xa5, 0xb6, 0x85, 0x9b, 0x40, 0x4e, 0xe1, 0x48, 0x88, 0x6a,
-	0x90, 0xf5, 0xac, 0xa9, 0x4d, 0xa3, 0x3e, 0xaa, 0x70, 0x35, 0xa1, 0xfd, 0x38, 0xac, 0x06, 0x47,
-	0x3b, 0xbc, 0x44, 0x91, 0x0c, 0x19, 0xdb, 0x19, 0x5a, 0xdf, 0xa4, 0x2c, 0xa5, 0xe5, 0x16, 0x81,
-	0x9c, 0xd1, 0xc2, 0x05, 0x66, 0xfb, 0x92, 0x01, 0xf9, 0x15, 0x93, 0x48, 0x84, 0xf4, 0x17, 0x6b,
-	0xc6, 0xde, 0x16, 0x0e, 0x47, 0xd4, 0x80, 0x0c, 0x35, 0x4e, 0xdf, 0x47, 0xbe, 0xb9, 0x9b, 0x74,
-	0xdb, 0x37, 0xc9, 0x25, 0xbd, 0x80, 0x19, 0xef, 0x88, 0x3f, 0xe4, 0xaa, 0xd7, 0x3c, 0x3c, 0xb9,
-	0x27, 0x06, 0x3a, 0x84, 0x4c, 0x18, 0xc1, 0xa2, 0x0f, 0x28, 0x36, 0xab, 0xff, 0x8d, 0x6e, 0x61,
-	0x26, 0x40, 0x7d, 0x10, 0xc7, 0xa6, 0x4f, 0x2c, 0xcf, 0xbf, 0xb4, 0x27, 0x03, 0x76, 0x84, 0x39,
-	0x92, 0x93, 0x47, 0x4e, 0x97, 0x3c, 0x7a, 0x21, 0xea, 0x6e, 0x73, 0x1c, 0x5f, 0xa3, 0xd7, 0xb0,
-	0x45, 0x3c, 0xd3, 0xf1, 0xcd, 0x8b, 0xf0, 0x61, 0x03, 0x56, 0x53, 0x3a, 0x59, 0x93, 0xb8, 0xc2,
-	0xa1, 0x1b, 0x54, 0x03, 0xf0, 0x67, 0xce, 0x45, 0x24, 0x10, 0x92, 0x82, 0x5c, 0x08, 0xd2, 0xb1,
-	0xfa, 0x06, 0x36, 0x13, 0x5e, 0xd0, 0x1e, 0x08, 0xc4, 0xf2, 0xc6, 0x34, 0xbf, 0xd0, 0x46, 0x8b,
-	0x40, 0x2e, 0xfe, 0xa3, 0x18, 0x96, 0x37, 0xc6, 0x14, 0xaf, 0xfe, 0xe0, 0x00, 0xc5, 0xca, 0x50,
-	0xa7, 0x96, 0x43, 0xd0, 0x11, 0x08, 0xf4, 0x43, 0x65, 0xf5, 0xed, 0x3d, 0x58, 0x1f, 0x55, 0xd0,
-	0x0f, 0x98, 0x6a, 0x90, 0x06, 0x85, 0xd8, 0xbf, 0x7c, 0x54, 0xdf, 0xf3, 0x07, 0x8f, 0x44, 0xe5,
-	0xc5, 0x95, 0x07, 0x3f, 0x93, 0xee, 0x58, 0xb8, 0x5d, 0x78, 0xda, 0xe9, 0xe9, 0xc7, 0xda, 0xc9,
-	0x19, 0x6e, 0x19, 0x5a, 0x4f, 0x1f, 0xf4, 0x55, 0x5d, 0xd1, 0xf4, 0x13, 0x31, 0x85, 0xca, 0x50,
-	0x8a, 0x43, 0x9a, 0xae, 0x19, 0x5a, 0xab, 0xab, 0x7d, 0x0c, 0x71, 0x0e, 0x95, 0x60, 0x27, 0x8e,
-	0x9f, 0xf5, 0x95, 0x96, 0x11, 0x62, 0xfc, 0x3a, 0xd6, 0xe9, 0x9d, 0xf6, 0xbb, 0xaa, 0xa1, 0x8a,
-	0x69, 0x24, 0xc1, 0x76, 0x1c, 0x3b, 0x6e, 0x69, 0x5d, 0x55, 0x11, 0x85, 0x83, 0x5f, 0x1c, 0xec,
-	0xdc, 0xdf, 0x07, 0x92, 0xe1, 0x59, 0x5c, 0xa4, 0x9e, 0xab, 0xba, 0x31, 0x38, 0xd3, 0xdf, 0xea,
-	0xbd, 0xf7, 0xba, 0x98, 0x5a, 0x0f, 0xd2, 0xc1, 0x6a, 0xcb, 0x50, 0x15, 0x91, 0x5b, 0x87, 0xa8,
-	0x51, 0x55, 0x11, 0xf9, 0x75, 0x48, 0x51, 0x43, 0x97, 0x8a, 0x98, 0x5e, 0x8f, 0x80, 0xd5, 0x7e,
-	0xb7, 0xf5, 0x21, 0x34, 0xda, 0x96, 0x6e, 0xe6, 0x65, 0xee, 0x76, 0x5e, 0xe6, 0xfe, 0xcc, 0xcb,
-	0xdc, 0xf7, 0xbb, 0x72, 0xea, 0xf6, 0xae, 0x9c, 0xfa, 0x7d, 0x57, 0x4e, 0x7d, 0xda, 0xa0, 0x3f,
-	0xa9, 0x2f, 0xff, 0x06, 0x00, 0x00, 0xff, 0xff, 0xe7, 0xd4, 0xb8, 0x1e, 0xba, 0x05, 0x00, 0x00,
+	// 792 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x95, 0xc1, 0x6f, 0xe2, 0x46,
+	0x14, 0xc6, 0xb1, 0x31, 0x29, 0x3c, 0x16, 0xe2, 0xce, 0x6e, 0xb7, 0xc6, 0xab, 0xe2, 0x88, 0x4a,
+	0x2b, 0x36, 0xaa, 0xa0, 0xa2, 0xaa, 0x44, 0xf7, 0x50, 0x09, 0xb0, 0x93, 0x58, 0x4d, 0x0c, 0x9a,
+	0x38, 0xa9, 0xd2, 0x0b, 0x72, 0xc2, 0x94, 0xb8, 0x29, 0x18, 0xd9, 0x03, 0x2a, 0xff, 0x40, 0xcf,
+	0xbd, 0xf7, 0xde, 0xbf, 0x25, 0xc7, 0x1c, 0x7b, 0xb2, 0x2a, 0x72, 0xe8, 0xbd, 0x47, 0x4e, 0x95,
+	0x67, 0x5c, 0x82, 0x81, 0xa6, 0xbd, 0x0d, 0xf3, 0xbd, 0xef, 0x7b, 0x6f, 0x7e, 0x4f, 0x4e, 0xa0,
+	0xe2, 0x8d, 0xbd, 0xa0, 0x7e, 0xe3, 0x8d, 0xbf, 0x77, 0x87, 0xf5, 0x59, 0x23, 0x3e, 0x4d, 0x7d,
+	0x87, 0xba, 0xde, 0xb8, 0x36, 0xf1, 0x3d, 0xea, 0xa1, 0x62, 0x54, 0x53, 0xe3, 0x4a, 0x6d, 0xd6,
+	0x50, 0x5f, 0x0d, 0xbd, 0xa1, 0xc7, 0xa4, 0x7a, 0x74, 0xe2, 0x55, 0xea, 0x9b, 0x8d, 0x24, 0xef,
+	0xfa, 0x07, 0x72, 0x43, 0x63, 0x51, 0xdd, 0x10, 0x67, 0xce, 0x8f, 0x53, 0xc2, 0xb5, 0xca, 0x5f,
+	0x69, 0x28, 0x74, 0xd6, 0xdb, 0xa2, 0x26, 0x48, 0x23, 0x42, 0x1d, 0x45, 0x38, 0x10, 0xaa, 0xf9,
+	0x86, 0x5a, 0x4b, 0xf6, 0xaf, 0x75, 0x59, 0xf2, 0x19, 0xa1, 0x4e, 0x3b, 0x7b, 0x1f, 0x6a, 0xa9,
+	0x87, 0x50, 0x13, 0x30, 0x73, 0xa0, 0x77, 0x20, 0xba, 0x03, 0x45, 0x3c, 0x10, 0xaa, 0xb9, 0x76,
+	0x69, 0x11, 0x6a, 0xa2, 0xa9, 0x2f, 0x43, 0x6d, 0x3f, 0x11, 0x6f, 0xea, 0x58, 0x74, 0x07, 0xe8,
+	0x4b, 0xc8, 0x51, 0xc7, 0x1f, 0x12, 0xda, 0x77, 0x07, 0x4a, 0x9a, 0x39, 0x94, 0x45, 0xa8, 0x65,
+	0x6d, 0x76, 0xc9, 0x7c, 0xab, 0x33, 0xce, 0xf2, 0x52, 0x73, 0x80, 0x9a, 0x50, 0x8c, 0x6d, 0x33,
+	0xe2, 0x07, 0xae, 0x37, 0x56, 0x24, 0xe6, 0xfd, 0x70, 0x19, 0x6a, 0x05, 0x5e, 0x7f, 0xc9, 0x05,
+	0x5c, 0xa0, 0xeb, 0x3f, 0x51, 0x1d, 0xf2, 0xb1, 0x93, 0xce, 0x27, 0x44, 0xc9, 0x30, 0x5b, 0x71,
+	0x19, 0x6a, 0xc0, 0x6d, 0xf6, 0x7c, 0x42, 0x30, 0xd0, 0xd5, 0x19, 0xb5, 0x60, 0x8f, 0x71, 0x0a,
+	0x94, 0xbd, 0x83, 0x74, 0x35, 0xdf, 0x78, 0xb7, 0x09, 0x22, 0xf1, 0xac, 0xda, 0x25, 0xab, 0x35,
+	0xc6, 0xd4, 0x9f, 0xe3, 0xd8, 0x18, 0x45, 0x04, 0xd4, 0xa1, 0xd3, 0x40, 0xf9, 0x80, 0xb1, 0xfc,
+	0xf4, 0xd9, 0x88, 0x73, 0x56, 0xda, 0x96, 0x22, 0xa8, 0x38, 0x36, 0xaa, 0x36, 0xe4, 0xd7, 0x92,
+	0x91, 0x0c, 0xe9, 0x3b, 0x32, 0x67, 0xab, 0xc9, 0xe1, 0xe8, 0x88, 0xea, 0x90, 0x61, 0xdd, 0x18,
+	0xf6, 0x7c, 0xa3, 0xb4, 0xd9, 0xa2, 0xe7, 0xd0, 0x5b, 0x96, 0x80, 0x79, 0xdd, 0x7b, 0xb1, 0x29,
+	0x54, 0xfe, 0x14, 0xe1, 0xe5, 0x8e, 0xde, 0xa8, 0x0a, 0x59, 0x9f, 0xcc, 0x5c, 0x06, 0x36, 0xea,
+	0x21, 0xb5, 0x5f, 0x44, 0x8b, 0xc0, 0xf1, 0x1d, 0x5e, 0xa9, 0xa8, 0x09, 0x99, 0x68, 0x42, 0xde,
+	0xb6, 0xd8, 0xa8, 0xfc, 0xe7, 0xcb, 0x08, 0xe6, 0x06, 0xd4, 0x03, 0x79, 0xe4, 0x04, 0x94, 0xf8,
+	0xc1, 0xad, 0x3b, 0xe9, 0xf3, 0x90, 0x34, 0x9b, 0x5d, 0xdb, 0x0c, 0x39, 0x5b, 0xd5, 0xb1, 0x84,
+	0x18, 0xcd, 0xfe, 0x28, 0x79, 0x8d, 0x74, 0xc8, 0x4c, 0x1c, 0x7a, 0x1b, 0x28, 0x12, 0x5b, 0x54,
+	0xed, 0x7f, 0x50, 0x66, 0x58, 0xe2, 0x6d, 0x71, 0xb3, 0x6a, 0x03, 0x3c, 0x5d, 0xee, 0x00, 0xfd,
+	0x79, 0x12, 0xb4, 0xba, 0x0b, 0x34, 0x0f, 0x5f, 0x27, 0x7d, 0xc7, 0x53, 0x63, 0xbe, 0xf5, 0x7f,
+	0xa8, 0x09, 0x8c, 0x5a, 0xe9, 0xdf, 0x32, 0x56, 0xb0, 0x3e, 0x83, 0x17, 0xd3, 0xc9, 0xc0, 0xa1,
+	0xa4, 0xef, 0x8e, 0x07, 0xe4, 0x27, 0x06, 0x4a, 0x6a, 0xe7, 0x96, 0xa1, 0x96, 0x31, 0xa3, 0x0b,
+	0x9c, 0xe7, 0x32, 0xfb, 0x51, 0xf9, 0x0a, 0xf6, 0x37, 0x90, 0xa1, 0xb7, 0x20, 0x51, 0xe2, 0x8f,
+	0xe2, 0x6d, 0xa2, 0x65, 0xa8, 0x15, 0x9f, 0x4a, 0x6c, 0xe2, 0x8f, 0x30, 0xd3, 0x2b, 0xbf, 0x0a,
+	0x80, 0x12, 0x9c, 0x8c, 0x19, 0x19, 0x53, 0xf4, 0x1e, 0x24, 0xf6, 0xb9, 0xf0, 0x79, 0xdf, 0x3e,
+	0x4b, 0x96, 0x39, 0xd8, 0x67, 0xc4, 0x3c, 0xc8, 0x84, 0x42, 0xe2, 0xef, 0x59, 0x0c, 0xee, 0x93,
+	0x67, 0x43, 0xe2, 0x1d, 0x27, 0x9d, 0x87, 0x5f, 0x43, 0x6e, 0x85, 0x06, 0x7d, 0x0c, 0x2f, 0x7b,
+	0x2d, 0xfb, 0xa4, 0x7f, 0xd1, 0xd3, 0x5b, 0xb6, 0xd1, 0xef, 0x19, 0x96, 0x6e, 0x5a, 0xc7, 0x72,
+	0x0a, 0x29, 0xf0, 0x6a, 0x5d, 0xe8, 0x74, 0xcf, 0x7a, 0xa7, 0x86, 0x6d, 0xc8, 0xc2, 0xe1, 0xcf,
+	0x9b, 0xaf, 0xe3, 0x49, 0x25, 0xf8, 0xa8, 0xd3, 0xb5, 0x8e, 0xcc, 0xe3, 0x0b, 0xdc, 0xb2, 0xcd,
+	0xae, 0xb5, 0x96, 0xa5, 0xc1, 0x9b, 0xa4, 0x74, 0x7e, 0x65, 0x75, 0x4e, 0x70, 0xd7, 0x32, 0xbf,
+	0x8b, 0x0a, 0x04, 0xa4, 0xc2, 0xeb, 0x64, 0xc1, 0xaa, 0x9d, 0x18, 0x0d, 0x92, 0xd4, 0x8e, 0x5a,
+	0xe6, 0xa9, 0xa1, 0xcb, 0xe9, 0xc3, 0xdf, 0x04, 0x78, 0xbd, 0x1b, 0xda, 0x76, 0x47, 0xe3, 0xd2,
+	0xb0, 0xec, 0xfe, 0x85, 0xf5, 0x8d, 0xd5, 0xfd, 0xd6, 0x92, 0x53, 0xdb, 0xd3, 0x76, 0xb0, 0xd1,
+	0xb2, 0x0d, 0x5d, 0x16, 0xb6, 0x25, 0x8e, 0x40, 0x97, 0xc5, 0x6d, 0x49, 0x37, 0xa2, 0x29, 0x75,
+	0x39, 0xbd, 0xfd, 0x04, 0x6c, 0xf4, 0x4e, 0x5b, 0x57, 0x86, 0x2e, 0x4b, 0x6d, 0xe5, 0x7e, 0x51,
+	0x16, 0x1e, 0x16, 0x65, 0xe1, 0x8f, 0x45, 0x59, 0xf8, 0xe5, 0xb1, 0x9c, 0x7a, 0x78, 0x2c, 0xa7,
+	0x7e, 0x7f, 0x2c, 0xa7, 0xae, 0xf7, 0xd8, 0xff, 0x8d, 0x2f, 0xfe, 0x0e, 0x00, 0x00, 0xff, 0xff,
+	0x65, 0xd6, 0x27, 0xde, 0xbc, 0x06, 0x00, 0x00,
 }
 
 func (m *Configuration) Marshal() (dAtA []byte, err error) {
@@ -468,16 +533,6 @@ func (m *Configuration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Index != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x40
-	}
-	if m.Revision != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.Revision))
-		i--
-		dAtA[i] = 0x38
-	}
 	{
 		size, err := m.Status.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
@@ -487,7 +542,7 @@ func (m *Configuration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintConfiguration(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0x32
+	dAtA[i] = 0x3a
 	if len(m.Values) > 0 {
 		for k := range m.Values {
 			v := m.Values[k]
@@ -511,7 +566,7 @@ func (m *Configuration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0xa
 			i = encodeVarintConfiguration(dAtA, i, uint64(baseI-i))
 			i--
-			dAtA[i] = 0x2a
+			dAtA[i] = 0x32
 		}
 	}
 	if len(m.TargetType) > 0 {
@@ -519,29 +574,39 @@ func (m *Configuration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.TargetType)
 		i = encodeVarintConfiguration(dAtA, i, uint64(len(m.TargetType)))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x2a
 	}
 	if len(m.TargetVersion) > 0 {
 		i -= len(m.TargetVersion)
 		copy(dAtA[i:], m.TargetVersion)
 		i = encodeVarintConfiguration(dAtA, i, uint64(len(m.TargetVersion)))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x22
 	}
 	if len(m.TargetID) > 0 {
 		i -= len(m.TargetID)
 		copy(dAtA[i:], m.TargetID)
 		i = encodeVarintConfiguration(dAtA, i, uint64(len(m.TargetID)))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x1a
 	}
 	if len(m.ID) > 0 {
 		i -= len(m.ID)
 		copy(dAtA[i:], m.ID)
 		i = encodeVarintConfiguration(dAtA, i, uint64(len(m.ID)))
 		i--
-		dAtA[i] = 0xa
+		dAtA[i] = 0x12
 	}
+	{
+		size, err := m.ObjectMeta.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintConfiguration(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
 	return len(dAtA) - i, nil
 }
 
@@ -565,15 +630,31 @@ func (m *ConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.SyncIndex != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.SyncIndex))
-		i--
-		dAtA[i] = 0x20
-	}
-	if m.TransactionIndex != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.TransactionIndex))
-		i--
-		dAtA[i] = 0x18
+	if len(m.Paths) > 0 {
+		for k := range m.Paths {
+			v := m.Paths[k]
+			baseI := i
+			if v != nil {
+				{
+					size, err := v.MarshalToSizedBuffer(dAtA[:i])
+					if err != nil {
+						return 0, err
+					}
+					i -= size
+					i = encodeVarintConfiguration(dAtA, i, uint64(size))
+				}
+				i--
+				dAtA[i] = 0x12
+			}
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintConfiguration(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintConfiguration(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x22
+		}
 	}
 	{
 		size, err := m.MastershipState.MarshalToSizedBuffer(dAtA[:i])
@@ -584,7 +665,45 @@ func (m *ConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintConfiguration(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0x12
+	dAtA[i] = 0x1a
+	if m.State != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.State))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Revision != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.Revision))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *PathStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PathStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PathStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.UpdateIndex != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.UpdateIndex))
+		i--
+		dAtA[i] = 0x18
+	}
 	if m.State != 0 {
 		i = encodeVarintConfiguration(dAtA, i, uint64(m.State))
 		i--
@@ -676,6 +795,8 @@ func (m *Configuration) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = m.ObjectMeta.Size()
+	n += 1 + l + sovConfiguration(uint64(l))
 	l = len(m.ID)
 	if l > 0 {
 		n += 1 + l + sovConfiguration(uint64(l))
@@ -707,12 +828,6 @@ func (m *Configuration) Size() (n int) {
 	}
 	l = m.Status.Size()
 	n += 1 + l + sovConfiguration(uint64(l))
-	if m.Revision != 0 {
-		n += 1 + sovConfiguration(uint64(m.Revision))
-	}
-	if m.Index != 0 {
-		n += 1 + sovConfiguration(uint64(m.Index))
-	}
 	return n
 }
 
@@ -722,16 +837,41 @@ func (m *ConfigurationStatus) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Revision != 0 {
+		n += 1 + sovConfiguration(uint64(m.Revision))
+	}
 	if m.State != 0 {
 		n += 1 + sovConfiguration(uint64(m.State))
 	}
 	l = m.MastershipState.Size()
 	n += 1 + l + sovConfiguration(uint64(l))
-	if m.TransactionIndex != 0 {
-		n += 1 + sovConfiguration(uint64(m.TransactionIndex))
+	if len(m.Paths) > 0 {
+		for k, v := range m.Paths {
+			_ = k
+			_ = v
+			l = 0
+			if v != nil {
+				l = v.Size()
+				l += 1 + sovConfiguration(uint64(l))
+			}
+			mapEntrySize := 1 + len(k) + sovConfiguration(uint64(len(k))) + l
+			n += mapEntrySize + 1 + sovConfiguration(uint64(mapEntrySize))
+		}
 	}
-	if m.SyncIndex != 0 {
-		n += 1 + sovConfiguration(uint64(m.SyncIndex))
+	return n
+}
+
+func (m *PathStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.State != 0 {
+		n += 1 + sovConfiguration(uint64(m.State))
+	}
+	if m.UpdateIndex != 0 {
+		n += 1 + sovConfiguration(uint64(m.UpdateIndex))
 	}
 	return n
 }
@@ -799,6 +939,39 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ObjectMeta", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.ObjectMeta.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
 			}
 			var stringLen uint64
@@ -829,7 +1002,7 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 			}
 			m.ID = ConfigurationID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TargetID", wireType)
 			}
@@ -861,7 +1034,7 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 			}
 			m.TargetID = TargetID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TargetVersion", wireType)
 			}
@@ -893,7 +1066,7 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 			}
 			m.TargetVersion = TargetVersion(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TargetType", wireType)
 			}
@@ -925,7 +1098,7 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 			}
 			m.TargetType = TargetType(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Values", wireType)
 			}
@@ -1054,7 +1227,7 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 			}
 			m.Values[mapkey] = mapvalue
 			iNdEx = postIndex
-		case 6:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
 			}
@@ -1087,44 +1260,6 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 7:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Revision", wireType)
-			}
-			m.Revision = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Revision |= Revision(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 8:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= Index(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipConfiguration(dAtA[iNdEx:])
@@ -1177,6 +1312,25 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Revision", wireType)
+			}
+			m.Revision = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Revision |= Revision(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
 			}
 			m.State = 0
@@ -1194,7 +1348,7 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field MastershipState", wireType)
 			}
@@ -1227,11 +1381,11 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TransactionIndex", wireType)
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Paths", wireType)
 			}
-			m.TransactionIndex = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowConfiguration
@@ -1241,16 +1395,176 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TransactionIndex |= Index(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SyncIndex", wireType)
+			if msglen < 0 {
+				return ErrInvalidLengthConfiguration
 			}
-			m.SyncIndex = 0
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Paths == nil {
+				m.Paths = make(map[string]*PathStatus)
+			}
+			var mapkey string
+			var mapvalue *PathStatus
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowConfiguration
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowConfiguration
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthConfiguration
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthConfiguration
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var mapmsglen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowConfiguration
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapmsglen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if mapmsglen < 0 {
+						return ErrInvalidLengthConfiguration
+					}
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
+						return ErrInvalidLengthConfiguration
+					}
+					if postmsgIndex > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = &PathStatus{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipConfiguration(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
+						return ErrInvalidLengthConfiguration
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.Paths[mapkey] = mapvalue
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfiguration(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PathStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfiguration
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PathStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PathStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			m.State = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowConfiguration
@@ -1260,7 +1574,26 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.SyncIndex |= Index(b&0x7F) << shift
+				m.State |= PathState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field UpdateIndex", wireType)
+			}
+			m.UpdateIndex = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.UpdateIndex |= Index(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
