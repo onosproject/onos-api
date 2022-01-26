@@ -87,7 +87,7 @@ message ChangeValue {
 // TransactionStatus is the status of a Transaction
 message TransactionStatus {
     // revision is the highest revision number that's been reconciled
-    uint64 revision = 5 [(gogoproto.casttype) = "Revision"];
+    uint64 revision = 1 [(gogoproto.casttype) = "Revision"];
 
     // 'state' is the state of the transaction
     // This field should only be updated from within onos-config.

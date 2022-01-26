@@ -205,7 +205,7 @@ class TransactionStatus(betterproto.Message):
     """TransactionStatus is the status of a Transaction"""
 
     # revision is the highest revision number that's been reconciled
-    revision: int = betterproto.uint64_field(5)
+    revision: int = betterproto.uint64_field(1)
     # 'state' is the state of the transaction This field should only be updated
     # from within onos-config.
     state: "TransactionState" = betterproto.enum_field(2)
