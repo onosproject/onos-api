@@ -44,9 +44,7 @@ class TransactionState(betterproto.Enum):
     TRANSACTION_APPLYING = 5
 
 
-class TransactionEventType(betterproto.Enum):
-    """TransactionEventType transaction event types for transaction store"""
-
+class TransactionEventTransactionEventType(betterproto.Enum):
     TRANSACTION_EVENT_UNKNOWN = 0
     TRANSACTION_CREATED = 1
     TRANSACTION_UPDATED = 2
@@ -76,23 +74,11 @@ class ConfigurationState(betterproto.Enum):
     CONFIGURATION_FAILED = 3
 
 
-class ConfigurationEventType(betterproto.Enum):
-    """
-    ConfigurationEventType configuration event types for configuration store
-    """
-
-    # CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
+class ConfigurationEventConfigurationEventType(betterproto.Enum):
     CONFIGURATION_EVENT_UNKNOWN = 0
-    # CONFIGURATION_CREATED indicates the configuration entry in the store is
-    # created
     CONFIGURATION_CREATED = 1
-    # CONFIGURATION_UPDATED indicates the configuration entry in the store is
-    # updated
     CONFIGURATION_UPDATED = 2
-    # CONFIGURATION_DELETED indicates the configuration entry in the store is
-    # deleted
     CONFIGURATION_DELETED = 3
-    # CONFIGURATION_REPLAYED
     CONFIGURATION_REPLAYED = 4
 
 
@@ -235,7 +221,7 @@ class Source(betterproto.Message):
 class TransactionEvent(betterproto.Message):
     """TransactionEvent transaction store event"""
 
-    type: "TransactionEventType" = betterproto.enum_field(1)
+    type: "TransactionEventTransactionEventType" = betterproto.enum_field(1)
     transaction: "Transaction" = betterproto.message_field(2)
 
 
@@ -298,5 +284,5 @@ class ConfigurationEvent(betterproto.Message):
     """ConfigurationEvent configuration store event"""
 
     # ConfigurationEventType configuration event type
-    type: "ConfigurationEventType" = betterproto.enum_field(1)
+    type: "ConfigurationEventConfigurationEventType" = betterproto.enum_field(1)
     configuration: "Configuration" = betterproto.message_field(2)
