@@ -177,9 +177,11 @@ message RollbackRequest {
     // name is an optional name of a Network Change to rollback.
     // If no name is given the last network change will be rolled back.
     // If the name given is not of the last network change and error will be given.
-    string name = 1;
+    string name = 1;        // deprecated
     // On optional comment to leave on the rollback.
-    string comment = 2;
+    string comment = 2;     // deprecated
+
+    uint64 index = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
 // RollbackResponse carries the response of the rollback operation

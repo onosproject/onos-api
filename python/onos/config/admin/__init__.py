@@ -190,6 +190,7 @@ class RollbackRequest(betterproto.Message):
     name: str = betterproto.string_field(1)
     # On optional comment to leave on the rollback.
     comment: str = betterproto.string_field(2)
+    index: int = betterproto.uint64_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -374,12 +375,13 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
             yield response
 
     async def rollback_network_change(
-        self, *, name: str = "", comment: str = ""
+        self, *, name: str = "", comment: str = "", index: int = 0
     ) -> "RollbackResponse":
 
         request = RollbackRequest()
         request.name = name
         request.comment = comment
+        request.index = index
 
         return await self._unary_unary(
             "/onos.config.admin.ConfigAdminService/RollbackNetworkChange",
@@ -548,7 +550,7 @@ class ConfigAdminServiceBase(ServiceBase):
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def rollback_network_change(
-        self, name: str, comment: str
+        self, name: str, comment: str, index: int
     ) -> "RollbackResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -591,6 +593,7 @@ class ConfigAdminServiceBase(ServiceBase):
         request_kwargs = {
             "name": request.name,
             "comment": request.comment,
+            "index": request.index,
         }
 
         response = await self.rollback_network_change(**request_kwargs)

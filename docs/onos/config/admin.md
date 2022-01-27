@@ -436,8 +436,13 @@ be rejected.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | name is an optional name of a Network Change to rollback. If no name is given the last network change will be rolled back. If the name given is not of the last network change and error will be given. |
-| comment | [string](#string) |  | On optional comment to leave on the rollback. |
+| name | [string](#string) |  | name is an optional name of a Network Change to rollback. If no name is given the last network change will be rolled back. If the name given is not of the last network change and error will be given.
+
+deprecated |
+| comment | [string](#string) |  | On optional comment to leave on the rollback.
+
+deprecated |
+| index | [uint64](#uint64) |  |  |
 
 
 
