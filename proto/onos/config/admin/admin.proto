@@ -325,7 +325,7 @@ message WatchTransactionsRequest {
 }
 
 message WatchTransactionsResponse {
-    onos.config.v2.TransactionEvent event = 1 [(gogoproto.nullable) = false];
+    onos.config.v2.TransactionEvent event = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
 }
 
 // Configurations -------------------------------------
@@ -366,5 +366,5 @@ message WatchConfigurationsRequest {
 }
 
 message WatchConfigurationsResponse {
-    onos.config.v2.ConfigurationEvent event = 1 [(gogoproto.nullable) = false];
+    onos.config.v2.ConfigurationEvent event = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
 }
