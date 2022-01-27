@@ -170,16 +170,17 @@ message ListModelsRequest {
     string model_version = 3;
 }
 
-// RollbackRequest carries the name of a network config to rollback. If there
-// are subsequent changes to any of the devices in that config, the rollback will
-// be rejected.
+// RollbackRequest carries the index of the configuration change transaction to rollback.
 message RollbackRequest {
     // name is an optional name of a Network Change to rollback.
     // If no name is given the last network change will be rolled back.
     // If the name given is not of the last network change and error will be given.
-    string name = 1;
+    string name = 1;        // deprecated
     // On optional comment to leave on the rollback.
-    string comment = 2;
+    string comment = 2;     // deprecated
+
+    // index of the transaction that should be rolled back
+    uint64 index = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
 // RollbackResponse carries the response of the rollback operation

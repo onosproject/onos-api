@@ -429,15 +429,18 @@ RegisterResponse carries status of model plugin registration.
 <a name="onos.config.admin.RollbackRequest"></a>
 
 ### RollbackRequest
-RollbackRequest carries the name of a network config to rollback. If there
-are subsequent changes to any of the devices in that config, the rollback will
-be rejected.
+RollbackRequest carries the index of the configuration change transaction to rollback.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | name is an optional name of a Network Change to rollback. If no name is given the last network change will be rolled back. If the name given is not of the last network change and error will be given. |
-| comment | [string](#string) |  | On optional comment to leave on the rollback. |
+| name | [string](#string) |  | name is an optional name of a Network Change to rollback. If no name is given the last network change will be rolled back. If the name given is not of the last network change and error will be given.
+
+deprecated |
+| comment | [string](#string) |  | On optional comment to leave on the rollback.
+
+deprecated |
+| index | [uint64](#uint64) |  | index of the transaction that should be rolled back |
 
 
 
