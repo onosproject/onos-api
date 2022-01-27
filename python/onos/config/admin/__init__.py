@@ -179,9 +179,8 @@ class ListModelsRequest(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class RollbackRequest(betterproto.Message):
     """
-    RollbackRequest carries the name of a network config to rollback. If there
-    are subsequent changes to any of the devices in that config, the rollback
-    will be rejected.
+    RollbackRequest carries the index of the configuration change transaction
+    to rollback.
     """
 
     # name is an optional name of a Network Change to rollback. If no name is
@@ -190,6 +189,7 @@ class RollbackRequest(betterproto.Message):
     name: str = betterproto.string_field(1)
     # On optional comment to leave on the rollback.
     comment: str = betterproto.string_field(2)
+    # index of the transaction that should be rolled back
     index: int = betterproto.uint64_field(3)
 
 

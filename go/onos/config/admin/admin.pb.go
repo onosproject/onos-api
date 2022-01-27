@@ -692,16 +692,15 @@ func (m *ListModelsRequest) GetModelVersion() string {
 	return ""
 }
 
-// RollbackRequest carries the name of a network config to rollback. If there
-// are subsequent changes to any of the devices in that config, the rollback will
-// be rejected.
+// RollbackRequest carries the index of the configuration change transaction to rollback.
 type RollbackRequest struct {
 	// name is an optional name of a Network Change to rollback.
 	// If no name is given the last network change will be rolled back.
 	// If the name given is not of the last network change and error will be given.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// On optional comment to leave on the rollback.
-	Comment              string                                                  `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty"`
+	Comment string `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty"`
+	// index of the transaction that should be rolled back
 	Index                github_com_onosproject_onos_api_go_onos_config_v2.Index `protobuf:"varint,3,opt,name=index,proto3,casttype=github.com/onosproject/onos-api/go/onos/config/v2.Index" json:"index,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}                                                `json:"-"`
 	XXX_unrecognized     []byte                                                  `json:"-"`
