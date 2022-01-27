@@ -434,12 +434,6 @@ RollbackRequest carries the index of the configuration change transaction to rol
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | name is an optional name of a Network Change to rollback. If no name is given the last network change will be rolled back. If the name given is not of the last network change and error will be given.
-
-deprecated |
-| comment | [string](#string) |  | On optional comment to leave on the rollback.
-
-deprecated |
 | index | [uint64](#uint64) |  | index of the transaction that should be rolled back |
 
 
@@ -455,7 +449,8 @@ RollbackResponse carries the response of the rollback operation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| message | [string](#string) |  | A message showing the result of the rollback. |
+| id | [string](#string) |  | ID of the rollback transaction |
+| index | [uint64](#uint64) |  | index of the rollback transaction |
 
 
 
@@ -532,6 +527,8 @@ ValidateConfigResponse carries the result of the validation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| index | [uint64](#uint64) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 
@@ -583,7 +580,7 @@ ConfigAdminService provides means for enhanced interactions with the configurati
 | ----------- | ------------ | ------------- | ------------|
 | UploadRegisterModel | [Chunk](#onos.config.admin.Chunk) stream | [RegisterResponse](#onos.config.admin.RegisterResponse) | UploadRegisterModel uploads and adds the model plugin to the list of supported models. The file is serialized in to Chunks of less than 4MB so as not to break the gRPC byte array limit |
 | ListRegisteredModels | [ListModelsRequest](#onos.config.admin.ListModelsRequest) | [ModelPlugin](#onos.config.admin.ModelPlugin) stream | ListRegisteredModels returns a stream of registered models. |
-| RollbackNetworkChange | [RollbackRequest](#onos.config.admin.RollbackRequest) | [RollbackResponse](#onos.config.admin.RollbackResponse) | RollbackNetworkChange rolls back the specified network change (or the latest one). |
+| RollbackTransaction | [RollbackRequest](#onos.config.admin.RollbackRequest) | [RollbackResponse](#onos.config.admin.RollbackResponse) | RollbackTransaction rolls back the specified configuration change transaction. |
 | ListSnapshots | [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest) | [.onos.config.snapshot.device.Snapshot](#onos.config.snapshot.device.Snapshot) stream | ListSnapshots gets a list of snapshots across all devices and versions, and streams them back to the caller. |
 | CompactChanges | [CompactChangesRequest](#onos.config.admin.CompactChangesRequest) | [CompactChangesResponse](#onos.config.admin.CompactChangesResponse) | CompactChanges requests a snapshot of NetworkChange and DeviceChange stores. This will take all of the Network Changes older than the retention period and flatten them down to just one snapshot (replacing any older snapshot). This will act as a baseline for those changes within the retention period and any future changes. DeviceChanges will be snapshotted to correspond to these NetworkChange compactions leaving an individual snapshot perv device and version combination. |
 

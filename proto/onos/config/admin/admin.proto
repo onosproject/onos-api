@@ -172,21 +172,16 @@ message ListModelsRequest {
 
 // RollbackRequest carries the index of the configuration change transaction to rollback.
 message RollbackRequest {
-    // name is an optional name of a Network Change to rollback.
-    // If no name is given the last network change will be rolled back.
-    // If the name given is not of the last network change and error will be given.
-    string name = 1;        // deprecated
-    // On optional comment to leave on the rollback.
-    string comment = 2;     // deprecated
-
     // index of the transaction that should be rolled back
-    uint64 index = 3 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
+    uint64 index = 1 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
 // RollbackResponse carries the response of the rollback operation
 message RollbackResponse {
-    // A message showing the result of the rollback.
-    string message = 1;
+    // ID of the rollback transaction
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TransactionID"];
+    // index of the rollback transaction
+    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
 // ListSnapshotsRequest requests a list of snapshots for all devices and versions.
@@ -223,8 +218,8 @@ service ConfigAdminService {
     // ListRegisteredModels returns a stream of registered models.
     rpc ListRegisteredModels(ListModelsRequest) returns (stream ModelPlugin);
 
-    // RollbackNetworkChange rolls back the specified network change (or the latest one).
-    rpc RollbackNetworkChange(RollbackRequest) returns (RollbackResponse);
+    // RollbackTransaction rolls back the specified configuration change transaction.
+    rpc RollbackTransaction(RollbackRequest) returns (RollbackResponse);
 
     // ListSnapshots gets a list of snapshots across all devices and versions,
     // and streams them back to the caller.
@@ -321,7 +316,9 @@ message ListTransactionsResponse {
 }
 
 message WatchTransactionsRequest {
-    bool noreplay = 2;
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TransactionID"];
+    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
+    bool noreplay = 3;
 }
 
 message WatchTransactionsResponse {
