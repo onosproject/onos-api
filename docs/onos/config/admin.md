@@ -105,7 +105,7 @@ CompactChangesResponse is a response to the Compact Changes command
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| target_id | [string](#string) |  |  |
+| configuration_id | [string](#string) |  |  |
 
 
 
@@ -498,6 +498,7 @@ ValidateConfigResponse carries the result of the validation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| configuration_id | [string](#string) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 

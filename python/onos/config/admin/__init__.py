@@ -316,7 +316,7 @@ class WatchTransactionsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetConfigurationRequest(betterproto.Message):
-    target_id: str = betterproto.string_field(1)
+    configuration_id: str = betterproto.string_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -336,6 +336,7 @@ class ListConfigurationsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchConfigurationsRequest(betterproto.Message):
+    configuration_id: str = betterproto.string_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
 
@@ -496,11 +497,11 @@ class TransactionServiceStub(betterproto.ServiceStub):
 
 class ConfigurationServiceStub(betterproto.ServiceStub):
     async def get_configuration(
-        self, *, target_id: str = ""
+        self, *, configuration_id: str = ""
     ) -> "GetConfigurationResponse":
 
         request = GetConfigurationRequest()
-        request.target_id = target_id
+        request.configuration_id = configuration_id
 
         return await self._unary_unary(
             "/onos.config.admin.ConfigurationService/GetConfiguration",
@@ -520,10 +521,11 @@ class ConfigurationServiceStub(betterproto.ServiceStub):
             yield response
 
     async def watch_configurations(
-        self, *, noreplay: bool = False
+        self, *, configuration_id: str = "", noreplay: bool = False
     ) -> AsyncIterator["WatchConfigurationsResponse"]:
 
         request = WatchConfigurationsRequest()
+        request.configuration_id = configuration_id
         request.noreplay = noreplay
 
         async for response in self._unary_stream(
@@ -788,14 +790,16 @@ class TransactionServiceBase(ServiceBase):
 
 
 class ConfigurationServiceBase(ServiceBase):
-    async def get_configuration(self, target_id: str) -> "GetConfigurationResponse":
+    async def get_configuration(
+        self, configuration_id: str
+    ) -> "GetConfigurationResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list_configurations(self) -> AsyncIterator["ListConfigurationsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def watch_configurations(
-        self, noreplay: bool
+        self, configuration_id: str, noreplay: bool
     ) -> AsyncIterator["WatchConfigurationsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -803,7 +807,7 @@ class ConfigurationServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
-            "target_id": request.target_id,
+            "configuration_id": request.configuration_id,
         }
 
         response = await self.get_configuration(**request_kwargs)
@@ -824,6 +828,7 @@ class ConfigurationServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
+            "configuration_id": request.configuration_id,
             "noreplay": request.noreplay,
         }
 

@@ -345,7 +345,7 @@ service ConfigurationService {
 }
 
 message GetConfigurationRequest {
-    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TargetID"];
+    string configuration_id = 1 [(gogoproto.customname) = "ConfigurationID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.ConfigurationID"];
 }
 
 message GetConfigurationResponse {
@@ -360,6 +360,7 @@ message ListConfigurationsResponse {
 }
 
 message WatchConfigurationsRequest {
+    string configuration_id = 1 [(gogoproto.customname) = "ConfigurationID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.ConfigurationID"];
     bool noreplay = 2;
 }
 
