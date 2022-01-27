@@ -136,7 +136,6 @@ CompactChangesResponse is a response to the Compact Changes command
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| index | [uint64](#uint64) |  |  |
 
 
 
@@ -528,7 +527,6 @@ ValidateConfigResponse carries the result of the validation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| index | [uint64](#uint64) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 

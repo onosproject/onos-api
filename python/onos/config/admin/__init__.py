@@ -283,7 +283,6 @@ class PathValuesResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class GetTransactionRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
-    index: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -304,8 +303,7 @@ class ListTransactionsResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class WatchTransactionsRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
-    index: int = betterproto.uint64_field(2)
-    noreplay: bool = betterproto.bool_field(3)
+    noreplay: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -451,13 +449,10 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
 
 
 class TransactionServiceStub(betterproto.ServiceStub):
-    async def get_transaction(
-        self, *, id: str = "", index: int = 0
-    ) -> "GetTransactionResponse":
+    async def get_transaction(self, *, id: str = "") -> "GetTransactionResponse":
 
         request = GetTransactionRequest()
         request.id = id
-        request.index = index
 
         return await self._unary_unary(
             "/onos.config.admin.TransactionService/GetTransaction",
@@ -477,12 +472,11 @@ class TransactionServiceStub(betterproto.ServiceStub):
             yield response
 
     async def watch_transactions(
-        self, *, id: str = "", index: int = 0, noreplay: bool = False
+        self, *, id: str = "", noreplay: bool = False
     ) -> AsyncIterator["WatchTransactionsResponse"]:
 
         request = WatchTransactionsRequest()
         request.id = id
-        request.index = index
         request.noreplay = noreplay
 
         async for response in self._unary_stream(
@@ -713,14 +707,14 @@ class ModelPluginServiceBase(ServiceBase):
 
 
 class TransactionServiceBase(ServiceBase):
-    async def get_transaction(self, id: str, index: int) -> "GetTransactionResponse":
+    async def get_transaction(self, id: str) -> "GetTransactionResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list_transactions(self) -> AsyncIterator["ListTransactionsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def watch_transactions(
-        self, id: str, index: int, noreplay: bool
+        self, id: str, noreplay: bool
     ) -> AsyncIterator["WatchTransactionsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -729,7 +723,6 @@ class TransactionServiceBase(ServiceBase):
 
         request_kwargs = {
             "id": request.id,
-            "index": request.index,
         }
 
         response = await self.get_transaction(**request_kwargs)
@@ -751,7 +744,6 @@ class TransactionServiceBase(ServiceBase):
 
         request_kwargs = {
             "id": request.id,
-            "index": request.index,
             "noreplay": request.noreplay,
         }
 

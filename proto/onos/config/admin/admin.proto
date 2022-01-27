@@ -301,7 +301,6 @@ service TransactionService {
 
 message GetTransactionRequest {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TransactionID"];
-    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
 message GetTransactionResponse {
@@ -317,8 +316,7 @@ message ListTransactionsResponse {
 
 message WatchTransactionsRequest {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TransactionID"];
-    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
-    bool noreplay = 3;
+    bool noreplay = 2;
 }
 
 message WatchTransactionsResponse {
