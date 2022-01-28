@@ -7,7 +7,6 @@
     - [Change](#onos.config.v2.Change)
     - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
     - [ChangeValue](#onos.config.v2.ChangeValue)
-    - [Failure](#onos.config.v2.Failure)
     - [Source](#onos.config.v2.Source)
     - [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
@@ -18,7 +17,6 @@
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
     - [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry)
   
-    - [Failure.Type](#onos.config.v2.Failure.Type)
     - [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType)
     - [TransactionState](#onos.config.v2.TransactionState)
   
@@ -76,22 +74,6 @@ ChangeValue represents a change requested for an individual path/value
 | ----- | ---- | ----- | ----------- |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
-
-
-
-
-
-
-<a name="onos.config.v2.Failure"></a>
-
-### Failure
-Failure transaction failure type and description
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [Failure.Type](#onos.config.v2.Failure.Type) |  |  |
-| description | [string](#string) |  |  |
 
 
 
@@ -249,28 +231,6 @@ TransactionStatus is the status of a Transaction
 
 
  
-
-
-<a name="onos.config.v2.Failure.Type"></a>
-
-### Failure.Type
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNKNOWN | 0 | UNKNOWN unknown failure |
-| CANCELED | 1 | CANCELED |
-| NOT_FOUND | 2 | NOT_FOUND |
-| ALREADY_EXISTS | 3 | ALREADY_EXISTS |
-| UNAUTHORIZED | 4 | UNAUTHORIZED |
-| FORBIDDEN | 5 | FORBIDDEN |
-| CONFLICT | 6 | CONFLICT |
-| INVALID | 7 | INVALID |
-| UNAVAILABLE | 8 | UNAVAILABLE |
-| NOT_SUPPORTED | 9 | NOT_SUPPORTED |
-| TIMEOUT | 10 | TIMEOUT |
-| INTERNAL | 11 | INTERNAL |
-
 
 
 <a name="onos.config.v2.TransactionEvent.TransactionEventType"></a>

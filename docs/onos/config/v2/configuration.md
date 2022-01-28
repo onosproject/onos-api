@@ -92,6 +92,7 @@ ConfigurationStatus is the status of a Configuration
 | state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
 | mastership_state | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
 | paths | [ConfigurationStatus.PathsEntry](#onos.config.v2.ConfigurationStatus.PathsEntry) | repeated | paths a set of path statuses |
+| failure | [Failure](#onos.config.v2.Failure) |  | failure configuration failure type and description |
 
 
 
