@@ -77,6 +77,8 @@ class ConfigurationState(betterproto.Enum):
     CONFIGURATION_COMPLETE = 2
     # CONFIGURATION_FAILED indicates the configuration is failed
     CONFIGURATION_FAILED = 3
+    # CONFIGURATION_STALE indicated the configuration is in the stale state
+    CONFIGURATION_STALE = 4
 
 
 class ConfigurationEventConfigurationEventType(betterproto.Enum):

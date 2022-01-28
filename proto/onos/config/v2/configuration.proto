@@ -90,6 +90,9 @@ enum ConfigurationState {
 
     // CONFIGURATION_FAILED indicates the configuration is failed
     CONFIGURATION_FAILED = 3;
+
+    // CONFIGURATION_STALE indicated the configuration is in the stale state
+    CONFIGURATION_STALE = 4;
 }
 
 // ConfigurationEvent configuration store event

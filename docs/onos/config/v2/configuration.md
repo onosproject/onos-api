@@ -173,6 +173,7 @@ ConfigurationState is the configuration state of a configuration phase
 | CONFIGURATION_SYNCHRONIZING | 1 | CONFIGURATION_SYNCHRONIZING indicates the configuration is synchronizing |
 | CONFIGURATION_COMPLETE | 2 | CONFIGURATION_COMPLETE indicates the configuration is complete |
 | CONFIGURATION_FAILED | 3 | CONFIGURATION_FAILED indicates the configuration is failed |
+| CONFIGURATION_STALE | 4 | CONFIGURATION_STALE indicated the configuration is in the stale state |
 
 
 
