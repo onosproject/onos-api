@@ -183,22 +183,18 @@ class RollbackRequest(betterproto.Message):
     to rollback.
     """
 
-    # name is an optional name of a Network Change to rollback. If no name is
-    # given the last network change will be rolled back. If the name given is not
-    # of the last network change and error will be given.
-    name: str = betterproto.string_field(1)
-    # On optional comment to leave on the rollback.
-    comment: str = betterproto.string_field(2)
     # index of the transaction that should be rolled back
-    index: int = betterproto.uint64_field(3)
+    index: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
 class RollbackResponse(betterproto.Message):
     """RollbackResponse carries the response of the rollback operation"""
 
-    # A message showing the result of the rollback.
-    message: str = betterproto.string_field(1)
+    # ID of the rollback transaction
+    id: str = betterproto.string_field(1)
+    # index of the rollback transaction
+    index: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -286,7 +282,10 @@ class PathValuesResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetTransactionRequest(betterproto.Message):
+    # ID of transaction to get
     id: str = betterproto.string_field(1)
+    # index of transaction to get; leave 0 for lookup by ID; if specified takes
+    # precedence
     index: int = betterproto.uint64_field(2)
 
 
@@ -307,6 +306,7 @@ class ListTransactionsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchTransactionsRequest(betterproto.Message):
+    id: str = betterproto.string_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
 
@@ -374,17 +374,13 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
         ):
             yield response
 
-    async def rollback_network_change(
-        self, *, name: str = "", comment: str = "", index: int = 0
-    ) -> "RollbackResponse":
+    async def rollback_transaction(self, *, index: int = 0) -> "RollbackResponse":
 
         request = RollbackRequest()
-        request.name = name
-        request.comment = comment
         request.index = index
 
         return await self._unary_unary(
-            "/onos.config.admin.ConfigAdminService/RollbackNetworkChange",
+            "/onos.config.admin.ConfigAdminService/RollbackTransaction",
             request,
             RollbackResponse,
         )
@@ -483,10 +479,11 @@ class TransactionServiceStub(betterproto.ServiceStub):
             yield response
 
     async def watch_transactions(
-        self, *, noreplay: bool = False
+        self, *, id: str = "", noreplay: bool = False
     ) -> AsyncIterator["WatchTransactionsResponse"]:
 
         request = WatchTransactionsRequest()
+        request.id = id
         request.noreplay = noreplay
 
         async for response in self._unary_stream(
@@ -549,9 +546,7 @@ class ConfigAdminServiceBase(ServiceBase):
     ) -> AsyncIterator["ModelPlugin"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
-    async def rollback_network_change(
-        self, name: str, comment: str, index: int
-    ) -> "RollbackResponse":
+    async def rollback_transaction(self, index: int) -> "RollbackResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list_snapshots(
@@ -585,18 +580,14 @@ class ConfigAdminServiceBase(ServiceBase):
             request_kwargs,
         )
 
-    async def __rpc_rollback_network_change(
-        self, stream: grpclib.server.Stream
-    ) -> None:
+    async def __rpc_rollback_transaction(self, stream: grpclib.server.Stream) -> None:
         request = await stream.recv_message()
 
         request_kwargs = {
-            "name": request.name,
-            "comment": request.comment,
             "index": request.index,
         }
 
-        response = await self.rollback_network_change(**request_kwargs)
+        response = await self.rollback_transaction(**request_kwargs)
         await stream.send_message(response)
 
     async def __rpc_list_snapshots(self, stream: grpclib.server.Stream) -> None:
@@ -637,8 +628,8 @@ class ConfigAdminServiceBase(ServiceBase):
                 ListModelsRequest,
                 ModelPlugin,
             ),
-            "/onos.config.admin.ConfigAdminService/RollbackNetworkChange": grpclib.const.Handler(
-                self.__rpc_rollback_network_change,
+            "/onos.config.admin.ConfigAdminService/RollbackTransaction": grpclib.const.Handler(
+                self.__rpc_rollback_transaction,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 RollbackRequest,
                 RollbackResponse,
@@ -730,7 +721,7 @@ class TransactionServiceBase(ServiceBase):
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def watch_transactions(
-        self, noreplay: bool
+        self, id: str, noreplay: bool
     ) -> AsyncIterator["WatchTransactionsResponse"]:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -760,6 +751,7 @@ class TransactionServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
+            "id": request.id,
             "noreplay": request.noreplay,
         }
 
