@@ -37,21 +37,21 @@ message Header {
 }
 
 message RequestMessage {
-  bytes header = 1;
+  Header header = 1;
   bytes payload = 2;
 }
 
 message ResultMessage {
-  bytes header = 1;
+  Header header = 1;
   bytes payload = 2;
 }
 
 message StatusMessage {
-  bytes header = 1;
+  Header header = 1;
   bytes payload = 2;
 }
 
 message AckMessage {
-  bytes header = 1;
+  Header header = 1;
   bytes payload = 2;
 }

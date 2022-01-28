@@ -39,25 +39,25 @@ message PolicyType {
 }
 
 message PolicyRequestMessage {
-  Header header = 1;
+  string policy_id = 1;
   PolicyType policy_type = 2;
   RequestMessage message = 3;
 }
 
 message PolicyResultMessage {
-  Header header = 1;
+  string policy_id = 1;
   PolicyType policy_type = 2;
   ResultMessage message = 3;
 }
 
 message PolicyStatusMessage {
-  Header header = 1;
+  string policy_id = 1;
   PolicyType policy_type = 2;
   StatusMessage message = 3;
 }
 
 message PolicyAckMessage {
-  Header header = 1;
+  string policy_id = 1;
   PolicyType policy_type = 2;
   AckMessage message = 3;
 }

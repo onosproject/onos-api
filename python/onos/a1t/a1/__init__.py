@@ -25,49 +25,49 @@ class Header(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RequestMessage(betterproto.Message):
-    header: bytes = betterproto.bytes_field(1)
+    header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class ResultMessage(betterproto.Message):
-    header: bytes = betterproto.bytes_field(1)
+    header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class StatusMessage(betterproto.Message):
-    header: bytes = betterproto.bytes_field(1)
+    header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class AckMessage(betterproto.Message):
-    header: bytes = betterproto.bytes_field(1)
+    header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class EiRequestMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    ei_job_id: str = betterproto.string_field(1)
     message: "RequestMessage" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class EiResultMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    ei_job_id: str = betterproto.string_field(1)
     message: "ResultMessage" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class EiStatusMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    ei_job_id: str = betterproto.string_field(1)
     message: "StatusMessage" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class EiAckMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    ei_job_id: str = betterproto.string_field(1)
     message: "AckMessage" = betterproto.message_field(2)
 
 
@@ -80,28 +80,28 @@ class PolicyType(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class PolicyRequestMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "RequestMessage" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
 class PolicyResultMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "ResultMessage" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
 class PolicyStatusMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "StatusMessage" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
 class PolicyAckMessage(betterproto.Message):
-    header: "Header" = betterproto.message_field(1)
+    policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "AckMessage" = betterproto.message_field(3)
 
@@ -203,14 +203,13 @@ class PolicyServiceStub(betterproto.ServiceStub):
     async def policy_setup(
         self,
         *,
-        header: "Header" = None,
+        policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
-        if header is not None:
-            request.header = header
+        request.policy_id = policy_id
         if policy_type is not None:
             request.policy_type = policy_type
         if message is not None:
@@ -223,14 +222,13 @@ class PolicyServiceStub(betterproto.ServiceStub):
     async def policy_update(
         self,
         *,
-        header: "Header" = None,
+        policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
-        if header is not None:
-            request.header = header
+        request.policy_id = policy_id
         if policy_type is not None:
             request.policy_type = policy_type
         if message is not None:
@@ -243,14 +241,13 @@ class PolicyServiceStub(betterproto.ServiceStub):
     async def policy_delete(
         self,
         *,
-        header: "Header" = None,
+        policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
-        if header is not None:
-            request.header = header
+        request.policy_id = policy_id
         if policy_type is not None:
             request.policy_type = policy_type
         if message is not None:
@@ -263,14 +260,13 @@ class PolicyServiceStub(betterproto.ServiceStub):
     async def policy_query(
         self,
         *,
-        header: "Header" = None,
+        policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
-        if header is not None:
-            request.header = header
+        request.policy_id = policy_id
         if policy_type is not None:
             request.policy_type = policy_type
         if message is not None:
@@ -438,22 +434,22 @@ class EiServiceBase(ServiceBase):
 
 class PolicyServiceBase(ServiceBase):
     async def policy_setup(
-        self, header: "Header", policy_type: "PolicyType", message: "RequestMessage"
+        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def policy_update(
-        self, header: "Header", policy_type: "PolicyType", message: "RequestMessage"
+        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def policy_delete(
-        self, header: "Header", policy_type: "PolicyType", message: "RequestMessage"
+        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def policy_query(
-        self, header: "Header", policy_type: "PolicyType", message: "RequestMessage"
+        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -466,7 +462,7 @@ class PolicyServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
-            "header": request.header,
+            "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
         }
@@ -478,7 +474,7 @@ class PolicyServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
-            "header": request.header,
+            "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
         }
@@ -490,7 +486,7 @@ class PolicyServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
-            "header": request.header,
+            "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
         }
@@ -502,7 +498,7 @@ class PolicyServiceBase(ServiceBase):
         request = await stream.recv_message()
 
         request_kwargs = {
-            "header": request.header,
+            "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
         }
