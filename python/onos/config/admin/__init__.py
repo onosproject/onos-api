@@ -282,7 +282,10 @@ class PathValuesResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetTransactionRequest(betterproto.Message):
+    # ID of transaction to get
     id: str = betterproto.string_field(1)
+    # index of transaction to get; leave 0 for lookup by ID; if specified takes
+    # precedence
     index: int = betterproto.uint64_field(2)
 
 

@@ -135,8 +135,8 @@ CompactChangesResponse is a response to the Compact Changes command
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| index | [uint64](#uint64) |  |  |
+| id | [string](#string) |  | ID of transaction to get |
+| index | [uint64](#uint64) |  | index of transaction to get; leave 0 for lookup by ID; if specified takes precedence |
 
 
 

@@ -1149,11 +1149,13 @@ func (m *PathValuesResponse) GetPathValues() []*v2.PathValue {
 }
 
 type GetTransactionRequest struct {
-	ID                   github_com_onosproject_onos_api_go_onos_config_v2.TransactionID `protobuf:"bytes,1,opt,name=id,proto3,casttype=github.com/onosproject/onos-api/go/onos/config/v2.TransactionID" json:"id,omitempty"`
-	Index                github_com_onosproject_onos_api_go_onos_config_v2.Index         `protobuf:"varint,2,opt,name=index,proto3,casttype=github.com/onosproject/onos-api/go/onos/config/v2.Index" json:"index,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                                                        `json:"-"`
-	XXX_unrecognized     []byte                                                          `json:"-"`
-	XXX_sizecache        int32                                                           `json:"-"`
+	// ID of transaction to get
+	ID github_com_onosproject_onos_api_go_onos_config_v2.TransactionID `protobuf:"bytes,1,opt,name=id,proto3,casttype=github.com/onosproject/onos-api/go/onos/config/v2.TransactionID" json:"id,omitempty"`
+	// index of transaction to get; leave 0 for lookup by ID; if specified takes precedence
+	Index                github_com_onosproject_onos_api_go_onos_config_v2.Index `protobuf:"varint,2,opt,name=index,proto3,casttype=github.com/onosproject/onos-api/go/onos/config/v2.Index" json:"index,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                                `json:"-"`
+	XXX_unrecognized     []byte                                                  `json:"-"`
+	XXX_sizecache        int32                                                   `json:"-"`
 }
 
 func (m *GetTransactionRequest) Reset()         { *m = GetTransactionRequest{} }
