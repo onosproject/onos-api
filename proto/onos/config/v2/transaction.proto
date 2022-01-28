@@ -21,6 +21,7 @@ package onos.config.v2;
 import "gogoproto/gogo.proto";
 import "onos/config/v2/object.proto";
 import "onos/config/v2/value.proto";
+import "onos/config/v2/failure.proto";
 
 // TransactionChange  refers to a multi-target transactional change
 message TransactionChange {
@@ -96,6 +97,9 @@ message TransactionStatus {
     // 'sources' is a set of changes needed to revert back to the source of the transaction
     // This field should only be updated from within onos-config
     map<string, Source> sources = 3 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+
+    // failure transaction failure type and description
+    Failure failure = 4;
 }
 
 // Source is a transaction source
@@ -142,3 +146,4 @@ message TransactionEvent {
     TransactionEventType type = 1;
     Transaction transaction = 2 [(gogoproto.nullable) = false];
 }
+

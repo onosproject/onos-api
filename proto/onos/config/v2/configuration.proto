@@ -21,6 +21,7 @@ package onos.config.v2;
 import "gogoproto/gogo.proto";
 import "onos/config/v2/object.proto";
 import "onos/config/v2/value.proto";
+import "onos/config/v2/failure.proto";
 
 // Configuration represents complete desired target configuration
 message Configuration {
@@ -58,6 +59,9 @@ message ConfigurationStatus {
 
     // paths a set of path statuses
     map<string, PathStatus> paths = 4;
+
+    // failure configuration failure type and description
+    Failure failure = 5;
 }
 
 // PathStatus is the status of a Configuration path
@@ -90,6 +94,9 @@ enum ConfigurationState {
 
     // CONFIGURATION_FAILED indicates the configuration is failed
     CONFIGURATION_FAILED = 3;
+
+    // CONFIGURATION_STALE indicated the configuration is in the stale state
+    CONFIGURATION_STALE = 4;
 }
 
 // ConfigurationEvent configuration store event

@@ -208,6 +208,7 @@ TransactionStatus is the status of a Transaction
 | revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
 | sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
+| failure | [Failure](#onos.config.v2.Failure) |  | failure transaction failure type and description |
 
 
 
