@@ -258,8 +258,12 @@ TransactionStatus is the status of a Transaction
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| UNSPECIFIED | 0 |  |
-| VALIDATION_FAILED | 1 |  |
+| UNKNOWN | 0 | UNKNOWN unknown transaction |
+| INVALID | 1 | INVALID invalid transaction |
+| NOTFOUND | 2 | NOTFOUND transaction not found |
+| FORBIDDEN | 3 | FORBIDDEN forbidden transaction |
+| UNAVAILABLE | 4 | UNAVAILABLE unavailable transaction |
+| UNAUTHORIZED | 5 | UNAUTHORIZED unauthorized transaction |
 
 
 

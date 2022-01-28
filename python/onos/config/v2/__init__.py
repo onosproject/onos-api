@@ -53,8 +53,12 @@ class TransactionEventTransactionEventType(betterproto.Enum):
 
 
 class FailureType(betterproto.Enum):
-    UNSPECIFIED = 0
-    VALIDATION_FAILED = 1
+    UNKNOWN = 0
+    INVALID = 1
+    NOTFOUND = 2
+    FORBIDDEN = 3
+    UNAVAILABLE = 4
+    UNAUTHORIZED = 5
 
 
 class PathState(betterproto.Enum):

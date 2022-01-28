@@ -150,8 +150,19 @@ message TransactionEvent {
 message Failure {
     Type type = 1;
     enum Type {
-        UNSPECIFIED = 0;
-        VALIDATION_FAILED = 1;
+        // UNKNOWN unknown transaction
+        UNKNOWN = 0;
+        // INVALID invalid transaction
+        INVALID = 1;
+        // NOTFOUND transaction not found
+        NOTFOUND = 2;
+        // FORBIDDEN forbidden transaction
+        FORBIDDEN = 3;
+        // UNAVAILABLE unavailable transaction
+        UNAVAILABLE = 4;
+        // UNAUTHORIZED unauthorized transaction
+        UNAUTHORIZED = 5;
+
     }
     string description = 2;
 }
