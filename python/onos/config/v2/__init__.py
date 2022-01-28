@@ -52,6 +52,11 @@ class TransactionEventTransactionEventType(betterproto.Enum):
     TRANSACTION_REPLAYED = 4
 
 
+class FailureType(betterproto.Enum):
+    UNSPECIFIED = 0
+    VALIDATION_FAILED = 1
+
+
 class PathState(betterproto.Enum):
     """PathState is the state of a configuration path"""
 
@@ -200,6 +205,8 @@ class TransactionStatus(betterproto.Message):
     sources: Dict[str, "Source"] = betterproto.map_field(
         3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+    # failure transaction failure type and description
+    failure: "Failure" = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -223,6 +230,14 @@ class TransactionEvent(betterproto.Message):
 
     type: "TransactionEventTransactionEventType" = betterproto.enum_field(1)
     transaction: "Transaction" = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class Failure(betterproto.Message):
+    """Failure transaction failure type and description"""
+
+    type: "FailureType" = betterproto.enum_field(1)
+    description: str = betterproto.string_field(2)
 
 
 @dataclass(eq=False, repr=False)

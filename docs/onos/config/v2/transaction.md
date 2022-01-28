@@ -7,6 +7,7 @@
     - [Change](#onos.config.v2.Change)
     - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
     - [ChangeValue](#onos.config.v2.ChangeValue)
+    - [Failure](#onos.config.v2.Failure)
     - [Source](#onos.config.v2.Source)
     - [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
@@ -17,6 +18,7 @@
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
     - [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry)
   
+    - [Failure.Type](#onos.config.v2.Failure.Type)
     - [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType)
     - [TransactionState](#onos.config.v2.TransactionState)
   
@@ -74,6 +76,22 @@ ChangeValue represents a change requested for an individual path/value
 | ----- | ---- | ----- | ----------- |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
+
+
+
+
+
+
+<a name="onos.config.v2.Failure"></a>
+
+### Failure
+Failure transaction failure type and description
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [Failure.Type](#onos.config.v2.Failure.Type) |  |  |
+| description | [string](#string) |  |  |
 
 
 
@@ -208,6 +226,7 @@ TransactionStatus is the status of a Transaction
 | revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
 | sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
+| failure | [Failure](#onos.config.v2.Failure) |  | failure transaction failure type and description |
 
 
 
@@ -230,6 +249,18 @@ TransactionStatus is the status of a Transaction
 
 
  
+
+
+<a name="onos.config.v2.Failure.Type"></a>
+
+### Failure.Type
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNSPECIFIED | 0 |  |
+| VALIDATION_FAILED | 1 |  |
+
 
 
 <a name="onos.config.v2.TransactionEvent.TransactionEventType"></a>

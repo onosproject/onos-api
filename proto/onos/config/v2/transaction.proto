@@ -96,6 +96,9 @@ message TransactionStatus {
     // 'sources' is a set of changes needed to revert back to the source of the transaction
     // This field should only be updated from within onos-config
     map<string, Source> sources = 3 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+
+    // failure transaction failure type and description
+    Failure failure = 4;
 }
 
 // Source is a transaction source
@@ -141,4 +144,14 @@ message TransactionEvent {
 
     TransactionEventType type = 1;
     Transaction transaction = 2 [(gogoproto.nullable) = false];
+}
+
+// Failure transaction failure type and description
+message Failure {
+    Type type = 1;
+    enum Type {
+        UNSPECIFIED = 0;
+        VALIDATION_FAILED = 1;
+    }
+    string description = 2;
 }
