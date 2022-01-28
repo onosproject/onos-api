@@ -301,6 +301,7 @@ service TransactionService {
 
 message GetTransactionRequest {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.TransactionID"];
+    uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
 message GetTransactionResponse {

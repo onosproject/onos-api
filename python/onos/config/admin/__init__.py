@@ -283,6 +283,7 @@ class PathValuesResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class GetTransactionRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
+    index: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -449,10 +450,13 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
 
 
 class TransactionServiceStub(betterproto.ServiceStub):
-    async def get_transaction(self, *, id: str = "") -> "GetTransactionResponse":
+    async def get_transaction(
+        self, *, id: str = "", index: int = 0
+    ) -> "GetTransactionResponse":
 
         request = GetTransactionRequest()
         request.id = id
+        request.index = index
 
         return await self._unary_unary(
             "/onos.config.admin.TransactionService/GetTransaction",
@@ -707,7 +711,7 @@ class ModelPluginServiceBase(ServiceBase):
 
 
 class TransactionServiceBase(ServiceBase):
-    async def get_transaction(self, id: str) -> "GetTransactionResponse":
+    async def get_transaction(self, id: str, index: int) -> "GetTransactionResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list_transactions(self) -> AsyncIterator["ListTransactionsResponse"]:
@@ -723,6 +727,7 @@ class TransactionServiceBase(ServiceBase):
 
         request_kwargs = {
             "id": request.id,
+            "index": request.index,
         }
 
         response = await self.get_transaction(**request_kwargs)
