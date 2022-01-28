@@ -32,7 +32,7 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type EIRequestMessage struct {
-	Header  *Header         `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
+	EiJobId string          `protobuf:"bytes,1,opt,name=ei_job_id,json=eiJobId,proto3" json:"ei_job_id,omitempty"`
 	Message *RequestMessage `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
@@ -69,11 +69,11 @@ func (m *EIRequestMessage) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EIRequestMessage proto.InternalMessageInfo
 
-func (m *EIRequestMessage) GetHeader() *Header {
+func (m *EIRequestMessage) GetEiJobId() string {
 	if m != nil {
-		return m.Header
+		return m.EiJobId
 	}
-	return nil
+	return ""
 }
 
 func (m *EIRequestMessage) GetMessage() *RequestMessage {
@@ -84,7 +84,7 @@ func (m *EIRequestMessage) GetMessage() *RequestMessage {
 }
 
 type EIResultMessage struct {
-	Header  *Header        `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
+	EiJobId string         `protobuf:"bytes,1,opt,name=ei_job_id,json=eiJobId,proto3" json:"ei_job_id,omitempty"`
 	Message *ResultMessage `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
@@ -121,11 +121,11 @@ func (m *EIResultMessage) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EIResultMessage proto.InternalMessageInfo
 
-func (m *EIResultMessage) GetHeader() *Header {
+func (m *EIResultMessage) GetEiJobId() string {
 	if m != nil {
-		return m.Header
+		return m.EiJobId
 	}
-	return nil
+	return ""
 }
 
 func (m *EIResultMessage) GetMessage() *ResultMessage {
@@ -136,7 +136,7 @@ func (m *EIResultMessage) GetMessage() *ResultMessage {
 }
 
 type EIStatusMessage struct {
-	Header  *Header        `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
+	EiJobId string         `protobuf:"bytes,1,opt,name=ei_job_id,json=eiJobId,proto3" json:"ei_job_id,omitempty"`
 	Message *StatusMessage `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
@@ -173,11 +173,11 @@ func (m *EIStatusMessage) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EIStatusMessage proto.InternalMessageInfo
 
-func (m *EIStatusMessage) GetHeader() *Header {
+func (m *EIStatusMessage) GetEiJobId() string {
 	if m != nil {
-		return m.Header
+		return m.EiJobId
 	}
-	return nil
+	return ""
 }
 
 func (m *EIStatusMessage) GetMessage() *StatusMessage {
@@ -188,7 +188,7 @@ func (m *EIStatusMessage) GetMessage() *StatusMessage {
 }
 
 type EIAckMessage struct {
-	Header  *Header     `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
+	EiJobId string      `protobuf:"bytes,1,opt,name=ei_job_id,json=eiJobId,proto3" json:"ei_job_id,omitempty"`
 	Message *AckMessage `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
@@ -225,11 +225,11 @@ func (m *EIAckMessage) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EIAckMessage proto.InternalMessageInfo
 
-func (m *EIAckMessage) GetHeader() *Header {
+func (m *EIAckMessage) GetEiJobId() string {
 	if m != nil {
-		return m.Header
+		return m.EiJobId
 	}
-	return nil
+	return ""
 }
 
 func (m *EIAckMessage) GetMessage() *AckMessage {
@@ -254,30 +254,30 @@ func init() { proto.RegisterFile("onos/a1t/a1/ei.proto", fileDescriptor_628d83a4
 func init() { golang_proto.RegisterFile("onos/a1t/a1/ei.proto", fileDescriptor_628d83a4c6742c6e) }
 
 var fileDescriptor_628d83a4c6742c6e = []byte{
-	// 367 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0xc9, 0xcf, 0xcb, 0x2f,
-	0xd6, 0x4f, 0x34, 0x2c, 0xd1, 0x4f, 0x34, 0xd4, 0x4f, 0xcd, 0xd4, 0x2b, 0x28, 0xca, 0x2f, 0xc9,
-	0x17, 0xe2, 0x06, 0x89, 0xea, 0x25, 0x1a, 0x96, 0xe8, 0x25, 0x1a, 0x4a, 0x89, 0xa4, 0xe7, 0xa7,
-	0xe7, 0x83, 0xc5, 0xf5, 0x41, 0x2c, 0x88, 0x12, 0x29, 0x14, 0x8d, 0x89, 0x86, 0x10, 0x51, 0xa5,
-	0x32, 0x2e, 0x01, 0x57, 0xcf, 0xa0, 0xd4, 0xc2, 0xd2, 0xd4, 0xe2, 0x12, 0xdf, 0xd4, 0xe2, 0xe2,
-	0xc4, 0xf4, 0x54, 0x21, 0x6d, 0x2e, 0xb6, 0x8c, 0xd4, 0xc4, 0x94, 0xd4, 0x22, 0x09, 0x46, 0x05,
-	0x46, 0x0d, 0x6e, 0x23, 0x61, 0x3d, 0x24, 0xd3, 0xf5, 0x3c, 0xc0, 0x52, 0x41, 0x50, 0x25, 0x42,
-	0xa6, 0x5c, 0xec, 0xb9, 0x10, 0x7d, 0x12, 0x4c, 0x60, 0xd5, 0xd2, 0x28, 0xaa, 0x51, 0x8d, 0x0e,
-	0x82, 0xa9, 0x55, 0x2a, 0xe1, 0xe2, 0x07, 0xd9, 0x5b, 0x5c, 0x9a, 0x43, 0x9e, 0xb5, 0x26, 0xe8,
-	0xd6, 0x4a, 0xa1, 0x59, 0x8b, 0x64, 0x32, 0x9a, 0xad, 0xc1, 0x25, 0x89, 0x25, 0xa5, 0xc5, 0xb4,
-	0xb0, 0x15, 0xc5, 0x64, 0x84, 0xad, 0x79, 0x5c, 0x3c, 0xae, 0x9e, 0x8e, 0xc9, 0xd9, 0x64, 0x59,
-	0x69, 0x88, 0x6e, 0xa5, 0x38, 0x8a, 0x6a, 0x84, 0xb1, 0x70, 0xfb, 0x8c, 0x76, 0xb2, 0x70, 0x71,
-	0xba, 0x7a, 0x06, 0xa7, 0x16, 0x95, 0x65, 0x26, 0xa7, 0x0a, 0x79, 0x71, 0xb1, 0xbb, 0x7a, 0x06,
-	0x96, 0xa6, 0x16, 0x55, 0x0a, 0xc9, 0xa0, 0x68, 0x45, 0x0b, 0x7f, 0x29, 0x59, 0x0c, 0x59, 0xe4,
-	0xa8, 0xd3, 0x60, 0x34, 0x60, 0x14, 0xf2, 0xe5, 0xe2, 0x72, 0xf5, 0xf4, 0xca, 0x4f, 0x0a, 0x4e,
-	0x2d, 0x29, 0x2d, 0xa0, 0xdc, 0x38, 0x3f, 0x2e, 0x6e, 0xb0, 0x71, 0xa1, 0x05, 0x29, 0x89, 0x25,
-	0xa9, 0xd4, 0x33, 0xcf, 0x25, 0x35, 0x27, 0x95, 0x1a, 0xe6, 0x05, 0x83, 0x32, 0x07, 0xc8, 0xbb,
-	0xe0, 0x78, 0xa5, 0x52, 0x18, 0xfa, 0x70, 0x09, 0x22, 0x19, 0xea, 0x97, 0x5f, 0x92, 0x99, 0x86,
-	0x69, 0x2a, 0x4a, 0x4a, 0x92, 0x92, 0x44, 0x93, 0x45, 0x4a, 0x4b, 0x7e, 0x5c, 0xc2, 0x60, 0xd3,
-	0x20, 0xce, 0x70, 0x49, 0xcd, 0xc9, 0x2c, 0x23, 0xec, 0x4a, 0xdc, 0xe6, 0x39, 0xc9, 0x9c, 0x78,
-	0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x1c,
-	0x78, 0x2c, 0xc7, 0x78, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x49, 0x6c, 0xe0, 0x42,
-	0xc3, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0x96, 0x2e, 0x23, 0x17, 0x85, 0x04, 0x00, 0x00,
+	// 368 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x93, 0xc1, 0x4e, 0xf2, 0x40,
+	0x10, 0x80, 0xd9, 0x3f, 0x7f, 0x24, 0x0c, 0x26, 0x6a, 0x25, 0x11, 0x2b, 0x6e, 0x08, 0x27, 0x4e,
+	0xad, 0x45, 0x7d, 0x00, 0x0d, 0x3d, 0x94, 0x08, 0x89, 0x34, 0x1e, 0x0d, 0xd9, 0xc2, 0x48, 0x56,
+	0xd1, 0x45, 0xba, 0x25, 0xf1, 0x2d, 0x7c, 0x1d, 0x6f, 0x1e, 0x3d, 0x72, 0xf4, 0x68, 0xda, 0x17,
+	0x31, 0x6d, 0xa3, 0xb4, 0x25, 0x46, 0x12, 0x7b, 0x6b, 0x66, 0x67, 0xbf, 0x6f, 0x3a, 0x33, 0x0b,
+	0x15, 0xf1, 0x20, 0x5c, 0x9d, 0x19, 0x52, 0x67, 0x86, 0x8e, 0x5c, 0x9b, 0xce, 0x84, 0x14, 0x4a,
+	0x39, 0x8c, 0x6a, 0xcc, 0x90, 0x1a, 0x33, 0xd4, 0xca, 0x58, 0x8c, 0x45, 0x14, 0xd7, 0xc3, 0xaf,
+	0x38, 0x45, 0x4d, 0x5d, 0x64, 0x46, 0x1c, 0x6d, 0x20, 0x6c, 0x9b, 0x56, 0x1f, 0x1f, 0x3d, 0x74,
+	0x65, 0x17, 0x5d, 0x97, 0x8d, 0x51, 0x51, 0xa1, 0x84, 0x7c, 0x70, 0x2b, 0x9c, 0x01, 0x1f, 0x55,
+	0x49, 0x9d, 0x34, 0x4b, 0xfd, 0x22, 0xf2, 0x8e, 0x70, 0xac, 0x91, 0x72, 0x0a, 0xc5, 0xfb, 0x38,
+	0xad, 0xfa, 0xaf, 0x4e, 0x9a, 0xe5, 0xd6, 0x81, 0x96, 0x50, 0x6b, 0x69, 0x52, 0xff, 0x2b, 0xb7,
+	0x31, 0x84, 0xad, 0x50, 0xe3, 0x7a, 0x93, 0xb5, 0x2c, 0x27, 0x59, 0x8b, 0x9a, 0xb1, 0x24, 0x40,
+	0x19, 0x89, 0x2d, 0x99, 0xf4, 0xdc, 0x1c, 0x24, 0x29, 0xd0, 0x52, 0x72, 0x0d, 0x9b, 0xa6, 0x75,
+	0x36, 0xbc, 0x5b, 0xc7, 0x60, 0x64, 0x0d, 0x7b, 0x29, 0xc3, 0x92, 0xf2, 0x8d, 0x6f, 0xbd, 0xfc,
+	0x87, 0x92, 0x69, 0xd9, 0x38, 0x9b, 0xf3, 0x21, 0x2a, 0x1d, 0x28, 0x9a, 0xd6, 0xa5, 0x87, 0xb3,
+	0x27, 0xa5, 0x96, 0xba, 0x9a, 0x69, 0xa6, 0x7a, 0xb8, 0x72, 0x9a, 0x9c, 0x43, 0x93, 0x1c, 0x11,
+	0xa5, 0x0b, 0x60, 0x5a, 0x1d, 0xe1, 0xd8, 0x28, 0xbd, 0xe9, 0xdf, 0x71, 0x3d, 0x28, 0x47, 0xb8,
+	0xab, 0xe9, 0x88, 0x49, 0xcc, 0x8f, 0xd7, 0xc6, 0x09, 0xe6, 0xc1, 0xb3, 0xc3, 0xc5, 0x0e, 0x7f,
+	0x37, 0x1a, 0x63, 0x4e, 0x3d, 0xbc, 0x80, 0x9d, 0x04, 0xb4, 0x27, 0x24, 0xbf, 0x59, 0xa5, 0xa6,
+	0x16, 0x47, 0xdd, 0xcf, 0x9c, 0x26, 0x56, 0xa7, 0x07, 0xbb, 0x11, 0x2d, 0x2e, 0xa3, 0x8d, 0x13,
+	0x3e, 0xff, 0xbd, 0xca, 0x9f, 0x79, 0xe7, 0xb5, 0x37, 0x9f, 0x92, 0x85, 0x4f, 0xc9, 0x87, 0x4f,
+	0xc9, 0x73, 0x40, 0x0b, 0xaf, 0x01, 0x25, 0x8b, 0x80, 0x16, 0xde, 0x03, 0x5a, 0x70, 0x36, 0xa2,
+	0x07, 0x7f, 0xfc, 0x19, 0x00, 0x00, 0xff, 0xff, 0xe5, 0x1e, 0x16, 0x09, 0x41, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -769,15 +769,10 @@ func (m *EIRequestMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.Header != nil {
-		{
-			size, err := m.Header.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintEi(dAtA, i, uint64(size))
-		}
+	if len(m.EiJobId) > 0 {
+		i -= len(m.EiJobId)
+		copy(dAtA[i:], m.EiJobId)
+		i = encodeVarintEi(dAtA, i, uint64(len(m.EiJobId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -816,15 +811,10 @@ func (m *EIResultMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.Header != nil {
-		{
-			size, err := m.Header.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintEi(dAtA, i, uint64(size))
-		}
+	if len(m.EiJobId) > 0 {
+		i -= len(m.EiJobId)
+		copy(dAtA[i:], m.EiJobId)
+		i = encodeVarintEi(dAtA, i, uint64(len(m.EiJobId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -863,15 +853,10 @@ func (m *EIStatusMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.Header != nil {
-		{
-			size, err := m.Header.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintEi(dAtA, i, uint64(size))
-		}
+	if len(m.EiJobId) > 0 {
+		i -= len(m.EiJobId)
+		copy(dAtA[i:], m.EiJobId)
+		i = encodeVarintEi(dAtA, i, uint64(len(m.EiJobId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -910,15 +895,10 @@ func (m *EIAckMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.Header != nil {
-		{
-			size, err := m.Header.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintEi(dAtA, i, uint64(size))
-		}
+	if len(m.EiJobId) > 0 {
+		i -= len(m.EiJobId)
+		copy(dAtA[i:], m.EiJobId)
+		i = encodeVarintEi(dAtA, i, uint64(len(m.EiJobId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -942,8 +922,8 @@ func (m *EIRequestMessage) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Header != nil {
-		l = m.Header.Size()
+	l = len(m.EiJobId)
+	if l > 0 {
 		n += 1 + l + sovEi(uint64(l))
 	}
 	if m.Message != nil {
@@ -959,8 +939,8 @@ func (m *EIResultMessage) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Header != nil {
-		l = m.Header.Size()
+	l = len(m.EiJobId)
+	if l > 0 {
 		n += 1 + l + sovEi(uint64(l))
 	}
 	if m.Message != nil {
@@ -976,8 +956,8 @@ func (m *EIStatusMessage) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Header != nil {
-		l = m.Header.Size()
+	l = len(m.EiJobId)
+	if l > 0 {
 		n += 1 + l + sovEi(uint64(l))
 	}
 	if m.Message != nil {
@@ -993,8 +973,8 @@ func (m *EIAckMessage) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Header != nil {
-		l = m.Header.Size()
+	l = len(m.EiJobId)
+	if l > 0 {
 		n += 1 + l + sovEi(uint64(l))
 	}
 	if m.Message != nil {
@@ -1041,9 +1021,9 @@ func (m *EIRequestMessage) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EiJobId", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEi
@@ -1053,27 +1033,23 @@ func (m *EIRequestMessage) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthEi
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthEi
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Header == nil {
-				m.Header = &Header{}
-			}
-			if err := m.Header.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.EiJobId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -1163,9 +1139,9 @@ func (m *EIResultMessage) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EiJobId", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEi
@@ -1175,27 +1151,23 @@ func (m *EIResultMessage) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthEi
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthEi
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Header == nil {
-				m.Header = &Header{}
-			}
-			if err := m.Header.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.EiJobId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -1285,9 +1257,9 @@ func (m *EIStatusMessage) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EiJobId", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEi
@@ -1297,27 +1269,23 @@ func (m *EIStatusMessage) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthEi
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthEi
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Header == nil {
-				m.Header = &Header{}
-			}
-			if err := m.Header.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.EiJobId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -1407,9 +1375,9 @@ func (m *EIAckMessage) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EiJobId", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEi
@@ -1419,27 +1387,23 @@ func (m *EIAckMessage) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthEi
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthEi
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Header == nil {
-				m.Header = &Header{}
-			}
-			if err := m.Header.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.EiJobId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {

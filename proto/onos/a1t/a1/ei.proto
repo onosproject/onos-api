@@ -35,21 +35,21 @@ service EIService {
 }
 
 message EIRequestMessage {
-  Header header = 1;
+  string ei_job_id = 1;
   RequestMessage message = 2;
 }
 
 message EIResultMessage {
-  Header header = 1;
+  string ei_job_id = 1;
   ResultMessage message = 2;
 }
 
 message EIStatusMessage {
-  Header header = 1;
+  string ei_job_id = 1;
   StatusMessage message = 2;
 }
 
 message EIAckMessage {
-  Header header = 1;
+  string ei_job_id = 1;
   AckMessage message = 2;
 }
