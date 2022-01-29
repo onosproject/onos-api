@@ -66,14 +66,7 @@ message ConfigurationStatus {
 
 // PathStatus is the status of a Configuration path
 message PathStatus {
-    PathState state = 1;
-    uint64 update_index = 3 [(gogoproto.casttype) = "Index"];
-}
-
-// PathState is the state of a configuration path
-enum PathState {
-    PATH_UPDATE_PENDING = 0;
-    PATH_UPDATE_COMPLETE = 1;
+    uint64 index = 1 [(gogoproto.casttype) = "Index"];
 }
 
 // Mastership state

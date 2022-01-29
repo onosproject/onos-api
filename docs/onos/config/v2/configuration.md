@@ -14,7 +14,6 @@
   
     - [ConfigurationEvent.ConfigurationEventType](#onos.config.v2.ConfigurationEvent.ConfigurationEventType)
     - [ConfigurationState](#onos.config.v2.ConfigurationState)
-    - [PathState](#onos.config.v2.PathState)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -138,8 +137,7 @@ PathStatus is the status of a Configuration path
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| state | [PathState](#onos.config.v2.PathState) |  |  |
-| update_index | [uint64](#uint64) |  |  |
+| index | [uint64](#uint64) |  |  |
 
 
 
@@ -176,18 +174,6 @@ ConfigurationState is the configuration state of a configuration phase
 | CONFIGURATION_COMPLETE | 3 | CONFIGURATION_COMPLETE indicates the configuration is complete |
 | CONFIGURATION_FAILED | 4 | CONFIGURATION_FAILED indicates the configuration is failed |
 | CONFIGURATION_STALE | 5 | CONFIGURATION_STALE indicated the configuration is in the stale state |
-
-
-
-<a name="onos.config.v2.PathState"></a>
-
-### PathState
-PathState is the state of a configuration path
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| PATH_UPDATE_PENDING | 0 |  |
-| PATH_UPDATE_COMPLETE | 1 |  |
 
 
  

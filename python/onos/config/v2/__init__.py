@@ -67,13 +67,6 @@ class TransactionEventTransactionEventType(betterproto.Enum):
     TRANSACTION_REPLAYED = 4
 
 
-class PathState(betterproto.Enum):
-    """PathState is the state of a configuration path"""
-
-    PATH_UPDATE_PENDING = 0
-    PATH_UPDATE_COMPLETE = 1
-
-
 class ConfigurationState(betterproto.Enum):
     """
     ConfigurationState is the configuration state of a configuration phase
@@ -300,8 +293,7 @@ class ConfigurationStatus(betterproto.Message):
 class PathStatus(betterproto.Message):
     """PathStatus is the status of a Configuration path"""
 
-    state: "PathState" = betterproto.enum_field(1)
-    update_index: int = betterproto.uint64_field(3)
+    index: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
