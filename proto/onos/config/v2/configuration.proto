@@ -51,6 +51,9 @@ message ConfigurationStatus {
     // revision is the highest revision number that's been reconciled
     uint64 revision = 1 [(gogoproto.casttype) = "Revision"];
 
+    // target_index is the highest transaction index that's been applied to the target
+    uint64 target_index = 6 [(gogoproto.casttype) = "Index"];
+
     // 'state' is the state of the transaction within a Phase
     ConfigurationState state = 2;
 

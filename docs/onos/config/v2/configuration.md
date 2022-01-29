@@ -88,6 +88,7 @@ ConfigurationStatus is the status of a Configuration
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
+| target_index | [uint64](#uint64) |  | target_index is the highest transaction index that&#39;s been applied to the target |
 | state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
 | mastership_state | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
 | paths | [ConfigurationStatus.PathsEntry](#onos.config.v2.ConfigurationStatus.PathsEntry) | repeated | paths a set of path statuses |

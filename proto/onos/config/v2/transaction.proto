@@ -79,7 +79,7 @@ message Change {
 // ChangeValue represents a change requested for an individual path/value
 message ChangeValue {
     // 'value' is the change value
-    TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
+    TypedValue value = 2 [(gogoproto.nullable) = false, json_name = "Value", (gogoproto.jsontag) = "Value,omitempty"];
 
     // 'delete' indicates whether this is a delete
     bool delete = 3 [(gogoproto.jsontag) = "Delete,omitempty"];
@@ -96,22 +96,34 @@ message TransactionStatus {
 
     // 'sources' is a set of changes needed to revert back to the source of the transaction
     // This field should only be updated from within onos-config
-    map<string, Source> sources = 3 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+    map<string, TargetStatus> targets = 3 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
 
     // failure transaction failure type and description
     Failure failure = 4;
 }
 
-// Source is a transaction source
-message Source {
+// TargetStatus is the status of a Target changed by a Transaction
+message TargetStatus {
     // 'target_version' is an optional target version to which to apply this change
     string target_version = 1 [(gogoproto.casttype) = "TargetVersion"];
 
     // 'target_type' is an optional target type to which to apply this change
     string target_type = 2 [(gogoproto.casttype) = "TargetType"];
 
-    // 'values' is the set of values for the source
-    map<string, PathValue> values = 3 [(gogoproto.nullable) = false];
+    // 'prev_values' is the previous set of values for the target
+    map<string, PathValue> prev_values = 3 [(gogoproto.nullable) = false];
+
+    // 'state' is the current state of the target
+    TargetState state = 4;
+
+    // failure transaction failure type and description
+    Failure failure = 5;
+}
+
+// TargetState is the state of a Transaction target
+enum TargetState {
+    TARGET_UPDATE_PENDING = 0;
+    TARGET_UPDATE_COMPLETE = 1;
 }
 
 // TransactionState is the transaction state of a transaction phase
@@ -128,8 +140,11 @@ enum TransactionState {
     // TRANSACTION_VALIDATING indicates the transaction is in the validating state
     TRANSACTION_VALIDATING = 4;
 
+    // TRANSACTION_COMMITTING indicates the transaction is in the committing state
+    TRANSACTION_COMMITTING = 5;
+
     // TRANSACTION_APPLYING indicates the transaction is in the applying state
-    TRANSACTION_APPLYING = 5;
+    TRANSACTION_APPLYING = 6;
 }
 
 // TransactionEvent transaction store event
