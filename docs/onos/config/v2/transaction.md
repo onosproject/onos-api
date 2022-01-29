@@ -7,16 +7,17 @@
     - [Change](#onos.config.v2.Change)
     - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
     - [ChangeValue](#onos.config.v2.ChangeValue)
-    - [Source](#onos.config.v2.Source)
-    - [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry)
+    - [TargetStatus](#onos.config.v2.TargetStatus)
+    - [TargetStatus.PrevValuesEntry](#onos.config.v2.TargetStatus.PrevValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
     - [TransactionChange](#onos.config.v2.TransactionChange)
     - [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
     - [TransactionRollback](#onos.config.v2.TransactionRollback)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
-    - [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry)
+    - [TransactionStatus.TargetsEntry](#onos.config.v2.TransactionStatus.TargetsEntry)
   
+    - [TargetState](#onos.config.v2.TargetState)
     - [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType)
     - [TransactionState](#onos.config.v2.TransactionState)
   
@@ -80,26 +81,28 @@ ChangeValue represents a change requested for an individual path/value
 
 
 
-<a name="onos.config.v2.Source"></a>
+<a name="onos.config.v2.TargetStatus"></a>
 
-### Source
-Source is a transaction source
+### TargetStatus
+TargetStatus is the status of a Target changed by a Transaction
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
 | target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
-| values | [Source.ValuesEntry](#onos.config.v2.Source.ValuesEntry) | repeated | &#39;values&#39; is the set of values for the source |
+| prev_values | [TargetStatus.PrevValuesEntry](#onos.config.v2.TargetStatus.PrevValuesEntry) | repeated | &#39;prev_values&#39; is the previous set of values for the target |
+| state | [TargetState](#onos.config.v2.TargetState) |  | &#39;state&#39; is the current state of the target |
+| failure | [Failure](#onos.config.v2.Failure) |  | failure transaction failure type and description |
 
 
 
 
 
 
-<a name="onos.config.v2.Source.ValuesEntry"></a>
+<a name="onos.config.v2.TargetStatus.PrevValuesEntry"></a>
 
-### Source.ValuesEntry
+### TargetStatus.PrevValuesEntry
 
 
 
@@ -207,7 +210,7 @@ TransactionStatus is the status of a Transaction
 | ----- | ---- | ----- | ----------- |
 | revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
 | state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
-| sources | [TransactionStatus.SourcesEntry](#onos.config.v2.TransactionStatus.SourcesEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
+| targets | [TransactionStatus.TargetsEntry](#onos.config.v2.TransactionStatus.TargetsEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
 | failure | [Failure](#onos.config.v2.Failure) |  | failure transaction failure type and description |
 
 
@@ -215,22 +218,34 @@ TransactionStatus is the status of a Transaction
 
 
 
-<a name="onos.config.v2.TransactionStatus.SourcesEntry"></a>
+<a name="onos.config.v2.TransactionStatus.TargetsEntry"></a>
 
-### TransactionStatus.SourcesEntry
+### TransactionStatus.TargetsEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Source](#onos.config.v2.Source) |  |  |
+| value | [TargetStatus](#onos.config.v2.TargetStatus) |  |  |
 
 
 
 
 
  
+
+
+<a name="onos.config.v2.TargetState"></a>
+
+### TargetState
+TargetState is the state of a Transaction target
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TARGET_UPDATE_PENDING | 0 |  |
+| TARGET_UPDATE_COMPLETE | 1 |  |
+
 
 
 <a name="onos.config.v2.TransactionEvent.TransactionEventType"></a>
@@ -259,7 +274,8 @@ TransactionState is the transaction state of a transaction phase
 | TRANSACTION_COMPLETE | 2 | TRANSACTION_COMPLETE indicates the transaction is complete |
 | TRANSACTION_FAILED | 3 | TRANSACTION_FAILED indicates the transaction failed |
 | TRANSACTION_VALIDATING | 4 | TRANSACTION_VALIDATING indicates the transaction is in the validating state |
-| TRANSACTION_APPLYING | 5 | TRANSACTION_APPLYING indicates the transaction is in the applying state |
+| TRANSACTION_COMMITTING | 5 | TRANSACTION_COMMITTING indicates the transaction is in the committing state |
+| TRANSACTION_APPLYING | 6 | TRANSACTION_APPLYING indicates the transaction is in the applying state |
 
 
  

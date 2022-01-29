@@ -44,6 +44,13 @@ class FailureType(betterproto.Enum):
     INTERNAL = 11
 
 
+class TargetState(betterproto.Enum):
+    """TargetState is the state of a Transaction target"""
+
+    TARGET_UPDATE_PENDING = 0
+    TARGET_UPDATE_COMPLETE = 1
+
+
 class TransactionState(betterproto.Enum):
     """TransactionState is the transaction state of a transaction phase"""
 
@@ -55,8 +62,10 @@ class TransactionState(betterproto.Enum):
     TRANSACTION_FAILED = 3
     # TRANSACTION_VALIDATING indicates the transaction is in the validating state
     TRANSACTION_VALIDATING = 4
+    # TRANSACTION_COMMITTING indicates the transaction is in the committing state
+    TRANSACTION_COMMITTING = 5
     # TRANSACTION_APPLYING indicates the transaction is in the applying state
-    TRANSACTION_APPLYING = 5
+    TRANSACTION_APPLYING = 6
 
 
 class TransactionEventTransactionEventType(betterproto.Enum):
@@ -215,7 +224,7 @@ class TransactionStatus(betterproto.Message):
     state: "TransactionState" = betterproto.enum_field(2)
     # 'sources' is a set of changes needed to revert back to the source of the
     # transaction This field should only be updated from within onos-config
-    sources: Dict[str, "Source"] = betterproto.map_field(
+    targets: Dict[str, "TargetStatus"] = betterproto.map_field(
         3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
     # failure transaction failure type and description
@@ -223,18 +232,22 @@ class TransactionStatus(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Source(betterproto.Message):
-    """Source is a transaction source"""
+class TargetStatus(betterproto.Message):
+    """TargetStatus is the status of a Target changed by a Transaction"""
 
     # 'target_version' is an optional target version to which to apply this
     # change
     target_version: str = betterproto.string_field(1)
     # 'target_type' is an optional target type to which to apply this change
     target_type: str = betterproto.string_field(2)
-    # 'values' is the set of values for the source
-    values: Dict[str, "PathValue"] = betterproto.map_field(
+    # 'prev_values' is the previous set of values for the target
+    prev_values: Dict[str, "PathValue"] = betterproto.map_field(
         3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+    # 'state' is the current state of the target
+    state: "TargetState" = betterproto.enum_field(4)
+    # failure transaction failure type and description
+    failure: "Failure" = betterproto.message_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -274,6 +287,9 @@ class ConfigurationStatus(betterproto.Message):
 
     # revision is the highest revision number that's been reconciled
     revision: int = betterproto.uint64_field(1)
+    # target_index is the highest transaction index that's been applied to the
+    # target
+    target_index: int = betterproto.uint64_field(6)
     # 'state' is the state of the transaction within a Phase
     state: "ConfigurationState" = betterproto.enum_field(2)
     # mastershipState mastership info
