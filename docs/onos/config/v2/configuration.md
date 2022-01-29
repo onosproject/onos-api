@@ -169,11 +169,10 @@ ConfigurationState is the configuration state of a configuration phase
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | CONFIGURATION_PENDING | 0 | CONFIGURATION_PENDING indicates the configuration is PENDING |
-| CONFIGURATION_INITIALIZING | 1 | CONFIGURATION_INITIALIZING indicates the configuration is being initialized from the target |
-| CONFIGURATION_UPDATING | 2 | CONFIGURATION_UPDATING indicates the configuration is being updated |
-| CONFIGURATION_COMPLETE | 3 | CONFIGURATION_COMPLETE indicates the configuration is complete |
-| CONFIGURATION_FAILED | 4 | CONFIGURATION_FAILED indicates the configuration is failed |
-| CONFIGURATION_STALE | 5 | CONFIGURATION_STALE indicated the configuration is in the stale state |
+| CONFIGURATION_UPDATING | 1 | CONFIGURATION_UPDATING indicates the configuration is being updated |
+| CONFIGURATION_COMPLETE | 2 | CONFIGURATION_COMPLETE indicates the configuration is complete |
+| CONFIGURATION_FAILED | 3 | CONFIGURATION_FAILED indicates the configuration is failed |
+| CONFIGURATION_STALE | 4 | CONFIGURATION_STALE indicated the configuration is in the stale state |
 
 
  
