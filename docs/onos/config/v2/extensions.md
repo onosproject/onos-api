@@ -8,7 +8,7 @@
     - [TransactionMode](#onos.config.v2.TransactionMode)
     - [Transactional](#onos.config.v2.Transactional)
   
-    - [Transactional.Command](#onos.config.v2.Transactional.Command)
+    - [TransactionalCommand](#onos.config.v2.TransactionalCommand)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -65,7 +65,7 @@ transactions across multiple targets.
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | index | [uint64](#uint64) |  |  |
-| command | [Transactional.Command](#onos.config.v2.Transactional.Command) |  |  |
+| command | [TransactionalCommand](#onos.config.v2.TransactionalCommand) |  |  |
 
 
 
@@ -74,16 +74,16 @@ transactions across multiple targets.
  
 
 
-<a name="onos.config.v2.Transactional.Command"></a>
+<a name="onos.config.v2.TransactionalCommand"></a>
 
-### Transactional.Command
+### TransactionalCommand
 
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PREPARE | 0 |  |
-| COMMIT | 1 |  |
-| ROLLBACK | 2 |  |
+| TRANSACTIONAL_PREPARE | 0 |  |
+| TRANSACTIONAL_COMMIT | 1 |  |
+| TRANSACTIONAL_ROLLBACK | 2 |  |
 
 
  

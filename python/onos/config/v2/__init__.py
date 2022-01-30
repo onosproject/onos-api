@@ -102,9 +102,9 @@ class ConfigurationEventConfigurationEventType(betterproto.Enum):
 
 
 class TransactionalCommand(betterproto.Enum):
-    PREPARE = 0
-    COMMIT = 1
-    ROLLBACK = 2
+    TRANSACTIONAL_PREPARE = 0
+    TRANSACTIONAL_COMMIT = 1
+    TRANSACTIONAL_ROLLBACK = 2
 
 
 @dataclass(eq=False, repr=False)
