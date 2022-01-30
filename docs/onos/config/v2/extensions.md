@@ -45,7 +45,7 @@
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | index | [uint64](#uint64) |  |  |
-| async | [bool](#bool) |  |  |
+| sync | [bool](#bool) |  |  |
 
 
 

@@ -335,7 +335,7 @@ class ConfigurationEvent(betterproto.Message):
 class TransactionInfo(betterproto.Message):
     id: str = betterproto.string_field(1)
     index: int = betterproto.uint64_field(2)
-    async_: bool = betterproto.bool_field(3)
+    sync: bool = betterproto.bool_field(3)
 
 
 @dataclass(eq=False, repr=False)

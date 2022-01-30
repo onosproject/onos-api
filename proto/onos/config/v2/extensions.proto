@@ -23,7 +23,7 @@ import "gogoproto/gogo.proto";
 message TransactionInfo {
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
     uint64 index = 2 [(gogoproto.casttype) = "Index"];
-    bool async = 3;
+    bool sync = 3;
 }
 
 message TransactionControl {
