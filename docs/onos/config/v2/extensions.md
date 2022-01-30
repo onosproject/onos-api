@@ -30,6 +30,7 @@ to clients in responses.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 | index | [uint64](#uint64) |  |  |
 
 

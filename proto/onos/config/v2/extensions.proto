@@ -23,7 +23,8 @@ import "gogoproto/gogo.proto";
 // TransactionInfo is an extension providing information about the transaction
 // to clients in responses.
 message TransactionInfo {
-    uint64 index = 1 [(gogoproto.casttype) = "Index"];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
+    uint64 index = 2 [(gogoproto.casttype) = "Index"];
 }
 
 // TransactionMode is an extension for constraining the execution of a transaction for

@@ -338,7 +338,8 @@ class TransactionInfo(betterproto.Message):
     to clients in responses.
     """
 
-    index: int = betterproto.uint64_field(1)
+    id: str = betterproto.string_field(1)
+    index: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)
