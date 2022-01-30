@@ -20,11 +20,10 @@ package onos.config.v2;
 
 import "gogoproto/gogo.proto";
 
-// TransactionInfo is a bi-directional extension carrying transaction information between the
-// client and onos-config.
+// TransactionInfo is an extension providing information about the transaction
+// to clients in responses.
 message TransactionInfo {
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
-    uint64 index = 2 [(gogoproto.casttype) = "Index"];
+    uint64 index = 1 [(gogoproto.casttype) = "Index"];
 }
 
 // TransactionMode is an extension for constraining the execution of a transaction for
@@ -34,15 +33,16 @@ message TransactionMode {
     bool atomic = 2;
 }
 
-// TransactionControl is a extension that if supported by targets enables atomic
+// Transactional is a extension that if supported by targets enables atomic
 // transactions across multiple targets.
-message TransactionControl {
-    TransactionCommand command = 1;
+message Transactional {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
+    uint64 index = 2 [(gogoproto.casttype) = "Index"];
+    TransactionalCommand command = 3;
 }
 
-// TransactionCommand describes phases of the two-phase transaction commit protocol.
-enum TransactionCommand {
-    PREPARE = 0;
-    COMMIT = 1;
-    ROLLBACK = 2;
+enum TransactionalCommand {
+    TRANSACTIONAL_PREPARE = 0;
+    TRANSACTIONAL_COMMIT = 1;
+    TRANSACTIONAL_ROLLBACK = 2;
 }

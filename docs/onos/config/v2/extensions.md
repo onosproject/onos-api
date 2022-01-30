@@ -4,11 +4,11 @@
 ## Table of Contents
 
 - [onos/config/v2/extensions.proto](#onos/config/v2/extensions.proto)
-    - [TransactionControl](#onos.config.v2.TransactionControl)
     - [TransactionInfo](#onos.config.v2.TransactionInfo)
     - [TransactionMode](#onos.config.v2.TransactionMode)
+    - [Transactional](#onos.config.v2.Transactional)
   
-    - [TransactionCommand](#onos.config.v2.TransactionCommand)
+    - [TransactionalCommand](#onos.config.v2.TransactionalCommand)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -21,32 +21,15 @@
 
 
 
-<a name="onos.config.v2.TransactionControl"></a>
-
-### TransactionControl
-TransactionControl is a extension that if supported by targets enables atomic
-transactions across multiple targets.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| command | [TransactionCommand](#onos.config.v2.TransactionCommand) |  |  |
-
-
-
-
-
-
 <a name="onos.config.v2.TransactionInfo"></a>
 
 ### TransactionInfo
-TransactionInfo is a bi-directional extension carrying transaction information between the
-client and onos-config.
+TransactionInfo is an extension providing information about the transaction
+to clients in responses.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
 | index | [uint64](#uint64) |  |  |
 
 
@@ -70,19 +53,37 @@ stronger consistency guarantees.
 
 
 
+
+<a name="onos.config.v2.Transactional"></a>
+
+### Transactional
+Transactional is a extension that if supported by targets enables atomic
+transactions across multiple targets.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| index | [uint64](#uint64) |  |  |
+| command | [TransactionalCommand](#onos.config.v2.TransactionalCommand) |  |  |
+
+
+
+
+
  
 
 
-<a name="onos.config.v2.TransactionCommand"></a>
+<a name="onos.config.v2.TransactionalCommand"></a>
 
-### TransactionCommand
-TransactionCommand describes phases of the two-phase transaction commit protocol.
+### TransactionalCommand
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PREPARE | 0 |  |
-| COMMIT | 1 |  |
-| ROLLBACK | 2 |  |
+| TRANSACTIONAL_PREPARE | 0 |  |
+| TRANSACTIONAL_COMMIT | 1 |  |
+| TRANSACTIONAL_ROLLBACK | 2 |  |
 
 
  
