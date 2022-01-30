@@ -6,6 +6,7 @@
 - [onos/config/v2/extensions.proto](#onos/config/v2/extensions.proto)
     - [TransactionControl](#onos.config.v2.TransactionControl)
     - [TransactionInfo](#onos.config.v2.TransactionInfo)
+    - [TransactionMode](#onos.config.v2.TransactionMode)
   
     - [TransactionCommand](#onos.config.v2.TransactionCommand)
   
@@ -23,7 +24,8 @@
 <a name="onos.config.v2.TransactionControl"></a>
 
 ### TransactionControl
-
+TransactionControl is a extension that if supported by targets enables atomic
+transactions across multiple targets.
 
 
 | Field | Type | Label | Description |
@@ -38,14 +40,31 @@
 <a name="onos.config.v2.TransactionInfo"></a>
 
 ### TransactionInfo
-
+TransactionInfo is a bi-directional extension carrying transaction information between the
+client and onos-config.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | index | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionMode"></a>
+
+### TransactionMode
+TransactionMode is an extension for constraining the execution of a transaction for
+stronger consistency guarantees.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
 | sync | [bool](#bool) |  |  |
+| atomic | [bool](#bool) |  |  |
 
 
 
@@ -57,7 +76,7 @@
 <a name="onos.config.v2.TransactionCommand"></a>
 
 ### TransactionCommand
-
+TransactionCommand describes phases of the two-phase transaction commit protocol.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |

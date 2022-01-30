@@ -102,6 +102,11 @@ class ConfigurationEventConfigurationEventType(betterproto.Enum):
 
 
 class TransactionCommand(betterproto.Enum):
+    """
+    TransactionCommand describes phases of the two-phase transaction commit
+    protocol.
+    """
+
     PREPARE = 0
     COMMIT = 1
     ROLLBACK = 2
@@ -333,11 +338,31 @@ class ConfigurationEvent(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class TransactionInfo(betterproto.Message):
+    """
+    TransactionInfo is a bi-directional extension carrying transaction
+    information between the client and onos-config.
+    """
+
     id: str = betterproto.string_field(1)
     index: int = betterproto.uint64_field(2)
-    sync: bool = betterproto.bool_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionMode(betterproto.Message):
+    """
+    TransactionMode is an extension for constraining the execution of a
+    transaction for stronger consistency guarantees.
+    """
+
+    sync: bool = betterproto.bool_field(1)
+    atomic: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class TransactionControl(betterproto.Message):
+    """
+    TransactionControl is a extension that if supported by targets enables
+    atomic transactions across multiple targets.
+    """
+
     command: "TransactionCommand" = betterproto.enum_field(1)
