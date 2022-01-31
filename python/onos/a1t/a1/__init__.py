@@ -24,6 +24,12 @@ class Header(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Result(betterproto.Message):
+    success: bool = betterproto.bool_field(1)
+    reason: str = betterproto.string_field(2)
+
+
+@dataclass(eq=False, repr=False)
 class RequestMessage(betterproto.Message):
     header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
@@ -33,6 +39,7 @@ class RequestMessage(betterproto.Message):
 class ResultMessage(betterproto.Message):
     header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
+    result: "Result" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -45,6 +52,7 @@ class StatusMessage(betterproto.Message):
 class AckMessage(betterproto.Message):
     header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
+    result: "Result" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)

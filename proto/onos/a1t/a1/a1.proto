@@ -36,6 +36,11 @@ message Header {
   Encoding encoding = 5;
 }
 
+message Result {
+  bool success = 1;
+  string reason = 2;
+}
+
 message RequestMessage {
   Header header = 1;
   bytes payload = 2;
@@ -44,6 +49,7 @@ message RequestMessage {
 message ResultMessage {
   Header header = 1;
   bytes payload = 2;
+  Result result = 3;
 }
 
 message StatusMessage {
@@ -54,4 +60,5 @@ message StatusMessage {
 message AckMessage {
   Header header = 1;
   bytes payload = 2;
+  Result result = 3;
 }
