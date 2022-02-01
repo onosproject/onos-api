@@ -14,6 +14,11 @@ class Encoding(betterproto.Enum):
     JSON = 1
 
 
+class PayloadType(betterproto.Enum):
+    POLICY = 0
+    STATUS = 1
+
+
 @dataclass(eq=False, repr=False)
 class Header(betterproto.Message):
     request_id: str = betterproto.string_field(1)
@@ -21,6 +26,7 @@ class Header(betterproto.Message):
     app_instance_id: str = betterproto.string_field(3)
     a1_node_id: str = betterproto.string_field(4)
     encoding: "Encoding" = betterproto.enum_field(5)
+    payload_type: "PayloadType" = betterproto.enum_field(6)
 
 
 @dataclass(eq=False, repr=False)
@@ -91,6 +97,7 @@ class PolicyRequestMessage(betterproto.Message):
     policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "RequestMessage" = betterproto.message_field(3)
+    notification_destination: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -98,6 +105,8 @@ class PolicyResultMessage(betterproto.Message):
     policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "ResultMessage" = betterproto.message_field(3)
+    notification_destination: str = betterproto.string_field(4)
+    payload_type: "PayloadType" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -105,6 +114,8 @@ class PolicyStatusMessage(betterproto.Message):
     policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "StatusMessage" = betterproto.message_field(3)
+    notification_destination: str = betterproto.string_field(4)
+    payload_type: "PayloadType" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -112,6 +123,8 @@ class PolicyAckMessage(betterproto.Message):
     policy_id: str = betterproto.string_field(1)
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "AckMessage" = betterproto.message_field(3)
+    notification_destination: str = betterproto.string_field(4)
+    payload_type: "PayloadType" = betterproto.enum_field(5)
 
 
 class EiServiceStub(betterproto.ServiceStub):
@@ -214,6 +227,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
         policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
+        notification_destination: str = "",
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
@@ -222,6 +236,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
             request.policy_type = policy_type
         if message is not None:
             request.message = message
+        request.notification_destination = notification_destination
 
         return await self._unary_unary(
             "/onos.a1t.a1.PolicyService/PolicySetup", request, PolicyResultMessage
@@ -233,6 +248,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
         policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
+        notification_destination: str = "",
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
@@ -241,6 +257,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
             request.policy_type = policy_type
         if message is not None:
             request.message = message
+        request.notification_destination = notification_destination
 
         return await self._unary_unary(
             "/onos.a1t.a1.PolicyService/PolicyUpdate", request, PolicyResultMessage
@@ -252,6 +269,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
         policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
+        notification_destination: str = "",
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
@@ -260,6 +278,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
             request.policy_type = policy_type
         if message is not None:
             request.message = message
+        request.notification_destination = notification_destination
 
         return await self._unary_unary(
             "/onos.a1t.a1.PolicyService/PolicyDelete", request, PolicyResultMessage
@@ -271,6 +290,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
         policy_id: str = "",
         policy_type: "PolicyType" = None,
         message: "RequestMessage" = None,
+        notification_destination: str = "",
     ) -> "PolicyResultMessage":
 
         request = PolicyRequestMessage()
@@ -279,6 +299,7 @@ class PolicyServiceStub(betterproto.ServiceStub):
             request.policy_type = policy_type
         if message is not None:
             request.message = message
+        request.notification_destination = notification_destination
 
         return await self._unary_unary(
             "/onos.a1t.a1.PolicyService/PolicyQuery", request, PolicyResultMessage
@@ -442,22 +463,38 @@ class EiServiceBase(ServiceBase):
 
 class PolicyServiceBase(ServiceBase):
     async def policy_setup(
-        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
+        self,
+        policy_id: str,
+        policy_type: "PolicyType",
+        message: "RequestMessage",
+        notification_destination: str,
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def policy_update(
-        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
+        self,
+        policy_id: str,
+        policy_type: "PolicyType",
+        message: "RequestMessage",
+        notification_destination: str,
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def policy_delete(
-        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
+        self,
+        policy_id: str,
+        policy_type: "PolicyType",
+        message: "RequestMessage",
+        notification_destination: str,
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def policy_query(
-        self, policy_id: str, policy_type: "PolicyType", message: "RequestMessage"
+        self,
+        policy_id: str,
+        policy_type: "PolicyType",
+        message: "RequestMessage",
+        notification_destination: str,
     ) -> "PolicyResultMessage":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
@@ -473,6 +510,7 @@ class PolicyServiceBase(ServiceBase):
             "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
+            "notification_destination": request.notification_destination,
         }
 
         response = await self.policy_setup(**request_kwargs)
@@ -485,6 +523,7 @@ class PolicyServiceBase(ServiceBase):
             "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
+            "notification_destination": request.notification_destination,
         }
 
         response = await self.policy_update(**request_kwargs)
@@ -497,6 +536,7 @@ class PolicyServiceBase(ServiceBase):
             "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
+            "notification_destination": request.notification_destination,
         }
 
         response = await self.policy_delete(**request_kwargs)
@@ -509,6 +549,7 @@ class PolicyServiceBase(ServiceBase):
             "policy_id": request.policy_id,
             "policy_type": request.policy_type,
             "message": request.message,
+            "notification_destination": request.notification_destination,
         }
 
         response = await self.policy_query(**request_kwargs)
