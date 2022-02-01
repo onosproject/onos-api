@@ -50,7 +50,6 @@ message PolicyResultMessage {
   PolicyType policy_type = 2;
   ResultMessage message = 3;
   string notification_destination = 4;
-  PayloadType payload_type = 5;
 }
 
 message PolicyStatusMessage {
@@ -58,7 +57,6 @@ message PolicyStatusMessage {
   PolicyType policy_type = 2;
   StatusMessage message = 3;
   string notification_destination = 4;
-  PayloadType payload_type = 5;
 }
 
 message PolicyAckMessage {
@@ -66,5 +64,4 @@ message PolicyAckMessage {
   PolicyType policy_type = 2;
   AckMessage message = 3;
   string notification_destination = 4;
-  PayloadType payload_type = 5;
 }

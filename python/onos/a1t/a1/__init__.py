@@ -106,7 +106,6 @@ class PolicyResultMessage(betterproto.Message):
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "ResultMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
-    payload_type: "PayloadType" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -115,7 +114,6 @@ class PolicyStatusMessage(betterproto.Message):
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "StatusMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
-    payload_type: "PayloadType" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -124,7 +122,6 @@ class PolicyAckMessage(betterproto.Message):
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "AckMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
-    payload_type: "PayloadType" = betterproto.enum_field(5)
 
 
 class EiServiceStub(betterproto.ServiceStub):
