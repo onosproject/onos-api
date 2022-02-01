@@ -92,9 +92,10 @@ func (m *PolicyType) GetVersion() string {
 }
 
 type PolicyRequestMessage struct {
-	PolicyId   string          `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
-	PolicyType *PolicyType     `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
-	Message    *RequestMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	PolicyId                string          `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
+	PolicyType              *PolicyType     `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
+	Message                 *RequestMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	NotificationDestination string          `protobuf:"bytes,4,opt,name=notification_destination,json=notificationDestination,proto3" json:"notification_destination,omitempty"`
 }
 
 func (m *PolicyRequestMessage) Reset()         { *m = PolicyRequestMessage{} }
@@ -151,10 +152,19 @@ func (m *PolicyRequestMessage) GetMessage() *RequestMessage {
 	return nil
 }
 
+func (m *PolicyRequestMessage) GetNotificationDestination() string {
+	if m != nil {
+		return m.NotificationDestination
+	}
+	return ""
+}
+
 type PolicyResultMessage struct {
-	PolicyId   string         `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
-	PolicyType *PolicyType    `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
-	Message    *ResultMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	PolicyId                string         `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
+	PolicyType              *PolicyType    `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
+	Message                 *ResultMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	NotificationDestination string         `protobuf:"bytes,4,opt,name=notification_destination,json=notificationDestination,proto3" json:"notification_destination,omitempty"`
+	PayloadType             PayloadType    `protobuf:"varint,5,opt,name=payload_type,json=payloadType,proto3,enum=onos.a1t.a1.PayloadType" json:"payload_type,omitempty"`
 }
 
 func (m *PolicyResultMessage) Reset()         { *m = PolicyResultMessage{} }
@@ -211,10 +221,26 @@ func (m *PolicyResultMessage) GetMessage() *ResultMessage {
 	return nil
 }
 
+func (m *PolicyResultMessage) GetNotificationDestination() string {
+	if m != nil {
+		return m.NotificationDestination
+	}
+	return ""
+}
+
+func (m *PolicyResultMessage) GetPayloadType() PayloadType {
+	if m != nil {
+		return m.PayloadType
+	}
+	return PayloadType_POLICY
+}
+
 type PolicyStatusMessage struct {
-	PolicyId   string         `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
-	PolicyType *PolicyType    `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
-	Message    *StatusMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	PolicyId                string         `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
+	PolicyType              *PolicyType    `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
+	Message                 *StatusMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	NotificationDestination string         `protobuf:"bytes,4,opt,name=notification_destination,json=notificationDestination,proto3" json:"notification_destination,omitempty"`
+	PayloadType             PayloadType    `protobuf:"varint,5,opt,name=payload_type,json=payloadType,proto3,enum=onos.a1t.a1.PayloadType" json:"payload_type,omitempty"`
 }
 
 func (m *PolicyStatusMessage) Reset()         { *m = PolicyStatusMessage{} }
@@ -271,10 +297,26 @@ func (m *PolicyStatusMessage) GetMessage() *StatusMessage {
 	return nil
 }
 
+func (m *PolicyStatusMessage) GetNotificationDestination() string {
+	if m != nil {
+		return m.NotificationDestination
+	}
+	return ""
+}
+
+func (m *PolicyStatusMessage) GetPayloadType() PayloadType {
+	if m != nil {
+		return m.PayloadType
+	}
+	return PayloadType_POLICY
+}
+
 type PolicyAckMessage struct {
-	PolicyId   string      `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
-	PolicyType *PolicyType `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
-	Message    *AckMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	PolicyId                string      `protobuf:"bytes,1,opt,name=policy_id,json=policyId,proto3" json:"policy_id,omitempty"`
+	PolicyType              *PolicyType `protobuf:"bytes,2,opt,name=policy_type,json=policyType,proto3" json:"policy_type,omitempty"`
+	Message                 *AckMessage `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	NotificationDestination string      `protobuf:"bytes,4,opt,name=notification_destination,json=notificationDestination,proto3" json:"notification_destination,omitempty"`
+	PayloadType             PayloadType `protobuf:"varint,5,opt,name=payload_type,json=payloadType,proto3,enum=onos.a1t.a1.PayloadType" json:"payload_type,omitempty"`
 }
 
 func (m *PolicyAckMessage) Reset()         { *m = PolicyAckMessage{} }
@@ -331,6 +373,20 @@ func (m *PolicyAckMessage) GetMessage() *AckMessage {
 	return nil
 }
 
+func (m *PolicyAckMessage) GetNotificationDestination() string {
+	if m != nil {
+		return m.NotificationDestination
+	}
+	return ""
+}
+
+func (m *PolicyAckMessage) GetPayloadType() PayloadType {
+	if m != nil {
+		return m.PayloadType
+	}
+	return PayloadType_POLICY
+}
+
 func init() {
 	proto.RegisterType((*PolicyType)(nil), "onos.a1t.a1.PolicyType")
 	golang_proto.RegisterType((*PolicyType)(nil), "onos.a1t.a1.PolicyType")
@@ -348,32 +404,36 @@ func init() { proto.RegisterFile("onos/a1t/a1/policy.proto", fileDescriptor_5ce1
 func init() { golang_proto.RegisterFile("onos/a1t/a1/policy.proto", fileDescriptor_5ce1b84452933ab0) }
 
 var fileDescriptor_5ce1b84452933ab0 = []byte{
-	// 397 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x94, 0xc1, 0x4e, 0xea, 0x40,
-	0x14, 0x86, 0x19, 0xb8, 0xb9, 0x5c, 0x4e, 0xaf, 0xc6, 0x8c, 0x24, 0x36, 0x45, 0x1b, 0x64, 0xc5,
-	0xaa, 0xb5, 0xa8, 0x89, 0x5b, 0x8d, 0x1b, 0x4d, 0x4c, 0xb4, 0xe8, 0xda, 0x8c, 0x74, 0x42, 0x1a,
-	0x81, 0xa9, 0xed, 0x94, 0xa4, 0x6f, 0xe1, 0x03, 0xb8, 0x32, 0x3e, 0x83, 0x6b, 0x97, 0x2e, 0x59,
-	0xba, 0x34, 0xf4, 0x45, 0x0c, 0x33, 0x94, 0xb6, 0xa4, 0x4b, 0x88, 0xbb, 0xe9, 0x3f, 0xe7, 0xfc,
-	0xe7, 0x3b, 0xed, 0x9f, 0x82, 0xca, 0x46, 0x2c, 0x30, 0x89, 0xc5, 0x4d, 0x62, 0x99, 0x1e, 0x1b,
-	0xb8, 0xbd, 0xc8, 0xf0, 0x7c, 0xc6, 0x19, 0x56, 0x66, 0x37, 0x06, 0xb1, 0xb8, 0x41, 0x2c, 0xad,
-	0xde, 0x67, 0x7d, 0x26, 0x74, 0x73, 0x76, 0x92, 0x25, 0x5a, 0x3d, 0xdb, 0x4c, 0x2c, 0xa9, 0xb6,
-	0x2e, 0x01, 0xae, 0x85, 0xd1, 0x6d, 0xe4, 0x51, 0xbc, 0x09, 0x65, 0xd7, 0x51, 0x51, 0x13, 0xb5,
-	0x6b, 0x76, 0xd9, 0x75, 0x30, 0x86, 0x3f, 0x23, 0x32, 0xa4, 0x6a, 0x59, 0x28, 0xe2, 0x8c, 0x55,
-	0xa8, 0x8e, 0xa9, 0x1f, 0xb8, 0x6c, 0xa4, 0x56, 0x84, 0x9c, 0x3c, 0xb6, 0xde, 0x10, 0xd4, 0xa5,
-	0x99, 0x4d, 0x9f, 0x42, 0x1a, 0xf0, 0x2b, 0x1a, 0x04, 0xa4, 0x4f, 0x71, 0x03, 0x6a, 0x92, 0xf6,
-	0x7e, 0xe1, 0xfe, 0x4f, 0x0a, 0x17, 0x0e, 0x3e, 0x01, 0x65, 0x7e, 0xc9, 0x23, 0x4f, 0x8e, 0x52,
-	0x3a, 0x3b, 0x46, 0x66, 0x21, 0x23, 0x25, 0xb4, 0xc1, 0x4b, 0x69, 0x8f, 0xa1, 0x3a, 0x94, 0x13,
-	0x04, 0x89, 0xd2, 0x69, 0xe4, 0xba, 0xf2, 0x10, 0x76, 0x52, 0xdb, 0x7a, 0x45, 0xb0, 0x9d, 0x60,
-	0x06, 0xe1, 0x60, 0xdd, 0x94, 0x47, 0xcb, 0x94, 0xda, 0x12, 0x65, 0x86, 0xa1, 0x08, 0xb2, 0xcb,
-	0x09, 0x0f, 0x83, 0xdf, 0x85, 0xcc, 0x31, 0xa4, 0x90, 0x2f, 0x08, 0xb6, 0xa4, 0xe1, 0x69, 0xef,
-	0x71, 0xcd, 0x84, 0xd6, 0x32, 0x61, 0xbe, 0x2b, 0x05, 0x58, 0xe0, 0x75, 0xde, 0x2b, 0xb0, 0x31,
-	0x7f, 0x87, 0xd4, 0x1f, 0xbb, 0x3d, 0x8a, 0x6d, 0x50, 0x12, 0x81, 0x87, 0x1e, 0xde, 0x2f, 0x18,
-	0x9c, 0x4f, 0x8d, 0xd6, 0x2c, 0x2c, 0xc9, 0xc6, 0xa6, 0x0b, 0xff, 0xa5, 0x7c, 0xe7, 0x39, 0x84,
-	0xd3, 0x15, 0x9b, 0x9e, 0xd3, 0x01, 0x5d, 0x95, 0xe9, 0x62, 0xfb, 0x9b, 0x90, 0xfa, 0xd1, 0x8a,
-	0x41, 0x65, 0x44, 0xf0, 0x5e, 0x41, 0x47, 0xfa, 0x6d, 0x0a, 0x0d, 0x73, 0xe1, 0x6a, 0xa3, 0x03,
-	0x74, 0xb6, 0xfb, 0x39, 0xd5, 0xd1, 0x64, 0xaa, 0xa3, 0xef, 0xa9, 0x8e, 0x9e, 0x63, 0xbd, 0xf4,
-	0x11, 0xeb, 0x68, 0x12, 0xeb, 0xa5, 0xaf, 0x58, 0x2f, 0x3d, 0xfc, 0x15, 0x7f, 0xae, 0xc3, 0x9f,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0xcf, 0x6b, 0x2f, 0xd5, 0x0e, 0x05, 0x00, 0x00,
+	// 458 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x95, 0x3f, 0x6f, 0xd4, 0x30,
+	0x18, 0xc6, 0xcf, 0x69, 0xa1, 0xf4, 0x4d, 0xa9, 0x90, 0x39, 0xa9, 0xd6, 0x15, 0xa2, 0xe3, 0xa6,
+	0x9b, 0x72, 0x24, 0x80, 0x04, 0x62, 0x02, 0x75, 0x01, 0x09, 0x09, 0x52, 0x98, 0x2b, 0x93, 0x98,
+	0x93, 0x45, 0x1a, 0x9b, 0xd8, 0xa9, 0x94, 0x6f, 0xc1, 0xc0, 0xc4, 0x07, 0x61, 0x66, 0x64, 0xec,
+	0xc8, 0x06, 0xba, 0x7c, 0x91, 0xaa, 0x76, 0xd3, 0x24, 0xa7, 0x8c, 0xa9, 0x6e, 0x73, 0x9e, 0xf7,
+	0x8f, 0x7f, 0xcf, 0x2b, 0xbf, 0x0a, 0x10, 0x91, 0x09, 0xb5, 0xa0, 0x81, 0x5e, 0xd0, 0x60, 0x21,
+	0x45, 0xca, 0xe3, 0xd2, 0x97, 0xb9, 0xd0, 0x02, 0xbb, 0x97, 0x11, 0x9f, 0x06, 0xda, 0xa7, 0xc1,
+	0x64, 0xbc, 0x14, 0x4b, 0x61, 0xf4, 0xc5, 0xe5, 0xc9, 0xa6, 0x4c, 0xc6, 0xed, 0x62, 0x1a, 0x58,
+	0x75, 0xf6, 0x16, 0xe0, 0xbd, 0x69, 0xf4, 0xb1, 0x94, 0x0c, 0xef, 0x83, 0xc3, 0x13, 0x82, 0xa6,
+	0x68, 0xbe, 0x1b, 0x39, 0x3c, 0xc1, 0x18, 0xb6, 0x33, 0x7a, 0xca, 0x88, 0x63, 0x14, 0x73, 0xc6,
+	0x04, 0x76, 0xce, 0x58, 0xae, 0xb8, 0xc8, 0xc8, 0x96, 0x91, 0xeb, 0xcf, 0xd9, 0x3f, 0x04, 0x63,
+	0xdb, 0x2c, 0x62, 0xdf, 0x0a, 0xa6, 0xf4, 0x3b, 0xa6, 0x14, 0x5d, 0x32, 0x7c, 0x08, 0xbb, 0x96,
+	0xf6, 0xe4, 0xba, 0xfb, 0x1d, 0x2b, 0xbc, 0x49, 0xf0, 0x73, 0x70, 0xaf, 0x82, 0xba, 0x94, 0xf6,
+	0x2a, 0x37, 0x3c, 0xf0, 0x5b, 0x86, 0xfc, 0x86, 0x30, 0x02, 0xd9, 0xd0, 0x3e, 0x83, 0x9d, 0x53,
+	0x7b, 0x83, 0x21, 0x71, 0xc3, 0xc3, 0x4e, 0x55, 0x17, 0x22, 0xaa, 0x73, 0xf1, 0x0b, 0x20, 0x99,
+	0xd0, 0xfc, 0x0b, 0x8f, 0xa9, 0xe6, 0x22, 0x3b, 0x49, 0x98, 0xd2, 0x3c, 0x33, 0x67, 0xb2, 0x6d,
+	0xe0, 0x0e, 0xda, 0xf1, 0xa3, 0x26, 0x3c, 0xfb, 0xe9, 0xc0, 0xfd, 0xda, 0xa1, 0x2a, 0xd2, 0x9b,
+	0x36, 0xf8, 0x74, 0xdd, 0xe0, 0x64, 0xcd, 0x60, 0x8b, 0x61, 0x08, 0x7f, 0xf8, 0x25, 0xec, 0x49,
+	0x5a, 0xa6, 0x82, 0x26, 0x96, 0xf5, 0xd6, 0x14, 0xcd, 0xf7, 0x43, 0xd2, 0x65, 0xb5, 0x09, 0x06,
+	0xd6, 0x95, 0xcd, 0x47, 0x6b, 0x38, 0xc7, 0x9a, 0xea, 0x42, 0x6d, 0x76, 0x38, 0x1d, 0x86, 0xcd,
+	0x0f, 0xe7, 0x87, 0x03, 0xf7, 0xac, 0x91, 0x57, 0xf1, 0xd7, 0x1b, 0x9e, 0x4c, 0xb0, 0x3e, 0x99,
+	0x6e, 0x55, 0x03, 0xb0, 0xf1, 0xb1, 0x84, 0xbf, 0xb6, 0xe0, 0xee, 0xd5, 0x9b, 0x61, 0xf9, 0x19,
+	0x8f, 0x19, 0x8e, 0xc0, 0xad, 0x05, 0x5d, 0x48, 0xfc, 0xa8, 0xc7, 0x70, 0x77, 0xb1, 0x27, 0xd3,
+	0xde, 0x94, 0xf6, 0x7a, 0x1e, 0xc3, 0x9e, 0x95, 0x3f, 0xc9, 0x84, 0x6a, 0x36, 0x70, 0xd3, 0x23,
+	0x96, 0xb2, 0xa1, 0x9a, 0x5e, 0xbb, 0xff, 0x50, 0xb0, 0xbc, 0x1c, 0x18, 0xd4, 0xae, 0x04, 0x7e,
+	0xd8, 0x53, 0xd1, 0xbc, 0x89, 0xde, 0x86, 0x9d, 0x65, 0x9a, 0xa3, 0xc7, 0xe8, 0xf5, 0x83, 0x3f,
+	0x2b, 0x0f, 0x9d, 0xaf, 0x3c, 0xf4, 0x7f, 0xe5, 0xa1, 0xef, 0x95, 0x37, 0xfa, 0x5d, 0x79, 0xe8,
+	0xbc, 0xf2, 0x46, 0x7f, 0x2b, 0x6f, 0xf4, 0xf9, 0xb6, 0xf9, 0xb9, 0x3c, 0xb9, 0x08, 0x00, 0x00,
+	0xff, 0xff, 0x35, 0xa0, 0x79, 0xca, 0xb1, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -697,6 +757,13 @@ func (m *PolicyRequestMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.NotificationDestination) > 0 {
+		i -= len(m.NotificationDestination)
+		copy(dAtA[i:], m.NotificationDestination)
+		i = encodeVarintPolicy(dAtA, i, uint64(len(m.NotificationDestination)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.Message != nil {
 		{
 			size, err := m.Message.MarshalToSizedBuffer(dAtA[:i])
@@ -751,6 +818,18 @@ func (m *PolicyResultMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.PayloadType != 0 {
+		i = encodeVarintPolicy(dAtA, i, uint64(m.PayloadType))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.NotificationDestination) > 0 {
+		i -= len(m.NotificationDestination)
+		copy(dAtA[i:], m.NotificationDestination)
+		i = encodeVarintPolicy(dAtA, i, uint64(len(m.NotificationDestination)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.Message != nil {
 		{
 			size, err := m.Message.MarshalToSizedBuffer(dAtA[:i])
@@ -805,6 +884,18 @@ func (m *PolicyStatusMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.PayloadType != 0 {
+		i = encodeVarintPolicy(dAtA, i, uint64(m.PayloadType))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.NotificationDestination) > 0 {
+		i -= len(m.NotificationDestination)
+		copy(dAtA[i:], m.NotificationDestination)
+		i = encodeVarintPolicy(dAtA, i, uint64(len(m.NotificationDestination)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.Message != nil {
 		{
 			size, err := m.Message.MarshalToSizedBuffer(dAtA[:i])
@@ -859,6 +950,18 @@ func (m *PolicyAckMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.PayloadType != 0 {
+		i = encodeVarintPolicy(dAtA, i, uint64(m.PayloadType))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.NotificationDestination) > 0 {
+		i -= len(m.NotificationDestination)
+		copy(dAtA[i:], m.NotificationDestination)
+		i = encodeVarintPolicy(dAtA, i, uint64(len(m.NotificationDestination)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.Message != nil {
 		{
 			size, err := m.Message.MarshalToSizedBuffer(dAtA[:i])
@@ -943,6 +1046,10 @@ func (m *PolicyRequestMessage) Size() (n int) {
 		l = m.Message.Size()
 		n += 1 + l + sovPolicy(uint64(l))
 	}
+	l = len(m.NotificationDestination)
+	if l > 0 {
+		n += 1 + l + sovPolicy(uint64(l))
+	}
 	return n
 }
 
@@ -963,6 +1070,13 @@ func (m *PolicyResultMessage) Size() (n int) {
 	if m.Message != nil {
 		l = m.Message.Size()
 		n += 1 + l + sovPolicy(uint64(l))
+	}
+	l = len(m.NotificationDestination)
+	if l > 0 {
+		n += 1 + l + sovPolicy(uint64(l))
+	}
+	if m.PayloadType != 0 {
+		n += 1 + sovPolicy(uint64(m.PayloadType))
 	}
 	return n
 }
@@ -985,6 +1099,13 @@ func (m *PolicyStatusMessage) Size() (n int) {
 		l = m.Message.Size()
 		n += 1 + l + sovPolicy(uint64(l))
 	}
+	l = len(m.NotificationDestination)
+	if l > 0 {
+		n += 1 + l + sovPolicy(uint64(l))
+	}
+	if m.PayloadType != 0 {
+		n += 1 + sovPolicy(uint64(m.PayloadType))
+	}
 	return n
 }
 
@@ -1005,6 +1126,13 @@ func (m *PolicyAckMessage) Size() (n int) {
 	if m.Message != nil {
 		l = m.Message.Size()
 		n += 1 + l + sovPolicy(uint64(l))
+	}
+	l = len(m.NotificationDestination)
+	if l > 0 {
+		n += 1 + l + sovPolicy(uint64(l))
+	}
+	if m.PayloadType != 0 {
+		n += 1 + sovPolicy(uint64(m.PayloadType))
 	}
 	return n
 }
@@ -1294,6 +1422,38 @@ func (m *PolicyRequestMessage) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NotificationDestination", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NotificationDestination = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPolicy(dAtA[iNdEx:])
@@ -1448,6 +1608,57 @@ func (m *PolicyResultMessage) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NotificationDestination", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NotificationDestination = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PayloadType", wireType)
+			}
+			m.PayloadType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PayloadType |= PayloadType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPolicy(dAtA[iNdEx:])
@@ -1602,6 +1813,57 @@ func (m *PolicyStatusMessage) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NotificationDestination", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NotificationDestination = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PayloadType", wireType)
+			}
+			m.PayloadType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PayloadType |= PayloadType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPolicy(dAtA[iNdEx:])
@@ -1756,6 +2018,57 @@ func (m *PolicyAckMessage) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NotificationDestination", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPolicy
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NotificationDestination = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PayloadType", wireType)
+			}
+			m.PayloadType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPolicy
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PayloadType |= PayloadType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPolicy(dAtA[iNdEx:])

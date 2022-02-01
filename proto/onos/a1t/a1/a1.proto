@@ -28,12 +28,18 @@ enum Encoding {
   JSON = 1;
 }
 
+enum PayloadType {
+  POLICY = 0;
+  STATUS = 1;
+}
+
 message Header {
   string request_id = 1;
   string app_id = 2;
   string app_instance_id = 3;
   string a1_node_id = 4;
   Encoding encoding = 5;
+  PayloadType payload_type = 6;
 }
 
 message Result {
