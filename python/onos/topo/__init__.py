@@ -3,7 +3,7 @@
 # plugin: python-betterproto
 import warnings
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import AsyncIterator, Dict, List
 
 import betterproto
@@ -223,7 +223,7 @@ class Configurable(betterproto.Message):
     address: str = betterproto.string_field(2)
     target: str = betterproto.string_field(3)
     version: str = betterproto.string_field(4)
-    timeout: int = betterproto.uint64_field(5)
+    timeout: timedelta = betterproto.message_field(5)
 
 
 @dataclass(eq=False, repr=False)
