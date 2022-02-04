@@ -19,6 +19,8 @@ syntax = "proto3";
 package onos.topo;
 
 import "google/protobuf/duration.proto";
+import "gogoproto/gogo.proto";
+
 
 // Basic asset information
 message Asset {
@@ -37,7 +39,7 @@ message Configurable {
     string address = 2;
     string target = 3;
     string version = 4;
-    google.protobuf.Duration timeout = 5;
+    google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
 }
 
 // Aspect for tracking device mastership
