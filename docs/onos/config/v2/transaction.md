@@ -4,9 +4,6 @@
 ## Table of Contents
 
 - [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
-    - [Change](#onos.config.v2.Change)
-    - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
-    - [ChangeValue](#onos.config.v2.ChangeValue)
     - [TargetStatus](#onos.config.v2.TargetStatus)
     - [TargetStatus.PrevValuesEntry](#onos.config.v2.TargetStatus.PrevValuesEntry)
     - [Transaction](#onos.config.v2.Transaction)
@@ -29,55 +26,6 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/config/v2/transaction.proto
-
-
-
-<a name="onos.config.v2.Change"></a>
-
-### Change
-Change represents a configuration change to a single target
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
-| target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
-| values | [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
-
-
-
-
-
-
-<a name="onos.config.v2.Change.ValuesEntry"></a>
-
-### Change.ValuesEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [ChangeValue](#onos.config.v2.ChangeValue) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.ChangeValue"></a>
-
-### ChangeValue
-ChangeValue represents a change requested for an individual path/value
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
-| delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
-
-
-
 
 
 

@@ -20,6 +20,7 @@ package onos.config.v2;
 
 import "gogoproto/gogo.proto";
 import "onos/config/v2/object.proto";
+import "onos/config/v2/change.proto";
 import "onos/config/v2/value.proto";
 import "onos/config/v2/failure.proto";
 
@@ -62,27 +63,6 @@ message Transaction {
         TransactionChange change = 7;
         TransactionRollback rollback = 8;
     }
-}
-
-// Change represents a configuration change to a single target
-message Change {
-    // 'target_version' is an optional target version to which to apply this change
-    string target_version = 2 [(gogoproto.casttype) = "TargetVersion"];
-
-    // 'target_type' is an optional target type to which to apply this change
-    string target_type = 3 [(gogoproto.casttype) = "TargetType"];
-
-    // 'values' is a set of change values to apply
-    map<string, ChangeValue> values = 4 [(gogoproto.nullable) = false];
-}
-
-// ChangeValue represents a change requested for an individual path/value
-message ChangeValue {
-    // 'value' is the change value
-    TypedValue value = 2 [(gogoproto.nullable) = false, json_name = "Value", (gogoproto.jsontag) = "Value,omitempty"];
-
-    // 'delete' indicates whether this is a delete
-    bool delete = 3 [(gogoproto.jsontag) = "Delete,omitempty"];
 }
 
 // TransactionStatus is the status of a Transaction
