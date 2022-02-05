@@ -76,29 +76,19 @@ class TransactionEventTransactionEventType(betterproto.Enum):
     TRANSACTION_REPLAYED = 4
 
 
-class ConfigurationState(betterproto.Enum):
-    """
-    ConfigurationState is the configuration state of a configuration phase
-    """
-
-    # CONFIGURATION_PENDING indicates the configuration is PENDING
-    CONFIGURATION_PENDING = 0
-    # CONFIGURATION_UPDATING indicates the configuration is being updated
-    CONFIGURATION_UPDATING = 1
-    # CONFIGURATION_COMPLETE indicates the configuration is complete
-    CONFIGURATION_COMPLETE = 2
-    # CONFIGURATION_FAILED indicates the configuration is failed
-    CONFIGURATION_FAILED = 3
-    # CONFIGURATION_STALE indicated the configuration is in the stale state
-    CONFIGURATION_STALE = 4
+class ConfigurationStatusState(betterproto.Enum):
+    UNKNOWN = 0
+    SYNCHRONIZING = 1
+    SYNCHRONIZED = 2
+    PERSISTED = 3
 
 
-class ConfigurationEventConfigurationEventType(betterproto.Enum):
-    CONFIGURATION_EVENT_UNKNOWN = 0
-    CONFIGURATION_CREATED = 1
-    CONFIGURATION_UPDATED = 2
-    CONFIGURATION_DELETED = 3
-    CONFIGURATION_REPLAYED = 4
+class ConfigurationEventEventType(betterproto.Enum):
+    UNKNOWN = 0
+    CREATED = 1
+    UPDATED = 2
+    DELETED = 3
+    REPLAYED = 4
 
 
 class TransactionalCommand(betterproto.Enum):
@@ -283,51 +273,53 @@ class Configuration(betterproto.Message):
     values: Dict[str, "PathValue"] = betterproto.map_field(
         6, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+    # 'index' is the index of the configuration values
+    index: int = betterproto.uint64_field(7)
     # 'ConfigurationStatus' is the current lifecycle status of the configuration
-    status: "ConfigurationStatus" = betterproto.message_field(7)
+    status: "ConfigurationStatus" = betterproto.message_field(8)
 
 
 @dataclass(eq=False, repr=False)
 class ConfigurationStatus(betterproto.Message):
     """ConfigurationStatus is the status of a Configuration"""
 
-    # revision is the highest revision number that's been reconciled
-    revision: int = betterproto.uint64_field(1)
-    # target_index is the highest transaction index that's been applied to the
-    # target
-    target_index: int = betterproto.uint64_field(6)
-    # 'state' is the state of the transaction within a Phase
-    state: "ConfigurationState" = betterproto.enum_field(2)
-    # mastershipState mastership info
-    mastership_state: "MastershipState" = betterproto.message_field(3)
-    # paths a set of path statuses
-    paths: Dict[str, "PathStatus"] = betterproto.map_field(
-        4, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
-    # failure configuration failure type and description
-    failure: "Failure" = betterproto.message_field(5)
+    # 'state' is the configuration state
+    state: "ConfigurationStatusState" = betterproto.enum_field(1)
+    # 'term' is the current mastership term for the configuration
+    term: int = betterproto.uint64_field(2)
+    # 'proposed' is the proposed configuration status
+    proposed: "ProposedConfigurationStatus" = betterproto.message_field(3)
+    # 'committed' is the committed configuration status
+    committed: "CommittedConfigurationStatus" = betterproto.message_field(4)
+    # 'applied' is the applied configuration status
+    applied: "AppliedConfigurationStatus" = betterproto.message_field(5)
 
 
 @dataclass(eq=False, repr=False)
-class PathStatus(betterproto.Message):
-    """PathStatus is the status of a Configuration path"""
-
+class ProposedConfigurationStatus(betterproto.Message):
     index: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
-class MastershipState(betterproto.Message):
-    """Mastership state"""
+class CommittedConfigurationStatus(betterproto.Message):
+    index: int = betterproto.uint64_field(1)
 
-    term: int = betterproto.uint64_field(1)
+
+@dataclass(eq=False, repr=False)
+class AppliedConfigurationStatus(betterproto.Message):
+    index: int = betterproto.uint64_field(1)
+    term: int = betterproto.uint64_field(2)
+    values: Dict[str, "PathValue"] = betterproto.map_field(
+        3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
 
 @dataclass(eq=False, repr=False)
 class ConfigurationEvent(betterproto.Message):
     """ConfigurationEvent configuration store event"""
 
-    # ConfigurationEventType configuration event type
-    type: "ConfigurationEventConfigurationEventType" = betterproto.enum_field(1)
+    # EventType configuration event type
+    type: "ConfigurationEventEventType" = betterproto.enum_field(1)
     configuration: "Configuration" = betterproto.message_field(2)
 
 

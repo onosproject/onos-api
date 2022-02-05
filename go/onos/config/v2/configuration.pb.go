@@ -23,84 +23,76 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// ConfigurationState is the configuration state of a configuration phase
-type ConfigurationState int32
+// State is the configuration state
+type ConfigurationStatus_State int32
 
 const (
-	// CONFIGURATION_PENDING indicates the configuration is PENDING
-	ConfigurationState_CONFIGURATION_PENDING ConfigurationState = 0
-	// CONFIGURATION_UPDATING indicates the configuration is being updated
-	ConfigurationState_CONFIGURATION_UPDATING ConfigurationState = 1
-	// CONFIGURATION_COMPLETE indicates the configuration is complete
-	ConfigurationState_CONFIGURATION_COMPLETE ConfigurationState = 2
-	// CONFIGURATION_FAILED indicates the configuration is failed
-	ConfigurationState_CONFIGURATION_FAILED ConfigurationState = 3
-	// CONFIGURATION_STALE indicated the configuration is in the stale state
-	ConfigurationState_CONFIGURATION_STALE ConfigurationState = 4
+	ConfigurationStatus_UNKNOWN       ConfigurationStatus_State = 0
+	ConfigurationStatus_SYNCHRONIZING ConfigurationStatus_State = 1
+	ConfigurationStatus_SYNCHRONIZED  ConfigurationStatus_State = 2
+	ConfigurationStatus_PERSISTED     ConfigurationStatus_State = 3
 )
 
-var ConfigurationState_name = map[int32]string{
-	0: "CONFIGURATION_PENDING",
-	1: "CONFIGURATION_UPDATING",
-	2: "CONFIGURATION_COMPLETE",
-	3: "CONFIGURATION_FAILED",
-	4: "CONFIGURATION_STALE",
+var ConfigurationStatus_State_name = map[int32]string{
+	0: "UNKNOWN",
+	1: "SYNCHRONIZING",
+	2: "SYNCHRONIZED",
+	3: "PERSISTED",
 }
 
-var ConfigurationState_value = map[string]int32{
-	"CONFIGURATION_PENDING":  0,
-	"CONFIGURATION_UPDATING": 1,
-	"CONFIGURATION_COMPLETE": 2,
-	"CONFIGURATION_FAILED":   3,
-	"CONFIGURATION_STALE":    4,
+var ConfigurationStatus_State_value = map[string]int32{
+	"UNKNOWN":       0,
+	"SYNCHRONIZING": 1,
+	"SYNCHRONIZED":  2,
+	"PERSISTED":     3,
 }
 
-func (x ConfigurationState) String() string {
-	return proto.EnumName(ConfigurationState_name, int32(x))
+func (x ConfigurationStatus_State) String() string {
+	return proto.EnumName(ConfigurationStatus_State_name, int32(x))
 }
 
-func (ConfigurationState) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{0}
+func (ConfigurationStatus_State) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{1, 0}
 }
 
-// ConfigurationEventType configuration event types for configuration store
-type ConfigurationEvent_ConfigurationEventType int32
+// EventType configuration event types for configuration store
+type ConfigurationEvent_EventType int32
 
 const (
-	// CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
-	ConfigurationEvent_CONFIGURATION_EVENT_UNKNOWN ConfigurationEvent_ConfigurationEventType = 0
-	// CONFIGURATION_CREATED indicates the configuration entry in the store is created
-	ConfigurationEvent_CONFIGURATION_CREATED ConfigurationEvent_ConfigurationEventType = 1
-	// CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
-	ConfigurationEvent_CONFIGURATION_UPDATED ConfigurationEvent_ConfigurationEventType = 2
-	// CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
-	ConfigurationEvent_CONFIGURATION_DELETED ConfigurationEvent_ConfigurationEventType = 3
-	// CONFIGURATION_REPLAYED
-	ConfigurationEvent_CONFIGURATION_REPLAYED ConfigurationEvent_ConfigurationEventType = 4
+	// UNKNOWN indicates unknown configuration store event
+	ConfigurationEvent_UNKNOWN ConfigurationEvent_EventType = 0
+	// CREATED indicates the configuration entry in the store is created
+	ConfigurationEvent_CREATED ConfigurationEvent_EventType = 1
+	// UPDATED indicates the configuration entry in the store is updated
+	ConfigurationEvent_UPDATED ConfigurationEvent_EventType = 2
+	// DELETED indicates the configuration entry in the store is deleted
+	ConfigurationEvent_DELETED ConfigurationEvent_EventType = 3
+	// REPLAYED
+	ConfigurationEvent_REPLAYED ConfigurationEvent_EventType = 4
 )
 
-var ConfigurationEvent_ConfigurationEventType_name = map[int32]string{
-	0: "CONFIGURATION_EVENT_UNKNOWN",
-	1: "CONFIGURATION_CREATED",
-	2: "CONFIGURATION_UPDATED",
-	3: "CONFIGURATION_DELETED",
-	4: "CONFIGURATION_REPLAYED",
+var ConfigurationEvent_EventType_name = map[int32]string{
+	0: "UNKNOWN",
+	1: "CREATED",
+	2: "UPDATED",
+	3: "DELETED",
+	4: "REPLAYED",
 }
 
-var ConfigurationEvent_ConfigurationEventType_value = map[string]int32{
-	"CONFIGURATION_EVENT_UNKNOWN": 0,
-	"CONFIGURATION_CREATED":       1,
-	"CONFIGURATION_UPDATED":       2,
-	"CONFIGURATION_DELETED":       3,
-	"CONFIGURATION_REPLAYED":      4,
+var ConfigurationEvent_EventType_value = map[string]int32{
+	"UNKNOWN":  0,
+	"CREATED":  1,
+	"UPDATED":  2,
+	"DELETED":  3,
+	"REPLAYED": 4,
 }
 
-func (x ConfigurationEvent_ConfigurationEventType) String() string {
-	return proto.EnumName(ConfigurationEvent_ConfigurationEventType_name, int32(x))
+func (x ConfigurationEvent_EventType) String() string {
+	return proto.EnumName(ConfigurationEvent_EventType_name, int32(x))
 }
 
-func (ConfigurationEvent_ConfigurationEventType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{4, 0}
+func (ConfigurationEvent_EventType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{5, 0}
 }
 
 // Configuration represents complete desired target configuration
@@ -116,8 +108,10 @@ type Configuration struct {
 	TargetType TargetType `protobuf:"bytes,5,opt,name=target_type,json=targetType,proto3,casttype=TargetType" json:"target_type,omitempty"`
 	// 'values' is a map of path/values to set
 	Values map[string]*PathValue `protobuf:"bytes,6,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// 'index' is the index of the configuration values
+	Index Index `protobuf:"varint,7,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
 	// 'ConfigurationStatus' is the current lifecycle status of the configuration
-	Status ConfigurationStatus `protobuf:"bytes,7,opt,name=status,proto3" json:"status"`
+	Status ConfigurationStatus `protobuf:"bytes,8,opt,name=status,proto3" json:"status"`
 }
 
 func (m *Configuration) Reset()         { *m = Configuration{} }
@@ -188,6 +182,13 @@ func (m *Configuration) GetValues() map[string]*PathValue {
 	return nil
 }
 
+func (m *Configuration) GetIndex() Index {
+	if m != nil {
+		return m.Index
+	}
+	return 0
+}
+
 func (m *Configuration) GetStatus() ConfigurationStatus {
 	if m != nil {
 		return m.Status
@@ -197,18 +198,16 @@ func (m *Configuration) GetStatus() ConfigurationStatus {
 
 // ConfigurationStatus is the status of a Configuration
 type ConfigurationStatus struct {
-	// revision is the highest revision number that's been reconciled
-	Revision Revision `protobuf:"varint,1,opt,name=revision,proto3,casttype=Revision" json:"revision,omitempty"`
-	// target_index is the highest transaction index that's been applied to the target
-	TargetIndex Index `protobuf:"varint,6,opt,name=target_index,json=targetIndex,proto3,casttype=Index" json:"target_index,omitempty"`
-	// 'state' is the state of the transaction within a Phase
-	State ConfigurationState `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.ConfigurationState" json:"state,omitempty"`
-	// mastershipState mastership info
-	MastershipState MastershipState `protobuf:"bytes,3,opt,name=mastership_state,json=mastershipState,proto3" json:"mastership_state"`
-	// paths a set of path statuses
-	Paths map[string]*PathStatus `protobuf:"bytes,4,rep,name=paths,proto3" json:"paths,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// failure configuration failure type and description
-	Failure *Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
+	// 'state' is the configuration state
+	State ConfigurationStatus_State `protobuf:"varint,1,opt,name=state,proto3,enum=onos.config.v2.ConfigurationStatus_State" json:"state,omitempty"`
+	// 'term' is the current mastership term for the configuration
+	Term MastershipTerm `protobuf:"varint,2,opt,name=term,proto3,casttype=MastershipTerm" json:"term,omitempty"`
+	// 'proposed' is the proposed configuration status
+	Proposed ProposedConfigurationStatus `protobuf:"bytes,3,opt,name=proposed,proto3" json:"proposed"`
+	// 'committed' is the committed configuration status
+	Committed CommittedConfigurationStatus `protobuf:"bytes,4,opt,name=committed,proto3" json:"committed"`
+	// 'applied' is the applied configuration status
+	Applied AppliedConfigurationStatus `protobuf:"bytes,5,opt,name=applied,proto3" json:"applied"`
 }
 
 func (m *ConfigurationStatus) Reset()         { *m = ConfigurationStatus{} }
@@ -244,150 +243,201 @@ func (m *ConfigurationStatus) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ConfigurationStatus proto.InternalMessageInfo
 
-func (m *ConfigurationStatus) GetRevision() Revision {
-	if m != nil {
-		return m.Revision
-	}
-	return 0
-}
-
-func (m *ConfigurationStatus) GetTargetIndex() Index {
-	if m != nil {
-		return m.TargetIndex
-	}
-	return 0
-}
-
-func (m *ConfigurationStatus) GetState() ConfigurationState {
+func (m *ConfigurationStatus) GetState() ConfigurationStatus_State {
 	if m != nil {
 		return m.State
 	}
-	return ConfigurationState_CONFIGURATION_PENDING
+	return ConfigurationStatus_UNKNOWN
 }
 
-func (m *ConfigurationStatus) GetMastershipState() MastershipState {
-	if m != nil {
-		return m.MastershipState
-	}
-	return MastershipState{}
-}
-
-func (m *ConfigurationStatus) GetPaths() map[string]*PathStatus {
-	if m != nil {
-		return m.Paths
-	}
-	return nil
-}
-
-func (m *ConfigurationStatus) GetFailure() *Failure {
-	if m != nil {
-		return m.Failure
-	}
-	return nil
-}
-
-// PathStatus is the status of a Configuration path
-type PathStatus struct {
-	Index Index `protobuf:"varint,1,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
-}
-
-func (m *PathStatus) Reset()         { *m = PathStatus{} }
-func (m *PathStatus) String() string { return proto.CompactTextString(m) }
-func (*PathStatus) ProtoMessage()    {}
-func (*PathStatus) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{2}
-}
-func (m *PathStatus) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *PathStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_PathStatus.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *PathStatus) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PathStatus.Merge(m, src)
-}
-func (m *PathStatus) XXX_Size() int {
-	return m.Size()
-}
-func (m *PathStatus) XXX_DiscardUnknown() {
-	xxx_messageInfo_PathStatus.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_PathStatus proto.InternalMessageInfo
-
-func (m *PathStatus) GetIndex() Index {
-	if m != nil {
-		return m.Index
-	}
-	return 0
-}
-
-// Mastership state
-type MastershipState struct {
-	Term MastershipTerm `protobuf:"varint,1,opt,name=term,proto3,casttype=MastershipTerm" json:"term,omitempty"`
-}
-
-func (m *MastershipState) Reset()         { *m = MastershipState{} }
-func (m *MastershipState) String() string { return proto.CompactTextString(m) }
-func (*MastershipState) ProtoMessage()    {}
-func (*MastershipState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{3}
-}
-func (m *MastershipState) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MastershipState) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MastershipState.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MastershipState) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MastershipState.Merge(m, src)
-}
-func (m *MastershipState) XXX_Size() int {
-	return m.Size()
-}
-func (m *MastershipState) XXX_DiscardUnknown() {
-	xxx_messageInfo_MastershipState.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MastershipState proto.InternalMessageInfo
-
-func (m *MastershipState) GetTerm() MastershipTerm {
+func (m *ConfigurationStatus) GetTerm() MastershipTerm {
 	if m != nil {
 		return m.Term
 	}
 	return 0
 }
 
+func (m *ConfigurationStatus) GetProposed() ProposedConfigurationStatus {
+	if m != nil {
+		return m.Proposed
+	}
+	return ProposedConfigurationStatus{}
+}
+
+func (m *ConfigurationStatus) GetCommitted() CommittedConfigurationStatus {
+	if m != nil {
+		return m.Committed
+	}
+	return CommittedConfigurationStatus{}
+}
+
+func (m *ConfigurationStatus) GetApplied() AppliedConfigurationStatus {
+	if m != nil {
+		return m.Applied
+	}
+	return AppliedConfigurationStatus{}
+}
+
+type ProposedConfigurationStatus struct {
+	Index Index `protobuf:"varint,1,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
+}
+
+func (m *ProposedConfigurationStatus) Reset()         { *m = ProposedConfigurationStatus{} }
+func (m *ProposedConfigurationStatus) String() string { return proto.CompactTextString(m) }
+func (*ProposedConfigurationStatus) ProtoMessage()    {}
+func (*ProposedConfigurationStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{2}
+}
+func (m *ProposedConfigurationStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ProposedConfigurationStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ProposedConfigurationStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ProposedConfigurationStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ProposedConfigurationStatus.Merge(m, src)
+}
+func (m *ProposedConfigurationStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *ProposedConfigurationStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_ProposedConfigurationStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ProposedConfigurationStatus proto.InternalMessageInfo
+
+func (m *ProposedConfigurationStatus) GetIndex() Index {
+	if m != nil {
+		return m.Index
+	}
+	return 0
+}
+
+type CommittedConfigurationStatus struct {
+	Index Index `protobuf:"varint,1,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
+}
+
+func (m *CommittedConfigurationStatus) Reset()         { *m = CommittedConfigurationStatus{} }
+func (m *CommittedConfigurationStatus) String() string { return proto.CompactTextString(m) }
+func (*CommittedConfigurationStatus) ProtoMessage()    {}
+func (*CommittedConfigurationStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{3}
+}
+func (m *CommittedConfigurationStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CommittedConfigurationStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CommittedConfigurationStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *CommittedConfigurationStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommittedConfigurationStatus.Merge(m, src)
+}
+func (m *CommittedConfigurationStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *CommittedConfigurationStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_CommittedConfigurationStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CommittedConfigurationStatus proto.InternalMessageInfo
+
+func (m *CommittedConfigurationStatus) GetIndex() Index {
+	if m != nil {
+		return m.Index
+	}
+	return 0
+}
+
+type AppliedConfigurationStatus struct {
+	Index  Index                 `protobuf:"varint,1,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
+	Term   MastershipTerm        `protobuf:"varint,2,opt,name=term,proto3,casttype=MastershipTerm" json:"term,omitempty"`
+	Values map[string]*PathValue `protobuf:"bytes,3,rep,name=values,proto3" json:"values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (m *AppliedConfigurationStatus) Reset()         { *m = AppliedConfigurationStatus{} }
+func (m *AppliedConfigurationStatus) String() string { return proto.CompactTextString(m) }
+func (*AppliedConfigurationStatus) ProtoMessage()    {}
+func (*AppliedConfigurationStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a1b457d3c759d10b, []int{4}
+}
+func (m *AppliedConfigurationStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *AppliedConfigurationStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_AppliedConfigurationStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *AppliedConfigurationStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AppliedConfigurationStatus.Merge(m, src)
+}
+func (m *AppliedConfigurationStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *AppliedConfigurationStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_AppliedConfigurationStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AppliedConfigurationStatus proto.InternalMessageInfo
+
+func (m *AppliedConfigurationStatus) GetIndex() Index {
+	if m != nil {
+		return m.Index
+	}
+	return 0
+}
+
+func (m *AppliedConfigurationStatus) GetTerm() MastershipTerm {
+	if m != nil {
+		return m.Term
+	}
+	return 0
+}
+
+func (m *AppliedConfigurationStatus) GetValues() map[string]*PathValue {
+	if m != nil {
+		return m.Values
+	}
+	return nil
+}
+
 // ConfigurationEvent configuration store event
 type ConfigurationEvent struct {
-	// ConfigurationEventType configuration event type
-	Type          ConfigurationEvent_ConfigurationEventType `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.ConfigurationEvent_ConfigurationEventType" json:"type,omitempty"`
-	Configuration Configuration                             `protobuf:"bytes,2,opt,name=configuration,proto3" json:"configuration"`
+	// EventType configuration event type
+	Type          ConfigurationEvent_EventType `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.ConfigurationEvent_EventType" json:"type,omitempty"`
+	Configuration Configuration                `protobuf:"bytes,2,opt,name=configuration,proto3" json:"configuration"`
 }
 
 func (m *ConfigurationEvent) Reset()         { *m = ConfigurationEvent{} }
 func (m *ConfigurationEvent) String() string { return proto.CompactTextString(m) }
 func (*ConfigurationEvent) ProtoMessage()    {}
 func (*ConfigurationEvent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a1b457d3c759d10b, []int{4}
+	return fileDescriptor_a1b457d3c759d10b, []int{5}
 }
 func (m *ConfigurationEvent) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -416,11 +466,11 @@ func (m *ConfigurationEvent) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ConfigurationEvent proto.InternalMessageInfo
 
-func (m *ConfigurationEvent) GetType() ConfigurationEvent_ConfigurationEventType {
+func (m *ConfigurationEvent) GetType() ConfigurationEvent_EventType {
 	if m != nil {
 		return m.Type
 	}
-	return ConfigurationEvent_CONFIGURATION_EVENT_UNKNOWN
+	return ConfigurationEvent_UNKNOWN
 }
 
 func (m *ConfigurationEvent) GetConfiguration() Configuration {
@@ -431,14 +481,15 @@ func (m *ConfigurationEvent) GetConfiguration() Configuration {
 }
 
 func init() {
-	proto.RegisterEnum("onos.config.v2.ConfigurationState", ConfigurationState_name, ConfigurationState_value)
-	proto.RegisterEnum("onos.config.v2.ConfigurationEvent_ConfigurationEventType", ConfigurationEvent_ConfigurationEventType_name, ConfigurationEvent_ConfigurationEventType_value)
+	proto.RegisterEnum("onos.config.v2.ConfigurationStatus_State", ConfigurationStatus_State_name, ConfigurationStatus_State_value)
+	proto.RegisterEnum("onos.config.v2.ConfigurationEvent_EventType", ConfigurationEvent_EventType_name, ConfigurationEvent_EventType_value)
 	proto.RegisterType((*Configuration)(nil), "onos.config.v2.Configuration")
 	proto.RegisterMapType((map[string]*PathValue)(nil), "onos.config.v2.Configuration.ValuesEntry")
 	proto.RegisterType((*ConfigurationStatus)(nil), "onos.config.v2.ConfigurationStatus")
-	proto.RegisterMapType((map[string]*PathStatus)(nil), "onos.config.v2.ConfigurationStatus.PathsEntry")
-	proto.RegisterType((*PathStatus)(nil), "onos.config.v2.PathStatus")
-	proto.RegisterType((*MastershipState)(nil), "onos.config.v2.MastershipState")
+	proto.RegisterType((*ProposedConfigurationStatus)(nil), "onos.config.v2.ProposedConfigurationStatus")
+	proto.RegisterType((*CommittedConfigurationStatus)(nil), "onos.config.v2.CommittedConfigurationStatus")
+	proto.RegisterType((*AppliedConfigurationStatus)(nil), "onos.config.v2.AppliedConfigurationStatus")
+	proto.RegisterMapType((map[string]*PathValue)(nil), "onos.config.v2.AppliedConfigurationStatus.ValuesEntry")
 	proto.RegisterType((*ConfigurationEvent)(nil), "onos.config.v2.ConfigurationEvent")
 }
 
@@ -447,57 +498,54 @@ func init() {
 }
 
 var fileDescriptor_a1b457d3c759d10b = []byte{
-	// 790 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x55, 0xdf, 0x6e, 0xdb, 0x54,
-	0x18, 0x8f, 0x1d, 0xa7, 0x6b, 0xbf, 0xac, 0xa9, 0x39, 0x1b, 0x9b, 0xeb, 0x41, 0x5c, 0x05, 0x09,
-	0x75, 0x08, 0x12, 0x08, 0x42, 0xea, 0xb8, 0x4b, 0x6a, 0x77, 0xb2, 0x68, 0x9d, 0xe8, 0xcc, 0x2d,
-	0xe2, 0xaa, 0xf2, 0x96, 0xb3, 0xd6, 0xb0, 0xc4, 0x91, 0x7d, 0x12, 0x91, 0xb7, 0xe0, 0x9a, 0x07,
-	0xe0, 0x59, 0x7a, 0xd9, 0x3b, 0xb8, 0xb2, 0x50, 0xfa, 0x06, 0x5c, 0xe6, 0x0a, 0xf9, 0x3b, 0x67,
-	0x59, 0xec, 0x44, 0x85, 0xbb, 0xe3, 0xf3, 0xfb, 0xf3, 0x7d, 0xfe, 0xfd, 0xea, 0x06, 0x1a, 0xd1,
-	0x28, 0x4a, 0x5a, 0x6f, 0xa2, 0xd1, 0xdb, 0xf0, 0xaa, 0x35, 0x6d, 0xcb, 0xd3, 0x24, 0x0e, 0x78,
-	0x18, 0x8d, 0x9a, 0xe3, 0x38, 0xe2, 0x11, 0xa9, 0x65, 0x9c, 0xa6, 0x40, 0x9a, 0xd3, 0xb6, 0xf9,
-	0xf8, 0x2a, 0xba, 0x8a, 0x10, 0x6a, 0x65, 0x27, 0xc1, 0x32, 0x9f, 0x15, 0x9c, 0xa2, 0xd7, 0x3f,
-	0xb3, 0x37, 0x5c, 0x82, 0x66, 0x01, 0x9c, 0x06, 0xef, 0x26, 0x4c, 0x62, 0x9f, 0x14, 0xb0, 0xb7,
-	0x41, 0xf8, 0x6e, 0x12, 0x4b, 0xb4, 0xf1, 0x4f, 0x19, 0x76, 0x8f, 0x57, 0x97, 0x22, 0x47, 0xa0,
-	0x0d, 0x19, 0x0f, 0x0c, 0xe5, 0x40, 0x39, 0xac, 0xb6, 0xcd, 0x66, 0x7e, 0xbb, 0x66, 0x0f, 0xe7,
-	0x9e, 0x31, 0x1e, 0x74, 0xb7, 0x6f, 0x52, 0xab, 0x74, 0x9b, 0x5a, 0x0a, 0x45, 0x05, 0x79, 0x0e,
-	0x6a, 0x38, 0x30, 0xd4, 0x03, 0xe5, 0x70, 0xa7, 0xbb, 0x3f, 0x4f, 0x2d, 0xd5, 0xb5, 0x17, 0xa9,
-	0xb5, 0x97, 0xb3, 0x77, 0x6d, 0xaa, 0x86, 0x03, 0xf2, 0x1d, 0xec, 0xf0, 0x20, 0xbe, 0x62, 0xfc,
-	0x32, 0x1c, 0x18, 0x65, 0x54, 0x18, 0xf3, 0xd4, 0xda, 0xf6, 0xf1, 0x12, 0x75, 0xcb, 0x33, 0xdd,
-	0x16, 0x54, 0x77, 0x40, 0x8e, 0xa0, 0x26, 0x65, 0x53, 0x16, 0x27, 0x61, 0x34, 0x32, 0x34, 0xd4,
-	0x7e, 0xb4, 0x48, 0xad, 0x5d, 0xc1, 0xbf, 0x10, 0x00, 0xdd, 0xe5, 0xab, 0x8f, 0xa4, 0x05, 0x55,
-	0xa9, 0xe4, 0xb3, 0x31, 0x33, 0x2a, 0x28, 0xab, 0x2d, 0x52, 0x0b, 0x84, 0xcc, 0x9f, 0x8d, 0x19,
-	0x05, 0xbe, 0x3c, 0x93, 0x0e, 0x6c, 0x61, 0x8a, 0x89, 0xb1, 0x75, 0x50, 0x3e, 0xac, 0xb6, 0x9f,
-	0x17, 0x83, 0xc8, 0xbd, 0x56, 0xf3, 0x02, 0xb9, 0xce, 0x88, 0xc7, 0x33, 0x2a, 0x85, 0x99, 0x45,
-	0xc2, 0x03, 0x3e, 0x49, 0x8c, 0x07, 0x98, 0xe5, 0x67, 0xf7, 0x5a, 0xbc, 0x42, 0x6a, 0x57, 0xcb,
-	0x42, 0xa5, 0x52, 0x68, 0xfa, 0x50, 0x5d, 0x71, 0x26, 0x3a, 0x94, 0x7f, 0x61, 0x33, 0xac, 0x66,
-	0x87, 0x66, 0x47, 0xd2, 0x82, 0x0a, 0x4e, 0xc3, 0xd8, 0xab, 0xed, 0xfd, 0xe2, 0x88, 0x7e, 0xc0,
-	0xaf, 0xd1, 0x81, 0x0a, 0xde, 0xf7, 0xea, 0x91, 0xd2, 0xb8, 0x29, 0xc3, 0xa3, 0x0d, 0xb3, 0xc9,
-	0x21, 0x6c, 0xc7, 0x6c, 0x1a, 0x62, 0xb0, 0xd9, 0x0c, 0xad, 0xfb, 0x30, 0x2b, 0x82, 0xca, 0x3b,
-	0xba, 0x44, 0xc9, 0x97, 0xf0, 0xf0, 0x7d, 0x7f, 0xa3, 0x01, 0xfb, 0xd5, 0xd8, 0x42, 0xf6, 0xce,
-	0x22, 0xb5, 0x2a, 0x6e, 0x76, 0x41, 0x65, 0xda, 0xf8, 0x40, 0x8e, 0xa0, 0x92, 0xbd, 0x8f, 0x58,
-	0xb2, 0xd6, 0x6e, 0xfc, 0x67, 0x0e, 0x8c, 0x0a, 0x01, 0xe9, 0x83, 0x3e, 0x0c, 0x12, 0xce, 0xe2,
-	0xe4, 0x3a, 0x1c, 0x5f, 0x0a, 0x93, 0x32, 0xbe, 0xa9, 0x55, 0x34, 0x39, 0x5b, 0xf2, 0xd0, 0x41,
-	0x06, 0xb9, 0x37, 0xcc, 0x5f, 0x13, 0x1b, 0x2a, 0xe3, 0x80, 0x5f, 0x27, 0x86, 0x86, 0xb5, 0x36,
-	0xff, 0x47, 0x27, 0x18, 0xa2, 0xec, 0x56, 0x88, 0xc9, 0x37, 0xf0, 0x40, 0x7e, 0x47, 0xf8, 0xa7,
-	0x54, 0x6d, 0x3f, 0x2d, 0xfa, 0x9c, 0x08, 0x98, 0xbe, 0xe7, 0x99, 0x3e, 0xc0, 0x07, 0x9f, 0x0d,
-	0x4d, 0x7e, 0x9d, 0x6f, 0xd2, 0xdc, 0xd4, 0xa4, 0xd8, 0x67, 0xb5, 0xca, 0xaf, 0x84, 0xab, 0x2c,
-	0xd0, 0x82, 0x8a, 0xe8, 0x43, 0x29, 0xf6, 0x21, 0xee, 0x1b, 0x2f, 0x60, 0xaf, 0x90, 0x13, 0xf9,
-	0x1c, 0x34, 0xce, 0xe2, 0xa1, 0x94, 0x90, 0x45, 0x6a, 0xd5, 0x3e, 0x50, 0x7c, 0x16, 0x0f, 0x29,
-	0xe2, 0x8d, 0x3f, 0x55, 0x20, 0xb9, 0x70, 0x9c, 0x29, 0x1b, 0x71, 0x72, 0x06, 0x1a, 0x7e, 0x51,
-	0x0a, 0x56, 0xfb, 0xe2, 0xde, 0x38, 0x51, 0xb1, 0xe1, 0x0a, 0x3f, 0x3e, 0xb4, 0x21, 0x2e, 0xec,
-	0xe6, 0xfe, 0x47, 0xca, 0x34, 0x3e, 0xbd, 0xd7, 0x57, 0x76, 0x9d, 0x57, 0x36, 0xfe, 0x50, 0xe0,
-	0xc9, 0xe6, 0x59, 0xc4, 0x82, 0x67, 0xc7, 0x3d, 0xef, 0xc4, 0x7d, 0x79, 0x4e, 0x3b, 0xbe, 0xdb,
-	0xf3, 0x2e, 0x9d, 0x0b, 0xc7, 0xf3, 0x2f, 0xcf, 0xbd, 0x1f, 0xbc, 0xde, 0x8f, 0x9e, 0x5e, 0x22,
-	0xfb, 0xf0, 0x71, 0x9e, 0x70, 0x4c, 0x9d, 0x8e, 0xef, 0xd8, 0xba, 0xb2, 0x0e, 0x9d, 0xf7, 0x6d,
-	0x84, 0xd4, 0x75, 0xc8, 0x76, 0x4e, 0x9d, 0x0c, 0x2a, 0x13, 0x13, 0x9e, 0xe4, 0x21, 0xea, 0xf4,
-	0x4f, 0x3b, 0x3f, 0x39, 0xb6, 0xae, 0x7d, 0xf1, 0xbb, 0x52, 0x48, 0x56, 0x14, 0xb3, 0xe6, 0xd6,
-	0x77, 0x3c, 0xdb, 0xf5, 0x5e, 0xea, 0xa5, 0x75, 0x37, 0xdc, 0x21, 0xc3, 0x94, 0x75, 0xec, 0xb8,
-	0x77, 0xd6, 0xcf, 0xd6, 0xd0, 0x55, 0x62, 0xc0, 0xe3, 0x3c, 0x76, 0xd2, 0x71, 0x4f, 0x71, 0xbf,
-	0xa7, 0xf0, 0x28, 0x8f, 0xbc, 0xf2, 0x3b, 0xa7, 0x8e, 0xae, 0x75, 0x8d, 0x9b, 0x79, 0x5d, 0xb9,
-	0x9d, 0xd7, 0x95, 0xbf, 0xe7, 0x75, 0xe5, 0xb7, 0xbb, 0x7a, 0xe9, 0xf6, 0xae, 0x5e, 0xfa, 0xeb,
-	0xae, 0x5e, 0x7a, 0xbd, 0x85, 0xbf, 0x20, 0xdf, 0xfe, 0x1b, 0x00, 0x00, 0xff, 0xff, 0x45, 0x8b,
-	0x37, 0x37, 0xe4, 0x06, 0x00, 0x00,
+	// 750 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x55, 0x41, 0x6f, 0xe2, 0x56,
+	0x10, 0xc6, 0xc6, 0x04, 0x18, 0x07, 0x4a, 0x5e, 0x7b, 0x70, 0x48, 0x8b, 0x11, 0x95, 0x2a, 0xd2,
+	0x46, 0x46, 0x72, 0xd5, 0x2a, 0xea, 0xa1, 0x29, 0x04, 0xab, 0x71, 0x1b, 0x08, 0x7a, 0xd0, 0x54,
+	0xe9, 0xa5, 0x72, 0xc2, 0x2b, 0x71, 0x1b, 0xb0, 0x65, 0xbf, 0xa0, 0xf2, 0x1b, 0x7a, 0xa9, 0xb4,
+	0xbf, 0x65, 0xff, 0x43, 0x8e, 0x39, 0xee, 0xc9, 0x5a, 0x91, 0x3f, 0xb0, 0x67, 0x4e, 0x2b, 0x8f,
+	0xbd, 0x24, 0x90, 0x40, 0x72, 0xd9, 0x0b, 0x8c, 0xdf, 0xcc, 0xf7, 0xcd, 0xf8, 0xf3, 0x37, 0x36,
+	0x54, 0x9c, 0x91, 0xe3, 0xd7, 0x2e, 0x9c, 0xd1, 0x5f, 0xf6, 0xa0, 0x36, 0xd6, 0xe3, 0xe8, 0xda,
+	0xb3, 0xb8, 0xed, 0x8c, 0x34, 0xd7, 0x73, 0xb8, 0x43, 0xf2, 0x61, 0x8d, 0x16, 0x65, 0xb4, 0xb1,
+	0x5e, 0xfc, 0x6c, 0xe0, 0x0c, 0x1c, 0x4c, 0xd5, 0xc2, 0x28, 0xaa, 0x2a, 0xee, 0x2c, 0x31, 0x39,
+	0xe7, 0x7f, 0xb3, 0x0b, 0x1e, 0x27, 0x8b, 0x4b, 0xc9, 0xb1, 0x75, 0x75, 0xcd, 0xa2, 0x5c, 0xe5,
+	0x95, 0x04, 0xb9, 0xc3, 0x87, 0x6d, 0xc9, 0x3e, 0x48, 0x43, 0xc6, 0x2d, 0x45, 0x28, 0x0b, 0x55,
+	0x59, 0x2f, 0x6a, 0x8b, 0xfd, 0xb5, 0x13, 0x64, 0x6e, 0x31, 0x6e, 0x35, 0x32, 0x37, 0x81, 0x9a,
+	0xb8, 0x0d, 0x54, 0x81, 0x22, 0x82, 0xec, 0x82, 0x68, 0xf7, 0x15, 0xb1, 0x2c, 0x54, 0xb3, 0x8d,
+	0xed, 0x69, 0xa0, 0x8a, 0x66, 0x73, 0x16, 0xa8, 0x9f, 0x2c, 0xd0, 0x9b, 0x4d, 0x2a, 0xda, 0x7d,
+	0xf2, 0x1d, 0x64, 0xb9, 0xe5, 0x0d, 0x18, 0xff, 0xd3, 0xee, 0x2b, 0x49, 0x44, 0x28, 0xd3, 0x40,
+	0xcd, 0xf4, 0xf0, 0x10, 0x71, 0xf3, 0x98, 0x66, 0xa2, 0x52, 0xb3, 0x4f, 0xf6, 0x21, 0x1f, 0xc3,
+	0xc6, 0xcc, 0xf3, 0x6d, 0x67, 0xa4, 0x48, 0x88, 0xdd, 0x9a, 0x05, 0x6a, 0x2e, 0xaa, 0x3f, 0x8d,
+	0x12, 0x34, 0xc7, 0x1f, 0x5e, 0x92, 0x1a, 0xc8, 0x31, 0x92, 0x4f, 0x5c, 0xa6, 0xa4, 0x10, 0x96,
+	0x9f, 0x05, 0x2a, 0x44, 0xb0, 0xde, 0xc4, 0x65, 0x14, 0xf8, 0x3c, 0x26, 0x75, 0xd8, 0x40, 0x9d,
+	0x7c, 0x65, 0xa3, 0x9c, 0xac, 0xca, 0xfa, 0xee, 0xb2, 0x10, 0x0b, 0xb7, 0xa5, 0x9d, 0x62, 0xad,
+	0x31, 0xe2, 0xde, 0x84, 0xc6, 0x40, 0xa2, 0x42, 0xca, 0x1e, 0xf5, 0xd9, 0xbf, 0x4a, 0xba, 0x2c,
+	0x54, 0xa5, 0x46, 0x76, 0x16, 0xa8, 0x29, 0x33, 0x3c, 0xa0, 0xd1, 0x79, 0xd8, 0xc3, 0xe7, 0x16,
+	0xbf, 0xf6, 0x95, 0x0c, 0x8a, 0xfd, 0xe5, 0xda, 0x1e, 0x5d, 0x2c, 0x6d, 0x48, 0xa1, 0xea, 0x34,
+	0x06, 0x16, 0x7b, 0x20, 0x3f, 0x68, 0x4d, 0x0a, 0x90, 0xfc, 0x87, 0x4d, 0xf0, 0xd9, 0x65, 0x69,
+	0x18, 0x92, 0x1a, 0xa4, 0x70, 0x1c, 0x7c, 0x2e, 0xb2, 0xbe, 0xbd, 0xdc, 0xa2, 0x63, 0xf1, 0x4b,
+	0x64, 0xa0, 0x51, 0xdd, 0x0f, 0xe2, 0xbe, 0x50, 0x79, 0x9d, 0x84, 0x4f, 0x9f, 0xe8, 0x4d, 0x0e,
+	0x20, 0x15, 0xf6, 0x65, 0xd8, 0x20, 0xff, 0x8c, 0x26, 0x11, 0x46, 0x0b, 0xff, 0x18, 0x8d, 0x70,
+	0xe4, 0x2b, 0x90, 0x38, 0xf3, 0x86, 0x38, 0x8c, 0xd4, 0x20, 0xb3, 0x40, 0xcd, 0xb7, 0x2c, 0x9f,
+	0x33, 0xcf, 0xbf, 0xb4, 0xdd, 0x1e, 0xf3, 0x86, 0x14, 0xf3, 0xa4, 0x05, 0x19, 0xd7, 0x73, 0x5c,
+	0xc7, 0x67, 0x91, 0x3d, 0x64, 0xfd, 0x9b, 0x47, 0x83, 0xc7, 0xf9, 0xd5, 0x1a, 0xcd, 0x29, 0x48,
+	0x07, 0xb2, 0x17, 0xce, 0x70, 0x68, 0x73, 0xce, 0xfa, 0x68, 0x19, 0x59, 0xdf, 0x7b, 0x3c, 0x7b,
+	0x5c, 0xb0, 0x9a, 0xf0, 0x9e, 0x84, 0xfc, 0x02, 0x69, 0xcb, 0x75, 0xaf, 0x6c, 0xd6, 0x47, 0x2f,
+	0xc9, 0xfa, 0xd7, 0xcb, 0x7c, 0xf5, 0x28, 0xbd, 0x9a, 0xed, 0x03, 0x41, 0xe5, 0x08, 0x52, 0x28,
+	0x12, 0x91, 0x21, 0xfd, 0x5b, 0xfb, 0xd7, 0xf6, 0xc9, 0xef, 0xed, 0x42, 0x82, 0x6c, 0x41, 0xae,
+	0x7b, 0xd6, 0x3e, 0x3c, 0xa2, 0x27, 0x6d, 0xf3, 0x0f, 0xb3, 0xfd, 0x73, 0x41, 0x20, 0x05, 0xd8,
+	0xbc, 0x3f, 0x32, 0x9a, 0x05, 0x91, 0xe4, 0x20, 0xdb, 0x31, 0x68, 0xd7, 0xec, 0xf6, 0x8c, 0x66,
+	0x21, 0x59, 0xf9, 0x11, 0x76, 0xd6, 0xc8, 0x72, 0x6f, 0x48, 0xe1, 0x69, 0x43, 0x56, 0x0e, 0xe0,
+	0xf3, 0x75, 0x32, 0x3c, 0x4f, 0xf0, 0x9f, 0x08, 0xc5, 0xd5, 0x37, 0xfe, 0x2c, 0xfe, 0xc5, 0xfe,
+	0x68, 0xcf, 0xb7, 0x33, 0x89, 0xdb, 0xf9, 0xfd, 0xcb, 0xd5, 0x7f, 0x6a, 0x55, 0x3f, 0xd2, 0x1a,
+	0xbd, 0x13, 0x80, 0x2c, 0x4c, 0x60, 0x8c, 0xd9, 0x88, 0x93, 0x9f, 0x40, 0xc2, 0x97, 0x50, 0xb4,
+	0x44, 0x7b, 0x6b, 0x97, 0x08, 0x11, 0x1a, 0xfe, 0xe2, 0x2b, 0x0a, 0x91, 0xc4, 0x84, 0xdc, 0xc2,
+	0xb7, 0x22, 0x9e, 0xea, 0x8b, 0xb5, 0x54, 0xb1, 0xed, 0x16, 0x91, 0x95, 0x16, 0x64, 0xe7, 0xec,
+	0x8b, 0x06, 0x94, 0x21, 0x7d, 0x48, 0x8d, 0x7a, 0xe8, 0x2c, 0x01, 0x33, 0x9d, 0x26, 0x5e, 0x88,
+	0xe1, 0x45, 0xd3, 0x38, 0x36, 0xd0, 0x73, 0x64, 0x13, 0x32, 0xd4, 0xe8, 0x1c, 0xd7, 0xcf, 0x8c,
+	0x66, 0x41, 0x6a, 0x28, 0x37, 0xd3, 0x92, 0x70, 0x3b, 0x2d, 0x09, 0x6f, 0xa7, 0x25, 0xe1, 0xff,
+	0xbb, 0x52, 0xe2, 0xf6, 0xae, 0x94, 0x78, 0x73, 0x57, 0x4a, 0x9c, 0x6f, 0xe0, 0x07, 0xe7, 0xdb,
+	0xf7, 0x01, 0x00, 0x00, 0xff, 0xff, 0xba, 0x11, 0x7d, 0x3a, 0xf5, 0x06, 0x00, 0x00,
 }
 
 func (m *Configuration) Marshal() (dAtA []byte, err error) {
@@ -529,7 +577,12 @@ func (m *Configuration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintConfiguration(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0x3a
+	dAtA[i] = 0x42
+	if m.Index != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.Index))
+		i--
+		dAtA[i] = 0x38
+	}
 	if len(m.Values) > 0 {
 		for k := range m.Values {
 			v := m.Values[k]
@@ -617,26 +670,128 @@ func (m *ConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.TargetIndex != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.TargetIndex))
-		i--
-		dAtA[i] = 0x30
-	}
-	if m.Failure != nil {
-		{
-			size, err := m.Failure.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintConfiguration(dAtA, i, uint64(size))
+	{
+		size, err := m.Applied.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
-		i--
-		dAtA[i] = 0x2a
+		i -= size
+		i = encodeVarintConfiguration(dAtA, i, uint64(size))
 	}
-	if len(m.Paths) > 0 {
-		for k := range m.Paths {
-			v := m.Paths[k]
+	i--
+	dAtA[i] = 0x2a
+	{
+		size, err := m.Committed.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintConfiguration(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x22
+	{
+		size, err := m.Proposed.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintConfiguration(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	if m.Term != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.Term))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.State != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.State))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ProposedConfigurationStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ProposedConfigurationStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ProposedConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Index != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.Index))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *CommittedConfigurationStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *CommittedConfigurationStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CommittedConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Index != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.Index))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *AppliedConfigurationStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *AppliedConfigurationStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *AppliedConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Values) > 0 {
+		for k := range m.Values {
+			v := m.Values[k]
 			baseI := i
 			if v != nil {
 				{
@@ -657,82 +812,16 @@ func (m *ConfigurationStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0xa
 			i = encodeVarintConfiguration(dAtA, i, uint64(baseI-i))
 			i--
-			dAtA[i] = 0x22
+			dAtA[i] = 0x1a
 		}
 	}
-	{
-		size, err := m.MastershipState.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintConfiguration(dAtA, i, uint64(size))
-	}
-	i--
-	dAtA[i] = 0x1a
-	if m.State != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.State))
+	if m.Term != 0 {
+		i = encodeVarintConfiguration(dAtA, i, uint64(m.Term))
 		i--
 		dAtA[i] = 0x10
 	}
-	if m.Revision != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.Revision))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *PathStatus) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *PathStatus) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *PathStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
 	if m.Index != 0 {
 		i = encodeVarintConfiguration(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MastershipState) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MastershipState) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MastershipState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Term != 0 {
-		i = encodeVarintConfiguration(dAtA, i, uint64(m.Term))
 		i--
 		dAtA[i] = 0x8
 	}
@@ -825,6 +914,9 @@ func (m *Configuration) Size() (n int) {
 			n += mapEntrySize + 1 + sovConfiguration(uint64(mapEntrySize))
 		}
 	}
+	if m.Index != 0 {
+		n += 1 + sovConfiguration(uint64(m.Index))
+	}
 	l = m.Status.Size()
 	n += 1 + l + sovConfiguration(uint64(l))
 	return n
@@ -836,38 +928,22 @@ func (m *ConfigurationStatus) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Revision != 0 {
-		n += 1 + sovConfiguration(uint64(m.Revision))
-	}
 	if m.State != 0 {
 		n += 1 + sovConfiguration(uint64(m.State))
 	}
-	l = m.MastershipState.Size()
+	if m.Term != 0 {
+		n += 1 + sovConfiguration(uint64(m.Term))
+	}
+	l = m.Proposed.Size()
 	n += 1 + l + sovConfiguration(uint64(l))
-	if len(m.Paths) > 0 {
-		for k, v := range m.Paths {
-			_ = k
-			_ = v
-			l = 0
-			if v != nil {
-				l = v.Size()
-				l += 1 + sovConfiguration(uint64(l))
-			}
-			mapEntrySize := 1 + len(k) + sovConfiguration(uint64(len(k))) + l
-			n += mapEntrySize + 1 + sovConfiguration(uint64(mapEntrySize))
-		}
-	}
-	if m.Failure != nil {
-		l = m.Failure.Size()
-		n += 1 + l + sovConfiguration(uint64(l))
-	}
-	if m.TargetIndex != 0 {
-		n += 1 + sovConfiguration(uint64(m.TargetIndex))
-	}
+	l = m.Committed.Size()
+	n += 1 + l + sovConfiguration(uint64(l))
+	l = m.Applied.Size()
+	n += 1 + l + sovConfiguration(uint64(l))
 	return n
 }
 
-func (m *PathStatus) Size() (n int) {
+func (m *ProposedConfigurationStatus) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -879,14 +955,42 @@ func (m *PathStatus) Size() (n int) {
 	return n
 }
 
-func (m *MastershipState) Size() (n int) {
+func (m *CommittedConfigurationStatus) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
+	if m.Index != 0 {
+		n += 1 + sovConfiguration(uint64(m.Index))
+	}
+	return n
+}
+
+func (m *AppliedConfigurationStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Index != 0 {
+		n += 1 + sovConfiguration(uint64(m.Index))
+	}
 	if m.Term != 0 {
 		n += 1 + sovConfiguration(uint64(m.Term))
+	}
+	if len(m.Values) > 0 {
+		for k, v := range m.Values {
+			_ = k
+			_ = v
+			l = 0
+			if v != nil {
+				l = v.Size()
+				l += 1 + sovConfiguration(uint64(l))
+			}
+			mapEntrySize := 1 + len(k) + sovConfiguration(uint64(len(k))) + l
+			n += mapEntrySize + 1 + sovConfiguration(uint64(mapEntrySize))
+		}
 	}
 	return n
 }
@@ -1231,6 +1335,25 @@ func (m *Configuration) Unmarshal(dAtA []byte) error {
 			m.Values[mapkey] = mapvalue
 			iNdEx = postIndex
 		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= Index(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
 			}
@@ -1315,25 +1438,6 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Revision", wireType)
-			}
-			m.Revision = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Revision |= Revision(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
 			}
 			m.State = 0
@@ -1346,14 +1450,33 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.State |= ConfigurationState(b&0x7F) << shift
+				m.State |= ConfigurationStatus_State(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Term", wireType)
+			}
+			m.Term = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Term |= MastershipTerm(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MastershipState", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Proposed", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1380,13 +1503,13 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.MastershipState.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Proposed.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Paths", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Committed", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1413,11 +1536,303 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Paths == nil {
-				m.Paths = make(map[string]*PathStatus)
+			if err := m.Committed.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Applied", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Applied.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfiguration(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ProposedConfigurationStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfiguration
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ProposedConfigurationStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ProposedConfigurationStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= Index(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfiguration(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CommittedConfigurationStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfiguration
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CommittedConfigurationStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CommittedConfigurationStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= Index(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipConfiguration(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *AppliedConfigurationStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowConfiguration
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AppliedConfigurationStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AppliedConfigurationStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= Index(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Term", wireType)
+			}
+			m.Term = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Term |= MastershipTerm(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Values", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowConfiguration
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthConfiguration
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Values == nil {
+				m.Values = make(map[string]*PathValue)
 			}
 			var mapkey string
-			var mapvalue *PathStatus
+			var mapvalue *PathValue
 			for iNdEx < postIndex {
 				entryPreIndex := iNdEx
 				var wire uint64
@@ -1491,7 +1906,7 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 					if postmsgIndex > l {
 						return io.ErrUnexpectedEOF
 					}
-					mapvalue = &PathStatus{}
+					mapvalue = &PathValue{}
 					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
 						return err
 					}
@@ -1511,201 +1926,8 @@ func (m *ConfigurationStatus) Unmarshal(dAtA []byte) error {
 					iNdEx += skippy
 				}
 			}
-			m.Paths[mapkey] = mapvalue
+			m.Values[mapkey] = mapvalue
 			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Failure", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthConfiguration
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthConfiguration
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Failure == nil {
-				m.Failure = &Failure{}
-			}
-			if err := m.Failure.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TargetIndex", wireType)
-			}
-			m.TargetIndex = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.TargetIndex |= Index(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipConfiguration(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthConfiguration
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *PathStatus) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowConfiguration
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: PathStatus: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: PathStatus: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= Index(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipConfiguration(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthConfiguration
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MastershipState) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowConfiguration
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MastershipState: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MastershipState: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Term", wireType)
-			}
-			m.Term = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowConfiguration
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Term |= MastershipTerm(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipConfiguration(dAtA[iNdEx:])
@@ -1770,7 +1992,7 @@ func (m *ConfigurationEvent) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Type |= ConfigurationEvent_ConfigurationEventType(b&0x7F) << shift
+				m.Type |= ConfigurationEvent_EventType(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
