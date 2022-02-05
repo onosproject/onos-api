@@ -23,14 +23,8 @@ import "onos/config/v2/value.proto";
 
 // Change represents a configuration change to a single target
 message Change {
-    // 'target_version' is an optional target version to which to apply this change
-    string target_version = 2 [(gogoproto.casttype) = "TargetVersion"];
-
-    // 'target_type' is an optional target type to which to apply this change
-    string target_type = 3 [(gogoproto.casttype) = "TargetType"];
-
     // 'values' is a set of change values to apply
-    map<string, ChangeValue> values = 4 [(gogoproto.nullable) = false];
+    map<string, ChangeValue> values = 1 [(gogoproto.nullable) = false];
 }
 
 // ChangeValue represents a change requested for an individual path/value

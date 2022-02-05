@@ -44,36 +44,34 @@ class FailureType(betterproto.Enum):
     INTERNAL = 11
 
 
-class TargetState(betterproto.Enum):
-    """TargetState is the state of a Transaction target"""
-
-    TARGET_UPDATE_PENDING = 0
-    TARGET_UPDATE_COMPLETE = 1
-
-
-class TransactionState(betterproto.Enum):
-    """TransactionState is the transaction state of a transaction phase"""
-
-    # TRANSACTION_PENDING indicates the transaction is pending
-    TRANSACTION_PENDING = 0
-    # TRANSACTION_COMPLETE indicates the transaction is complete
-    TRANSACTION_COMPLETE = 2
-    # TRANSACTION_FAILED indicates the transaction failed
-    TRANSACTION_FAILED = 3
-    # TRANSACTION_VALIDATING indicates the transaction is in the validating state
-    TRANSACTION_VALIDATING = 4
-    # TRANSACTION_COMMITTING indicates the transaction is in the committing state
-    TRANSACTION_COMMITTING = 5
-    # TRANSACTION_APPLYING indicates the transaction is in the applying state
-    TRANSACTION_APPLYING = 6
+class TransactionInitializePhaseState(betterproto.Enum):
+    INITIALIZING = 0
+    INITIALIZED = 1
+    FAILED = 2
 
 
-class TransactionEventTransactionEventType(betterproto.Enum):
-    TRANSACTION_EVENT_UNKNOWN = 0
-    TRANSACTION_CREATED = 1
-    TRANSACTION_UPDATED = 2
-    TRANSACTION_DELETED = 3
-    TRANSACTION_REPLAYED = 4
+class TransactionValidatePhaseState(betterproto.Enum):
+    VALIDATING = 0
+    VALIDATED = 1
+    FAILED = 2
+
+
+class TransactionCommitPhaseState(betterproto.Enum):
+    COMMITTING = 0
+    COMMITTED = 1
+
+
+class TransactionApplyPhaseState(betterproto.Enum):
+    APPLYING = 0
+    APPLIED = 1
+
+
+class TransactionEventEventType(betterproto.Enum):
+    UNKNOWN = 0
+    CREATED = 1
+    UPDATED = 2
+    DELETED = 3
+    REPLAYED = 4
 
 
 class ConfigurationStatusState(betterproto.Enum):
@@ -158,14 +156,9 @@ class ObjectMeta(betterproto.Message):
 class Change(betterproto.Message):
     """Change represents a configuration change to a single target"""
 
-    # 'target_version' is an optional target version to which to apply this
-    # change
-    target_version: str = betterproto.string_field(2)
-    # 'target_type' is an optional target type to which to apply this change
-    target_type: str = betterproto.string_field(3)
     # 'values' is a set of change values to apply
     values: Dict[str, "ChangeValue"] = betterproto.map_field(
-        4, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
 
 
@@ -190,25 +183,6 @@ class Failure(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class TransactionChange(betterproto.Message):
-    """TransactionChange  refers to a multi-target transactional change"""
-
-    # 'changes' is a set of changes to apply to targets The list of changes
-    # should contain only a single change per target/version pair.
-    changes: Dict[str, "Change"] = betterproto.map_field(
-        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
-
-
-@dataclass(eq=False, repr=False)
-class TransactionRollback(betterproto.Message):
-    """TransactionRollback"""
-
-    # 'index' is a monotonically increasing, globally unique index of the change
-    index: int = betterproto.uint64_field(1)
-
-
-@dataclass(eq=False, repr=False)
 class Transaction(betterproto.Message):
     """Transaction refers to a transaction change or transaction rollback"""
 
@@ -220,58 +194,86 @@ class Transaction(betterproto.Message):
     # The index is provided by the store, is static and unique for each unique
     # change identifier, and should not be modified by client code.
     index: int = betterproto.uint64_field(3)
-    # 'status' is the current lifecycle status of the transaction
-    status: "TransactionStatus" = betterproto.message_field(4)
     # 'username' is the name of the user that made the transaction
-    username: str = betterproto.string_field(5)
-    # atomic determines if a transaction is atomic or not
-    atomic: bool = betterproto.bool_field(6)
-    change: "TransactionChange" = betterproto.message_field(7, group="transaction")
-    rollback: "TransactionRollback" = betterproto.message_field(8, group="transaction")
+    username: str = betterproto.string_field(4)
+    change: "ChangeTransaction" = betterproto.message_field(5, group="details")
+    rollback: "RollbackTransaction" = betterproto.message_field(6, group="details")
+    # 'status' is the current lifecycle status of the transaction
+    status: "TransactionStatus" = betterproto.message_field(7)
+
+
+@dataclass(eq=False, repr=False)
+class ChangeTransaction(betterproto.Message):
+    # 'changes' is a set of changes to apply to targets The list of changes
+    # should contain only a single change per target/version pair.
+    changes: Dict[str, "Change"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
+
+
+@dataclass(eq=False, repr=False)
+class RollbackTransaction(betterproto.Message):
+    # 'rollback_index' is the index of the transaction to roll back
+    rollback_index: int = betterproto.uint64_field(1)
 
 
 @dataclass(eq=False, repr=False)
 class TransactionStatus(betterproto.Message):
-    """TransactionStatus is the status of a Transaction"""
-
-    # revision is the highest revision number that's been reconciled
-    revision: int = betterproto.uint64_field(1)
-    # 'state' is the state of the transaction This field should only be updated
-    # from within onos-config.
-    state: "TransactionState" = betterproto.enum_field(2)
-    # 'sources' is a set of changes needed to revert back to the source of the
-    # transaction This field should only be updated from within onos-config
-    targets: Dict[str, "TargetStatus"] = betterproto.map_field(
-        3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
-    # failure transaction failure type and description
-    failure: "Failure" = betterproto.message_field(4)
+    # 'phases' is the transaction phases
+    phases: "TransactionPhases" = betterproto.message_field(1)
+    # 'proposals' is the set of proposals managed by the transaction
+    proposals: List[str] = betterproto.string_field(2)
 
 
 @dataclass(eq=False, repr=False)
-class TargetStatus(betterproto.Message):
-    """TargetStatus is the status of a Target changed by a Transaction"""
+class TransactionPhases(betterproto.Message):
+    # 'initialize' is the proposal initialization phase status
+    initialize: "TransactionInitializePhase" = betterproto.message_field(1)
+    # 'validate' is the proposal validation phase status
+    validate: "TransactionValidatePhase" = betterproto.message_field(2)
+    # 'commit' is the proposal commit phase status
+    commit: "TransactionCommitPhase" = betterproto.message_field(3)
+    # 'apply' is the proposal apply phase status
+    apply: "TransactionApplyPhase" = betterproto.message_field(4)
 
-    # 'target_version' is an optional target version to which to apply this
-    # change
-    target_version: str = betterproto.string_field(1)
-    # 'target_type' is an optional target type to which to apply this change
-    target_type: str = betterproto.string_field(2)
-    # 'prev_values' is the previous set of values for the target
-    prev_values: Dict[str, "PathValue"] = betterproto.map_field(
-        3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
-    )
-    # 'state' is the current state of the target
-    state: "TargetState" = betterproto.enum_field(4)
-    # failure transaction failure type and description
-    failure: "Failure" = betterproto.message_field(5)
+
+@dataclass(eq=False, repr=False)
+class TransactionPhaseStatus(betterproto.Message):
+    start: datetime = betterproto.message_field(1)
+    end: datetime = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionInitializePhase(betterproto.Message):
+    status: "TransactionPhaseStatus" = betterproto.message_field(1)
+    state: "TransactionInitializePhaseState" = betterproto.enum_field(2)
+    failure: "Failure" = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionValidatePhase(betterproto.Message):
+    status: "TransactionPhaseStatus" = betterproto.message_field(1)
+    state: "TransactionValidatePhaseState" = betterproto.enum_field(2)
+    failure: "Failure" = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionCommitPhase(betterproto.Message):
+    status: "TransactionPhaseStatus" = betterproto.message_field(1)
+    state: "TransactionCommitPhaseState" = betterproto.enum_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionApplyPhase(betterproto.Message):
+    status: "TransactionPhaseStatus" = betterproto.message_field(1)
+    state: "TransactionApplyPhaseState" = betterproto.enum_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class TransactionEvent(betterproto.Message):
     """TransactionEvent transaction store event"""
 
-    type: "TransactionEventTransactionEventType" = betterproto.enum_field(1)
+    type: "TransactionEventEventType" = betterproto.enum_field(1)
     transaction: "Transaction" = betterproto.message_field(2)
 
 

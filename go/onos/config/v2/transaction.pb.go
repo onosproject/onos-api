@@ -7,15 +7,19 @@ import (
 	fmt "fmt"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/gogo/protobuf/types"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -23,202 +27,145 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// TargetState is the state of a Transaction target
-type TargetState int32
+type TransactionInitializePhase_State int32
 
 const (
-	TargetState_TARGET_UPDATE_PENDING  TargetState = 0
-	TargetState_TARGET_UPDATE_COMPLETE TargetState = 1
+	TransactionInitializePhase_INITIALIZING TransactionInitializePhase_State = 0
+	TransactionInitializePhase_INITIALIZED  TransactionInitializePhase_State = 1
+	TransactionInitializePhase_FAILED       TransactionInitializePhase_State = 2
 )
 
-var TargetState_name = map[int32]string{
-	0: "TARGET_UPDATE_PENDING",
-	1: "TARGET_UPDATE_COMPLETE",
+var TransactionInitializePhase_State_name = map[int32]string{
+	0: "INITIALIZING",
+	1: "INITIALIZED",
+	2: "FAILED",
 }
 
-var TargetState_value = map[string]int32{
-	"TARGET_UPDATE_PENDING":  0,
-	"TARGET_UPDATE_COMPLETE": 1,
+var TransactionInitializePhase_State_value = map[string]int32{
+	"INITIALIZING": 0,
+	"INITIALIZED":  1,
+	"FAILED":       2,
 }
 
-func (x TargetState) String() string {
-	return proto.EnumName(TargetState_name, int32(x))
+func (x TransactionInitializePhase_State) String() string {
+	return proto.EnumName(TransactionInitializePhase_State_name, int32(x))
 }
 
-func (TargetState) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{0}
+func (TransactionInitializePhase_State) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{6, 0}
 }
 
-// TransactionState is the transaction state of a transaction phase
-type TransactionState int32
+type TransactionValidatePhase_State int32
 
 const (
-	// TRANSACTION_PENDING indicates the transaction is pending
-	TransactionState_TRANSACTION_PENDING TransactionState = 0
-	// TRANSACTION_COMPLETE indicates the transaction is complete
-	TransactionState_TRANSACTION_COMPLETE TransactionState = 2
-	// TRANSACTION_FAILED indicates the transaction failed
-	TransactionState_TRANSACTION_FAILED TransactionState = 3
-	// TRANSACTION_VALIDATING indicates the transaction is in the validating state
-	TransactionState_TRANSACTION_VALIDATING TransactionState = 4
-	// TRANSACTION_COMMITTING indicates the transaction is in the committing state
-	TransactionState_TRANSACTION_COMMITTING TransactionState = 5
-	// TRANSACTION_APPLYING indicates the transaction is in the applying state
-	TransactionState_TRANSACTION_APPLYING TransactionState = 6
+	TransactionValidatePhase_VALIDATING TransactionValidatePhase_State = 0
+	TransactionValidatePhase_VALIDATED  TransactionValidatePhase_State = 1
+	TransactionValidatePhase_FAILED     TransactionValidatePhase_State = 2
 )
 
-var TransactionState_name = map[int32]string{
-	0: "TRANSACTION_PENDING",
-	2: "TRANSACTION_COMPLETE",
-	3: "TRANSACTION_FAILED",
-	4: "TRANSACTION_VALIDATING",
-	5: "TRANSACTION_COMMITTING",
-	6: "TRANSACTION_APPLYING",
+var TransactionValidatePhase_State_name = map[int32]string{
+	0: "VALIDATING",
+	1: "VALIDATED",
+	2: "FAILED",
 }
 
-var TransactionState_value = map[string]int32{
-	"TRANSACTION_PENDING":    0,
-	"TRANSACTION_COMPLETE":   2,
-	"TRANSACTION_FAILED":     3,
-	"TRANSACTION_VALIDATING": 4,
-	"TRANSACTION_COMMITTING": 5,
-	"TRANSACTION_APPLYING":   6,
+var TransactionValidatePhase_State_value = map[string]int32{
+	"VALIDATING": 0,
+	"VALIDATED":  1,
+	"FAILED":     2,
 }
 
-func (x TransactionState) String() string {
-	return proto.EnumName(TransactionState_name, int32(x))
+func (x TransactionValidatePhase_State) String() string {
+	return proto.EnumName(TransactionValidatePhase_State_name, int32(x))
 }
 
-func (TransactionState) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{1}
+func (TransactionValidatePhase_State) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{7, 0}
 }
 
-// TransactionEventType transaction event types for transaction store
-type TransactionEvent_TransactionEventType int32
+type TransactionCommitPhase_State int32
 
 const (
-	TransactionEvent_TRANSACTION_EVENT_UNKNOWN TransactionEvent_TransactionEventType = 0
-	TransactionEvent_TRANSACTION_CREATED       TransactionEvent_TransactionEventType = 1
-	TransactionEvent_TRANSACTION_UPDATED       TransactionEvent_TransactionEventType = 2
-	TransactionEvent_TRANSACTION_DELETED       TransactionEvent_TransactionEventType = 3
-	TransactionEvent_TRANSACTION_REPLAYED      TransactionEvent_TransactionEventType = 4
+	TransactionCommitPhase_COMMITTING TransactionCommitPhase_State = 0
+	TransactionCommitPhase_COMMITTED  TransactionCommitPhase_State = 1
 )
 
-var TransactionEvent_TransactionEventType_name = map[int32]string{
-	0: "TRANSACTION_EVENT_UNKNOWN",
-	1: "TRANSACTION_CREATED",
-	2: "TRANSACTION_UPDATED",
-	3: "TRANSACTION_DELETED",
-	4: "TRANSACTION_REPLAYED",
+var TransactionCommitPhase_State_name = map[int32]string{
+	0: "COMMITTING",
+	1: "COMMITTED",
 }
 
-var TransactionEvent_TransactionEventType_value = map[string]int32{
-	"TRANSACTION_EVENT_UNKNOWN": 0,
-	"TRANSACTION_CREATED":       1,
-	"TRANSACTION_UPDATED":       2,
-	"TRANSACTION_DELETED":       3,
-	"TRANSACTION_REPLAYED":      4,
+var TransactionCommitPhase_State_value = map[string]int32{
+	"COMMITTING": 0,
+	"COMMITTED":  1,
 }
 
-func (x TransactionEvent_TransactionEventType) String() string {
-	return proto.EnumName(TransactionEvent_TransactionEventType_name, int32(x))
+func (x TransactionCommitPhase_State) String() string {
+	return proto.EnumName(TransactionCommitPhase_State_name, int32(x))
 }
 
-func (TransactionEvent_TransactionEventType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5, 0}
+func (TransactionCommitPhase_State) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{8, 0}
 }
 
-// TransactionChange  refers to a multi-target transactional change
-type TransactionChange struct {
-	// 'changes' is a set of changes to apply to targets
-	// The list of changes should contain only a single change per target/version pair.
-	Changes map[TargetID]Change `protobuf:"bytes,1,rep,name=changes,proto3,castkey=TargetID" json:"changes" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+type TransactionApplyPhase_State int32
+
+const (
+	TransactionApplyPhase_APPLYING TransactionApplyPhase_State = 0
+	TransactionApplyPhase_APPLIED  TransactionApplyPhase_State = 1
+)
+
+var TransactionApplyPhase_State_name = map[int32]string{
+	0: "APPLYING",
+	1: "APPLIED",
 }
 
-func (m *TransactionChange) Reset()         { *m = TransactionChange{} }
-func (m *TransactionChange) String() string { return proto.CompactTextString(m) }
-func (*TransactionChange) ProtoMessage()    {}
-func (*TransactionChange) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{0}
-}
-func (m *TransactionChange) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *TransactionChange) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_TransactionChange.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *TransactionChange) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TransactionChange.Merge(m, src)
-}
-func (m *TransactionChange) XXX_Size() int {
-	return m.Size()
-}
-func (m *TransactionChange) XXX_DiscardUnknown() {
-	xxx_messageInfo_TransactionChange.DiscardUnknown(m)
+var TransactionApplyPhase_State_value = map[string]int32{
+	"APPLYING": 0,
+	"APPLIED":  1,
 }
 
-var xxx_messageInfo_TransactionChange proto.InternalMessageInfo
-
-func (m *TransactionChange) GetChanges() map[TargetID]Change {
-	if m != nil {
-		return m.Changes
-	}
-	return nil
+func (x TransactionApplyPhase_State) String() string {
+	return proto.EnumName(TransactionApplyPhase_State_name, int32(x))
 }
 
-// TransactionRollback
-type TransactionRollback struct {
-	// 'index' is a monotonically increasing, globally unique index of the change
-	Index Index `protobuf:"varint,1,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
+func (TransactionApplyPhase_State) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{9, 0}
 }
 
-func (m *TransactionRollback) Reset()         { *m = TransactionRollback{} }
-func (m *TransactionRollback) String() string { return proto.CompactTextString(m) }
-func (*TransactionRollback) ProtoMessage()    {}
-func (*TransactionRollback) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{1}
-}
-func (m *TransactionRollback) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *TransactionRollback) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_TransactionRollback.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *TransactionRollback) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TransactionRollback.Merge(m, src)
-}
-func (m *TransactionRollback) XXX_Size() int {
-	return m.Size()
-}
-func (m *TransactionRollback) XXX_DiscardUnknown() {
-	xxx_messageInfo_TransactionRollback.DiscardUnknown(m)
+// EventType transaction event types for transaction store
+type TransactionEvent_EventType int32
+
+const (
+	TransactionEvent_UNKNOWN  TransactionEvent_EventType = 0
+	TransactionEvent_CREATED  TransactionEvent_EventType = 1
+	TransactionEvent_UPDATED  TransactionEvent_EventType = 2
+	TransactionEvent_DELETED  TransactionEvent_EventType = 3
+	TransactionEvent_REPLAYED TransactionEvent_EventType = 4
+)
+
+var TransactionEvent_EventType_name = map[int32]string{
+	0: "UNKNOWN",
+	1: "CREATED",
+	2: "UPDATED",
+	3: "DELETED",
+	4: "REPLAYED",
 }
 
-var xxx_messageInfo_TransactionRollback proto.InternalMessageInfo
+var TransactionEvent_EventType_value = map[string]int32{
+	"UNKNOWN":  0,
+	"CREATED":  1,
+	"UPDATED":  2,
+	"DELETED":  3,
+	"REPLAYED": 4,
+}
 
-func (m *TransactionRollback) GetIndex() Index {
-	if m != nil {
-		return m.Index
-	}
-	return 0
+func (x TransactionEvent_EventType) String() string {
+	return proto.EnumName(TransactionEvent_EventType_name, int32(x))
+}
+
+func (TransactionEvent_EventType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{10, 0}
 }
 
 // Transaction refers to a transaction change or transaction rollback
@@ -231,23 +178,23 @@ type Transaction struct {
 	// The index is provided by the store, is static and unique for each unique change identifier,
 	// and should not be modified by client code.
 	Index Index `protobuf:"varint,3,opt,name=index,proto3,casttype=Index" json:"index,omitempty"`
-	// 'status' is the current lifecycle status of the transaction
-	Status TransactionStatus `protobuf:"bytes,4,opt,name=status,proto3" json:"status"`
 	// 'username' is the name of the user that made the transaction
-	Username string `protobuf:"bytes,5,opt,name=username,proto3" json:"username,omitempty"`
-	// atomic determines if a transaction is atomic or not
-	Atomic bool `protobuf:"varint,6,opt,name=atomic,proto3" json:"atomic,omitempty"`
-	// Types that are valid to be assigned to Transaction:
+	Username string `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+	// 'details' is the transaction details
+	//
+	// Types that are valid to be assigned to Details:
 	//	*Transaction_Change
 	//	*Transaction_Rollback
-	Transaction isTransaction_Transaction `protobuf_oneof:"transaction"`
+	Details isTransaction_Details `protobuf_oneof:"details"`
+	// 'status' is the current lifecycle status of the transaction
+	Status TransactionStatus `protobuf:"bytes,7,opt,name=status,proto3" json:"status"`
 }
 
 func (m *Transaction) Reset()         { *m = Transaction{} }
 func (m *Transaction) String() string { return proto.CompactTextString(m) }
 func (*Transaction) ProtoMessage()    {}
 func (*Transaction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{2}
+	return fileDescriptor_c3a2d73bdadccc35, []int{0}
 }
 func (m *Transaction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -276,25 +223,25 @@ func (m *Transaction) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Transaction proto.InternalMessageInfo
 
-type isTransaction_Transaction interface {
-	isTransaction_Transaction()
+type isTransaction_Details interface {
+	isTransaction_Details()
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
 
 type Transaction_Change struct {
-	Change *TransactionChange `protobuf:"bytes,7,opt,name=change,proto3,oneof" json:"change,omitempty"`
+	Change *ChangeTransaction `protobuf:"bytes,5,opt,name=change,proto3,oneof" json:"change,omitempty"`
 }
 type Transaction_Rollback struct {
-	Rollback *TransactionRollback `protobuf:"bytes,8,opt,name=rollback,proto3,oneof" json:"rollback,omitempty"`
+	Rollback *RollbackTransaction `protobuf:"bytes,6,opt,name=rollback,proto3,oneof" json:"rollback,omitempty"`
 }
 
-func (*Transaction_Change) isTransaction_Transaction()   {}
-func (*Transaction_Rollback) isTransaction_Transaction() {}
+func (*Transaction_Change) isTransaction_Details()   {}
+func (*Transaction_Rollback) isTransaction_Details() {}
 
-func (m *Transaction) GetTransaction() isTransaction_Transaction {
+func (m *Transaction) GetDetails() isTransaction_Details {
 	if m != nil {
-		return m.Transaction
+		return m.Details
 	}
 	return nil
 }
@@ -313,13 +260,6 @@ func (m *Transaction) GetIndex() Index {
 	return 0
 }
 
-func (m *Transaction) GetStatus() TransactionStatus {
-	if m != nil {
-		return m.Status
-	}
-	return TransactionStatus{}
-}
-
 func (m *Transaction) GetUsername() string {
 	if m != nil {
 		return m.Username
@@ -327,25 +267,25 @@ func (m *Transaction) GetUsername() string {
 	return ""
 }
 
-func (m *Transaction) GetAtomic() bool {
-	if m != nil {
-		return m.Atomic
-	}
-	return false
-}
-
-func (m *Transaction) GetChange() *TransactionChange {
-	if x, ok := m.GetTransaction().(*Transaction_Change); ok {
+func (m *Transaction) GetChange() *ChangeTransaction {
+	if x, ok := m.GetDetails().(*Transaction_Change); ok {
 		return x.Change
 	}
 	return nil
 }
 
-func (m *Transaction) GetRollback() *TransactionRollback {
-	if x, ok := m.GetTransaction().(*Transaction_Rollback); ok {
+func (m *Transaction) GetRollback() *RollbackTransaction {
+	if x, ok := m.GetDetails().(*Transaction_Rollback); ok {
 		return x.Rollback
 	}
 	return nil
+}
+
+func (m *Transaction) GetStatus() TransactionStatus {
+	if m != nil {
+		return m.Status
+	}
+	return TransactionStatus{}
 }
 
 // XXX_OneofWrappers is for the internal use of the proto package.
@@ -356,18 +296,102 @@ func (*Transaction) XXX_OneofWrappers() []interface{} {
 	}
 }
 
-// TransactionStatus is the status of a Transaction
+type ChangeTransaction struct {
+	// 'changes' is a set of changes to apply to targets
+	// The list of changes should contain only a single change per target/version pair.
+	Changes map[TargetID]Change `protobuf:"bytes,1,rep,name=changes,proto3,castkey=TargetID" json:"changes" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (m *ChangeTransaction) Reset()         { *m = ChangeTransaction{} }
+func (m *ChangeTransaction) String() string { return proto.CompactTextString(m) }
+func (*ChangeTransaction) ProtoMessage()    {}
+func (*ChangeTransaction) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{1}
+}
+func (m *ChangeTransaction) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ChangeTransaction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ChangeTransaction.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ChangeTransaction) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChangeTransaction.Merge(m, src)
+}
+func (m *ChangeTransaction) XXX_Size() int {
+	return m.Size()
+}
+func (m *ChangeTransaction) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChangeTransaction.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChangeTransaction proto.InternalMessageInfo
+
+func (m *ChangeTransaction) GetChanges() map[TargetID]Change {
+	if m != nil {
+		return m.Changes
+	}
+	return nil
+}
+
+type RollbackTransaction struct {
+	// 'rollback_index' is the index of the transaction to roll back
+	RollbackIndex Index `protobuf:"varint,1,opt,name=rollback_index,json=rollbackIndex,proto3,casttype=Index" json:"rollback_index,omitempty"`
+}
+
+func (m *RollbackTransaction) Reset()         { *m = RollbackTransaction{} }
+func (m *RollbackTransaction) String() string { return proto.CompactTextString(m) }
+func (*RollbackTransaction) ProtoMessage()    {}
+func (*RollbackTransaction) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{2}
+}
+func (m *RollbackTransaction) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RollbackTransaction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RollbackTransaction.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RollbackTransaction) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RollbackTransaction.Merge(m, src)
+}
+func (m *RollbackTransaction) XXX_Size() int {
+	return m.Size()
+}
+func (m *RollbackTransaction) XXX_DiscardUnknown() {
+	xxx_messageInfo_RollbackTransaction.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RollbackTransaction proto.InternalMessageInfo
+
+func (m *RollbackTransaction) GetRollbackIndex() Index {
+	if m != nil {
+		return m.RollbackIndex
+	}
+	return 0
+}
+
 type TransactionStatus struct {
-	// revision is the highest revision number that's been reconciled
-	Revision Revision `protobuf:"varint,1,opt,name=revision,proto3,casttype=Revision" json:"revision,omitempty"`
-	// 'state' is the state of the transaction
-	// This field should only be updated from within onos-config.
-	State TransactionState `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.TransactionState" json:"state,omitempty"`
-	// 'sources' is a set of changes needed to revert back to the source of the transaction
-	// This field should only be updated from within onos-config
-	Targets map[TargetID]TargetStatus `protobuf:"bytes,3,rep,name=targets,proto3,castkey=TargetID" json:"targets" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// failure transaction failure type and description
-	Failure *Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
+	// 'phases' is the transaction phases
+	Phases TransactionPhases `protobuf:"bytes,1,opt,name=phases,proto3" json:"phases"`
+	// 'proposals' is the set of proposals managed by the transaction
+	Proposals []ProposalID `protobuf:"bytes,2,rep,name=proposals,proto3,casttype=ProposalID" json:"proposals,omitempty"`
 }
 
 func (m *TransactionStatus) Reset()         { *m = TransactionStatus{} }
@@ -403,60 +427,43 @@ func (m *TransactionStatus) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TransactionStatus proto.InternalMessageInfo
 
-func (m *TransactionStatus) GetRevision() Revision {
+func (m *TransactionStatus) GetPhases() TransactionPhases {
 	if m != nil {
-		return m.Revision
+		return m.Phases
 	}
-	return 0
+	return TransactionPhases{}
 }
 
-func (m *TransactionStatus) GetState() TransactionState {
+func (m *TransactionStatus) GetProposals() []ProposalID {
 	if m != nil {
-		return m.State
-	}
-	return TransactionState_TRANSACTION_PENDING
-}
-
-func (m *TransactionStatus) GetTargets() map[TargetID]TargetStatus {
-	if m != nil {
-		return m.Targets
+		return m.Proposals
 	}
 	return nil
 }
 
-func (m *TransactionStatus) GetFailure() *Failure {
-	if m != nil {
-		return m.Failure
-	}
-	return nil
+type TransactionPhases struct {
+	// 'initialize' is the proposal initialization phase status
+	Initialize *TransactionInitializePhase `protobuf:"bytes,1,opt,name=initialize,proto3" json:"initialize,omitempty"`
+	// 'validate' is the proposal validation phase status
+	Validate *TransactionValidatePhase `protobuf:"bytes,2,opt,name=validate,proto3" json:"validate,omitempty"`
+	// 'commit' is the proposal commit phase status
+	Commit *TransactionCommitPhase `protobuf:"bytes,3,opt,name=commit,proto3" json:"commit,omitempty"`
+	// 'apply' is the proposal apply phase status
+	Apply *TransactionApplyPhase `protobuf:"bytes,4,opt,name=apply,proto3" json:"apply,omitempty"`
 }
 
-// TargetStatus is the status of a Target changed by a Transaction
-type TargetStatus struct {
-	// 'target_version' is an optional target version to which to apply this change
-	TargetVersion TargetVersion `protobuf:"bytes,1,opt,name=target_version,json=targetVersion,proto3,casttype=TargetVersion" json:"target_version,omitempty"`
-	// 'target_type' is an optional target type to which to apply this change
-	TargetType TargetType `protobuf:"bytes,2,opt,name=target_type,json=targetType,proto3,casttype=TargetType" json:"target_type,omitempty"`
-	// 'prev_values' is the previous set of values for the target
-	PrevValues map[string]PathValue `protobuf:"bytes,3,rep,name=prev_values,json=prevValues,proto3" json:"prev_values" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// 'state' is the current state of the target
-	State TargetState `protobuf:"varint,4,opt,name=state,proto3,enum=onos.config.v2.TargetState" json:"state,omitempty"`
-	// failure transaction failure type and description
-	Failure *Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
-}
-
-func (m *TargetStatus) Reset()         { *m = TargetStatus{} }
-func (m *TargetStatus) String() string { return proto.CompactTextString(m) }
-func (*TargetStatus) ProtoMessage()    {}
-func (*TargetStatus) Descriptor() ([]byte, []int) {
+func (m *TransactionPhases) Reset()         { *m = TransactionPhases{} }
+func (m *TransactionPhases) String() string { return proto.CompactTextString(m) }
+func (*TransactionPhases) ProtoMessage()    {}
+func (*TransactionPhases) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c3a2d73bdadccc35, []int{4}
 }
-func (m *TargetStatus) XXX_Unmarshal(b []byte) error {
+func (m *TransactionPhases) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *TargetStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *TransactionPhases) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_TargetStatus.Marshal(b, m, deterministic)
+		return xxx_messageInfo_TransactionPhases.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -466,64 +473,305 @@ func (m *TargetStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (m *TargetStatus) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TargetStatus.Merge(m, src)
+func (m *TransactionPhases) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransactionPhases.Merge(m, src)
 }
-func (m *TargetStatus) XXX_Size() int {
+func (m *TransactionPhases) XXX_Size() int {
 	return m.Size()
 }
-func (m *TargetStatus) XXX_DiscardUnknown() {
-	xxx_messageInfo_TargetStatus.DiscardUnknown(m)
+func (m *TransactionPhases) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransactionPhases.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_TargetStatus proto.InternalMessageInfo
+var xxx_messageInfo_TransactionPhases proto.InternalMessageInfo
 
-func (m *TargetStatus) GetTargetVersion() TargetVersion {
+func (m *TransactionPhases) GetInitialize() *TransactionInitializePhase {
 	if m != nil {
-		return m.TargetVersion
-	}
-	return ""
-}
-
-func (m *TargetStatus) GetTargetType() TargetType {
-	if m != nil {
-		return m.TargetType
-	}
-	return ""
-}
-
-func (m *TargetStatus) GetPrevValues() map[string]PathValue {
-	if m != nil {
-		return m.PrevValues
+		return m.Initialize
 	}
 	return nil
 }
 
-func (m *TargetStatus) GetState() TargetState {
+func (m *TransactionPhases) GetValidate() *TransactionValidatePhase {
+	if m != nil {
+		return m.Validate
+	}
+	return nil
+}
+
+func (m *TransactionPhases) GetCommit() *TransactionCommitPhase {
+	if m != nil {
+		return m.Commit
+	}
+	return nil
+}
+
+func (m *TransactionPhases) GetApply() *TransactionApplyPhase {
+	if m != nil {
+		return m.Apply
+	}
+	return nil
+}
+
+type TransactionPhaseStatus struct {
+	Start *time.Time `protobuf:"bytes,1,opt,name=start,proto3,stdtime" json:"start,omitempty"`
+	End   *time.Time `protobuf:"bytes,2,opt,name=end,proto3,stdtime" json:"end,omitempty"`
+}
+
+func (m *TransactionPhaseStatus) Reset()         { *m = TransactionPhaseStatus{} }
+func (m *TransactionPhaseStatus) String() string { return proto.CompactTextString(m) }
+func (*TransactionPhaseStatus) ProtoMessage()    {}
+func (*TransactionPhaseStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{5}
+}
+func (m *TransactionPhaseStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransactionPhaseStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransactionPhaseStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransactionPhaseStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransactionPhaseStatus.Merge(m, src)
+}
+func (m *TransactionPhaseStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransactionPhaseStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransactionPhaseStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransactionPhaseStatus proto.InternalMessageInfo
+
+func (m *TransactionPhaseStatus) GetStart() *time.Time {
+	if m != nil {
+		return m.Start
+	}
+	return nil
+}
+
+func (m *TransactionPhaseStatus) GetEnd() *time.Time {
+	if m != nil {
+		return m.End
+	}
+	return nil
+}
+
+type TransactionInitializePhase struct {
+	TransactionPhaseStatus `protobuf:"bytes,1,opt,name=status,proto3,embedded=status" json:"status"`
+	State                  TransactionInitializePhase_State `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.TransactionInitializePhase_State" json:"state,omitempty"`
+	Failure                *Failure                         `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
+}
+
+func (m *TransactionInitializePhase) Reset()         { *m = TransactionInitializePhase{} }
+func (m *TransactionInitializePhase) String() string { return proto.CompactTextString(m) }
+func (*TransactionInitializePhase) ProtoMessage()    {}
+func (*TransactionInitializePhase) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{6}
+}
+func (m *TransactionInitializePhase) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransactionInitializePhase) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransactionInitializePhase.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransactionInitializePhase) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransactionInitializePhase.Merge(m, src)
+}
+func (m *TransactionInitializePhase) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransactionInitializePhase) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransactionInitializePhase.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransactionInitializePhase proto.InternalMessageInfo
+
+func (m *TransactionInitializePhase) GetState() TransactionInitializePhase_State {
 	if m != nil {
 		return m.State
 	}
-	return TargetState_TARGET_UPDATE_PENDING
+	return TransactionInitializePhase_INITIALIZING
 }
 
-func (m *TargetStatus) GetFailure() *Failure {
+func (m *TransactionInitializePhase) GetFailure() *Failure {
 	if m != nil {
 		return m.Failure
 	}
 	return nil
 }
 
+type TransactionValidatePhase struct {
+	TransactionPhaseStatus `protobuf:"bytes,1,opt,name=status,proto3,embedded=status" json:"status"`
+	State                  TransactionValidatePhase_State `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.TransactionValidatePhase_State" json:"state,omitempty"`
+	Failure                *Failure                       `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
+}
+
+func (m *TransactionValidatePhase) Reset()         { *m = TransactionValidatePhase{} }
+func (m *TransactionValidatePhase) String() string { return proto.CompactTextString(m) }
+func (*TransactionValidatePhase) ProtoMessage()    {}
+func (*TransactionValidatePhase) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{7}
+}
+func (m *TransactionValidatePhase) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransactionValidatePhase) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransactionValidatePhase.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransactionValidatePhase) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransactionValidatePhase.Merge(m, src)
+}
+func (m *TransactionValidatePhase) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransactionValidatePhase) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransactionValidatePhase.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransactionValidatePhase proto.InternalMessageInfo
+
+func (m *TransactionValidatePhase) GetState() TransactionValidatePhase_State {
+	if m != nil {
+		return m.State
+	}
+	return TransactionValidatePhase_VALIDATING
+}
+
+func (m *TransactionValidatePhase) GetFailure() *Failure {
+	if m != nil {
+		return m.Failure
+	}
+	return nil
+}
+
+type TransactionCommitPhase struct {
+	TransactionPhaseStatus `protobuf:"bytes,1,opt,name=status,proto3,embedded=status" json:"status"`
+	State                  TransactionCommitPhase_State `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.TransactionCommitPhase_State" json:"state,omitempty"`
+}
+
+func (m *TransactionCommitPhase) Reset()         { *m = TransactionCommitPhase{} }
+func (m *TransactionCommitPhase) String() string { return proto.CompactTextString(m) }
+func (*TransactionCommitPhase) ProtoMessage()    {}
+func (*TransactionCommitPhase) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{8}
+}
+func (m *TransactionCommitPhase) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransactionCommitPhase) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransactionCommitPhase.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransactionCommitPhase) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransactionCommitPhase.Merge(m, src)
+}
+func (m *TransactionCommitPhase) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransactionCommitPhase) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransactionCommitPhase.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransactionCommitPhase proto.InternalMessageInfo
+
+func (m *TransactionCommitPhase) GetState() TransactionCommitPhase_State {
+	if m != nil {
+		return m.State
+	}
+	return TransactionCommitPhase_COMMITTING
+}
+
+type TransactionApplyPhase struct {
+	TransactionPhaseStatus `protobuf:"bytes,1,opt,name=status,proto3,embedded=status" json:"status"`
+	State                  TransactionApplyPhase_State `protobuf:"varint,2,opt,name=state,proto3,enum=onos.config.v2.TransactionApplyPhase_State" json:"state,omitempty"`
+}
+
+func (m *TransactionApplyPhase) Reset()         { *m = TransactionApplyPhase{} }
+func (m *TransactionApplyPhase) String() string { return proto.CompactTextString(m) }
+func (*TransactionApplyPhase) ProtoMessage()    {}
+func (*TransactionApplyPhase) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c3a2d73bdadccc35, []int{9}
+}
+func (m *TransactionApplyPhase) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TransactionApplyPhase) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TransactionApplyPhase.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TransactionApplyPhase) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransactionApplyPhase.Merge(m, src)
+}
+func (m *TransactionApplyPhase) XXX_Size() int {
+	return m.Size()
+}
+func (m *TransactionApplyPhase) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransactionApplyPhase.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TransactionApplyPhase proto.InternalMessageInfo
+
+func (m *TransactionApplyPhase) GetState() TransactionApplyPhase_State {
+	if m != nil {
+		return m.State
+	}
+	return TransactionApplyPhase_APPLYING
+}
+
 // TransactionEvent transaction store event
 type TransactionEvent struct {
-	Type        TransactionEvent_TransactionEventType `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.TransactionEvent_TransactionEventType" json:"type,omitempty"`
-	Transaction Transaction                           `protobuf:"bytes,2,opt,name=transaction,proto3" json:"transaction"`
+	Type        TransactionEvent_EventType `protobuf:"varint,1,opt,name=type,proto3,enum=onos.config.v2.TransactionEvent_EventType" json:"type,omitempty"`
+	Transaction Transaction                `protobuf:"bytes,2,opt,name=transaction,proto3" json:"transaction"`
 }
 
 func (m *TransactionEvent) Reset()         { *m = TransactionEvent{} }
 func (m *TransactionEvent) String() string { return proto.CompactTextString(m) }
 func (*TransactionEvent) ProtoMessage()    {}
 func (*TransactionEvent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_c3a2d73bdadccc35, []int{5}
+	return fileDescriptor_c3a2d73bdadccc35, []int{10}
 }
 func (m *TransactionEvent) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -552,11 +800,11 @@ func (m *TransactionEvent) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TransactionEvent proto.InternalMessageInfo
 
-func (m *TransactionEvent) GetType() TransactionEvent_TransactionEventType {
+func (m *TransactionEvent) GetType() TransactionEvent_EventType {
 	if m != nil {
 		return m.Type
 	}
-	return TransactionEvent_TRANSACTION_EVENT_UNKNOWN
+	return TransactionEvent_UNKNOWN
 }
 
 func (m *TransactionEvent) GetTransaction() Transaction {
@@ -567,157 +815,91 @@ func (m *TransactionEvent) GetTransaction() Transaction {
 }
 
 func init() {
-	proto.RegisterEnum("onos.config.v2.TargetState", TargetState_name, TargetState_value)
-	proto.RegisterEnum("onos.config.v2.TransactionState", TransactionState_name, TransactionState_value)
-	proto.RegisterEnum("onos.config.v2.TransactionEvent_TransactionEventType", TransactionEvent_TransactionEventType_name, TransactionEvent_TransactionEventType_value)
-	proto.RegisterType((*TransactionChange)(nil), "onos.config.v2.TransactionChange")
-	proto.RegisterMapType((map[TargetID]Change)(nil), "onos.config.v2.TransactionChange.ChangesEntry")
-	proto.RegisterType((*TransactionRollback)(nil), "onos.config.v2.TransactionRollback")
+	proto.RegisterEnum("onos.config.v2.TransactionInitializePhase_State", TransactionInitializePhase_State_name, TransactionInitializePhase_State_value)
+	proto.RegisterEnum("onos.config.v2.TransactionValidatePhase_State", TransactionValidatePhase_State_name, TransactionValidatePhase_State_value)
+	proto.RegisterEnum("onos.config.v2.TransactionCommitPhase_State", TransactionCommitPhase_State_name, TransactionCommitPhase_State_value)
+	proto.RegisterEnum("onos.config.v2.TransactionApplyPhase_State", TransactionApplyPhase_State_name, TransactionApplyPhase_State_value)
+	proto.RegisterEnum("onos.config.v2.TransactionEvent_EventType", TransactionEvent_EventType_name, TransactionEvent_EventType_value)
 	proto.RegisterType((*Transaction)(nil), "onos.config.v2.Transaction")
+	proto.RegisterType((*ChangeTransaction)(nil), "onos.config.v2.ChangeTransaction")
+	proto.RegisterMapType((map[TargetID]Change)(nil), "onos.config.v2.ChangeTransaction.ChangesEntry")
+	proto.RegisterType((*RollbackTransaction)(nil), "onos.config.v2.RollbackTransaction")
 	proto.RegisterType((*TransactionStatus)(nil), "onos.config.v2.TransactionStatus")
-	proto.RegisterMapType((map[TargetID]TargetStatus)(nil), "onos.config.v2.TransactionStatus.TargetsEntry")
-	proto.RegisterType((*TargetStatus)(nil), "onos.config.v2.TargetStatus")
-	proto.RegisterMapType((map[string]PathValue)(nil), "onos.config.v2.TargetStatus.PrevValuesEntry")
+	proto.RegisterType((*TransactionPhases)(nil), "onos.config.v2.TransactionPhases")
+	proto.RegisterType((*TransactionPhaseStatus)(nil), "onos.config.v2.TransactionPhaseStatus")
+	proto.RegisterType((*TransactionInitializePhase)(nil), "onos.config.v2.TransactionInitializePhase")
+	proto.RegisterType((*TransactionValidatePhase)(nil), "onos.config.v2.TransactionValidatePhase")
+	proto.RegisterType((*TransactionCommitPhase)(nil), "onos.config.v2.TransactionCommitPhase")
+	proto.RegisterType((*TransactionApplyPhase)(nil), "onos.config.v2.TransactionApplyPhase")
 	proto.RegisterType((*TransactionEvent)(nil), "onos.config.v2.TransactionEvent")
 }
 
 func init() { proto.RegisterFile("onos/config/v2/transaction.proto", fileDescriptor_c3a2d73bdadccc35) }
 
 var fileDescriptor_c3a2d73bdadccc35 = []byte{
-	// 922 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x55, 0x4f, 0x4f, 0xe3, 0x46,
-	0x14, 0x8f, 0x9d, 0x3f, 0x84, 0x17, 0xa0, 0xd9, 0x59, 0x0a, 0x26, 0x6c, 0xe3, 0x94, 0x1e, 0x1a,
-	0xad, 0x56, 0x8e, 0x36, 0x55, 0x57, 0xa8, 0x3d, 0x54, 0x4e, 0xec, 0xdd, 0xb5, 0x1a, 0x92, 0x68,
-	0xf0, 0xd2, 0x6e, 0x2f, 0x91, 0x09, 0xb3, 0x59, 0x77, 0xc1, 0x8e, 0xec, 0x21, 0x2a, 0xd7, 0x7e,
-	0x80, 0xaa, 0x97, 0x5e, 0xfa, 0x25, 0xfa, 0x11, 0x7a, 0xe8, 0x85, 0x23, 0xc7, 0x9e, 0xd2, 0x0a,
-	0xbe, 0x05, 0xa7, 0xca, 0x33, 0x93, 0x60, 0x1b, 0x08, 0x3d, 0xc5, 0x33, 0xbf, 0xf7, 0x7e, 0xef,
-	0x37, 0xef, 0xf7, 0x9e, 0x02, 0x35, 0xdf, 0xf3, 0xc3, 0xc6, 0xd0, 0xf7, 0xde, 0xb9, 0xa3, 0xc6,
-	0xa4, 0xd9, 0xa0, 0x81, 0xe3, 0x85, 0xce, 0x90, 0xba, 0xbe, 0xa7, 0x8d, 0x03, 0x9f, 0xfa, 0x68,
-	0x2d, 0x8a, 0xd0, 0x78, 0x84, 0x36, 0x69, 0x56, 0xd6, 0x47, 0xfe, 0xc8, 0x67, 0x50, 0x23, 0xfa,
-	0xe2, 0x51, 0x95, 0xed, 0x14, 0x8f, 0x7f, 0xf8, 0x23, 0x19, 0xd2, 0x7b, 0xc0, 0xe1, 0x7b, 0xc7,
-	0x1b, 0x11, 0x01, 0x56, 0x52, 0xe0, 0xc4, 0x39, 0x3e, 0x9d, 0x61, 0x4f, 0x52, 0xd8, 0x3b, 0xc7,
-	0x3d, 0x3e, 0x0d, 0x04, 0xba, 0xf3, 0x97, 0x04, 0x8f, 0xec, 0x1b, 0xbd, 0x6d, 0xc6, 0x8a, 0x7e,
-	0x80, 0x25, 0xce, 0x1f, 0x2a, 0x52, 0x2d, 0x5b, 0x2f, 0x35, 0x35, 0x2d, 0xf9, 0x02, 0xed, 0x56,
-	0x8e, 0xc6, 0x7f, 0x42, 0xd3, 0xa3, 0xc1, 0x59, 0xab, 0x7c, 0x3e, 0x55, 0x33, 0x3f, 0xff, 0xa3,
-	0x16, 0x6d, 0x27, 0x18, 0x11, 0x6a, 0x19, 0x78, 0x46, 0x58, 0xc1, 0xb0, 0x12, 0x0f, 0x45, 0x65,
-	0xc8, 0x7e, 0x20, 0x67, 0x8a, 0x54, 0x93, 0xea, 0xcb, 0x38, 0xfa, 0x44, 0xcf, 0x20, 0xcf, 0x1e,
-	0xa0, 0xc8, 0x35, 0xa9, 0x5e, 0x6a, 0x6e, 0xa4, 0x6b, 0xf3, 0x74, 0xcc, 0x83, 0xbe, 0x92, 0x77,
-	0xa5, 0x9d, 0x17, 0xf0, 0x38, 0x26, 0x08, 0xfb, 0xc7, 0xc7, 0x87, 0xce, 0xf0, 0x03, 0x52, 0x21,
-	0xef, 0x7a, 0x47, 0xe4, 0x27, 0x46, 0x9e, 0x6b, 0x2d, 0x5f, 0x4f, 0xd5, 0xbc, 0x15, 0x5d, 0x60,
-	0x7e, 0xbf, 0xf3, 0x5b, 0x16, 0x4a, 0xb1, 0x44, 0xb4, 0x0b, 0xb9, 0x13, 0x42, 0x1d, 0x16, 0x5f,
-	0x6a, 0x56, 0xd2, 0x85, 0x7b, 0xcc, 0x90, 0x3d, 0x42, 0x9d, 0x56, 0x31, 0x7a, 0xe0, 0xc5, 0x54,
-	0x95, 0x30, 0xcb, 0x40, 0x9f, 0x83, 0xec, 0x1e, 0x31, 0xc1, 0xcb, 0xad, 0xcd, 0xcb, 0xa9, 0x2a,
-	0x5b, 0xc6, 0xf5, 0x54, 0x5d, 0x8d, 0x91, 0x5b, 0x06, 0x96, 0xdd, 0xa3, 0x1b, 0x4d, 0xd9, 0xbb,
-	0x35, 0xa1, 0x6f, 0xa0, 0x10, 0x52, 0x87, 0x9e, 0x86, 0x4a, 0x8e, 0xa9, 0xf8, 0x74, 0x41, 0xeb,
-	0xf7, 0x59, 0x60, 0x2b, 0x17, 0x89, 0xc1, 0x22, 0x0d, 0x55, 0xa0, 0x78, 0x1a, 0x92, 0xc0, 0x73,
-	0x4e, 0x88, 0x92, 0x67, 0x5d, 0x9d, 0x9f, 0xd1, 0x06, 0x14, 0x1c, 0xea, 0x9f, 0xb8, 0x43, 0xa5,
-	0x50, 0x93, 0xea, 0x45, 0x2c, 0x4e, 0xe8, 0x6b, 0x28, 0x70, 0x7f, 0x94, 0xa5, 0x07, 0x8b, 0xf2,
-	0xf6, 0xbf, 0xce, 0x60, 0x91, 0x82, 0x74, 0x28, 0x06, 0xa2, 0xe5, 0x4a, 0x91, 0xa5, 0x7f, 0xb6,
-	0x20, 0x7d, 0xe6, 0xce, 0xeb, 0x0c, 0x9e, 0xa7, 0xb5, 0x56, 0xa1, 0x14, 0xdb, 0x9a, 0x9d, 0xa9,
-	0x9c, 0x98, 0x4a, 0xfe, 0x4c, 0x54, 0x87, 0x62, 0x40, 0x26, 0x6e, 0xe8, 0xfa, 0x9e, 0x70, 0x74,
-	0xe5, 0x7a, 0xaa, 0x16, 0xb1, 0xb8, 0xc3, 0x73, 0x14, 0xbd, 0x80, 0x7c, 0xd4, 0x0c, 0x3e, 0x41,
-	0x6b, 0xcd, 0xda, 0x03, 0x2d, 0x24, 0x98, 0x87, 0x47, 0x73, 0x4f, 0xd9, 0xc0, 0x86, 0x4a, 0xf6,
-	0xc1, 0xb9, 0xe7, 0xaa, 0x34, 0x3e, 0xe1, 0xf7, 0xcf, 0xbd, 0x20, 0x44, 0xcf, 0x61, 0x49, 0xac,
-	0x9e, 0x30, 0x76, 0x33, 0xcd, 0xfd, 0x92, 0xc3, 0x78, 0x16, 0x57, 0xf9, 0x1e, 0x56, 0xe2, 0xec,
-	0x77, 0xac, 0x4a, 0x33, 0xb9, 0x2a, 0x4f, 0x6e, 0xc9, 0x65, 0xe9, 0x5c, 0x69, 0x7c, 0x61, 0x7e,
-	0xc9, 0xce, 0xa8, 0x45, 0x6f, 0x77, 0x61, 0x8d, 0x0b, 0x1d, 0x4c, 0x48, 0x30, 0xef, 0xf0, 0x72,
-	0xeb, 0x11, 0x9b, 0x62, 0x86, 0x1c, 0x70, 0x00, 0xaf, 0xd2, 0xf8, 0x11, 0x35, 0xa0, 0x24, 0x32,
-	0xe9, 0xd9, 0x98, 0x88, 0x15, 0x58, 0xbb, 0x9e, 0xaa, 0xc0, 0xd3, 0xec, 0xb3, 0x31, 0xc1, 0x40,
-	0xe7, 0xdf, 0x68, 0x1f, 0x4a, 0xe3, 0x80, 0x4c, 0x06, 0x4c, 0xcd, 0xac, 0xd1, 0xcf, 0x16, 0x29,
-	0xd7, 0xfa, 0x01, 0x99, 0x1c, 0xb0, 0x70, 0xde, 0x66, 0x3e, 0xf0, 0x30, 0x9e, 0x5f, 0xa3, 0xe7,
-	0x33, 0xc7, 0x73, 0xcc, 0xf1, 0xed, 0xfb, 0xe9, 0xe6, 0x66, 0xc7, 0x0c, 0xc9, 0xff, 0x6f, 0x43,
-	0x3e, 0x4a, 0x49, 0xb9, 0xc3, 0x93, 0x46, 0xd2, 0x93, 0xad, 0x34, 0x6b, 0xdf, 0xa1, 0xef, 0x19,
-	0x43, 0xdc, 0x90, 0x3f, 0x65, 0x28, 0xc7, 0x66, 0xcb, 0x9c, 0x10, 0x8f, 0x22, 0x0b, 0x72, 0xac,
-	0xa7, 0x12, 0x7b, 0xd3, 0x97, 0x0b, 0x66, 0x91, 0xc5, 0xdf, 0xba, 0x60, 0xad, 0x67, 0x14, 0xa8,
-	0x9d, 0x58, 0x30, 0x21, 0x6d, 0x7b, 0x01, 0xa3, 0xe8, 0x71, 0x62, 0x2d, 0x7f, 0x97, 0x60, 0xfd,
-	0xae, 0x1a, 0xe8, 0x13, 0xd8, 0xb2, 0xb1, 0xde, 0xdd, 0xd7, 0xdb, 0xb6, 0xd5, 0xeb, 0x0e, 0xcc,
-	0x03, 0xb3, 0x6b, 0x0f, 0xde, 0x74, 0xbf, 0xed, 0xf6, 0xbe, 0xeb, 0x96, 0x33, 0x68, 0x13, 0x1e,
-	0xc7, 0xe1, 0x36, 0x36, 0x75, 0xdb, 0x34, 0xca, 0x52, 0x1a, 0x78, 0xd3, 0x37, 0x18, 0x20, 0xa7,
-	0x01, 0xc3, 0xec, 0x98, 0x11, 0x90, 0x45, 0x0a, 0xac, 0xc7, 0x01, 0x6c, 0xf6, 0x3b, 0xfa, 0x5b,
-	0xd3, 0x28, 0xe7, 0x9e, 0x1a, 0x50, 0x8a, 0x99, 0x8c, 0xb6, 0xe0, 0x63, 0x5b, 0xc7, 0xaf, 0x4c,
-	0x5b, 0xb0, 0x0e, 0xfa, 0x66, 0xd7, 0xb0, 0xba, 0xaf, 0xca, 0x19, 0x54, 0x81, 0x8d, 0x24, 0xd4,
-	0xee, 0xed, 0xf5, 0xa3, 0x02, 0x65, 0xe9, 0xe9, 0x1f, 0x52, 0xc2, 0x07, 0xce, 0x95, 0x52, 0x73,
-	0xc3, 0x94, 0x52, 0x33, 0xe7, 0x91, 0xd1, 0x06, 0xa0, 0x38, 0xf2, 0x52, 0xb7, 0x3a, 0x4c, 0x7f,
-	0x54, 0x3b, 0x76, 0x7f, 0xa0, 0x77, 0x2c, 0x43, 0xb7, 0x23, 0xb6, 0x5c, 0x1a, 0x6b, 0xf7, 0xf6,
-	0xf6, 0x2c, 0x9b, 0x61, 0xf9, 0x74, 0x25, 0xbd, 0xdf, 0xef, 0xbc, 0x8d, 0x90, 0x42, 0x4b, 0x39,
-	0xbf, 0xac, 0x4a, 0x17, 0x97, 0x55, 0xe9, 0xdf, 0xcb, 0xaa, 0xf4, 0xeb, 0x55, 0x35, 0x73, 0x71,
-	0x55, 0xcd, 0xfc, 0x7d, 0x55, 0xcd, 0x1c, 0x16, 0xd8, 0x5f, 0xfc, 0x17, 0xff, 0x05, 0x00, 0x00,
-	0xff, 0xff, 0x86, 0x64, 0x84, 0xb7, 0xa0, 0x08, 0x00, 0x00,
-}
-
-func (m *TransactionChange) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *TransactionChange) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *TransactionChange) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Changes) > 0 {
-		for k := range m.Changes {
-			v := m.Changes[k]
-			baseI := i
-			{
-				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintTransaction(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *TransactionRollback) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *TransactionRollback) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *TransactionRollback) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Index != 0 {
-		i = encodeVarintTransaction(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
+	// 990 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0xcf, 0x6f, 0xe3, 0x44,
+	0x14, 0x8e, 0x9d, 0x1f, 0x4d, 0x5e, 0xda, 0x90, 0x1d, 0x60, 0xd7, 0xca, 0xa2, 0x38, 0x18, 0xb1,
+	0x44, 0x50, 0x39, 0x8b, 0x91, 0x56, 0x2b, 0x56, 0x5a, 0x14, 0xc7, 0xe9, 0xae, 0x21, 0x4d, 0x23,
+	0x13, 0x16, 0xed, 0x5e, 0xd0, 0x34, 0x71, 0xb3, 0x66, 0x1d, 0x3b, 0x8a, 0x27, 0x11, 0xe1, 0xb8,
+	0xe2, 0x0f, 0x58, 0x8e, 0x5c, 0xf9, 0x57, 0xb8, 0xf4, 0x84, 0x7a, 0xe4, 0x94, 0x45, 0xad, 0xc4,
+	0xff, 0x40, 0x4f, 0xc8, 0x33, 0xe3, 0xd4, 0x49, 0xdb, 0xb4, 0x12, 0xbd, 0x54, 0x9e, 0x79, 0xdf,
+	0xf7, 0xcd, 0x7b, 0xdf, 0x9b, 0x79, 0x0d, 0x54, 0x7c, 0xcf, 0x0f, 0x6a, 0x3d, 0xdf, 0x3b, 0x70,
+	0x06, 0xb5, 0xa9, 0x56, 0x23, 0x63, 0xec, 0x05, 0xb8, 0x47, 0x1c, 0xdf, 0x53, 0x47, 0x63, 0x9f,
+	0xf8, 0xa8, 0x10, 0x22, 0x54, 0x86, 0x50, 0xa7, 0x5a, 0xe9, 0xbd, 0x81, 0x3f, 0xf0, 0x69, 0xa8,
+	0x16, 0x7e, 0x31, 0x54, 0xe9, 0xee, 0x8a, 0x8e, 0xbf, 0xff, 0xa3, 0xdd, 0x23, 0x97, 0x04, 0x7b,
+	0x2f, 0xb1, 0x37, 0xb0, 0x79, 0xf0, 0x83, 0x95, 0xe0, 0x01, 0x76, 0xdc, 0xc9, 0x38, 0x8a, 0xca,
+	0x03, 0xdf, 0x1f, 0xb8, 0x76, 0x8d, 0xae, 0xf6, 0x27, 0x07, 0x35, 0xe2, 0x0c, 0xed, 0x80, 0xe0,
+	0xe1, 0x88, 0x01, 0x94, 0x7f, 0x45, 0xc8, 0x77, 0xcf, 0x92, 0x46, 0x0f, 0x21, 0x35, 0xb4, 0x09,
+	0x96, 0x84, 0x8a, 0x50, 0xcd, 0x6b, 0x25, 0x75, 0x39, 0x7b, 0x75, 0x8f, 0xe6, 0xb5, 0x6b, 0x13,
+	0xac, 0x67, 0x0f, 0xe7, 0x72, 0xe2, 0x68, 0x2e, 0x0b, 0x16, 0x65, 0xa0, 0x4f, 0x40, 0x74, 0xfa,
+	0x92, 0x58, 0x11, 0xaa, 0x39, 0xfd, 0xce, 0xf1, 0x5c, 0x16, 0x4d, 0xe3, 0x74, 0x2e, 0x6f, 0xc5,
+	0xc4, 0x4d, 0xc3, 0x12, 0x9d, 0x3e, 0x92, 0x21, 0xed, 0x78, 0x7d, 0xfb, 0x27, 0x29, 0x59, 0x11,
+	0xaa, 0x29, 0x3d, 0x77, 0x3a, 0x97, 0xd3, 0x66, 0xb8, 0x61, 0xb1, 0x7d, 0x54, 0x82, 0xec, 0x24,
+	0xb0, 0xc7, 0x1e, 0x1e, 0xda, 0x52, 0x2a, 0xd4, 0xb3, 0x16, 0x6b, 0xf4, 0x08, 0x32, 0xac, 0x7c,
+	0x29, 0x4d, 0x33, 0xfc, 0x70, 0x35, 0xc3, 0x06, 0x8d, 0xc6, 0x4e, 0x7d, 0x9a, 0xb0, 0x38, 0x05,
+	0xd5, 0x21, 0x3b, 0xf6, 0x5d, 0x77, 0x1f, 0xf7, 0x5e, 0x49, 0x19, 0x4a, 0xff, 0x68, 0x95, 0x6e,
+	0xf1, 0xf8, 0xb2, 0xc0, 0x82, 0x86, 0xbe, 0x82, 0x4c, 0x40, 0x30, 0x99, 0x04, 0xd2, 0xc6, 0xc5,
+	0xe7, 0xc7, 0x88, 0xdf, 0x52, 0xa0, 0x9e, 0x0a, 0x8d, 0xb2, 0x38, 0x4d, 0xcf, 0xc1, 0x46, 0xdf,
+	0x26, 0xd8, 0x71, 0x03, 0xe5, 0x0f, 0x01, 0x6e, 0x9d, 0x4b, 0x17, 0xbd, 0x80, 0x0d, 0x96, 0x6e,
+	0x20, 0x09, 0x95, 0x64, 0x35, 0xaf, 0xa9, 0x57, 0x96, 0xc8, 0x77, 0x82, 0xa6, 0x47, 0xc6, 0x33,
+	0xbd, 0x18, 0x9e, 0xf7, 0xfa, 0xad, 0x9c, 0xed, 0xe2, 0xf1, 0xc0, 0x26, 0xa6, 0x61, 0x45, 0x82,
+	0x25, 0x0b, 0x36, 0xe3, 0x50, 0x54, 0x84, 0xe4, 0x2b, 0x7b, 0x46, 0x9b, 0x9d, 0xb3, 0xc2, 0x4f,
+	0xb4, 0x0d, 0xe9, 0x29, 0x76, 0x27, 0x36, 0x6d, 0x64, 0x5e, 0xbb, 0x7d, 0xf1, 0xd9, 0x16, 0x03,
+	0x7d, 0x29, 0x3e, 0x14, 0x94, 0x27, 0xf0, 0xee, 0x05, 0xa6, 0xa1, 0xfb, 0x50, 0x88, 0x4c, 0xfb,
+	0x81, 0xb5, 0x5b, 0x58, 0x6d, 0xf7, 0x56, 0x04, 0xa0, 0x4b, 0xe5, 0xb5, 0x00, 0xb7, 0xce, 0xb9,
+	0x17, 0x1a, 0x3e, 0x7a, 0x89, 0x03, 0xea, 0xc6, 0x55, 0x86, 0x77, 0x28, 0x30, 0x32, 0x9c, 0xd1,
+	0xd0, 0x36, 0xe4, 0x46, 0x63, 0x7f, 0xe4, 0x07, 0xd8, 0x0d, 0x24, 0xb1, 0x92, 0xac, 0xe6, 0xf4,
+	0xc2, 0xe9, 0x5c, 0x86, 0x0e, 0xdf, 0x34, 0x0d, 0xeb, 0x0c, 0xa0, 0xfc, 0x2e, 0x2e, 0x25, 0xc1,
+	0x14, 0xd1, 0xd7, 0x00, 0x8e, 0xe7, 0x10, 0x07, 0xbb, 0xce, 0xcf, 0x36, 0x4f, 0xe4, 0xd3, 0x35,
+	0x89, 0x98, 0x0b, 0x30, 0x15, 0xb0, 0x62, 0x6c, 0x64, 0x40, 0x76, 0x8a, 0x5d, 0xa7, 0x8f, 0x49,
+	0x64, 0x72, 0x75, 0x8d, 0xd2, 0x33, 0x0e, 0x65, 0x3a, 0x0b, 0x26, 0x7a, 0x0c, 0x99, 0x9e, 0x3f,
+	0x1c, 0x3a, 0x84, 0xbe, 0xa2, 0xbc, 0x76, 0x6f, 0x8d, 0x46, 0x83, 0x02, 0x99, 0x02, 0x67, 0xa1,
+	0x47, 0x90, 0xc6, 0xa3, 0x91, 0x3b, 0xa3, 0x0f, 0x2c, 0xaf, 0x7d, 0xbc, 0x86, 0x5e, 0x0f, 0x71,
+	0x8c, 0xcd, 0x38, 0xca, 0x2f, 0x02, 0xdc, 0x5e, 0x35, 0x89, 0xb7, 0xeb, 0x01, 0xa4, 0x03, 0x82,
+	0xc7, 0x64, 0x31, 0x40, 0xd8, 0x00, 0x52, 0xa3, 0x01, 0xa4, 0x76, 0xa3, 0x01, 0xa4, 0xa7, 0xde,
+	0xbc, 0x95, 0x05, 0x8b, 0xc1, 0x91, 0x06, 0x49, 0xdb, 0xeb, 0x73, 0x43, 0xae, 0x66, 0x85, 0x60,
+	0xe5, 0x37, 0x11, 0x4a, 0x97, 0x9b, 0x8e, 0x9e, 0x2e, 0x9e, 0xaa, 0x70, 0xa5, 0x45, 0xb1, 0x12,
+	0x62, 0x83, 0x8d, 0xf3, 0xd1, 0x0e, 0x2d, 0x8a, 0xf7, 0xab, 0xa0, 0xdd, 0xbf, 0x7e, 0xe7, 0xd5,
+	0x50, 0xd3, 0xb6, 0x18, 0x1d, 0x7d, 0x0e, 0x1b, 0x7c, 0x3c, 0xf3, 0xae, 0xdd, 0x59, 0x55, 0xda,
+	0x61, 0x61, 0x2b, 0xc2, 0x29, 0x0f, 0x20, 0x4d, 0x25, 0x50, 0x11, 0x36, 0xcd, 0xb6, 0xd9, 0x35,
+	0xeb, 0x2d, 0xf3, 0x85, 0xd9, 0x7e, 0x52, 0x4c, 0xa0, 0x77, 0x20, 0xbf, 0xd8, 0x69, 0x1a, 0x45,
+	0x01, 0x01, 0x64, 0x76, 0xea, 0x66, 0xab, 0x69, 0x14, 0x45, 0xe5, 0x57, 0x11, 0xa4, 0xcb, 0xae,
+	0xd1, 0x0d, 0x3a, 0x63, 0x2c, 0x3b, 0xa3, 0x5e, 0xf7, 0x26, 0xff, 0x6f, 0x5f, 0xb4, 0xc8, 0x97,
+	0x02, 0xc0, 0xb3, 0x7a, 0xcb, 0x34, 0xea, 0x5d, 0xe6, 0xca, 0x16, 0xe4, 0xf8, 0xfa, 0x9c, 0x27,
+	0x7f, 0x2e, 0x5f, 0xdb, 0xd8, 0xb3, 0xb8, 0x41, 0x47, 0xf4, 0x65, 0x47, 0xb6, 0xaf, 0xf7, 0x2e,
+	0x97, 0xfc, 0x50, 0xee, 0xc5, 0x8a, 0x6b, 0xec, 0xed, 0xee, 0x9a, 0xdd, 0xb3, 0xe2, 0xf8, 0x3a,
+	0x2c, 0x4e, 0x39, 0x14, 0xe0, 0xfd, 0x0b, 0x1f, 0xea, 0x0d, 0xd6, 0x53, 0x5f, 0xae, 0xe7, 0xb3,
+	0x6b, 0x0d, 0x8a, 0xe5, 0x72, 0x94, 0xa8, 0x9c, 0x4d, 0xc8, 0xd6, 0x3b, 0x9d, 0xd6, 0x73, 0x56,
+	0x4c, 0x1e, 0x36, 0xc2, 0x95, 0x49, 0x4b, 0xf9, 0x47, 0x80, 0x62, 0x4c, 0xaa, 0x39, 0xb5, 0x3d,
+	0x82, 0x1e, 0x43, 0x8a, 0xcc, 0x46, 0x6c, 0xe0, 0x16, 0xd6, 0x0e, 0x5c, 0x8a, 0x57, 0xe9, 0xdf,
+	0xee, 0x6c, 0x64, 0x5b, 0x94, 0x87, 0x1a, 0x90, 0x8f, 0xfd, 0x20, 0xe3, 0xc3, 0xe5, 0xee, 0x1a,
+	0x19, 0xfe, 0xaf, 0x23, 0xce, 0x52, 0x76, 0x21, 0xb7, 0xd0, 0x0d, 0x73, 0xfe, 0xae, 0xfd, 0x4d,
+	0x7b, 0xef, 0xfb, 0x36, 0x2b, 0xa0, 0x61, 0x35, 0xf9, 0x45, 0x0b, 0x23, 0x1d, 0x76, 0xeb, 0xc4,
+	0x70, 0x61, 0x34, 0x5b, 0xcd, 0x70, 0x91, 0x0c, 0xab, 0xb6, 0x9a, 0x9d, 0x56, 0xfd, 0x79, 0xd3,
+	0x28, 0xa6, 0x74, 0xe9, 0xf0, 0xb8, 0x2c, 0x1c, 0x1d, 0x97, 0x85, 0xbf, 0x8f, 0xcb, 0xc2, 0x9b,
+	0x93, 0x72, 0xe2, 0xe8, 0xa4, 0x9c, 0xf8, 0xeb, 0xa4, 0x9c, 0xd8, 0xcf, 0xd0, 0x69, 0xf7, 0xc5,
+	0x7f, 0x01, 0x00, 0x00, 0xff, 0xff, 0xf0, 0x60, 0xa8, 0x85, 0x54, 0x0a, 0x00, 0x00,
 }
 
 func (m *Transaction) Marshal() (dAtA []byte, err error) {
@@ -740,32 +922,6 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Transaction != nil {
-		{
-			size := m.Transaction.Size()
-			i -= size
-			if _, err := m.Transaction.MarshalTo(dAtA[i:]); err != nil {
-				return 0, err
-			}
-		}
-	}
-	if m.Atomic {
-		i--
-		if m.Atomic {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x30
-	}
-	if len(m.Username) > 0 {
-		i -= len(m.Username)
-		copy(dAtA[i:], m.Username)
-		i = encodeVarintTransaction(dAtA, i, uint64(len(m.Username)))
-		i--
-		dAtA[i] = 0x2a
-	}
 	{
 		size, err := m.Status.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
@@ -775,7 +931,23 @@ func (m *Transaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintTransaction(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0x22
+	dAtA[i] = 0x3a
+	if m.Details != nil {
+		{
+			size := m.Details.Size()
+			i -= size
+			if _, err := m.Details.MarshalTo(dAtA[i:]); err != nil {
+				return 0, err
+			}
+		}
+	}
+	if len(m.Username) > 0 {
+		i -= len(m.Username)
+		copy(dAtA[i:], m.Username)
+		i = encodeVarintTransaction(dAtA, i, uint64(len(m.Username)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.Index != 0 {
 		i = encodeVarintTransaction(dAtA, i, uint64(m.Index))
 		i--
@@ -818,7 +990,7 @@ func (m *Transaction_Change) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i = encodeVarintTransaction(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x3a
+		dAtA[i] = 0x2a
 	}
 	return len(dAtA) - i, nil
 }
@@ -839,10 +1011,85 @@ func (m *Transaction_Rollback) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i = encodeVarintTransaction(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x32
 	}
 	return len(dAtA) - i, nil
 }
+func (m *ChangeTransaction) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ChangeTransaction) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ChangeTransaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Changes) > 0 {
+		for k := range m.Changes {
+			v := m.Changes[k]
+			baseI := i
+			{
+				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTransaction(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RollbackTransaction) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RollbackTransaction) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RollbackTransaction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.RollbackIndex != 0 {
+		i = encodeVarintTransaction(dAtA, i, uint64(m.RollbackIndex))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *TransactionStatus) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -863,56 +1110,29 @@ func (m *TransactionStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Failure != nil {
-		{
-			size, err := m.Failure.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintTransaction(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x22
-	}
-	if len(m.Targets) > 0 {
-		for k := range m.Targets {
-			v := m.Targets[k]
-			baseI := i
-			{
-				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintTransaction(dAtA, i, uint64(size))
-			}
+	if len(m.Proposals) > 0 {
+		for iNdEx := len(m.Proposals) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Proposals[iNdEx])
+			copy(dAtA[i:], m.Proposals[iNdEx])
+			i = encodeVarintTransaction(dAtA, i, uint64(len(m.Proposals[iNdEx])))
 			i--
 			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x1a
 		}
 	}
-	if m.State != 0 {
-		i = encodeVarintTransaction(dAtA, i, uint64(m.State))
-		i--
-		dAtA[i] = 0x10
+	{
+		size, err := m.Phases.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTransaction(dAtA, i, uint64(size))
 	}
-	if m.Revision != 0 {
-		i = encodeVarintTransaction(dAtA, i, uint64(m.Revision))
-		i--
-		dAtA[i] = 0x8
-	}
+	i--
+	dAtA[i] = 0xa
 	return len(dAtA) - i, nil
 }
 
-func (m *TargetStatus) Marshal() (dAtA []byte, err error) {
+func (m *TransactionPhases) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -922,12 +1142,126 @@ func (m *TargetStatus) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *TargetStatus) MarshalTo(dAtA []byte) (int, error) {
+func (m *TransactionPhases) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *TargetStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *TransactionPhases) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Apply != nil {
+		{
+			size, err := m.Apply.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTransaction(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
+	if m.Commit != nil {
+		{
+			size, err := m.Commit.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTransaction(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Validate != nil {
+		{
+			size, err := m.Validate.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTransaction(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Initialize != nil {
+		{
+			size, err := m.Initialize.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTransaction(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *TransactionPhaseStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransactionPhaseStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransactionPhaseStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.End != nil {
+		n11, err11 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.End, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.End):])
+		if err11 != nil {
+			return 0, err11
+		}
+		i -= n11
+		i = encodeVarintTransaction(dAtA, i, uint64(n11))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Start != nil {
+		n12, err12 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.Start, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.Start):])
+		if err12 != nil {
+			return 0, err12
+		}
+		i -= n12
+		i = encodeVarintTransaction(dAtA, i, uint64(n12))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *TransactionInitializePhase) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransactionInitializePhase) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransactionInitializePhase) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -942,51 +1276,149 @@ func (m *TargetStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i = encodeVarintTransaction(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x1a
 	}
 	if m.State != 0 {
 		i = encodeVarintTransaction(dAtA, i, uint64(m.State))
 		i--
-		dAtA[i] = 0x20
+		dAtA[i] = 0x10
 	}
-	if len(m.PrevValues) > 0 {
-		for k := range m.PrevValues {
-			v := m.PrevValues[k]
-			baseI := i
-			{
-				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintTransaction(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintTransaction(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintTransaction(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x1a
+	{
+		size, err := m.TransactionPhaseStatus.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
 		}
+		i -= size
+		i = encodeVarintTransaction(dAtA, i, uint64(size))
 	}
-	if len(m.TargetType) > 0 {
-		i -= len(m.TargetType)
-		copy(dAtA[i:], m.TargetType)
-		i = encodeVarintTransaction(dAtA, i, uint64(len(m.TargetType)))
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *TransactionValidatePhase) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransactionValidatePhase) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransactionValidatePhase) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Failure != nil {
+		{
+			size, err := m.Failure.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTransaction(dAtA, i, uint64(size))
+		}
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x1a
 	}
-	if len(m.TargetVersion) > 0 {
-		i -= len(m.TargetVersion)
-		copy(dAtA[i:], m.TargetVersion)
-		i = encodeVarintTransaction(dAtA, i, uint64(len(m.TargetVersion)))
+	if m.State != 0 {
+		i = encodeVarintTransaction(dAtA, i, uint64(m.State))
 		i--
-		dAtA[i] = 0xa
+		dAtA[i] = 0x10
 	}
+	{
+		size, err := m.TransactionPhaseStatus.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTransaction(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *TransactionCommitPhase) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransactionCommitPhase) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransactionCommitPhase) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.State != 0 {
+		i = encodeVarintTransaction(dAtA, i, uint64(m.State))
+		i--
+		dAtA[i] = 0x10
+	}
+	{
+		size, err := m.TransactionPhaseStatus.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTransaction(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *TransactionApplyPhase) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TransactionApplyPhase) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TransactionApplyPhase) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.State != 0 {
+		i = encodeVarintTransaction(dAtA, i, uint64(m.State))
+		i--
+		dAtA[i] = 0x10
+	}
+	{
+		size, err := m.TransactionPhaseStatus.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTransaction(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
 	return len(dAtA) - i, nil
 }
 
@@ -1039,36 +1471,6 @@ func encodeVarintTransaction(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *TransactionChange) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Changes) > 0 {
-		for k, v := range m.Changes {
-			_ = k
-			_ = v
-			l = v.Size()
-			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + l + sovTransaction(uint64(l))
-			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
-		}
-	}
-	return n
-}
-
-func (m *TransactionRollback) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Index != 0 {
-		n += 1 + sovTransaction(uint64(m.Index))
-	}
-	return n
-}
-
 func (m *Transaction) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1084,18 +1486,15 @@ func (m *Transaction) Size() (n int) {
 	if m.Index != 0 {
 		n += 1 + sovTransaction(uint64(m.Index))
 	}
-	l = m.Status.Size()
-	n += 1 + l + sovTransaction(uint64(l))
 	l = len(m.Username)
 	if l > 0 {
 		n += 1 + l + sovTransaction(uint64(l))
 	}
-	if m.Atomic {
-		n += 2
+	if m.Details != nil {
+		n += m.Details.Size()
 	}
-	if m.Transaction != nil {
-		n += m.Transaction.Size()
-	}
+	l = m.Status.Size()
+	n += 1 + l + sovTransaction(uint64(l))
 	return n
 }
 
@@ -1123,26 +1522,105 @@ func (m *Transaction_Rollback) Size() (n int) {
 	}
 	return n
 }
-func (m *TransactionStatus) Size() (n int) {
+func (m *ChangeTransaction) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Revision != 0 {
-		n += 1 + sovTransaction(uint64(m.Revision))
-	}
-	if m.State != 0 {
-		n += 1 + sovTransaction(uint64(m.State))
-	}
-	if len(m.Targets) > 0 {
-		for k, v := range m.Targets {
+	if len(m.Changes) > 0 {
+		for k, v := range m.Changes {
 			_ = k
 			_ = v
 			l = v.Size()
 			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + l + sovTransaction(uint64(l))
 			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
 		}
+	}
+	return n
+}
+
+func (m *RollbackTransaction) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.RollbackIndex != 0 {
+		n += 1 + sovTransaction(uint64(m.RollbackIndex))
+	}
+	return n
+}
+
+func (m *TransactionStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.Phases.Size()
+	n += 1 + l + sovTransaction(uint64(l))
+	if len(m.Proposals) > 0 {
+		for _, s := range m.Proposals {
+			l = len(s)
+			n += 1 + l + sovTransaction(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *TransactionPhases) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Initialize != nil {
+		l = m.Initialize.Size()
+		n += 1 + l + sovTransaction(uint64(l))
+	}
+	if m.Validate != nil {
+		l = m.Validate.Size()
+		n += 1 + l + sovTransaction(uint64(l))
+	}
+	if m.Commit != nil {
+		l = m.Commit.Size()
+		n += 1 + l + sovTransaction(uint64(l))
+	}
+	if m.Apply != nil {
+		l = m.Apply.Size()
+		n += 1 + l + sovTransaction(uint64(l))
+	}
+	return n
+}
+
+func (m *TransactionPhaseStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Start != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.Start)
+		n += 1 + l + sovTransaction(uint64(l))
+	}
+	if m.End != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.End)
+		n += 1 + l + sovTransaction(uint64(l))
+	}
+	return n
+}
+
+func (m *TransactionInitializePhase) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.TransactionPhaseStatus.Size()
+	n += 1 + l + sovTransaction(uint64(l))
+	if m.State != 0 {
+		n += 1 + sovTransaction(uint64(m.State))
 	}
 	if m.Failure != nil {
 		l = m.Failure.Size()
@@ -1151,35 +1629,48 @@ func (m *TransactionStatus) Size() (n int) {
 	return n
 }
 
-func (m *TargetStatus) Size() (n int) {
+func (m *TransactionValidatePhase) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.TargetVersion)
-	if l > 0 {
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	l = len(m.TargetType)
-	if l > 0 {
-		n += 1 + l + sovTransaction(uint64(l))
-	}
-	if len(m.PrevValues) > 0 {
-		for k, v := range m.PrevValues {
-			_ = k
-			_ = v
-			l = v.Size()
-			mapEntrySize := 1 + len(k) + sovTransaction(uint64(len(k))) + 1 + l + sovTransaction(uint64(l))
-			n += mapEntrySize + 1 + sovTransaction(uint64(mapEntrySize))
-		}
-	}
+	l = m.TransactionPhaseStatus.Size()
+	n += 1 + l + sovTransaction(uint64(l))
 	if m.State != 0 {
 		n += 1 + sovTransaction(uint64(m.State))
 	}
 	if m.Failure != nil {
 		l = m.Failure.Size()
 		n += 1 + l + sovTransaction(uint64(l))
+	}
+	return n
+}
+
+func (m *TransactionCommitPhase) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.TransactionPhaseStatus.Size()
+	n += 1 + l + sovTransaction(uint64(l))
+	if m.State != 0 {
+		n += 1 + sovTransaction(uint64(m.State))
+	}
+	return n
+}
+
+func (m *TransactionApplyPhase) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.TransactionPhaseStatus.Size()
+	n += 1 + l + sovTransaction(uint64(l))
+	if m.State != 0 {
+		n += 1 + sovTransaction(uint64(m.State))
 	}
 	return n
 }
@@ -1204,7 +1695,7 @@ func sovTransaction(x uint64) (n int) {
 func sozTransaction(x uint64) (n int) {
 	return sovTransaction(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *TransactionChange) Unmarshal(dAtA []byte) error {
+func (m *Transaction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1227,10 +1718,279 @@ func (m *TransactionChange) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: TransactionChange: wiretype end group for non-group")
+			return fmt.Errorf("proto: Transaction: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: TransactionChange: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Transaction: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ObjectMeta", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.ObjectMeta.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = TransactionID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= Index(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Username", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Username = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Change", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &ChangeTransaction{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Details = &Transaction_Change{v}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Rollback", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &RollbackTransaction{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Details = &Transaction_Rollback{v}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Status.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTransaction(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ChangeTransaction) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTransaction
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ChangeTransaction: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ChangeTransaction: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1383,7 +2143,7 @@ func (m *TransactionChange) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *TransactionRollback) Unmarshal(dAtA []byte) error {
+func (m *RollbackTransaction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1406,17 +2166,17 @@ func (m *TransactionRollback) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: TransactionRollback: wiretype end group for non-group")
+			return fmt.Errorf("proto: RollbackTransaction: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: TransactionRollback: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: RollbackTransaction: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field RollbackIndex", wireType)
 			}
-			m.Index = 0
+			m.RollbackIndex = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTransaction
@@ -1426,300 +2186,11 @@ func (m *TransactionRollback) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Index |= Index(b&0x7F) << shift
+				m.RollbackIndex |= Index(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTransaction(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Transaction) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTransaction
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Transaction: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Transaction: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ObjectMeta", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.ObjectMeta.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ID = TransactionID(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= Index(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Status.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Username", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Username = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Atomic", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Atomic = bool(v != 0)
-		case 7:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Change", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			v := &TransactionChange{}
-			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			m.Transaction = &Transaction_Change{v}
-			iNdEx = postIndex
-		case 8:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Rollback", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			v := &TransactionRollback{}
-			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			m.Transaction = &Transaction_Rollback{v}
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTransaction(dAtA[iNdEx:])
@@ -1771,46 +2242,8 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Revision", wireType)
-			}
-			m.Revision = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Revision |= Revision(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
-			}
-			m.State = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.State |= TransactionState(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Targets", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Phases", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1837,107 +2270,461 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Targets == nil {
-				m.Targets = make(map[TargetID]TargetStatus)
+			if err := m.Phases.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
-			var mapkey TargetID
-			mapvalue := &TargetStatus{}
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTransaction
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Proposals", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
 				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTransaction
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = TargetID(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var mapmsglen int
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTransaction
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapmsglen |= int(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					if mapmsglen < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					postmsgIndex := iNdEx + mapmsglen
-					if postmsgIndex < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if postmsgIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = &TargetStatus{}
-					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
-						return err
-					}
-					iNdEx = postmsgIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipTransaction(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
 				}
 			}
-			m.Targets[TargetID(mapkey)] = *mapvalue
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Proposals = append(m.Proposals, ProposalID(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTransaction(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransactionPhases) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTransaction
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransactionPhases: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransactionPhases: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Initialize", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Initialize == nil {
+				m.Initialize = &TransactionInitializePhase{}
+			}
+			if err := m.Initialize.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Validate", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Validate == nil {
+				m.Validate = &TransactionValidatePhase{}
+			}
+			if err := m.Validate.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Commit", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Commit == nil {
+				m.Commit = &TransactionCommitPhase{}
+			}
+			if err := m.Commit.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Apply", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Apply == nil {
+				m.Apply = &TransactionApplyPhase{}
+			}
+			if err := m.Apply.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTransaction(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransactionPhaseStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTransaction
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransactionPhaseStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransactionPhaseStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Start", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Start == nil {
+				m.Start = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.Start, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field End", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.End == nil {
+				m.End = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.End, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTransaction(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransactionInitializePhase) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTransaction
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransactionInitializePhase: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransactionInitializePhase: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransactionPhaseStatus", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.TransactionPhaseStatus.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			m.State = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.State |= TransactionInitializePhase_State(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Failure", wireType)
 			}
@@ -1994,7 +2781,7 @@ func (m *TransactionStatus) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *TargetStatus) Unmarshal(dAtA []byte) error {
+func (m *TransactionValidatePhase) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2017,79 +2804,15 @@ func (m *TargetStatus) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: TargetStatus: wiretype end group for non-group")
+			return fmt.Errorf("proto: TransactionValidatePhase: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: TargetStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: TransactionValidatePhase: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TargetVersion", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TargetVersion = TargetVersion(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TargetType", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTransaction
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTransaction
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TargetType = TargetType(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PrevValues", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field TransactionPhaseStatus", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -2116,107 +2839,11 @@ func (m *TargetStatus) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.PrevValues == nil {
-				m.PrevValues = make(map[string]PathValue)
+			if err := m.TransactionPhaseStatus.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
-			var mapkey string
-			mapvalue := &PathValue{}
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTransaction
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTransaction
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var mapmsglen int
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTransaction
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapmsglen |= int(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					if mapmsglen < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					postmsgIndex := iNdEx + mapmsglen
-					if postmsgIndex < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if postmsgIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = &PathValue{}
-					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
-						return err
-					}
-					iNdEx = postmsgIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipTransaction(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthTransaction
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.PrevValues[mapkey] = *mapvalue
 			iNdEx = postIndex
-		case 4:
+		case 2:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
 			}
@@ -2230,12 +2857,12 @@ func (m *TargetStatus) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.State |= TargetState(b&0x7F) << shift
+				m.State |= TransactionValidatePhase_State(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 5:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Failure", wireType)
 			}
@@ -2271,6 +2898,210 @@ func (m *TargetStatus) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTransaction(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransactionCommitPhase) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTransaction
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransactionCommitPhase: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransactionCommitPhase: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransactionPhaseStatus", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.TransactionPhaseStatus.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			m.State = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.State |= TransactionCommitPhase_State(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTransaction(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TransactionApplyPhase) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTransaction
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TransactionApplyPhase: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TransactionApplyPhase: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransactionPhaseStatus", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTransaction
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.TransactionPhaseStatus.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			m.State = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTransaction
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.State |= TransactionApplyPhase_State(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTransaction(dAtA[iNdEx:])
@@ -2335,7 +3166,7 @@ func (m *TransactionEvent) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Type |= TransactionEvent_TransactionEventType(b&0x7F) << shift
+				m.Type |= TransactionEvent_EventType(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
