@@ -21,6 +21,7 @@
     - [TransactionCommitPhase.State](#onos.config.v2.TransactionCommitPhase.State)
     - [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType)
     - [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State)
+    - [TransactionStatus.State](#onos.config.v2.TransactionStatus.State)
     - [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -211,6 +212,8 @@ TransactionEvent transaction store event
 | ----- | ---- | ----- | ----------- |
 | phases | [TransactionPhases](#onos.config.v2.TransactionPhases) |  | &#39;phases&#39; is the transaction phases |
 | proposals | [string](#string) | repeated | &#39;proposals&#39; is the set of proposals managed by the transaction |
+| state | [TransactionStatus.State](#onos.config.v2.TransactionStatus.State) |  | &#39;state&#39; is the overall transaction state |
+| failure | [Failure](#onos.config.v2.Failure) |  | &#39;failure&#39; is the transaction failure (if any) |
 
 
 
@@ -285,6 +288,21 @@ EventType transaction event types for transaction store
 | INITIALIZING | 0 |  |
 | INITIALIZED | 1 |  |
 | FAILED | 2 |  |
+
+
+
+<a name="onos.config.v2.TransactionStatus.State"></a>
+
+### TransactionStatus.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PENDING | 0 |  |
+| VALIDATED | 1 |  |
+| COMMITTED | 2 |  |
+| APPLIED | 3 |  |
+| FAILED | 4 |  |
 
 
 

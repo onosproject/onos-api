@@ -69,6 +69,20 @@ message TransactionStatus {
 
     // 'proposals' is the set of proposals managed by the transaction
     repeated string proposals = 2 [(gogoproto.casttype) = "ProposalID"];
+
+    // 'state' is the overall transaction state
+    State state = 3;
+
+    // 'failure' is the transaction failure (if any)
+    Failure failure = 4;
+
+    enum State {
+        PENDING = 0;
+        VALIDATED = 1;
+        COMMITTED = 2;
+        APPLIED = 3;
+        FAILED = 4;
+    }
 }
 
 message TransactionPhases {

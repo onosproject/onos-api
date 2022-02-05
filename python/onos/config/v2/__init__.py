@@ -44,6 +44,14 @@ class FailureType(betterproto.Enum):
     INTERNAL = 11
 
 
+class TransactionStatusState(betterproto.Enum):
+    PENDING = 0
+    VALIDATED = 1
+    COMMITTED = 2
+    APPLIED = 3
+    FAILED = 4
+
+
 class TransactionInitializePhaseState(betterproto.Enum):
     INITIALIZING = 0
     INITIALIZED = 1
@@ -212,6 +220,10 @@ class TransactionStatus(betterproto.Message):
     phases: "TransactionPhases" = betterproto.message_field(1)
     # 'proposals' is the set of proposals managed by the transaction
     proposals: List[str] = betterproto.string_field(2)
+    # 'state' is the overall transaction state
+    state: "TransactionStatusState" = betterproto.enum_field(3)
+    # 'failure' is the transaction failure (if any)
+    failure: "Failure" = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)
