@@ -54,7 +54,7 @@ message TypedValue {
 // PathValues is a set of path/value pairs
 message PathValues {
     // 'values' is a set of change values to apply
-    map<string, PathValue> values = 4 [(gogoproto.nullable) = false];
+    map<string, PathValue> values = 4;
 }
 
 // PathValue is the state of a path/value in the configuration tree

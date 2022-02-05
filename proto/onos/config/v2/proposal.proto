@@ -45,7 +45,7 @@ message Proposal {
 
 message ChangeProposal {
     // 'changes' is the proposed change values
-    map<string, PathValue> values = 1 [(gogoproto.nullable) = false];
+    map<string, PathValue> values = 1;
 }
 
 message RollbackProposal {
@@ -68,7 +68,7 @@ message ProposalStatus {
     uint64 rollback_index = 4 [(gogoproto.casttype) = "Index"];
 
     // 'rollback_values' is the set of values to use to roll back the proposal
-    map<string, PathValue> rollback_values = 5 [(gogoproto.nullable) = false];
+    map<string, PathValue> rollback_values = 5;
 }
 
 message ProposalPhases {

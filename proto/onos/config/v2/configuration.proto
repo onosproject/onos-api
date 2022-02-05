@@ -33,7 +33,7 @@ message Configuration {
     string target_id = 3 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
 
     // 'values' is a map of path/values to set
-    map<string, PathValue> values = 4 [(gogoproto.nullable) = false];
+    map<string, PathValue> values = 4;
 
     // 'index' is the index of the configuration values
     uint64 index = 5 [(gogoproto.casttype) = "Index"];
@@ -79,7 +79,7 @@ message CommittedConfigurationStatus {
 message AppliedConfigurationStatus {
     uint64 index = 1 [(gogoproto.casttype) = "Index"];
     uint64 term = 2 [(gogoproto.casttype) = "MastershipTerm"];
-    map<string, PathValue> values = 3 [(gogoproto.nullable) = false];
+    map<string, PathValue> values = 3;
 }
 
 // ConfigurationEvent configuration store event

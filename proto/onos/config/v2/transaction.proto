@@ -52,7 +52,7 @@ message Transaction {
 
 message ChangeTransaction {
     // 'values' is a set of changes to apply to targets
-    map<string, PathValues> values = 1 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+    map<string, PathValues> values = 1 [(gogoproto.castkey) = "TargetID"];
 }
 
 message RollbackTransaction {
