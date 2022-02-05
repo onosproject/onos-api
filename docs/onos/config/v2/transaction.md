@@ -92,6 +92,7 @@ Transaction refers to a transaction change or transaction rollback
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the transaction This field should be set prior to persisting the object. |
 | index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change The index is provided by the store, is static and unique for each unique change identifier, and should not be modified by client code. |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
+| atomic | [bool](#bool) |  | &#39;atomic&#39; indicates whether the transaction is atomic |
 | change | [ChangeTransaction](#onos.config.v2.ChangeTransaction) |  |  |
 | rollback | [RollbackTransaction](#onos.config.v2.RollbackTransaction) |  |  |
 | status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |

@@ -383,9 +383,9 @@ func (m *RollbackProposal) GetRollbackIndex() Index {
 type ProposalStatus struct {
 	// 'phases' is the proposal phases
 	Phases ProposalPhases `protobuf:"bytes,1,opt,name=phases,proto3" json:"phases"`
-	// 'prev_index' is a reference to the previous transaction index
+	// 'prev_index' is the index of the previous proposal associated with this target
 	PrevIndex Index `protobuf:"varint,2,opt,name=prev_index,json=prevIndex,proto3,casttype=Index" json:"prev_index,omitempty"`
-	// 'next_index' is a reference to the next transaction index
+	// 'next_index' is the index of the next proposal associated with this target
 	NextIndex Index `protobuf:"varint,3,opt,name=next_index,json=nextIndex,proto3,casttype=Index" json:"next_index,omitempty"`
 	// 'rollback_index' is a reference to the index to which to roll back
 	RollbackIndex Index `protobuf:"varint,4,opt,name=rollback_index,json=rollbackIndex,proto3,casttype=Index" json:"rollback_index,omitempty"`

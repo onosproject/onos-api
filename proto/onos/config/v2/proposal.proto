@@ -58,10 +58,10 @@ message ProposalStatus {
     // 'phases' is the proposal phases
     ProposalPhases phases = 1 [(gogoproto.nullable) = false];
 
-    // 'prev_index' is a reference to the previous transaction index
+    // 'prev_index' is the index of the previous proposal associated with this target
     uint64 prev_index = 2 [(gogoproto.casttype) = "Index"];
 
-    // 'next_index' is a reference to the next transaction index
+    // 'next_index' is the index of the next proposal associated with this target
     uint64 next_index = 3 [(gogoproto.casttype) = "Index"];
 
     // 'rollback_index' is a reference to the index to which to roll back

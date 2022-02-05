@@ -45,6 +45,7 @@ stronger consistency guarantees.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | sync | [bool](#bool) |  |  |
+| atomic | [bool](#bool) |  |  |
 
 
 

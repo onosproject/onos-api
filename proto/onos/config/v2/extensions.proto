@@ -31,4 +31,5 @@ message TransactionInfo {
 // stronger consistency guarantees.
 message TransactionMode {
     bool sync = 1;
+    bool atomic = 2;
 }

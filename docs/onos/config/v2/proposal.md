@@ -195,8 +195,8 @@ ProposalStatus is the status of a Proposal
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | phases | [ProposalPhases](#onos.config.v2.ProposalPhases) |  | &#39;phases&#39; is the proposal phases |
-| prev_index | [uint64](#uint64) |  | &#39;prev_index&#39; is a reference to the previous transaction index |
-| next_index | [uint64](#uint64) |  | &#39;next_index&#39; is a reference to the next transaction index |
+| prev_index | [uint64](#uint64) |  | &#39;prev_index&#39; is the index of the previous proposal associated with this target |
+| next_index | [uint64](#uint64) |  | &#39;next_index&#39; is the index of the next proposal associated with this target |
 | rollback_index | [uint64](#uint64) |  | &#39;rollback_index&#39; is a reference to the index to which to roll back |
 | rollback_values | [ProposalStatus.RollbackValuesEntry](#onos.config.v2.ProposalStatus.RollbackValuesEntry) | repeated | &#39;rollback_values&#39; is the set of values to use to roll back the proposal |
 

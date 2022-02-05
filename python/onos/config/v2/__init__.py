@@ -184,10 +184,12 @@ class Transaction(betterproto.Message):
     index: int = betterproto.uint64_field(3)
     # 'username' is the name of the user that made the transaction
     username: str = betterproto.string_field(4)
-    change: "ChangeTransaction" = betterproto.message_field(5, group="details")
-    rollback: "RollbackTransaction" = betterproto.message_field(6, group="details")
+    # 'atomic' indicates whether the transaction is atomic
+    atomic: bool = betterproto.bool_field(5)
+    change: "ChangeTransaction" = betterproto.message_field(6, group="details")
+    rollback: "RollbackTransaction" = betterproto.message_field(7, group="details")
     # 'status' is the current lifecycle status of the transaction
-    status: "TransactionStatus" = betterproto.message_field(7)
+    status: "TransactionStatus" = betterproto.message_field(8)
 
 
 @dataclass(eq=False, repr=False)
@@ -346,6 +348,7 @@ class TransactionMode(betterproto.Message):
     """
 
     sync: bool = betterproto.bool_field(1)
+    atomic: bool = betterproto.bool_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -383,9 +386,10 @@ class ProposalStatus(betterproto.Message):
 
     # 'phases' is the proposal phases
     phases: "ProposalPhases" = betterproto.message_field(1)
-    # 'prev_index' is a reference to the previous transaction index
+    # 'prev_index' is the index of the previous proposal associated with this
+    # target
     prev_index: int = betterproto.uint64_field(2)
-    # 'next_index' is a reference to the next transaction index
+    # 'next_index' is the index of the next proposal associated with this target
     next_index: int = betterproto.uint64_field(3)
     # 'rollback_index' is a reference to the index to which to roll back
     rollback_index: int = betterproto.uint64_field(4)

@@ -40,14 +40,17 @@ message Transaction {
     // 'username' is the name of the user that made the transaction
     string username = 4;
 
+    // 'atomic' indicates whether the transaction is atomic
+    bool atomic = 5;
+
     // 'details' is the transaction details
     oneof details {
-        ChangeTransaction change = 5;
-        RollbackTransaction rollback = 6;
+        ChangeTransaction change = 6;
+        RollbackTransaction rollback = 7;
     }
 
     // 'status' is the current lifecycle status of the transaction
-    TransactionStatus status = 7 [(gogoproto.nullable) = false];
+    TransactionStatus status = 8 [(gogoproto.nullable) = false];
 }
 
 message ChangeTransaction {
