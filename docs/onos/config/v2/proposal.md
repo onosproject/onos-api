@@ -77,7 +77,6 @@
 | meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the proposal |
 | target_id | [string](#string) |  | &#39;target_id&#39; is the proposal&#39;s target identifier |
-| transaction_id | [string](#string) |  | &#39;transaction_id&#39; is the unique identifier of the transaction |
 | transaction_index | [uint64](#uint64) |  | &#39;transaction_index&#39; is the unique index of the transaction |
 | change | [ChangeProposal](#onos.config.v2.ChangeProposal) |  |  |
 | rollback | [RollbackProposal](#onos.config.v2.RollbackProposal) |  |  |

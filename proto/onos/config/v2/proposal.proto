@@ -30,20 +30,17 @@ message Proposal {
     // 'target_id' is the proposal's target identifier
     string target_id = 3 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
 
-    // 'transaction_id' is the unique identifier of the transaction
-    string transaction_id = 4 [(gogoproto.customname) = "TransactionID", (gogoproto.casttype) = "TransactionID"];
-
     // 'transaction_index' is the unique index of the transaction
-    uint64 transaction_index = 5 [(gogoproto.casttype) = "Index"];
+    uint64 transaction_index = 4 [(gogoproto.casttype) = "Index"];
 
     // 'details' is the proposal details
     oneof details {
-        ChangeProposal change = 6;
-        RollbackProposal rollback = 7;
+        ChangeProposal change = 5;
+        RollbackProposal rollback = 6;
     }
 
     // 'status' is the current lifecycle status of the proposal
-    ProposalStatus status = 8 [(gogoproto.nullable) = false];
+    ProposalStatus status = 7 [(gogoproto.nullable) = false];
 }
 
 message ChangeProposal {

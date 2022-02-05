@@ -32,20 +32,14 @@ message Configuration {
     // 'target_id' is the target to which the desired target configuration applies
     string target_id = 3 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
 
-    // 'target_version' is the version to which desired target configuration applies
-    string target_version = 4 [(gogoproto.casttype) = "TargetVersion"];
-
-    // 'target_type' is an optional target type to which to apply this desired target configuration
-    string target_type = 5 [(gogoproto.casttype) = "TargetType"];
-
     // 'values' is a map of path/values to set
-    map<string, PathValue> values = 6 [(gogoproto.nullable) = false];
+    map<string, PathValue> values = 4 [(gogoproto.nullable) = false];
 
     // 'index' is the index of the configuration values
-    uint64 index = 7 [(gogoproto.casttype) = "Index"];
+    uint64 index = 5 [(gogoproto.casttype) = "Index"];
 
     // 'ConfigurationStatus' is the current lifecycle status of the configuration
-    ConfigurationStatus status = 8 [(gogoproto.nullable) = false];
+    ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
 }
 
 // ConfigurationStatus is the status of a Configuration

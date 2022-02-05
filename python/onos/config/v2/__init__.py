@@ -273,20 +273,14 @@ class Configuration(betterproto.Message):
     id: str = betterproto.string_field(2)
     # 'target_id' is the target to which the desired target configuration applies
     target_id: str = betterproto.string_field(3)
-    # 'target_version' is the version to which desired target configuration
-    # applies
-    target_version: str = betterproto.string_field(4)
-    # 'target_type' is an optional target type to which to apply this desired
-    # target configuration
-    target_type: str = betterproto.string_field(5)
     # 'values' is a map of path/values to set
     values: Dict[str, "PathValue"] = betterproto.map_field(
-        6, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+        4, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
     # 'index' is the index of the configuration values
-    index: int = betterproto.uint64_field(7)
+    index: int = betterproto.uint64_field(5)
     # 'ConfigurationStatus' is the current lifecycle status of the configuration
-    status: "ConfigurationStatus" = betterproto.message_field(8)
+    status: "ConfigurationStatus" = betterproto.message_field(6)
 
 
 @dataclass(eq=False, repr=False)
@@ -361,14 +355,12 @@ class Proposal(betterproto.Message):
     id: str = betterproto.string_field(2)
     # 'target_id' is the proposal's target identifier
     target_id: str = betterproto.string_field(3)
-    # 'transaction_id' is the unique identifier of the transaction
-    transaction_id: str = betterproto.string_field(4)
     # 'transaction_index' is the unique index of the transaction
-    transaction_index: int = betterproto.uint64_field(5)
-    change: "ChangeProposal" = betterproto.message_field(6, group="details")
-    rollback: "RollbackProposal" = betterproto.message_field(7, group="details")
+    transaction_index: int = betterproto.uint64_field(4)
+    change: "ChangeProposal" = betterproto.message_field(5, group="details")
+    rollback: "RollbackProposal" = betterproto.message_field(6, group="details")
     # 'status' is the current lifecycle status of the proposal
-    status: "ProposalStatus" = betterproto.message_field(8)
+    status: "ProposalStatus" = betterproto.message_field(7)
 
 
 @dataclass(eq=False, repr=False)
