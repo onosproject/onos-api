@@ -91,12 +91,6 @@ class ConfigurationEventEventType(betterproto.Enum):
     REPLAYED = 4
 
 
-class TransactionalCommand(betterproto.Enum):
-    TRANSACTIONAL_PREPARE = 0
-    TRANSACTIONAL_COMMIT = 1
-    TRANSACTIONAL_ROLLBACK = 2
-
-
 @dataclass(eq=False, repr=False)
 class TypedValue(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
@@ -342,16 +336,3 @@ class TransactionMode(betterproto.Message):
     """
 
     sync: bool = betterproto.bool_field(1)
-    atomic: bool = betterproto.bool_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class Transactional(betterproto.Message):
-    """
-    Transactional is a extension that if supported by targets enables atomic
-    transactions across multiple targets.
-    """
-
-    id: str = betterproto.string_field(1)
-    index: int = betterproto.uint64_field(2)
-    command: "TransactionalCommand" = betterproto.enum_field(3)

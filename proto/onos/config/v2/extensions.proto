@@ -31,19 +31,4 @@ message TransactionInfo {
 // stronger consistency guarantees.
 message TransactionMode {
     bool sync = 1;
-    bool atomic = 2;
-}
-
-// Transactional is a extension that if supported by targets enables atomic
-// transactions across multiple targets.
-message Transactional {
-    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
-    uint64 index = 2 [(gogoproto.casttype) = "Index"];
-    TransactionalCommand command = 3;
-}
-
-enum TransactionalCommand {
-    TRANSACTIONAL_PREPARE = 0;
-    TRANSACTIONAL_COMMIT = 1;
-    TRANSACTIONAL_ROLLBACK = 2;
 }

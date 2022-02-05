@@ -6,9 +6,6 @@
 - [onos/config/v2/extensions.proto](#onos/config/v2/extensions.proto)
     - [TransactionInfo](#onos.config.v2.TransactionInfo)
     - [TransactionMode](#onos.config.v2.TransactionMode)
-    - [Transactional](#onos.config.v2.Transactional)
-  
-    - [TransactionalCommand](#onos.config.v2.TransactionalCommand)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -48,44 +45,12 @@ stronger consistency guarantees.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | sync | [bool](#bool) |  |  |
-| atomic | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.Transactional"></a>
-
-### Transactional
-Transactional is a extension that if supported by targets enables atomic
-transactions across multiple targets.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| index | [uint64](#uint64) |  |  |
-| command | [TransactionalCommand](#onos.config.v2.TransactionalCommand) |  |  |
 
 
 
 
 
  
-
-
-<a name="onos.config.v2.TransactionalCommand"></a>
-
-### TransactionalCommand
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| TRANSACTIONAL_PREPARE | 0 |  |
-| TRANSACTIONAL_COMMIT | 1 |  |
-| TRANSACTIONAL_ROLLBACK | 2 |  |
-
 
  
 
