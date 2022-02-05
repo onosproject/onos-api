@@ -20,7 +20,7 @@ package onos.config.v2;
 
 import "gogoproto/gogo.proto";
 import "onos/config/v2/object.proto";
-import "onos/config/v2/change.proto";
+import "onos/config/v2/value.proto";
 import "onos/config/v2/failure.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -51,9 +51,8 @@ message Transaction {
 }
 
 message ChangeTransaction {
-    // 'changes' is a set of changes to apply to targets
-    // The list of changes should contain only a single change per target/version pair.
-    map<string, Change> changes = 1 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
+    // 'values' is a set of changes to apply to targets
+    map<string, PathValues> values = 1 [(gogoproto.castkey) = "TargetID", (gogoproto.nullable) = false];
 }
 
 message RollbackTransaction {

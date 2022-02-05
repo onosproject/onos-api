@@ -5,7 +5,7 @@
 
 - [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
     - [ChangeTransaction](#onos.config.v2.ChangeTransaction)
-    - [ChangeTransaction.ChangesEntry](#onos.config.v2.ChangeTransaction.ChangesEntry)
+    - [ChangeTransaction.ValuesEntry](#onos.config.v2.ChangeTransaction.ValuesEntry)
     - [RollbackTransaction](#onos.config.v2.RollbackTransaction)
     - [Transaction](#onos.config.v2.Transaction)
     - [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase)
@@ -42,23 +42,23 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| changes | [ChangeTransaction.ChangesEntry](#onos.config.v2.ChangeTransaction.ChangesEntry) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
+| values | [ChangeTransaction.ValuesEntry](#onos.config.v2.ChangeTransaction.ValuesEntry) | repeated | &#39;values&#39; is a set of changes to apply to targets |
 
 
 
 
 
 
-<a name="onos.config.v2.ChangeTransaction.ChangesEntry"></a>
+<a name="onos.config.v2.ChangeTransaction.ValuesEntry"></a>
 
-### ChangeTransaction.ChangesEntry
+### ChangeTransaction.ValuesEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Change](#onos.config.v2.Change) |  |  |
+| value | [PathValues](#onos.config.v2.PathValues) |  |  |
 
 
 

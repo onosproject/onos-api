@@ -171,7 +171,6 @@ go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/on
 go_import_paths="${go_import_paths},Monos/config/v2/object.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/failure.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/value.proto=github.com/onosproject/onos-api/go/onos/config/v2"
-go_import_paths="${go_import_paths},Monos/config/v2/change.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/proposal.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"

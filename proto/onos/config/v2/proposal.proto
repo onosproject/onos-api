@@ -17,7 +17,7 @@ package onos.config.v2;
 
 import "gogoproto/gogo.proto";
 import "onos/config/v2/object.proto";
-import "onos/config/v2/change.proto";
+import "onos/config/v2/value.proto";
 import "onos/config/v2/failure.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -47,14 +47,8 @@ message Proposal {
 }
 
 message ChangeProposal {
-    // 'target_version' is an optional target version to which to apply this change
-    string target_version = 1 [(gogoproto.casttype) = "TargetVersion"];
-
-    // 'target_type' is an optional target type to which to apply this change
-    string target_type = 2 [(gogoproto.casttype) = "TargetType"];
-
     // 'changes' is the proposed change values
-    map<string, ChangeValue> values = 3 [(gogoproto.nullable) = false];
+    map<string, PathValue> values = 1 [(gogoproto.nullable) = false];
 }
 
 message RollbackProposal {
@@ -77,7 +71,7 @@ message ProposalStatus {
     uint64 rollback_index = 4 [(gogoproto.casttype) = "Index"];
 
     // 'rollback_values' is the set of values to use to roll back the proposal
-    map<string, ChangeValue> rollback_values = 5 [(gogoproto.nullable) = false];
+    map<string, PathValue> rollback_values = 5 [(gogoproto.nullable) = false];
 }
 
 message ProposalPhases {

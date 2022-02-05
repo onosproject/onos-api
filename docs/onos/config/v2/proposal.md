@@ -43,8 +43,6 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
-| target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
 | values | [ChangeProposal.ValuesEntry](#onos.config.v2.ChangeProposal.ValuesEntry) | repeated | &#39;changes&#39; is the proposed change values |
 
 
@@ -61,7 +59,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [ChangeValue](#onos.config.v2.ChangeValue) |  |  |
+| value | [PathValue](#onos.config.v2.PathValue) |  |  |
 
 
 
@@ -217,7 +215,7 @@ ProposalStatus is the status of a Proposal
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [ChangeValue](#onos.config.v2.ChangeValue) |  |  |
+| value | [PathValue](#onos.config.v2.PathValue) |  |  |
 
 
 
