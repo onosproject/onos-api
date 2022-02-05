@@ -24,6 +24,13 @@ import "onos/config/v2/value.proto";
 import "onos/config/v2/failure.proto";
 import "google/protobuf/timestamp.proto";
 
+// TransactionInfo is an extension providing information about the transaction
+// to clients in responses.
+message TransactionInfo {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "TransactionID"];
+    uint64 index = 2 [(gogoproto.casttype) = "Index"];
+}
+
 // Transaction refers to a transaction change or transaction rollback
 message Transaction {
     ObjectMeta meta = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
@@ -40,8 +47,8 @@ message Transaction {
     // 'username' is the name of the user that made the transaction
     string username = 4;
 
-    // 'atomic' indicates whether the transaction is atomic
-    bool atomic = 5;
+    // 'strategy' is the transaction strategy
+    TransactionStrategy strategy = 5 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
 
     // 'details' is the transaction details
     oneof details {
@@ -51,6 +58,32 @@ message Transaction {
 
     // 'status' is the current lifecycle status of the transaction
     TransactionStatus status = 8 [(gogoproto.nullable) = false];
+}
+
+message TransactionStrategy {
+    // 'synchronicity' indicates the transaction synchronicity level
+    Synchronicity synchronicity = 1;
+
+    // 'atomicity' indicates the transaction atomicity level
+    Atomicity atomicity = 2;
+
+    // 'isolation' indicates the transaction isolation level
+    Isolation isolation = 3;
+
+    enum Synchronicity {
+        ASYNCHRONOUS = 0;
+        SYNCHRONOUS = 1;
+    }
+
+    enum Atomicity {
+        ATOMIC = 0;
+        NONATOMIC = 1;
+    }
+
+    enum Isolation {
+        DEFAULT = 0;
+        SERIALIZABLE = 1;
+    }
 }
 
 message ChangeTransaction {

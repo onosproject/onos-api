@@ -11,10 +11,12 @@
     - [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase)
     - [TransactionCommitPhase](#onos.config.v2.TransactionCommitPhase)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
+    - [TransactionInfo](#onos.config.v2.TransactionInfo)
     - [TransactionInitializePhase](#onos.config.v2.TransactionInitializePhase)
     - [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus)
     - [TransactionPhases](#onos.config.v2.TransactionPhases)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
+    - [TransactionStrategy](#onos.config.v2.TransactionStrategy)
     - [TransactionValidatePhase](#onos.config.v2.TransactionValidatePhase)
   
     - [TransactionApplyPhase.State](#onos.config.v2.TransactionApplyPhase.State)
@@ -22,6 +24,9 @@
     - [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType)
     - [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State)
     - [TransactionStatus.State](#onos.config.v2.TransactionStatus.State)
+    - [TransactionStrategy.Atomicity](#onos.config.v2.TransactionStrategy.Atomicity)
+    - [TransactionStrategy.Isolation](#onos.config.v2.TransactionStrategy.Isolation)
+    - [TransactionStrategy.Synchronicity](#onos.config.v2.TransactionStrategy.Synchronicity)
     - [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -93,7 +98,7 @@ Transaction refers to a transaction change or transaction rollback
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the transaction This field should be set prior to persisting the object. |
 | index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change The index is provided by the store, is static and unique for each unique change identifier, and should not be modified by client code. |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
-| atomic | [bool](#bool) |  | &#39;atomic&#39; indicates whether the transaction is atomic |
+| strategy | [TransactionStrategy](#onos.config.v2.TransactionStrategy) |  | &#39;strategy&#39; is the transaction strategy |
 | change | [ChangeTransaction](#onos.config.v2.ChangeTransaction) |  |  |
 | rollback | [RollbackTransaction](#onos.config.v2.RollbackTransaction) |  |  |
 | status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
@@ -145,6 +150,23 @@ TransactionEvent transaction store event
 | ----- | ---- | ----- | ----------- |
 | type | [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType) |  |  |
 | transaction | [Transaction](#onos.config.v2.Transaction) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionInfo"></a>
+
+### TransactionInfo
+TransactionInfo is an extension providing information about the transaction
+to clients in responses.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| index | [uint64](#uint64) |  |  |
 
 
 
@@ -214,6 +236,23 @@ TransactionEvent transaction store event
 | proposals | [string](#string) | repeated | &#39;proposals&#39; is the set of proposals managed by the transaction |
 | state | [TransactionStatus.State](#onos.config.v2.TransactionStatus.State) |  | &#39;state&#39; is the overall transaction state |
 | failure | [Failure](#onos.config.v2.Failure) |  | &#39;failure&#39; is the transaction failure (if any) |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionStrategy"></a>
+
+### TransactionStrategy
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| synchronicity | [TransactionStrategy.Synchronicity](#onos.config.v2.TransactionStrategy.Synchronicity) |  | &#39;synchronicity&#39; indicates the transaction synchronicity level |
+| atomicity | [TransactionStrategy.Atomicity](#onos.config.v2.TransactionStrategy.Atomicity) |  | &#39;atomicity&#39; indicates the transaction atomicity level |
+| isolation | [TransactionStrategy.Isolation](#onos.config.v2.TransactionStrategy.Isolation) |  | &#39;isolation&#39; indicates the transaction isolation level |
 
 
 
@@ -303,6 +342,42 @@ EventType transaction event types for transaction store
 | COMMITTED | 2 |  |
 | APPLIED | 3 |  |
 | FAILED | 4 |  |
+
+
+
+<a name="onos.config.v2.TransactionStrategy.Atomicity"></a>
+
+### TransactionStrategy.Atomicity
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ATOMIC | 0 |  |
+| NONATOMIC | 1 |  |
+
+
+
+<a name="onos.config.v2.TransactionStrategy.Isolation"></a>
+
+### TransactionStrategy.Isolation
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| DEFAULT | 0 |  |
+| SERIALIZABLE | 1 |  |
+
+
+
+<a name="onos.config.v2.TransactionStrategy.Synchronicity"></a>
+
+### TransactionStrategy.Synchronicity
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ASYNCHRONOUS | 0 |  |
+| SYNCHRONOUS | 1 |  |
 
 
 

@@ -5,7 +5,6 @@
 
 - [onos/config/v2/extensions.proto](#onos/config/v2/extensions.proto)
     - [TransactionInfo](#onos.config.v2.TransactionInfo)
-    - [TransactionMode](#onos.config.v2.TransactionMode)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -29,23 +28,6 @@ to clients in responses.
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | index | [uint64](#uint64) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.TransactionMode"></a>
-
-### TransactionMode
-TransactionMode is an extension for constraining the execution of a transaction for
-stronger consistency guarantees.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| sync | [bool](#bool) |  |  |
-| atomic | [bool](#bool) |  |  |
 
 
 
