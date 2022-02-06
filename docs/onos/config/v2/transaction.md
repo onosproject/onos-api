@@ -182,7 +182,6 @@ to clients in responses.
 | ----- | ---- | ----- | ----------- |
 | status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
 | state | [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State) |  |  |
-| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 
@@ -267,7 +266,6 @@ to clients in responses.
 | ----- | ---- | ----- | ----------- |
 | status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
 | state | [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State) |  |  |
-| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 
@@ -285,6 +283,7 @@ to clients in responses.
 | ---- | ------ | ----------- |
 | APPLYING | 0 |  |
 | APPLIED | 1 |  |
+| FAILED | 2 |  |
 
 
 
