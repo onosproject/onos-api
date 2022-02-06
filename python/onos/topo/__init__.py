@@ -224,6 +224,7 @@ class Configurable(betterproto.Message):
     target: str = betterproto.string_field(3)
     version: str = betterproto.string_field(4)
     timeout: timedelta = betterproto.message_field(5)
+    persistent: bool = betterproto.bool_field(6)
 
 
 @dataclass(eq=False, repr=False)

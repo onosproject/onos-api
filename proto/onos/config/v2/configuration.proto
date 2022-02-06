@@ -21,7 +21,6 @@ package onos.config.v2;
 import "gogoproto/gogo.proto";
 import "onos/config/v2/object.proto";
 import "onos/config/v2/value.proto";
-import "onos/config/v2/failure.proto";
 
 // Configuration represents complete desired target configuration
 message Configuration {
@@ -33,85 +32,73 @@ message Configuration {
     // 'target_id' is the target to which the desired target configuration applies
     string target_id = 3 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
 
-    // 'target_version' is the version to which desired target configuration applies
-    string target_version = 4 [(gogoproto.casttype) = "TargetVersion"];
-
-    // 'target_type' is an optional target type to which to apply this desired target configuration
-    string target_type = 5 [(gogoproto.casttype) = "TargetType"];
-
     // 'values' is a map of path/values to set
-    map<string, PathValue> values = 6;
+    map<string, PathValue> values = 4;
+
+    // 'index' is the index of the configuration values
+    uint64 index = 5 [(gogoproto.casttype) = "Index"];
 
     // 'ConfigurationStatus' is the current lifecycle status of the configuration
-    ConfigurationStatus status = 7 [(gogoproto.nullable) = false];
+    ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
 }
 
 // ConfigurationStatus is the status of a Configuration
 message ConfigurationStatus {
-    // revision is the highest revision number that's been reconciled
-    uint64 revision = 1 [(gogoproto.casttype) = "Revision"];
+    // 'state' is the configuration state
+    State state = 1;
 
-    // target_index is the highest transaction index that's been applied to the target
-    uint64 target_index = 6 [(gogoproto.casttype) = "Index"];
+    // 'term' is the current mastership term for the configuration
+    uint64 term = 2 [(gogoproto.casttype) = "MastershipTerm"];
 
-    // 'state' is the state of the transaction within a Phase
-    ConfigurationState state = 2;
+    // 'proposed' is the proposed configuration status
+    ProposedConfigurationStatus proposed = 3 [(gogoproto.nullable) = false];
 
-    // mastershipState mastership info
-    MastershipState mastership_state = 3 [(gogoproto.nullable) = false];
+    // 'committed' is the committed configuration status
+    CommittedConfigurationStatus committed = 4 [(gogoproto.nullable) = false];
 
-    // paths a set of path statuses
-    map<string, PathStatus> paths = 4;
+    // 'applied' is the applied configuration status
+    AppliedConfigurationStatus applied = 5 [(gogoproto.nullable) = false];
 
-    // failure configuration failure type and description
-    Failure failure = 5;
+    // State is the configuration state
+    enum State {
+        UNKNOWN = 0;
+        SYNCHRONIZING = 1;
+        SYNCHRONIZED = 2;
+        PERSISTED = 3;
+    }
 }
 
-// PathStatus is the status of a Configuration path
-message PathStatus {
+message ProposedConfigurationStatus {
     uint64 index = 1 [(gogoproto.casttype) = "Index"];
 }
 
-// Mastership state
-message MastershipState {
-    uint64 term = 1 [(gogoproto.casttype) = "MastershipTerm"];
+message CommittedConfigurationStatus {
+    uint64 index = 1 [(gogoproto.casttype) = "Index"];
 }
 
-// ConfigurationState is the configuration state of a configuration phase
-enum ConfigurationState {
-    // CONFIGURATION_PENDING indicates the configuration is PENDING
-    CONFIGURATION_PENDING = 0;
-
-    // CONFIGURATION_UPDATING indicates the configuration is being updated
-    CONFIGURATION_UPDATING = 1;
-
-    // CONFIGURATION_COMPLETE indicates the configuration is complete
-    CONFIGURATION_COMPLETE = 2;
-
-    // CONFIGURATION_FAILED indicates the configuration is failed
-    CONFIGURATION_FAILED = 3;
-
-    // CONFIGURATION_STALE indicated the configuration is in the stale state
-    CONFIGURATION_STALE = 4;
+message AppliedConfigurationStatus {
+    uint64 index = 1 [(gogoproto.casttype) = "Index"];
+    uint64 term = 2 [(gogoproto.casttype) = "MastershipTerm"];
+    map<string, PathValue> values = 3;
 }
 
 // ConfigurationEvent configuration store event
 message ConfigurationEvent {
-    // ConfigurationEventType configuration event types for configuration store
-    enum ConfigurationEventType {
-        // CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event
-        CONFIGURATION_EVENT_UNKNOWN = 0;
-        // CONFIGURATION_CREATED indicates the configuration entry in the store is created
-        CONFIGURATION_CREATED = 1;
-        // CONFIGURATION_UPDATED indicates the configuration entry in the store is updated
-        CONFIGURATION_UPDATED = 2;
-        // CONFIGURATION_DELETED indicates the configuration entry in the store is deleted
-        CONFIGURATION_DELETED = 3;
-        // CONFIGURATION_REPLAYED
-        CONFIGURATION_REPLAYED = 4;
+    // EventType configuration event types for configuration store
+    enum EventType {
+        // UNKNOWN indicates unknown configuration store event
+        UNKNOWN = 0;
+        // CREATED indicates the configuration entry in the store is created
+        CREATED = 1;
+        // UPDATED indicates the configuration entry in the store is updated
+        UPDATED = 2;
+        // DELETED indicates the configuration entry in the store is deleted
+        DELETED = 3;
+        // REPLAYED
+        REPLAYED = 4;
     }
 
-    // ConfigurationEventType configuration event type
-    ConfigurationEventType type = 1;
+    // EventType configuration event type
+    EventType type = 1;
     Configuration configuration = 2 [(gogoproto.nullable) = false];
 }

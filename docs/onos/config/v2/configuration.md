@@ -4,16 +4,17 @@
 ## Table of Contents
 
 - [onos/config/v2/configuration.proto](#onos/config/v2/configuration.proto)
+    - [AppliedConfigurationStatus](#onos.config.v2.AppliedConfigurationStatus)
+    - [AppliedConfigurationStatus.ValuesEntry](#onos.config.v2.AppliedConfigurationStatus.ValuesEntry)
+    - [CommittedConfigurationStatus](#onos.config.v2.CommittedConfigurationStatus)
     - [Configuration](#onos.config.v2.Configuration)
     - [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry)
     - [ConfigurationEvent](#onos.config.v2.ConfigurationEvent)
     - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
-    - [ConfigurationStatus.PathsEntry](#onos.config.v2.ConfigurationStatus.PathsEntry)
-    - [MastershipState](#onos.config.v2.MastershipState)
-    - [PathStatus](#onos.config.v2.PathStatus)
+    - [ProposedConfigurationStatus](#onos.config.v2.ProposedConfigurationStatus)
   
-    - [ConfigurationEvent.ConfigurationEventType](#onos.config.v2.ConfigurationEvent.ConfigurationEventType)
-    - [ConfigurationState](#onos.config.v2.ConfigurationState)
+    - [ConfigurationEvent.EventType](#onos.config.v2.ConfigurationEvent.EventType)
+    - [ConfigurationStatus.State](#onos.config.v2.ConfigurationStatus.State)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -23,6 +24,54 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/config/v2/configuration.proto
+
+
+
+<a name="onos.config.v2.AppliedConfigurationStatus"></a>
+
+### AppliedConfigurationStatus
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| index | [uint64](#uint64) |  |  |
+| term | [uint64](#uint64) |  |  |
+| values | [AppliedConfigurationStatus.ValuesEntry](#onos.config.v2.AppliedConfigurationStatus.ValuesEntry) | repeated |  |
+
+
+
+
+
+
+<a name="onos.config.v2.AppliedConfigurationStatus.ValuesEntry"></a>
+
+### AppliedConfigurationStatus.ValuesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.CommittedConfigurationStatus"></a>
+
+### CommittedConfigurationStatus
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| index | [uint64](#uint64) |  |  |
+
+
+
 
 
 
@@ -37,9 +86,8 @@ Configuration represents complete desired target configuration
 | meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is a unique configuration identifier |
 | target_id | [string](#string) |  | &#39;target_id&#39; is the target to which the desired target configuration applies |
-| target_version | [string](#string) |  | &#39;target_version&#39; is the version to which desired target configuration applies |
-| target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this desired target configuration |
 | values | [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
+| index | [uint64](#uint64) |  | &#39;index&#39; is the index of the configuration values |
 | status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
 
 
@@ -71,7 +119,7 @@ ConfigurationEvent configuration store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [ConfigurationEvent.ConfigurationEventType](#onos.config.v2.ConfigurationEvent.ConfigurationEventType) |  | ConfigurationEventType configuration event type |
+| type | [ConfigurationEvent.EventType](#onos.config.v2.ConfigurationEvent.EventType) |  | EventType configuration event type |
 | configuration | [Configuration](#onos.config.v2.Configuration) |  |  |
 
 
@@ -87,53 +135,21 @@ ConfigurationStatus is the status of a Configuration
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
-| target_index | [uint64](#uint64) |  | target_index is the highest transaction index that&#39;s been applied to the target |
-| state | [ConfigurationState](#onos.config.v2.ConfigurationState) |  | &#39;state&#39; is the state of the transaction within a Phase |
-| mastership_state | [MastershipState](#onos.config.v2.MastershipState) |  | mastershipState mastership info |
-| paths | [ConfigurationStatus.PathsEntry](#onos.config.v2.ConfigurationStatus.PathsEntry) | repeated | paths a set of path statuses |
-| failure | [Failure](#onos.config.v2.Failure) |  | failure configuration failure type and description |
+| state | [ConfigurationStatus.State](#onos.config.v2.ConfigurationStatus.State) |  | &#39;state&#39; is the configuration state |
+| term | [uint64](#uint64) |  | &#39;term&#39; is the current mastership term for the configuration |
+| proposed | [ProposedConfigurationStatus](#onos.config.v2.ProposedConfigurationStatus) |  | &#39;proposed&#39; is the proposed configuration status |
+| committed | [CommittedConfigurationStatus](#onos.config.v2.CommittedConfigurationStatus) |  | &#39;committed&#39; is the committed configuration status |
+| applied | [AppliedConfigurationStatus](#onos.config.v2.AppliedConfigurationStatus) |  | &#39;applied&#39; is the applied configuration status |
 
 
 
 
 
 
-<a name="onos.config.v2.ConfigurationStatus.PathsEntry"></a>
+<a name="onos.config.v2.ProposedConfigurationStatus"></a>
 
-### ConfigurationStatus.PathsEntry
+### ProposedConfigurationStatus
 
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [PathStatus](#onos.config.v2.PathStatus) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.MastershipState"></a>
-
-### MastershipState
-Mastership state
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| term | [uint64](#uint64) |  |  |
-
-
-
-
-
-
-<a name="onos.config.v2.PathStatus"></a>
-
-### PathStatus
-PathStatus is the status of a Configuration path
 
 
 | Field | Type | Label | Description |
@@ -147,33 +163,32 @@ PathStatus is the status of a Configuration path
  
 
 
-<a name="onos.config.v2.ConfigurationEvent.ConfigurationEventType"></a>
+<a name="onos.config.v2.ConfigurationEvent.EventType"></a>
 
-### ConfigurationEvent.ConfigurationEventType
-ConfigurationEventType configuration event types for configuration store
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| CONFIGURATION_EVENT_UNKNOWN | 0 | CONFIGURATION_EVENT_UNKNOWN indicates unknown configuration store event |
-| CONFIGURATION_CREATED | 1 | CONFIGURATION_CREATED indicates the configuration entry in the store is created |
-| CONFIGURATION_UPDATED | 2 | CONFIGURATION_UPDATED indicates the configuration entry in the store is updated |
-| CONFIGURATION_DELETED | 3 | CONFIGURATION_DELETED indicates the configuration entry in the store is deleted |
-| CONFIGURATION_REPLAYED | 4 | CONFIGURATION_REPLAYED |
-
-
-
-<a name="onos.config.v2.ConfigurationState"></a>
-
-### ConfigurationState
-ConfigurationState is the configuration state of a configuration phase
+### ConfigurationEvent.EventType
+EventType configuration event types for configuration store
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CONFIGURATION_PENDING | 0 | CONFIGURATION_PENDING indicates the configuration is PENDING |
-| CONFIGURATION_UPDATING | 1 | CONFIGURATION_UPDATING indicates the configuration is being updated |
-| CONFIGURATION_COMPLETE | 2 | CONFIGURATION_COMPLETE indicates the configuration is complete |
-| CONFIGURATION_FAILED | 3 | CONFIGURATION_FAILED indicates the configuration is failed |
-| CONFIGURATION_STALE | 4 | CONFIGURATION_STALE indicated the configuration is in the stale state |
+| UNKNOWN | 0 | UNKNOWN indicates unknown configuration store event |
+| CREATED | 1 | CREATED indicates the configuration entry in the store is created |
+| UPDATED | 2 | UPDATED indicates the configuration entry in the store is updated |
+| DELETED | 3 | DELETED indicates the configuration entry in the store is deleted |
+| REPLAYED | 4 | REPLAYED |
+
+
+
+<a name="onos.config.v2.ConfigurationStatus.State"></a>
+
+### ConfigurationStatus.State
+State is the configuration state
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 |  |
+| SYNCHRONIZING | 1 |  |
+| SYNCHRONIZED | 2 |  |
+| PERSISTED | 3 |  |
 
 
  

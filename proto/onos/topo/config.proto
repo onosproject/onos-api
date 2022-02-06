@@ -40,6 +40,7 @@ message Configurable {
     string target = 3;
     string version = 4;
     google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
+    bool persistent = 6;
 }
 
 // Aspect for tracking device mastership

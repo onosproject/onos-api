@@ -5,6 +5,8 @@
 
 - [onos/config/v2/value.proto](#onos/config/v2/value.proto)
     - [PathValue](#onos.config.v2.PathValue)
+    - [PathValues](#onos.config.v2.PathValues)
+    - [PathValues.ValuesEntry](#onos.config.v2.PathValues.ValuesEntry)
     - [TypedValue](#onos.config.v2.TypedValue)
   
     - [ValueType](#onos.config.v2.ValueType)
@@ -31,7 +33,37 @@ PathValue is the state of a path/value in the configuration tree
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
 | value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
 | deleted | [bool](#bool) |  | &#39;deleted&#39; indicates whether this is a delete |
-| index | [uint64](#uint64) |  | &#39;index&#39; |
+
+
+
+
+
+
+<a name="onos.config.v2.PathValues"></a>
+
+### PathValues
+PathValues is a set of path/value pairs
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [PathValues.ValuesEntry](#onos.config.v2.PathValues.ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
+
+
+
+
+
+
+<a name="onos.config.v2.PathValues.ValuesEntry"></a>
+
+### PathValues.ValuesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [PathValue](#onos.config.v2.PathValue) |  |  |
 
 
 

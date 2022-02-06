@@ -46,6 +46,9 @@ func NewUUID() uuid.UUID {
 // ConfigurationID is a configuration identifier type
 type ConfigurationID string
 
+// ProposalID is a proposal identifier type
+type ProposalID string
+
 // TransactionID is a transaction identifier type
 type TransactionID string
 

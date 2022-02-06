@@ -4,22 +4,29 @@
 ## Table of Contents
 
 - [onos/config/v2/transaction.proto](#onos/config/v2/transaction.proto)
-    - [Change](#onos.config.v2.Change)
-    - [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry)
-    - [ChangeValue](#onos.config.v2.ChangeValue)
-    - [TargetStatus](#onos.config.v2.TargetStatus)
-    - [TargetStatus.PrevValuesEntry](#onos.config.v2.TargetStatus.PrevValuesEntry)
+    - [ChangeTransaction](#onos.config.v2.ChangeTransaction)
+    - [ChangeTransaction.ValuesEntry](#onos.config.v2.ChangeTransaction.ValuesEntry)
+    - [RollbackTransaction](#onos.config.v2.RollbackTransaction)
     - [Transaction](#onos.config.v2.Transaction)
-    - [TransactionChange](#onos.config.v2.TransactionChange)
-    - [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry)
+    - [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase)
+    - [TransactionCommitPhase](#onos.config.v2.TransactionCommitPhase)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
-    - [TransactionRollback](#onos.config.v2.TransactionRollback)
+    - [TransactionInfo](#onos.config.v2.TransactionInfo)
+    - [TransactionInitializePhase](#onos.config.v2.TransactionInitializePhase)
+    - [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus)
+    - [TransactionPhases](#onos.config.v2.TransactionPhases)
     - [TransactionStatus](#onos.config.v2.TransactionStatus)
-    - [TransactionStatus.TargetsEntry](#onos.config.v2.TransactionStatus.TargetsEntry)
+    - [TransactionStrategy](#onos.config.v2.TransactionStrategy)
+    - [TransactionValidatePhase](#onos.config.v2.TransactionValidatePhase)
   
-    - [TargetState](#onos.config.v2.TargetState)
-    - [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType)
-    - [TransactionState](#onos.config.v2.TransactionState)
+    - [TransactionApplyPhase.State](#onos.config.v2.TransactionApplyPhase.State)
+    - [TransactionCommitPhase.State](#onos.config.v2.TransactionCommitPhase.State)
+    - [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType)
+    - [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State)
+    - [TransactionStatus.State](#onos.config.v2.TransactionStatus.State)
+    - [TransactionStrategy.Isolation](#onos.config.v2.TransactionStrategy.Isolation)
+    - [TransactionStrategy.Synchronicity](#onos.config.v2.TransactionStrategy.Synchronicity)
+    - [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -32,84 +39,46 @@
 
 
 
-<a name="onos.config.v2.Change"></a>
+<a name="onos.config.v2.ChangeTransaction"></a>
 
-### Change
-Change represents a configuration change to a single target
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
-| target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
-| values | [Change.ValuesEntry](#onos.config.v2.Change.ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
-
-
-
-
-
-
-<a name="onos.config.v2.Change.ValuesEntry"></a>
-
-### Change.ValuesEntry
+### ChangeTransaction
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [ChangeValue](#onos.config.v2.ChangeValue) |  |  |
+| values | [ChangeTransaction.ValuesEntry](#onos.config.v2.ChangeTransaction.ValuesEntry) | repeated | &#39;values&#39; is a set of changes to apply to targets |
 
 
 
 
 
 
-<a name="onos.config.v2.ChangeValue"></a>
+<a name="onos.config.v2.ChangeTransaction.ValuesEntry"></a>
 
-### ChangeValue
-ChangeValue represents a change requested for an individual path/value
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
-| delete | [bool](#bool) |  | &#39;delete&#39; indicates whether this is a delete |
-
-
-
-
-
-
-<a name="onos.config.v2.TargetStatus"></a>
-
-### TargetStatus
-TargetStatus is the status of a Target changed by a Transaction
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| target_version | [string](#string) |  | &#39;target_version&#39; is an optional target version to which to apply this change |
-| target_type | [string](#string) |  | &#39;target_type&#39; is an optional target type to which to apply this change |
-| prev_values | [TargetStatus.PrevValuesEntry](#onos.config.v2.TargetStatus.PrevValuesEntry) | repeated | &#39;prev_values&#39; is the previous set of values for the target |
-| state | [TargetState](#onos.config.v2.TargetState) |  | &#39;state&#39; is the current state of the target |
-| failure | [Failure](#onos.config.v2.Failure) |  | failure transaction failure type and description |
-
-
-
-
-
-
-<a name="onos.config.v2.TargetStatus.PrevValuesEntry"></a>
-
-### TargetStatus.PrevValuesEntry
+### ChangeTransaction.ValuesEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [PathValues](#onos.config.v2.PathValues) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.RollbackTransaction"></a>
+
+### RollbackTransaction
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| rollback_index | [uint64](#uint64) |  | &#39;rollback_index&#39; is the index of the transaction to roll back |
 
 
 
@@ -127,42 +96,44 @@ Transaction refers to a transaction change or transaction rollback
 | meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the transaction This field should be set prior to persisting the object. |
 | index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change The index is provided by the store, is static and unique for each unique change identifier, and should not be modified by client code. |
-| status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
 | username | [string](#string) |  | &#39;username&#39; is the name of the user that made the transaction |
-| atomic | [bool](#bool) |  | atomic determines if a transaction is atomic or not |
-| change | [TransactionChange](#onos.config.v2.TransactionChange) |  |  |
-| rollback | [TransactionRollback](#onos.config.v2.TransactionRollback) |  |  |
+| strategy | [TransactionStrategy](#onos.config.v2.TransactionStrategy) |  | &#39;strategy&#39; is the transaction strategy |
+| change | [ChangeTransaction](#onos.config.v2.ChangeTransaction) |  |  |
+| rollback | [RollbackTransaction](#onos.config.v2.RollbackTransaction) |  |  |
+| status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
 
 
 
 
 
 
-<a name="onos.config.v2.TransactionChange"></a>
+<a name="onos.config.v2.TransactionApplyPhase"></a>
 
-### TransactionChange
-TransactionChange  refers to a multi-target transactional change
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| changes | [TransactionChange.ChangesEntry](#onos.config.v2.TransactionChange.ChangesEntry) | repeated | &#39;changes&#39; is a set of changes to apply to targets The list of changes should contain only a single change per target/version pair. |
-
-
-
-
-
-
-<a name="onos.config.v2.TransactionChange.ChangesEntry"></a>
-
-### TransactionChange.ChangesEntry
+### TransactionApplyPhase
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Change](#onos.config.v2.Change) |  |  |
+| status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
+| state | [TransactionApplyPhase.State](#onos.config.v2.TransactionApplyPhase.State) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionCommitPhase"></a>
+
+### TransactionCommitPhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
+| state | [TransactionCommitPhase.State](#onos.config.v2.TransactionCommitPhase.State) |  |  |
 
 
 
@@ -177,7 +148,7 @@ TransactionEvent transaction store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [TransactionEvent.TransactionEventType](#onos.config.v2.TransactionEvent.TransactionEventType) |  |  |
+| type | [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType) |  |  |
 | transaction | [Transaction](#onos.config.v2.Transaction) |  |  |
 
 
@@ -185,15 +156,68 @@ TransactionEvent transaction store event
 
 
 
-<a name="onos.config.v2.TransactionRollback"></a>
+<a name="onos.config.v2.TransactionInfo"></a>
 
-### TransactionRollback
-TransactionRollback
+### TransactionInfo
+TransactionInfo is an extension providing information about the transaction
+to clients in responses.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| index | [uint64](#uint64) |  | &#39;index&#39; is a monotonically increasing, globally unique index of the change |
+| id | [string](#string) |  |  |
+| index | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionInitializePhase"></a>
+
+### TransactionInitializePhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
+| state | [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionPhaseStatus"></a>
+
+### TransactionPhaseStatus
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| end | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionPhases"></a>
+
+### TransactionPhases
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| initialize | [TransactionInitializePhase](#onos.config.v2.TransactionInitializePhase) |  | &#39;initialize&#39; is the proposal initialization phase status |
+| validate | [TransactionValidatePhase](#onos.config.v2.TransactionValidatePhase) |  | &#39;validate&#39; is the proposal validation phase status |
+| commit | [TransactionCommitPhase](#onos.config.v2.TransactionCommitPhase) |  | &#39;commit&#39; is the proposal commit phase status |
+| apply | [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase) |  | &#39;apply&#39; is the proposal apply phase status |
 
 
 
@@ -203,31 +227,48 @@ TransactionRollback
 <a name="onos.config.v2.TransactionStatus"></a>
 
 ### TransactionStatus
-TransactionStatus is the status of a Transaction
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| revision | [uint64](#uint64) |  | revision is the highest revision number that&#39;s been reconciled |
-| state | [TransactionState](#onos.config.v2.TransactionState) |  | &#39;state&#39; is the state of the transaction This field should only be updated from within onos-config. |
-| targets | [TransactionStatus.TargetsEntry](#onos.config.v2.TransactionStatus.TargetsEntry) | repeated | &#39;sources&#39; is a set of changes needed to revert back to the source of the transaction This field should only be updated from within onos-config |
-| failure | [Failure](#onos.config.v2.Failure) |  | failure transaction failure type and description |
-
-
-
-
-
-
-<a name="onos.config.v2.TransactionStatus.TargetsEntry"></a>
-
-### TransactionStatus.TargetsEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [TargetStatus](#onos.config.v2.TargetStatus) |  |  |
+| phases | [TransactionPhases](#onos.config.v2.TransactionPhases) |  | &#39;phases&#39; is the transaction phases |
+| proposals | [string](#string) | repeated | &#39;proposals&#39; is the set of proposals managed by the transaction |
+| state | [TransactionStatus.State](#onos.config.v2.TransactionStatus.State) |  | &#39;state&#39; is the overall transaction state |
+| failure | [Failure](#onos.config.v2.Failure) |  | &#39;failure&#39; is the transaction failure (if any) |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionStrategy"></a>
+
+### TransactionStrategy
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| synchronicity | [TransactionStrategy.Synchronicity](#onos.config.v2.TransactionStrategy.Synchronicity) |  | &#39;synchronicity&#39; indicates the transaction synchronicity level |
+| isolation | [TransactionStrategy.Isolation](#onos.config.v2.TransactionStrategy.Isolation) |  | &#39;isolation&#39; indicates the transaction isolation level |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionValidatePhase"></a>
+
+### TransactionValidatePhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
+| state | [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 
@@ -236,46 +277,108 @@ TransactionStatus is the status of a Transaction
  
 
 
-<a name="onos.config.v2.TargetState"></a>
+<a name="onos.config.v2.TransactionApplyPhase.State"></a>
 
-### TargetState
-TargetState is the state of a Transaction target
+### TransactionApplyPhase.State
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| TARGET_UPDATE_PENDING | 0 |  |
-| TARGET_UPDATE_COMPLETE | 1 |  |
+| APPLYING | 0 |  |
+| APPLIED | 1 |  |
+| FAILED | 2 |  |
 
 
 
-<a name="onos.config.v2.TransactionEvent.TransactionEventType"></a>
+<a name="onos.config.v2.TransactionCommitPhase.State"></a>
 
-### TransactionEvent.TransactionEventType
-TransactionEventType transaction event types for transaction store
+### TransactionCommitPhase.State
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| TRANSACTION_EVENT_UNKNOWN | 0 |  |
-| TRANSACTION_CREATED | 1 |  |
-| TRANSACTION_UPDATED | 2 |  |
-| TRANSACTION_DELETED | 3 |  |
-| TRANSACTION_REPLAYED | 4 |  |
+| COMMITTING | 0 |  |
+| COMMITTED | 1 |  |
 
 
 
-<a name="onos.config.v2.TransactionState"></a>
+<a name="onos.config.v2.TransactionEvent.EventType"></a>
 
-### TransactionState
-TransactionState is the transaction state of a transaction phase
+### TransactionEvent.EventType
+EventType transaction event types for transaction store
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| TRANSACTION_PENDING | 0 | TRANSACTION_PENDING indicates the transaction is pending |
-| TRANSACTION_COMPLETE | 2 | TRANSACTION_COMPLETE indicates the transaction is complete |
-| TRANSACTION_FAILED | 3 | TRANSACTION_FAILED indicates the transaction failed |
-| TRANSACTION_VALIDATING | 4 | TRANSACTION_VALIDATING indicates the transaction is in the validating state |
-| TRANSACTION_COMMITTING | 5 | TRANSACTION_COMMITTING indicates the transaction is in the committing state |
-| TRANSACTION_APPLYING | 6 | TRANSACTION_APPLYING indicates the transaction is in the applying state |
+| UNKNOWN | 0 |  |
+| CREATED | 1 |  |
+| UPDATED | 2 |  |
+| DELETED | 3 |  |
+| REPLAYED | 4 |  |
+
+
+
+<a name="onos.config.v2.TransactionInitializePhase.State"></a>
+
+### TransactionInitializePhase.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| INITIALIZING | 0 |  |
+| INITIALIZED | 1 |  |
+| FAILED | 2 |  |
+
+
+
+<a name="onos.config.v2.TransactionStatus.State"></a>
+
+### TransactionStatus.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PENDING | 0 |  |
+| VALIDATED | 1 |  |
+| COMMITTED | 2 |  |
+| APPLIED | 3 |  |
+| FAILED | 4 |  |
+
+
+
+<a name="onos.config.v2.TransactionStrategy.Isolation"></a>
+
+### TransactionStrategy.Isolation
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| DEFAULT | 0 |  |
+| SERIALIZABLE | 1 |  |
+
+
+
+<a name="onos.config.v2.TransactionStrategy.Synchronicity"></a>
+
+### TransactionStrategy.Synchronicity
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ASYNCHRONOUS | 0 |  |
+| SYNCHRONOUS | 1 |  |
+
+
+
+<a name="onos.config.v2.TransactionValidatePhase.State"></a>
+
+### TransactionValidatePhase.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| VALIDATING | 0 |  |
+| VALIDATED | 1 |  |
+| FAILED | 2 |  |
 
 
  

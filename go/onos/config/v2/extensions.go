@@ -20,6 +20,5 @@ type ExtensionID = gnmi_ext.ExtensionID
 
 const (
 	TransactionInfoExtensionID ExtensionID = 110
-	TransactionModeExtensionID ExtensionID = 111
-	TransactionControlExtensionID ExtensionID = 112
+	TransactionStrategyExtensionID ExtensionID = 111
 )
