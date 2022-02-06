@@ -24,7 +24,6 @@
     - [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType)
     - [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State)
     - [TransactionStatus.State](#onos.config.v2.TransactionStatus.State)
-    - [TransactionStrategy.Atomicity](#onos.config.v2.TransactionStrategy.Atomicity)
     - [TransactionStrategy.Isolation](#onos.config.v2.TransactionStrategy.Isolation)
     - [TransactionStrategy.Synchronicity](#onos.config.v2.TransactionStrategy.Synchronicity)
     - [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State)
@@ -251,7 +250,6 @@ to clients in responses.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | synchronicity | [TransactionStrategy.Synchronicity](#onos.config.v2.TransactionStrategy.Synchronicity) |  | &#39;synchronicity&#39; indicates the transaction synchronicity level |
-| atomicity | [TransactionStrategy.Atomicity](#onos.config.v2.TransactionStrategy.Atomicity) |  | &#39;atomicity&#39; indicates the transaction atomicity level |
 | isolation | [TransactionStrategy.Isolation](#onos.config.v2.TransactionStrategy.Isolation) |  | &#39;isolation&#39; indicates the transaction isolation level |
 
 
@@ -342,18 +340,6 @@ EventType transaction event types for transaction store
 | COMMITTED | 2 |  |
 | APPLIED | 3 |  |
 | FAILED | 4 |  |
-
-
-
-<a name="onos.config.v2.TransactionStrategy.Atomicity"></a>
-
-### TransactionStrategy.Atomicity
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ATOMIC | 0 |  |
-| NONATOMIC | 1 |  |
 
 
 

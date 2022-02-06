@@ -64,20 +64,12 @@ message TransactionStrategy {
     // 'synchronicity' indicates the transaction synchronicity level
     Synchronicity synchronicity = 1;
 
-    // 'atomicity' indicates the transaction atomicity level
-    Atomicity atomicity = 2;
-
     // 'isolation' indicates the transaction isolation level
-    Isolation isolation = 3;
+    Isolation isolation = 2;
 
     enum Synchronicity {
         ASYNCHRONOUS = 0;
         SYNCHRONOUS = 1;
-    }
-
-    enum Atomicity {
-        ATOMIC = 0;
-        NONATOMIC = 1;
     }
 
     enum Isolation {

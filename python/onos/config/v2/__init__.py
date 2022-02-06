@@ -49,11 +49,6 @@ class TransactionStrategySynchronicity(betterproto.Enum):
     SYNCHRONOUS = 1
 
 
-class TransactionStrategyAtomicity(betterproto.Enum):
-    ATOMIC = 0
-    NONATOMIC = 1
-
-
 class TransactionStrategyIsolation(betterproto.Enum):
     DEFAULT = 0
     SERIALIZABLE = 1
@@ -230,10 +225,8 @@ class Transaction(betterproto.Message):
 class TransactionStrategy(betterproto.Message):
     # 'synchronicity' indicates the transaction synchronicity level
     synchronicity: "TransactionStrategySynchronicity" = betterproto.enum_field(1)
-    # 'atomicity' indicates the transaction atomicity level
-    atomicity: "TransactionStrategyAtomicity" = betterproto.enum_field(2)
     # 'isolation' indicates the transaction isolation level
-    isolation: "TransactionStrategyIsolation" = betterproto.enum_field(3)
+    isolation: "TransactionStrategyIsolation" = betterproto.enum_field(2)
 
 
 @dataclass(eq=False, repr=False)
