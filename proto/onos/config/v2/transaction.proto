@@ -132,6 +132,7 @@ message TransactionPhaseStatus {
 message TransactionInitializePhase {
     TransactionPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
     State state = 2;
+    Failure failure = 3;
 
     enum State {
         INITIALIZING = 0;
@@ -143,6 +144,7 @@ message TransactionInitializePhase {
 message TransactionValidatePhase {
     TransactionPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
     State state = 2;
+    Failure failure = 3;
 
     enum State {
         VALIDATING = 0;
@@ -164,6 +166,7 @@ message TransactionCommitPhase {
 message TransactionApplyPhase {
     TransactionPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
     State state = 2;
+    Failure failure = 3;
 
     enum State {
         APPLYING = 0;

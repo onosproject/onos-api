@@ -98,6 +98,7 @@
 | status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
 | state | [ProposalApplyPhase.State](#onos.config.v2.ProposalApplyPhase.State) |  |  |
 | term | [uint64](#uint64) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 
@@ -264,6 +265,7 @@ ProposalStatus is the status of a Proposal
 | ---- | ------ | ----------- |
 | APPLYING | 0 |  |
 | APPLIED | 1 |  |
+| FAILED | 2 |  |
 
 
 

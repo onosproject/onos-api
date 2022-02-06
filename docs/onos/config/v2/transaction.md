@@ -117,6 +117,7 @@ Transaction refers to a transaction change or transaction rollback
 | ----- | ---- | ----- | ----------- |
 | status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
 | state | [TransactionApplyPhase.State](#onos.config.v2.TransactionApplyPhase.State) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 
@@ -182,6 +183,7 @@ to clients in responses.
 | ----- | ---- | ----- | ----------- |
 | status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
 | state | [TransactionInitializePhase.State](#onos.config.v2.TransactionInitializePhase.State) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 
@@ -266,6 +268,7 @@ to clients in responses.
 | ----- | ---- | ----- | ----------- |
 | status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
 | state | [TransactionValidatePhase.State](#onos.config.v2.TransactionValidatePhase.State) |  |  |
+| failure | [Failure](#onos.config.v2.Failure) |  |  |
 
 
 

@@ -127,6 +127,7 @@ class ProposalCommitPhaseState(betterproto.Enum):
 class ProposalApplyPhaseState(betterproto.Enum):
     APPLYING = 0
     APPLIED = 1
+    FAILED = 2
 
 
 class ProposalEventEventType(betterproto.Enum):
@@ -278,12 +279,14 @@ class TransactionPhaseStatus(betterproto.Message):
 class TransactionInitializePhase(betterproto.Message):
     status: "TransactionPhaseStatus" = betterproto.message_field(1)
     state: "TransactionInitializePhaseState" = betterproto.enum_field(2)
+    failure: "Failure" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
 class TransactionValidatePhase(betterproto.Message):
     status: "TransactionPhaseStatus" = betterproto.message_field(1)
     state: "TransactionValidatePhaseState" = betterproto.enum_field(2)
+    failure: "Failure" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -296,6 +299,7 @@ class TransactionCommitPhase(betterproto.Message):
 class TransactionApplyPhase(betterproto.Message):
     status: "TransactionPhaseStatus" = betterproto.message_field(1)
     state: "TransactionApplyPhaseState" = betterproto.enum_field(2)
+    failure: "Failure" = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -459,6 +463,7 @@ class ProposalApplyPhase(betterproto.Message):
     status: "ProposalPhaseStatus" = betterproto.message_field(1)
     state: "ProposalApplyPhaseState" = betterproto.enum_field(2)
     term: int = betterproto.uint64_field(3)
+    failure: "Failure" = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)

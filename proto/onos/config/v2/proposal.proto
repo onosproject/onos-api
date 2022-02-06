@@ -126,10 +126,12 @@ message ProposalApplyPhase {
     ProposalPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
     State state = 2;
     uint64 term = 3 [(gogoproto.casttype) = "MastershipTerm"];
+    Failure failure = 4;
 
     enum State {
         APPLYING = 0;
         APPLIED = 1;
+        FAILED = 2;
     }
 }
 
