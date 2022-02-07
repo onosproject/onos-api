@@ -8,6 +8,7 @@
     - [ChangeTransaction.ValuesEntry](#onos.config.v2.ChangeTransaction.ValuesEntry)
     - [RollbackTransaction](#onos.config.v2.RollbackTransaction)
     - [Transaction](#onos.config.v2.Transaction)
+    - [TransactionAbortPhase](#onos.config.v2.TransactionAbortPhase)
     - [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase)
     - [TransactionCommitPhase](#onos.config.v2.TransactionCommitPhase)
     - [TransactionEvent](#onos.config.v2.TransactionEvent)
@@ -19,6 +20,7 @@
     - [TransactionStrategy](#onos.config.v2.TransactionStrategy)
     - [TransactionValidatePhase](#onos.config.v2.TransactionValidatePhase)
   
+    - [TransactionAbortPhase.State](#onos.config.v2.TransactionAbortPhase.State)
     - [TransactionApplyPhase.State](#onos.config.v2.TransactionApplyPhase.State)
     - [TransactionCommitPhase.State](#onos.config.v2.TransactionCommitPhase.State)
     - [TransactionEvent.EventType](#onos.config.v2.TransactionEvent.EventType)
@@ -101,6 +103,22 @@ Transaction refers to a transaction change or transaction rollback
 | change | [ChangeTransaction](#onos.config.v2.ChangeTransaction) |  |  |
 | rollback | [RollbackTransaction](#onos.config.v2.RollbackTransaction) |  |  |
 | status | [TransactionStatus](#onos.config.v2.TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
+
+
+
+
+
+
+<a name="onos.config.v2.TransactionAbortPhase"></a>
+
+### TransactionAbortPhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [TransactionPhaseStatus](#onos.config.v2.TransactionPhaseStatus) |  |  |
+| state | [TransactionAbortPhase.State](#onos.config.v2.TransactionAbortPhase.State) |  |  |
 
 
 
@@ -214,10 +232,11 @@ to clients in responses.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| initialize | [TransactionInitializePhase](#onos.config.v2.TransactionInitializePhase) |  | &#39;initialize&#39; is the proposal initialization phase status |
-| validate | [TransactionValidatePhase](#onos.config.v2.TransactionValidatePhase) |  | &#39;validate&#39; is the proposal validation phase status |
-| commit | [TransactionCommitPhase](#onos.config.v2.TransactionCommitPhase) |  | &#39;commit&#39; is the proposal commit phase status |
-| apply | [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase) |  | &#39;apply&#39; is the proposal apply phase status |
+| initialize | [TransactionInitializePhase](#onos.config.v2.TransactionInitializePhase) |  | &#39;initialize&#39; is the transaction initialization phase status |
+| validate | [TransactionValidatePhase](#onos.config.v2.TransactionValidatePhase) |  | &#39;validate&#39; is the transaction validation phase status |
+| commit | [TransactionCommitPhase](#onos.config.v2.TransactionCommitPhase) |  | &#39;commit&#39; is the transaction commit phase status |
+| apply | [TransactionApplyPhase](#onos.config.v2.TransactionApplyPhase) |  | &#39;apply&#39; is the transaction apply phase status |
+| abort | [TransactionAbortPhase](#onos.config.v2.TransactionAbortPhase) |  | &#39;abort&#39; is the transaction abort phase status |
 
 
 
@@ -275,6 +294,18 @@ to clients in responses.
 
 
  
+
+
+<a name="onos.config.v2.TransactionAbortPhase.State"></a>
+
+### TransactionAbortPhase.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ABORTING | 0 |  |
+| ABORTED | 1 |  |
+
 
 
 <a name="onos.config.v2.TransactionApplyPhase.State"></a>

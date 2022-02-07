@@ -182,10 +182,9 @@ message TransactionApplyPhase {
 message TransactionAbortPhase {
     TransactionPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
     State state = 2;
-    Failure failure = 3;
-
     enum State {
-        ABORTED = 0;
+        ABORTING = 0;
+        ABORTED = 1;
     }
 
 }

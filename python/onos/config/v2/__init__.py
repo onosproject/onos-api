@@ -85,6 +85,11 @@ class TransactionApplyPhaseState(betterproto.Enum):
     FAILED = 2
 
 
+class TransactionAbortPhaseState(betterproto.Enum):
+    ABORTING = 0
+    ABORTED = 1
+
+
 class TransactionEventEventType(betterproto.Enum):
     UNKNOWN = 0
     CREATED = 1
@@ -264,14 +269,16 @@ class TransactionStatus(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class TransactionPhases(betterproto.Message):
-    # 'initialize' is the proposal initialization phase status
+    # 'initialize' is the transaction initialization phase status
     initialize: "TransactionInitializePhase" = betterproto.message_field(1)
-    # 'validate' is the proposal validation phase status
+    # 'validate' is the transaction validation phase status
     validate: "TransactionValidatePhase" = betterproto.message_field(2)
-    # 'commit' is the proposal commit phase status
+    # 'commit' is the transaction commit phase status
     commit: "TransactionCommitPhase" = betterproto.message_field(3)
-    # 'apply' is the proposal apply phase status
+    # 'apply' is the transaction apply phase status
     apply: "TransactionApplyPhase" = betterproto.message_field(4)
+    # 'abort' is the transaction abort phase status
+    abort: "TransactionAbortPhase" = betterproto.message_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -305,6 +312,12 @@ class TransactionApplyPhase(betterproto.Message):
     status: "TransactionPhaseStatus" = betterproto.message_field(1)
     state: "TransactionApplyPhaseState" = betterproto.enum_field(2)
     failure: "Failure" = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class TransactionAbortPhase(betterproto.Message):
+    status: "TransactionPhaseStatus" = betterproto.message_field(1)
+    state: "TransactionAbortPhaseState" = betterproto.enum_field(2)
 
 
 @dataclass(eq=False, repr=False)
