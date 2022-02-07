@@ -7,6 +7,7 @@
     - [ChangeProposal](#onos.config.v2.ChangeProposal)
     - [ChangeProposal.ValuesEntry](#onos.config.v2.ChangeProposal.ValuesEntry)
     - [Proposal](#onos.config.v2.Proposal)
+    - [ProposalAbortPhase](#onos.config.v2.ProposalAbortPhase)
     - [ProposalApplyPhase](#onos.config.v2.ProposalApplyPhase)
     - [ProposalCommitPhase](#onos.config.v2.ProposalCommitPhase)
     - [ProposalEvent](#onos.config.v2.ProposalEvent)
@@ -18,6 +19,7 @@
     - [ProposalValidatePhase](#onos.config.v2.ProposalValidatePhase)
     - [RollbackProposal](#onos.config.v2.RollbackProposal)
   
+    - [ProposalAbortPhase.State](#onos.config.v2.ProposalAbortPhase.State)
     - [ProposalApplyPhase.State](#onos.config.v2.ProposalApplyPhase.State)
     - [ProposalCommitPhase.State](#onos.config.v2.ProposalCommitPhase.State)
     - [ProposalEvent.EventType](#onos.config.v2.ProposalEvent.EventType)
@@ -81,6 +83,22 @@
 | change | [ChangeProposal](#onos.config.v2.ChangeProposal) |  |  |
 | rollback | [RollbackProposal](#onos.config.v2.RollbackProposal) |  |  |
 | status | [ProposalStatus](#onos.config.v2.ProposalStatus) |  | &#39;status&#39; is the current lifecycle status of the proposal |
+
+
+
+
+
+
+<a name="onos.config.v2.ProposalAbortPhase"></a>
+
+### ProposalAbortPhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
+| state | [ProposalAbortPhase.State](#onos.config.v2.ProposalAbortPhase.State) |  |  |
 
 
 
@@ -181,6 +199,7 @@ ProposalEvent proposal store event
 | validate | [ProposalValidatePhase](#onos.config.v2.ProposalValidatePhase) |  | &#39;validate&#39; is the proposal validation phase status |
 | commit | [ProposalCommitPhase](#onos.config.v2.ProposalCommitPhase) |  | &#39;commit&#39; is the proposal commit phase status |
 | apply | [ProposalApplyPhase](#onos.config.v2.ProposalApplyPhase) |  | &#39;apply&#39; is the proposal apply phase status |
+| abort | [ProposalAbortPhase](#onos.config.v2.ProposalAbortPhase) |  | &#39;abort&#39; is the proposal abort phase status |
 
 
 
@@ -254,6 +273,18 @@ ProposalStatus is the status of a Proposal
 
 
  
+
+
+<a name="onos.config.v2.ProposalAbortPhase.State"></a>
+
+### ProposalAbortPhase.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ABORTING | 0 |  |
+| ABORTED | 1 |  |
+
 
 
 <a name="onos.config.v2.ProposalApplyPhase.State"></a>

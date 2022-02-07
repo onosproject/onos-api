@@ -111,17 +111,20 @@ message TransactionStatus {
 }
 
 message TransactionPhases {
-    // 'initialize' is the proposal initialization phase status
+    // 'initialize' is the transaction initialization phase status
     TransactionInitializePhase initialize = 1;
 
-    // 'validate' is the proposal validation phase status
+    // 'validate' is the transaction validation phase status
     TransactionValidatePhase validate = 2;
 
-    // 'commit' is the proposal commit phase status
+    // 'commit' is the transaction commit phase status
     TransactionCommitPhase commit = 3;
 
-    // 'apply' is the proposal apply phase status
+    // 'apply' is the transaction apply phase status
     TransactionApplyPhase apply = 4;
+
+    // 'abort' is the transaction abort phase status
+    TransactionAbortPhase abort = 5;
 }
 
 message TransactionPhaseStatus {
@@ -173,6 +176,17 @@ message TransactionApplyPhase {
         APPLIED = 1;
         FAILED = 2;
     }
+}
+
+
+message TransactionAbortPhase {
+    TransactionPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
+    State state = 2;
+    enum State {
+        ABORTING = 0;
+        ABORTED = 1;
+    }
+
 }
 
 // TransactionEvent transaction store event
