@@ -86,6 +86,9 @@ message ProposalPhases {
 
     // 'apply' is the proposal apply phase status
     ProposalApplyPhase apply = 4;
+
+    // 'abort' is the proposal abort phase status
+    ProposalAbortPhase abort = 5;
 }
 
 message ProposalPhaseStatus {
@@ -135,6 +138,14 @@ message ProposalApplyPhase {
         APPLYING = 0;
         APPLIED = 1;
         FAILED = 2;
+    }
+}
+
+message ProposalAbortPhase {
+    ProposalPhaseStatus status = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
+    State state = 2;
+    enum State {
+        ABORTED = 0;
     }
 }
 

@@ -130,6 +130,11 @@ class ProposalApplyPhaseState(betterproto.Enum):
     FAILED = 2
 
 
+class ProposalAbortPhaseState(betterproto.Enum):
+    ABORTING = 0
+    ABORTED = 1
+
+
 class ProposalEventEventType(betterproto.Enum):
     UNKNOWN = 0
     CREATED = 1
@@ -431,6 +436,8 @@ class ProposalPhases(betterproto.Message):
     commit: "ProposalCommitPhase" = betterproto.message_field(3)
     # 'apply' is the proposal apply phase status
     apply: "ProposalApplyPhase" = betterproto.message_field(4)
+    # 'abort' is the proposal abort phase status
+    abort: "ProposalAbortPhase" = betterproto.message_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -464,6 +471,12 @@ class ProposalApplyPhase(betterproto.Message):
     state: "ProposalApplyPhaseState" = betterproto.enum_field(2)
     term: int = betterproto.uint64_field(3)
     failure: "Failure" = betterproto.message_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class ProposalAbortPhase(betterproto.Message):
+    status: "ProposalPhaseStatus" = betterproto.message_field(1)
+    state: "ProposalAbortPhaseState" = betterproto.enum_field(2)
 
 
 @dataclass(eq=False, repr=False)
