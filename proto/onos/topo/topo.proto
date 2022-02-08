@@ -123,9 +123,11 @@ message RelationFilter {
 }
 
 enum RelationFilterScope {
-  TARGET_ONLY = 0;
-  ALL = 1;
-  SOURCE_AND_TARGET = 2;
+  TARGETS_ONLY = 0;          // Indicates only the target entities are desired when searching by src_id, or source entities when searching by target_id
+  ALL = 1;                   // Indicated source, target entities and all relations are desired
+  SOURCE_AND_TARGETS = 2;    // Indicates only source and target entities are desired, regardless of search criteria
+  RELATIONS_ONLY = 3;        // Indicates only relations are desired; no entities
+  RELATIONS_AND_TARGETS = 4; // Indicates only relations and target entities desired when searching by src_id, or relations and source entities when searching by target_id
 }
 
 message Filters {
