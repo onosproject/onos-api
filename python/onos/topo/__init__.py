@@ -184,9 +184,11 @@ class EventType(betterproto.Enum):
 
 
 class RelationFilterScope(betterproto.Enum):
-    TARGET_ONLY = 0
+    TARGETS_ONLY = 0
     ALL = 1
-    SOURCE_AND_TARGET = 2
+    SOURCE_AND_TARGETS = 2
+    RELATIONS_ONLY = 3
+    RELATIONS_AND_TARGETS = 4
 
 
 class SortOrder(betterproto.Enum):
