@@ -47,10 +47,6 @@ protoc --proto_path=$proto_path \
     proto/onos/config/admin/admin.proto
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
-    --doc_opt=markdown,diags.md \
-    proto/onos/config/diags/diags.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
     --doc_opt=markdown,change_types.md \
     proto/onos/config/change/types.proto
 protoc --proto_path=$proto_path \
@@ -225,9 +221,6 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot/network,plugins=grpc:./go \
     proto/onos/config/snapshot/network/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/diags,plugins=grpc:./go \
-    proto/onos/config/diags/*.proto
 
 # onos-config v2 API
 

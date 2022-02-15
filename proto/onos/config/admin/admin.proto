@@ -19,28 +19,11 @@ syntax = "proto3";
 // Package admin defines the administrative gRPC interfaces.
 package onos.config.admin;
 
-import "google/protobuf/duration.proto";
 import "gogoproto/gogo.proto";
 import "github.com/openconfig/gnmi/proto/gnmi/gnmi.proto";
-import "onos/config/snapshot/device/types.proto";
 import "onos/config/v2/value.proto";
 import "onos/config/v2/transaction.proto";
 import "onos/config/v2/configuration.proto";
-
-// Streaming event type
-enum Type {
-    // NONE indicates this response does not represent a state change
-    NONE = 0;
-
-    // ADDED is an event which occurs when an item is added
-    ADDED = 1;
-
-    // UPDATED is an event which occurs when an item is updated
-    UPDATED = 2;
-
-    // REMOVED is an event which occurs when an item is removed
-    REMOVED = 3;
-}
 
 // ReadOnlySubPath is an extension to the ReadOnlyPath to define the datatype of
 // the subpath
@@ -142,24 +125,6 @@ message ModelPlugin {
     string error = 11;
 }
 
-// Chunk is for streaming a model plugin file to the server.
-// There is a built in limit in gRPC of 4MB - plugin is usually around 20MB
-// so break in to chunks of approx 1-2MB.
-message Chunk {
-    // so_file is the name being streamed.
-    string so_file = 1;
-    // content is the bytes content.
-    bytes content = 2;
-}
-
-// RegisterResponse carries status of model plugin registration.
-message RegisterResponse {
-    // name is name of the model plugin.
-    string name = 1;
-    // version is the semantic version of the model plugin.
-    string version = 2;
-}
-
 // ListModelsRequest carries data for querying registered model plugins.
 message ListModelsRequest {
     // verbose option causes all of the ReadWrite and ReadOnly paths to be included.
@@ -184,56 +149,14 @@ message RollbackResponse {
     uint64 index = 2 [(gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/v2.Index"];
 }
 
-// ListSnapshotsRequest requests a list of snapshots for all devices and versions.
-message ListSnapshotsRequest {
-    // subscribe indicates whether to subscribe to events (e.g. ADD, UPDATE, and REMOVE) that occur
-    // after all devices have been streamed to the client
-    bool subscribe = 1;
-
-    // option to specify a specific device - if blank or '*' then select all
-    // Can support `*` (match many chars) or '?' (match one char) as wildcard
-    string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/config/snapshot/device.ID"];
-}
-
-// CompactChangesRequest requests a compaction of the Network Change and Device Change stores
-message CompactChangesRequest {
-    // retention_period is an optional duration of time counting back from the present moment
-    // Network changes that were created during this period should not be compacted
-    // Any network changes that are older should be compacted
-    // If not specified the duration is 0
-    google.protobuf.Duration retention_period = 1 [(gogoproto.stdduration) = true];
-}
-
-// CompactChangesResponse is a response to the Compact Changes command
-message CompactChangesResponse {
-}
-
 // ConfigAdminService provides means for enhanced interactions with the configuration subsystem.
 service ConfigAdminService {
-    // UploadRegisterModel uploads and adds the model plugin to the list of supported models.
-    // The file is serialized in to Chunks of less than 4MB so as not to break the
-    // gRPC byte array limit
-    rpc UploadRegisterModel(stream Chunk) returns (RegisterResponse);
-
     // ListRegisteredModels returns a stream of registered models.
     rpc ListRegisteredModels(ListModelsRequest) returns (stream ModelPlugin);
 
     // RollbackTransaction rolls back the specified configuration change transaction.
     rpc RollbackTransaction(RollbackRequest) returns (RollbackResponse);
-
-    // ListSnapshots gets a list of snapshots across all devices and versions,
-    // and streams them back to the caller.
-    rpc ListSnapshots(ListSnapshotsRequest) returns (stream onos.config.snapshot.device.Snapshot);
-
-    // CompactChanges requests a snapshot of NetworkChange and DeviceChange stores.
-    // This will take all of the Network Changes older than the retention period and
-    // flatten them down to just one snapshot (replacing any older snapshot).
-    // This will act as a baseline for those changes within the retention period and any future changes.
-    // DeviceChanges will be snapshotted to correspond to these NetworkChange compactions
-    // leaving an individual snapshot perv device and version combination.
-    rpc CompactChanges(CompactChangesRequest) returns (CompactChangesResponse);
 }
-
 
 
 // Plugins --------------------------------------------
