@@ -2,25 +2,11 @@
 # sources: onos/config/admin/admin.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from datetime import timedelta
-from typing import AsyncIterable, AsyncIterator, Dict, Iterable, List, Union
+from typing import AsyncIterator, Dict, List
 
 import betterproto
 from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
-
-
-class Type(betterproto.Enum):
-    """Streaming event type"""
-
-    # NONE indicates this response does not represent a state change
-    NONE = 0
-    # ADDED is an event which occurs when an item is added
-    ADDED = 1
-    # UPDATED is an event which occurs when an item is updated
-    UPDATED = 2
-    # REMOVED is an event which occurs when an item is removed
-    REMOVED = 3
 
 
 @dataclass(eq=False, repr=False)
@@ -138,30 +124,6 @@ class ModelPlugin(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Chunk(betterproto.Message):
-    """
-    Chunk is for streaming a model plugin file to the server. There is a built
-    in limit in gRPC of 4MB - plugin is usually around 20MB so break in to
-    chunks of approx 1-2MB.
-    """
-
-    # so_file is the name being streamed.
-    so_file: str = betterproto.string_field(1)
-    # content is the bytes content.
-    content: bytes = betterproto.bytes_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class RegisterResponse(betterproto.Message):
-    """RegisterResponse carries status of model plugin registration."""
-
-    # name is name of the model plugin.
-    name: str = betterproto.string_field(1)
-    # version is the semantic version of the model plugin.
-    version: str = betterproto.string_field(2)
-
-
-@dataclass(eq=False, repr=False)
 class ListModelsRequest(betterproto.Message):
     """
     ListModelsRequest carries data for querying registered model plugins.
@@ -195,42 +157,6 @@ class RollbackResponse(betterproto.Message):
     id: str = betterproto.string_field(1)
     # index of the rollback transaction
     index: int = betterproto.uint64_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class ListSnapshotsRequest(betterproto.Message):
-    """
-    ListSnapshotsRequest requests a list of snapshots for all devices and
-    versions.
-    """
-
-    # subscribe indicates whether to subscribe to events (e.g. ADD, UPDATE, and
-    # REMOVE) that occur after all devices have been streamed to the client
-    subscribe: bool = betterproto.bool_field(1)
-    # option to specify a specific device - if blank or '*' then select all Can
-    # support `*` (match many chars) or '?' (match one char) as wildcard
-    id: str = betterproto.string_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class CompactChangesRequest(betterproto.Message):
-    """
-    CompactChangesRequest requests a compaction of the Network Change and
-    Device Change stores
-    """
-
-    # retention_period is an optional duration of time counting back from the
-    # present moment Network changes that were created during this period should
-    # not be compacted Any network changes that are older should be compacted If
-    # not specified the duration is 0
-    retention_period: timedelta = betterproto.message_field(1)
-
-
-@dataclass(eq=False, repr=False)
-class CompactChangesResponse(betterproto.Message):
-    """CompactChangesResponse is a response to the Compact Changes command"""
-
-    pass
 
 
 @dataclass(eq=False, repr=False)
@@ -347,17 +273,6 @@ class WatchConfigurationsResponse(betterproto.Message):
 
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):
-    async def upload_register_model(
-        self, request_iterator: Union[AsyncIterable["Chunk"], Iterable["Chunk"]]
-    ) -> "RegisterResponse":
-
-        return await self._stream_unary(
-            "/onos.config.admin.ConfigAdminService/UploadRegisterModel",
-            request_iterator,
-            Chunk,
-            RegisterResponse,
-        )
-
     async def list_registered_models(
         self, *, verbose: bool = False, model_name: str = "", model_version: str = ""
     ) -> AsyncIterator["ModelPlugin"]:
@@ -383,35 +298,6 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
             "/onos.config.admin.ConfigAdminService/RollbackTransaction",
             request,
             RollbackResponse,
-        )
-
-    async def list_snapshots(
-        self, *, subscribe: bool = False, id: str = ""
-    ) -> AsyncIterator["_snapshot_device__.Snapshot"]:
-
-        request = ListSnapshotsRequest()
-        request.subscribe = subscribe
-        request.id = id
-
-        async for response in self._unary_stream(
-            "/onos.config.admin.ConfigAdminService/ListSnapshots",
-            request,
-            _snapshot_device__.Snapshot,
-        ):
-            yield response
-
-    async def compact_changes(
-        self, *, retention_period: timedelta = None
-    ) -> "CompactChangesResponse":
-
-        request = CompactChangesRequest()
-        if retention_period is not None:
-            request.retention_period = retention_period
-
-        return await self._unary_unary(
-            "/onos.config.admin.ConfigAdminService/CompactChanges",
-            request,
-            CompactChangesResponse,
         )
 
 
@@ -536,11 +422,6 @@ class ConfigurationServiceStub(betterproto.ServiceStub):
 
 
 class ConfigAdminServiceBase(ServiceBase):
-    async def upload_register_model(
-        self, request_iterator: AsyncIterator["Chunk"]
-    ) -> "RegisterResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
     async def list_registered_models(
         self, verbose: bool, model_name: str, model_version: str
     ) -> AsyncIterator["ModelPlugin"]:
@@ -548,22 +429,6 @@ class ConfigAdminServiceBase(ServiceBase):
 
     async def rollback_transaction(self, index: int) -> "RollbackResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_snapshots(
-        self, subscribe: bool, id: str
-    ) -> AsyncIterator["_snapshot_device__.Snapshot"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def compact_changes(
-        self, retention_period: timedelta
-    ) -> "CompactChangesResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_upload_register_model(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        response = await self.upload_register_model(**request_kwargs)
-        await stream.send_message(response)
 
     async def __rpc_list_registered_models(self, stream: grpclib.server.Stream) -> None:
         request = await stream.recv_message()
@@ -590,38 +455,8 @@ class ConfigAdminServiceBase(ServiceBase):
         response = await self.rollback_transaction(**request_kwargs)
         await stream.send_message(response)
 
-    async def __rpc_list_snapshots(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "subscribe": request.subscribe,
-            "id": request.id,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.list_snapshots,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_compact_changes(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "retention_period": request.retention_period,
-        }
-
-        response = await self.compact_changes(**request_kwargs)
-        await stream.send_message(response)
-
     def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
         return {
-            "/onos.config.admin.ConfigAdminService/UploadRegisterModel": grpclib.const.Handler(
-                self.__rpc_upload_register_model,
-                grpclib.const.Cardinality.STREAM_UNARY,
-                Chunk,
-                RegisterResponse,
-            ),
             "/onos.config.admin.ConfigAdminService/ListRegisteredModels": grpclib.const.Handler(
                 self.__rpc_list_registered_models,
                 grpclib.const.Cardinality.UNARY_STREAM,
@@ -633,18 +468,6 @@ class ConfigAdminServiceBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 RollbackRequest,
                 RollbackResponse,
-            ),
-            "/onos.config.admin.ConfigAdminService/ListSnapshots": grpclib.const.Handler(
-                self.__rpc_list_snapshots,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListSnapshotsRequest,
-                _snapshot_device__.Snapshot,
-            ),
-            "/onos.config.admin.ConfigAdminService/CompactChanges": grpclib.const.Handler(
-                self.__rpc_compact_changes,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                CompactChangesRequest,
-                CompactChangesResponse,
             ),
         }
 
@@ -858,4 +681,3 @@ class ConfigurationServiceBase(ServiceBase):
 
 from .. import v2 as _v2__
 from .... import gnmi as ___gnmi__
-from ..snapshot import device as _snapshot_device__

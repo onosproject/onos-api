@@ -4,9 +4,6 @@
 ## Table of Contents
 
 - [onos/config/admin/admin.proto](#onos/config/admin/admin.proto)
-    - [Chunk](#onos.config.admin.Chunk)
-    - [CompactChangesRequest](#onos.config.admin.CompactChangesRequest)
-    - [CompactChangesResponse](#onos.config.admin.CompactChangesResponse)
     - [GetConfigurationRequest](#onos.config.admin.GetConfigurationRequest)
     - [GetConfigurationResponse](#onos.config.admin.GetConfigurationResponse)
     - [GetTransactionRequest](#onos.config.admin.GetTransactionRequest)
@@ -14,7 +11,6 @@
     - [ListConfigurationsRequest](#onos.config.admin.ListConfigurationsRequest)
     - [ListConfigurationsResponse](#onos.config.admin.ListConfigurationsResponse)
     - [ListModelsRequest](#onos.config.admin.ListModelsRequest)
-    - [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest)
     - [ListTransactionsRequest](#onos.config.admin.ListTransactionsRequest)
     - [ListTransactionsResponse](#onos.config.admin.ListTransactionsResponse)
     - [ModelInfo](#onos.config.admin.ModelInfo)
@@ -26,7 +22,6 @@
     - [ReadOnlyPath](#onos.config.admin.ReadOnlyPath)
     - [ReadOnlySubPath](#onos.config.admin.ReadOnlySubPath)
     - [ReadWritePath](#onos.config.admin.ReadWritePath)
-    - [RegisterResponse](#onos.config.admin.RegisterResponse)
     - [RollbackRequest](#onos.config.admin.RollbackRequest)
     - [RollbackResponse](#onos.config.admin.RollbackResponse)
     - [ValidateConfigRequest](#onos.config.admin.ValidateConfigRequest)
@@ -35,8 +30,6 @@
     - [WatchConfigurationsResponse](#onos.config.admin.WatchConfigurationsResponse)
     - [WatchTransactionsRequest](#onos.config.admin.WatchTransactionsRequest)
     - [WatchTransactionsResponse](#onos.config.admin.WatchTransactionsResponse)
-  
-    - [Type](#onos.config.admin.Type)
   
     - [ConfigAdminService](#onos.config.admin.ConfigAdminService)
     - [ConfigurationService](#onos.config.admin.ConfigurationService)
@@ -51,49 +44,6 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/config/admin/admin.proto
-
-
-
-<a name="onos.config.admin.Chunk"></a>
-
-### Chunk
-Chunk is for streaming a model plugin file to the server.
-There is a built in limit in gRPC of 4MB - plugin is usually around 20MB
-so break in to chunks of approx 1-2MB.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| so_file | [string](#string) |  | so_file is the name being streamed. |
-| content | [bytes](#bytes) |  | content is the bytes content. |
-
-
-
-
-
-
-<a name="onos.config.admin.CompactChangesRequest"></a>
-
-### CompactChangesRequest
-CompactChangesRequest requests a compaction of the Network Change and Device Change stores
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| retention_period | [google.protobuf.Duration](#google.protobuf.Duration) |  | retention_period is an optional duration of time counting back from the present moment Network changes that were created during this period should not be compacted Any network changes that are older should be compacted If not specified the duration is 0 |
-
-
-
-
-
-
-<a name="onos.config.admin.CompactChangesResponse"></a>
-
-### CompactChangesResponse
-CompactChangesResponse is a response to the Compact Changes command
-
-
-
 
 
 
@@ -194,22 +144,6 @@ ListModelsRequest carries data for querying registered model plugins.
 | verbose | [bool](#bool) |  | verbose option causes all of the ReadWrite and ReadOnly paths to be included. |
 | model_name | [string](#string) |  | An optional filter on the name of the model plugins to list. |
 | model_version | [string](#string) |  | An optional filter on the version of the model plugins to list |
-
-
-
-
-
-
-<a name="onos.config.admin.ListSnapshotsRequest"></a>
-
-### ListSnapshotsRequest
-ListSnapshotsRequest requests a list of snapshots for all devices and versions.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| subscribe | [bool](#bool) |  | subscribe indicates whether to subscribe to events (e.g. ADD, UPDATE, and REMOVE) that occur after all devices have been streamed to the client |
-| id | [string](#string) |  | option to specify a specific device - if blank or &#39;*&#39; then select all Can support `*` (match many chars) or &#39;?&#39; (match one char) as wildcard |
 
 
 
@@ -410,22 +344,6 @@ Each configurable item has metadata with meanings taken from the YANG specificat
 
 
 
-<a name="onos.config.admin.RegisterResponse"></a>
-
-### RegisterResponse
-RegisterResponse carries status of model plugin registration.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | name is name of the model plugin. |
-| version | [string](#string) |  | version is the semantic version of the model plugin. |
-
-
-
-
-
-
 <a name="onos.config.admin.RollbackRequest"></a>
 
 ### RollbackRequest
@@ -551,20 +469,6 @@ ValidateConfigResponse carries the result of the validation
 
  
 
-
-<a name="onos.config.admin.Type"></a>
-
-### Type
-Streaming event type
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NONE | 0 | NONE indicates this response does not represent a state change |
-| ADDED | 1 | ADDED is an event which occurs when an item is added |
-| UPDATED | 2 | UPDATED is an event which occurs when an item is updated |
-| REMOVED | 3 | REMOVED is an event which occurs when an item is removed |
-
-
  
 
  
@@ -577,11 +481,8 @@ ConfigAdminService provides means for enhanced interactions with the configurati
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| UploadRegisterModel | [Chunk](#onos.config.admin.Chunk) stream | [RegisterResponse](#onos.config.admin.RegisterResponse) | UploadRegisterModel uploads and adds the model plugin to the list of supported models. The file is serialized in to Chunks of less than 4MB so as not to break the gRPC byte array limit |
 | ListRegisteredModels | [ListModelsRequest](#onos.config.admin.ListModelsRequest) | [ModelPlugin](#onos.config.admin.ModelPlugin) stream | ListRegisteredModels returns a stream of registered models. |
 | RollbackTransaction | [RollbackRequest](#onos.config.admin.RollbackRequest) | [RollbackResponse](#onos.config.admin.RollbackResponse) | RollbackTransaction rolls back the specified configuration change transaction. |
-| ListSnapshots | [ListSnapshotsRequest](#onos.config.admin.ListSnapshotsRequest) | [.onos.config.snapshot.device.Snapshot](#onos.config.snapshot.device.Snapshot) stream | ListSnapshots gets a list of snapshots across all devices and versions, and streams them back to the caller. |
-| CompactChanges | [CompactChangesRequest](#onos.config.admin.CompactChangesRequest) | [CompactChangesResponse](#onos.config.admin.CompactChangesResponse) | CompactChanges requests a snapshot of NetworkChange and DeviceChange stores. This will take all of the Network Changes older than the retention period and flatten them down to just one snapshot (replacing any older snapshot). This will act as a baseline for those changes within the retention period and any future changes. DeviceChanges will be snapshotted to correspond to these NetworkChange compactions leaving an individual snapshot perv device and version combination. |
 
 
 <a name="onos.config.admin.ConfigurationService"></a>
