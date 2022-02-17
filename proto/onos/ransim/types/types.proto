@@ -86,6 +86,8 @@ message Ue {
     UeMetrics metrics = 17;
 
     uint32 rrc_state = 18;
+
+    int32 five_qi = 19;
 }
 
 message UeMetrics {

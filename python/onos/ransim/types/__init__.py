@@ -59,6 +59,7 @@ class Ue(betterproto.Message):
     admitted: bool = betterproto.bool_field(16)
     metrics: "UeMetrics" = betterproto.message_field(17)
     rrc_state: int = betterproto.uint32_field(18)
+    five_qi: int = betterproto.int32_field(19)
 
 
 @dataclass(eq=False, repr=False)

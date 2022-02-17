@@ -250,6 +250,7 @@
 | admitted | [bool](#bool) |  |  |
 | metrics | [UeMetrics](#onos.ransim.types.UeMetrics) |  |  |
 | rrc_state | [uint32](#uint32) |  |  |
+| five_qi | [int32](#int32) |  |  |
 
 
 
