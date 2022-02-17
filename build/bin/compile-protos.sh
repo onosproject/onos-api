@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# remove the old code and regenerate,
+# if we don't remove the old code it is possible that removed protos are left behind
+rm -r ./python/onos
+# in the GO case we have a mix of handcrafted files and generate ones, thus be more selective with what we delete
+find ./go/onos -name "*.pb.go" -type f -delete
+
 proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/src/github.com/gogo/protobuf:${GOPATH}/src"
 
 ### Documentation generation
