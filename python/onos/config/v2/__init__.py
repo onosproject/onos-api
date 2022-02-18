@@ -353,8 +353,8 @@ class ConfigurationStatus(betterproto.Message):
 
     # 'state' is the configuration state
     state: "ConfigurationStatusState" = betterproto.enum_field(1)
-    # 'term' is the current mastership term for the configuration
-    term: int = betterproto.uint64_field(2)
+    # 'mastership' is the current mastership info for the configuration
+    mastership: "MastershipInfo" = betterproto.message_field(2)
     # 'proposed' is the proposed configuration status
     proposed: "ProposedConfigurationStatus" = betterproto.message_field(3)
     # 'committed' is the committed configuration status
@@ -376,10 +376,16 @@ class CommittedConfigurationStatus(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class AppliedConfigurationStatus(betterproto.Message):
     index: int = betterproto.uint64_field(1)
-    term: int = betterproto.uint64_field(2)
+    mastership: "MastershipInfo" = betterproto.message_field(2)
     values: Dict[str, "PathValue"] = betterproto.map_field(
         3, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+
+
+@dataclass(eq=False, repr=False)
+class MastershipInfo(betterproto.Message):
+    master: str = betterproto.string_field(1)
+    term: int = betterproto.uint64_field(2)
 
 
 @dataclass(eq=False, repr=False)
