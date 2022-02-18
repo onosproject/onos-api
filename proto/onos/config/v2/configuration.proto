@@ -47,8 +47,8 @@ message ConfigurationStatus {
     // 'state' is the configuration state
     State state = 1;
 
-    // 'term' is the current mastership term for the configuration
-    uint64 term = 2 [(gogoproto.casttype) = "MastershipTerm"];
+    // 'mastership' is the current mastership info for the configuration
+    MastershipInfo mastership = 2 [(gogoproto.nullable) = false];
 
     // 'proposed' is the proposed configuration status
     ProposedConfigurationStatus proposed = 3 [(gogoproto.nullable) = false];
@@ -78,8 +78,13 @@ message CommittedConfigurationStatus {
 
 message AppliedConfigurationStatus {
     uint64 index = 1 [(gogoproto.casttype) = "Index"];
-    uint64 term = 2 [(gogoproto.casttype) = "MastershipTerm"];
+    MastershipInfo mastership = 2 [(gogoproto.nullable) = false];
     map<string, PathValue> values = 3;
+}
+
+message MastershipInfo {
+    string master = 1;
+    uint64 term = 2 [(gogoproto.casttype) = "MastershipTerm"];
 }
 
 // ConfigurationEvent configuration store event

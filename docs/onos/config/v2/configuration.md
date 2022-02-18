@@ -11,6 +11,7 @@
     - [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry)
     - [ConfigurationEvent](#onos.config.v2.ConfigurationEvent)
     - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
+    - [MastershipInfo](#onos.config.v2.MastershipInfo)
     - [ProposedConfigurationStatus](#onos.config.v2.ProposedConfigurationStatus)
   
     - [ConfigurationEvent.EventType](#onos.config.v2.ConfigurationEvent.EventType)
@@ -36,7 +37,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | index | [uint64](#uint64) |  |  |
-| term | [uint64](#uint64) |  |  |
+| mastership | [MastershipInfo](#onos.config.v2.MastershipInfo) |  |  |
 | values | [AppliedConfigurationStatus.ValuesEntry](#onos.config.v2.AppliedConfigurationStatus.ValuesEntry) | repeated |  |
 
 
@@ -136,10 +137,26 @@ ConfigurationStatus is the status of a Configuration
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | state | [ConfigurationStatus.State](#onos.config.v2.ConfigurationStatus.State) |  | &#39;state&#39; is the configuration state |
-| term | [uint64](#uint64) |  | &#39;term&#39; is the current mastership term for the configuration |
+| mastership | [MastershipInfo](#onos.config.v2.MastershipInfo) |  | &#39;mastership&#39; is the current mastership info for the configuration |
 | proposed | [ProposedConfigurationStatus](#onos.config.v2.ProposedConfigurationStatus) |  | &#39;proposed&#39; is the proposed configuration status |
 | committed | [CommittedConfigurationStatus](#onos.config.v2.CommittedConfigurationStatus) |  | &#39;committed&#39; is the committed configuration status |
 | applied | [AppliedConfigurationStatus](#onos.config.v2.AppliedConfigurationStatus) |  | &#39;applied&#39; is the applied configuration status |
+
+
+
+
+
+
+<a name="onos.config.v2.MastershipInfo"></a>
+
+### MastershipInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| master | [string](#string) |  |  |
+| term | [uint64](#uint64) |  |  |
 
 
 
