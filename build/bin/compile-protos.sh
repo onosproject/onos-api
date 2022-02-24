@@ -38,6 +38,10 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/a1t \
     --doc_opt=markdown,a1.md \
     proto/onos/a1t/a1/*.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/a1t \
+    --doc_opt=markdown,a1.md \
+    proto/onos/a1t/admin/*.proto
 
 # topo
 protoc --proto_path=$proto_path \
@@ -206,6 +210,9 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/a1t/a1,plugins=grpc:./go \
     proto/onos/a1t/a1/*.proto
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/a1t/a1,plugins=grpc:./go \
+    proto/onos/a1t/admin/*.proto
 
 # config
 protoc --proto_path=$proto_path \
