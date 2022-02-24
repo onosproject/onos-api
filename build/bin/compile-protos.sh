@@ -9,20 +9,6 @@ proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/sr
 
 ### Documentation generation
 
-# e2sub
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/e2sub \
-    --doc_opt=markdown,endpoint.md \
-    proto/onos/e2sub/endpoint/endpoint.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/e2sub \
-    --doc_opt=markdown,subscription.md \
-    proto/onos/e2sub/subscription/subscription.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/e2sub \
-    --doc_opt=markdown,task.md \
-    proto/onos/e2sub/task/task.proto
-
 # e2t
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2t \
@@ -102,12 +88,6 @@ protoc --proto_path=$proto_path \
     proto/onos/config/v2/configuration.proto
 
 
-#configmodel
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/configmodel \
-    --doc_opt=markdown,registry.md \
-    proto/onos/configmodel/registry.proto
-
 # kpimon
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/kpimon \
@@ -184,17 +164,6 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/uenib,plugins=grpc:./go \
     proto/onos/uenib/*.proto
 
-# e2sub
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/e2sub/endpoint,plugins=grpc:./go \
-    proto/onos/e2sub/endpoint/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/e2sub/subscription,plugins=grpc:./go \
-    proto/onos/e2sub/subscription/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/e2sub/task,plugins=grpc:./go \
-    proto/onos/e2sub/task/*.proto
-
 # e2t
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/admin,plugins=grpc:./go \
@@ -239,11 +208,6 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/config/v2,plugins=grpc:./go \
     proto/onos/config/v2/*.proto
-
-#configmodel
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/configmodel,plugins=grpc:./go \
-    proto/onos/configmodel/*.proto
 
 # admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
 protoc --proto_path=$proto_path \
