@@ -40,30 +40,6 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config \
     --doc_opt=markdown,admin.md \
     proto/onos/config/admin/admin.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,change_types.md \
-    proto/onos/config/change/types.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,device_change.md \
-    proto/onos/config/change/device/types.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,network_change.md \
-    proto/onos/config/change/network/types.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,snapshot_types.md \
-    proto/onos/config/snapshot/types.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,device_snapshot.md \
-    proto/onos/config/snapshot/device/types.proto
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,network_snapshot.md \
-    proto/onos/config/snapshot/network/types.proto
 
 ## onos-config v2 API
 
