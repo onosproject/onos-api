@@ -22,24 +22,24 @@ import (
 
 func TestPlmnIDEncode(t *testing.T) {
 	plmnID := EncodePlmnID("208", "20")
-	assert.Equal(t, "02F802", plmnID)
+	assert.Equal(t, "20820", plmnID)
 
 	mcc, mnc := DecodePlmnID(plmnID)
 	assert.Equal(t, "208", mcc)
 	assert.Equal(t, "20", mnc)
 
 	plmnID = EncodePlmnID("310", "170")
-	assert.Equal(t, "130071", plmnID)
+	assert.Equal(t, "310170", plmnID)
 
 	mcc, mnc = DecodePlmnID(plmnID)
 	assert.Equal(t, "310", mcc)
 	assert.Equal(t, "170", mnc)
 
-	assert.Equal(t, PlmnID(0x130071), ToPlmnID("310", "170"))
-	assert.Equal(t, PlmnID(0x130071), PlmnIDFromHexString("130071"))
+	assert.Equal(t, PlmnID(0x310170), ToPlmnID("310", "170"))
+	assert.Equal(t, PlmnID(0x310170), PlmnIDFromHexString("310170"))
 
-	assert.Equal(t, PlmnID(0x130071), PlmnIDFromString("310170"))
-	assert.Equal(t, "310170", PlmnIDToString(PlmnID(0x130071)))
+	assert.Equal(t, PlmnID(0x310170), PlmnIDFromString("310170"))
+	assert.Equal(t, "310170", PlmnIDToString(PlmnID(0x310170)))
 }
 
 func TestFullShiftBasics(t *testing.T) {
@@ -139,7 +139,7 @@ func Test5GTypes_32_4(t *testing.T) {
 
 func TestSimValues(t *testing.T) {
 	plmnID := ToPlmnID("310", "170")
-	assert.Equal(t, PlmnID(0x130071), plmnID)
+	assert.Equal(t, PlmnID(0x310170), plmnID)
 
 	enb1 := EnbID(144470)
 	enb2 := EnbID(144471)

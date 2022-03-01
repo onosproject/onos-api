@@ -69,22 +69,12 @@ const (
 
 // EncodePlmnID encodes MCC and MNC strings into a PLMNID hex string
 func EncodePlmnID(mcc string, mnc string) string {
-	if len(mnc) == 2 {
-		return string(mcc[1]) + string(mcc[0]) + "F" + string(mcc[2]) + string(mnc[1]) + string(mnc[0])
-	} else {
-		return string(mcc[1]) + string(mcc[0]) + string(mnc[2]) + string(mcc[2]) + string(mnc[1]) + string(mnc[0])
-	}
+	return mcc + mnc
 }
 
 // DecodePlmnID decodes MCC and MNC strings from PLMNID hex string
 func DecodePlmnID(plmnID string) (mcc string, mnc string) {
-	if plmnID[2] == 'f' || plmnID[2] == 'F' {
-		return string(plmnID[1]) + string(plmnID[0]) + string(plmnID[3]),
-			string(plmnID[5]) + string(plmnID[4])
-	} else {
-		return string(plmnID[1]) + string(plmnID[0]) + string(plmnID[3]),
-			string(plmnID[5]) + string(plmnID[4]) + string(plmnID[2])
-	}
+	return plmnID[0:3], plmnID[3:]
 }
 
 // ToPlmnID encodes the specified MCC and MNC strings into a numeric PLMNID
