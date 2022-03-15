@@ -23,11 +23,11 @@ golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos golang license_check-proto linters-go deps-go license
+test: protos golang linters-go deps-go license
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: jenkins-tools test deps-go license
+jenkins-test: jenkins-tools test
 	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ../build/build-tools/build/jenkins/make-unit
 	mv go/*.xml .
 
