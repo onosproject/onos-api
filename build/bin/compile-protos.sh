@@ -1,4 +1,7 @@
 #!/bin/sh
+# SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
 
 # remove the old code and regenerate,
 # if we don't remove the old code it is possible that removed protos are left behind
@@ -118,11 +121,6 @@ go_import_paths="${go_import_paths},Mgoogle/protobuf/duration.proto=github.com/g
 go_import_paths="${go_import_paths},Mgoogle/protobuf/empty.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Monos/config/device/types.proto=github.com/onosproject/onos-api/go/onos/config/device"
 go_import_paths="${go_import_paths},Monos/config/admin/admin.proto=github.com/onosproject/onos-api/go/onos/config/admin"
-go_import_paths="${go_import_paths},Monos/config/change/types.proto=github.com/onosproject/onos-api/go/onos/config/change"
-go_import_paths="${go_import_paths},Monos/config/change/device/types.proto=github.com/onosproject/onos-api/go/onos/config/change/device"
-go_import_paths="${go_import_paths},Monos/config/change/network/types.proto=github.com/onosproject/onos-api/go/onos/config/change/network"
-go_import_paths="${go_import_paths},Monos/config/snapshot/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot"
-go_import_paths="${go_import_paths},Monos/config/snapshot/device/types.proto=github.com/onosproject/onos-api/go/onos/config/snapshot/device"
 go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/onosproject/onos-api/go/onos/ransim/types"
 go_import_paths="${go_import_paths},Monos/config/v2/object.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/failure.proto=github.com/onosproject/onos-api/go/onos/config/v2"
@@ -158,26 +156,6 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/a1t/a1,plugins=grpc:./go \
     proto/onos/a1t/admin/*.proto
-
-# config
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/change,plugins=grpc:./go \
-    proto/onos/config/change/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/change/device,plugins=grpc:./go \
-    proto/onos/config/change/device/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/change/network,plugins=grpc:./go \
-    proto/onos/config/change/network/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot,plugins=grpc:./go \
-    proto/onos/config/snapshot/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot/device,plugins=grpc:./go \
-    proto/onos/config/snapshot/device/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/snapshot/network,plugins=grpc:./go \
-    proto/onos/config/snapshot/network/*.proto
 
 # onos-config v2 API
 
