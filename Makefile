@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 .PHONY: build
 
 ONOS_PROTOC_VERSION := v0.6.9
@@ -8,15 +12,22 @@ all: protos golang
 build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
 include ./build/build-tools/make/onf-common.mk
 
+mod-update: # @HELP Download the dependencies to the vendor folder
+	go mod tidy
+	go mod vendor
+mod-lint: mod-update # @HELP ensure that the required dependencies are in place
+	# dependencies are vendored, but not committed, go.sum is the only thing we need to check
+	bash -c "diff -u <(echo -n) <(git diff go.sum)"
+
 golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos golang license_check-proto linters-go deps-go
+test: protos golang license_check-proto linters-go deps-go license
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: jenkins-tools test deps-go
+jenkins-test: jenkins-tools test deps-go license
 	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ../build/build-tools/build/jenkins/make-unit
 	mv go/*.xml .
 
