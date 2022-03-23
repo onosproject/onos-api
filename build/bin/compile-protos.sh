@@ -142,9 +142,7 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/admin,plugins=grpc:./go \
     proto/onos/e2t/admin/*.proto
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2,plugins=grpc:./go \
-    proto/onos/e2t/e2/*.proto
+
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/e2/v1beta1,plugins=grpc:./go \
     proto/onos/e2t/e2/v1beta1/*.proto
