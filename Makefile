@@ -42,9 +42,6 @@ linters-go: golang-ci # @HELP examines Go source code and reports coding problem
 twine: # @HELP install twine if not present
 	twine --version || pip install twine
 
-license_check-proto: # @HELP examine and ensure license headers exist
-	./build/build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR}/proto
-
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
 		-w /go/src/github.com/onosproject/onos-api \
