@@ -1,3 +1,4 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
 // SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -242,6 +243,7 @@ message ServiceModelInfo {
 message RCRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
     repeated RCReportStyle report_styles = 2;
+    repeated RCInsertStyle insert_styles = 3;
 }
 
 message MHORanFunction {
@@ -401,6 +403,27 @@ message Qci {
 message RCReportStyle {
     string name = 1;
     int32 type = 2;
+    repeated RANParameter ran_parameters = 3;
+}
+
+
+
+message RCInsertStyle {
+    string name = 1;
+    int32  type = 2;
+    repeated InsertIndication insert_indications = 3;
+}
+
+message InsertIndication {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
+    repeated RANParameter ran_parameters = 3;
+
+}
+
+message RANParameter {
+    int32 id = 1 [(gogoproto.customname) = "ID"];;
+    string name = 2;
 }
 
 message KPMReportStyle {

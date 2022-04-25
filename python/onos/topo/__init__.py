@@ -502,6 +502,7 @@ class ServiceModelInfo(betterproto.Message):
 class RcRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["RcReportStyle"] = betterproto.message_field(2)
+    insert_styles: List["RcInsertStyle"] = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -657,6 +658,27 @@ class Qci(betterproto.Message):
 class RcReportStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
+    ran_parameters: List["RanParameter"] = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class RcInsertStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    insert_indications: List["InsertIndication"] = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class InsertIndication(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+    ran_parameters: List["RanParameter"] = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class RanParameter(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
 
 
 @dataclass(eq=False, repr=False)
