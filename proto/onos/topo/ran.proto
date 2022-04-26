@@ -422,7 +422,7 @@ message InsertIndication {
 }
 
 message RANParameter {
-    int32 id = 1 [(gogoproto.customname) = "ID"];;
+    int32 id = 1 [(gogoproto.customname) = "ID"];
     string name = 2;
 }
 
