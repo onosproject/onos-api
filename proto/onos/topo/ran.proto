@@ -1,3 +1,4 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
 // SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -101,10 +102,10 @@ message YprOrientation {
 }
 
 message Orientation {
-  oneof orientation {
-    AzElOrientation azel = 1;
-    YprOrientation ypr = 2;
-  }
+    oneof orientation {
+        AzElOrientation azel = 1;
+        YprOrientation ypr = 2;
+    }
 }
 
 message Waypoint {
@@ -242,6 +243,9 @@ message ServiceModelInfo {
 message RCRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
     repeated RCReportStyle report_styles = 2;
+    repeated RCInsertStyle insert_styles = 3;
+    repeated RCEventTriggerStyle event_trigger_styles = 4;
+    repeated RCPolicyStyle policy_styles = 5;
 }
 
 message MHORanFunction {
@@ -258,6 +262,60 @@ message RSMRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
     repeated RSMNodeSlicingCapabilityItem ric_slicing_node_capability_list = 2;
 }
+
+message RCEventTriggerStyle {
+    string name = 1;
+    int32 type = 2;
+    int32 format_type = 3;
+}
+
+message RCReportStyle {
+    string name = 1;
+    int32 type = 2;
+    repeated RANParameter ran_parameters = 3;
+}
+
+message RCInsertStyle {
+    string name = 1;
+    int32  type = 2;
+    repeated InsertIndication insert_indications = 3;
+}
+
+message RCPolicyStyle {
+    string name = 1;
+    int32 type = 2;
+}
+
+message InsertIndication {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
+    repeated RANParameter ran_parameters = 3;
+
+}
+
+message RANParameter {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
+}
+
+message KPMReportStyle {
+    string name = 1;
+    int32 type = 2;
+    repeated KPMMeasurement measurements = 3;
+
+}
+
+message MHOReportStyle {
+    string name = 1;
+    int32 type = 2;
+}
+
+message KPMMeasurement {
+    string id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
+}
+
+
 
 message RSMNodeSlicingCapabilityItem {
     int32 max_number_of_slices_dl = 1;
@@ -396,27 +454,5 @@ message FourGDrbId {
 
 message Qci {
     int32 value = 1;
-}
-
-message RCReportStyle {
-    string name = 1;
-    int32 type = 2;
-}
-
-message KPMReportStyle {
-    string name = 1;
-    int32 type = 2;
-    repeated KPMMeasurement measurements = 3;
-
-}
-
-message MHOReportStyle {
-    string name = 1;
-    int32 type = 2;
-}
-
-message KPMMeasurement {
-    string id = 1 [(gogoproto.customname) = "ID"];
-    string name = 2;
 }
 
