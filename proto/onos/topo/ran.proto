@@ -246,6 +246,7 @@ message RCRanFunction {
     repeated RCInsertStyle insert_styles = 3;
     repeated RCEventTriggerStyle event_trigger_styles = 4;
     repeated RCPolicyStyle policy_styles = 5;
+    repeated RCControlStyle control_styles = 6;
 }
 
 message MHORanFunction {
@@ -282,6 +283,11 @@ message RCInsertStyle {
 }
 
 message RCPolicyStyle {
+    string name = 1;
+    int32 type = 2;
+}
+
+message RCControlStyle {
     string name = 1;
     int32 type = 2;
 }

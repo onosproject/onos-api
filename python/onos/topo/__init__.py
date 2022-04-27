@@ -609,6 +609,7 @@ class RcRanFunction(betterproto.Message):
     insert_styles: List["RcInsertStyle"] = betterproto.message_field(3)
     event_trigger_styles: List["RcEventTriggerStyle"] = betterproto.message_field(4)
     policy_styles: List["RcPolicyStyle"] = betterproto.message_field(5)
+    control_styles: List["RcControlStyle"] = betterproto.message_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -675,6 +676,15 @@ class RcInsertStyle(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RcPolicyStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcControlStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
 
