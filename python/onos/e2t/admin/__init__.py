@@ -2,10 +2,9 @@
 # sources: onos/e2t/admin/admin.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterable, AsyncIterator, Dict, Iterable, List, Optional, Union
+from typing import AsyncIterable, AsyncIterator, Iterable, List, Optional, Union
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -32,6 +31,9 @@ class UploadRegisterServiceModelRequest(betterproto.Message):
     # content is the bytes content.
     content: bytes = betterproto.bytes_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class UploadRegisterServiceModelResponse(betterproto.Message):
@@ -44,6 +46,9 @@ class UploadRegisterServiceModelResponse(betterproto.Message):
     name: str = betterproto.string_field(1)
     # version is the semantic version of the model plugin.
     version: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -59,6 +64,9 @@ class ListRegisteredServiceModelsResponse(betterproto.Message):
     # version is the semantic version of the Plugin e.g. 1.0.0.
     version: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListRegisteredServiceModelsRequest(betterproto.Message):
@@ -72,6 +80,9 @@ class ListRegisteredServiceModelsRequest(betterproto.Message):
     # An optional filter on the version of the model plugins to list
     model_version: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListE2NodeConnectionsRequest(betterproto.Message):
@@ -82,12 +93,18 @@ class ListE2NodeConnectionsRequest(betterproto.Message):
 
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RanFunction(betterproto.Message):
     oid: str = betterproto.string_field(1)
     ran_function_id: str = betterproto.string_field(2)
     description: bytes = betterproto.bytes_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -106,12 +123,18 @@ class ListE2NodeConnectionsResponse(betterproto.Message):
     ran_functions: List["RanFunction"] = betterproto.message_field(6)
     age_ms: int = betterproto.int32_field(8)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DropE2NodeConnectionsRequest(betterproto.Message):
     """DropE2NodeConnectionsRequest carries drop connection request"""
 
     connections: List["ListE2NodeConnectionsResponse"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -120,8 +143,16 @@ class DropE2NodeConnectionsResponse(betterproto.Message):
 
     success: List[bool] = betterproto.bool_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class E2TAdminServiceStub(betterproto.ServiceStub):
+    """
+    E2TAdminService provides means for enhanced interactions with the ONOS RIC
+    E2 Termination service.
+    """
+
     async def upload_register_service_model(
         self,
         request_iterator: Union[
@@ -129,6 +160,11 @@ class E2TAdminServiceStub(betterproto.ServiceStub):
             Iterable["UploadRegisterServiceModelRequest"],
         ],
     ) -> "UploadRegisterServiceModelResponse":
+        """
+        UploadRegisterServiceModel uploads and adds the model plugin to the
+        list of supported models. The file is serialized in to Chunks of less
+        than 4MB so as not to break the gRPC byte array limit
+        """
 
         return await self._stream_unary(
             "/onos.e2t.admin.E2TAdminService/UploadRegisterServiceModel",
@@ -140,6 +176,10 @@ class E2TAdminServiceStub(betterproto.ServiceStub):
     async def list_registered_service_models(
         self, *, model_name: str = "", model_version: str = ""
     ) -> AsyncIterator["ListRegisteredServiceModelsResponse"]:
+        """
+        ListRegisteredServiceModels returns a stream of registered service
+        models.
+        """
 
         request = ListRegisteredServiceModelsRequest()
         request.model_name = model_name
@@ -155,6 +195,9 @@ class E2TAdminServiceStub(betterproto.ServiceStub):
     async def list_e2_node_connections(
         self,
     ) -> AsyncIterator["ListE2NodeConnectionsResponse"]:
+        """
+        ListE2NodeConnections returns a stream of existing SCTP connections.
+        """
 
         request = ListE2NodeConnectionsRequest()
 
@@ -168,6 +211,10 @@ class E2TAdminServiceStub(betterproto.ServiceStub):
     async def drop_e2_node_connections(
         self, *, connections: Optional[List["ListE2NodeConnectionsResponse"]] = None
     ) -> "DropE2NodeConnectionsResponse":
+        """
+        DropE2NodeConnections drops the specified E2 node SCTP connections
+        """
+
         connections = connections or []
 
         request = DropE2NodeConnectionsRequest()
@@ -179,102 +226,3 @@ class E2TAdminServiceStub(betterproto.ServiceStub):
             request,
             DropE2NodeConnectionsResponse,
         )
-
-
-class E2TAdminServiceBase(ServiceBase):
-    async def upload_register_service_model(
-        self, request_iterator: AsyncIterator["UploadRegisterServiceModelRequest"]
-    ) -> "UploadRegisterServiceModelResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_registered_service_models(
-        self, model_name: str, model_version: str
-    ) -> AsyncIterator["ListRegisteredServiceModelsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_e2_node_connections(
-        self,
-    ) -> AsyncIterator["ListE2NodeConnectionsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def drop_e2_node_connections(
-        self, connections: Optional[List["ListE2NodeConnectionsResponse"]]
-    ) -> "DropE2NodeConnectionsResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_upload_register_service_model(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        response = await self.upload_register_service_model(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_list_registered_service_models(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "model_name": request.model_name,
-            "model_version": request.model_version,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.list_registered_service_models,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_list_e2_node_connections(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_e2_node_connections,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_drop_e2_node_connections(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "connections": request.connections,
-        }
-
-        response = await self.drop_e2_node_connections(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.e2t.admin.E2TAdminService/UploadRegisterServiceModel": grpclib.const.Handler(
-                self.__rpc_upload_register_service_model,
-                grpclib.const.Cardinality.STREAM_UNARY,
-                UploadRegisterServiceModelRequest,
-                UploadRegisterServiceModelResponse,
-            ),
-            "/onos.e2t.admin.E2TAdminService/ListRegisteredServiceModels": grpclib.const.Handler(
-                self.__rpc_list_registered_service_models,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListRegisteredServiceModelsRequest,
-                ListRegisteredServiceModelsResponse,
-            ),
-            "/onos.e2t.admin.E2TAdminService/ListE2NodeConnections": grpclib.const.Handler(
-                self.__rpc_list_e2_node_connections,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListE2NodeConnectionsRequest,
-                ListE2NodeConnectionsResponse,
-            ),
-            "/onos.e2t.admin.E2TAdminService/DropE2NodeConnections": grpclib.const.Handler(
-                self.__rpc_drop_e2_node_connections,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DropE2NodeConnectionsRequest,
-                DropE2NodeConnectionsResponse,
-            ),
-        }

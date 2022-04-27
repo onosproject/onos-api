@@ -2,10 +2,9 @@
 # sources: onos/ransim/model/model.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, Dict, List, Optional
+from typing import AsyncIterator, List, Optional
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -27,36 +26,57 @@ class DataSet(betterproto.Message):
     type: str = betterproto.string_field(1)
     data: bytes = betterproto.bytes_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class LoadRequest(betterproto.Message):
     data_set: List["DataSet"] = betterproto.message_field(1)
     resume: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class LoadResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ClearRequest(betterproto.Message):
     resume: bool = betterproto.bool_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ClearResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class PlmnIdRequest(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class PlmnIdResponse(betterproto.Message):
     plmnid: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -65,12 +85,18 @@ class CreateNodeRequest(betterproto.Message):
 
     node: "_types__.Node" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class CreateNodeResponse(betterproto.Message):
     """CreateNodeResponse create a node response"""
 
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -79,12 +105,18 @@ class GetNodeRequest(betterproto.Message):
 
     enbid: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetNodeResponse(betterproto.Message):
     """GetNodeResponse get a node response"""
 
     node: "_types__.Node" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -93,12 +125,18 @@ class UpdateNodeRequest(betterproto.Message):
 
     node: "_types__.Node" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class UpdateNodeResponse(betterproto.Message):
     """UpdateNodeResponse update a node response"""
 
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -107,6 +145,9 @@ class DeleteNodeRequest(betterproto.Message):
 
     enbid: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteNodeResponse(betterproto.Message):
@@ -114,15 +155,24 @@ class DeleteNodeResponse(betterproto.Message):
 
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListNodesRequest(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListNodesResponse(betterproto.Message):
     node: "_types__.Node" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -130,11 +180,17 @@ class WatchNodesRequest(betterproto.Message):
     no_replay: bool = betterproto.bool_field(1)
     no_subscribe: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchNodesResponse(betterproto.Message):
     node: "_types__.Node" = betterproto.message_field(1)
     type: "EventType" = betterproto.enum_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -143,50 +199,80 @@ class AgentControlRequest(betterproto.Message):
     command: str = betterproto.string_field(2)
     args: List[str] = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class AgentControlResponse(betterproto.Message):
     node: "_types__.Node" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CreateCellRequest(betterproto.Message):
     cell: "_types__.Cell" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class CreateCellResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetCellRequest(betterproto.Message):
     ecgi: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetCellResponse(betterproto.Message):
     cell: "_types__.Cell" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class UpdateCellRequest(betterproto.Message):
     cell: "_types__.Cell" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class UpdateCellResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class DeleteCellRequest(betterproto.Message):
     enbid: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteCellResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -194,51 +280,81 @@ class WatchCellsRequest(betterproto.Message):
     no_replay: bool = betterproto.bool_field(1)
     no_subscribe: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchCellsResponse(betterproto.Message):
     cell: "_types__.Cell" = betterproto.message_field(1)
     type: "EventType" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListCellsRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListCellsResponse(betterproto.Message):
     cell: "_types__.Cell" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class CreateRouteRequest(betterproto.Message):
     route: "_types__.Route" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CreateRouteResponse(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetRouteRequest(betterproto.Message):
     imsi: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetRouteResponse(betterproto.Message):
     route: "_types__.Route" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteRouteRequest(betterproto.Message):
     enbid: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteRouteResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -246,31 +362,49 @@ class WatchRoutesRequest(betterproto.Message):
     no_replay: bool = betterproto.bool_field(1)
     no_subscribe: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchRoutesResponse(betterproto.Message):
     route: "_types__.Route" = betterproto.message_field(1)
     type: "EventType" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListRoutesRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListRoutesResponse(betterproto.Message):
     route: "_types__.Route" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetUeRequest(betterproto.Message):
     imsi: int = betterproto.uint32_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetUeResponse(betterproto.Message):
     ue: "_types__.Ue" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -278,10 +412,16 @@ class MoveToCellRequest(betterproto.Message):
     imsi: int = betterproto.uint32_field(1)
     ecgi: int = betterproto.uint32_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class MoveToCellResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -290,20 +430,32 @@ class MoveToLocationRequest(betterproto.Message):
     location: "_types__.Point" = betterproto.message_field(2)
     heading: int = betterproto.uint32_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class MoveToLocationResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class DeleteUeRequest(betterproto.Message):
     imsi: int = betterproto.uint32_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteUeResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -311,44 +463,72 @@ class WatchUEsRequest(betterproto.Message):
     no_replay: bool = betterproto.bool_field(1)
     no_subscribe: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchUEsResponse(betterproto.Message):
     ue: "_types__.Ue" = betterproto.message_field(1)
     type: "EventType" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListUEsRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListUEsResponse(betterproto.Message):
     ue: "_types__.Ue" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetUeCountRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetUeCountResponse(betterproto.Message):
     count: int = betterproto.uint32_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SetUeCountRequest(betterproto.Message):
     count: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class SetUeCountResponse(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class ModelServiceStub(betterproto.ServiceStub):
+    """
+    ModelService provides means to clear and load node and cell model in bulk
+    """
+
     async def load(
         self, *, data_set: Optional[List["DataSet"]] = None, resume: bool = False
     ) -> "LoadResponse":
@@ -374,6 +554,10 @@ class ModelServiceStub(betterproto.ServiceStub):
 
 
 class NodeModelStub(betterproto.ServiceStub):
+    """
+    NodeModel provides means to create, delete and read simulated RAN nodes.
+    """
+
     async def get_plmn_id(self) -> "PlmnIdResponse":
 
         request = PlmnIdRequest()
@@ -466,6 +650,10 @@ class NodeModelStub(betterproto.ServiceStub):
 
 
 class CellModelStub(betterproto.ServiceStub):
+    """
+    CellModel provides means to create, delete and read simulated RAN cells.
+    """
+
     async def create_cell(
         self, *, cell: "_types__.Cell" = None
     ) -> "CreateCellResponse":
@@ -536,6 +724,11 @@ class CellModelStub(betterproto.ServiceStub):
 
 
 class RouteModelStub(betterproto.ServiceStub):
+    """
+    RouteModel provides means to create, delete and read simulated mobile UE
+    routes.
+    """
+
     async def create_route(
         self, *, route: "_types__.Route" = None
     ) -> "CreateRouteResponse":
@@ -594,6 +787,8 @@ class RouteModelStub(betterproto.ServiceStub):
 
 
 class UeModelStub(betterproto.ServiceStub):
+    """UEModel provides means to simulate mobile UEs."""
+
     async def get_ue(self) -> "GetUeResponse":
 
         request = GetUeRequest()
@@ -677,617 +872,6 @@ class UeModelStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.ransim.model.UEModel/SetUECount", request, SetUeCountResponse
         )
-
-
-class ModelServiceBase(ServiceBase):
-    async def load(
-        self, data_set: Optional[List["DataSet"]], resume: bool
-    ) -> "LoadResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def clear(self, resume: bool) -> "ClearResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_load(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "data_set": request.data_set,
-            "resume": request.resume,
-        }
-
-        response = await self.load(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_clear(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "resume": request.resume,
-        }
-
-        response = await self.clear(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.model.ModelService/Load": grpclib.const.Handler(
-                self.__rpc_load,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                LoadRequest,
-                LoadResponse,
-            ),
-            "/onos.ransim.model.ModelService/Clear": grpclib.const.Handler(
-                self.__rpc_clear,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ClearRequest,
-                ClearResponse,
-            ),
-        }
-
-
-class NodeModelBase(ServiceBase):
-    async def get_plmn_id(self) -> "PlmnIdResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def create_node(self, node: "_types__.Node") -> "CreateNodeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_node(self, enbid: int) -> "GetNodeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def update_node(self, node: "_types__.Node") -> "UpdateNodeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete_node(self, enbid: int) -> "DeleteNodeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_nodes(
-        self, no_replay: bool, no_subscribe: bool
-    ) -> AsyncIterator["WatchNodesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_nodes(self) -> AsyncIterator["ListNodesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def agent_control(
-        self, enbid: int, command: str, args: Optional[List[str]]
-    ) -> "AgentControlResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_plmn_id(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_plmn_id(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_create_node(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "node": request.node,
-        }
-
-        response = await self.create_node(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_node(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "enbid": request.enbid,
-        }
-
-        response = await self.get_node(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_update_node(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "node": request.node,
-        }
-
-        response = await self.update_node(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete_node(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "enbid": request.enbid,
-        }
-
-        response = await self.delete_node(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_watch_nodes(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "no_replay": request.no_replay,
-            "no_subscribe": request.no_subscribe,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_nodes,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_list_nodes(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_nodes,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_agent_control(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "enbid": request.enbid,
-            "command": request.command,
-            "args": request.args,
-        }
-
-        response = await self.agent_control(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.model.NodeModel/GetPlmnID": grpclib.const.Handler(
-                self.__rpc_get_plmn_id,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                PlmnIdRequest,
-                PlmnIdResponse,
-            ),
-            "/onos.ransim.model.NodeModel/CreateNode": grpclib.const.Handler(
-                self.__rpc_create_node,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                CreateNodeRequest,
-                CreateNodeResponse,
-            ),
-            "/onos.ransim.model.NodeModel/GetNode": grpclib.const.Handler(
-                self.__rpc_get_node,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetNodeRequest,
-                GetNodeResponse,
-            ),
-            "/onos.ransim.model.NodeModel/UpdateNode": grpclib.const.Handler(
-                self.__rpc_update_node,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                UpdateNodeRequest,
-                UpdateNodeResponse,
-            ),
-            "/onos.ransim.model.NodeModel/DeleteNode": grpclib.const.Handler(
-                self.__rpc_delete_node,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteNodeRequest,
-                DeleteNodeResponse,
-            ),
-            "/onos.ransim.model.NodeModel/WatchNodes": grpclib.const.Handler(
-                self.__rpc_watch_nodes,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchNodesRequest,
-                WatchNodesResponse,
-            ),
-            "/onos.ransim.model.NodeModel/ListNodes": grpclib.const.Handler(
-                self.__rpc_list_nodes,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListNodesRequest,
-                ListNodesResponse,
-            ),
-            "/onos.ransim.model.NodeModel/AgentControl": grpclib.const.Handler(
-                self.__rpc_agent_control,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                AgentControlRequest,
-                AgentControlResponse,
-            ),
-        }
-
-
-class CellModelBase(ServiceBase):
-    async def create_cell(self, cell: "_types__.Cell") -> "CreateCellResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete_cell(self, enbid: int) -> "DeleteCellResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def update_cell(self, cell: "_types__.Cell") -> "UpdateCellResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_cell(self, ecgi: int) -> "GetCellResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_cells(
-        self, no_replay: bool, no_subscribe: bool
-    ) -> AsyncIterator["WatchCellsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_cells(self) -> AsyncIterator["ListCellsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_create_cell(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "cell": request.cell,
-        }
-
-        response = await self.create_cell(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete_cell(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "enbid": request.enbid,
-        }
-
-        response = await self.delete_cell(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_update_cell(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "cell": request.cell,
-        }
-
-        response = await self.update_cell(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_cell(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "ecgi": request.ecgi,
-        }
-
-        response = await self.get_cell(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_watch_cells(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "no_replay": request.no_replay,
-            "no_subscribe": request.no_subscribe,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_cells,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_list_cells(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_cells,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.model.CellModel/CreateCell": grpclib.const.Handler(
-                self.__rpc_create_cell,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                CreateCellRequest,
-                CreateCellResponse,
-            ),
-            "/onos.ransim.model.CellModel/DeleteCell": grpclib.const.Handler(
-                self.__rpc_delete_cell,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteCellRequest,
-                DeleteCellResponse,
-            ),
-            "/onos.ransim.model.CellModel/UpdateCell": grpclib.const.Handler(
-                self.__rpc_update_cell,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                UpdateCellRequest,
-                UpdateCellResponse,
-            ),
-            "/onos.ransim.model.CellModel/GetCell": grpclib.const.Handler(
-                self.__rpc_get_cell,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetCellRequest,
-                GetCellResponse,
-            ),
-            "/onos.ransim.model.CellModel/WatchCells": grpclib.const.Handler(
-                self.__rpc_watch_cells,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchCellsRequest,
-                WatchCellsResponse,
-            ),
-            "/onos.ransim.model.CellModel/ListCells": grpclib.const.Handler(
-                self.__rpc_list_cells,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListCellsRequest,
-                ListCellsResponse,
-            ),
-        }
-
-
-class RouteModelBase(ServiceBase):
-    async def create_route(self, route: "_types__.Route") -> "CreateRouteResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete_route(self, enbid: int) -> "DeleteRouteResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_route(self, imsi: int) -> "GetRouteResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_routes(
-        self, no_replay: bool, no_subscribe: bool
-    ) -> AsyncIterator["WatchRoutesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_routes(self) -> AsyncIterator["ListRoutesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_create_route(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "route": request.route,
-        }
-
-        response = await self.create_route(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete_route(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "enbid": request.enbid,
-        }
-
-        response = await self.delete_route(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_route(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "imsi": request.imsi,
-        }
-
-        response = await self.get_route(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_watch_routes(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "no_replay": request.no_replay,
-            "no_subscribe": request.no_subscribe,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_routes,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_list_routes(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_routes,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.model.RouteModel/CreateRoute": grpclib.const.Handler(
-                self.__rpc_create_route,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                CreateRouteRequest,
-                CreateRouteResponse,
-            ),
-            "/onos.ransim.model.RouteModel/DeleteRoute": grpclib.const.Handler(
-                self.__rpc_delete_route,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteRouteRequest,
-                DeleteRouteResponse,
-            ),
-            "/onos.ransim.model.RouteModel/GetRoute": grpclib.const.Handler(
-                self.__rpc_get_route,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetRouteRequest,
-                GetRouteResponse,
-            ),
-            "/onos.ransim.model.RouteModel/WatchRoutes": grpclib.const.Handler(
-                self.__rpc_watch_routes,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchRoutesRequest,
-                WatchRoutesResponse,
-            ),
-            "/onos.ransim.model.RouteModel/ListRoutes": grpclib.const.Handler(
-                self.__rpc_list_routes,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListRoutesRequest,
-                ListRoutesResponse,
-            ),
-        }
-
-
-class UeModelBase(ServiceBase):
-    async def get_ue(self) -> "GetUeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def move_to_cell(self, imsi: int, ecgi: int) -> "MoveToCellResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def move_to_location(
-        self, imsi: int, location: "_types__.Point", heading: int
-    ) -> "MoveToLocationResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete_ue(self) -> "DeleteUeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_u_es(
-        self, no_replay: bool, no_subscribe: bool
-    ) -> AsyncIterator["WatchUEsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_u_es(self) -> AsyncIterator["ListUEsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_ue_count(self) -> "GetUeCountResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def set_ue_count(self) -> "SetUeCountResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_ue(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_ue(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_move_to_cell(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "imsi": request.imsi,
-            "ecgi": request.ecgi,
-        }
-
-        response = await self.move_to_cell(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_move_to_location(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "imsi": request.imsi,
-            "location": request.location,
-            "heading": request.heading,
-        }
-
-        response = await self.move_to_location(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete_ue(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.delete_ue(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_watch_u_es(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "no_replay": request.no_replay,
-            "no_subscribe": request.no_subscribe,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_u_es,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_list_u_es(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_u_es,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_get_ue_count(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_ue_count(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_set_ue_count(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.set_ue_count(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.model.UEModel/GetUE": grpclib.const.Handler(
-                self.__rpc_get_ue,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetUeRequest,
-                GetUeResponse,
-            ),
-            "/onos.ransim.model.UEModel/MoveToCell": grpclib.const.Handler(
-                self.__rpc_move_to_cell,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                MoveToCellRequest,
-                MoveToCellResponse,
-            ),
-            "/onos.ransim.model.UEModel/MoveToLocation": grpclib.const.Handler(
-                self.__rpc_move_to_location,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                MoveToLocationRequest,
-                MoveToLocationResponse,
-            ),
-            "/onos.ransim.model.UEModel/DeleteUE": grpclib.const.Handler(
-                self.__rpc_delete_ue,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteUeRequest,
-                DeleteUeResponse,
-            ),
-            "/onos.ransim.model.UEModel/WatchUEs": grpclib.const.Handler(
-                self.__rpc_watch_u_es,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchUEsRequest,
-                WatchUEsResponse,
-            ),
-            "/onos.ransim.model.UEModel/ListUEs": grpclib.const.Handler(
-                self.__rpc_list_u_es,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListUEsRequest,
-                ListUEsResponse,
-            ),
-            "/onos.ransim.model.UEModel/GetUECount": grpclib.const.Handler(
-                self.__rpc_get_ue_count,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetUeCountRequest,
-                GetUeCountResponse,
-            ),
-            "/onos.ransim.model.UEModel/SetUECount": grpclib.const.Handler(
-                self.__rpc_set_ue_count,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                SetUeCountRequest,
-                SetUeCountResponse,
-            ),
-        }
 
 
 from .. import types as _types__

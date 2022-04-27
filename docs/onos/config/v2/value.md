@@ -3,26 +3,26 @@
 
 ## Table of Contents
 
-- [onos/config/v2/value.proto](#onos/config/v2/value.proto)
-    - [PathValue](#onos.config.v2.PathValue)
-    - [PathValues](#onos.config.v2.PathValues)
-    - [PathValues.ValuesEntry](#onos.config.v2.PathValues.ValuesEntry)
-    - [TypedValue](#onos.config.v2.TypedValue)
+- [onos/config/v2/value.proto](#onos_config_v2_value-proto)
+    - [PathValue](#onos-config-v2-PathValue)
+    - [PathValues](#onos-config-v2-PathValues)
+    - [PathValues.ValuesEntry](#onos-config-v2-PathValues-ValuesEntry)
+    - [TypedValue](#onos-config-v2-TypedValue)
   
-    - [ValueType](#onos.config.v2.ValueType)
+    - [ValueType](#onos-config-v2-ValueType)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/config/v2/value.proto"></a>
+<a name="onos_config_v2_value-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/config/v2/value.proto
 
 
 
-<a name="onos.config.v2.PathValue"></a>
+<a name="onos-config-v2-PathValue"></a>
 
 ### PathValue
 PathValue is the state of a path/value in the configuration tree
@@ -31,7 +31,7 @@ PathValue is the state of a path/value in the configuration tree
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | path | [string](#string) |  | &#39;path&#39; is the path to change |
-| value | [TypedValue](#onos.config.v2.TypedValue) |  | &#39;value&#39; is the change value |
+| value | [TypedValue](#onos-config-v2-TypedValue) |  | &#39;value&#39; is the change value |
 | deleted | [bool](#bool) |  | &#39;deleted&#39; indicates whether this is a delete |
 
 
@@ -39,7 +39,7 @@ PathValue is the state of a path/value in the configuration tree
 
 
 
-<a name="onos.config.v2.PathValues"></a>
+<a name="onos-config-v2-PathValues"></a>
 
 ### PathValues
 PathValues is a set of path/value pairs
@@ -47,14 +47,14 @@ PathValues is a set of path/value pairs
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| values | [PathValues.ValuesEntry](#onos.config.v2.PathValues.ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
+| values | [PathValues.ValuesEntry](#onos-config-v2-PathValues-ValuesEntry) | repeated | &#39;values&#39; is a set of change values to apply |
 
 
 
 
 
 
-<a name="onos.config.v2.PathValues.ValuesEntry"></a>
+<a name="onos-config-v2-PathValues-ValuesEntry"></a>
 
 ### PathValues.ValuesEntry
 
@@ -63,14 +63,14 @@ PathValues is a set of path/value pairs
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [PathValue](#onos-config-v2-PathValue) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.TypedValue"></a>
+<a name="onos-config-v2-TypedValue"></a>
 
 ### TypedValue
 TypedValue is a value represented as a byte array
@@ -79,7 +79,7 @@ TypedValue is a value represented as a byte array
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | bytes | [bytes](#bytes) |  | &#39;bytes&#39; is the bytes array |
-| type | [ValueType](#onos.config.v2.ValueType) |  | &#39;type&#39; is the value type |
+| type | [ValueType](#onos-config-v2-ValueType) |  | &#39;type&#39; is the value type |
 | type_opts | [int32](#int32) | repeated | &#39;type_opts&#39; is a set of type options |
 
 
@@ -89,7 +89,7 @@ TypedValue is a value represented as a byte array
  
 
 
-<a name="onos.config.v2.ValueType"></a>
+<a name="onos-config-v2-ValueType"></a>
 
 ### ValueType
 ValueType is the type for a value

@@ -3,32 +3,32 @@
 
 ## Table of Contents
 
-- [onos/mlb/mlb.proto](#onos/mlb/mlb.proto)
-    - [GetMlbParamRequest](#onos.mlb.GetMlbParamRequest)
-    - [GetMlbParamResponse](#onos.mlb.GetMlbParamResponse)
-    - [GetOcnRequest](#onos.mlb.GetOcnRequest)
-    - [GetOcnResponse](#onos.mlb.GetOcnResponse)
-    - [GetOcnResponse.OcnMapEntry](#onos.mlb.GetOcnResponse.OcnMapEntry)
-    - [OcnIDs](#onos.mlb.OcnIDs)
-    - [OcnRecord](#onos.mlb.OcnRecord)
-    - [OcnRecord.OcnRecordEntry](#onos.mlb.OcnRecord.OcnRecordEntry)
-    - [SetMlbParamRequest](#onos.mlb.SetMlbParamRequest)
-    - [SetMlbParamResponse](#onos.mlb.SetMlbParamResponse)
+- [onos/mlb/mlb.proto](#onos_mlb_mlb-proto)
+    - [GetMlbParamRequest](#onos-mlb-GetMlbParamRequest)
+    - [GetMlbParamResponse](#onos-mlb-GetMlbParamResponse)
+    - [GetOcnRequest](#onos-mlb-GetOcnRequest)
+    - [GetOcnResponse](#onos-mlb-GetOcnResponse)
+    - [GetOcnResponse.OcnMapEntry](#onos-mlb-GetOcnResponse-OcnMapEntry)
+    - [OcnIDs](#onos-mlb-OcnIDs)
+    - [OcnRecord](#onos-mlb-OcnRecord)
+    - [OcnRecord.OcnRecordEntry](#onos-mlb-OcnRecord-OcnRecordEntry)
+    - [SetMlbParamRequest](#onos-mlb-SetMlbParamRequest)
+    - [SetMlbParamResponse](#onos-mlb-SetMlbParamResponse)
   
-    - [Mlb](#onos.mlb.Mlb)
+    - [Mlb](#onos-mlb-Mlb)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/mlb/mlb.proto"></a>
+<a name="onos_mlb_mlb-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/mlb/mlb.proto
 
 
 
-<a name="onos.mlb.GetMlbParamRequest"></a>
+<a name="onos-mlb-GetMlbParamRequest"></a>
 
 ### GetMlbParamRequest
 
@@ -38,7 +38,7 @@
 
 
 
-<a name="onos.mlb.GetMlbParamResponse"></a>
+<a name="onos-mlb-GetMlbParamResponse"></a>
 
 ### GetMlbParamResponse
 
@@ -56,7 +56,7 @@
 
 
 
-<a name="onos.mlb.GetOcnRequest"></a>
+<a name="onos-mlb-GetOcnRequest"></a>
 
 ### GetOcnRequest
 
@@ -66,7 +66,7 @@
 
 
 
-<a name="onos.mlb.GetOcnResponse"></a>
+<a name="onos-mlb-GetOcnResponse"></a>
 
 ### GetOcnResponse
 
@@ -74,14 +74,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ocn_map | [GetOcnResponse.OcnMapEntry](#onos.mlb.GetOcnResponse.OcnMapEntry) | repeated |  |
+| ocn_map | [GetOcnResponse.OcnMapEntry](#onos-mlb-GetOcnResponse-OcnMapEntry) | repeated |  |
 
 
 
 
 
 
-<a name="onos.mlb.GetOcnResponse.OcnMapEntry"></a>
+<a name="onos-mlb-GetOcnResponse-OcnMapEntry"></a>
 
 ### GetOcnResponse.OcnMapEntry
 
@@ -90,14 +90,14 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [OcnRecord](#onos.mlb.OcnRecord) |  |  |
+| value | [OcnRecord](#onos-mlb-OcnRecord) |  |  |
 
 
 
 
 
 
-<a name="onos.mlb.OcnIDs"></a>
+<a name="onos-mlb-OcnIDs"></a>
 
 ### OcnIDs
 
@@ -107,7 +107,7 @@
 
 
 
-<a name="onos.mlb.OcnRecord"></a>
+<a name="onos-mlb-OcnRecord"></a>
 
 ### OcnRecord
 
@@ -115,14 +115,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ocn_record | [OcnRecord.OcnRecordEntry](#onos.mlb.OcnRecord.OcnRecordEntry) | repeated |  |
+| ocn_record | [OcnRecord.OcnRecordEntry](#onos-mlb-OcnRecord-OcnRecordEntry) | repeated |  |
 
 
 
 
 
 
-<a name="onos.mlb.OcnRecord.OcnRecordEntry"></a>
+<a name="onos-mlb-OcnRecord-OcnRecordEntry"></a>
 
 ### OcnRecord.OcnRecordEntry
 
@@ -138,7 +138,7 @@
 
 
 
-<a name="onos.mlb.SetMlbParamRequest"></a>
+<a name="onos-mlb-SetMlbParamRequest"></a>
 
 ### SetMlbParamRequest
 
@@ -156,7 +156,7 @@
 
 
 
-<a name="onos.mlb.SetMlbParamResponse"></a>
+<a name="onos-mlb-SetMlbParamResponse"></a>
 
 ### SetMlbParamResponse
 
@@ -177,16 +177,16 @@
  
 
 
-<a name="onos.mlb.Mlb"></a>
+<a name="onos-mlb-Mlb"></a>
 
 ### Mlb
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetMlbParams | [GetMlbParamRequest](#onos.mlb.GetMlbParamRequest) | [GetMlbParamResponse](#onos.mlb.GetMlbParamResponse) | GetMlbParams gets MLB parameters |
-| SetMlbParams | [SetMlbParamRequest](#onos.mlb.SetMlbParamRequest) | [SetMlbParamResponse](#onos.mlb.SetMlbParamResponse) | SetMlbParams sets MLB parameters |
-| GetOcn | [GetOcnRequest](#onos.mlb.GetOcnRequest) | [GetOcnResponse](#onos.mlb.GetOcnResponse) | GetOcn gets Ocn map |
+| GetMlbParams | [GetMlbParamRequest](#onos-mlb-GetMlbParamRequest) | [GetMlbParamResponse](#onos-mlb-GetMlbParamResponse) | GetMlbParams gets MLB parameters |
+| SetMlbParams | [SetMlbParamRequest](#onos-mlb-SetMlbParamRequest) | [SetMlbParamResponse](#onos-mlb-SetMlbParamResponse) | SetMlbParams sets MLB parameters |
+| GetOcn | [GetOcnRequest](#onos-mlb-GetOcnRequest) | [GetOcnResponse](#onos-mlb-GetOcnResponse) | GetOcn gets Ocn map |
 
  
 

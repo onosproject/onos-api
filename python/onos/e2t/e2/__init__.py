@@ -2,10 +2,9 @@
 # sources: onos/e2t/e2/e2.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterable, AsyncIterator, Dict, Iterable, Union
+from typing import AsyncIterable, AsyncIterator, Iterable, Optional, Union
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -74,6 +73,9 @@ class ServiceModel(betterproto.Message):
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RequestHeader(betterproto.Message):
@@ -84,6 +86,9 @@ class RequestHeader(betterproto.Message):
 
     encoding_type: "EncodingType" = betterproto.enum_field(1)
     service_model: "ServiceModel" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -97,6 +102,9 @@ class ResponseHeader(betterproto.Message):
     service_model: "ServiceModel" = betterproto.message_field(2)
     response_status: "ResponseStatus" = betterproto.enum_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class StreamRequest(betterproto.Message):
@@ -107,6 +115,9 @@ class StreamRequest(betterproto.Message):
     instance_id: str = betterproto.string_field(3)
     subscription_id: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class StreamResponse(betterproto.Message):
@@ -115,6 +126,9 @@ class StreamResponse(betterproto.Message):
     header: "ResponseHeader" = betterproto.message_field(1)
     indication_header: bytes = betterproto.bytes_field(2)
     indication_message: bytes = betterproto.bytes_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -127,6 +141,9 @@ class ControlRequest(betterproto.Message):
     control_message: bytes = betterproto.bytes_field(4)
     control_ack_request: "ControlAckRequest" = betterproto.enum_field(5)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ControlResponse(betterproto.Message):
@@ -138,12 +155,18 @@ class ControlResponse(betterproto.Message):
     )
     control_failure: "ControlFailure" = betterproto.message_field(3, group="response")
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ControlAcknowledge(betterproto.Message):
     """ControlAcknowledge control acknowledgement"""
 
     control_outcome: bytes = betterproto.bytes_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -154,14 +177,23 @@ class ControlFailure(betterproto.Message):
     control_outcome: bytes = betterproto.bytes_field(2)
     message: str = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class E2TServiceStub(betterproto.ServiceStub):
+    """
+    E2TService provides means for enhanced interactions with the ONOS RIC E2
+    Termination service.
+    """
+
     async def stream(
         self,
         request_iterator: Union[
             AsyncIterable["StreamRequest"], Iterable["StreamRequest"]
         ],
     ) -> AsyncIterator["StreamResponse"]:
+        """Stream opens an indications stream"""
 
         async for response in self._stream_stream(
             "/onos.e2t.e2.E2TService/Stream",
@@ -180,6 +212,7 @@ class E2TServiceStub(betterproto.ServiceStub):
         control_message: bytes = b"",
         control_ack_request: "ControlAckRequest" = None,
     ) -> "ControlResponse":
+        """Control sends a E2 control request"""
 
         request = ControlRequest()
         if header is not None:
@@ -192,59 +225,3 @@ class E2TServiceStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.e2t.e2.E2TService/Control", request, ControlResponse
         )
-
-
-class E2TServiceBase(ServiceBase):
-    async def stream(
-        self, request_iterator: AsyncIterator["StreamRequest"]
-    ) -> AsyncIterator["StreamResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def control(
-        self,
-        header: "RequestHeader",
-        e2_node_id: str,
-        control_header: bytes,
-        control_message: bytes,
-        control_ack_request: "ControlAckRequest",
-    ) -> "ControlResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_stream(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.stream,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_control(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "header": request.header,
-            "e2_node_id": request.e2_node_id,
-            "control_header": request.control_header,
-            "control_message": request.control_message,
-            "control_ack_request": request.control_ack_request,
-        }
-
-        response = await self.control(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.e2t.e2.E2TService/Stream": grpclib.const.Handler(
-                self.__rpc_stream,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                StreamRequest,
-                StreamResponse,
-            ),
-            "/onos.e2t.e2.E2TService/Control": grpclib.const.Handler(
-                self.__rpc_control,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ControlRequest,
-                ControlResponse,
-            ),
-        }

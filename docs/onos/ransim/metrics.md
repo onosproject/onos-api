@@ -3,37 +3,37 @@
 
 ## Table of Contents
 
-- [onos/ransim/metrics/metrics.proto](#onos/ransim/metrics/metrics.proto)
-    - [DeleteAllRequest](#onos.ransim.metrics.DeleteAllRequest)
-    - [DeleteAllResponse](#onos.ransim.metrics.DeleteAllResponse)
-    - [DeleteRequest](#onos.ransim.metrics.DeleteRequest)
-    - [DeleteResponse](#onos.ransim.metrics.DeleteResponse)
-    - [GetRequest](#onos.ransim.metrics.GetRequest)
-    - [GetResponse](#onos.ransim.metrics.GetResponse)
-    - [ListRequest](#onos.ransim.metrics.ListRequest)
-    - [ListResponse](#onos.ransim.metrics.ListResponse)
-    - [Metric](#onos.ransim.metrics.Metric)
-    - [SetRequest](#onos.ransim.metrics.SetRequest)
-    - [SetResponse](#onos.ransim.metrics.SetResponse)
-    - [WatchRequest](#onos.ransim.metrics.WatchRequest)
-    - [WatchResponse](#onos.ransim.metrics.WatchResponse)
+- [onos/ransim/metrics/metrics.proto](#onos_ransim_metrics_metrics-proto)
+    - [DeleteAllRequest](#onos-ransim-metrics-DeleteAllRequest)
+    - [DeleteAllResponse](#onos-ransim-metrics-DeleteAllResponse)
+    - [DeleteRequest](#onos-ransim-metrics-DeleteRequest)
+    - [DeleteResponse](#onos-ransim-metrics-DeleteResponse)
+    - [GetRequest](#onos-ransim-metrics-GetRequest)
+    - [GetResponse](#onos-ransim-metrics-GetResponse)
+    - [ListRequest](#onos-ransim-metrics-ListRequest)
+    - [ListResponse](#onos-ransim-metrics-ListResponse)
+    - [Metric](#onos-ransim-metrics-Metric)
+    - [SetRequest](#onos-ransim-metrics-SetRequest)
+    - [SetResponse](#onos-ransim-metrics-SetResponse)
+    - [WatchRequest](#onos-ransim-metrics-WatchRequest)
+    - [WatchResponse](#onos-ransim-metrics-WatchResponse)
   
-    - [EventType](#onos.ransim.metrics.EventType)
+    - [EventType](#onos-ransim-metrics-EventType)
   
-    - [MetricsService](#onos.ransim.metrics.MetricsService)
+    - [MetricsService](#onos-ransim-metrics-MetricsService)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/ransim/metrics/metrics.proto"></a>
+<a name="onos_ransim_metrics_metrics-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/ransim/metrics/metrics.proto
 
 
 
-<a name="onos.ransim.metrics.DeleteAllRequest"></a>
+<a name="onos-ransim-metrics-DeleteAllRequest"></a>
 
 ### DeleteAllRequest
 
@@ -48,7 +48,7 @@
 
 
 
-<a name="onos.ransim.metrics.DeleteAllResponse"></a>
+<a name="onos-ransim-metrics-DeleteAllResponse"></a>
 
 ### DeleteAllResponse
 
@@ -58,7 +58,7 @@
 
 
 
-<a name="onos.ransim.metrics.DeleteRequest"></a>
+<a name="onos-ransim-metrics-DeleteRequest"></a>
 
 ### DeleteRequest
 
@@ -74,7 +74,7 @@
 
 
 
-<a name="onos.ransim.metrics.DeleteResponse"></a>
+<a name="onos-ransim-metrics-DeleteResponse"></a>
 
 ### DeleteResponse
 
@@ -84,7 +84,7 @@
 
 
 
-<a name="onos.ransim.metrics.GetRequest"></a>
+<a name="onos-ransim-metrics-GetRequest"></a>
 
 ### GetRequest
 
@@ -100,7 +100,7 @@
 
 
 
-<a name="onos.ransim.metrics.GetResponse"></a>
+<a name="onos-ransim-metrics-GetResponse"></a>
 
 ### GetResponse
 
@@ -108,14 +108,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| metric | [Metric](#onos.ransim.metrics.Metric) |  |  |
+| metric | [Metric](#onos-ransim-metrics-Metric) |  |  |
 
 
 
 
 
 
-<a name="onos.ransim.metrics.ListRequest"></a>
+<a name="onos-ransim-metrics-ListRequest"></a>
 
 ### ListRequest
 
@@ -130,7 +130,7 @@
 
 
 
-<a name="onos.ransim.metrics.ListResponse"></a>
+<a name="onos-ransim-metrics-ListResponse"></a>
 
 ### ListResponse
 
@@ -139,14 +139,14 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | entityid | [uint64](#uint64) |  |  |
-| metrics | [Metric](#onos.ransim.metrics.Metric) | repeated |  |
+| metrics | [Metric](#onos-ransim-metrics-Metric) | repeated |  |
 
 
 
 
 
 
-<a name="onos.ransim.metrics.Metric"></a>
+<a name="onos-ransim-metrics-Metric"></a>
 
 ### Metric
 
@@ -164,7 +164,7 @@
 
 
 
-<a name="onos.ransim.metrics.SetRequest"></a>
+<a name="onos-ransim-metrics-SetRequest"></a>
 
 ### SetRequest
 
@@ -172,14 +172,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| metric | [Metric](#onos.ransim.metrics.Metric) |  |  |
+| metric | [Metric](#onos-ransim-metrics-Metric) |  |  |
 
 
 
 
 
 
-<a name="onos.ransim.metrics.SetResponse"></a>
+<a name="onos-ransim-metrics-SetResponse"></a>
 
 ### SetResponse
 
@@ -189,7 +189,7 @@
 
 
 
-<a name="onos.ransim.metrics.WatchRequest"></a>
+<a name="onos-ransim-metrics-WatchRequest"></a>
 
 ### WatchRequest
 
@@ -199,7 +199,7 @@
 
 
 
-<a name="onos.ransim.metrics.WatchResponse"></a>
+<a name="onos-ransim-metrics-WatchResponse"></a>
 
 ### WatchResponse
 
@@ -207,8 +207,8 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| metric | [Metric](#onos.ransim.metrics.Metric) |  |  |
-| type | [EventType](#onos.ransim.metrics.EventType) |  |  |
+| metric | [Metric](#onos-ransim-metrics-Metric) |  |  |
+| type | [EventType](#onos-ransim-metrics-EventType) |  |  |
 
 
 
@@ -217,7 +217,7 @@
  
 
 
-<a name="onos.ransim.metrics.EventType"></a>
+<a name="onos-ransim-metrics-EventType"></a>
 
 ### EventType
 Change event type
@@ -234,19 +234,19 @@ Change event type
  
 
 
-<a name="onos.ransim.metrics.MetricsService"></a>
+<a name="onos-ransim-metrics-MetricsService"></a>
 
 ### MetricsService
 Model provides means to create, delete and read RAN simulation model.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| List | [ListRequest](#onos.ransim.metrics.ListRequest) | [ListResponse](#onos.ransim.metrics.ListResponse) | List returns an array of all metrics for the specified entity (Node, Cell or UE) |
-| Set | [SetRequest](#onos.ransim.metrics.SetRequest) | [SetResponse](#onos.ransim.metrics.SetResponse) | Set sets value of the named metric for the specified entity |
-| Get | [GetRequest](#onos.ransim.metrics.GetRequest) | [GetResponse](#onos.ransim.metrics.GetResponse) | Get retrieves the named metric for the specified entity |
-| Delete | [DeleteRequest](#onos.ransim.metrics.DeleteRequest) | [DeleteResponse](#onos.ransim.metrics.DeleteResponse) | Delete deletes the the named metric for the specified entity |
-| DeleteAll | [DeleteAllRequest](#onos.ransim.metrics.DeleteAllRequest) | [DeleteAllResponse](#onos.ransim.metrics.DeleteAllResponse) | DeleteAll deletes all metrics for the specified entity |
-| Watch | [WatchRequest](#onos.ransim.metrics.WatchRequest) | [WatchResponse](#onos.ransim.metrics.WatchResponse) stream | Watch returns a stream of ongoing changes to the metrics |
+| List | [ListRequest](#onos-ransim-metrics-ListRequest) | [ListResponse](#onos-ransim-metrics-ListResponse) | List returns an array of all metrics for the specified entity (Node, Cell or UE) |
+| Set | [SetRequest](#onos-ransim-metrics-SetRequest) | [SetResponse](#onos-ransim-metrics-SetResponse) | Set sets value of the named metric for the specified entity |
+| Get | [GetRequest](#onos-ransim-metrics-GetRequest) | [GetResponse](#onos-ransim-metrics-GetResponse) | Get retrieves the named metric for the specified entity |
+| Delete | [DeleteRequest](#onos-ransim-metrics-DeleteRequest) | [DeleteResponse](#onos-ransim-metrics-DeleteResponse) | Delete deletes the the named metric for the specified entity |
+| DeleteAll | [DeleteAllRequest](#onos-ransim-metrics-DeleteAllRequest) | [DeleteAllResponse](#onos-ransim-metrics-DeleteAllResponse) | DeleteAll deletes all metrics for the specified entity |
+| Watch | [WatchRequest](#onos-ransim-metrics-WatchRequest) | [WatchResponse](#onos-ransim-metrics-WatchResponse) stream | Watch returns a stream of ongoing changes to the metrics |
 
  
 

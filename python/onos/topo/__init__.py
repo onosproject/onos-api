@@ -4,10 +4,9 @@
 import warnings
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import AsyncIterator, Dict, List
+from typing import AsyncIterator, Dict, List, Optional
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -79,53 +78,71 @@ class ServiceState(betterproto.Enum):
 
 
 class RanEntityKinds(betterproto.Enum):
-    """
-    TODO: Deprecate! Use language specific constant definitions instead. Kinds
-    of RAN entities
-    """
+    """Protocol to interact with a device"""
 
+    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
+    # values
     E2NODE = 0
+    # GNMI protocol reference
     E2CELL = 1
+    # P4RUNTIME protocol reference
     E2T = 3
+    # GNOI protocol reference
     XAPP = 4
+    # E2 Control Plane Protocol
     A1T = 5
 
 
 class RanRelationKinds(betterproto.Enum):
     """
-    TODO: Deprecate! Use language specific constant definitions instead. Kinds
-    of RAN relations
+    ConnectivityState represents the L3 reachability of a device from the
+    service container (e.g. enos-config), independently of gRPC or the service
+    itself (e.g. gNMI)
     """
 
+    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
+    # the 0 values
     CONTROLS = 0
+    # REACHABLE indicates the the service can reach the device at L3
     CONTAINS = 1
+    # UNREACHABLE indicates the the service can't reach the device at L3
     NEIGHBORS = 2
 
 
 class CellGlobalIdType(betterproto.Enum):
+    """
+    ConnectivityState represents the state of a gRPC channel to the device from
+    the service container
+    """
+
+    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
+    # values
     NRCGI = 0
+    # CONNECTED indicates the corresponding grpc channel is connected on this
+    # device
     ECGI = 1
 
 
 class NodeType(betterproto.Enum):
     """
-    NodeType is for use in encoding node type in topo Entity URI identifier;
-    see section 9.2.6 of ORAN E2AP v02.00 spec
+    ServiceState represents the state of the gRPC service (e.g. gNMI) to the
+    device from the service container
     """
 
+    # UNKNOWN_SERVICE_STATE constant needed to go around proto3 nullifying the 0
+    # values
     NT_NONE = 0
+    # AVAILABLE indicates the corresponding grpc service is available
     NT_GNB = 1
+    # UNAVAILABLE indicates the corresponding grpc service is not available
     NT_EN_GNB = 2
+    # CONNECTING indicates the corresponding protocol is in the connecting phase
+    # on this device
     NT_NG_ENB = 3
     NT_ENB = 4
 
 
 class ComponentType(betterproto.Enum):
-    """
-    ComponentType is for use in encoding node component type in topo Entity URI
-    identifier; see section 9.2.6 of ORAN E2AP v02.00 spec
-    """
-
     CT_NONE = 0
     CT_CU = 1
     CT_CU_UP = 2
@@ -175,25 +192,51 @@ class InterfaceType(betterproto.Enum):
 
 
 class EventType(betterproto.Enum):
-    """EventType is a topo operation event type"""
+    """Protocol to interact with a device"""
 
+    # UNKNOWN_PROTOCOL constant needed to go around proto3 nullifying the 0
+    # values
     NONE = 0
+    # GNMI protocol reference
     ADDED = 1
+    # P4RUNTIME protocol reference
     UPDATED = 2
+    # GNOI protocol reference
     REMOVED = 3
 
 
 class RelationFilterScope(betterproto.Enum):
+    """
+    ConnectivityState represents the L3 reachability of a device from the
+    service container (e.g. enos-config), independently of gRPC or the service
+    itself (e.g. gNMI)
+    """
+
+    # UNKNOWN_CONNECTIVITY_STATE constant needed to go around proto3 nullifying
+    # the 0 values
     TARGETS_ONLY = 0
+    # REACHABLE indicates the the service can reach the device at L3
     ALL = 1
+    # UNREACHABLE indicates the the service can't reach the device at L3
     SOURCE_AND_TARGETS = 2
     RELATIONS_ONLY = 3
     RELATIONS_AND_TARGETS = 4
 
 
 class SortOrder(betterproto.Enum):
+    """
+    ConnectivityState represents the state of a gRPC channel to the device from
+    the service container
+    """
+
+    # UNKNOWN_CHANNEL_STATE constant needed to go around proto3 nullifying the 0
+    # values
     UNORDERED = 0
+    # CONNECTED indicates the corresponding grpc channel is connected on this
+    # device
     ASCENDING = 1
+    # DISCONNECTED indicates the corresponding grpc channel is not connected on
+    # this device
     DESCENDING = 2
 
 
@@ -216,6 +259,9 @@ class Asset(betterproto.Message):
     sw_version: str = betterproto.string_field(6)
     role: str = betterproto.string_field(8)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Configurable(betterproto.Message):
@@ -228,6 +274,9 @@ class Configurable(betterproto.Message):
     timeout: timedelta = betterproto.message_field(5)
     persistent: bool = betterproto.bool_field(6)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class MastershipState(betterproto.Message):
@@ -235,6 +284,9 @@ class MastershipState(betterproto.Message):
 
     term: int = betterproto.uint64_field(1)
     node_id: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -247,6 +299,9 @@ class TlsOptions(betterproto.Message):
     ca_cert: str = betterproto.string_field(4)
     cert: str = betterproto.string_field(5)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class AdHoc(betterproto.Message):
@@ -255,6 +310,9 @@ class AdHoc(betterproto.Message):
     properties: Dict[str, str] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -274,6 +332,9 @@ class ProtocolState(betterproto.Message):
     # channel
     service_state: "ServiceState" = betterproto.enum_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Protocols(betterproto.Message):
@@ -281,10 +342,14 @@ class Protocols(betterproto.Message):
 
     state: List["ProtocolState"] = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Location(betterproto.Message):
-    # Legacy Geographical location; expected value type of "location" aspect
+    """Basic asset information"""
+
     lat: float = betterproto.double_field(1)
     lng: float = betterproto.double_field(2)
     wgs84: "Wgs84Location" = betterproto.message_field(3, group="ext")
@@ -300,82 +365,99 @@ class Location(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Wgs84Location(betterproto.Message):
-    # Latitude in degrees, between +/- 90.
+    """Configurable device aspect"""
+
     latitude_deg: float = betterproto.double_field(1)
-    # Longitude in degrees, between +/- 180.
     longitude_deg: float = betterproto.double_field(2)
-    # Altitude in meters, from the surface of the WGS-84 ellipsoid.
     altitude_m: float = betterproto.double_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CartesianLocation(betterproto.Message):
-    """ECEF-compatible cartesian coordinates."""
+    """Aspect for tracking device mastership"""
 
-    # X, Y, and Z coordinates in meters.
     x_m: float = betterproto.double_field(1)
     y_m: float = betterproto.double_field(2)
     z_m: float = betterproto.double_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class AzElOrientation(betterproto.Message):
-    # Azimuth angle in degrees.
+    """TLS connectivity aspect"""
+
     azimuth_deg: float = betterproto.double_field(1)
-    # Elevation angle in degrees.
     elevation_deg: float = betterproto.double_field(2)
-    # Rotation around boresight in degrees.
     rotation_deg: float = betterproto.double_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class YprOrientation(betterproto.Message):
-    # Yaw angle around z-axis.
+    """Aspect for ad-hoc properties"""
+
     yaw_deg: float = betterproto.double_field(1)
-    # Pitch angle around y-axix.
     pitch_deg: float = betterproto.double_field(2)
-    # Roll angle around x-axis.
     roll_deg: float = betterproto.double_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class Orientation(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
     azel: "AzElOrientation" = betterproto.message_field(1, group="orientation")
+    # ConnectivityState contains the L3 connectivity information
     ypr: "YprOrientation" = betterproto.message_field(2, group="orientation")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class Waypoint(betterproto.Message):
+    """Protocols"""
+
     time: datetime = betterproto.message_field(1)
     location: "Location" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class Waypoints(betterproto.Message):
-    """A set of waypoints that can be interpolated."""
-
     waypoint: List["Waypoint"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class OrbitData(betterproto.Message):
-    """
-    Minimal satellite orbit data, e.g. from a TLE, that can be propagated.
-    """
-
     epoch: datetime = betterproto.message_field(1)
-    # Orbit inclination in degrees.
     inclination_deg: float = betterproto.double_field(2)
-    # Right ascension of the ascending node in degrees.
     raan_deg: float = betterproto.double_field(3)
-    # Orbit eccentricity.
     e: float = betterproto.double_field(4)
-    # Argument of perigee in degrees.
     argument_deg: float = betterproto.double_field(5)
-    # Mean anomaly in degrees.
     anomaly_deg: float = betterproto.double_field(6)
-    # Mean motion in revolutions per day.
     mean_motion: float = betterproto.double_field(7)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -384,64 +466,73 @@ class Motion(betterproto.Message):
     waypoints: "Waypoints" = betterproto.message_field(2, group="motion")
     orbit: "OrbitData" = betterproto.message_field(3, group="motion")
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Coverage(betterproto.Message):
-    """Area of coverage; expected value type of "coverage" aspect"""
-
     height: int = betterproto.int32_field(1)
     arc_width: int = betterproto.int32_field(2)
     azimuth: int = betterproto.int32_field(3)
     tilt: int = betterproto.int32_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class E2Node(betterproto.Message):
-    """
-    E2Node aspect; expected value type of "E2NODE" aspect and expected on
-    entities of "E2NODE" kind
-    """
-
     service_models: Dict[str, "ServiceModelInfo"] = betterproto.map_field(
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class E2NodeConfig(betterproto.Message):
-    """E2NodeConfig aspect tracks the managed configuration for an E2 node"""
-
     connections: List["Interface"] = betterproto.message_field(1)
     version: int = betterproto.uint64_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class Lease(betterproto.Message):
-    """Lease aspect with an expiration timestamp for RAN entities"""
-
     expiration: datetime = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class Interface(betterproto.Message):
-    """Interface determines address and type of an endpoint interface"""
-
     type: "InterfaceType" = betterproto.enum_field(1)
     ip: str = betterproto.string_field(2)
     port: int = betterproto.uint32_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class E2TInfo(betterproto.Message):
-    """E2TInfo E2T aspect;"""
-
     interfaces: List["Interface"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class XAppInfo(betterproto.Message):
     interfaces: List["Interface"] = betterproto.message_field(1)
     a1_policy_types: List["A1PolicyType"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -451,10 +542,16 @@ class A1PolicyType(betterproto.Message):
     version: str = betterproto.string_field(3)
     description: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class A1TInfo(betterproto.Message):
     interfaces: List["Interface"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -462,20 +559,21 @@ class CellGlobalId(betterproto.Message):
     value: str = betterproto.string_field(1)
     type: "CellGlobalIdType" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class NeighborCellId(betterproto.Message):
     cell_global_id: "CellGlobalId" = betterproto.message_field(1)
     plmn_id: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class E2Cell(betterproto.Message):
-    """
-    E2Cell aspect; expected value type of "E2CELL" aspect and expected on
-    entities of "E2CELL" kind
-    """
-
     cell_object_id: str = betterproto.string_field(1)
     cell_global_id: "CellGlobalId" = betterproto.message_field(2)
     antenna_count: int = betterproto.uint32_field(3)
@@ -487,6 +585,9 @@ class E2Cell(betterproto.Message):
     )
     neighbor_cell_ids: List["NeighborCellId"] = betterproto.message_field(8)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ServiceModelInfo(betterproto.Message):
@@ -497,11 +598,17 @@ class ServiceModelInfo(betterproto.Message):
     ] = betterproto.message_field(3)
     ran_function_i_ds: List[int] = betterproto.uint32_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RcRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["RcReportStyle"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -509,11 +616,17 @@ class MhoRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["MhoReportStyle"] = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["KpmReportStyle"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -522,6 +635,9 @@ class RsmRanFunction(betterproto.Message):
     ric_slicing_node_capability_list: List[
         "RsmNodeSlicingCapabilityItem"
     ] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -534,15 +650,24 @@ class RsmNodeSlicingCapabilityItem(betterproto.Message):
         5
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RsmSupportedSlicingConfigItem(betterproto.Message):
     slicing_config_type: "E2SmRsmCommand" = betterproto.enum_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RsmSliceItemList(betterproto.Message):
     rsm_slice_list: List["RsmSlicingItem"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -553,6 +678,9 @@ class RsmSlicingItem(betterproto.Message):
     slice_type: "RsmSliceType" = betterproto.enum_field(4)
     ue_id_list: List["UeIdentity"] = betterproto.message_field(5)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RsmSliceParameters(betterproto.Message):
@@ -560,30 +688,48 @@ class RsmSliceParameters(betterproto.Message):
     weight: int = betterproto.int32_field(2)
     qos_level: int = betterproto.int32_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DuUeF1ApId(betterproto.Message):
     value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CuUeF1ApId(betterproto.Message):
     value: int = betterproto.int64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RanUeNgapId(betterproto.Message):
     value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class EnbUeS1ApId(betterproto.Message):
     value: int = betterproto.int32_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class AmfUeNgapId(betterproto.Message):
     value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -596,11 +742,17 @@ class UeIdentity(betterproto.Message):
     preferred_id_type: "UeIdType" = betterproto.enum_field(6)
     drb_id: "DrbId" = betterproto.message_field(7)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DrbId(betterproto.Message):
     four_gdrb_id: "FourGDrbId" = betterproto.message_field(1, group="drb_id")
     five_gdrb_id: "FiveGDrbId" = betterproto.message_field(2, group="drb_id")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -609,10 +761,16 @@ class FiveGDrbId(betterproto.Message):
     qfi: "Qfi" = betterproto.message_field(2)
     flows_map_to_drb: List["QoSflowLevelParameters"] = betterproto.message_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Qfi(betterproto.Message):
     value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -624,6 +782,9 @@ class QoSflowLevelParameters(betterproto.Message):
         2, group="qos_flow_level_parameters"
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DynamicFiveQi(betterproto.Message):
@@ -631,15 +792,24 @@ class DynamicFiveQi(betterproto.Message):
     packet_delay_budge: int = betterproto.int32_field(2)
     packet_error_rate: int = betterproto.int32_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class NonDynamicFiveQi(betterproto.Message):
     five_qi: "FiveQi" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class FiveQi(betterproto.Message):
     value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -647,16 +817,25 @@ class FourGDrbId(betterproto.Message):
     value: int = betterproto.int32_field(1)
     qci: "Qci" = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Qci(betterproto.Message):
     value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class RcReportStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -665,11 +844,17 @@ class KpmReportStyle(betterproto.Message):
     type: int = betterproto.int32_field(2)
     measurements: List["KpmMeasurement"] = betterproto.message_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class MhoReportStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -677,43 +862,83 @@ class KpmMeasurement(betterproto.Message):
     id: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
-    """Event is a topo operation event"""
+    """Basic asset information"""
 
     type: "EventType" = betterproto.enum_field(1)
     object: "Object" = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class CreateRequest(betterproto.Message):
+    """Configurable device aspect"""
+
     object: "Object" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CreateResponse(betterproto.Message):
+    """Aspect for tracking device mastership"""
+
     object: "Object" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetRequest(betterproto.Message):
+    """TLS connectivity aspect"""
+
     id: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetResponse(betterproto.Message):
+    """Aspect for ad-hoc properties"""
+
     object: "Object" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class UpdateRequest(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
     object: "Object" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class UpdateResponse(betterproto.Message):
+    """Protocols"""
+
     object: "Object" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -721,10 +946,16 @@ class DeleteRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -734,34 +965,44 @@ class Filter(betterproto.Message):
     in_: "InFilter" = betterproto.message_field(3, group="filter")
     key: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class EqualFilter(betterproto.Message):
     value: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class InFilter(betterproto.Message):
     values: List[str] = betterproto.string_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class NotFilter(betterproto.Message):
     inner: "Filter" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RelationFilter(betterproto.Message):
-    """
-    Filter for targets of given relation kinds and given source ids;
-    optionally, filters by specified target kind
-    """
-
     src_id: str = betterproto.string_field(1)
     relation_kind: str = betterproto.string_field(2)
     target_kind: str = betterproto.string_field(3)
     scope: "RelationFilterScope" = betterproto.enum_field(4)
     target_id: str = betterproto.string_field(5)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -772,16 +1013,25 @@ class Filters(betterproto.Message):
     object_types: List["ObjectType"] = betterproto.enum_field(4)
     with_aspects: List[str] = betterproto.string_field(6)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
     filters: "Filters" = betterproto.message_field(1)
     sort_order: "SortOrder" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListResponse(betterproto.Message):
     objects: List["Object"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -789,19 +1039,20 @@ class WatchRequest(betterproto.Message):
     filters: "Filters" = betterproto.message_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchResponse(betterproto.Message):
     event: "Event" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Object(betterproto.Message):
-    """
-    Object is an one of the following: a kind (archetype of entity or
-    relation), an entity, a relation
-    """
-
     uuid: str = betterproto.string_field(9)
     id: str = betterproto.string_field(1)
     revision: int = betterproto.uint64_field(2)
@@ -809,46 +1060,43 @@ class Object(betterproto.Message):
     entity: "Entity" = betterproto.message_field(4, group="obj")
     relation: "Relation" = betterproto.message_field(5, group="obj")
     kind: "Kind" = betterproto.message_field(6, group="obj")
-    # Map of aspects as typed values; for kind, these represent expected aspects
-    # and their default values
     aspects: Dict[str, "betterproto_lib_google_protobuf.Any"] = betterproto.map_field(
         7, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
-    # Arbitrary labels for classification/search
     labels: Dict[str, str] = betterproto.map_field(
         8, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Entity(betterproto.Message):
-    """Entity represents any "thing" that is represented in the topology"""
-
-    # user-defined entity kind
     kind_id: str = betterproto.string_field(1)
-    # these lists are maintained by the system and are provided as read-only
-    # values for clients
     src_relation_ids: List[str] = betterproto.string_field(2)
     tgt_relation_ids: List[str] = betterproto.string_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class Relation(betterproto.Message):
-    """
-    Relation represents any "relation" between two entitites in the topology.
-    """
-
-    # user defined relation kind
     kind_id: str = betterproto.string_field(1)
     src_entity_id: str = betterproto.string_field(2)
     tgt_entity_id: str = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Kind(betterproto.Message):
-    """Kind represents an archetype of an object, i.e. entity or relation"""
-
     name: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 class TopoStub(betterproto.ServiceStub):
@@ -915,134 +1163,6 @@ class TopoStub(betterproto.ServiceStub):
             WatchResponse,
         ):
             yield response
-
-
-class TopoBase(ServiceBase):
-    async def create(self, object: "Object") -> "CreateResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get(self, id: str) -> "GetResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def update(self, object: "Object") -> "UpdateResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete(self, id: str, revision: int) -> "DeleteResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list(self, filters: "Filters", sort_order: "SortOrder") -> "ListResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch(
-        self, filters: "Filters", noreplay: bool
-    ) -> AsyncIterator["WatchResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_create(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "object": request.object,
-        }
-
-        response = await self.create(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "id": request.id,
-        }
-
-        response = await self.get(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_update(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "object": request.object,
-        }
-
-        response = await self.update(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "id": request.id,
-            "revision": request.revision,
-        }
-
-        response = await self.delete(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_list(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "filters": request.filters,
-            "sort_order": request.sort_order,
-        }
-
-        response = await self.list(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_watch(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "filters": request.filters,
-            "noreplay": request.noreplay,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.topo.Topo/Create": grpclib.const.Handler(
-                self.__rpc_create,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                CreateRequest,
-                CreateResponse,
-            ),
-            "/onos.topo.Topo/Get": grpclib.const.Handler(
-                self.__rpc_get,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetRequest,
-                GetResponse,
-            ),
-            "/onos.topo.Topo/Update": grpclib.const.Handler(
-                self.__rpc_update,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                UpdateRequest,
-                UpdateResponse,
-            ),
-            "/onos.topo.Topo/Delete": grpclib.const.Handler(
-                self.__rpc_delete,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteRequest,
-                DeleteResponse,
-            ),
-            "/onos.topo.Topo/List": grpclib.const.Handler(
-                self.__rpc_list,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ListRequest,
-                ListResponse,
-            ),
-            "/onos.topo.Topo/Watch": grpclib.const.Handler(
-                self.__rpc_watch,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchRequest,
-                WatchResponse,
-            ),
-        }
 
 
 import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf

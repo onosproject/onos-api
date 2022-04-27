@@ -2,10 +2,9 @@
 # sources: onos/ransim/metrics/metrics.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, Dict, List
+from typing import AsyncIterator, List, Optional
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -27,10 +26,16 @@ class Metric(betterproto.Message):
     value: str = betterproto.string_field(3)
     type: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
     entityid: int = betterproto.uint64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -38,15 +43,24 @@ class ListResponse(betterproto.Message):
     entityid: int = betterproto.uint64_field(1)
     metrics: List["Metric"] = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SetRequest(betterproto.Message):
     metric: "Metric" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SetResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -54,10 +68,16 @@ class GetRequest(betterproto.Message):
     entityid: int = betterproto.uint64_field(1)
     name: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetResponse(betterproto.Message):
     metric: "Metric" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -65,25 +85,40 @@ class DeleteRequest(betterproto.Message):
     entityid: int = betterproto.uint64_field(1)
     name: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class DeleteAllRequest(betterproto.Message):
     entityid: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteAllResponse(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -91,9 +126,20 @@ class WatchResponse(betterproto.Message):
     metric: "Metric" = betterproto.message_field(1)
     type: "EventType" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class MetricsServiceStub(betterproto.ServiceStub):
+    """
+    Model provides means to create, delete and read RAN simulation model.
+    """
+
     async def list(self, *, entityid: int = 0) -> "ListResponse":
+        """
+        List returns an array of all metrics for the specified entity (Node,
+        Cell or UE)
+        """
 
         request = ListRequest()
         request.entityid = entityid
@@ -103,6 +149,7 @@ class MetricsServiceStub(betterproto.ServiceStub):
         )
 
     async def set(self, *, metric: "Metric" = None) -> "SetResponse":
+        """Set sets value of the named metric for the specified entity"""
 
         request = SetRequest()
         if metric is not None:
@@ -113,6 +160,7 @@ class MetricsServiceStub(betterproto.ServiceStub):
         )
 
     async def get(self, *, entityid: int = 0, name: str = "") -> "GetResponse":
+        """Get retrieves the named metric for the specified entity"""
 
         request = GetRequest()
         request.entityid = entityid
@@ -123,6 +171,7 @@ class MetricsServiceStub(betterproto.ServiceStub):
         )
 
     async def delete(self, *, entityid: int = 0, name: str = "") -> "DeleteResponse":
+        """Delete deletes the the named metric for the specified entity"""
 
         request = DeleteRequest()
         request.entityid = entityid
@@ -133,6 +182,7 @@ class MetricsServiceStub(betterproto.ServiceStub):
         )
 
     async def delete_all(self, *, entityid: int = 0) -> "DeleteAllResponse":
+        """DeleteAll deletes all metrics for the specified entity"""
 
         request = DeleteAllRequest()
         request.entityid = entityid
@@ -142,6 +192,7 @@ class MetricsServiceStub(betterproto.ServiceStub):
         )
 
     async def watch(self) -> AsyncIterator["WatchResponse"]:
+        """Watch returns a stream of ongoing changes to the metrics"""
 
         request = WatchRequest()
 
@@ -151,126 +202,3 @@ class MetricsServiceStub(betterproto.ServiceStub):
             WatchResponse,
         ):
             yield response
-
-
-class MetricsServiceBase(ServiceBase):
-    async def list(self, entityid: int) -> "ListResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def set(self, metric: "Metric") -> "SetResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get(self, entityid: int, name: str) -> "GetResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete(self, entityid: int, name: str) -> "DeleteResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete_all(self, entityid: int) -> "DeleteAllResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch(self) -> AsyncIterator["WatchResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_list(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "entityid": request.entityid,
-        }
-
-        response = await self.list(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_set(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "metric": request.metric,
-        }
-
-        response = await self.set(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "entityid": request.entityid,
-            "name": request.name,
-        }
-
-        response = await self.get(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "entityid": request.entityid,
-            "name": request.name,
-        }
-
-        response = await self.delete(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete_all(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "entityid": request.entityid,
-        }
-
-        response = await self.delete_all(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_watch(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.watch,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.metrics.MetricsService/List": grpclib.const.Handler(
-                self.__rpc_list,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ListRequest,
-                ListResponse,
-            ),
-            "/onos.ransim.metrics.MetricsService/Set": grpclib.const.Handler(
-                self.__rpc_set,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                SetRequest,
-                SetResponse,
-            ),
-            "/onos.ransim.metrics.MetricsService/Get": grpclib.const.Handler(
-                self.__rpc_get,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetRequest,
-                GetResponse,
-            ),
-            "/onos.ransim.metrics.MetricsService/Delete": grpclib.const.Handler(
-                self.__rpc_delete,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteRequest,
-                DeleteResponse,
-            ),
-            "/onos.ransim.metrics.MetricsService/DeleteAll": grpclib.const.Handler(
-                self.__rpc_delete_all,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteAllRequest,
-                DeleteAllResponse,
-            ),
-            "/onos.ransim.metrics.MetricsService/Watch": grpclib.const.Handler(
-                self.__rpc_watch,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchRequest,
-                WatchResponse,
-            ),
-        }

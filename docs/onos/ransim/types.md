@@ -3,34 +3,34 @@
 
 ## Table of Contents
 
-- [onos/ransim/types/types.proto](#onos/ransim/types/types.proto)
-    - [Cell](#onos.ransim.types.Cell)
-    - [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry)
-    - [EventA3Params](#onos.ransim.types.EventA3Params)
-    - [MapLayout](#onos.ransim.types.MapLayout)
-    - [MeasurementParams](#onos.ransim.types.MeasurementParams)
-    - [MeasurementParams.NcellIndividualOffsetsEntry](#onos.ransim.types.MeasurementParams.NcellIndividualOffsetsEntry)
-    - [Node](#onos.ransim.types.Node)
-    - [Point](#onos.ransim.types.Point)
-    - [Route](#onos.ransim.types.Route)
-    - [Sector](#onos.ransim.types.Sector)
-    - [Ue](#onos.ransim.types.Ue)
-    - [UeMetrics](#onos.ransim.types.UeMetrics)
+- [onos/ransim/types/types.proto](#onos_ransim_types_types-proto)
+    - [Cell](#onos-ransim-types-Cell)
+    - [Cell.CrntiMapEntry](#onos-ransim-types-Cell-CrntiMapEntry)
+    - [EventA3Params](#onos-ransim-types-EventA3Params)
+    - [MapLayout](#onos-ransim-types-MapLayout)
+    - [MeasurementParams](#onos-ransim-types-MeasurementParams)
+    - [MeasurementParams.NcellIndividualOffsetsEntry](#onos-ransim-types-MeasurementParams-NcellIndividualOffsetsEntry)
+    - [Node](#onos-ransim-types-Node)
+    - [Point](#onos-ransim-types-Point)
+    - [Route](#onos-ransim-types-Route)
+    - [Sector](#onos-ransim-types-Sector)
+    - [Ue](#onos-ransim-types-Ue)
+    - [UeMetrics](#onos-ransim-types-UeMetrics)
   
-    - [CellType](#onos.ransim.types.CellType)
+    - [CellType](#onos-ransim-types-CellType)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/ransim/types/types.proto"></a>
+<a name="onos_ransim_types_types-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/ransim/types/types.proto
 
 
 
-<a name="onos.ransim.types.Cell"></a>
+<a name="onos-ransim-types-Cell"></a>
 
 ### Cell
 
@@ -39,19 +39,19 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | ecgi | [uint64](#uint64) |  |  |
-| location | [Point](#onos.ransim.types.Point) |  |  |
-| sector | [Sector](#onos.ransim.types.Sector) |  |  |
+| location | [Point](#onos-ransim-types-Point) |  |  |
+| sector | [Sector](#onos-ransim-types-Sector) |  |  |
 | color | [string](#string) |  |  |
 | max_ues | [uint32](#uint32) |  |  |
 | neighbors | [uint64](#uint64) | repeated |  |
 | tx_power_db | [double](#double) |  | The cell transmit power in decibels |
-| measurement_params | [MeasurementParams](#onos.ransim.types.MeasurementParams) |  |  |
-| crnti_map | [Cell.CrntiMapEntry](#onos.ransim.types.Cell.CrntiMapEntry) | repeated | crntis maps a ue&#39;s name to its crnti |
+| measurement_params | [MeasurementParams](#onos-ransim-types-MeasurementParams) |  |  |
+| crnti_map | [Cell.CrntiMapEntry](#onos-ransim-types-Cell-CrntiMapEntry) | repeated | crntis maps a ue&#39;s name to its crnti |
 | crnti_index | [uint32](#uint32) |  |  |
 | port | [uint32](#uint32) |  |  |
 | pci | [uint32](#uint32) |  |  |
 | earfcn | [uint32](#uint32) |  |  |
-| cell_type | [CellType](#onos.ransim.types.CellType) |  |  |
+| cell_type | [CellType](#onos-ransim-types-CellType) |  |  |
 | rrc_idle_count | [uint32](#uint32) |  |  |
 | rrc_connected_count | [uint32](#uint32) |  |  |
 
@@ -60,7 +60,7 @@
 
 
 
-<a name="onos.ransim.types.Cell.CrntiMapEntry"></a>
+<a name="onos-ransim-types-Cell-CrntiMapEntry"></a>
 
 ### Cell.CrntiMapEntry
 
@@ -76,7 +76,7 @@
 
 
 
-<a name="onos.ransim.types.EventA3Params"></a>
+<a name="onos-ransim-types-EventA3Params"></a>
 
 ### EventA3Params
 
@@ -92,7 +92,7 @@
 
 
 
-<a name="onos.ransim.types.MapLayout"></a>
+<a name="onos-ransim-types-MapLayout"></a>
 
 ### MapLayout
 
@@ -100,7 +100,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| center | [Point](#onos.ransim.types.Point) |  | Map center latitude and longitude |
+| center | [Point](#onos-ransim-types-Point) |  | Map center latitude and longitude |
 | zoom | [float](#float) |  | The starting Zoom level |
 | fade | [bool](#bool) |  | Show map as faded on start |
 | show_routes | [bool](#bool) |  | Show routes on start |
@@ -115,7 +115,7 @@
 
 
 
-<a name="onos.ransim.types.MeasurementParams"></a>
+<a name="onos-ransim-types-MeasurementParams"></a>
 
 ### MeasurementParams
 
@@ -126,16 +126,16 @@
 | time_to_trigger | [int32](#int32) |  |  |
 | frequency_offset | [int32](#int32) |  |  |
 | pcell_individual_offset | [int32](#int32) |  |  |
-| ncell_individual_offsets | [MeasurementParams.NcellIndividualOffsetsEntry](#onos.ransim.types.MeasurementParams.NcellIndividualOffsetsEntry) | repeated |  |
+| ncell_individual_offsets | [MeasurementParams.NcellIndividualOffsetsEntry](#onos-ransim-types-MeasurementParams-NcellIndividualOffsetsEntry) | repeated |  |
 | hysteresis | [int32](#int32) |  |  |
-| event_a3_params | [EventA3Params](#onos.ransim.types.EventA3Params) |  |  |
+| event_a3_params | [EventA3Params](#onos-ransim-types-EventA3Params) |  |  |
 
 
 
 
 
 
-<a name="onos.ransim.types.MeasurementParams.NcellIndividualOffsetsEntry"></a>
+<a name="onos-ransim-types-MeasurementParams-NcellIndividualOffsetsEntry"></a>
 
 ### MeasurementParams.NcellIndividualOffsetsEntry
 
@@ -151,7 +151,7 @@
 
 
 
-<a name="onos.ransim.types.Node"></a>
+<a name="onos-ransim-types-Node"></a>
 
 ### Node
 
@@ -170,7 +170,7 @@
 
 
 
-<a name="onos.ransim.types.Point"></a>
+<a name="onos-ransim-types-Point"></a>
 
 ### Point
 
@@ -186,7 +186,7 @@
 
 
 
-<a name="onos.ransim.types.Route"></a>
+<a name="onos-ransim-types-Route"></a>
 
 ### Route
 
@@ -195,7 +195,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [uint64](#uint64) |  |  |
-| waypoints | [Point](#onos.ransim.types.Point) | repeated |  |
+| waypoints | [Point](#onos-ransim-types-Point) | repeated |  |
 | color | [string](#string) |  |  |
 | speed_avg | [uint32](#uint32) |  |  |
 | speed_stdev | [uint32](#uint32) |  |  |
@@ -207,7 +207,7 @@
 
 
 
-<a name="onos.ransim.types.Sector"></a>
+<a name="onos-ransim-types-Sector"></a>
 
 ### Sector
 
@@ -217,7 +217,7 @@
 | ----- | ---- | ----- | ----------- |
 | azimuth | [int32](#int32) |  |  |
 | arc | [int32](#int32) |  |  |
-| centroid | [Point](#onos.ransim.types.Point) |  |  |
+| centroid | [Point](#onos-ransim-types-Point) |  |  |
 | height | [int32](#int32) |  |  |
 | tilt | [int32](#int32) |  |  |
 
@@ -226,7 +226,7 @@
 
 
 
-<a name="onos.ransim.types.Ue"></a>
+<a name="onos-ransim-types-Ue"></a>
 
 ### Ue
 
@@ -236,7 +236,7 @@
 | ----- | ---- | ----- | ----------- |
 | imsi | [uint64](#uint64) |  |  |
 | type | [string](#string) |  |  |
-| position | [Point](#onos.ransim.types.Point) |  |  |
+| position | [Point](#onos-ransim-types-Point) |  |  |
 | rotation | [uint32](#uint32) |  |  |
 | serving_tower | [uint64](#uint64) |  |  |
 | serving_tower_strength | [double](#double) |  |  |
@@ -248,7 +248,7 @@
 | tower3_strength | [double](#double) |  |  |
 | crnti | [uint32](#uint32) |  |  |
 | admitted | [bool](#bool) |  |  |
-| metrics | [UeMetrics](#onos.ransim.types.UeMetrics) |  |  |
+| metrics | [UeMetrics](#onos-ransim-types-UeMetrics) |  |  |
 | rrc_state | [uint32](#uint32) |  |  |
 | five_qi | [int32](#int32) |  |  |
 
@@ -257,7 +257,7 @@
 
 
 
-<a name="onos.ransim.types.UeMetrics"></a>
+<a name="onos-ransim-types-UeMetrics"></a>
 
 ### UeMetrics
 
@@ -276,7 +276,7 @@
  
 
 
-<a name="onos.ransim.types.CellType"></a>
+<a name="onos-ransim-types-CellType"></a>
 
 ### CellType
 
