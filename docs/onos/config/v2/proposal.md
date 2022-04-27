@@ -3,41 +3,41 @@
 
 ## Table of Contents
 
-- [onos/config/v2/proposal.proto](#onos/config/v2/proposal.proto)
-    - [ChangeProposal](#onos.config.v2.ChangeProposal)
-    - [ChangeProposal.ValuesEntry](#onos.config.v2.ChangeProposal.ValuesEntry)
-    - [Proposal](#onos.config.v2.Proposal)
-    - [ProposalAbortPhase](#onos.config.v2.ProposalAbortPhase)
-    - [ProposalApplyPhase](#onos.config.v2.ProposalApplyPhase)
-    - [ProposalCommitPhase](#onos.config.v2.ProposalCommitPhase)
-    - [ProposalEvent](#onos.config.v2.ProposalEvent)
-    - [ProposalInitializePhase](#onos.config.v2.ProposalInitializePhase)
-    - [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus)
-    - [ProposalPhases](#onos.config.v2.ProposalPhases)
-    - [ProposalStatus](#onos.config.v2.ProposalStatus)
-    - [ProposalStatus.RollbackValuesEntry](#onos.config.v2.ProposalStatus.RollbackValuesEntry)
-    - [ProposalValidatePhase](#onos.config.v2.ProposalValidatePhase)
-    - [RollbackProposal](#onos.config.v2.RollbackProposal)
+- [onos/config/v2/proposal.proto](#onos_config_v2_proposal-proto)
+    - [ChangeProposal](#onos-config-v2-ChangeProposal)
+    - [ChangeProposal.ValuesEntry](#onos-config-v2-ChangeProposal-ValuesEntry)
+    - [Proposal](#onos-config-v2-Proposal)
+    - [ProposalAbortPhase](#onos-config-v2-ProposalAbortPhase)
+    - [ProposalApplyPhase](#onos-config-v2-ProposalApplyPhase)
+    - [ProposalCommitPhase](#onos-config-v2-ProposalCommitPhase)
+    - [ProposalEvent](#onos-config-v2-ProposalEvent)
+    - [ProposalInitializePhase](#onos-config-v2-ProposalInitializePhase)
+    - [ProposalPhaseStatus](#onos-config-v2-ProposalPhaseStatus)
+    - [ProposalPhases](#onos-config-v2-ProposalPhases)
+    - [ProposalStatus](#onos-config-v2-ProposalStatus)
+    - [ProposalStatus.RollbackValuesEntry](#onos-config-v2-ProposalStatus-RollbackValuesEntry)
+    - [ProposalValidatePhase](#onos-config-v2-ProposalValidatePhase)
+    - [RollbackProposal](#onos-config-v2-RollbackProposal)
   
-    - [ProposalAbortPhase.State](#onos.config.v2.ProposalAbortPhase.State)
-    - [ProposalApplyPhase.State](#onos.config.v2.ProposalApplyPhase.State)
-    - [ProposalCommitPhase.State](#onos.config.v2.ProposalCommitPhase.State)
-    - [ProposalEvent.EventType](#onos.config.v2.ProposalEvent.EventType)
-    - [ProposalInitializePhase.State](#onos.config.v2.ProposalInitializePhase.State)
-    - [ProposalValidatePhase.State](#onos.config.v2.ProposalValidatePhase.State)
+    - [ProposalAbortPhase.State](#onos-config-v2-ProposalAbortPhase-State)
+    - [ProposalApplyPhase.State](#onos-config-v2-ProposalApplyPhase-State)
+    - [ProposalCommitPhase.State](#onos-config-v2-ProposalCommitPhase-State)
+    - [ProposalEvent.EventType](#onos-config-v2-ProposalEvent-EventType)
+    - [ProposalInitializePhase.State](#onos-config-v2-ProposalInitializePhase-State)
+    - [ProposalValidatePhase.State](#onos-config-v2-ProposalValidatePhase-State)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/config/v2/proposal.proto"></a>
+<a name="onos_config_v2_proposal-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/config/v2/proposal.proto
 
 
 
-<a name="onos.config.v2.ChangeProposal"></a>
+<a name="onos-config-v2-ChangeProposal"></a>
 
 ### ChangeProposal
 
@@ -45,14 +45,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| values | [ChangeProposal.ValuesEntry](#onos.config.v2.ChangeProposal.ValuesEntry) | repeated | &#39;changes&#39; is the proposed change values |
+| values | [ChangeProposal.ValuesEntry](#onos-config-v2-ChangeProposal-ValuesEntry) | repeated | &#39;changes&#39; is the proposed change values |
 
 
 
 
 
 
-<a name="onos.config.v2.ChangeProposal.ValuesEntry"></a>
+<a name="onos-config-v2-ChangeProposal-ValuesEntry"></a>
 
 ### ChangeProposal.ValuesEntry
 
@@ -61,14 +61,14 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [PathValue](#onos-config-v2-PathValue) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.Proposal"></a>
+<a name="onos-config-v2-Proposal"></a>
 
 ### Proposal
 
@@ -76,20 +76,20 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
+| meta | [ObjectMeta](#onos-config-v2-ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is the unique identifier of the proposal |
 | target_id | [string](#string) |  | &#39;target_id&#39; is the proposal&#39;s target identifier |
 | transaction_index | [uint64](#uint64) |  | &#39;transaction_index&#39; is the unique index of the transaction |
-| change | [ChangeProposal](#onos.config.v2.ChangeProposal) |  |  |
-| rollback | [RollbackProposal](#onos.config.v2.RollbackProposal) |  |  |
-| status | [ProposalStatus](#onos.config.v2.ProposalStatus) |  | &#39;status&#39; is the current lifecycle status of the proposal |
+| change | [ChangeProposal](#onos-config-v2-ChangeProposal) |  |  |
+| rollback | [RollbackProposal](#onos-config-v2-RollbackProposal) |  |  |
+| status | [ProposalStatus](#onos-config-v2-ProposalStatus) |  | &#39;status&#39; is the current lifecycle status of the proposal |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalAbortPhase"></a>
+<a name="onos-config-v2-ProposalAbortPhase"></a>
 
 ### ProposalAbortPhase
 
@@ -97,15 +97,15 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
-| state | [ProposalAbortPhase.State](#onos.config.v2.ProposalAbortPhase.State) |  |  |
+| status | [ProposalPhaseStatus](#onos-config-v2-ProposalPhaseStatus) |  |  |
+| state | [ProposalAbortPhase.State](#onos-config-v2-ProposalAbortPhase-State) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalApplyPhase"></a>
+<a name="onos-config-v2-ProposalApplyPhase"></a>
 
 ### ProposalApplyPhase
 
@@ -113,17 +113,17 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
-| state | [ProposalApplyPhase.State](#onos.config.v2.ProposalApplyPhase.State) |  |  |
+| status | [ProposalPhaseStatus](#onos-config-v2-ProposalPhaseStatus) |  |  |
+| state | [ProposalApplyPhase.State](#onos-config-v2-ProposalApplyPhase-State) |  |  |
 | term | [uint64](#uint64) |  |  |
-| failure | [Failure](#onos.config.v2.Failure) |  |  |
+| failure | [Failure](#onos-config-v2-Failure) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalCommitPhase"></a>
+<a name="onos-config-v2-ProposalCommitPhase"></a>
 
 ### ProposalCommitPhase
 
@@ -131,15 +131,15 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
-| state | [ProposalCommitPhase.State](#onos.config.v2.ProposalCommitPhase.State) |  |  |
+| status | [ProposalPhaseStatus](#onos-config-v2-ProposalPhaseStatus) |  |  |
+| state | [ProposalCommitPhase.State](#onos-config-v2-ProposalCommitPhase-State) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalEvent"></a>
+<a name="onos-config-v2-ProposalEvent"></a>
 
 ### ProposalEvent
 ProposalEvent proposal store event
@@ -147,15 +147,15 @@ ProposalEvent proposal store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [ProposalEvent.EventType](#onos.config.v2.ProposalEvent.EventType) |  |  |
-| proposal | [Proposal](#onos.config.v2.Proposal) |  |  |
+| type | [ProposalEvent.EventType](#onos-config-v2-ProposalEvent-EventType) |  |  |
+| proposal | [Proposal](#onos-config-v2-Proposal) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalInitializePhase"></a>
+<a name="onos-config-v2-ProposalInitializePhase"></a>
 
 ### ProposalInitializePhase
 
@@ -163,15 +163,15 @@ ProposalEvent proposal store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
-| state | [ProposalInitializePhase.State](#onos.config.v2.ProposalInitializePhase.State) |  |  |
+| status | [ProposalPhaseStatus](#onos-config-v2-ProposalPhaseStatus) |  |  |
+| state | [ProposalInitializePhase.State](#onos-config-v2-ProposalInitializePhase-State) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalPhaseStatus"></a>
+<a name="onos-config-v2-ProposalPhaseStatus"></a>
 
 ### ProposalPhaseStatus
 
@@ -179,15 +179,15 @@ ProposalEvent proposal store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| start | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
-| end | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
+| start | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| end | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalPhases"></a>
+<a name="onos-config-v2-ProposalPhases"></a>
 
 ### ProposalPhases
 
@@ -195,18 +195,18 @@ ProposalEvent proposal store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| initialize | [ProposalInitializePhase](#onos.config.v2.ProposalInitializePhase) |  | &#39;initialize&#39; is the proposal initialization phase status |
-| validate | [ProposalValidatePhase](#onos.config.v2.ProposalValidatePhase) |  | &#39;validate&#39; is the proposal validation phase status |
-| commit | [ProposalCommitPhase](#onos.config.v2.ProposalCommitPhase) |  | &#39;commit&#39; is the proposal commit phase status |
-| apply | [ProposalApplyPhase](#onos.config.v2.ProposalApplyPhase) |  | &#39;apply&#39; is the proposal apply phase status |
-| abort | [ProposalAbortPhase](#onos.config.v2.ProposalAbortPhase) |  | &#39;abort&#39; is the proposal abort phase status |
+| initialize | [ProposalInitializePhase](#onos-config-v2-ProposalInitializePhase) |  | &#39;initialize&#39; is the proposal initialization phase status |
+| validate | [ProposalValidatePhase](#onos-config-v2-ProposalValidatePhase) |  | &#39;validate&#39; is the proposal validation phase status |
+| commit | [ProposalCommitPhase](#onos-config-v2-ProposalCommitPhase) |  | &#39;commit&#39; is the proposal commit phase status |
+| apply | [ProposalApplyPhase](#onos-config-v2-ProposalApplyPhase) |  | &#39;apply&#39; is the proposal apply phase status |
+| abort | [ProposalAbortPhase](#onos-config-v2-ProposalAbortPhase) |  | &#39;abort&#39; is the proposal abort phase status |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalStatus"></a>
+<a name="onos-config-v2-ProposalStatus"></a>
 
 ### ProposalStatus
 ProposalStatus is the status of a Proposal
@@ -214,18 +214,18 @@ ProposalStatus is the status of a Proposal
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| phases | [ProposalPhases](#onos.config.v2.ProposalPhases) |  | &#39;phases&#39; is the proposal phases |
+| phases | [ProposalPhases](#onos-config-v2-ProposalPhases) |  | &#39;phases&#39; is the proposal phases |
 | prev_index | [uint64](#uint64) |  | &#39;prev_index&#39; is the index of the previous proposal associated with this target |
 | next_index | [uint64](#uint64) |  | &#39;next_index&#39; is the index of the next proposal associated with this target |
 | rollback_index | [uint64](#uint64) |  | &#39;rollback_index&#39; is a reference to the index to which to roll back |
-| rollback_values | [ProposalStatus.RollbackValuesEntry](#onos.config.v2.ProposalStatus.RollbackValuesEntry) | repeated | &#39;rollback_values&#39; is the set of values to use to roll back the proposal |
+| rollback_values | [ProposalStatus.RollbackValuesEntry](#onos-config-v2-ProposalStatus-RollbackValuesEntry) | repeated | &#39;rollback_values&#39; is the set of values to use to roll back the proposal |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalStatus.RollbackValuesEntry"></a>
+<a name="onos-config-v2-ProposalStatus-RollbackValuesEntry"></a>
 
 ### ProposalStatus.RollbackValuesEntry
 
@@ -234,14 +234,14 @@ ProposalStatus is the status of a Proposal
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [PathValue](#onos-config-v2-PathValue) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ProposalValidatePhase"></a>
+<a name="onos-config-v2-ProposalValidatePhase"></a>
 
 ### ProposalValidatePhase
 
@@ -249,16 +249,16 @@ ProposalStatus is the status of a Proposal
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| status | [ProposalPhaseStatus](#onos.config.v2.ProposalPhaseStatus) |  |  |
-| state | [ProposalValidatePhase.State](#onos.config.v2.ProposalValidatePhase.State) |  |  |
-| failure | [Failure](#onos.config.v2.Failure) |  |  |
+| status | [ProposalPhaseStatus](#onos-config-v2-ProposalPhaseStatus) |  |  |
+| state | [ProposalValidatePhase.State](#onos-config-v2-ProposalValidatePhase-State) |  |  |
+| failure | [Failure](#onos-config-v2-Failure) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.RollbackProposal"></a>
+<a name="onos-config-v2-RollbackProposal"></a>
 
 ### RollbackProposal
 
@@ -275,7 +275,7 @@ ProposalStatus is the status of a Proposal
  
 
 
-<a name="onos.config.v2.ProposalAbortPhase.State"></a>
+<a name="onos-config-v2-ProposalAbortPhase-State"></a>
 
 ### ProposalAbortPhase.State
 
@@ -287,7 +287,7 @@ ProposalStatus is the status of a Proposal
 
 
 
-<a name="onos.config.v2.ProposalApplyPhase.State"></a>
+<a name="onos-config-v2-ProposalApplyPhase-State"></a>
 
 ### ProposalApplyPhase.State
 
@@ -300,7 +300,7 @@ ProposalStatus is the status of a Proposal
 
 
 
-<a name="onos.config.v2.ProposalCommitPhase.State"></a>
+<a name="onos-config-v2-ProposalCommitPhase-State"></a>
 
 ### ProposalCommitPhase.State
 
@@ -312,7 +312,7 @@ ProposalStatus is the status of a Proposal
 
 
 
-<a name="onos.config.v2.ProposalEvent.EventType"></a>
+<a name="onos-config-v2-ProposalEvent-EventType"></a>
 
 ### ProposalEvent.EventType
 EventType proposal event types for proposal store
@@ -327,7 +327,7 @@ EventType proposal event types for proposal store
 
 
 
-<a name="onos.config.v2.ProposalInitializePhase.State"></a>
+<a name="onos-config-v2-ProposalInitializePhase-State"></a>
 
 ### ProposalInitializePhase.State
 
@@ -339,7 +339,7 @@ EventType proposal event types for proposal store
 
 
 
-<a name="onos.config.v2.ProposalValidatePhase.State"></a>
+<a name="onos-config-v2-ProposalValidatePhase-State"></a>
 
 ### ProposalValidatePhase.State
 

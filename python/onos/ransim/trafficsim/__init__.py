@@ -2,10 +2,9 @@
 # sources: onos/ransim/trafficsim/trafficsim.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, Dict
+from typing import AsyncIterator
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -44,11 +43,17 @@ class UpdateType(betterproto.Enum):
 class MapLayoutRequest(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListRoutesRequest(betterproto.Message):
     no_replay: bool = betterproto.bool_field(1)
     no_subscribe: bool = betterproto.bool_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -58,10 +63,16 @@ class ListRoutesResponse(betterproto.Message):
     # type is a qualification of the type of change being made
     type: "Type" = betterproto.enum_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListUesRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -69,11 +80,17 @@ class ListUesResponse(betterproto.Message):
     # Ue is the UserEquipment change on which the event occurred
     ue: "_types__.Ue" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchUesRequest(betterproto.Message):
     no_replay: bool = betterproto.bool_field(1)
     no_subscribe: bool = betterproto.bool_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -85,23 +102,37 @@ class WatchUesResponse(betterproto.Message):
     # update_type is a qualification of the type of UE change
     update_type: "UpdateType" = betterproto.enum_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SetNumberUEsRequest(betterproto.Message):
     number: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class SetNumberUEsResponse(betterproto.Message):
     number: int = betterproto.uint32_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ResetMetricsMsg(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class TrafficStub(betterproto.ServiceStub):
+    """Traffic - provides a stream of traffic data to GUI"""
+
     async def get_map_layout(self) -> "_types__.MapLayout":
 
         request = MapLayoutRequest()
@@ -169,135 +200,6 @@ class TrafficStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.ransim.trafficsim.Traffic/ResetMetrics", request, ResetMetricsMsg
         )
-
-
-class TrafficBase(ServiceBase):
-    async def get_map_layout(self) -> "_types__.MapLayout":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_routes(
-        self, no_replay: bool, no_subscribe: bool
-    ) -> AsyncIterator["ListRoutesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_ues(self) -> AsyncIterator["ListUesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_ues(
-        self, no_replay: bool, no_subscribe: bool
-    ) -> AsyncIterator["WatchUesResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def set_number_u_es(self, number: int) -> "SetNumberUEsResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def reset_metrics(self) -> "ResetMetricsMsg":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_map_layout(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_map_layout(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_list_routes(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "no_replay": request.no_replay,
-            "no_subscribe": request.no_subscribe,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.list_routes,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_list_ues(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_ues,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_watch_ues(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "no_replay": request.no_replay,
-            "no_subscribe": request.no_subscribe,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_ues,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_set_number_u_es(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "number": request.number,
-        }
-
-        response = await self.set_number_u_es(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_reset_metrics(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.reset_metrics(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.ransim.trafficsim.Traffic/GetMapLayout": grpclib.const.Handler(
-                self.__rpc_get_map_layout,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                MapLayoutRequest,
-                _types__.MapLayout,
-            ),
-            "/onos.ransim.trafficsim.Traffic/ListRoutes": grpclib.const.Handler(
-                self.__rpc_list_routes,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListRoutesRequest,
-                ListRoutesResponse,
-            ),
-            "/onos.ransim.trafficsim.Traffic/ListUes": grpclib.const.Handler(
-                self.__rpc_list_ues,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListUesRequest,
-                ListUesResponse,
-            ),
-            "/onos.ransim.trafficsim.Traffic/WatchUes": grpclib.const.Handler(
-                self.__rpc_watch_ues,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchUesRequest,
-                WatchUesResponse,
-            ),
-            "/onos.ransim.trafficsim.Traffic/SetNumberUEs": grpclib.const.Handler(
-                self.__rpc_set_number_u_es,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                SetNumberUEsRequest,
-                SetNumberUEsResponse,
-            ),
-            "/onos.ransim.trafficsim.Traffic/ResetMetrics": grpclib.const.Handler(
-                self.__rpc_reset_metrics,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ResetMetricsMsg,
-                ResetMetricsMsg,
-            ),
-        }
 
 
 from .. import types as _types__

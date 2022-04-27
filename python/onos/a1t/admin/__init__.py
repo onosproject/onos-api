@@ -2,16 +2,18 @@
 # sources: onos/a1t/admin/admin.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, Dict, List
+from typing import AsyncIterator, List
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
 @dataclass(eq=False, repr=False)
 class GetXAppConnectionsRequest(betterproto.Message):
     xapp_id: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -21,10 +23,16 @@ class GetXAppConnectionResponse(betterproto.Message):
     supported_a1_service_type_id: str = betterproto.string_field(3)
     xapp_a1_endpoint: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetPolicyTypeObjectRequest(betterproto.Message):
     policy_type_id: str = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -33,11 +41,17 @@ class GetPolicyTypeObjectResponse(betterproto.Message):
     policy_ids: List[str] = betterproto.string_field(2)
     policy_type_object: str = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetPolicyObjectRequest(betterproto.Message):
     policy_type_id: str = betterproto.string_field(1)
     policy_object_id: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -46,11 +60,17 @@ class GetPolicyObjectResponse(betterproto.Message):
     policy_object_id: str = betterproto.string_field(2)
     policy_object: str = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetPolicyObjectStatusRequest(betterproto.Message):
     policy_type_id: str = betterproto.string_field(1)
     policy_object_id: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -59,11 +79,15 @@ class GetPolicyObjectStatusResponse(betterproto.Message):
     policy_object_id: str = betterproto.string_field(2)
     policy_object_status: str = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class A1TAdminServiceStub(betterproto.ServiceStub):
     async def get_x_app_connections(
         self, *, xapp_id: str = ""
     ) -> AsyncIterator["GetXAppConnectionResponse"]:
+        """GetXAppConnections"""
 
         request = GetXAppConnectionsRequest()
         request.xapp_id = xapp_id
@@ -78,6 +102,7 @@ class A1TAdminServiceStub(betterproto.ServiceStub):
     async def get_policy_type_object(
         self, *, policy_type_id: str = ""
     ) -> AsyncIterator["GetPolicyTypeObjectResponse"]:
+        """GetPolicyTypeObject"""
 
         request = GetPolicyTypeObjectRequest()
         request.policy_type_id = policy_type_id
@@ -92,6 +117,7 @@ class A1TAdminServiceStub(betterproto.ServiceStub):
     async def get_policy_object(
         self, *, policy_type_id: str = "", policy_object_id: str = ""
     ) -> AsyncIterator["GetPolicyObjectResponse"]:
+        """GetPolicyObject"""
 
         request = GetPolicyObjectRequest()
         request.policy_type_id = policy_type_id
@@ -107,6 +133,7 @@ class A1TAdminServiceStub(betterproto.ServiceStub):
     async def get_policy_object_status(
         self, *, policy_type_id: str = "", policy_object_id: str = ""
     ) -> AsyncIterator["GetPolicyObjectStatusResponse"]:
+        """GetPolicyObjectStatus"""
 
         request = GetPolicyObjectStatusRequest()
         request.policy_type_id = policy_type_id
@@ -118,109 +145,3 @@ class A1TAdminServiceStub(betterproto.ServiceStub):
             GetPolicyObjectStatusResponse,
         ):
             yield response
-
-
-class A1TAdminServiceBase(ServiceBase):
-    async def get_x_app_connections(
-        self, xapp_id: str
-    ) -> AsyncIterator["GetXAppConnectionResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_policy_type_object(
-        self, policy_type_id: str
-    ) -> AsyncIterator["GetPolicyTypeObjectResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_policy_object(
-        self, policy_type_id: str, policy_object_id: str
-    ) -> AsyncIterator["GetPolicyObjectResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_policy_object_status(
-        self, policy_type_id: str, policy_object_id: str
-    ) -> AsyncIterator["GetPolicyObjectStatusResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_x_app_connections(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "xapp_id": request.xapp_id,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.get_x_app_connections,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_get_policy_type_object(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_type_id": request.policy_type_id,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.get_policy_type_object,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_get_policy_object(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_type_id": request.policy_type_id,
-            "policy_object_id": request.policy_object_id,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.get_policy_object,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_get_policy_object_status(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_type_id": request.policy_type_id,
-            "policy_object_id": request.policy_object_id,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.get_policy_object_status,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.a1t.admin.A1TAdminService/GetXAppConnections": grpclib.const.Handler(
-                self.__rpc_get_x_app_connections,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                GetXAppConnectionsRequest,
-                GetXAppConnectionResponse,
-            ),
-            "/onos.a1t.admin.A1TAdminService/GetPolicyTypeObject": grpclib.const.Handler(
-                self.__rpc_get_policy_type_object,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                GetPolicyTypeObjectRequest,
-                GetPolicyTypeObjectResponse,
-            ),
-            "/onos.a1t.admin.A1TAdminService/GetPolicyObject": grpclib.const.Handler(
-                self.__rpc_get_policy_object,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                GetPolicyObjectRequest,
-                GetPolicyObjectResponse,
-            ),
-            "/onos.a1t.admin.A1TAdminService/GetPolicyObjectStatus": grpclib.const.Handler(
-                self.__rpc_get_policy_object_status,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                GetPolicyObjectStatusRequest,
-                GetPolicyObjectStatusResponse,
-            ),
-        }

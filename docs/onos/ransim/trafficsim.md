@@ -3,35 +3,35 @@
 
 ## Table of Contents
 
-- [onos/ransim/trafficsim/trafficsim.proto](#onos/ransim/trafficsim/trafficsim.proto)
-    - [ListRoutesRequest](#onos.ransim.trafficsim.ListRoutesRequest)
-    - [ListRoutesResponse](#onos.ransim.trafficsim.ListRoutesResponse)
-    - [ListUesRequest](#onos.ransim.trafficsim.ListUesRequest)
-    - [ListUesResponse](#onos.ransim.trafficsim.ListUesResponse)
-    - [MapLayoutRequest](#onos.ransim.trafficsim.MapLayoutRequest)
-    - [ResetMetricsMsg](#onos.ransim.trafficsim.ResetMetricsMsg)
-    - [SetNumberUEsRequest](#onos.ransim.trafficsim.SetNumberUEsRequest)
-    - [SetNumberUEsResponse](#onos.ransim.trafficsim.SetNumberUEsResponse)
-    - [WatchUesRequest](#onos.ransim.trafficsim.WatchUesRequest)
-    - [WatchUesResponse](#onos.ransim.trafficsim.WatchUesResponse)
+- [onos/ransim/trafficsim/trafficsim.proto](#onos_ransim_trafficsim_trafficsim-proto)
+    - [ListRoutesRequest](#onos-ransim-trafficsim-ListRoutesRequest)
+    - [ListRoutesResponse](#onos-ransim-trafficsim-ListRoutesResponse)
+    - [ListUesRequest](#onos-ransim-trafficsim-ListUesRequest)
+    - [ListUesResponse](#onos-ransim-trafficsim-ListUesResponse)
+    - [MapLayoutRequest](#onos-ransim-trafficsim-MapLayoutRequest)
+    - [ResetMetricsMsg](#onos-ransim-trafficsim-ResetMetricsMsg)
+    - [SetNumberUEsRequest](#onos-ransim-trafficsim-SetNumberUEsRequest)
+    - [SetNumberUEsResponse](#onos-ransim-trafficsim-SetNumberUEsResponse)
+    - [WatchUesRequest](#onos-ransim-trafficsim-WatchUesRequest)
+    - [WatchUesResponse](#onos-ransim-trafficsim-WatchUesResponse)
   
-    - [Type](#onos.ransim.trafficsim.Type)
-    - [UpdateType](#onos.ransim.trafficsim.UpdateType)
+    - [Type](#onos-ransim-trafficsim-Type)
+    - [UpdateType](#onos-ransim-trafficsim-UpdateType)
   
-    - [Traffic](#onos.ransim.trafficsim.Traffic)
+    - [Traffic](#onos-ransim-trafficsim-Traffic)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/ransim/trafficsim/trafficsim.proto"></a>
+<a name="onos_ransim_trafficsim_trafficsim-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/ransim/trafficsim/trafficsim.proto
 
 
 
-<a name="onos.ransim.trafficsim.ListRoutesRequest"></a>
+<a name="onos-ransim-trafficsim-ListRoutesRequest"></a>
 
 ### ListRoutesRequest
 
@@ -47,7 +47,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.ListRoutesResponse"></a>
+<a name="onos-ransim-trafficsim-ListRoutesResponse"></a>
 
 ### ListRoutesResponse
 
@@ -55,15 +55,15 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| route | [onos.ransim.types.Route](#onos.ransim.types.Route) |  | route is the route change on which the event occurred |
-| type | [Type](#onos.ransim.trafficsim.Type) |  | type is a qualification of the type of change being made |
+| route | [onos.ransim.types.Route](#onos-ransim-types-Route) |  | route is the route change on which the event occurred |
+| type | [Type](#onos-ransim-trafficsim-Type) |  | type is a qualification of the type of change being made |
 
 
 
 
 
 
-<a name="onos.ransim.trafficsim.ListUesRequest"></a>
+<a name="onos-ransim-trafficsim-ListUesRequest"></a>
 
 ### ListUesRequest
 
@@ -73,7 +73,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.ListUesResponse"></a>
+<a name="onos-ransim-trafficsim-ListUesResponse"></a>
 
 ### ListUesResponse
 
@@ -81,14 +81,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ue | [onos.ransim.types.Ue](#onos.ransim.types.Ue) |  | Ue is the UserEquipment change on which the event occurred |
+| ue | [onos.ransim.types.Ue](#onos-ransim-types-Ue) |  | Ue is the UserEquipment change on which the event occurred |
 
 
 
 
 
 
-<a name="onos.ransim.trafficsim.MapLayoutRequest"></a>
+<a name="onos-ransim-trafficsim-MapLayoutRequest"></a>
 
 ### MapLayoutRequest
 
@@ -98,7 +98,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.ResetMetricsMsg"></a>
+<a name="onos-ransim-trafficsim-ResetMetricsMsg"></a>
 
 ### ResetMetricsMsg
 
@@ -108,7 +108,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.SetNumberUEsRequest"></a>
+<a name="onos-ransim-trafficsim-SetNumberUEsRequest"></a>
 
 ### SetNumberUEsRequest
 
@@ -123,7 +123,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.SetNumberUEsResponse"></a>
+<a name="onos-ransim-trafficsim-SetNumberUEsResponse"></a>
 
 ### SetNumberUEsResponse
 
@@ -138,7 +138,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.WatchUesRequest"></a>
+<a name="onos-ransim-trafficsim-WatchUesRequest"></a>
 
 ### WatchUesRequest
 
@@ -154,7 +154,7 @@
 
 
 
-<a name="onos.ransim.trafficsim.WatchUesResponse"></a>
+<a name="onos-ransim-trafficsim-WatchUesResponse"></a>
 
 ### WatchUesResponse
 
@@ -162,9 +162,9 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| ue | [onos.ransim.types.Ue](#onos.ransim.types.Ue) |  | Ue is the UserEquipment change on which the event occurred |
-| type | [Type](#onos.ransim.trafficsim.Type) |  | type is a qualification of the type of change being made |
-| update_type | [UpdateType](#onos.ransim.trafficsim.UpdateType) |  | update_type is a qualification of the type of UE change |
+| ue | [onos.ransim.types.Ue](#onos-ransim-types-Ue) |  | Ue is the UserEquipment change on which the event occurred |
+| type | [Type](#onos-ransim-trafficsim-Type) |  | type is a qualification of the type of change being made |
+| update_type | [UpdateType](#onos-ransim-trafficsim-UpdateType) |  | update_type is a qualification of the type of UE change |
 
 
 
@@ -173,7 +173,7 @@
  
 
 
-<a name="onos.ransim.trafficsim.Type"></a>
+<a name="onos-ransim-trafficsim-Type"></a>
 
 ### Type
 Change event type
@@ -187,7 +187,7 @@ Change event type
 
 
 
-<a name="onos.ransim.trafficsim.UpdateType"></a>
+<a name="onos-ransim-trafficsim-UpdateType"></a>
 
 ### UpdateType
 In the case of an update this helps qualify the update type - add items as necessary
@@ -205,19 +205,19 @@ In the case of an update this helps qualify the update type - add items as neces
  
 
 
-<a name="onos.ransim.trafficsim.Traffic"></a>
+<a name="onos-ransim-trafficsim-Traffic"></a>
 
 ### Traffic
 Traffic - provides a stream of traffic data to GUI
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetMapLayout | [MapLayoutRequest](#onos.ransim.trafficsim.MapLayoutRequest) | [.onos.ransim.types.MapLayout](#onos.ransim.types.MapLayout) |  |
-| ListRoutes | [ListRoutesRequest](#onos.ransim.trafficsim.ListRoutesRequest) | [ListRoutesResponse](#onos.ransim.trafficsim.ListRoutesResponse) stream |  |
-| ListUes | [ListUesRequest](#onos.ransim.trafficsim.ListUesRequest) | [ListUesResponse](#onos.ransim.trafficsim.ListUesResponse) stream |  |
-| WatchUes | [WatchUesRequest](#onos.ransim.trafficsim.WatchUesRequest) | [WatchUesResponse](#onos.ransim.trafficsim.WatchUesResponse) stream |  |
-| SetNumberUEs | [SetNumberUEsRequest](#onos.ransim.trafficsim.SetNumberUEsRequest) | [SetNumberUEsResponse](#onos.ransim.trafficsim.SetNumberUEsResponse) |  |
-| ResetMetrics | [ResetMetricsMsg](#onos.ransim.trafficsim.ResetMetricsMsg) | [ResetMetricsMsg](#onos.ransim.trafficsim.ResetMetricsMsg) |  |
+| GetMapLayout | [MapLayoutRequest](#onos-ransim-trafficsim-MapLayoutRequest) | [.onos.ransim.types.MapLayout](#onos-ransim-types-MapLayout) |  |
+| ListRoutes | [ListRoutesRequest](#onos-ransim-trafficsim-ListRoutesRequest) | [ListRoutesResponse](#onos-ransim-trafficsim-ListRoutesResponse) stream |  |
+| ListUes | [ListUesRequest](#onos-ransim-trafficsim-ListUesRequest) | [ListUesResponse](#onos-ransim-trafficsim-ListUesResponse) stream |  |
+| WatchUes | [WatchUesRequest](#onos-ransim-trafficsim-WatchUesRequest) | [WatchUesResponse](#onos-ransim-trafficsim-WatchUesResponse) stream |  |
+| SetNumberUEs | [SetNumberUEsRequest](#onos-ransim-trafficsim-SetNumberUEsRequest) | [SetNumberUEsResponse](#onos-ransim-trafficsim-SetNumberUEsResponse) |  |
+| ResetMetrics | [ResetMetricsMsg](#onos-ransim-trafficsim-ResetMetricsMsg) | [ResetMetricsMsg](#onos-ransim-trafficsim-ResetMetricsMsg) |  |
 
  
 

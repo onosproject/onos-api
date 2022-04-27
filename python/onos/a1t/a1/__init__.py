@@ -2,10 +2,9 @@
 # sources: onos/a1t/a1/a1.proto, onos/a1t/a1/ei.proto, onos/a1t/a1/policy.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterable, AsyncIterator, Dict, Iterable, Union
+from typing import AsyncIterable, AsyncIterator, Iterable, Optional, Union
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -28,17 +27,26 @@ class Header(betterproto.Message):
     encoding: "Encoding" = betterproto.enum_field(5)
     payload_type: "PayloadType" = betterproto.enum_field(6)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Result(betterproto.Message):
     success: bool = betterproto.bool_field(1)
     reason: str = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RequestMessage(betterproto.Message):
     header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -47,11 +55,17 @@ class ResultMessage(betterproto.Message):
     payload: bytes = betterproto.bytes_field(2)
     result: "Result" = betterproto.message_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class StatusMessage(betterproto.Message):
     header: "Header" = betterproto.message_field(1)
     payload: bytes = betterproto.bytes_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -60,11 +74,17 @@ class AckMessage(betterproto.Message):
     payload: bytes = betterproto.bytes_field(2)
     result: "Result" = betterproto.message_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class EiRequestMessage(betterproto.Message):
     ei_job_id: str = betterproto.string_field(1)
     message: "RequestMessage" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -72,11 +92,17 @@ class EiResultMessage(betterproto.Message):
     ei_job_id: str = betterproto.string_field(1)
     message: "ResultMessage" = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class EiStatusMessage(betterproto.Message):
     ei_job_id: str = betterproto.string_field(1)
     message: "StatusMessage" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -84,12 +110,18 @@ class EiAckMessage(betterproto.Message):
     ei_job_id: str = betterproto.string_field(1)
     message: "AckMessage" = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class PolicyType(betterproto.Message):
     id: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
     version: str = betterproto.string_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -99,6 +131,9 @@ class PolicyRequestMessage(betterproto.Message):
     message: "RequestMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class PolicyResultMessage(betterproto.Message):
@@ -106,6 +141,9 @@ class PolicyResultMessage(betterproto.Message):
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "ResultMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -115,6 +153,9 @@ class PolicyStatusMessage(betterproto.Message):
     message: "StatusMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class PolicyAckMessage(betterproto.Message):
@@ -122,6 +163,9 @@ class PolicyAckMessage(betterproto.Message):
     policy_type: "PolicyType" = betterproto.message_field(2)
     message: "AckMessage" = betterproto.message_field(3)
     notification_destination: str = betterproto.string_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 class EiServiceStub(betterproto.ServiceStub):
@@ -316,281 +360,3 @@ class PolicyServiceStub(betterproto.ServiceStub):
             PolicyStatusMessage,
         ):
             yield response
-
-
-class EiServiceBase(ServiceBase):
-    async def ei_query(
-        self, request_iterator: AsyncIterator["EiResultMessage"]
-    ) -> AsyncIterator["EiRequestMessage"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def ei_job_setup(
-        self, request_iterator: AsyncIterator["EiResultMessage"]
-    ) -> AsyncIterator["EiRequestMessage"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def ei_job_update(
-        self, request_iterator: AsyncIterator["EiResultMessage"]
-    ) -> AsyncIterator["EiRequestMessage"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def ei_job_delete(
-        self, request_iterator: AsyncIterator["EiResultMessage"]
-    ) -> AsyncIterator["EiRequestMessage"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def ei_job_status_query(
-        self, request_iterator: AsyncIterator["EiResultMessage"]
-    ) -> AsyncIterator["EiRequestMessage"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def ei_job_status_notify(self) -> "EiAckMessage":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def ei_job_result_delivery(self) -> "EiAckMessage":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_ei_query(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.ei_query,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_ei_job_setup(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.ei_job_setup,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_ei_job_update(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.ei_job_update,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_ei_job_delete(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.ei_job_delete,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_ei_job_status_query(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.ei_job_status_query,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_ei_job_status_notify(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.ei_job_status_notify(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_ei_job_result_delivery(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.ei_job_result_delivery(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.a1t.a1.EIService/EIQuery": grpclib.const.Handler(
-                self.__rpc_ei_query,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                EiResultMessage,
-                EiRequestMessage,
-            ),
-            "/onos.a1t.a1.EIService/EIJobSetup": grpclib.const.Handler(
-                self.__rpc_ei_job_setup,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                EiResultMessage,
-                EiRequestMessage,
-            ),
-            "/onos.a1t.a1.EIService/EIJobUpdate": grpclib.const.Handler(
-                self.__rpc_ei_job_update,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                EiResultMessage,
-                EiRequestMessage,
-            ),
-            "/onos.a1t.a1.EIService/EIJobDelete": grpclib.const.Handler(
-                self.__rpc_ei_job_delete,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                EiResultMessage,
-                EiRequestMessage,
-            ),
-            "/onos.a1t.a1.EIService/EIJobStatusQuery": grpclib.const.Handler(
-                self.__rpc_ei_job_status_query,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                EiResultMessage,
-                EiRequestMessage,
-            ),
-            "/onos.a1t.a1.EIService/EIJobStatusNotify": grpclib.const.Handler(
-                self.__rpc_ei_job_status_notify,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                EiStatusMessage,
-                EiAckMessage,
-            ),
-            "/onos.a1t.a1.EIService/EIJobResultDelivery": grpclib.const.Handler(
-                self.__rpc_ei_job_result_delivery,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                EiResultMessage,
-                EiAckMessage,
-            ),
-        }
-
-
-class PolicyServiceBase(ServiceBase):
-    async def policy_setup(
-        self,
-        policy_id: str,
-        policy_type: "PolicyType",
-        message: "RequestMessage",
-        notification_destination: str,
-    ) -> "PolicyResultMessage":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def policy_update(
-        self,
-        policy_id: str,
-        policy_type: "PolicyType",
-        message: "RequestMessage",
-        notification_destination: str,
-    ) -> "PolicyResultMessage":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def policy_delete(
-        self,
-        policy_id: str,
-        policy_type: "PolicyType",
-        message: "RequestMessage",
-        notification_destination: str,
-    ) -> "PolicyResultMessage":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def policy_query(
-        self,
-        policy_id: str,
-        policy_type: "PolicyType",
-        message: "RequestMessage",
-        notification_destination: str,
-    ) -> "PolicyResultMessage":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def policy_status(
-        self, request_iterator: AsyncIterator["PolicyAckMessage"]
-    ) -> AsyncIterator["PolicyStatusMessage"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_policy_setup(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_id": request.policy_id,
-            "policy_type": request.policy_type,
-            "message": request.message,
-            "notification_destination": request.notification_destination,
-        }
-
-        response = await self.policy_setup(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_policy_update(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_id": request.policy_id,
-            "policy_type": request.policy_type,
-            "message": request.message,
-            "notification_destination": request.notification_destination,
-        }
-
-        response = await self.policy_update(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_policy_delete(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_id": request.policy_id,
-            "policy_type": request.policy_type,
-            "message": request.message,
-            "notification_destination": request.notification_destination,
-        }
-
-        response = await self.policy_delete(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_policy_query(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "policy_id": request.policy_id,
-            "policy_type": request.policy_type,
-            "message": request.message,
-            "notification_destination": request.notification_destination,
-        }
-
-        response = await self.policy_query(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_policy_status(self, stream: grpclib.server.Stream) -> None:
-        request_kwargs = {"request_iterator": stream.__aiter__()}
-
-        await self._call_rpc_handler_server_stream(
-            self.policy_status,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.a1t.a1.PolicyService/PolicySetup": grpclib.const.Handler(
-                self.__rpc_policy_setup,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                PolicyRequestMessage,
-                PolicyResultMessage,
-            ),
-            "/onos.a1t.a1.PolicyService/PolicyUpdate": grpclib.const.Handler(
-                self.__rpc_policy_update,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                PolicyRequestMessage,
-                PolicyResultMessage,
-            ),
-            "/onos.a1t.a1.PolicyService/PolicyDelete": grpclib.const.Handler(
-                self.__rpc_policy_delete,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                PolicyRequestMessage,
-                PolicyResultMessage,
-            ),
-            "/onos.a1t.a1.PolicyService/PolicyQuery": grpclib.const.Handler(
-                self.__rpc_policy_query,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                PolicyRequestMessage,
-                PolicyResultMessage,
-            ),
-            "/onos.a1t.a1.PolicyService/PolicyStatus": grpclib.const.Handler(
-                self.__rpc_policy_status,
-                grpclib.const.Cardinality.STREAM_STREAM,
-                PolicyAckMessage,
-                PolicyStatusMessage,
-            ),
-        }

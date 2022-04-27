@@ -5,13 +5,15 @@ from dataclasses import dataclass
 from typing import Dict
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
 @dataclass(eq=False, repr=False)
 class GetMlbParamRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -21,6 +23,9 @@ class GetMlbParamResponse(betterproto.Message):
     target_threshold: int = betterproto.int32_field(3)
     delta_ocn: int = betterproto.int32_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SetMlbParamRequest(betterproto.Message):
@@ -29,15 +34,24 @@ class SetMlbParamRequest(betterproto.Message):
     target_threshold: int = betterproto.int32_field(3)
     delta_ocn: int = betterproto.int32_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SetMlbParamResponse(betterproto.Message):
     success: bool = betterproto.bool_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetOcnRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -46,6 +60,9 @@ class GetOcnResponse(betterproto.Message):
         1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class OcnRecord(betterproto.Message):
@@ -53,14 +70,21 @@ class OcnRecord(betterproto.Message):
         1, betterproto.TYPE_STRING, betterproto.TYPE_INT32
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class OcnIDs(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class MlbStub(betterproto.ServiceStub):
     async def get_mlb_params(self) -> "GetMlbParamResponse":
+        """GetMlbParams gets MLB parameters"""
 
         request = GetMlbParamRequest()
 
@@ -76,6 +100,7 @@ class MlbStub(betterproto.ServiceStub):
         target_threshold: int = 0,
         delta_ocn: int = 0,
     ) -> "SetMlbParamResponse":
+        """SetMlbParams sets MLB parameters"""
 
         request = SetMlbParamRequest()
         request.interval = interval
@@ -88,75 +113,8 @@ class MlbStub(betterproto.ServiceStub):
         )
 
     async def get_ocn(self) -> "GetOcnResponse":
+        """GetOcn gets Ocn map"""
 
         request = GetOcnRequest()
 
         return await self._unary_unary("/onos.mlb.Mlb/GetOcn", request, GetOcnResponse)
-
-
-class MlbBase(ServiceBase):
-    async def get_mlb_params(self) -> "GetMlbParamResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def set_mlb_params(
-        self,
-        interval: int,
-        overload_threshold: int,
-        target_threshold: int,
-        delta_ocn: int,
-    ) -> "SetMlbParamResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_ocn(self) -> "GetOcnResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_mlb_params(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_mlb_params(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_set_mlb_params(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "interval": request.interval,
-            "overload_threshold": request.overload_threshold,
-            "target_threshold": request.target_threshold,
-            "delta_ocn": request.delta_ocn,
-        }
-
-        response = await self.set_mlb_params(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_ocn(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_ocn(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.mlb.Mlb/GetMlbParams": grpclib.const.Handler(
-                self.__rpc_get_mlb_params,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetMlbParamRequest,
-                GetMlbParamResponse,
-            ),
-            "/onos.mlb.Mlb/SetMlbParams": grpclib.const.Handler(
-                self.__rpc_set_mlb_params,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                SetMlbParamRequest,
-                SetMlbParamResponse,
-            ),
-            "/onos.mlb.Mlb/GetOcn": grpclib.const.Handler(
-                self.__rpc_get_ocn,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetOcnRequest,
-                GetOcnResponse,
-            ),
-        }

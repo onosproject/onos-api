@@ -3,52 +3,52 @@
 
 ## Table of Contents
 
-- [onos/topo/topo.proto](#onos/topo/topo.proto)
-    - [CreateRequest](#onos.topo.CreateRequest)
-    - [CreateResponse](#onos.topo.CreateResponse)
-    - [DeleteRequest](#onos.topo.DeleteRequest)
-    - [DeleteResponse](#onos.topo.DeleteResponse)
-    - [Entity](#onos.topo.Entity)
-    - [EqualFilter](#onos.topo.EqualFilter)
-    - [Event](#onos.topo.Event)
-    - [Filter](#onos.topo.Filter)
-    - [Filters](#onos.topo.Filters)
-    - [GetRequest](#onos.topo.GetRequest)
-    - [GetResponse](#onos.topo.GetResponse)
-    - [InFilter](#onos.topo.InFilter)
-    - [Kind](#onos.topo.Kind)
-    - [ListRequest](#onos.topo.ListRequest)
-    - [ListResponse](#onos.topo.ListResponse)
-    - [NotFilter](#onos.topo.NotFilter)
-    - [Object](#onos.topo.Object)
-    - [Object.AspectsEntry](#onos.topo.Object.AspectsEntry)
-    - [Object.LabelsEntry](#onos.topo.Object.LabelsEntry)
-    - [Relation](#onos.topo.Relation)
-    - [RelationFilter](#onos.topo.RelationFilter)
-    - [UpdateRequest](#onos.topo.UpdateRequest)
-    - [UpdateResponse](#onos.topo.UpdateResponse)
-    - [WatchRequest](#onos.topo.WatchRequest)
-    - [WatchResponse](#onos.topo.WatchResponse)
+- [onos/topo/topo.proto](#onos_topo_topo-proto)
+    - [CreateRequest](#onos-topo-CreateRequest)
+    - [CreateResponse](#onos-topo-CreateResponse)
+    - [DeleteRequest](#onos-topo-DeleteRequest)
+    - [DeleteResponse](#onos-topo-DeleteResponse)
+    - [Entity](#onos-topo-Entity)
+    - [EqualFilter](#onos-topo-EqualFilter)
+    - [Event](#onos-topo-Event)
+    - [Filter](#onos-topo-Filter)
+    - [Filters](#onos-topo-Filters)
+    - [GetRequest](#onos-topo-GetRequest)
+    - [GetResponse](#onos-topo-GetResponse)
+    - [InFilter](#onos-topo-InFilter)
+    - [Kind](#onos-topo-Kind)
+    - [ListRequest](#onos-topo-ListRequest)
+    - [ListResponse](#onos-topo-ListResponse)
+    - [NotFilter](#onos-topo-NotFilter)
+    - [Object](#onos-topo-Object)
+    - [Object.AspectsEntry](#onos-topo-Object-AspectsEntry)
+    - [Object.LabelsEntry](#onos-topo-Object-LabelsEntry)
+    - [Relation](#onos-topo-Relation)
+    - [RelationFilter](#onos-topo-RelationFilter)
+    - [UpdateRequest](#onos-topo-UpdateRequest)
+    - [UpdateResponse](#onos-topo-UpdateResponse)
+    - [WatchRequest](#onos-topo-WatchRequest)
+    - [WatchResponse](#onos-topo-WatchResponse)
   
-    - [EventType](#onos.topo.EventType)
-    - [Object.Type](#onos.topo.Object.Type)
-    - [RelationFilterScope](#onos.topo.RelationFilterScope)
-    - [SortOrder](#onos.topo.SortOrder)
+    - [EventType](#onos-topo-EventType)
+    - [Object.Type](#onos-topo-Object-Type)
+    - [RelationFilterScope](#onos-topo-RelationFilterScope)
+    - [SortOrder](#onos-topo-SortOrder)
   
-    - [Topo](#onos.topo.Topo)
+    - [Topo](#onos-topo-Topo)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/topo/topo.proto"></a>
+<a name="onos_topo_topo-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/topo/topo.proto
 
 
 
-<a name="onos.topo.CreateRequest"></a>
+<a name="onos-topo-CreateRequest"></a>
 
 ### CreateRequest
 
@@ -56,14 +56,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| object | [Object](#onos.topo.Object) |  |  |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.CreateResponse"></a>
+<a name="onos-topo-CreateResponse"></a>
 
 ### CreateResponse
 
@@ -71,14 +71,14 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| object | [Object](#onos.topo.Object) |  |  |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.DeleteRequest"></a>
+<a name="onos-topo-DeleteRequest"></a>
 
 ### DeleteRequest
 
@@ -94,7 +94,7 @@
 
 
 
-<a name="onos.topo.DeleteResponse"></a>
+<a name="onos-topo-DeleteResponse"></a>
 
 ### DeleteResponse
 
@@ -104,7 +104,7 @@
 
 
 
-<a name="onos.topo.Entity"></a>
+<a name="onos-topo-Entity"></a>
 
 ### Entity
 Entity represents any &#34;thing&#34; that is represented in the topology
@@ -121,7 +121,7 @@ Entity represents any &#34;thing&#34; that is represented in the topology
 
 
 
-<a name="onos.topo.EqualFilter"></a>
+<a name="onos-topo-EqualFilter"></a>
 
 ### EqualFilter
 
@@ -136,7 +136,7 @@ Entity represents any &#34;thing&#34; that is represented in the topology
 
 
 
-<a name="onos.topo.Event"></a>
+<a name="onos-topo-Event"></a>
 
 ### Event
 Event is a topo operation event
@@ -144,15 +144,15 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [EventType](#onos.topo.EventType) |  |  |
-| object | [Object](#onos.topo.Object) |  |  |
+| type | [EventType](#onos-topo-EventType) |  |  |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.Filter"></a>
+<a name="onos-topo-Filter"></a>
 
 ### Filter
 
@@ -160,9 +160,9 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| equal | [EqualFilter](#onos.topo.EqualFilter) |  |  |
-| not | [NotFilter](#onos.topo.NotFilter) |  |  |
-| in | [InFilter](#onos.topo.InFilter) |  |  |
+| equal | [EqualFilter](#onos-topo-EqualFilter) |  |  |
+| not | [NotFilter](#onos-topo-NotFilter) |  |  |
+| in | [InFilter](#onos-topo-InFilter) |  |  |
 | key | [string](#string) |  | optional key |
 
 
@@ -170,7 +170,7 @@ Event is a topo operation event
 
 
 
-<a name="onos.topo.Filters"></a>
+<a name="onos-topo-Filters"></a>
 
 ### Filters
 
@@ -178,10 +178,10 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| kind_filter | [Filter](#onos.topo.Filter) |  |  |
-| label_filters | [Filter](#onos.topo.Filter) | repeated |  |
-| relation_filter | [RelationFilter](#onos.topo.RelationFilter) |  |  |
-| object_types | [Object.Type](#onos.topo.Object.Type) | repeated |  |
+| kind_filter | [Filter](#onos-topo-Filter) |  |  |
+| label_filters | [Filter](#onos-topo-Filter) | repeated |  |
+| relation_filter | [RelationFilter](#onos-topo-RelationFilter) |  |  |
+| object_types | [Object.Type](#onos-topo-Object-Type) | repeated |  |
 | with_aspects | [string](#string) | repeated |  |
 
 
@@ -189,7 +189,7 @@ Event is a topo operation event
 
 
 
-<a name="onos.topo.GetRequest"></a>
+<a name="onos-topo-GetRequest"></a>
 
 ### GetRequest
 
@@ -204,7 +204,7 @@ Event is a topo operation event
 
 
 
-<a name="onos.topo.GetResponse"></a>
+<a name="onos-topo-GetResponse"></a>
 
 ### GetResponse
 
@@ -212,14 +212,14 @@ Event is a topo operation event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| object | [Object](#onos.topo.Object) |  |  |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.InFilter"></a>
+<a name="onos-topo-InFilter"></a>
 
 ### InFilter
 
@@ -234,7 +234,7 @@ Event is a topo operation event
 
 
 
-<a name="onos.topo.Kind"></a>
+<a name="onos-topo-Kind"></a>
 
 ### Kind
 Kind represents an archetype of an object, i.e. entity or relation
@@ -249,7 +249,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 
 
-<a name="onos.topo.ListRequest"></a>
+<a name="onos-topo-ListRequest"></a>
 
 ### ListRequest
 
@@ -257,15 +257,15 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filters | [Filters](#onos.topo.Filters) |  |  |
-| sort_order | [SortOrder](#onos.topo.SortOrder) |  |  |
+| filters | [Filters](#onos-topo-Filters) |  |  |
+| sort_order | [SortOrder](#onos-topo-SortOrder) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.ListResponse"></a>
+<a name="onos-topo-ListResponse"></a>
 
 ### ListResponse
 
@@ -273,14 +273,14 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| objects | [Object](#onos.topo.Object) | repeated |  |
+| objects | [Object](#onos-topo-Object) | repeated |  |
 
 
 
 
 
 
-<a name="onos.topo.NotFilter"></a>
+<a name="onos-topo-NotFilter"></a>
 
 ### NotFilter
 
@@ -288,14 +288,14 @@ Kind represents an archetype of an object, i.e. entity or relation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| inner | [Filter](#onos.topo.Filter) |  |  |
+| inner | [Filter](#onos-topo-Filter) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.Object"></a>
+<a name="onos-topo-Object"></a>
 
 ### Object
 Object is an one of the following: a kind (archetype of entity or relation), an entity, a relation
@@ -306,19 +306,19 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | uuid | [string](#string) |  |  |
 | id | [string](#string) |  |  |
 | revision | [uint64](#uint64) |  |  |
-| type | [Object.Type](#onos.topo.Object.Type) |  |  |
-| entity | [Entity](#onos.topo.Entity) |  |  |
-| relation | [Relation](#onos.topo.Relation) |  |  |
-| kind | [Kind](#onos.topo.Kind) |  |  |
-| aspects | [Object.AspectsEntry](#onos.topo.Object.AspectsEntry) | repeated | Map of aspects as typed values; for kind, these represent expected aspects and their default values |
-| labels | [Object.LabelsEntry](#onos.topo.Object.LabelsEntry) | repeated | Arbitrary labels for classification/search |
+| type | [Object.Type](#onos-topo-Object-Type) |  |  |
+| entity | [Entity](#onos-topo-Entity) |  |  |
+| relation | [Relation](#onos-topo-Relation) |  |  |
+| kind | [Kind](#onos-topo-Kind) |  |  |
+| aspects | [Object.AspectsEntry](#onos-topo-Object-AspectsEntry) | repeated | Map of aspects as typed values; for kind, these represent expected aspects and their default values |
+| labels | [Object.LabelsEntry](#onos-topo-Object-LabelsEntry) | repeated | Arbitrary labels for classification/search |
 
 
 
 
 
 
-<a name="onos.topo.Object.AspectsEntry"></a>
+<a name="onos-topo-Object-AspectsEntry"></a>
 
 ### Object.AspectsEntry
 
@@ -327,14 +327,14 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+| value | [google.protobuf.Any](#google-protobuf-Any) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.Object.LabelsEntry"></a>
+<a name="onos-topo-Object-LabelsEntry"></a>
 
 ### Object.LabelsEntry
 
@@ -350,7 +350,7 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 
 
 
-<a name="onos.topo.Relation"></a>
+<a name="onos-topo-Relation"></a>
 
 ### Relation
 Relation represents any &#34;relation&#34; between two entitites in the topology.
@@ -367,7 +367,7 @@ Relation represents any &#34;relation&#34; between two entitites in the topology
 
 
 
-<a name="onos.topo.RelationFilter"></a>
+<a name="onos-topo-RelationFilter"></a>
 
 ### RelationFilter
 Filter for targets of given relation kinds and given source ids; optionally, filters by specified target kind
@@ -378,7 +378,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 | src_id | [string](#string) |  |  |
 | relation_kind | [string](#string) |  |  |
 | target_kind | [string](#string) |  |  |
-| scope | [RelationFilterScope](#onos.topo.RelationFilterScope) |  |  |
+| scope | [RelationFilterScope](#onos-topo-RelationFilterScope) |  |  |
 | target_id | [string](#string) |  |  |
 
 
@@ -386,7 +386,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 
 
 
-<a name="onos.topo.UpdateRequest"></a>
+<a name="onos-topo-UpdateRequest"></a>
 
 ### UpdateRequest
 
@@ -394,14 +394,14 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| object | [Object](#onos.topo.Object) |  |  |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.UpdateResponse"></a>
+<a name="onos-topo-UpdateResponse"></a>
 
 ### UpdateResponse
 
@@ -409,14 +409,14 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| object | [Object](#onos.topo.Object) |  |  |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
 
 
 
-<a name="onos.topo.WatchRequest"></a>
+<a name="onos-topo-WatchRequest"></a>
 
 ### WatchRequest
 
@@ -424,7 +424,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filters | [Filters](#onos.topo.Filters) |  |  |
+| filters | [Filters](#onos-topo-Filters) |  |  |
 | noreplay | [bool](#bool) |  |  |
 
 
@@ -432,7 +432,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 
 
 
-<a name="onos.topo.WatchResponse"></a>
+<a name="onos-topo-WatchResponse"></a>
 
 ### WatchResponse
 
@@ -440,7 +440,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| event | [Event](#onos.topo.Event) |  |  |
+| event | [Event](#onos-topo-Event) |  |  |
 
 
 
@@ -449,7 +449,7 @@ Filter for targets of given relation kinds and given source ids; optionally, fil
  
 
 
-<a name="onos.topo.EventType"></a>
+<a name="onos-topo-EventType"></a>
 
 ### EventType
 EventType is a topo operation event type
@@ -463,7 +463,7 @@ EventType is a topo operation event type
 
 
 
-<a name="onos.topo.Object.Type"></a>
+<a name="onos-topo-Object-Type"></a>
 
 ### Object.Type
 
@@ -477,7 +477,7 @@ EventType is a topo operation event type
 
 
 
-<a name="onos.topo.RelationFilterScope"></a>
+<a name="onos-topo-RelationFilterScope"></a>
 
 ### RelationFilterScope
 
@@ -492,7 +492,7 @@ EventType is a topo operation event type
 
 
 
-<a name="onos.topo.SortOrder"></a>
+<a name="onos-topo-SortOrder"></a>
 
 ### SortOrder
 
@@ -509,19 +509,19 @@ EventType is a topo operation event type
  
 
 
-<a name="onos.topo.Topo"></a>
+<a name="onos-topo-Topo"></a>
 
 ### Topo
 EntityService provides an API for managing entities.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Create | [CreateRequest](#onos.topo.CreateRequest) | [CreateResponse](#onos.topo.CreateResponse) | Create a new topology object |
-| Get | [GetRequest](#onos.topo.GetRequest) | [GetResponse](#onos.topo.GetResponse) | Get an object from topology |
-| Update | [UpdateRequest](#onos.topo.UpdateRequest) | [UpdateResponse](#onos.topo.UpdateResponse) | Update an existing topology object |
-| Delete | [DeleteRequest](#onos.topo.DeleteRequest) | [DeleteResponse](#onos.topo.DeleteResponse) | Delete an object from topology |
-| List | [ListRequest](#onos.topo.ListRequest) | [ListResponse](#onos.topo.ListResponse) | List gets a stream of requested objects |
-| Watch | [WatchRequest](#onos.topo.WatchRequest) | [WatchResponse](#onos.topo.WatchResponse) stream | Watch returns a stream of topo change notifications |
+| Create | [CreateRequest](#onos-topo-CreateRequest) | [CreateResponse](#onos-topo-CreateResponse) | Create a new topology object |
+| Get | [GetRequest](#onos-topo-GetRequest) | [GetResponse](#onos-topo-GetResponse) | Get an object from topology |
+| Update | [UpdateRequest](#onos-topo-UpdateRequest) | [UpdateResponse](#onos-topo-UpdateResponse) | Update an existing topology object |
+| Delete | [DeleteRequest](#onos-topo-DeleteRequest) | [DeleteResponse](#onos-topo-DeleteResponse) | Delete an object from topology |
+| List | [ListRequest](#onos-topo-ListRequest) | [ListResponse](#onos-topo-ListResponse) | List gets a stream of requested objects |
+| Watch | [WatchRequest](#onos-topo-WatchRequest) | [WatchResponse](#onos-topo-WatchResponse) stream | Watch returns a stream of topo change notifications |
 
  
 

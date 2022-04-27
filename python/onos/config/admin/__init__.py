@@ -2,10 +2,9 @@
 # sources: onos/config/admin/admin.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import AsyncIterator, Dict, List
+from typing import AsyncIterator, List
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -26,6 +25,9 @@ class ReadOnlySubPath(betterproto.Message):
     is_a_key: bool = betterproto.bool_field(6)
     attr_name: str = betterproto.string_field(7)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ReadOnlyPath(betterproto.Message):
@@ -45,6 +47,9 @@ class ReadOnlyPath(betterproto.Message):
     # ReadOnlySubPath is a set of children of the path including an entry for the
     # type of the topmost object with subpath `/` An example is /list2b/index
     sub_path: List["ReadOnlySubPath"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -77,6 +82,9 @@ class ReadWritePath(betterproto.Message):
     type_opts: List[int] = betterproto.uint64_field(9)
     is_a_key: bool = betterproto.bool_field(10)
     attr_name: str = betterproto.string_field(11)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -113,6 +121,9 @@ class ModelInfo(betterproto.Message):
     read_write_path: List["ReadWritePath"] = betterproto.message_field(8)
     supported_encodings: List["___gnmi__.Encoding"] = betterproto.enum_field(9)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ModelPlugin(betterproto.Message):
@@ -121,6 +132,9 @@ class ModelPlugin(betterproto.Message):
     info: "ModelInfo" = betterproto.message_field(3)
     status: str = betterproto.string_field(10)
     error: str = betterproto.string_field(11)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -137,6 +151,9 @@ class ListModelsRequest(betterproto.Message):
     # An optional filter on the version of the model plugins to list
     model_version: str = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RollbackRequest(betterproto.Message):
@@ -148,6 +165,9 @@ class RollbackRequest(betterproto.Message):
     # index of the transaction that should be rolled back
     index: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RollbackResponse(betterproto.Message):
@@ -158,6 +178,9 @@ class RollbackResponse(betterproto.Message):
     # index of the rollback transaction
     index: int = betterproto.uint64_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ModelInfoRequest(betterproto.Message):
@@ -165,12 +188,18 @@ class ModelInfoRequest(betterproto.Message):
 
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ModelInfoResponse(betterproto.Message):
     """ModelInfoResponse carries response for the model information query"""
 
     model_info: "ModelInfo" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -182,6 +211,9 @@ class ValidateConfigRequest(betterproto.Message):
 
     json: bytes = betterproto.bytes_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ValidateConfigResponse(betterproto.Message):
@@ -189,6 +221,9 @@ class ValidateConfigResponse(betterproto.Message):
 
     valid: bool = betterproto.bool_field(1)
     message: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -198,12 +233,18 @@ class PathValuesRequest(betterproto.Message):
     path_prefix: str = betterproto.string_field(1)
     json: bytes = betterproto.bytes_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class PathValuesResponse(betterproto.Message):
     """PathValuesResponse carries a list of typed path values"""
 
     path_values: List["_v2__.PathValue"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -214,20 +255,32 @@ class GetTransactionRequest(betterproto.Message):
     # precedence
     index: int = betterproto.uint64_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetTransactionResponse(betterproto.Message):
     transaction: "_v2__.Transaction" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListTransactionsRequest(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListTransactionsResponse(betterproto.Message):
     transaction: "_v2__.Transaction" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -235,30 +288,48 @@ class WatchTransactionsRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchTransactionsResponse(betterproto.Message):
     event: "_v2__.TransactionEvent" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetConfigurationRequest(betterproto.Message):
     configuration_id: str = betterproto.string_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetConfigurationResponse(betterproto.Message):
     configuration: "_v2__.Configuration" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListConfigurationsRequest(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListConfigurationsResponse(betterproto.Message):
     configuration: "_v2__.Configuration" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -266,16 +337,28 @@ class WatchConfigurationsRequest(betterproto.Message):
     configuration_id: str = betterproto.string_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchConfigurationsResponse(betterproto.Message):
     event: "_v2__.ConfigurationEvent" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 class ConfigAdminServiceStub(betterproto.ServiceStub):
+    """
+    ConfigAdminService provides means for enhanced interactions with the
+    configuration subsystem.
+    """
+
     async def list_registered_models(
         self, *, verbose: bool = False, model_name: str = "", model_version: str = ""
     ) -> AsyncIterator["ModelPlugin"]:
+        """ListRegisteredModels returns a stream of registered models."""
 
         request = ListModelsRequest()
         request.verbose = verbose
@@ -290,6 +373,10 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
             yield response
 
     async def rollback_transaction(self, *, index: int = 0) -> "RollbackResponse":
+        """
+        RollbackTransaction rolls back the specified configuration change
+        transaction.
+        """
 
         request = RollbackRequest()
         request.index = index
@@ -302,7 +389,10 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
 
 
 class ModelPluginServiceStub(betterproto.ServiceStub):
+    """ModelPluginService is to be implemented by model plugin sidecar"""
+
     async def get_model_info(self) -> "ModelInfoResponse":
+        """GetModelInfo provides information about the model"""
 
         request = ModelInfoRequest()
 
@@ -313,6 +403,10 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
         )
 
     async def validate_config(self, *, json: bytes = b"") -> "ValidateConfigResponse":
+        """
+        ValidateConfig validates the provided configuration data against the
+        model
+        """
 
         request = ValidateConfigRequest()
         request.json = json
@@ -326,6 +420,10 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
     async def get_path_values(
         self, *, path_prefix: str = "", json: bytes = b""
     ) -> "PathValuesResponse":
+        """
+        GetPathValues produces list of typed path value entries from the
+        specified configuration change JSON tree
+        """
 
         request = PathValuesRequest()
         request.path_prefix = path_prefix
@@ -339,9 +437,15 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
 
 
 class TransactionServiceStub(betterproto.ServiceStub):
+    """
+    TransactionService provides means to inspect the contents of the internal
+    transactions store.
+    """
+
     async def get_transaction(
         self, *, id: str = "", index: int = 0
     ) -> "GetTransactionResponse":
+        """Get transaction by its ID or index"""
 
         request = GetTransactionRequest()
         request.id = id
@@ -354,6 +458,7 @@ class TransactionServiceStub(betterproto.ServiceStub):
         )
 
     async def list_transactions(self) -> AsyncIterator["ListTransactionsResponse"]:
+        """List returns all configuration transactions"""
 
         request = ListTransactionsRequest()
 
@@ -367,6 +472,10 @@ class TransactionServiceStub(betterproto.ServiceStub):
     async def watch_transactions(
         self, *, id: str = "", noreplay: bool = False
     ) -> AsyncIterator["WatchTransactionsResponse"]:
+        """
+        Watch returns a stream of configuration transaction change
+        notifications
+        """
 
         request = WatchTransactionsRequest()
         request.id = id
@@ -381,9 +490,15 @@ class TransactionServiceStub(betterproto.ServiceStub):
 
 
 class ConfigurationServiceStub(betterproto.ServiceStub):
+    """
+    ConfigurationService provides means to inspect the contents of the internal
+    configurations store.
+    """
+
     async def get_configuration(
         self, *, configuration_id: str = ""
     ) -> "GetConfigurationResponse":
+        """Get configuration by its target ID"""
 
         request = GetConfigurationRequest()
         request.configuration_id = configuration_id
@@ -395,6 +510,7 @@ class ConfigurationServiceStub(betterproto.ServiceStub):
         )
 
     async def list_configurations(self) -> AsyncIterator["ListConfigurationsResponse"]:
+        """List returns all target configurations"""
 
         request = ListConfigurationsRequest()
 
@@ -408,6 +524,7 @@ class ConfigurationServiceStub(betterproto.ServiceStub):
     async def watch_configurations(
         self, *, configuration_id: str = "", noreplay: bool = False
     ) -> AsyncIterator["WatchConfigurationsResponse"]:
+        """Watch returns a stream of configuration change notifications"""
 
         request = WatchConfigurationsRequest()
         request.configuration_id = configuration_id
@@ -419,264 +536,6 @@ class ConfigurationServiceStub(betterproto.ServiceStub):
             WatchConfigurationsResponse,
         ):
             yield response
-
-
-class ConfigAdminServiceBase(ServiceBase):
-    async def list_registered_models(
-        self, verbose: bool, model_name: str, model_version: str
-    ) -> AsyncIterator["ModelPlugin"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def rollback_transaction(self, index: int) -> "RollbackResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_list_registered_models(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "verbose": request.verbose,
-            "model_name": request.model_name,
-            "model_version": request.model_version,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.list_registered_models,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_rollback_transaction(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "index": request.index,
-        }
-
-        response = await self.rollback_transaction(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.config.admin.ConfigAdminService/ListRegisteredModels": grpclib.const.Handler(
-                self.__rpc_list_registered_models,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListModelsRequest,
-                ModelPlugin,
-            ),
-            "/onos.config.admin.ConfigAdminService/RollbackTransaction": grpclib.const.Handler(
-                self.__rpc_rollback_transaction,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                RollbackRequest,
-                RollbackResponse,
-            ),
-        }
-
-
-class ModelPluginServiceBase(ServiceBase):
-    async def get_model_info(self) -> "ModelInfoResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def validate_config(self, json: bytes) -> "ValidateConfigResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_path_values(
-        self, path_prefix: str, json: bytes
-    ) -> "PathValuesResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_model_info(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_model_info(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_validate_config(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "json": request.json,
-        }
-
-        response = await self.validate_config(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_path_values(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "path_prefix": request.path_prefix,
-            "json": request.json,
-        }
-
-        response = await self.get_path_values(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.config.admin.ModelPluginService/GetModelInfo": grpclib.const.Handler(
-                self.__rpc_get_model_info,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ModelInfoRequest,
-                ModelInfoResponse,
-            ),
-            "/onos.config.admin.ModelPluginService/ValidateConfig": grpclib.const.Handler(
-                self.__rpc_validate_config,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ValidateConfigRequest,
-                ValidateConfigResponse,
-            ),
-            "/onos.config.admin.ModelPluginService/GetPathValues": grpclib.const.Handler(
-                self.__rpc_get_path_values,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                PathValuesRequest,
-                PathValuesResponse,
-            ),
-        }
-
-
-class TransactionServiceBase(ServiceBase):
-    async def get_transaction(self, id: str, index: int) -> "GetTransactionResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_transactions(self) -> AsyncIterator["ListTransactionsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_transactions(
-        self, id: str, noreplay: bool
-    ) -> AsyncIterator["WatchTransactionsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_transaction(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "id": request.id,
-            "index": request.index,
-        }
-
-        response = await self.get_transaction(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_list_transactions(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_transactions,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_watch_transactions(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "id": request.id,
-            "noreplay": request.noreplay,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_transactions,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.config.admin.TransactionService/GetTransaction": grpclib.const.Handler(
-                self.__rpc_get_transaction,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetTransactionRequest,
-                GetTransactionResponse,
-            ),
-            "/onos.config.admin.TransactionService/ListTransactions": grpclib.const.Handler(
-                self.__rpc_list_transactions,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListTransactionsRequest,
-                ListTransactionsResponse,
-            ),
-            "/onos.config.admin.TransactionService/WatchTransactions": grpclib.const.Handler(
-                self.__rpc_watch_transactions,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchTransactionsRequest,
-                WatchTransactionsResponse,
-            ),
-        }
-
-
-class ConfigurationServiceBase(ServiceBase):
-    async def get_configuration(
-        self, configuration_id: str
-    ) -> "GetConfigurationResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_configurations(self) -> AsyncIterator["ListConfigurationsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_configurations(
-        self, configuration_id: str, noreplay: bool
-    ) -> AsyncIterator["WatchConfigurationsResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_configuration(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "configuration_id": request.configuration_id,
-        }
-
-        response = await self.get_configuration(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_list_configurations(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_configurations,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_watch_configurations(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "configuration_id": request.configuration_id,
-            "noreplay": request.noreplay,
-        }
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_configurations,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.config.admin.ConfigurationService/GetConfiguration": grpclib.const.Handler(
-                self.__rpc_get_configuration,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetConfigurationRequest,
-                GetConfigurationResponse,
-            ),
-            "/onos.config.admin.ConfigurationService/ListConfigurations": grpclib.const.Handler(
-                self.__rpc_list_configurations,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListConfigurationsRequest,
-                ListConfigurationsResponse,
-            ),
-            "/onos.config.admin.ConfigurationService/WatchConfigurations": grpclib.const.Handler(
-                self.__rpc_watch_configurations,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchConfigurationsRequest,
-                WatchConfigurationsResponse,
-            ),
-        }
 
 
 from .. import v2 as _v2__

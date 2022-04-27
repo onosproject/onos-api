@@ -2,10 +2,9 @@
 # sources: onos/pci/pci.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import List
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -22,15 +21,24 @@ class GetConflictsRequest(betterproto.Message):
 
     cell_id: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetConflictsResponse(betterproto.Message):
     cells: List["PciCell"] = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetResolvedConflictsRequest(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -38,6 +46,9 @@ class GetResolvedConflictsResponse(betterproto.Message):
     """returns all the resolved conflicts in the store"""
 
     cells: List["CellResolution"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -47,6 +58,9 @@ class CellResolution(betterproto.Message):
     original_pci: int = betterproto.uint32_field(3)
     resolved_conflicts: int = betterproto.uint32_field(4)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetCellRequest(betterproto.Message):
@@ -54,20 +68,32 @@ class GetCellRequest(betterproto.Message):
 
     cell_id: int = betterproto.uint64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetCellResponse(betterproto.Message):
     cell: "PciCell" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class GetCellsRequest(betterproto.Message):
     pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetCellsResponse(betterproto.Message):
     cells: List["PciCell"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -80,11 +106,17 @@ class PciCell(betterproto.Message):
     pci_pool: List["PciRange"] = betterproto.message_field(6)
     neighbor_ids: List[int] = betterproto.uint64_field(7)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class PciRange(betterproto.Message):
     min: int = betterproto.uint32_field(1)
     max: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 class PciStub(betterproto.ServiceStub):
@@ -121,81 +153,3 @@ class PciStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.pci.Pci/GetCells", request, GetCellsResponse
         )
-
-
-class PciBase(ServiceBase):
-    async def get_conflicts(self, cell_id: int) -> "GetConflictsResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_resolved_conflicts(self) -> "GetResolvedConflictsResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_cell(self, cell_id: int) -> "GetCellResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_cells(self) -> "GetCellsResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_get_conflicts(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "cell_id": request.cell_id,
-        }
-
-        response = await self.get_conflicts(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_resolved_conflicts(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_resolved_conflicts(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_cell(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "cell_id": request.cell_id,
-        }
-
-        response = await self.get_cell(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_cells(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_cells(**request_kwargs)
-        await stream.send_message(response)
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.pci.Pci/GetConflicts": grpclib.const.Handler(
-                self.__rpc_get_conflicts,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetConflictsRequest,
-                GetConflictsResponse,
-            ),
-            "/onos.pci.Pci/GetResolvedConflicts": grpclib.const.Handler(
-                self.__rpc_get_resolved_conflicts,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetResolvedConflictsRequest,
-                GetResolvedConflictsResponse,
-            ),
-            "/onos.pci.Pci/GetCell": grpclib.const.Handler(
-                self.__rpc_get_cell,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetCellRequest,
-                GetCellResponse,
-            ),
-            "/onos.pci.Pci/GetCells": grpclib.const.Handler(
-                self.__rpc_get_cells,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetCellsRequest,
-                GetCellsResponse,
-            ),
-        }

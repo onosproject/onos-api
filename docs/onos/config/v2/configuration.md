@@ -3,32 +3,32 @@
 
 ## Table of Contents
 
-- [onos/config/v2/configuration.proto](#onos/config/v2/configuration.proto)
-    - [AppliedConfigurationStatus](#onos.config.v2.AppliedConfigurationStatus)
-    - [AppliedConfigurationStatus.ValuesEntry](#onos.config.v2.AppliedConfigurationStatus.ValuesEntry)
-    - [CommittedConfigurationStatus](#onos.config.v2.CommittedConfigurationStatus)
-    - [Configuration](#onos.config.v2.Configuration)
-    - [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry)
-    - [ConfigurationEvent](#onos.config.v2.ConfigurationEvent)
-    - [ConfigurationStatus](#onos.config.v2.ConfigurationStatus)
-    - [MastershipInfo](#onos.config.v2.MastershipInfo)
-    - [ProposedConfigurationStatus](#onos.config.v2.ProposedConfigurationStatus)
+- [onos/config/v2/configuration.proto](#onos_config_v2_configuration-proto)
+    - [AppliedConfigurationStatus](#onos-config-v2-AppliedConfigurationStatus)
+    - [AppliedConfigurationStatus.ValuesEntry](#onos-config-v2-AppliedConfigurationStatus-ValuesEntry)
+    - [CommittedConfigurationStatus](#onos-config-v2-CommittedConfigurationStatus)
+    - [Configuration](#onos-config-v2-Configuration)
+    - [Configuration.ValuesEntry](#onos-config-v2-Configuration-ValuesEntry)
+    - [ConfigurationEvent](#onos-config-v2-ConfigurationEvent)
+    - [ConfigurationStatus](#onos-config-v2-ConfigurationStatus)
+    - [MastershipInfo](#onos-config-v2-MastershipInfo)
+    - [ProposedConfigurationStatus](#onos-config-v2-ProposedConfigurationStatus)
   
-    - [ConfigurationEvent.EventType](#onos.config.v2.ConfigurationEvent.EventType)
-    - [ConfigurationStatus.State](#onos.config.v2.ConfigurationStatus.State)
+    - [ConfigurationEvent.EventType](#onos-config-v2-ConfigurationEvent-EventType)
+    - [ConfigurationStatus.State](#onos-config-v2-ConfigurationStatus-State)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/config/v2/configuration.proto"></a>
+<a name="onos_config_v2_configuration-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/config/v2/configuration.proto
 
 
 
-<a name="onos.config.v2.AppliedConfigurationStatus"></a>
+<a name="onos-config-v2-AppliedConfigurationStatus"></a>
 
 ### AppliedConfigurationStatus
 
@@ -37,15 +37,15 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | index | [uint64](#uint64) |  |  |
-| mastership | [MastershipInfo](#onos.config.v2.MastershipInfo) |  |  |
-| values | [AppliedConfigurationStatus.ValuesEntry](#onos.config.v2.AppliedConfigurationStatus.ValuesEntry) | repeated |  |
+| mastership | [MastershipInfo](#onos-config-v2-MastershipInfo) |  |  |
+| values | [AppliedConfigurationStatus.ValuesEntry](#onos-config-v2-AppliedConfigurationStatus-ValuesEntry) | repeated |  |
 
 
 
 
 
 
-<a name="onos.config.v2.AppliedConfigurationStatus.ValuesEntry"></a>
+<a name="onos-config-v2-AppliedConfigurationStatus-ValuesEntry"></a>
 
 ### AppliedConfigurationStatus.ValuesEntry
 
@@ -54,14 +54,14 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [PathValue](#onos-config-v2-PathValue) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.CommittedConfigurationStatus"></a>
+<a name="onos-config-v2-CommittedConfigurationStatus"></a>
 
 ### CommittedConfigurationStatus
 
@@ -76,7 +76,7 @@
 
 
 
-<a name="onos.config.v2.Configuration"></a>
+<a name="onos-config-v2-Configuration"></a>
 
 ### Configuration
 Configuration represents complete desired target configuration
@@ -84,19 +84,19 @@ Configuration represents complete desired target configuration
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| meta | [ObjectMeta](#onos.config.v2.ObjectMeta) |  |  |
+| meta | [ObjectMeta](#onos-config-v2-ObjectMeta) |  |  |
 | id | [string](#string) |  | &#39;id&#39; is a unique configuration identifier |
 | target_id | [string](#string) |  | &#39;target_id&#39; is the target to which the desired target configuration applies |
-| values | [Configuration.ValuesEntry](#onos.config.v2.Configuration.ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
+| values | [Configuration.ValuesEntry](#onos-config-v2-Configuration-ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
 | index | [uint64](#uint64) |  | &#39;index&#39; is the index of the configuration values |
-| status | [ConfigurationStatus](#onos.config.v2.ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
+| status | [ConfigurationStatus](#onos-config-v2-ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
 
 
 
 
 
 
-<a name="onos.config.v2.Configuration.ValuesEntry"></a>
+<a name="onos-config-v2-Configuration-ValuesEntry"></a>
 
 ### Configuration.ValuesEntry
 
@@ -105,14 +105,14 @@ Configuration represents complete desired target configuration
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PathValue](#onos.config.v2.PathValue) |  |  |
+| value | [PathValue](#onos-config-v2-PathValue) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ConfigurationEvent"></a>
+<a name="onos-config-v2-ConfigurationEvent"></a>
 
 ### ConfigurationEvent
 ConfigurationEvent configuration store event
@@ -120,15 +120,15 @@ ConfigurationEvent configuration store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [ConfigurationEvent.EventType](#onos.config.v2.ConfigurationEvent.EventType) |  | EventType configuration event type |
-| configuration | [Configuration](#onos.config.v2.Configuration) |  |  |
+| type | [ConfigurationEvent.EventType](#onos-config-v2-ConfigurationEvent-EventType) |  | EventType configuration event type |
+| configuration | [Configuration](#onos-config-v2-Configuration) |  |  |
 
 
 
 
 
 
-<a name="onos.config.v2.ConfigurationStatus"></a>
+<a name="onos-config-v2-ConfigurationStatus"></a>
 
 ### ConfigurationStatus
 ConfigurationStatus is the status of a Configuration
@@ -136,18 +136,18 @@ ConfigurationStatus is the status of a Configuration
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| state | [ConfigurationStatus.State](#onos.config.v2.ConfigurationStatus.State) |  | &#39;state&#39; is the configuration state |
-| mastership | [MastershipInfo](#onos.config.v2.MastershipInfo) |  | &#39;mastership&#39; is the current mastership info for the configuration |
-| proposed | [ProposedConfigurationStatus](#onos.config.v2.ProposedConfigurationStatus) |  | &#39;proposed&#39; is the proposed configuration status |
-| committed | [CommittedConfigurationStatus](#onos.config.v2.CommittedConfigurationStatus) |  | &#39;committed&#39; is the committed configuration status |
-| applied | [AppliedConfigurationStatus](#onos.config.v2.AppliedConfigurationStatus) |  | &#39;applied&#39; is the applied configuration status |
+| state | [ConfigurationStatus.State](#onos-config-v2-ConfigurationStatus-State) |  | &#39;state&#39; is the configuration state |
+| mastership | [MastershipInfo](#onos-config-v2-MastershipInfo) |  | &#39;mastership&#39; is the current mastership info for the configuration |
+| proposed | [ProposedConfigurationStatus](#onos-config-v2-ProposedConfigurationStatus) |  | &#39;proposed&#39; is the proposed configuration status |
+| committed | [CommittedConfigurationStatus](#onos-config-v2-CommittedConfigurationStatus) |  | &#39;committed&#39; is the committed configuration status |
+| applied | [AppliedConfigurationStatus](#onos-config-v2-AppliedConfigurationStatus) |  | &#39;applied&#39; is the applied configuration status |
 
 
 
 
 
 
-<a name="onos.config.v2.MastershipInfo"></a>
+<a name="onos-config-v2-MastershipInfo"></a>
 
 ### MastershipInfo
 
@@ -163,7 +163,7 @@ ConfigurationStatus is the status of a Configuration
 
 
 
-<a name="onos.config.v2.ProposedConfigurationStatus"></a>
+<a name="onos-config-v2-ProposedConfigurationStatus"></a>
 
 ### ProposedConfigurationStatus
 
@@ -180,7 +180,7 @@ ConfigurationStatus is the status of a Configuration
  
 
 
-<a name="onos.config.v2.ConfigurationEvent.EventType"></a>
+<a name="onos-config-v2-ConfigurationEvent-EventType"></a>
 
 ### ConfigurationEvent.EventType
 EventType configuration event types for configuration store
@@ -195,7 +195,7 @@ EventType configuration event types for configuration store
 
 
 
-<a name="onos.config.v2.ConfigurationStatus.State"></a>
+<a name="onos-config-v2-ConfigurationStatus-State"></a>
 
 ### ConfigurationStatus.State
 State is the configuration state

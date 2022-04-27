@@ -3,33 +3,33 @@
 
 ## Table of Contents
 
-- [onos/e2t/admin/admin.proto](#onos/e2t/admin/admin.proto)
-    - [DropE2NodeConnectionsRequest](#onos.e2t.admin.DropE2NodeConnectionsRequest)
-    - [DropE2NodeConnectionsResponse](#onos.e2t.admin.DropE2NodeConnectionsResponse)
-    - [ListE2NodeConnectionsRequest](#onos.e2t.admin.ListE2NodeConnectionsRequest)
-    - [ListE2NodeConnectionsResponse](#onos.e2t.admin.ListE2NodeConnectionsResponse)
-    - [ListRegisteredServiceModelsRequest](#onos.e2t.admin.ListRegisteredServiceModelsRequest)
-    - [ListRegisteredServiceModelsResponse](#onos.e2t.admin.ListRegisteredServiceModelsResponse)
-    - [RANFunction](#onos.e2t.admin.RANFunction)
-    - [UploadRegisterServiceModelRequest](#onos.e2t.admin.UploadRegisterServiceModelRequest)
-    - [UploadRegisterServiceModelResponse](#onos.e2t.admin.UploadRegisterServiceModelResponse)
+- [onos/e2t/admin/admin.proto](#onos_e2t_admin_admin-proto)
+    - [DropE2NodeConnectionsRequest](#onos-e2t-admin-DropE2NodeConnectionsRequest)
+    - [DropE2NodeConnectionsResponse](#onos-e2t-admin-DropE2NodeConnectionsResponse)
+    - [ListE2NodeConnectionsRequest](#onos-e2t-admin-ListE2NodeConnectionsRequest)
+    - [ListE2NodeConnectionsResponse](#onos-e2t-admin-ListE2NodeConnectionsResponse)
+    - [ListRegisteredServiceModelsRequest](#onos-e2t-admin-ListRegisteredServiceModelsRequest)
+    - [ListRegisteredServiceModelsResponse](#onos-e2t-admin-ListRegisteredServiceModelsResponse)
+    - [RANFunction](#onos-e2t-admin-RANFunction)
+    - [UploadRegisterServiceModelRequest](#onos-e2t-admin-UploadRegisterServiceModelRequest)
+    - [UploadRegisterServiceModelResponse](#onos-e2t-admin-UploadRegisterServiceModelResponse)
   
-    - [E2NodeConnectionType](#onos.e2t.admin.E2NodeConnectionType)
+    - [E2NodeConnectionType](#onos-e2t-admin-E2NodeConnectionType)
   
-    - [E2TAdminService](#onos.e2t.admin.E2TAdminService)
+    - [E2TAdminService](#onos-e2t-admin-E2TAdminService)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos/e2t/admin/admin.proto"></a>
+<a name="onos_e2t_admin_admin-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## onos/e2t/admin/admin.proto
 
 
 
-<a name="onos.e2t.admin.DropE2NodeConnectionsRequest"></a>
+<a name="onos-e2t-admin-DropE2NodeConnectionsRequest"></a>
 
 ### DropE2NodeConnectionsRequest
 DropE2NodeConnectionsRequest carries drop connection request
@@ -37,14 +37,14 @@ DropE2NodeConnectionsRequest carries drop connection request
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| connections | [ListE2NodeConnectionsResponse](#onos.e2t.admin.ListE2NodeConnectionsResponse) | repeated |  |
+| connections | [ListE2NodeConnectionsResponse](#onos-e2t-admin-ListE2NodeConnectionsResponse) | repeated |  |
 
 
 
 
 
 
-<a name="onos.e2t.admin.DropE2NodeConnectionsResponse"></a>
+<a name="onos-e2t-admin-DropE2NodeConnectionsResponse"></a>
 
 ### DropE2NodeConnectionsResponse
 DropE2NodeConnectionsResponse carries drop connection response
@@ -59,7 +59,7 @@ DropE2NodeConnectionsResponse carries drop connection response
 
 
 
-<a name="onos.e2t.admin.ListE2NodeConnectionsRequest"></a>
+<a name="onos-e2t-admin-ListE2NodeConnectionsRequest"></a>
 
 ### ListE2NodeConnectionsRequest
 ListE2NodeConnectionsRequest carries request for a list of E2 node SCTP connections.
@@ -69,7 +69,7 @@ ListE2NodeConnectionsRequest carries request for a list of E2 node SCTP connecti
 
 
 
-<a name="onos.e2t.admin.ListE2NodeConnectionsResponse"></a>
+<a name="onos-e2t-admin-ListE2NodeConnectionsResponse"></a>
 
 ### ListE2NodeConnectionsResponse
 ListE2NodeConnectionsResponse carries information about the SCTP connection to the remote E2 node.
@@ -82,8 +82,8 @@ ListE2NodeConnectionsResponse carries information about the SCTP connection to t
 | remote_port | [uint32](#uint32) |  |  |
 | node_id | [string](#string) |  |  |
 | plmn_id | [string](#string) |  |  |
-| connection_type | [E2NodeConnectionType](#onos.e2t.admin.E2NodeConnectionType) |  |  |
-| ran_functions | [RANFunction](#onos.e2t.admin.RANFunction) | repeated |  |
+| connection_type | [E2NodeConnectionType](#onos-e2t-admin-E2NodeConnectionType) |  |  |
+| ran_functions | [RANFunction](#onos-e2t-admin-RANFunction) | repeated |  |
 | age_ms | [int32](#int32) |  |  |
 
 
@@ -91,7 +91,7 @@ ListE2NodeConnectionsResponse carries information about the SCTP connection to t
 
 
 
-<a name="onos.e2t.admin.ListRegisteredServiceModelsRequest"></a>
+<a name="onos-e2t-admin-ListRegisteredServiceModelsRequest"></a>
 
 ### ListRegisteredServiceModelsRequest
 ListRegisteredServiceModelsRequest carries data for querying registered service model plugins.
@@ -107,7 +107,7 @@ ListRegisteredServiceModelsRequest carries data for querying registered service 
 
 
 
-<a name="onos.e2t.admin.ListRegisteredServiceModelsResponse"></a>
+<a name="onos-e2t-admin-ListRegisteredServiceModelsResponse"></a>
 
 ### ListRegisteredServiceModelsResponse
 ListRegisteredServiceModelsResponse is general information about a service model plugin.
@@ -123,7 +123,7 @@ ListRegisteredServiceModelsResponse is general information about a service model
 
 
 
-<a name="onos.e2t.admin.RANFunction"></a>
+<a name="onos-e2t-admin-RANFunction"></a>
 
 ### RANFunction
 
@@ -140,7 +140,7 @@ ListRegisteredServiceModelsResponse is general information about a service model
 
 
 
-<a name="onos.e2t.admin.UploadRegisterServiceModelRequest"></a>
+<a name="onos-e2t-admin-UploadRegisterServiceModelRequest"></a>
 
 ### UploadRegisterServiceModelRequest
 UploadRegisterServiceModelRequest is for streaming a model plugin file to the server.
@@ -158,7 +158,7 @@ so break in to chunks of approx 1-2MB.
 
 
 
-<a name="onos.e2t.admin.UploadRegisterServiceModelResponse"></a>
+<a name="onos-e2t-admin-UploadRegisterServiceModelResponse"></a>
 
 ### UploadRegisterServiceModelResponse
 UploadRegisterServiceModelResponse carries status of model plugin registration.
@@ -176,7 +176,7 @@ UploadRegisterServiceModelResponse carries status of model plugin registration.
  
 
 
-<a name="onos.e2t.admin.E2NodeConnectionType"></a>
+<a name="onos-e2t-admin-E2NodeConnectionType"></a>
 
 ### E2NodeConnectionType
 E2NodeConnectionType specifies the type of an E2 connection
@@ -195,17 +195,17 @@ E2NodeConnectionType specifies the type of an E2 connection
  
 
 
-<a name="onos.e2t.admin.E2TAdminService"></a>
+<a name="onos-e2t-admin-E2TAdminService"></a>
 
 ### E2TAdminService
 E2TAdminService provides means for enhanced interactions with the ONOS RIC E2 Termination service.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| UploadRegisterServiceModel | [UploadRegisterServiceModelRequest](#onos.e2t.admin.UploadRegisterServiceModelRequest) stream | [UploadRegisterServiceModelResponse](#onos.e2t.admin.UploadRegisterServiceModelResponse) | UploadRegisterServiceModel uploads and adds the model plugin to the list of supported models. The file is serialized in to Chunks of less than 4MB so as not to break the gRPC byte array limit |
-| ListRegisteredServiceModels | [ListRegisteredServiceModelsRequest](#onos.e2t.admin.ListRegisteredServiceModelsRequest) | [ListRegisteredServiceModelsResponse](#onos.e2t.admin.ListRegisteredServiceModelsResponse) stream | ListRegisteredServiceModels returns a stream of registered service models. |
-| ListE2NodeConnections | [ListE2NodeConnectionsRequest](#onos.e2t.admin.ListE2NodeConnectionsRequest) | [ListE2NodeConnectionsResponse](#onos.e2t.admin.ListE2NodeConnectionsResponse) stream | ListE2NodeConnections returns a stream of existing SCTP connections. |
-| DropE2NodeConnections | [DropE2NodeConnectionsRequest](#onos.e2t.admin.DropE2NodeConnectionsRequest) | [DropE2NodeConnectionsResponse](#onos.e2t.admin.DropE2NodeConnectionsResponse) | DropE2NodeConnections drops the specified E2 node SCTP connections |
+| UploadRegisterServiceModel | [UploadRegisterServiceModelRequest](#onos-e2t-admin-UploadRegisterServiceModelRequest) stream | [UploadRegisterServiceModelResponse](#onos-e2t-admin-UploadRegisterServiceModelResponse) | UploadRegisterServiceModel uploads and adds the model plugin to the list of supported models. The file is serialized in to Chunks of less than 4MB so as not to break the gRPC byte array limit |
+| ListRegisteredServiceModels | [ListRegisteredServiceModelsRequest](#onos-e2t-admin-ListRegisteredServiceModelsRequest) | [ListRegisteredServiceModelsResponse](#onos-e2t-admin-ListRegisteredServiceModelsResponse) stream | ListRegisteredServiceModels returns a stream of registered service models. |
+| ListE2NodeConnections | [ListE2NodeConnectionsRequest](#onos-e2t-admin-ListE2NodeConnectionsRequest) | [ListE2NodeConnectionsResponse](#onos-e2t-admin-ListE2NodeConnectionsResponse) stream | ListE2NodeConnections returns a stream of existing SCTP connections. |
+| DropE2NodeConnections | [DropE2NodeConnectionsRequest](#onos-e2t-admin-DropE2NodeConnectionsRequest) | [DropE2NodeConnectionsResponse](#onos-e2t-admin-DropE2NodeConnectionsResponse) | DropE2NodeConnections drops the specified E2 node SCTP connections |
 
  
 

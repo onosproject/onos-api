@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from typing import AsyncIterator, Dict, List
 
 import betterproto
-from betterproto.grpc.grpclib_server import ServiceBase
 import grpclib
 
 
@@ -29,8 +28,6 @@ class RsmSliceType(betterproto.Enum):
 
 
 class EventType(betterproto.Enum):
-    """EventType is a UE operation event type"""
-
     NONE = 0
     ADDED = 1
     UPDATED = 2
@@ -44,6 +41,9 @@ class CellConnection(betterproto.Message):
     id: str = betterproto.string_field(1)
     signal_strength: float = betterproto.double_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class CellInfo(betterproto.Message):
@@ -52,30 +52,48 @@ class CellInfo(betterproto.Message):
     serving_cell: "CellConnection" = betterproto.message_field(1)
     candidate_cells: List["CellConnection"] = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DuUeF1ApId(betterproto.Message):
     value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CuUeF1ApId(betterproto.Message):
     value: int = betterproto.int64_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RanUeNgapId(betterproto.Message):
     value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class EnbUeS1ApId(betterproto.Message):
     value: int = betterproto.int32_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class AmfUeNgapId(betterproto.Message):
     value: int = betterproto.int64_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -87,16 +105,25 @@ class UeIdentity(betterproto.Message):
     amf_ue_ngap_id: "AmfUeNgapId" = betterproto.message_field(5)
     preferred_id_type: "UeIdType" = betterproto.enum_field(6)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class BearerId(betterproto.Message):
     drb_id: "DrbId" = betterproto.message_field(1, group="bearer_id")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class DrbId(betterproto.Message):
     four_gdrb_id: "FourGDrbId" = betterproto.message_field(1, group="drb_id")
     five_gdrb_id: "FiveGDrbId" = betterproto.message_field(2, group="drb_id")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -105,10 +132,16 @@ class FiveGDrbId(betterproto.Message):
     qfi: "Qfi" = betterproto.message_field(2)
     flows_map_to_drb: List["QoSflowLevelParameters"] = betterproto.message_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Qfi(betterproto.Message):
     value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -120,6 +153,9 @@ class QoSflowLevelParameters(betterproto.Message):
         2, group="qos_flow_level_parameters"
     )
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DynamicFiveQi(betterproto.Message):
@@ -127,15 +163,24 @@ class DynamicFiveQi(betterproto.Message):
     packet_delay_budge: int = betterproto.int32_field(2)
     packet_error_rate: int = betterproto.int32_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class NonDynamicFiveQi(betterproto.Message):
     five_qi: "FiveQi" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class FiveQi(betterproto.Message):
     value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -143,10 +188,16 @@ class FourGDrbId(betterproto.Message):
     value: int = betterproto.int32_field(1)
     qci: "Qci" = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Qci(betterproto.Message):
     value: int = betterproto.int32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -159,6 +210,9 @@ class RsmUeInfo(betterproto.Message):
     du_e2_node_id: str = betterproto.string_field(6)
     slice_list: List["SliceInfo"] = betterproto.message_field(7)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class SliceInfo(betterproto.Message):
@@ -170,6 +224,9 @@ class SliceInfo(betterproto.Message):
     slice_type: "RsmSliceType" = betterproto.enum_field(6)
     drb_id: "DrbId" = betterproto.message_field(7)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class RsmSliceParameters(betterproto.Message):
@@ -177,23 +234,37 @@ class RsmSliceParameters(betterproto.Message):
     weight: int = betterproto.int32_field(2)
     qos_level: int = betterproto.int32_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Event(betterproto.Message):
-    """Event is a record of an operation on a UE"""
+    """CellConnection represents UE cell connection."""
 
     type: "EventType" = betterproto.enum_field(1)
     ue: "Ue" = betterproto.message_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class CreateUeRequest(betterproto.Message):
+    """CellInfo provides data on serving cell and candidate cells."""
+
     ue: "Ue" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class CreateUeResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -201,20 +272,32 @@ class GetUeRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
     aspect_types: List[str] = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class GetUeResponse(betterproto.Message):
     ue: "Ue" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class UpdateUeRequest(betterproto.Message):
     ue: "Ue" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class UpdateUeResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -222,20 +305,32 @@ class DeleteUeRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
     aspect_types: List[str] = betterproto.string_field(2)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class DeleteUeResponse(betterproto.Message):
     pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
 class ListUeRequest(betterproto.Message):
     aspect_types: List[str] = betterproto.string_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class ListUeResponse(betterproto.Message):
     ue: "Ue" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -243,21 +338,27 @@ class WatchUeRequest(betterproto.Message):
     noreplay: bool = betterproto.bool_field(2)
     aspect_types: List[str] = betterproto.string_field(3)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class WatchUeResponse(betterproto.Message):
     event: "Event" = betterproto.message_field(1)
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
 
 @dataclass(eq=False, repr=False)
 class Ue(betterproto.Message):
-    """UE entity is merely an ID and a map of arbitrary aspects."""
-
     id: str = betterproto.string_field(1)
-    # Map of aspects as typed values
     aspects: Dict[str, "betterproto_lib_google_protobuf.Any"] = betterproto.map_field(
         2, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
     )
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
 
 
 class UeServiceStub(betterproto.ServiceStub):
@@ -314,120 +415,6 @@ class UeServiceStub(betterproto.ServiceStub):
             WatchUeResponse,
         ):
             yield response
-
-
-class UeServiceBase(ServiceBase):
-    async def create_ue(self) -> "CreateUeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def get_ue(self) -> "GetUeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def update_ue(self) -> "UpdateUeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def delete_ue(self) -> "DeleteUeResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def list_u_es(self) -> AsyncIterator["ListUeResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def watch_u_es(self) -> AsyncIterator["WatchUeResponse"]:
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def __rpc_create_ue(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.create_ue(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_get_ue(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.get_ue(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_update_ue(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.update_ue(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_delete_ue(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.delete_ue(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_list_u_es(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.list_u_es,
-            stream,
-            request_kwargs,
-        )
-
-    async def __rpc_watch_u_es(self, stream: grpclib.server.Stream) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        await self._call_rpc_handler_server_stream(
-            self.watch_u_es,
-            stream,
-            request_kwargs,
-        )
-
-    def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
-        return {
-            "/onos.uenib.UEService/CreateUE": grpclib.const.Handler(
-                self.__rpc_create_ue,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                CreateUeRequest,
-                CreateUeResponse,
-            ),
-            "/onos.uenib.UEService/GetUE": grpclib.const.Handler(
-                self.__rpc_get_ue,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                GetUeRequest,
-                GetUeResponse,
-            ),
-            "/onos.uenib.UEService/UpdateUE": grpclib.const.Handler(
-                self.__rpc_update_ue,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                UpdateUeRequest,
-                UpdateUeResponse,
-            ),
-            "/onos.uenib.UEService/DeleteUE": grpclib.const.Handler(
-                self.__rpc_delete_ue,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                DeleteUeRequest,
-                DeleteUeResponse,
-            ),
-            "/onos.uenib.UEService/ListUEs": grpclib.const.Handler(
-                self.__rpc_list_u_es,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                ListUeRequest,
-                ListUeResponse,
-            ),
-            "/onos.uenib.UEService/WatchUEs": grpclib.const.Handler(
-                self.__rpc_watch_u_es,
-                grpclib.const.Cardinality.UNARY_STREAM,
-                WatchUeRequest,
-                WatchUeResponse,
-            ),
-        }
 
 
 import betterproto.lib.google.protobuf as betterproto_lib_google_protobuf
