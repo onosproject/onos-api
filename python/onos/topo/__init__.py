@@ -687,6 +687,20 @@ class RcPolicyStyle(betterproto.Message):
 class RcControlStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
+    header_format_type: int = betterproto.int32_field(3)
+    message_format_type: int = betterproto.int32_field(4)
+    control_outcome_format_type: int = betterproto.int32_field(5)
+    control_actions: List["ControlAction"] = betterproto.message_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControlAction(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+    ran_parameters: List["RanParameter"] = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

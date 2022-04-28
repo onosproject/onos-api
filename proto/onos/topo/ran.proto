@@ -290,6 +290,16 @@ message RCPolicyStyle {
 message RCControlStyle {
     string name = 1;
     int32 type = 2;
+    int32 header_format_type = 3;
+    int32 message_format_type = 4;
+    int32 control_outcome_format_type = 5;
+    repeated ControlAction control_actions = 6;
+}
+
+message ControlAction {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
+    repeated RANParameter ran_parameters = 3;
 }
 
 message InsertIndication {
