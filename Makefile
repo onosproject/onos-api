@@ -40,7 +40,7 @@ linters-go: golang-ci # @HELP examines Go source code and reports coding problem
 	cd go && golangci-lint run --timeout 15m
 
 twine: # @HELP install twine if not present
-	twine --version || pip install twine
+	python3 -m twine --version || pip3 install twine
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
