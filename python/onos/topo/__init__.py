@@ -606,6 +606,10 @@ class ServiceModelInfo(betterproto.Message):
 class RcRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["RcReportStyle"] = betterproto.message_field(2)
+    insert_styles: List["RcInsertStyle"] = betterproto.message_field(3)
+    event_trigger_styles: List["RcEventTriggerStyle"] = betterproto.message_field(4)
+    policy_styles: List["RcPolicyStyle"] = betterproto.message_field(5)
+    control_styles: List["RcControlStyle"] = betterproto.message_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -635,6 +639,115 @@ class RsmRanFunction(betterproto.Message):
     ric_slicing_node_capability_list: List[
         "RsmNodeSlicingCapabilityItem"
     ] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcEventTriggerStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    format_type: int = betterproto.int32_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    ran_parameters: List["RanParameter"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcInsertStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    insert_indications: List["InsertIndication"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcPolicyStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RcControlStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    header_format_type: int = betterproto.int32_field(3)
+    message_format_type: int = betterproto.int32_field(4)
+    control_outcome_format_type: int = betterproto.int32_field(5)
+    control_actions: List["ControlAction"] = betterproto.message_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControlAction(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+    ran_parameters: List["RanParameter"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class InsertIndication(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+    ran_parameters: List["RanParameter"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RanParameter(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class KpmReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    measurements: List["KpmMeasurement"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class MhoReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class KpmMeasurement(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -824,43 +937,6 @@ class FourGDrbId(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class Qci(betterproto.Message):
     value: int = betterproto.int32_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class RcReportStyle(betterproto.Message):
-    name: str = betterproto.string_field(1)
-    type: int = betterproto.int32_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class KpmReportStyle(betterproto.Message):
-    name: str = betterproto.string_field(1)
-    type: int = betterproto.int32_field(2)
-    measurements: List["KpmMeasurement"] = betterproto.message_field(3)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class MhoReportStyle(betterproto.Message):
-    name: str = betterproto.string_field(1)
-    type: int = betterproto.int32_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class KpmMeasurement(betterproto.Message):
-    id: str = betterproto.string_field(1)
-    name: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
