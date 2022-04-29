@@ -39,9 +39,6 @@ deps-go: # @HELP ensure that the required dependencies are in place
 linters-go: golang-ci # @HELP examines Go source code and reports coding problems
 	cd go && golangci-lint run --timeout 15m
 
-twine: # @HELP install twine if not present
-	python3 -m twine --version || python3 -m pip install --upgrade pip && pip3 install twine
-
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
 		-w /go/src/github.com/onosproject/onos-api \
