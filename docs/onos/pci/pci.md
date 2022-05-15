@@ -169,7 +169,7 @@ returns all the resolved conflicts in the store
 | ----- | ---- | ----- | ----------- |
 | id | [uint64](#uint64) |  |  |
 | node_id | [string](#string) |  |  |
-| dlearfcn | [uint32](#uint32) |  |  |
+| arfcn | [uint32](#uint32) |  |  |
 | cell_type | [CellType](#onos-pci-CellType) |  |  |
 | pci | [uint32](#uint32) |  |  |
 | pci_pool | [PciRange](#onos-pci-PciRange) | repeated |  |
