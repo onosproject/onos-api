@@ -220,7 +220,7 @@ message E2Cell {
     string cell_object_id = 1 [(gogoproto.customname) = "CellObjectID"];
     CellGlobalID cell_global_id = 2 [(gogoproto.customname) = "CellGlobalID"];
     uint32 antenna_count = 3;
-    uint32 earfcn = 4 [(gogoproto.customname) = "EARFCN"];
+    uint32 arfcn = 4 [(gogoproto.customname) = "ARFCN"];
     string cell_type = 5;
     uint32 pci = 6  [(gogoproto.customname) = "PCI"];
     map<string, uint32> kpi_reports = 7 [(gogoproto.customname) = "KpiReports"];
