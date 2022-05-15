@@ -577,7 +577,7 @@ class E2Cell(betterproto.Message):
     cell_object_id: str = betterproto.string_field(1)
     cell_global_id: "CellGlobalId" = betterproto.message_field(2)
     antenna_count: int = betterproto.uint32_field(3)
-    earfcn: int = betterproto.uint32_field(4)
+    arfcn: int = betterproto.uint32_field(4)
     cell_type: str = betterproto.string_field(5)
     pci: int = betterproto.uint32_field(6)
     kpi_reports: Dict[str, int] = betterproto.map_field(
