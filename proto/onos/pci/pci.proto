@@ -23,7 +23,6 @@ message GetConflictsResponse {
   repeated PciCell cells = 1;
 }
 
-
 message GetResolvedConflictsRequest {
 }
 
@@ -58,7 +57,7 @@ message GetCellsResponse {
 message PciCell {
   uint64 id = 1; 
   string node_id = 2;
-  uint32 dlearfcn = 3;
+  uint32 arfcn = 3;
   CellType cell_type = 4;
   uint32 pci = 5;
   repeated PciRange pci_pool = 6;

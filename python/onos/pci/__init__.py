@@ -100,7 +100,7 @@ class GetCellsResponse(betterproto.Message):
 class PciCell(betterproto.Message):
     id: int = betterproto.uint64_field(1)
     node_id: str = betterproto.string_field(2)
-    dlearfcn: int = betterproto.uint32_field(3)
+    arfcn: int = betterproto.uint32_field(3)
     cell_type: "CellType" = betterproto.enum_field(4)
     pci: int = betterproto.uint32_field(5)
     pci_pool: List["PciRange"] = betterproto.message_field(6)
