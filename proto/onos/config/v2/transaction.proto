@@ -192,14 +192,13 @@ message TransactionEvent {
     Transaction transaction = 2 [(gogoproto.nullable) = false];
 }
 
-// TargetVersionOverrides carries a list of model version overrides
+// TargetVersionOverrides carries optional mappings of targets to their model type and version overrides.
 message TargetVersionOverrides {
-    repeated TargetVersionOverride overrides = 1;
+    map<string, TargetTypeVersion> overrides = 1;
 }
 
-// TargetVersionOverride carries a single target model version override
-message TargetVersionOverride {
-    string target_id = 1 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
-    string target_type = 2;
-    string target_version = 3;
+// TargetTypeVersion carries target type and version
+message TargetTypeVersion {
+    string type = 2;
+    string version = 3;
 }

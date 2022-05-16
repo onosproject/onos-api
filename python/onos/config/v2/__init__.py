@@ -374,17 +374,18 @@ class TransactionEvent(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class TargetVersionOverrides(betterproto.Message):
-    overrides: List["TargetVersionOverride"] = betterproto.message_field(1)
+    overrides: Dict[str, "TargetTypeVersion"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class TargetVersionOverride(betterproto.Message):
-    target_id: str = betterproto.string_field(1)
-    target_type: str = betterproto.string_field(2)
-    target_version: str = betterproto.string_field(3)
+class TargetTypeVersion(betterproto.Message):
+    type: str = betterproto.string_field(2)
+    version: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

@@ -7,8 +7,9 @@
     - [ChangeTransaction](#onos-config-v2-ChangeTransaction)
     - [ChangeTransaction.ValuesEntry](#onos-config-v2-ChangeTransaction-ValuesEntry)
     - [RollbackTransaction](#onos-config-v2-RollbackTransaction)
-    - [TargetVersionOverride](#onos-config-v2-TargetVersionOverride)
+    - [TargetTypeVersion](#onos-config-v2-TargetTypeVersion)
     - [TargetVersionOverrides](#onos-config-v2-TargetVersionOverrides)
+    - [TargetVersionOverrides.OverridesEntry](#onos-config-v2-TargetVersionOverrides-OverridesEntry)
     - [Transaction](#onos-config-v2-Transaction)
     - [TransactionAbortPhase](#onos-config-v2-TransactionAbortPhase)
     - [TransactionApplyPhase](#onos-config-v2-TransactionApplyPhase)
@@ -89,17 +90,16 @@
 
 
 
-<a name="onos-config-v2-TargetVersionOverride"></a>
+<a name="onos-config-v2-TargetTypeVersion"></a>
 
-### TargetVersionOverride
-TargetVersionOverride carries a single target model version override
+### TargetTypeVersion
+TargetTypeVersion carries target type and version
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| target_id | [string](#string) |  |  |
-| target_type | [string](#string) |  |  |
-| target_version | [string](#string) |  |  |
+| type | [string](#string) |  |  |
+| version | [string](#string) |  |  |
 
 
 
@@ -109,12 +109,28 @@ TargetVersionOverride carries a single target model version override
 <a name="onos-config-v2-TargetVersionOverrides"></a>
 
 ### TargetVersionOverrides
-TargetVersionOverrides carries a list of model version overrides
+TargetVersionOverrides carries optional mappings of targets to their model type and version overrides.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| overrides | [TargetVersionOverride](#onos-config-v2-TargetVersionOverride) | repeated |  |
+| overrides | [TargetVersionOverrides.OverridesEntry](#onos-config-v2-TargetVersionOverrides-OverridesEntry) | repeated |  |
+
+
+
+
+
+
+<a name="onos-config-v2-TargetVersionOverrides-OverridesEntry"></a>
+
+### TargetVersionOverrides.OverridesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [TargetTypeVersion](#onos-config-v2-TargetTypeVersion) |  |  |
 
 
 
