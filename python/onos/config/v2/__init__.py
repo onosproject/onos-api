@@ -384,8 +384,8 @@ class TargetVersionOverrides(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class TargetTypeVersion(betterproto.Message):
-    type: str = betterproto.string_field(2)
-    version: str = betterproto.string_field(3)
+    type: str = betterproto.string_field(1)
+    version: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

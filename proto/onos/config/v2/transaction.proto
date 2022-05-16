@@ -199,6 +199,6 @@ message TargetVersionOverrides {
 
 // TargetTypeVersion carries target type and version
 message TargetTypeVersion {
-    string type = 2;
-    string version = 3;
+    string type = 1;
+    string version = 2;
 }
