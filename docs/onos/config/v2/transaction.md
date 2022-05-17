@@ -7,6 +7,9 @@
     - [ChangeTransaction](#onos-config-v2-ChangeTransaction)
     - [ChangeTransaction.ValuesEntry](#onos-config-v2-ChangeTransaction-ValuesEntry)
     - [RollbackTransaction](#onos-config-v2-RollbackTransaction)
+    - [TargetTypeVersion](#onos-config-v2-TargetTypeVersion)
+    - [TargetVersionOverrides](#onos-config-v2-TargetVersionOverrides)
+    - [TargetVersionOverrides.OverridesEntry](#onos-config-v2-TargetVersionOverrides-OverridesEntry)
     - [Transaction](#onos-config-v2-Transaction)
     - [TransactionAbortPhase](#onos-config-v2-TransactionAbortPhase)
     - [TransactionApplyPhase](#onos-config-v2-TransactionApplyPhase)
@@ -81,6 +84,53 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | rollback_index | [uint64](#uint64) |  | &#39;rollback_index&#39; is the index of the transaction to roll back |
+
+
+
+
+
+
+<a name="onos-config-v2-TargetTypeVersion"></a>
+
+### TargetTypeVersion
+TargetTypeVersion carries target type and version
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [string](#string) |  |  |
+| version | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos-config-v2-TargetVersionOverrides"></a>
+
+### TargetVersionOverrides
+TargetVersionOverrides carries optional mappings of targets to their model type and version overrides.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| overrides | [TargetVersionOverrides.OverridesEntry](#onos-config-v2-TargetVersionOverrides-OverridesEntry) | repeated |  |
+
+
+
+
+
+
+<a name="onos-config-v2-TargetVersionOverrides-OverridesEntry"></a>
+
+### TargetVersionOverrides.OverridesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [TargetTypeVersion](#onos-config-v2-TargetTypeVersion) |  |  |
 
 
 

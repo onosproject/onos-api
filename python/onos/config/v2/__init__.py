@@ -373,6 +373,25 @@ class TransactionEvent(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class TargetVersionOverrides(betterproto.Message):
+    overrides: Dict[str, "TargetTypeVersion"] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_MESSAGE
+    )
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class TargetTypeVersion(betterproto.Message):
+    type: str = betterproto.string_field(1)
+    version: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Configuration(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
 

@@ -9,6 +9,7 @@ import "github.com/openconfig/gnmi/proto/gnmi_ext"
 type ExtensionID = gnmi_ext.ExtensionID
 
 const (
-	TransactionInfoExtensionID ExtensionID = 110
+	TransactionInfoExtensionID     ExtensionID = 110
 	TransactionStrategyExtensionID ExtensionID = 111
+	TargetVersionOverridesID       ExtensionID = 112
 )

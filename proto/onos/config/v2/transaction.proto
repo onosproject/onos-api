@@ -191,3 +191,14 @@ message TransactionEvent {
     EventType type = 1;
     Transaction transaction = 2 [(gogoproto.nullable) = false];
 }
+
+// TargetVersionOverrides carries optional mappings of targets to their model type and version overrides.
+message TargetVersionOverrides {
+    map<string, TargetTypeVersion> overrides = 1;
+}
+
+// TargetTypeVersion carries target type and version
+message TargetTypeVersion {
+    string type = 1;
+    string version = 2;
+}
