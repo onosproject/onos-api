@@ -213,8 +213,8 @@ class TargetTypeVersion(betterproto.Message):
     """PathValues is a set of path/value pairs"""
 
     # 'values' is a set of change values to apply
-    type: str = betterproto.string_field(1)
-    version: str = betterproto.string_field(2)
+    target_type: str = betterproto.string_field(1)
+    target_version: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
