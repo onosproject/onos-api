@@ -90,6 +90,7 @@ Configuration represents complete desired target configuration
 | values | [Configuration.ValuesEntry](#onos-config-v2-Configuration-ValuesEntry) | repeated | &#39;values&#39; is a map of path/values to set |
 | index | [uint64](#uint64) |  | &#39;index&#39; is the index of the configuration values |
 | status | [ConfigurationStatus](#onos-config-v2-ConfigurationStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
+| target_info | [TargetTypeVersion](#onos-config-v2-TargetTypeVersion) |  |  |
 
 
 

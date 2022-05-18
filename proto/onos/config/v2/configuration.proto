@@ -28,6 +28,8 @@ message Configuration {
 
     // 'ConfigurationStatus' is the current lifecycle status of the configuration
     ConfigurationStatus status = 6 [(gogoproto.nullable) = false];
+
+    TargetTypeVersion target_info = 7 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
 }
 
 // ConfigurationStatus is the status of a Configuration

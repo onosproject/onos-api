@@ -46,6 +46,9 @@ message Transaction {
 
     // 'status' is the current lifecycle status of the transaction
     TransactionStatus status = 8 [(gogoproto.nullable) = false];
+
+    // Optional target type/version overrides.
+    TargetVersionOverrides version_overrides = 9 [(gogoproto.embed) = true];
 }
 
 message TransactionStrategy {
@@ -195,10 +198,4 @@ message TransactionEvent {
 // TargetVersionOverrides carries optional mappings of targets to their model type and version overrides.
 message TargetVersionOverrides {
     map<string, TargetTypeVersion> overrides = 1;
-}
-
-// TargetTypeVersion carries target type and version
-message TargetTypeVersion {
-    string type = 1;
-    string version = 2;
 }
