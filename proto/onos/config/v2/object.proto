@@ -17,3 +17,10 @@ message ObjectMeta {
     google.protobuf.Timestamp updated = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
     google.protobuf.Timestamp deleted = 6 [(gogoproto.stdtime) = true];
 }
+
+
+// TargetTypeVersion carries target type and version
+message TargetTypeVersion {
+    string type = 1;
+    string version = 2;
+}

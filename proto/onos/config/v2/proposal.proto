@@ -32,6 +32,8 @@ message Proposal {
 
     // 'status' is the current lifecycle status of the proposal
     ProposalStatus status = 7 [(gogoproto.nullable) = false];
+
+    TargetTypeVersion target_info = 8;
 }
 
 message ChangeProposal {

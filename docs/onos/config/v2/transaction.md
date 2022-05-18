@@ -7,7 +7,6 @@
     - [ChangeTransaction](#onos-config-v2-ChangeTransaction)
     - [ChangeTransaction.ValuesEntry](#onos-config-v2-ChangeTransaction-ValuesEntry)
     - [RollbackTransaction](#onos-config-v2-RollbackTransaction)
-    - [TargetTypeVersion](#onos-config-v2-TargetTypeVersion)
     - [TargetVersionOverrides](#onos-config-v2-TargetVersionOverrides)
     - [TargetVersionOverrides.OverridesEntry](#onos-config-v2-TargetVersionOverrides-OverridesEntry)
     - [Transaction](#onos-config-v2-Transaction)
@@ -90,22 +89,6 @@
 
 
 
-<a name="onos-config-v2-TargetTypeVersion"></a>
-
-### TargetTypeVersion
-TargetTypeVersion carries target type and version
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| type | [string](#string) |  |  |
-| version | [string](#string) |  |  |
-
-
-
-
-
-
 <a name="onos-config-v2-TargetVersionOverrides"></a>
 
 ### TargetVersionOverrides
@@ -153,6 +136,7 @@ Transaction refers to a transaction change or transaction rollback
 | change | [ChangeTransaction](#onos-config-v2-ChangeTransaction) |  |  |
 | rollback | [RollbackTransaction](#onos-config-v2-RollbackTransaction) |  |  |
 | status | [TransactionStatus](#onos-config-v2-TransactionStatus) |  | &#39;status&#39; is the current lifecycle status of the transaction |
+| version_overrides | [TargetVersionOverrides](#onos-config-v2-TargetVersionOverrides) |  | Optional target type/version overrides. |
 
 
 

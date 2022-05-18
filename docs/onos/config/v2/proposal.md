@@ -83,6 +83,7 @@
 | change | [ChangeProposal](#onos-config-v2-ChangeProposal) |  |  |
 | rollback | [RollbackProposal](#onos-config-v2-RollbackProposal) |  |  |
 | status | [ProposalStatus](#onos-config-v2-ProposalStatus) |  | &#39;status&#39; is the current lifecycle status of the proposal |
+| target_info | [TargetTypeVersion](#onos-config-v2-TargetTypeVersion) |  |  |
 
 
 

@@ -209,6 +209,18 @@ class ObjectMeta(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class TargetTypeVersion(betterproto.Message):
+    """PathValues is a set of path/value pairs"""
+
+    # 'values' is a set of change values to apply
+    type: str = betterproto.string_field(1)
+    version: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Failure(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
 
@@ -247,6 +259,7 @@ class Transaction(betterproto.Message):
     change: "ChangeTransaction" = betterproto.message_field(6, group="details")
     rollback: "RollbackTransaction" = betterproto.message_field(7, group="details")
     status: "TransactionStatus" = betterproto.message_field(8)
+    version_overrides: "TargetVersionOverrides" = betterproto.message_field(9)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -383,15 +396,6 @@ class TargetVersionOverrides(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class TargetTypeVersion(betterproto.Message):
-    type: str = betterproto.string_field(1)
-    version: str = betterproto.string_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
 class Configuration(betterproto.Message):
     """TypedValue is a value represented as a byte array"""
 
@@ -406,6 +410,7 @@ class Configuration(betterproto.Message):
     )
     index: int = betterproto.uint64_field(5)
     status: "ConfigurationStatus" = betterproto.message_field(6)
+    target_info: "TargetTypeVersion" = betterproto.message_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -489,6 +494,7 @@ class Proposal(betterproto.Message):
     change: "ChangeProposal" = betterproto.message_field(5, group="details")
     rollback: "RollbackProposal" = betterproto.message_field(6, group="details")
     status: "ProposalStatus" = betterproto.message_field(7)
+    target_info: "TargetTypeVersion" = betterproto.message_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
