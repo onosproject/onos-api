@@ -273,6 +273,7 @@ class Configurable(betterproto.Message):
     version: str = betterproto.string_field(4)
     timeout: timedelta = betterproto.message_field(5)
     persistent: bool = betterproto.bool_field(6)
+    validate_capabilities: bool = betterproto.bool_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
