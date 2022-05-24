@@ -29,6 +29,7 @@ message Configurable {
     string version = 4;
     google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
     bool persistent = 6;
+    bool validate_capabilities = 7;
 }
 
 // Aspect for tracking device mastership
