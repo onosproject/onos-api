@@ -157,6 +157,11 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/a1t/a1,plugins=grpc:./go \
     proto/onos/a1t/admin/*.proto
 
+# o1t
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/o1t,plugins=grpc:./go \
+    proto/onos/o1t/*.proto
+
 # onos-config v2 API
 
 protoc --proto_path=$proto_path \
