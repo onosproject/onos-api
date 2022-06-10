@@ -7,6 +7,7 @@
     - [Cell](#onos-ransim-types-Cell)
     - [Cell.CrntiMapEntry](#onos-ransim-types-Cell-CrntiMapEntry)
     - [EventA3Params](#onos-ransim-types-EventA3Params)
+    - [Guami](#onos-ransim-types-Guami)
     - [MapLayout](#onos-ransim-types-MapLayout)
     - [MeasurementParams](#onos-ransim-types-MeasurementParams)
     - [MeasurementParams.NcellIndividualOffsetsEntry](#onos-ransim-types-MeasurementParams-NcellIndividualOffsetsEntry)
@@ -15,6 +16,7 @@
     - [Route](#onos-ransim-types-Route)
     - [Sector](#onos-ransim-types-Sector)
     - [Ue](#onos-ransim-types-Ue)
+    - [UeIdentity](#onos-ransim-types-UeIdentity)
     - [UeMetrics](#onos-ransim-types-UeMetrics)
   
     - [CellType](#onos-ransim-types-CellType)
@@ -86,6 +88,24 @@
 | ----- | ---- | ----- | ----------- |
 | a3_offset | [int32](#int32) |  |  |
 | report_on_leave | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="onos-ransim-types-Guami"></a>
+
+### Guami
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| plmnid | [uint32](#uint32) |  | 24 bits (12 bits for MCC and 12 bits for MNC) |
+| amf_region_id | [uint32](#uint32) |  | 8 bits |
+| amf_set_id | [uint32](#uint32) |  | 10 bits |
+| amf_pointer | [uint32](#uint32) |  | 6 bits |
 
 
 
@@ -251,6 +271,23 @@
 | metrics | [UeMetrics](#onos-ransim-types-UeMetrics) |  |  |
 | rrc_state | [uint32](#uint32) |  |  |
 | five_qi | [int32](#int32) |  |  |
+| ueid | [UeIdentity](#onos-ransim-types-UeIdentity) |  |  |
+
+
+
+
+
+
+<a name="onos-ransim-types-UeIdentity"></a>
+
+### UeIdentity
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| guami | [Guami](#onos-ransim-types-Guami) |  |  |
+| amf_ue_ngap_id | [uint64](#uint64) |  |  |
 
 
 

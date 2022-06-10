@@ -68,6 +68,27 @@ class Ue(betterproto.Message):
     metrics: "UeMetrics" = betterproto.message_field(17)
     rrc_state: int = betterproto.uint32_field(18)
     five_qi: int = betterproto.int32_field(19)
+    ueid: "UeIdentity" = betterproto.message_field(20)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class UeIdentity(betterproto.Message):
+    guami: "Guami" = betterproto.message_field(1)
+    amf_ue_ngap_id: int = betterproto.uint64_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Guami(betterproto.Message):
+    plmnid: int = betterproto.uint32_field(1)
+    amf_region_id: int = betterproto.uint32_field(2)
+    amf_set_id: int = betterproto.uint32_field(3)
+    amf_pointer: int = betterproto.uint32_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
