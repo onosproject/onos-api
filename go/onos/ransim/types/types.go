@@ -51,6 +51,9 @@ type MSIN uint32
 // IMSI is International Mobile Subscriber Identity
 type IMSI uint64
 
+// AmfUENgapID is AMF UE NGAP ID
+type AmfUENgapID uint64
+
 const (
 	mask36 = 0xfffffffff
 	mask28 = 0xfffffff
@@ -155,6 +158,7 @@ func GetPlmnID(ncgi uint64) PlmnID {
 func Get5GPlmnID(ncgi uint64) PlmnID {
 	return GetPlmnID(ncgi)
 }
+
 // GetNCI extracts NCI from the specified NCGI
 func GetNCI(ncgi NCGI) NCI {
 	return NCI(ncgi & mask36)
@@ -174,7 +178,6 @@ func GetCellID(id uint64) CellID {
 func Get5GCellID(id uint64) CellID {
 	return GetCellID(id)
 }
-
 
 // 4G Identifiers
 
@@ -212,4 +215,3 @@ func GetEnbID(id uint64) EnbID {
 func GetECI(id uint64) ECI {
 	return ECI(id & mask28)
 }
-
