@@ -1,0 +1,107 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.topo;
+
+import "gogoproto/gogo.proto";
+
+
+// Network aspect; aspect for a network entity with a specific kind  (e.g. L2 Network, L3 Network)
+message Network {
+  Type type = 1;
+  string display_name = 2;
+  enum Type {
+    Layer2 = 0;
+    Layer3 = 1;
+  }
+}
+
+// PacketSwitch aspect; aspect for a PACKET_SWITCH entity (Layer 2)
+message PacketSwitch {
+  string model_id = 1  [(gogoproto.customname) = "ModelID"];
+  string role = 2;
+  repeated VLAN vlans = 3;
+  Endpoint management_endpoint = 4;
+}
+
+// Router aspect; aspect of a ROUTER entity (Layer 3)
+message Router {
+  string  model_id = 1;
+  string  role = 2;
+  Endpoint management_endpoint = 3;
+}
+
+// L2Port aspect; an aspect to represent a layer switch port
+message L2Port {
+  string display_name = 1;
+  string speed = 2;
+  uint32  cage_number = 3;
+  uint32 channel_number = 4;
+}
+
+// L3Interface aspect; represents an L3 interface
+message L3Interface {
+  IPAddress ip = 1;
+  uint32 prefix_length = 2;
+}
+
+// Link aspect; an aspect to represent the origin and termination point of a link between two L2 Ports or two L3 interfaces
+message Link {
+  oneof link {
+    PhyPacketLink phy_packet_link = 1;
+    LogicalPacketLink logical_packet_link = 2;
+  }
+}
+
+// PhyPacketLink a link between two l2 ports
+message PhyPacketLink {}
+
+// LogicalPacketLink a link between two l3 interfaces
+message LogicalPacketLink {}
+
+
+// Controller aspect; represents an instance of the controller deployment
+message Controller {
+  Type type = 1;
+  enum Type {
+    P4RUNTIME = 0;
+  }
+}
+
+// Vlan VLAN attributes
+message VLAN {
+  string subnet = 1;
+  string  id = 2 [(gogoproto.customname) = "ID"];
+  string display_name = 3;
+  string description = 4;
+}
+
+// Endpoint specifies ip and port number for an endpoint address
+message Endpoint {
+  oneof address {
+    IPAddress ip = 1 [(gogoproto.customname) = "IP"];
+    string name = 2;
+  }
+  uint32 port = 3;
+}
+
+// IPAddress
+message IPAddress {
+  Type type = 1;
+  enum Type {
+    IPV4 = 0;
+    IPV6 = 1;
+  }
+  string ip = 2 [(gogoproto.customname) = "IP"];
+}
+
+// P4RTServerInfo aspect; specifies the control end point in a programmable device
+message P4RTServerInfo {
+  Endpoint control_endpoint = 1;
+}
+
+
+

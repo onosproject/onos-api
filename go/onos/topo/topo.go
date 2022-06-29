@@ -30,9 +30,11 @@ type Revision uint64
 // Entity and Relation Kinds
 const (
 	// Relations
-	CONTROLS  = "controls"
-	CONTAINS  = "contains"
-	NEIGHBORS = "neighbors"
+	CONTROLS   = "controls"
+	CONTAINS   = "contains"
+	NEIGHBORS  = "neighbors"
+	TERMINATES = "terminates"
+	ORIGINATES = "originates"
 
 	// RAN Entities
 	E2NODE = "e2node"
@@ -43,6 +45,15 @@ const (
 
 	// onos-config entity
 	ONOS_CONFIG = "onos-config"
+
+	// Fabric Entities
+	PACKET_SWITCH       = "packet-switch"
+	ROUTER              = "router"
+	L2_PORT             = "l2-port"
+	L3_INTERFACE        = "l3-interface"
+	PHY_PACKET_LINK     = "phy-packet-link"
+	LOGICAL_PACKET_LINK = "logical-packet-link"
+	CONTROLLER          = "controller"
 )
 
 // PolicyTypeID is an identifier of A1 policy type
