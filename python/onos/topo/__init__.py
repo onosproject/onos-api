@@ -443,7 +443,7 @@ class Link(betterproto.Message):
 class PhyPacketLink(betterproto.Message):
     """Protocols"""
 
-    pass
+    display_name: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -451,7 +451,7 @@ class PhyPacketLink(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class LogicalPacketLink(betterproto.Message):
-    pass
+    display_name: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -460,6 +460,7 @@ class LogicalPacketLink(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class Controller(betterproto.Message):
     type: "ControllerType" = betterproto.enum_field(1)
+    role: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -478,9 +479,8 @@ class Vlan(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Endpoint(betterproto.Message):
-    ip: "IpAddress" = betterproto.message_field(1, group="address")
-    service_name: str = betterproto.string_field(2, group="address")
-    port: int = betterproto.uint32_field(3)
+    address: str = betterproto.string_field(1)
+    port: int = betterproto.uint32_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -498,6 +498,7 @@ class IpAddress(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class P4RtServerInfo(betterproto.Message):
     control_endpoint: "Endpoint" = betterproto.message_field(1)
+    timeout: timedelta = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()

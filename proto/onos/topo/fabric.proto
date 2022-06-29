@@ -7,6 +7,7 @@ syntax = "proto3";
 package onos.topo;
 
 import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
 
 
 // Network aspect; aspect for a network entity with a specific kind  (e.g. L2 Network, L3 Network)
@@ -57,10 +58,14 @@ message Link {
 }
 
 // PhyPacketLink a link between two l2 ports
-message PhyPacketLink {}
+message PhyPacketLink {
+  string display_name = 1;
+}
 
 // LogicalPacketLink a link between two l3 interfaces
-message LogicalPacketLink {}
+message LogicalPacketLink {
+  string display_name = 1;
+}
 
 
 // Controller aspect; represents an instance of the controller deployment
@@ -69,6 +74,7 @@ message Controller {
   enum Type {
     P4RUNTIME = 0;
   }
+  string role = 2;
 }
 
 // Vlan VLAN attributes
@@ -81,14 +87,11 @@ message VLAN {
 
 // Endpoint specifies ip and port number for an endpoint address
 message Endpoint {
-  oneof address {
-    IPAddress ip = 1 [(gogoproto.customname) = "IP"];
-    string name = 2;
-  }
-  uint32 port = 3;
+  string address = 1;
+  uint32 port = 2;
 }
 
-// IPAddress
+// IPAddress defines an ipv4 or ipv6 address
 message IPAddress {
   Type type = 1;
   enum Type {
@@ -101,6 +104,8 @@ message IPAddress {
 // P4RTServerInfo aspect; specifies the control end point in a programmable device
 message P4RTServerInfo {
   Endpoint control_endpoint = 1;
+  google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
+
 }
 
 
