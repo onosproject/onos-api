@@ -26,6 +26,7 @@ message PacketSwitch {
   string role = 2;
   repeated VLAN vlans = 3;
   Endpoint management_endpoint = 4;
+  uint64  device_id = 5 [(gogoproto.customname) = "DeviceID"];
 }
 
 // Router aspect; aspect of a ROUTER entity (Layer 3)
@@ -33,6 +34,7 @@ message Router {
   string  model_id = 1;
   string  role = 2;
   Endpoint management_endpoint = 3;
+  uint64  device_id = 4 [(gogoproto.customname) = "DeviceID"];
 }
 
 // L2Port aspect; an aspect to represent a layer switch port

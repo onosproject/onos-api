@@ -380,6 +380,7 @@ class PacketSwitch(betterproto.Message):
     role: str = betterproto.string_field(2)
     vlans: List["Vlan"] = betterproto.message_field(3)
     management_endpoint: "Endpoint" = betterproto.message_field(4)
+    device_id: int = betterproto.uint64_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -392,6 +393,7 @@ class Router(betterproto.Message):
     model_id: str = betterproto.string_field(1)
     role: str = betterproto.string_field(2)
     management_endpoint: "Endpoint" = betterproto.message_field(3)
+    device_id: int = betterproto.uint64_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
