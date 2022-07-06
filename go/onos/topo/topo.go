@@ -30,11 +30,9 @@ type Revision uint64
 // Entity and Relation Kinds
 const (
 	// Relations
-	CONTROLS   = "controls"
-	CONTAINS   = "contains"
-	NEIGHBORS  = "neighbors"
-	TERMINATES = "terminates"
-	ORIGINATES = "originates"
+	CONTROLS  = "controls"
+	CONTAINS  = "contains"
+	NEIGHBORS = "neighbors"
 
 	// RAN Entities
 	E2NODE = "e2node"
@@ -45,15 +43,34 @@ const (
 
 	// onos-config entity
 	ONOS_CONFIG = "onos-config"
+)
 
-	// Fabric Entities
-	PACKET_SWITCH       = "packet-switch"
-	ROUTER              = "router"
-	L2_PORT             = "l2-port"
-	L3_INTERFACE        = "l3-interface"
-	PHY_PACKET_LINK     = "phy-packet-link"
-	LOGICAL_PACKET_LINK = "logical-packet-link"
-	CONTROLLER          = "controller"
+// TODO UPPERCASE entity kinds and relations should be replaced gradually with CamelCase ones
+const (
+	TerminatesKind = "terminates"
+	OriginatesKind = "originates"
+	ControlsKind   = "controls"
+	ContainsKind   = "contains"
+	NeighborsKind  = "neighbors"
+
+	// Fabric Entity kinds
+	PacketSwitchKind      = "packet-switch"
+	RouterKind            = "router"
+	L2PortKind            = "l2-port"
+	L3InterfaceKind       = "l3-interface"
+	PhyPacketLinkKind     = "phy-packet-link"
+	LogicalPacketLinkKind = "logical-packet-link"
+	ControllerKind        = "controller"
+
+	// onos-config entity
+	OnosConfigKind = "onos-config"
+
+	// RAN Entitiy kinds
+	E2NodeKind = "e2node"
+	E2CellKind = "e2cell"
+	E2tKind    = "e2t"
+	XappKind   = "xapp"
+	A1tKind    = "a1t"
 )
 
 // PolicyTypeID is an identifier of A1 policy type
