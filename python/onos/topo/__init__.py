@@ -77,9 +77,8 @@ class ServiceState(betterproto.Enum):
     CONNECTING = 3
 
 
-class NetworkType(betterproto.Enum):
-    Layer2 = 0
-    Layer3 = 1
+class NetworkLayerType(betterproto.Enum):
+    Underlay = 0
 
 
 class ControllerType(betterproto.Enum):
@@ -362,10 +361,10 @@ class Protocols(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Network(betterproto.Message):
+class NetworkLayer(betterproto.Message):
     """Basic asset information"""
 
-    type: "NetworkType" = betterproto.enum_field(1)
+    type: "NetworkLayerType" = betterproto.enum_field(1)
     display_name: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
@@ -373,14 +372,12 @@ class Network(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class PacketSwitch(betterproto.Message):
+class Switch(betterproto.Message):
     """Configurable device aspect"""
 
     model_id: str = betterproto.string_field(1)
     role: str = betterproto.string_field(2)
-    vlans: List["Vlan"] = betterproto.message_field(3)
     management_endpoint: "Endpoint" = betterproto.message_field(4)
-    device_id: int = betterproto.uint64_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -393,14 +390,13 @@ class Router(betterproto.Message):
     model_id: str = betterproto.string_field(1)
     role: str = betterproto.string_field(2)
     management_endpoint: "Endpoint" = betterproto.message_field(3)
-    device_id: int = betterproto.uint64_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class L2Port(betterproto.Message):
+class PhyPort(betterproto.Message):
     """TLS connectivity aspect"""
 
     display_name: str = betterproto.string_field(1)
@@ -413,54 +409,9 @@ class L2Port(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class L3Interface(betterproto.Message):
+class Controller(betterproto.Message):
     """Aspect for ad-hoc properties"""
 
-    ip: "IpAddress" = betterproto.message_field(1)
-    prefix_length: int = betterproto.uint32_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Link(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
-
-    # The protocol to which state relates
-    phy_packet_link: "PhyPacketLink" = betterproto.message_field(1, group="link")
-    # ConnectivityState contains the L3 connectivity information
-    logical_packet_link: "LogicalPacketLink" = betterproto.message_field(
-        2, group="link"
-    )
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class PhyPacketLink(betterproto.Message):
-    """Protocols"""
-
-    display_name: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class LogicalPacketLink(betterproto.Message):
-    display_name: str = betterproto.string_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Controller(betterproto.Message):
     type: "ControllerType" = betterproto.enum_field(1)
     role: str = betterproto.string_field(2)
 
@@ -469,19 +420,15 @@ class Controller(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Vlan(betterproto.Message):
-    subnet: str = betterproto.string_field(1)
-    id: str = betterproto.string_field(2)
-    display_name: str = betterproto.string_field(3)
-    description: str = betterproto.string_field(4)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
 class Endpoint(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
     address: str = betterproto.string_field(1)
+    # ConnectivityState contains the L3 connectivity information
     port: int = betterproto.uint32_field(2)
 
     def __post_init__(self) -> None:
@@ -490,6 +437,8 @@ class Endpoint(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class IpAddress(betterproto.Message):
+    """Protocols"""
+
     type: "IpAddressType" = betterproto.enum_field(1)
     ip: str = betterproto.string_field(2)
 

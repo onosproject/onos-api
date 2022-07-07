@@ -54,13 +54,12 @@ const (
 	NeighborsKind  = "neighbors"
 
 	// Fabric Entity kinds
-	PacketSwitchKind      = "packet-switch"
-	RouterKind            = "router"
-	L2PortKind            = "l2-port"
-	L3InterfaceKind       = "l3-interface"
-	PhyPacketLinkKind     = "phy-packet-link"
-	LogicalPacketLinkKind = "logical-packet-link"
-	ControllerKind        = "controller"
+	SwitchKind     = "switch"
+	RouterKind     = "router"
+	PortKind       = "port"
+	InterfaceKind  = "interface"
+	LinkKind       = "link"
+	ControllerKind = "controller"
 
 	// onos-config entity
 	OnosConfigKind = "onos-config"
