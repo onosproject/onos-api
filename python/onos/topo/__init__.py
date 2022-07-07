@@ -78,7 +78,7 @@ class ServiceState(betterproto.Enum):
 
 
 class NetworkLayerType(betterproto.Enum):
-    Underlay = 0
+    UNDERLAY = 0
 
 
 class ControllerType(betterproto.Enum):
@@ -401,7 +401,7 @@ class PhyPort(betterproto.Message):
 
     display_name: str = betterproto.string_field(1)
     speed: str = betterproto.string_field(2)
-    cage_number: int = betterproto.uint32_field(3)
+    port_number: int = betterproto.uint32_field(3)
     channel_number: int = betterproto.uint32_field(4)
 
     def __post_init__(self) -> None:

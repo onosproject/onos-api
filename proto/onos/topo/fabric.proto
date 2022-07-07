@@ -15,7 +15,7 @@ message NetworkLayer {
   Type type = 1;
   string display_name = 2;
   enum Type {
-    Underlay = 0;
+    UNDERLAY = 0;
   }
 }
 
@@ -37,7 +37,7 @@ message Router {
 message PhyPort {
   string display_name = 1;
   string speed = 2;
-  uint32  cage_number = 3;
+  uint32  port_number = 3;
   uint32 channel_number = 4;
 }
 
@@ -49,8 +49,6 @@ message Controller {
   }
   string role = 2;
 }
-
-
 
 // Endpoint specifies ip and port number for an endpoint address
 message Endpoint {
