@@ -45,6 +45,33 @@ const (
 	ONOS_CONFIG = "onos-config"
 )
 
+// TODO UPPERCASE entity kinds and relations should be replaced gradually with CamelCase ones
+const (
+	TerminatesKind = "terminates"
+	OriginatesKind = "originates"
+	ControlsKind   = "controls"
+	ContainsKind   = "contains"
+	NeighborsKind  = "neighbors"
+
+	// Fabric Entity kinds
+	SwitchKind     = "switch"
+	RouterKind     = "router"
+	PortKind       = "port"
+	InterfaceKind  = "interface"
+	LinkKind       = "link"
+	ControllerKind = "controller"
+
+	// onos-config entity
+	OnosConfigKind = "onos-config"
+
+	// RAN Entitiy kinds
+	E2NodeKind = "e2node"
+	E2CellKind = "e2cell"
+	E2tKind    = "e2t"
+	XappKind   = "xapp"
+	A1tKind    = "a1t"
+)
+
 // PolicyTypeID is an identifier of A1 policy type
 type PolicyTypeID string
 
