@@ -69,7 +69,8 @@ message IPAddress {
 // P4RTServerInfo aspect; specifies the control end point in a programmable device
 message P4RTServerInfo {
   Endpoint control_endpoint = 1;
-  google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
+  google.protobuf.Duration timeout = 2 [(gogoproto.stdduration) = true];
+  uint64 device_id = 3 [(gogoproto.customname) = "DeviceID"];
 
 }
 

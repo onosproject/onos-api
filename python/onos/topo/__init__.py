@@ -449,7 +449,8 @@ class IpAddress(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class P4RtServerInfo(betterproto.Message):
     control_endpoint: "Endpoint" = betterproto.message_field(1)
-    timeout: timedelta = betterproto.message_field(5)
+    timeout: timedelta = betterproto.message_field(2)
+    device_id: int = betterproto.uint64_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
