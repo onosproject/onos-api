@@ -1,0 +1,61 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.fabricsim;
+
+// Link describes a simulated interdevice link, i.e a link between two device ports
+message Link {
+    // source unique port id
+    // destination unique port id
+    // status (operational state derived from adjacent ports status)
+}
+
+// LinkService provides means to control inventory of simulated links
+service LinkService {
+    // GetLinks gets a list of all simulated links
+    rpc GetLinks(GetLinksRequest) returns (GetLinksResponse);
+
+    // GetLink gets a specific link entry
+    rpc GetLink(GetLinkRequest) returns (GetLinkResponse);
+
+    // AddLink adds a new simulated link
+    rpc AddLink(AddLinkRequest) returns (AddLinkRequest);
+
+    // RemoveLink removes a simulated link
+    rpc RemoveLink(RemoveLinkRequest) returns (RemoveLinkRequest);
+}
+
+message GetLinksRequest {
+    // filters?
+}
+
+message GetLinksResponse {
+    repeated Link links = 1;
+}
+
+message GetLinkRequest {
+    // source unique port id
+    // destination unique port id
+}
+
+message GetLinkResponse {
+    Link link = 1;
+}
+
+message AddLinkRequest {
+    Link link = 1;
+}
+
+message AddLinkResponse {
+}
+
+message RemoveLinkRequest {
+    // source unique port id
+    // destination unique port id
+}
+
+message RemoveLinkResponse {
+}

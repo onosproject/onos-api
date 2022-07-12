@@ -1,0 +1,115 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.fabricsim;
+
+// Device describes a simulated switch or IPU
+message Device {
+    // unique device id
+    // type - switch, IPU, etc.
+    // p4 port
+    // gnmi port
+    // list of ports
+    // behavior?
+    // gnmi models
+}
+
+// Port describes a simulated device port
+message Port {
+    // unique port id
+    // type?
+    // name
+    // port number
+    // sdn port number
+    // speed
+    // p4 behaviors? (counters, etc.)
+    // gnmi behaviors? (counters, etc.)
+}
+
+// DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
+service DeviceService {
+    // GetDevices gets a list of all simulated devices (switches and/or IPUs)
+    rpc GetDevices(GetDevicesRequest) returns (GetDevicesResponse);
+
+    // GetDevice gets a specific device entry
+    rpc GetDevice(GetDeviceRequest) returns (GetDeviceResponse);
+
+    // AddDevice creates a new simulated deviceand start its P4Runtime and gNMI services
+    rpc AddDevice(AddDeviceRequest) returns (AddDeviceResponse);
+
+    // RemoveDevice removes a simulated device
+    rpc RemoveDevice(AddDeviceRequest) returns (RemoveDeviceResponse);
+
+    // StopDevice stops the simulated deviceP4Runtime and gNMI services
+    rpc StopDevice(StopDeviceRequest) returns (StopDeviceResponse);
+
+    // StartDevice starts the simulated deviceP4Runtime and gNMI services
+    rpc StartDevice(StartDeviceRequest) returns (StartDeviceResponse);
+
+    // DisablePort disables the specified port
+    rpc DisablePort(DisablePortRequest) returns (DisablePortResponse);
+
+    // EnablePort enables the specified port
+    rpc EnablePort(EnablePortRequest) returns (EnablePortResponse);
+}
+
+message GetDevicesRequest {
+    // filters?
+}
+
+message GetDevicesResponse {
+    repeated Device devices = 1;
+}
+
+message GetDeviceRequest {
+    // unique device id
+}
+
+message GetDeviceResponse {
+    Device device = 1;
+}
+
+message AddDeviceRequest {
+    Device device = 1;
+}
+
+message AddDeviceResponse {
+}
+
+message RemoveDeviceRequest {
+    // unique device id
+}
+
+message RemoveDeviceResponse {
+}
+
+message StopDeviceRequest {
+    // unique device id
+}
+
+message StopDeviceResponse {
+}
+
+message StartDeviceRequest {
+    // unique device id
+}
+
+message StartDeviceResponse {
+}
+
+message DisablePortRequest {
+    // unique port id
+}
+
+message DisablePortResponse {
+}
+
+message EnablePortRequest {
+    // unique port id
+}
+
+message EnablePortResponse {
+}

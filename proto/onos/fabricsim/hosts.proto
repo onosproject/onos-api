@@ -1,0 +1,72 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.fabricsim;
+
+// Host describes a simulated host (bare metal, VM or container)
+message Host {
+    // unique host id
+    // network interfaces
+}
+
+// NetworkInterface describes simulated host's attachment to the network
+message NetworkInterface {
+    // mac address
+    // ipv4 address
+    // ipv6 address
+    // behavior
+}
+
+// NetworkInterfaceBehavior describes dynamic aspects of a simulated host interface
+// and how it manifests its presence on the network.
+message NetworkInterfaceBehavior {
+    // TBD
+}
+
+// HostService provides means to control inventory of simulated hosts
+service HostService {
+    // GetHosts gets a list of all simulated hosts
+    rpc GetHosts(GetHostsRequest) returns (GetHostsResponse);
+
+    // GetHost gets a specific host entry
+    rpc GetHost(GetHostRequest) returns (GetHostResponse);
+
+    // AddHost adds a new simulated host
+    rpc AddHost(AddHostRequest) returns (AddHostResponse);
+
+    // RemoveHost removes a simulated host
+    rpc RemoveHost(RemoveHostRequest) returns (RemoveHostResponse);
+}
+
+message GetHostsRequest {
+    // filters?
+}
+
+message GetHostsResponse {
+    repeated Host hosts = 1;
+}
+
+message GetHostRequest {
+    // unique host id
+}
+
+message GetHostResponse {
+    Host host = 1;
+}
+
+message AddHostRequest {
+    Host host = 1;
+}
+
+message AddHostResponse {
+}
+
+message RemoveHostRequest {
+    // unique host id
+}
+
+message RemoveHostResponse {
+}
