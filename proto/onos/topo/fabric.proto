@@ -74,5 +74,11 @@ message P4RTServerInfo {
 
 }
 
+// P4RTMastershipState mastership state for the P4runtime targets
+message P4RTMastershipState {
+  uint64 term = 1;
+  string node_id = 2;
+}
+
 
 
