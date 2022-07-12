@@ -106,11 +106,11 @@ filters?
 <a name="onos-fabricsim-Link"></a>
 
 ### Link
-Link describes a simulated interdevice link, i.e a link between two device ports
+Link describes a simulated link, i.e a link between two device or host ports
 
 source unique port id
 destination unique port id
-status (operational state derived from adjacent ports status)
+status (operational state derived from the status of its adjacent ports)
 
 
 

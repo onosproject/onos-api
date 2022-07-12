@@ -14,6 +14,7 @@ message Host {
 
 // NetworkInterface describes simulated host's attachment to the network
 message NetworkInterface {
+    // unique port id
     // mac address
     // ipv4 address
     // ipv6 address

@@ -26,7 +26,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Link describes a simulated interdevice link, i.e a link between two device ports
+// Link describes a simulated link, i.e a link between two device or host ports
 type Link struct {
 }
 

@@ -122,6 +122,7 @@ network interfaces
 ### NetworkInterface
 NetworkInterface describes simulated host&#39;s attachment to the network
 
+unique port id
 mac address
 ipv4 address
 ipv6 address
