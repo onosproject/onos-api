@@ -8,6 +8,8 @@ package onos.topo;
 
 import "gogoproto/gogo.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/any.proto";
+
 
 
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
@@ -47,7 +49,13 @@ message Controller {
   enum Type {
     P4RUNTIME = 0;
   }
-  string role = 2;
+  ControllerRole role = 2;
+}
+
+message ControllerRole {
+  string name = 1;
+  google.protobuf.Any config = 2;
+
 }
 
 // Endpoint specifies ip and port number for an endpoint address

@@ -413,7 +413,23 @@ class Controller(betterproto.Message):
     """Aspect for ad-hoc properties"""
 
     type: "ControllerType" = betterproto.enum_field(1)
-    role: str = betterproto.string_field(2)
+    role: "ControllerRole" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ControllerRole(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
+    name: str = betterproto.string_field(1)
+    # ConnectivityState contains the L3 connectivity information
+    config: "betterproto_lib_google_protobuf.Any" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -421,14 +437,9 @@ class Controller(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Endpoint(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
+    """Protocols"""
 
-    # The protocol to which state relates
     address: str = betterproto.string_field(1)
-    # ConnectivityState contains the L3 connectivity information
     port: int = betterproto.uint32_field(2)
 
     def __post_init__(self) -> None:
@@ -437,8 +448,6 @@ class Endpoint(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class IpAddress(betterproto.Message):
-    """Protocols"""
-
     type: "IpAddressType" = betterproto.enum_field(1)
     ip: str = betterproto.string_field(2)
 
