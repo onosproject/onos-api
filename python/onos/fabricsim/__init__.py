@@ -41,9 +41,8 @@ class Device(betterproto.Message):
     type: "DeviceType" = betterproto.enum_field(2)
     # list of ports
     ports: List["Port"] = betterproto.message_field(3)
-    # p4 and gnmi emulation ports
-    p4_port: int = betterproto.uint32_field(4)
-    gnmi_port: int = betterproto.uint32_field(5)
+    # control port for p4 and gnmi simulation
+    control_port: int = betterproto.int32_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -424,12 +423,11 @@ class DeviceServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.DeviceService/AddDevice", request, AddDeviceResponse
         )
 
-    async def remove_device(self, *, device: "Device" = None) -> "RemoveDeviceResponse":
+    async def remove_device(self, *, id: str = "") -> "RemoveDeviceResponse":
         """RemoveDevice removes a simulated device"""
 
-        request = AddDeviceRequest()
-        if device is not None:
-            request.device = device
+        request = RemoveDeviceRequest()
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/RemoveDevice", request, RemoveDeviceResponse

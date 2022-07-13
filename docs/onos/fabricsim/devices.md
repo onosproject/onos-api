@@ -75,8 +75,7 @@ Device describes a simulated switch or IPU
 | id | [string](#string) |  | unique device id and device type |
 | type | [DeviceType](#onos-fabricsim-DeviceType) |  |  |
 | ports | [Port](#onos-fabricsim-Port) | repeated | list of ports |
-| p4_port | [uint32](#uint32) |  | p4 and gnmi emulation ports |
-| gnmi_port | [uint32](#uint32) |  |  |
+| control_port | [int32](#int32) |  | control port for p4 and gnmi simulation |
 
 
 
@@ -324,7 +323,7 @@ DeviceService provides means to control inventory of simulated devices (switches
 | GetDevices | [GetDevicesRequest](#onos-fabricsim-GetDevicesRequest) | [GetDevicesResponse](#onos-fabricsim-GetDevicesResponse) | GetDevices gets a list of all simulated devices (switches and/or IPUs) |
 | GetDevice | [GetDeviceRequest](#onos-fabricsim-GetDeviceRequest) | [GetDeviceResponse](#onos-fabricsim-GetDeviceResponse) | GetDevice gets a specific device entry |
 | AddDevice | [AddDeviceRequest](#onos-fabricsim-AddDeviceRequest) | [AddDeviceResponse](#onos-fabricsim-AddDeviceResponse) | AddDevice creates a new simulated deviceand start its P4Runtime and gNMI services |
-| RemoveDevice | [AddDeviceRequest](#onos-fabricsim-AddDeviceRequest) | [RemoveDeviceResponse](#onos-fabricsim-RemoveDeviceResponse) | RemoveDevice removes a simulated device |
+| RemoveDevice | [RemoveDeviceRequest](#onos-fabricsim-RemoveDeviceRequest) | [RemoveDeviceResponse](#onos-fabricsim-RemoveDeviceResponse) | RemoveDevice removes a simulated device |
 | StopDevice | [StopDeviceRequest](#onos-fabricsim-StopDeviceRequest) | [StopDeviceResponse](#onos-fabricsim-StopDeviceResponse) | StopDevice stops the simulated deviceP4Runtime and gNMI services |
 | StartDevice | [StartDeviceRequest](#onos-fabricsim-StartDeviceRequest) | [StartDeviceResponse](#onos-fabricsim-StartDeviceResponse) | StartDevice starts the simulated deviceP4Runtime and gNMI services |
 | DisablePort | [DisablePortRequest](#onos-fabricsim-DisablePortRequest) | [DisablePortResponse](#onos-fabricsim-DisablePortResponse) | DisablePort disables the specified port |

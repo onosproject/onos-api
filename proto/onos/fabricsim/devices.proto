@@ -17,9 +17,8 @@ message Device {
     // list of ports
     repeated Port ports = 3;
 
-    // p4 and gnmi emulation ports
-    uint32 p4_port = 4;
-    uint32 gnmi_port = 5;
+    // control port for p4 and gnmi simulation
+    int32 control_port = 4;
 
     // gnmi models?
     // behavior?
@@ -63,7 +62,7 @@ service DeviceService {
     rpc AddDevice(AddDeviceRequest) returns (AddDeviceResponse);
 
     // RemoveDevice removes a simulated device
-    rpc RemoveDevice(AddDeviceRequest) returns (RemoveDeviceResponse);
+    rpc RemoveDevice(RemoveDeviceRequest) returns (RemoveDeviceResponse);
 
     // StopDevice stops the simulated deviceP4Runtime and gNMI services
     rpc StopDevice(StopDeviceRequest) returns (StopDeviceResponse);
