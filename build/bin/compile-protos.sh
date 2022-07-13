@@ -67,6 +67,23 @@ protoc --proto_path=$proto_path \
     proto/onos/config/v2/configuration.proto
 
 
+# fabric-sim
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/fabricsim \
+    --doc_opt=markdown,devices.md \
+    proto/onos/fabricsim/devices.proto
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/fabricsim \
+    --doc_opt=markdown,links.md \
+    proto/onos/fabricsim/links.proto
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/fabricsim \
+    --doc_opt=markdown,hosts.md \
+    proto/onos/fabricsim/hosts.proto
+
+
 # kpimon
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/kpimon \
@@ -173,6 +190,10 @@ protoc --proto_path=$proto_path \
     --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
     proto/onos/config/admin/*.proto
 
+# fabricsim
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/fabricsim,plugins=grpc:./go \
+    proto/onos/fabricsim/*.proto
 
 # kpimon
 protoc --proto_path=$proto_path \
