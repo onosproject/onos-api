@@ -59,8 +59,8 @@ message ReadWritePath {
     string description = 4;
     // mandatory shows whether the attribute is optional (false) or required (true)
     bool mandatory = 5;
-    // default is a default value used with optional attributes
-    string default = 6;
+    // default is a default value used with optional attributes. Replaced by 'defaults' below
+    string default = 6 [ deprecated=true ];
     // range is definition of the range of values a value is allowed
     repeated string range = 7;
     // length is a defintion of the length restrictions for the attribute
@@ -69,6 +69,9 @@ message ReadWritePath {
     repeated uint64 type_opts = 9;
     bool IsAKey = 10;
     string AttrName = 11;
+    // defaults is a default value(s) used with optional attributes. For leaf-list can have repeated values
+    // replaces the 'default' attribute above
+    repeated string defaults = 12;
 }
 
 // ModelInfo is general information about a model plugin.

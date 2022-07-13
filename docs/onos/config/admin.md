@@ -332,12 +332,13 @@ Each configurable item has metadata with meanings taken from the YANG specificat
 | units | [string](#string) |  | units is the unit of measurement e.g. dB, mV |
 | description | [string](#string) |  | description is an explaination of the meaning of the attribute |
 | mandatory | [bool](#bool) |  | mandatory shows whether the attribute is optional (false) or required (true) |
-| default | [string](#string) |  | default is a default value used with optional attributes |
+| default | [string](#string) |  | **Deprecated.** default is a default value used with optional attributes. Replaced by &#39;defaults&#39; below |
 | range | [string](#string) | repeated | range is definition of the range of values a value is allowed |
 | length | [string](#string) | repeated | length is a defintion of the length restrictions for the attribute |
 | type_opts | [uint64](#uint64) | repeated |  |
 | IsAKey | [bool](#bool) |  |  |
 | AttrName | [string](#string) |  |  |
+| defaults | [string](#string) | repeated | defaults is a default value(s) used with optional attributes. For leaf-list can have repeated values replaces the &#39;default&#39; attribute above |
 
 
 

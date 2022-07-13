@@ -42,12 +42,15 @@ message PhyPort {
 }
 
 // Controller aspect; represents an instance of the controller deployment
-message Controller {
+message ControllerInfo {
   Type type = 1;
   enum Type {
     P4RUNTIME = 0;
   }
   string role = 2;
+  Endpoint control_endpoint = 3;
+  string username = 4;
+  string password = 5;
 }
 
 // Endpoint specifies ip and port number for an endpoint address
@@ -72,6 +75,3 @@ message P4RTServerInfo {
   google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
 
 }
-
-
-
