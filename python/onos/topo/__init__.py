@@ -456,6 +456,16 @@ class P4RtServerInfo(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class SdnControllerInfo(betterproto.Message):
+    control_endpoint: "Endpoint" = betterproto.message_field(1)
+    username: str = betterproto.string_field(3)
+    password: str = betterproto.string_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Location(betterproto.Message):
     """Basic asset information"""
 

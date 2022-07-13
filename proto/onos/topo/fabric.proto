@@ -73,5 +73,12 @@ message P4RTServerInfo {
 
 }
 
+// SdnControllerInfo aspect; specifies the configuration endpoint of an SDN Controller
+message SdnControllerInfo {
+  Endpoint control_endpoint = 1;
+  string username = 3;
+  string password = 4;
+}
+
 
 
