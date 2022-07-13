@@ -57,7 +57,12 @@
 <a name="onos-fabricsim-GetHostRequest"></a>
 
 ### GetHostRequest
-unique host id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 
 
 
@@ -109,8 +114,11 @@ filters?
 ### Host
 Host describes a simulated host (bare metal, VM or container)
 
-unique host id
-network interfaces
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | unique host id |
+| interfaces | [NetworkInterface](#onos-fabricsim-NetworkInterface) | repeated | network interfaces |
 
 
 
@@ -122,11 +130,14 @@ network interfaces
 ### NetworkInterface
 NetworkInterface describes simulated host&#39;s attachment to the network
 
-unique port id
-mac address
-ipv4 address
-ipv6 address
-behavior
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | unique port id |
+| mac_address | [string](#string) |  | mac address |
+| ip_address | [string](#string) |  | ipv4 address |
+| ipv6_address | [string](#string) |  | ipv6 address |
+| behavior | [NetworkInterfaceBehavior](#onos-fabricsim-NetworkInterfaceBehavior) |  | behavior |
 
 
 
@@ -149,7 +160,12 @@ TBD
 <a name="onos-fabricsim-RemoveHostRequest"></a>
 
 ### RemoveHostRequest
-unique host id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 
 
 

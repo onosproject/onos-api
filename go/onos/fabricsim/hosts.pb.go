@@ -6,6 +6,7 @@ package fabricsim
 import (
 	context "context"
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -28,6 +29,10 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // Host describes a simulated host (bare metal, VM or container)
 type Host struct {
+	// unique host id
+	ID HostID `protobuf:"bytes,1,opt,name=id,proto3,casttype=HostID" json:"id,omitempty"`
+	// network interfaces
+	Interfaces []*NetworkInterface `protobuf:"bytes,2,rep,name=interfaces,proto3" json:"interfaces,omitempty"`
 }
 
 func (m *Host) Reset()         { *m = Host{} }
@@ -63,8 +68,32 @@ func (m *Host) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Host proto.InternalMessageInfo
 
+func (m *Host) GetID() HostID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *Host) GetInterfaces() []*NetworkInterface {
+	if m != nil {
+		return m.Interfaces
+	}
+	return nil
+}
+
 // NetworkInterface describes simulated host's attachment to the network
 type NetworkInterface struct {
+	// unique port id
+	ID PortID `protobuf:"bytes,1,opt,name=id,proto3,casttype=PortID" json:"id,omitempty"`
+	// mac address
+	MacAddress string `protobuf:"bytes,2,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	// ipv4 address
+	IpAddress string `protobuf:"bytes,3,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
+	// ipv6 address
+	Ipv6Address string `protobuf:"bytes,4,opt,name=ipv6_address,json=ipv6Address,proto3" json:"ipv6_address,omitempty"`
+	// behavior
+	Behavior *NetworkInterfaceBehavior `protobuf:"bytes,5,opt,name=behavior,proto3" json:"behavior,omitempty"`
 }
 
 func (m *NetworkInterface) Reset()         { *m = NetworkInterface{} }
@@ -99,6 +128,41 @@ func (m *NetworkInterface) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_NetworkInterface proto.InternalMessageInfo
+
+func (m *NetworkInterface) GetID() PortID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *NetworkInterface) GetMacAddress() string {
+	if m != nil {
+		return m.MacAddress
+	}
+	return ""
+}
+
+func (m *NetworkInterface) GetIpAddress() string {
+	if m != nil {
+		return m.IpAddress
+	}
+	return ""
+}
+
+func (m *NetworkInterface) GetIpv6Address() string {
+	if m != nil {
+		return m.Ipv6Address
+	}
+	return ""
+}
+
+func (m *NetworkInterface) GetBehavior() *NetworkInterfaceBehavior {
+	if m != nil {
+		return m.Behavior
+	}
+	return nil
+}
 
 // NetworkInterfaceBehavior describes dynamic aspects of a simulated host interface
 // and how it manifests its presence on the network.
@@ -219,6 +283,7 @@ func (m *GetHostsResponse) GetHosts() []*Host {
 }
 
 type GetHostRequest struct {
+	ID HostID `protobuf:"bytes,1,opt,name=id,proto3,casttype=HostID" json:"id,omitempty"`
 }
 
 func (m *GetHostRequest) Reset()         { *m = GetHostRequest{} }
@@ -253,6 +318,13 @@ func (m *GetHostRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_GetHostRequest proto.InternalMessageInfo
+
+func (m *GetHostRequest) GetID() HostID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 type GetHostResponse struct {
 	Host *Host `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty"`
@@ -379,6 +451,7 @@ func (m *AddHostResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddHostResponse proto.InternalMessageInfo
 
 type RemoveHostRequest struct {
+	ID HostID `protobuf:"bytes,1,opt,name=id,proto3,casttype=HostID" json:"id,omitempty"`
 }
 
 func (m *RemoveHostRequest) Reset()         { *m = RemoveHostRequest{} }
@@ -413,6 +486,13 @@ func (m *RemoveHostRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_RemoveHostRequest proto.InternalMessageInfo
+
+func (m *RemoveHostRequest) GetID() HostID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 type RemoveHostResponse struct {
 }
@@ -467,28 +547,37 @@ func init() {
 func init() { proto.RegisterFile("onos/fabricsim/hosts.proto", fileDescriptor_032be33f3739b3f8) }
 
 var fileDescriptor_032be33f3739b3f8 = []byte{
-	// 327 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcb, 0x4a, 0xf3, 0x40,
-	0x14, 0xc7, 0x3b, 0xdf, 0x57, 0xab, 0x9c, 0x42, 0x2f, 0x63, 0x17, 0x21, 0x8b, 0x69, 0x9d, 0x55,
-	0x71, 0x91, 0x42, 0xdd, 0x29, 0x08, 0x76, 0xe3, 0x05, 0x74, 0xd1, 0x3e, 0x41, 0x2f, 0xa7, 0x34,
-	0x48, 0x33, 0x75, 0x66, 0x8c, 0xaf, 0xe1, 0x63, 0xe9, 0xae, 0x4b, 0x97, 0x92, 0xbc, 0x88, 0xe4,
-	0x9e, 0x26, 0x44, 0x70, 0x7b, 0xce, 0xef, 0xfc, 0xfe, 0xc9, 0x9f, 0x01, 0x53, 0x38, 0x42, 0x8d,
-	0xd6, 0xf3, 0x85, 0xb4, 0x97, 0xca, 0xde, 0x8e, 0x36, 0x42, 0x69, 0x65, 0xed, 0xa4, 0xd0, 0x82,
-	0xb6, 0x82, 0x9d, 0x95, 0xee, 0x78, 0x03, 0xea, 0x77, 0x42, 0x69, 0x4e, 0xa1, 0xf3, 0x84, 0xfa,
-	0x4d, 0xc8, 0xe7, 0x7b, 0x47, 0xa3, 0x5c, 0xcf, 0x97, 0xc8, 0x4d, 0x30, 0x8a, 0xb3, 0x09, 0x6e,
-	0xe6, 0xae, 0x2d, 0x24, 0xef, 0x42, 0xfb, 0x16, 0x75, 0x70, 0xaa, 0xa6, 0xf8, 0xf2, 0x8a, 0x4a,
-	0xf3, 0x6b, 0xe8, 0x64, 0x23, 0xb5, 0x13, 0x8e, 0x42, 0x7a, 0x0e, 0x47, 0x61, 0xba, 0x41, 0x06,
-	0xff, 0x87, 0xcd, 0x71, 0xcf, 0x3a, 0x8c, 0xb7, 0x02, 0x7a, 0x1a, 0x21, 0xbc, 0x03, 0xad, 0xf8,
-	0x3e, 0x31, 0x5e, 0xa5, 0x21, 0xa9, 0x70, 0x08, 0xf5, 0x80, 0x36, 0xc8, 0x80, 0x54, 0xfa, 0x42,
-	0x82, 0x5f, 0x42, 0xeb, 0x66, 0xb5, 0xca, 0xe9, 0xfe, 0x70, 0xdb, 0x85, 0x76, 0x7a, 0x1b, 0x05,
-	0xf3, 0x53, 0xe8, 0x4e, 0x71, 0x2b, 0x5c, 0xcc, 0x7f, 0x60, 0x0f, 0x68, 0x7e, 0x18, 0xa1, 0xe3,
-	0xcf, 0x7f, 0xd0, 0x0c, 0x06, 0x33, 0x94, 0xae, 0xbd, 0x44, 0xfa, 0x08, 0x27, 0x49, 0x31, 0xb4,
-	0x5f, 0x4c, 0x2d, 0xb4, 0x68, 0x0e, 0xaa, 0x81, 0xb8, 0x82, 0x07, 0x38, 0x8e, 0x67, 0x94, 0x55,
-	0xc0, 0x89, 0xac, 0x5f, 0xb9, 0xcf, 0x5c, 0xf1, 0x8f, 0x96, 0x5d, 0x87, 0xed, 0x95, 0x5d, 0x85,
-	0x86, 0xe8, 0x0c, 0x20, 0x2b, 0x83, 0x9e, 0x15, 0xf1, 0x52, 0x7b, 0x26, 0xff, 0x0d, 0x89, 0xa4,
-	0x13, 0xe3, 0xc3, 0x63, 0x64, 0xef, 0x31, 0xf2, 0xed, 0x31, 0xf2, 0xee, 0xb3, 0xda, 0xde, 0x67,
-	0xb5, 0x2f, 0x9f, 0xd5, 0x16, 0x8d, 0xf0, 0x41, 0x5f, 0xfc, 0x04, 0x00, 0x00, 0xff, 0xff, 0xbd,
-	0x5b, 0x0f, 0xaf, 0xee, 0x02, 0x00, 0x00,
+	// 467 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x94, 0x4f, 0x8b, 0xd3, 0x40,
+	0x18, 0xc6, 0x3b, 0xd9, 0xee, 0xba, 0x7d, 0x23, 0xdd, 0x76, 0xe8, 0x21, 0x04, 0x4c, 0xb2, 0x73,
+	0x0a, 0x1e, 0x5a, 0xa8, 0xe8, 0x41, 0x41, 0xdc, 0x52, 0xd0, 0x0a, 0x8a, 0x64, 0x3f, 0x80, 0xa4,
+	0xc9, 0xec, 0xee, 0x28, 0xed, 0xc4, 0x99, 0x18, 0xbf, 0x86, 0x1f, 0x4b, 0x6f, 0x7b, 0xf4, 0xe2,
+	0x22, 0xe9, 0xb7, 0xf0, 0x24, 0x33, 0xf9, 0xd3, 0x6e, 0x4a, 0x5c, 0xbd, 0x85, 0xf7, 0xf9, 0xbd,
+	0xcf, 0x33, 0xf3, 0x0c, 0x04, 0x6c, 0xbe, 0xe6, 0x72, 0x72, 0x11, 0x2e, 0x05, 0x8b, 0x24, 0x5b,
+	0x4d, 0xae, 0xb8, 0x4c, 0xe5, 0x38, 0x11, 0x3c, 0xe5, 0xb8, 0xaf, 0xb4, 0x71, 0xad, 0xd9, 0xa3,
+	0x4b, 0x7e, 0xc9, 0xb5, 0x34, 0x51, 0x5f, 0x05, 0x45, 0x3e, 0x40, 0xf7, 0x15, 0x97, 0x29, 0xf6,
+	0xc0, 0x60, 0xb1, 0x85, 0x3c, 0xe4, 0xf7, 0x66, 0x83, 0xfc, 0xc6, 0x35, 0x16, 0xf3, 0xdf, 0x37,
+	0xee, 0x91, 0xd2, 0x16, 0xf3, 0xc0, 0x60, 0x31, 0x7e, 0x01, 0xc0, 0xd6, 0x29, 0x15, 0x17, 0x61,
+	0x44, 0xa5, 0x65, 0x78, 0x07, 0xbe, 0x39, 0xf5, 0xc6, 0xb7, 0x43, 0xc6, 0x6f, 0x69, 0xfa, 0x85,
+	0x8b, 0x8f, 0x8b, 0x0a, 0x0c, 0x76, 0x76, 0xc8, 0x4f, 0x04, 0x83, 0x26, 0xd0, 0x16, 0xfc, 0x8e,
+	0x8b, 0x2a, 0xd8, 0x05, 0x73, 0x15, 0x46, 0xef, 0xc3, 0x38, 0x16, 0x54, 0xaa, 0x64, 0xe4, 0xf7,
+	0x02, 0x58, 0x85, 0xd1, 0x59, 0x31, 0xc1, 0x0f, 0x00, 0x58, 0x52, 0xeb, 0x07, 0x5a, 0xef, 0xb1,
+	0xa4, 0x92, 0x4f, 0xe1, 0x3e, 0x4b, 0xb2, 0x27, 0x35, 0xd0, 0xd5, 0x80, 0xa9, 0x66, 0x15, 0x32,
+	0x87, 0xe3, 0x25, 0xbd, 0x0a, 0x33, 0xc6, 0x85, 0x75, 0xe8, 0x21, 0xdf, 0x9c, 0xfa, 0x77, 0xdd,
+	0x6c, 0x56, 0xf2, 0x41, 0xbd, 0x49, 0x6c, 0xb0, 0xda, 0x28, 0x32, 0x84, 0x93, 0x97, 0x34, 0x55,
+	0x75, 0xca, 0x80, 0x7e, 0xfa, 0x4c, 0x65, 0x4a, 0x9e, 0xc3, 0x60, 0x3b, 0x92, 0x09, 0x5f, 0x4b,
+	0x8a, 0x1f, 0xc2, 0xa1, 0x7e, 0x43, 0x0b, 0xe9, 0x7e, 0x47, 0xcd, 0x53, 0x28, 0x3a, 0x28, 0x10,
+	0x32, 0x85, 0x7e, 0xb9, 0x5f, 0x3a, 0xde, 0xfd, 0x88, 0xe4, 0x59, 0x7d, 0x8c, 0x3a, 0xd2, 0x87,
+	0xae, 0xf2, 0xd3, 0x6b, 0x6d, 0x89, 0x9a, 0x20, 0x4f, 0xa1, 0x7f, 0x16, 0xc7, 0xbb, 0x81, 0xff,
+	0xbe, 0x3b, 0x84, 0x93, 0x7a, 0xb7, 0x08, 0x26, 0x8f, 0x61, 0x18, 0xd0, 0x15, 0xcf, 0xe8, 0xff,
+	0x5d, 0x61, 0x04, 0x78, 0x77, 0xad, 0x30, 0x9b, 0x7e, 0x37, 0xc0, 0x54, 0x83, 0x73, 0x2a, 0x32,
+	0x16, 0x51, 0xfc, 0x06, 0x8e, 0xab, 0x72, 0xb1, 0xdb, 0x3c, 0x57, 0xe3, 0x25, 0x6c, 0xaf, 0x1d,
+	0x28, 0x4b, 0x7a, 0x0d, 0xf7, 0xca, 0x19, 0x76, 0x5a, 0xe0, 0xca, 0xcc, 0x6d, 0xd5, 0xb7, 0x5e,
+	0x65, 0x15, 0xfb, 0x5e, 0xb7, 0xfb, 0xdd, 0xf7, 0x6a, 0x74, 0x88, 0xcf, 0x01, 0xb6, 0x65, 0xe0,
+	0xd3, 0x26, 0xbe, 0xd7, 0xaf, 0x4d, 0xfe, 0x86, 0x14, 0xa6, 0x33, 0xeb, 0x5b, 0xee, 0xa0, 0xeb,
+	0xdc, 0x41, 0xbf, 0x72, 0x07, 0x7d, 0xdd, 0x38, 0x9d, 0xeb, 0x8d, 0xd3, 0xf9, 0xb1, 0x71, 0x3a,
+	0xcb, 0x23, 0xfd, 0xd3, 0x78, 0xf4, 0x27, 0x00, 0x00, 0xff, 0xff, 0xc9, 0xdf, 0x3a, 0x7c, 0x78,
+	0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -707,6 +796,27 @@ func (m *Host) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.Interfaces) > 0 {
+		for iNdEx := len(m.Interfaces) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Interfaces[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintHosts(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -730,6 +840,46 @@ func (m *NetworkInterface) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.Behavior != nil {
+		{
+			size, err := m.Behavior.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintHosts(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.Ipv6Address) > 0 {
+		i -= len(m.Ipv6Address)
+		copy(dAtA[i:], m.Ipv6Address)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.Ipv6Address)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.IpAddress) > 0 {
+		i -= len(m.IpAddress)
+		copy(dAtA[i:], m.IpAddress)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.IpAddress)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.MacAddress) > 0 {
+		i -= len(m.MacAddress)
+		copy(dAtA[i:], m.MacAddress)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.MacAddress)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -836,6 +986,13 @@ func (m *GetHostRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -952,6 +1109,13 @@ func (m *RemoveHostRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintHosts(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -995,6 +1159,16 @@ func (m *Host) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
+	if len(m.Interfaces) > 0 {
+		for _, e := range m.Interfaces {
+			l = e.Size()
+			n += 1 + l + sovHosts(uint64(l))
+		}
+	}
 	return n
 }
 
@@ -1004,6 +1178,26 @@ func (m *NetworkInterface) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
+	l = len(m.MacAddress)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
+	l = len(m.IpAddress)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
+	l = len(m.Ipv6Address)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
+	if m.Behavior != nil {
+		l = m.Behavior.Size()
+		n += 1 + l + sovHosts(uint64(l))
+	}
 	return n
 }
 
@@ -1046,6 +1240,10 @@ func (m *GetHostRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
 	return n
 }
 
@@ -1090,6 +1288,10 @@ func (m *RemoveHostRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovHosts(uint64(l))
+	}
 	return n
 }
 
@@ -1137,6 +1339,72 @@ func (m *Host) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Host: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = HostID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Interfaces", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Interfaces = append(m.Interfaces, &NetworkInterface{})
+			if err := m.Interfaces[len(m.Interfaces)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHosts(dAtA[iNdEx:])
@@ -1187,6 +1455,170 @@ func (m *NetworkInterface) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: NetworkInterface: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MacAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.MacAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IpAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.IpAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ipv6Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Ipv6Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Behavior", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Behavior == nil {
+				m.Behavior = &NetworkInterfaceBehavior{}
+			}
+			if err := m.Behavior.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHosts(dAtA[iNdEx:])
@@ -1421,6 +1853,38 @@ func (m *GetHostRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GetHostRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = HostID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHosts(dAtA[iNdEx:])
@@ -1693,6 +2157,38 @@ func (m *RemoveHostRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: RemoveHostRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowHosts
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthHosts
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthHosts
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = HostID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipHosts(dAtA[iNdEx:])

@@ -8,11 +8,42 @@ import betterproto
 import grpclib
 
 
+class DeviceType(betterproto.Enum):
+    """DeviceType represents type of a device, i.e. switch, IPU, etc."""
+
+    SWITCH = 0
+    IPU = 1
+
+
+class StopMode(betterproto.Enum):
+    """
+    StopMode indicates whether to simulate orderly (administrative) or chaotic
+    (power off) shutdown
+    """
+
+    ORDERLY_STOP = 0
+    CHAOTIC_STOP = 1
+
+
+class LinkStatus(betterproto.Enum):
+    """DeviceType represents type of a device, i.e. switch, IPU, etc."""
+
+    LINK_DOWN = 0
+    LINK_UP = 1
+
+
 @dataclass(eq=False, repr=False)
 class Device(betterproto.Message):
     """Device describes a simulated switch or IPU"""
 
-    pass
+    # unique device id and device type
+    id: str = betterproto.string_field(1)
+    type: "DeviceType" = betterproto.enum_field(2)
+    # list of ports
+    ports: List["Port"] = betterproto.message_field(3)
+    # p4 and gnmi emulation ports
+    p4_port: int = betterproto.uint32_field(4)
+    gnmi_port: int = betterproto.uint32_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -22,7 +53,16 @@ class Device(betterproto.Message):
 class Port(betterproto.Message):
     """Port describes a simulated device port"""
 
-    pass
+    # unique port id and port type
+    id: str = betterproto.string_field(1)
+    # display/friendly name
+    name: str = betterproto.string_field(3)
+    # port number
+    number: int = betterproto.uint32_field(4)
+    # sdn/internal port number
+    internal_number: int = betterproto.uint32_field(5)
+    # speed
+    speed: str = betterproto.string_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -46,7 +86,7 @@ class GetDevicesResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetDeviceRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -78,7 +118,7 @@ class AddDeviceResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RemoveDeviceRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -94,7 +134,8 @@ class RemoveDeviceResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class StopDeviceRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
+    mode: "StopMode" = betterproto.enum_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -110,7 +151,7 @@ class StopDeviceResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class StartDeviceRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -126,7 +167,8 @@ class StartDeviceResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class DisablePortRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
+    mode: "StopMode" = betterproto.enum_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -142,7 +184,7 @@ class DisablePortResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class EnablePortRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -160,7 +202,9 @@ class EnablePortResponse(betterproto.Message):
 class Host(betterproto.Message):
     """Device describes a simulated switch or IPU"""
 
-    pass
+    # unique device id and device type
+    id: str = betterproto.string_field(1)
+    interfaces: List["NetworkInterface"] = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -170,7 +214,16 @@ class Host(betterproto.Message):
 class NetworkInterface(betterproto.Message):
     """Port describes a simulated device port"""
 
-    pass
+    # unique port id and port type
+    id: str = betterproto.string_field(1)
+    # display/friendly name
+    mac_address: str = betterproto.string_field(2)
+    # port number
+    ip_address: str = betterproto.string_field(3)
+    # sdn/internal port number
+    ipv6_address: str = betterproto.string_field(4)
+    # speed
+    behavior: "NetworkInterfaceBehavior" = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -202,7 +255,7 @@ class GetHostsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -234,7 +287,7 @@ class AddHostResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RemoveHostRequest(betterproto.Message):
-    pass
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -252,7 +305,11 @@ class RemoveHostResponse(betterproto.Message):
 class Link(betterproto.Message):
     """Device describes a simulated switch or IPU"""
 
-    pass
+    # unique device id and device type
+    src_id: str = betterproto.string_field(1)
+    tgt_id: str = betterproto.string_field(2)
+    # list of ports
+    status: "LinkStatus" = betterproto.enum_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -278,7 +335,8 @@ class GetLinksResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinkRequest(betterproto.Message):
-    pass
+    src_id: str = betterproto.string_field(1)
+    tgt_id: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -310,7 +368,8 @@ class AddLinkResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RemoveLinkRequest(betterproto.Message):
-    pass
+    src_id: str = betterproto.string_field(1)
+    tgt_id: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -341,10 +400,11 @@ class DeviceServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.DeviceService/GetDevices", request, GetDevicesResponse
         )
 
-    async def get_device(self) -> "GetDeviceResponse":
+    async def get_device(self, *, id: str = "") -> "GetDeviceResponse":
         """GetDevice gets a specific device entry"""
 
         request = GetDeviceRequest()
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/GetDevice", request, GetDeviceResponse
@@ -375,39 +435,49 @@ class DeviceServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.DeviceService/RemoveDevice", request, RemoveDeviceResponse
         )
 
-    async def stop_device(self) -> "StopDeviceResponse":
+    async def stop_device(
+        self, *, id: str = "", mode: "StopMode" = None
+    ) -> "StopDeviceResponse":
         """StopDevice stops the simulated deviceP4Runtime and gNMI services"""
 
         request = StopDeviceRequest()
+        request.id = id
+        request.mode = mode
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/StopDevice", request, StopDeviceResponse
         )
 
-    async def start_device(self) -> "StartDeviceResponse":
+    async def start_device(self, *, id: str = "") -> "StartDeviceResponse":
         """
         StartDevice starts the simulated deviceP4Runtime and gNMI services
         """
 
         request = StartDeviceRequest()
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/StartDevice", request, StartDeviceResponse
         )
 
-    async def disable_port(self) -> "DisablePortResponse":
+    async def disable_port(
+        self, *, id: str = "", mode: "StopMode" = None
+    ) -> "DisablePortResponse":
         """DisablePort disables the specified port"""
 
         request = DisablePortRequest()
+        request.id = id
+        request.mode = mode
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/DisablePort", request, DisablePortResponse
         )
 
-    async def enable_port(self) -> "EnablePortResponse":
+    async def enable_port(self, *, id: str = "") -> "EnablePortResponse":
         """EnablePort enables the specified port"""
 
         request = EnablePortRequest()
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/EnablePort", request, EnablePortResponse
@@ -431,10 +501,11 @@ class HostServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.HostService/GetHosts", request, GetHostsResponse
         )
 
-    async def get_host(self) -> "GetHostResponse":
+    async def get_host(self, *, id: str = "") -> "GetHostResponse":
         """GetDevice gets a specific device entry"""
 
         request = GetHostRequest()
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.HostService/GetHost", request, GetHostResponse
@@ -454,10 +525,11 @@ class HostServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.HostService/AddHost", request, AddHostResponse
         )
 
-    async def remove_host(self) -> "RemoveHostResponse":
+    async def remove_host(self, *, id: str = "") -> "RemoveHostResponse":
         """RemoveDevice removes a simulated device"""
 
         request = RemoveHostRequest()
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.HostService/RemoveHost", request, RemoveHostResponse
@@ -481,10 +553,14 @@ class LinkServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.LinkService/GetLinks", request, GetLinksResponse
         )
 
-    async def get_link(self) -> "GetLinkResponse":
+    async def get_link(
+        self, *, src_id: str = "", tgt_id: str = ""
+    ) -> "GetLinkResponse":
         """GetDevice gets a specific device entry"""
 
         request = GetLinkRequest()
+        request.src_id = src_id
+        request.tgt_id = tgt_id
 
         return await self._unary_unary(
             "/onos.fabricsim.LinkService/GetLink", request, GetLinkResponse
@@ -504,10 +580,14 @@ class LinkServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.LinkService/AddLink", request, AddLinkRequest
         )
 
-    async def remove_link(self) -> "RemoveLinkRequest":
+    async def remove_link(
+        self, *, src_id: str = "", tgt_id: str = ""
+    ) -> "RemoveLinkRequest":
         """RemoveDevice removes a simulated device"""
 
         request = RemoveLinkRequest()
+        request.src_id = src_id
+        request.tgt_id = tgt_id
 
         return await self._unary_unary(
             "/onos.fabricsim.LinkService/RemoveLink", request, RemoveLinkRequest

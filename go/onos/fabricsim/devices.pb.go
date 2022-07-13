@@ -6,6 +6,7 @@ package fabricsim
 import (
 	context "context"
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -26,8 +27,68 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// DeviceType represents type of a device, i.e. switch, IPU, etc.
+type DeviceType int32
+
+const (
+	DeviceType_SWITCH DeviceType = 0
+	DeviceType_IPU    DeviceType = 1
+)
+
+var DeviceType_name = map[int32]string{
+	0: "SWITCH",
+	1: "IPU",
+}
+
+var DeviceType_value = map[string]int32{
+	"SWITCH": 0,
+	"IPU":    1,
+}
+
+func (x DeviceType) String() string {
+	return proto.EnumName(DeviceType_name, int32(x))
+}
+
+func (DeviceType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_7db16019df22577e, []int{0}
+}
+
+// StopMode indicates whether to simulate orderly (administrative) or chaotic (power off) shutdown
+type StopMode int32
+
+const (
+	StopMode_ORDERLY_STOP StopMode = 0
+	StopMode_CHAOTIC_STOP StopMode = 1
+)
+
+var StopMode_name = map[int32]string{
+	0: "ORDERLY_STOP",
+	1: "CHAOTIC_STOP",
+}
+
+var StopMode_value = map[string]int32{
+	"ORDERLY_STOP": 0,
+	"CHAOTIC_STOP": 1,
+}
+
+func (x StopMode) String() string {
+	return proto.EnumName(StopMode_name, int32(x))
+}
+
+func (StopMode) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_7db16019df22577e, []int{1}
+}
+
 // Device describes a simulated switch or IPU
 type Device struct {
+	// unique device id and device type
+	ID   DeviceID   `protobuf:"bytes,1,opt,name=id,proto3,casttype=DeviceID" json:"id,omitempty"`
+	Type DeviceType `protobuf:"varint,2,opt,name=type,proto3,enum=onos.fabricsim.DeviceType" json:"type,omitempty"`
+	// list of ports
+	Ports []*Port `protobuf:"bytes,3,rep,name=ports,proto3" json:"ports,omitempty"`
+	// p4 and gnmi emulation ports
+	P4Port   uint32 `protobuf:"varint,4,opt,name=p4_port,json=p4Port,proto3" json:"p4_port,omitempty"`
+	GnmiPort uint32 `protobuf:"varint,5,opt,name=gnmi_port,json=gnmiPort,proto3" json:"gnmi_port,omitempty"`
 }
 
 func (m *Device) Reset()         { *m = Device{} }
@@ -63,8 +124,53 @@ func (m *Device) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Device proto.InternalMessageInfo
 
+func (m *Device) GetID() DeviceID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *Device) GetType() DeviceType {
+	if m != nil {
+		return m.Type
+	}
+	return DeviceType_SWITCH
+}
+
+func (m *Device) GetPorts() []*Port {
+	if m != nil {
+		return m.Ports
+	}
+	return nil
+}
+
+func (m *Device) GetP4Port() uint32 {
+	if m != nil {
+		return m.P4Port
+	}
+	return 0
+}
+
+func (m *Device) GetGnmiPort() uint32 {
+	if m != nil {
+		return m.GnmiPort
+	}
+	return 0
+}
+
 // Port describes a simulated device port
 type Port struct {
+	// unique port id and port type
+	ID PortID `protobuf:"bytes,1,opt,name=id,proto3,casttype=PortID" json:"id,omitempty"`
+	// display/friendly name
+	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	// port number
+	Number uint32 `protobuf:"varint,4,opt,name=number,proto3" json:"number,omitempty"`
+	// sdn/internal port number
+	InternalNumber uint32 `protobuf:"varint,5,opt,name=internal_number,json=internalNumber,proto3" json:"internal_number,omitempty"`
+	// speed
+	Speed string `protobuf:"bytes,6,opt,name=speed,proto3" json:"speed,omitempty"`
 }
 
 func (m *Port) Reset()         { *m = Port{} }
@@ -99,6 +205,41 @@ func (m *Port) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_Port proto.InternalMessageInfo
+
+func (m *Port) GetID() PortID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *Port) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Port) GetNumber() uint32 {
+	if m != nil {
+		return m.Number
+	}
+	return 0
+}
+
+func (m *Port) GetInternalNumber() uint32 {
+	if m != nil {
+		return m.InternalNumber
+	}
+	return 0
+}
+
+func (m *Port) GetSpeed() string {
+	if m != nil {
+		return m.Speed
+	}
+	return ""
+}
 
 type GetDevicesRequest struct {
 }
@@ -181,6 +322,7 @@ func (m *GetDevicesResponse) GetDevices() []*Device {
 }
 
 type GetDeviceRequest struct {
+	ID DeviceID `protobuf:"bytes,1,opt,name=id,proto3,casttype=DeviceID" json:"id,omitempty"`
 }
 
 func (m *GetDeviceRequest) Reset()         { *m = GetDeviceRequest{} }
@@ -215,6 +357,13 @@ func (m *GetDeviceRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_GetDeviceRequest proto.InternalMessageInfo
+
+func (m *GetDeviceRequest) GetID() DeviceID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 type GetDeviceResponse struct {
 	Device *Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty"`
@@ -341,6 +490,7 @@ func (m *AddDeviceResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddDeviceResponse proto.InternalMessageInfo
 
 type RemoveDeviceRequest struct {
+	ID DeviceID `protobuf:"bytes,1,opt,name=id,proto3,casttype=DeviceID" json:"id,omitempty"`
 }
 
 func (m *RemoveDeviceRequest) Reset()         { *m = RemoveDeviceRequest{} }
@@ -375,6 +525,13 @@ func (m *RemoveDeviceRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_RemoveDeviceRequest proto.InternalMessageInfo
+
+func (m *RemoveDeviceRequest) GetID() DeviceID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 type RemoveDeviceResponse struct {
 }
@@ -413,6 +570,8 @@ func (m *RemoveDeviceResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RemoveDeviceResponse proto.InternalMessageInfo
 
 type StopDeviceRequest struct {
+	ID   DeviceID `protobuf:"bytes,1,opt,name=id,proto3,casttype=DeviceID" json:"id,omitempty"`
+	Mode StopMode `protobuf:"varint,2,opt,name=mode,proto3,enum=onos.fabricsim.StopMode" json:"mode,omitempty"`
 }
 
 func (m *StopDeviceRequest) Reset()         { *m = StopDeviceRequest{} }
@@ -447,6 +606,20 @@ func (m *StopDeviceRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_StopDeviceRequest proto.InternalMessageInfo
+
+func (m *StopDeviceRequest) GetID() DeviceID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *StopDeviceRequest) GetMode() StopMode {
+	if m != nil {
+		return m.Mode
+	}
+	return StopMode_ORDERLY_STOP
+}
 
 type StopDeviceResponse struct {
 }
@@ -485,6 +658,7 @@ func (m *StopDeviceResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_StopDeviceResponse proto.InternalMessageInfo
 
 type StartDeviceRequest struct {
+	ID DeviceID `protobuf:"bytes,1,opt,name=id,proto3,casttype=DeviceID" json:"id,omitempty"`
 }
 
 func (m *StartDeviceRequest) Reset()         { *m = StartDeviceRequest{} }
@@ -519,6 +693,13 @@ func (m *StartDeviceRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_StartDeviceRequest proto.InternalMessageInfo
+
+func (m *StartDeviceRequest) GetID() DeviceID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 type StartDeviceResponse struct {
 }
@@ -557,6 +738,8 @@ func (m *StartDeviceResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_StartDeviceResponse proto.InternalMessageInfo
 
 type DisablePortRequest struct {
+	ID   PortID   `protobuf:"bytes,1,opt,name=id,proto3,casttype=PortID" json:"id,omitempty"`
+	Mode StopMode `protobuf:"varint,2,opt,name=mode,proto3,enum=onos.fabricsim.StopMode" json:"mode,omitempty"`
 }
 
 func (m *DisablePortRequest) Reset()         { *m = DisablePortRequest{} }
@@ -591,6 +774,20 @@ func (m *DisablePortRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_DisablePortRequest proto.InternalMessageInfo
+
+func (m *DisablePortRequest) GetID() PortID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *DisablePortRequest) GetMode() StopMode {
+	if m != nil {
+		return m.Mode
+	}
+	return StopMode_ORDERLY_STOP
+}
 
 type DisablePortResponse struct {
 }
@@ -629,6 +826,7 @@ func (m *DisablePortResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_DisablePortResponse proto.InternalMessageInfo
 
 type EnablePortRequest struct {
+	ID PortID `protobuf:"bytes,1,opt,name=id,proto3,casttype=PortID" json:"id,omitempty"`
 }
 
 func (m *EnablePortRequest) Reset()         { *m = EnablePortRequest{} }
@@ -663,6 +861,13 @@ func (m *EnablePortRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_EnablePortRequest proto.InternalMessageInfo
+
+func (m *EnablePortRequest) GetID() PortID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 type EnablePortResponse struct {
 }
@@ -701,6 +906,8 @@ func (m *EnablePortResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_EnablePortResponse proto.InternalMessageInfo
 
 func init() {
+	proto.RegisterEnum("onos.fabricsim.DeviceType", DeviceType_name, DeviceType_value)
+	proto.RegisterEnum("onos.fabricsim.StopMode", StopMode_name, StopMode_value)
 	proto.RegisterType((*Device)(nil), "onos.fabricsim.Device")
 	proto.RegisterType((*Port)(nil), "onos.fabricsim.Port")
 	proto.RegisterType((*GetDevicesRequest)(nil), "onos.fabricsim.GetDevicesRequest")
@@ -724,33 +931,51 @@ func init() {
 func init() { proto.RegisterFile("onos/fabricsim/devices.proto", fileDescriptor_7db16019df22577e) }
 
 var fileDescriptor_7db16019df22577e = []byte{
-	// 403 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x94, 0xcd, 0x4e, 0xfa, 0x40,
-	0x14, 0xc5, 0x69, 0xfe, 0x7f, 0xab, 0x5e, 0xd4, 0xc0, 0x14, 0x08, 0x21, 0xa6, 0x81, 0xd1, 0x85,
-	0xab, 0x62, 0xf0, 0x09, 0x44, 0xd4, 0x2d, 0x81, 0x84, 0x3d, 0x1f, 0x63, 0xd2, 0x44, 0x18, 0xec,
-	0x54, 0x9e, 0xc3, 0xe7, 0xf1, 0x09, 0x5c, 0xb2, 0x74, 0x69, 0xe0, 0x45, 0x4c, 0x69, 0xe9, 0x7c,
-	0xdc, 0xda, 0xe8, 0xaa, 0xc9, 0x99, 0x73, 0x7f, 0x33, 0x39, 0xf7, 0xa4, 0x70, 0xce, 0x17, 0x5c,
-	0xb4, 0x9f, 0xc6, 0x93, 0xc0, 0x9f, 0x0a, 0x7f, 0xde, 0x9e, 0xb1, 0x95, 0x3f, 0x65, 0xc2, 0x5b,
-	0x06, 0x3c, 0xe4, 0xe4, 0x2c, 0x3a, 0xf5, 0xd2, 0x53, 0x7a, 0x04, 0x76, 0x6f, 0x67, 0xa0, 0x36,
-	0xfc, 0xef, 0xf3, 0x20, 0xa4, 0x0e, 0x94, 0x1f, 0x59, 0x18, 0x8b, 0x62, 0xc0, 0x5e, 0x5e, 0x99,
-	0x08, 0xe9, 0x03, 0x10, 0x55, 0x14, 0x4b, 0xbe, 0x10, 0x8c, 0x5c, 0xc3, 0x61, 0x42, 0xaf, 0x5b,
-	0xcd, 0x7f, 0x57, 0xc5, 0x4e, 0xcd, 0xd3, 0xf1, 0x5e, 0x3c, 0x31, 0xd8, 0xdb, 0x28, 0x81, 0x52,
-	0xca, 0xd9, 0xb3, 0xef, 0x94, 0x0b, 0x53, 0xb4, 0x07, 0x76, 0x3c, 0x53, 0xb7, 0x9a, 0x56, 0x0e,
-	0x39, 0x71, 0xd1, 0x2e, 0x94, 0x6e, 0x67, 0x33, 0x0d, 0xfc, 0x67, 0x86, 0x03, 0x65, 0x85, 0x11,
-	0x3f, 0x84, 0x56, 0xc1, 0x19, 0xb0, 0x39, 0x5f, 0x31, 0xfd, 0xd1, 0x35, 0xa8, 0xe8, 0x72, 0x62,
-	0x77, 0xa0, 0x3c, 0x0c, 0xf9, 0x52, 0x37, 0x57, 0x80, 0xa8, 0x62, 0x62, 0xdd, 0xa9, 0xe3, 0xc0,
-	0x48, 0xa3, 0x0a, 0x8e, 0xa6, 0x4a, 0x73, 0xcf, 0x17, 0xe3, 0xc9, 0x33, 0x8b, 0x96, 0xa4, 0x98,
-	0x35, 0x55, 0x3e, 0xe2, 0x7e, 0x61, 0x7a, 0x2b, 0x40, 0x54, 0x31, 0xb6, 0x76, 0xde, 0x0f, 0xe0,
-	0x34, 0xbe, 0x6a, 0xc8, 0x82, 0xe8, 0x43, 0x86, 0x00, 0x72, 0xd5, 0xa4, 0x65, 0x66, 0x86, 0xba,
-	0xd1, 0xa0, 0x79, 0x96, 0x64, 0x9d, 0x7d, 0x38, 0x4e, 0x55, 0xd2, 0xfc, 0x71, 0x60, 0x8f, 0x6c,
-	0xe5, 0x38, 0x24, 0x31, 0x5d, 0x16, 0x26, 0x9a, 0x5d, 0xc0, 0x44, 0xb4, 0x69, 0x32, 0x82, 0x13,
-	0x75, 0xa5, 0xbf, 0x80, 0x5e, 0x9a, 0x8e, 0xac, 0x4a, 0x44, 0x81, 0xca, 0xed, 0xe3, 0x40, 0x51,
-	0x5d, 0x70, 0xa0, 0xb8, 0x3c, 0x64, 0x04, 0x45, 0xa5, 0x26, 0x24, 0x63, 0xc4, 0x6c, 0x56, 0xe3,
-	0x22, 0xd7, 0x23, 0xb9, 0x4a, 0xa3, 0x30, 0x17, 0x97, 0x10, 0x73, 0x33, 0x2a, 0x19, 0x85, 0x20,
-	0xdb, 0x87, 0x43, 0x40, 0x75, 0xc5, 0x21, 0xe0, 0xf2, 0x76, 0xeb, 0x1f, 0x1b, 0xd7, 0x5a, 0x6f,
-	0x5c, 0xeb, 0x6b, 0xe3, 0x5a, 0x6f, 0x5b, 0xb7, 0xb0, 0xde, 0xba, 0x85, 0xcf, 0xad, 0x5b, 0x98,
-	0xd8, 0xbb, 0xbf, 0xdd, 0xcd, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0x23, 0xba, 0x69, 0x36, 0x0d,
-	0x05, 0x00, 0x00,
+	// 694 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0x4f, 0x6f, 0xd3, 0x4e,
+	0x10, 0xcd, 0xe6, 0x8f, 0xdb, 0x4e, 0xff, 0xfc, 0x9c, 0x4d, 0xda, 0x9f, 0x15, 0x50, 0x9a, 0x1a,
+	0x24, 0xa2, 0x0a, 0xb9, 0xa8, 0x14, 0x04, 0xc7, 0x36, 0x29, 0x34, 0x12, 0xd0, 0xc8, 0x09, 0x45,
+	0x9c, 0xaa, 0xa4, 0x5e, 0x2a, 0x4b, 0x8d, 0xd7, 0xd8, 0x6e, 0xa5, 0x7e, 0x0b, 0x24, 0xbe, 0x0d,
+	0x07, 0xce, 0x1c, 0x7b, 0xe4, 0x54, 0xa1, 0xf4, 0x5b, 0x70, 0x42, 0xbb, 0xeb, 0xd8, 0x8e, 0x37,
+	0x0d, 0x0d, 0xb7, 0xcd, 0xcc, 0x9b, 0xf7, 0x66, 0x67, 0xe7, 0x39, 0x70, 0x9f, 0x3a, 0xd4, 0xdf,
+	0xfa, 0xd4, 0xeb, 0x7b, 0xf6, 0x89, 0x6f, 0x0f, 0xb6, 0x2c, 0x72, 0x61, 0x9f, 0x10, 0xdf, 0x70,
+	0x3d, 0x1a, 0x50, 0xbc, 0xc2, 0xb2, 0x46, 0x94, 0xad, 0x94, 0x4f, 0xe9, 0x29, 0xe5, 0xa9, 0x2d,
+	0x76, 0x12, 0x28, 0xfd, 0x3b, 0x02, 0xa5, 0xc9, 0xeb, 0xb0, 0x0e, 0x59, 0xdb, 0xd2, 0x50, 0x0d,
+	0xd5, 0x17, 0xf6, 0xf0, 0xf0, 0x7a, 0x3d, 0xdb, 0x6a, 0xfe, 0xbe, 0x5e, 0x9f, 0x17, 0xd9, 0x56,
+	0xd3, 0xcc, 0xda, 0x16, 0x36, 0x20, 0x1f, 0x5c, 0xba, 0x44, 0xcb, 0xd6, 0x50, 0x7d, 0x65, 0xbb,
+	0x62, 0x8c, 0x6b, 0x18, 0x02, 0xdb, 0xbd, 0x74, 0x89, 0xc9, 0x71, 0x78, 0x13, 0x0a, 0x2e, 0xf5,
+	0x02, 0x5f, 0xcb, 0xd5, 0x72, 0xf5, 0xc5, 0xed, 0x72, 0xba, 0xa0, 0x4d, 0xbd, 0xc0, 0x14, 0x10,
+	0xfc, 0x3f, 0xcc, 0xb9, 0x3b, 0xc7, 0xec, 0xac, 0xe5, 0x6b, 0xa8, 0xbe, 0x6c, 0x2a, 0xee, 0x0e,
+	0xcb, 0xe3, 0x7b, 0xb0, 0x70, 0xea, 0x0c, 0x6c, 0x91, 0x2a, 0xf0, 0xd4, 0x3c, 0x0b, 0xb0, 0xa4,
+	0xfe, 0x15, 0x41, 0x9e, 0xa3, 0x6a, 0x89, 0xf6, 0xd5, 0xa8, 0x7d, 0x85, 0xe5, 0xc2, 0xe6, 0x31,
+	0xe4, 0x9d, 0xde, 0x80, 0x68, 0x39, 0x86, 0x31, 0xf9, 0x19, 0xaf, 0x81, 0xe2, 0x9c, 0x0f, 0xfa,
+	0xc4, 0x1b, 0x69, 0x8a, 0x5f, 0xf8, 0x11, 0xfc, 0x67, 0x3b, 0x01, 0xf1, 0x9c, 0xde, 0xd9, 0x71,
+	0x08, 0x10, 0xca, 0x2b, 0xa3, 0xf0, 0x3b, 0x01, 0x2c, 0x43, 0xc1, 0x77, 0x09, 0xb1, 0x34, 0x85,
+	0xb3, 0x8a, 0x1f, 0x7a, 0x09, 0x8a, 0xaf, 0x49, 0x20, 0xc6, 0xe1, 0x9b, 0xe4, 0xf3, 0x39, 0xf1,
+	0x03, 0xfd, 0x15, 0xe0, 0x64, 0xd0, 0x77, 0xa9, 0xe3, 0x13, 0xfc, 0x04, 0xe6, 0xc2, 0x87, 0xd3,
+	0x10, 0x1f, 0xd2, 0xda, 0xe4, 0xa9, 0x9a, 0x23, 0x98, 0xfe, 0x1c, 0xd4, 0x88, 0x27, 0xe4, 0xbe,
+	0xcb, 0xe3, 0xe9, 0x8d, 0x44, 0x53, 0x91, 0xbc, 0x01, 0x8a, 0xe0, 0xe5, 0xc5, 0xb7, 0xab, 0x87,
+	0x28, 0x7d, 0x0f, 0xd4, 0x5d, 0xcb, 0x1a, 0x17, 0x9f, 0x95, 0xa3, 0x04, 0xc5, 0x04, 0x87, 0x68,
+	0x44, 0x7f, 0x09, 0x25, 0x93, 0x0c, 0xe8, 0x05, 0x99, 0xfd, 0x62, 0x6b, 0x50, 0x1e, 0x2f, 0x0d,
+	0x29, 0x09, 0x14, 0x3b, 0x01, 0x75, 0x67, 0x26, 0xc4, 0x8f, 0x21, 0x3f, 0xa0, 0xd6, 0x68, 0xcd,
+	0xb5, 0xf4, 0x75, 0x18, 0xe9, 0x5b, 0x6a, 0x11, 0x93, 0xa3, 0xf4, 0x32, 0xe0, 0xa4, 0x4c, 0x28,
+	0xfe, 0x82, 0x45, 0x7b, 0xde, 0x3f, 0xbc, 0xd3, 0x2a, 0x94, 0xc6, 0x2a, 0x43, 0x42, 0x0b, 0x70,
+	0xd3, 0xf6, 0x7b, 0xfd, 0x33, 0xc2, 0x5d, 0x13, 0x12, 0xfe, 0x7d, 0xed, 0x67, 0xbb, 0xcc, 0x2a,
+	0x94, 0xc6, 0x54, 0x42, 0xf1, 0x67, 0x50, 0xdc, 0x77, 0x66, 0xd6, 0x66, 0xa3, 0x49, 0x96, 0x09,
+	0xb2, 0xcd, 0x0d, 0x80, 0xf8, 0x4b, 0x81, 0x01, 0x94, 0xce, 0x87, 0x56, 0xb7, 0x71, 0xa0, 0x66,
+	0xf0, 0x1c, 0xe4, 0x5a, 0xed, 0xf7, 0x2a, 0xda, 0x34, 0x60, 0x7e, 0xd4, 0x18, 0x56, 0x61, 0xe9,
+	0xd0, 0x6c, 0xee, 0x9b, 0x6f, 0x3e, 0x1e, 0x77, 0xba, 0x87, 0x6d, 0x35, 0xc3, 0x22, 0x8d, 0x83,
+	0xdd, 0xc3, 0x6e, 0xab, 0x21, 0x22, 0x68, 0xfb, 0x5b, 0x01, 0x96, 0x05, 0x67, 0x87, 0x78, 0xfc,
+	0x73, 0xd6, 0x01, 0x88, 0xdd, 0x86, 0x37, 0xd2, 0xd7, 0x96, 0xec, 0x59, 0xd1, 0xa7, 0x41, 0x42,
+	0xb7, 0xb4, 0x61, 0x21, 0x8a, 0xe2, 0xda, 0xad, 0x05, 0x23, 0xca, 0x8d, 0x29, 0x88, 0x98, 0x31,
+	0xf2, 0x82, 0xcc, 0x98, 0xb6, 0x9a, 0xcc, 0x28, 0x19, 0x09, 0x1f, 0xc1, 0x52, 0xd2, 0x0d, 0x77,
+	0x20, 0x7d, 0x98, 0x46, 0x4c, 0x72, 0x13, 0x1b, 0x68, 0xbc, 0xe6, 0xf2, 0x40, 0x25, 0xa7, 0xc9,
+	0x03, 0x95, 0x5d, 0x82, 0x8f, 0x60, 0x31, 0xb1, 0xeb, 0x78, 0x42, 0x49, 0xda, 0x42, 0x95, 0x07,
+	0x53, 0x31, 0x31, 0x6f, 0x62, 0x8d, 0x65, 0x5e, 0xd9, 0x49, 0x32, 0xef, 0x04, 0x1f, 0xb0, 0x21,
+	0xc4, 0x0b, 0x2d, 0x0f, 0x41, 0xf2, 0x88, 0x3c, 0x04, 0xd9, 0x0f, 0x7b, 0xda, 0x8f, 0x61, 0x15,
+	0x5d, 0x0d, 0xab, 0xe8, 0xd7, 0xb0, 0x8a, 0xbe, 0xdc, 0x54, 0x33, 0x57, 0x37, 0xd5, 0xcc, 0xcf,
+	0x9b, 0x6a, 0xa6, 0xaf, 0xf0, 0x7f, 0xe9, 0xa7, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0xec, 0x81,
+	0x74, 0xa4, 0xeb, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1121,6 +1346,42 @@ func (m *Device) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.GnmiPort != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.GnmiPort))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.P4Port != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.P4Port))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Ports) > 0 {
+		for iNdEx := len(m.Ports) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Ports[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintDevices(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
+	if m.Type != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.Type))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1144,6 +1405,37 @@ func (m *Port) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.Speed) > 0 {
+		i -= len(m.Speed)
+		copy(dAtA[i:], m.Speed)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.Speed)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if m.InternalNumber != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.InternalNumber))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.Number != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.Number))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1227,6 +1519,13 @@ func (m *GetDeviceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1343,6 +1642,13 @@ func (m *RemoveDeviceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1389,6 +1695,18 @@ func (m *StopDeviceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.Mode != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.Mode))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1435,6 +1753,13 @@ func (m *StartDeviceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1481,6 +1806,18 @@ func (m *DisablePortRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.Mode != 0 {
+		i = encodeVarintDevices(dAtA, i, uint64(m.Mode))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1527,6 +1864,13 @@ func (m *EnablePortRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintDevices(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1570,6 +1914,25 @@ func (m *Device) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
+	if m.Type != 0 {
+		n += 1 + sovDevices(uint64(m.Type))
+	}
+	if len(m.Ports) > 0 {
+		for _, e := range m.Ports {
+			l = e.Size()
+			n += 1 + l + sovDevices(uint64(l))
+		}
+	}
+	if m.P4Port != 0 {
+		n += 1 + sovDevices(uint64(m.P4Port))
+	}
+	if m.GnmiPort != 0 {
+		n += 1 + sovDevices(uint64(m.GnmiPort))
+	}
 	return n
 }
 
@@ -1579,6 +1942,24 @@ func (m *Port) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
+	if m.Number != 0 {
+		n += 1 + sovDevices(uint64(m.Number))
+	}
+	if m.InternalNumber != 0 {
+		n += 1 + sovDevices(uint64(m.InternalNumber))
+	}
+	l = len(m.Speed)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
 	return n
 }
 
@@ -1612,6 +1993,10 @@ func (m *GetDeviceRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
 	return n
 }
 
@@ -1656,6 +2041,10 @@ func (m *RemoveDeviceRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
 	return n
 }
 
@@ -1674,6 +2063,13 @@ func (m *StopDeviceRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
+	if m.Mode != 0 {
+		n += 1 + sovDevices(uint64(m.Mode))
+	}
 	return n
 }
 
@@ -1692,6 +2088,10 @@ func (m *StartDeviceRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
 	return n
 }
 
@@ -1710,6 +2110,13 @@ func (m *DisablePortRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
+	if m.Mode != 0 {
+		n += 1 + sovDevices(uint64(m.Mode))
+	}
 	return n
 }
 
@@ -1728,6 +2135,10 @@ func (m *EnablePortRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovDevices(uint64(l))
+	}
 	return n
 }
 
@@ -1775,6 +2186,129 @@ func (m *Device) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Device: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = DeviceID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			m.Type = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Type |= DeviceType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ports", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Ports = append(m.Ports, &Port{})
+			if err := m.Ports[len(m.Ports)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field P4Port", wireType)
+			}
+			m.P4Port = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.P4Port |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field GnmiPort", wireType)
+			}
+			m.GnmiPort = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.GnmiPort |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -1825,6 +2359,140 @@ func (m *Port) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Port: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Number", wireType)
+			}
+			m.Number = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Number |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InternalNumber", wireType)
+			}
+			m.InternalNumber = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.InternalNumber |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Speed", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Speed = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -2009,6 +2677,38 @@ func (m *GetDeviceRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GetDeviceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = DeviceID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -2281,6 +2981,38 @@ func (m *RemoveDeviceRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: RemoveDeviceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = DeviceID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -2381,6 +3113,57 @@ func (m *StopDeviceRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: StopDeviceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = DeviceID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Mode", wireType)
+			}
+			m.Mode = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Mode |= StopMode(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -2481,6 +3264,38 @@ func (m *StartDeviceRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: StartDeviceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = DeviceID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -2581,6 +3396,57 @@ func (m *DisablePortRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: DisablePortRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Mode", wireType)
+			}
+			m.Mode = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Mode |= StopMode(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])
@@ -2681,6 +3547,38 @@ func (m *EnablePortRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: EnablePortRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDevices
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDevices
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDevices
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipDevices(dAtA[iNdEx:])

@@ -6,19 +6,32 @@ syntax = "proto3";
 
 package onos.fabricsim;
 
+import "gogoproto/gogo.proto";
+
 // Host describes a simulated host (bare metal, VM or container)
 message Host {
     // unique host id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "HostID"];
+
     // network interfaces
+    repeated NetworkInterface interfaces = 2;
 }
 
 // NetworkInterface describes simulated host's attachment to the network
 message NetworkInterface {
     // unique port id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PortID"];
+
     // mac address
+    string mac_address = 2;
+
     // ipv4 address
+    string ip_address = 3;
     // ipv6 address
+    string ipv6_address = 4;
+
     // behavior
+    NetworkInterfaceBehavior behavior = 5;
 }
 
 // NetworkInterfaceBehavior describes dynamic aspects of a simulated host interface
@@ -51,7 +64,7 @@ message GetHostsResponse {
 }
 
 message GetHostRequest {
-    // unique host id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "HostID"];
 }
 
 message GetHostResponse {
@@ -66,7 +79,7 @@ message AddHostResponse {
 }
 
 message RemoveHostRequest {
-    // unique host id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "HostID"];
 }
 
 message RemoveHostResponse {

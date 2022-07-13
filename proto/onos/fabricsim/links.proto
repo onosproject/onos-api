@@ -6,11 +6,22 @@ syntax = "proto3";
 
 package onos.fabricsim;
 
+import "gogoproto/gogo.proto";
+
 // Link describes a simulated link, i.e a link between two device or host ports
 message Link {
-    // source unique port id
-    // destination unique port id
+    // unique port ids of source and target ports
+    string src_id = 1 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
+    string tgt_id = 2 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
+
     // status (operational state derived from the status of its adjacent ports)
+    LinkStatus status = 3; // read-only entity
+}
+
+// LinkStatus represents the operational status of the link, derived from the status of its adjacent ports
+enum LinkStatus {
+    LINK_DOWN = 0;
+    LINK_UP = 1;
 }
 
 // LinkService provides means to control inventory of simulated links
@@ -37,8 +48,9 @@ message GetLinksResponse {
 }
 
 message GetLinkRequest {
-    // source unique port id
-    // destination unique port id
+    // unique port ids of source and target ports
+    string src_id = 1 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
+    string tgt_id = 2 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
 }
 
 message GetLinkResponse {
@@ -53,8 +65,9 @@ message AddLinkResponse {
 }
 
 message RemoveLinkRequest {
-    // source unique port id
-    // destination unique port id
+    // unique port ids of source and target ports
+    string src_id = 1 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
+    string tgt_id = 2 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
 }
 
 message RemoveLinkResponse {
