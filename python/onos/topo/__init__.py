@@ -81,7 +81,7 @@ class NetworkLayerType(betterproto.Enum):
     UNDERLAY = 0
 
 
-class ControllerType(betterproto.Enum):
+class ControllerInfoType(betterproto.Enum):
     P4RUNTIME = 0
 
 
@@ -409,11 +409,14 @@ class PhyPort(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Controller(betterproto.Message):
+class ControllerInfo(betterproto.Message):
     """Aspect for ad-hoc properties"""
 
-    type: "ControllerType" = betterproto.enum_field(1)
+    type: "ControllerInfoType" = betterproto.enum_field(1)
     role: str = betterproto.string_field(2)
+    control_endpoint: "Endpoint" = betterproto.message_field(3)
+    username: str = betterproto.string_field(4)
+    password: str = betterproto.string_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -450,16 +453,6 @@ class IpAddress(betterproto.Message):
 class P4RtServerInfo(betterproto.Message):
     control_endpoint: "Endpoint" = betterproto.message_field(1)
     timeout: timedelta = betterproto.message_field(5)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class SdnControllerInfo(betterproto.Message):
-    control_endpoint: "Endpoint" = betterproto.message_field(1)
-    username: str = betterproto.string_field(3)
-    password: str = betterproto.string_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()

@@ -49,25 +49,25 @@ func (NetworkLayer_Type) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_705cdab724be9631, []int{0, 0}
 }
 
-type Controller_Type int32
+type ControllerInfo_Type int32
 
 const (
-	Controller_P4RUNTIME Controller_Type = 0
+	ControllerInfo_P4RUNTIME ControllerInfo_Type = 0
 )
 
-var Controller_Type_name = map[int32]string{
+var ControllerInfo_Type_name = map[int32]string{
 	0: "P4RUNTIME",
 }
 
-var Controller_Type_value = map[string]int32{
+var ControllerInfo_Type_value = map[string]int32{
 	"P4RUNTIME": 0,
 }
 
-func (x Controller_Type) String() string {
-	return proto.EnumName(Controller_Type_name, int32(x))
+func (x ControllerInfo_Type) String() string {
+	return proto.EnumName(ControllerInfo_Type_name, int32(x))
 }
 
-func (Controller_Type) EnumDescriptor() ([]byte, []int) {
+func (ControllerInfo_Type) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_705cdab724be9631, []int{4, 0}
 }
 
@@ -341,23 +341,26 @@ func (m *PhyPort) GetChannelNumber() uint32 {
 }
 
 // Controller aspect; represents an instance of the controller deployment
-type Controller struct {
-	Type Controller_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.Controller_Type" json:"type,omitempty"`
-	Role string          `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+type ControllerInfo struct {
+	Type            ControllerInfo_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.ControllerInfo_Type" json:"type,omitempty"`
+	Role            string              `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	ControlEndpoint *Endpoint           `protobuf:"bytes,3,opt,name=control_endpoint,json=controlEndpoint,proto3" json:"control_endpoint,omitempty"`
+	Username        string              `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+	Password        string              `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
 }
 
-func (m *Controller) Reset()         { *m = Controller{} }
-func (m *Controller) String() string { return proto.CompactTextString(m) }
-func (*Controller) ProtoMessage()    {}
-func (*Controller) Descriptor() ([]byte, []int) {
+func (m *ControllerInfo) Reset()         { *m = ControllerInfo{} }
+func (m *ControllerInfo) String() string { return proto.CompactTextString(m) }
+func (*ControllerInfo) ProtoMessage()    {}
+func (*ControllerInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_705cdab724be9631, []int{4}
 }
-func (m *Controller) XXX_Unmarshal(b []byte) error {
+func (m *ControllerInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *Controller) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ControllerInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_Controller.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ControllerInfo.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -367,28 +370,49 @@ func (m *Controller) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *Controller) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Controller.Merge(m, src)
+func (m *ControllerInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ControllerInfo.Merge(m, src)
 }
-func (m *Controller) XXX_Size() int {
+func (m *ControllerInfo) XXX_Size() int {
 	return m.Size()
 }
-func (m *Controller) XXX_DiscardUnknown() {
-	xxx_messageInfo_Controller.DiscardUnknown(m)
+func (m *ControllerInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ControllerInfo.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Controller proto.InternalMessageInfo
+var xxx_messageInfo_ControllerInfo proto.InternalMessageInfo
 
-func (m *Controller) GetType() Controller_Type {
+func (m *ControllerInfo) GetType() ControllerInfo_Type {
 	if m != nil {
 		return m.Type
 	}
-	return Controller_P4RUNTIME
+	return ControllerInfo_P4RUNTIME
 }
 
-func (m *Controller) GetRole() string {
+func (m *ControllerInfo) GetRole() string {
 	if m != nil {
 		return m.Role
+	}
+	return ""
+}
+
+func (m *ControllerInfo) GetControlEndpoint() *Endpoint {
+	if m != nil {
+		return m.ControlEndpoint
+	}
+	return nil
+}
+
+func (m *ControllerInfo) GetUsername() string {
+	if m != nil {
+		return m.Username
+	}
+	return ""
+}
+
+func (m *ControllerInfo) GetPassword() string {
+	if m != nil {
+		return m.Password
 	}
 	return ""
 }
@@ -552,125 +576,63 @@ func (m *P4RTServerInfo) GetTimeout() *time.Duration {
 	return nil
 }
 
-// SdnControllerInfo aspect; specifies the configuration endpoint of an SDN Controller
-type SdnControllerInfo struct {
-	ControlEndpoint *Endpoint `protobuf:"bytes,1,opt,name=control_endpoint,json=controlEndpoint,proto3" json:"control_endpoint,omitempty"`
-	Username        string    `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
-	Password        string    `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
-}
-
-func (m *SdnControllerInfo) Reset()         { *m = SdnControllerInfo{} }
-func (m *SdnControllerInfo) String() string { return proto.CompactTextString(m) }
-func (*SdnControllerInfo) ProtoMessage()    {}
-func (*SdnControllerInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{8}
-}
-func (m *SdnControllerInfo) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *SdnControllerInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_SdnControllerInfo.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *SdnControllerInfo) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SdnControllerInfo.Merge(m, src)
-}
-func (m *SdnControllerInfo) XXX_Size() int {
-	return m.Size()
-}
-func (m *SdnControllerInfo) XXX_DiscardUnknown() {
-	xxx_messageInfo_SdnControllerInfo.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SdnControllerInfo proto.InternalMessageInfo
-
-func (m *SdnControllerInfo) GetControlEndpoint() *Endpoint {
-	if m != nil {
-		return m.ControlEndpoint
-	}
-	return nil
-}
-
-func (m *SdnControllerInfo) GetUsername() string {
-	if m != nil {
-		return m.Username
-	}
-	return ""
-}
-
-func (m *SdnControllerInfo) GetPassword() string {
-	if m != nil {
-		return m.Password
-	}
-	return ""
-}
-
 func init() {
 	proto.RegisterEnum("onos.topo.NetworkLayer_Type", NetworkLayer_Type_name, NetworkLayer_Type_value)
-	proto.RegisterEnum("onos.topo.Controller_Type", Controller_Type_name, Controller_Type_value)
+	proto.RegisterEnum("onos.topo.ControllerInfo_Type", ControllerInfo_Type_name, ControllerInfo_Type_value)
 	proto.RegisterEnum("onos.topo.IPAddress_Type", IPAddress_Type_name, IPAddress_Type_value)
 	proto.RegisterType((*NetworkLayer)(nil), "onos.topo.NetworkLayer")
 	proto.RegisterType((*Switch)(nil), "onos.topo.Switch")
 	proto.RegisterType((*Router)(nil), "onos.topo.Router")
 	proto.RegisterType((*PhyPort)(nil), "onos.topo.PhyPort")
-	proto.RegisterType((*Controller)(nil), "onos.topo.Controller")
+	proto.RegisterType((*ControllerInfo)(nil), "onos.topo.ControllerInfo")
 	proto.RegisterType((*Endpoint)(nil), "onos.topo.Endpoint")
 	proto.RegisterType((*IPAddress)(nil), "onos.topo.IPAddress")
 	proto.RegisterType((*P4RTServerInfo)(nil), "onos.topo.P4RTServerInfo")
-	proto.RegisterType((*SdnControllerInfo)(nil), "onos.topo.SdnControllerInfo")
 }
 
 func init() { proto.RegisterFile("onos/topo/fabric.proto", fileDescriptor_705cdab724be9631) }
 
 var fileDescriptor_705cdab724be9631 = []byte{
-	// 620 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x53, 0x4d, 0x6f, 0xd3, 0x40,
-	0x10, 0xcd, 0xa6, 0x6e, 0x3e, 0x26, 0x4d, 0x09, 0xdb, 0x52, 0xa5, 0x11, 0x72, 0x8a, 0x25, 0x50,
-	0x2f, 0x38, 0xa8, 0x54, 0x08, 0x2e, 0x48, 0x0d, 0xe9, 0xc1, 0x52, 0x1b, 0x59, 0xdb, 0x16, 0x89,
-	0x53, 0xe4, 0xc4, 0xdb, 0xd4, 0xc2, 0xde, 0xb5, 0xd6, 0x1b, 0xaa, 0x1c, 0xf8, 0x03, 0xe5, 0xc2,
-	0x91, 0x9f, 0xc4, 0xb1, 0x47, 0x4e, 0x05, 0x25, 0x7f, 0x04, 0x79, 0x6d, 0x27, 0x2e, 0x85, 0x03,
-	0x88, 0xdb, 0xcc, 0x9b, 0xb7, 0x3b, 0x6f, 0xde, 0xce, 0xc2, 0x16, 0x67, 0x3c, 0xea, 0x48, 0x1e,
-	0xf2, 0xce, 0xb9, 0x33, 0x14, 0xde, 0xc8, 0x0c, 0x05, 0x97, 0x1c, 0x57, 0x63, 0xdc, 0x8c, 0xf1,
-	0xd6, 0xe6, 0x98, 0x8f, 0xb9, 0x42, 0x3b, 0x71, 0x94, 0x10, 0x5a, 0xfa, 0x98, 0xf3, 0xb1, 0x4f,
-	0x3b, 0x2a, 0x1b, 0x4e, 0xce, 0x3b, 0xee, 0x44, 0x38, 0xd2, 0xe3, 0x2c, 0xa9, 0x1b, 0x53, 0x58,
-	0xeb, 0x53, 0x79, 0xc9, 0xc5, 0xfb, 0x23, 0x67, 0x4a, 0x05, 0x7e, 0x06, 0x9a, 0x9c, 0x86, 0xb4,
-	0x89, 0x76, 0xd0, 0xee, 0xfa, 0xde, 0x43, 0x73, 0x71, 0xbf, 0x99, 0xa7, 0x99, 0xa7, 0xd3, 0x90,
-	0x12, 0xc5, 0xc4, 0x8f, 0x60, 0xcd, 0xf5, 0xa2, 0xd0, 0x77, 0xa6, 0x03, 0xe6, 0x04, 0xb4, 0x59,
-	0xdc, 0x41, 0xbb, 0x55, 0x52, 0x4b, 0xb1, 0xbe, 0x13, 0x50, 0x63, 0x13, 0xb4, 0xf8, 0x00, 0x5e,
-	0x83, 0xca, 0x59, 0xbf, 0x77, 0x48, 0x8e, 0x0e, 0xde, 0x35, 0x0a, 0xc6, 0x15, 0x82, 0xd2, 0xc9,
-	0xa5, 0x27, 0x47, 0x17, 0xf8, 0x09, 0x54, 0x02, 0xee, 0x52, 0x7f, 0xe0, 0xb9, 0xaa, 0x73, 0xb5,
-	0x5b, 0x9b, 0xdd, 0xb4, 0xcb, 0xc7, 0x31, 0x66, 0xf5, 0x48, 0x59, 0x15, 0x2d, 0x17, 0x63, 0xd0,
-	0x04, 0xf7, 0xb3, 0x1e, 0x2a, 0xc6, 0x3d, 0xd8, 0x08, 0x1c, 0xe6, 0x8c, 0x69, 0x40, 0x99, 0x1c,
-	0x50, 0xe6, 0x86, 0xdc, 0x63, 0xb2, 0xa9, 0xed, 0xa0, 0xdd, 0xda, 0xde, 0x46, 0x6e, 0x80, 0xc3,
-	0xb4, 0x44, 0xf0, 0x92, 0x9f, 0x61, 0xc6, 0x47, 0x28, 0x11, 0x3e, 0x91, 0x54, 0xe0, 0xed, 0x5f,
-	0xb5, 0xfc, 0x53, 0xfb, 0x95, 0xbf, 0x6b, 0x7f, 0x85, 0xa0, 0x6c, 0x5f, 0x4c, 0x6d, 0x2e, 0xe4,
-	0x1d, 0x43, 0xd1, 0x1d, 0x43, 0xf1, 0x26, 0xac, 0x46, 0x21, 0xa5, 0x6e, 0xaa, 0x24, 0x49, 0x70,
-	0x1b, 0x6a, 0x21, 0x17, 0x72, 0xc0, 0x26, 0xc1, 0x90, 0x0a, 0x25, 0xa1, 0x4e, 0x20, 0x86, 0xfa,
-	0x0a, 0xc1, 0x8f, 0x61, 0x7d, 0x74, 0xe1, 0x30, 0x46, 0xfd, 0x8c, 0xa3, 0x29, 0x4e, 0x3d, 0x45,
-	0x13, 0x9a, 0x31, 0x06, 0x78, 0xc3, 0x99, 0x14, 0xdc, 0xf7, 0xa9, 0xc0, 0xe6, 0xad, 0x8d, 0x68,
-	0xe5, 0x26, 0x5a, 0x92, 0xf2, 0xfb, 0xf0, 0x1b, 0x93, 0x8c, 0x07, 0xe9, 0x02, 0xd4, 0xa1, 0x6a,
-	0xef, 0x93, 0xb3, 0xfe, 0xa9, 0x75, 0x7c, 0xd8, 0x28, 0x18, 0x2f, 0xa1, 0x92, 0x39, 0x80, 0x9b,
-	0x50, 0x76, 0x5c, 0x57, 0xd0, 0x28, 0xca, 0x5c, 0x4f, 0xd3, 0xf8, 0xc2, 0x78, 0x06, 0x75, 0x61,
-	0x9d, 0xa8, 0xd8, 0x60, 0x50, 0xb5, 0xec, 0x83, 0x94, 0xf0, 0xf4, 0x96, 0xc2, 0xed, 0x9c, 0xc2,
-	0x05, 0x27, 0x2f, 0x70, 0x0b, 0x8a, 0x5e, 0x98, 0xc8, 0xeb, 0x96, 0x66, 0x37, 0xed, 0xa2, 0x65,
-	0x93, 0xa2, 0x17, 0x1a, 0xad, 0x54, 0x64, 0x05, 0x34, 0xcb, 0x7e, 0xbb, 0xdf, 0x28, 0xa4, 0xd1,
-	0x8b, 0x06, 0x32, 0x3e, 0x21, 0x58, 0xb7, 0xf7, 0xc9, 0xe9, 0x09, 0x15, 0x1f, 0xa8, 0xb0, 0xd8,
-	0x39, 0xc7, 0xaf, 0xa1, 0x31, 0x4a, 0x0c, 0x58, 0xbe, 0x3a, 0xfa, 0xf3, 0xab, 0xdf, 0x4b, 0xc9,
-	0x8b, 0x81, 0x5f, 0x41, 0x59, 0x7a, 0x01, 0xe5, 0x13, 0xd9, 0x5c, 0x55, 0xc7, 0xb6, 0xcd, 0xe4,
-	0xaf, 0x9a, 0xd9, 0x5f, 0x35, 0x7b, 0xe9, 0x5f, 0xed, 0x6a, 0x5f, 0xbe, 0xb7, 0x11, 0xc9, 0xf8,
-	0xb1, 0x9a, 0xfb, 0x27, 0x2e, 0x5b, 0xfa, 0xff, 0x5f, 0x04, 0xb5, 0xa0, 0x32, 0x89, 0xa8, 0x50,
-	0x3b, 0xb7, 0xa2, 0x9e, 0x60, 0x91, 0xc7, 0xb5, 0xd0, 0x89, 0xa2, 0x4b, 0x2e, 0x5c, 0xb5, 0x33,
-	0x55, 0xb2, 0xc8, 0xbb, 0xcd, 0xaf, 0x33, 0x1d, 0x5d, 0xcf, 0x74, 0xf4, 0x63, 0xa6, 0xa3, 0xcf,
-	0x73, 0xbd, 0x70, 0x3d, 0xd7, 0x0b, 0xdf, 0xe6, 0x7a, 0x61, 0x58, 0x52, 0x93, 0x3c, 0xff, 0x19,
-	0x00, 0x00, 0xff, 0xff, 0xd3, 0x99, 0xc3, 0x59, 0xbe, 0x04, 0x00, 0x00,
+	// 615 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x4d, 0x6f, 0xd3, 0x4c,
+	0x10, 0xce, 0xe6, 0x75, 0xf3, 0x31, 0x69, 0xf2, 0x46, 0xdb, 0x52, 0xa5, 0x11, 0x72, 0x8a, 0x25,
+	0x50, 0x2f, 0x38, 0x28, 0x54, 0x08, 0x2e, 0x48, 0x0d, 0xe9, 0xc1, 0x52, 0x1b, 0x59, 0x6e, 0x8b,
+	0xc4, 0x29, 0x72, 0xe2, 0x6d, 0x6a, 0x61, 0xef, 0x5a, 0xeb, 0x0d, 0x55, 0x0e, 0xfc, 0x81, 0x72,
+	0xe1, 0xc8, 0x4f, 0xe2, 0xd8, 0x23, 0xa7, 0x82, 0xd2, 0x03, 0x7f, 0x03, 0x79, 0xbd, 0x0e, 0x0e,
+	0xed, 0x81, 0x72, 0x9b, 0x79, 0xe6, 0xd9, 0xf9, 0x78, 0x76, 0x34, 0xb0, 0xc5, 0x28, 0x8b, 0xbb,
+	0x82, 0x45, 0xac, 0x7b, 0xe6, 0x8e, 0xb9, 0x3f, 0x31, 0x23, 0xce, 0x04, 0xc3, 0xd5, 0x04, 0x37,
+	0x13, 0xbc, 0xbd, 0x39, 0x65, 0x53, 0x26, 0xd1, 0x6e, 0x62, 0xa5, 0x84, 0xb6, 0x3e, 0x65, 0x6c,
+	0x1a, 0x90, 0xae, 0xf4, 0xc6, 0xb3, 0xb3, 0xae, 0x37, 0xe3, 0xae, 0xf0, 0x19, 0x4d, 0xe3, 0xc6,
+	0x1c, 0xd6, 0x87, 0x44, 0x5c, 0x30, 0xfe, 0xfe, 0xd0, 0x9d, 0x13, 0x8e, 0x9f, 0x81, 0x26, 0xe6,
+	0x11, 0x69, 0xa1, 0x1d, 0xb4, 0xdb, 0xe8, 0x3d, 0x34, 0x97, 0xf9, 0xcd, 0x3c, 0xcd, 0x3c, 0x99,
+	0x47, 0xc4, 0x91, 0x4c, 0xfc, 0x08, 0xd6, 0x3d, 0x3f, 0x8e, 0x02, 0x77, 0x3e, 0xa2, 0x6e, 0x48,
+	0x5a, 0xc5, 0x1d, 0xb4, 0x5b, 0x75, 0x6a, 0x0a, 0x1b, 0xba, 0x21, 0x31, 0x36, 0x41, 0x4b, 0x1e,
+	0xe0, 0x75, 0xa8, 0x9c, 0x0e, 0x07, 0x07, 0xce, 0xe1, 0xfe, 0xbb, 0x66, 0xc1, 0xb8, 0x44, 0x50,
+	0x3a, 0xbe, 0xf0, 0xc5, 0xe4, 0x1c, 0x3f, 0x81, 0x4a, 0xc8, 0x3c, 0x12, 0x8c, 0x7c, 0x4f, 0x56,
+	0xae, 0xf6, 0x6b, 0x8b, 0xeb, 0x4e, 0xf9, 0x28, 0xc1, 0xac, 0x81, 0x53, 0x96, 0x41, 0xcb, 0xc3,
+	0x18, 0x34, 0xce, 0x82, 0xac, 0x86, 0xb4, 0xf1, 0x00, 0x36, 0x42, 0x97, 0xba, 0x53, 0x12, 0x12,
+	0x2a, 0x46, 0x84, 0x7a, 0x11, 0xf3, 0xa9, 0x68, 0x69, 0x3b, 0x68, 0xb7, 0xd6, 0xdb, 0xc8, 0x0d,
+	0x70, 0xa0, 0x42, 0x0e, 0xfe, 0xcd, 0xcf, 0x30, 0xe3, 0x23, 0x94, 0x1c, 0x36, 0x13, 0x84, 0xe3,
+	0xed, 0x3f, 0x7b, 0xf9, 0xa7, 0xf2, 0xff, 0xdd, 0xaf, 0xfc, 0x25, 0x82, 0xb2, 0x7d, 0x3e, 0xb7,
+	0x19, 0x17, 0xb7, 0x04, 0x45, 0xb7, 0x04, 0xc5, 0x9b, 0xb0, 0x16, 0x47, 0x84, 0x78, 0xaa, 0x93,
+	0xd4, 0xc1, 0x1d, 0xa8, 0x45, 0x8c, 0x8b, 0x11, 0x9d, 0x85, 0x63, 0xc2, 0x65, 0x0b, 0x75, 0x07,
+	0x12, 0x68, 0x28, 0x11, 0xfc, 0x18, 0x1a, 0x93, 0x73, 0x97, 0x52, 0x12, 0x64, 0x1c, 0x4d, 0x72,
+	0xea, 0x0a, 0x4d, 0x69, 0xc6, 0x4f, 0x04, 0x8d, 0x37, 0x8c, 0x0a, 0xce, 0x82, 0x80, 0x70, 0x8b,
+	0x9e, 0x31, 0xdc, 0x5b, 0x59, 0x0b, 0x3d, 0x37, 0xd6, 0x2a, 0x31, 0xbf, 0x18, 0x77, 0xa9, 0xf5,
+	0x1a, 0x9a, 0x93, 0xf4, 0xc1, 0x5f, 0x49, 0xf5, 0xbf, 0x22, 0x67, 0x00, 0x6e, 0x43, 0x65, 0x16,
+	0x13, 0x2e, 0x75, 0xd1, 0x64, 0xde, 0xa5, 0x9f, 0xc4, 0x22, 0x37, 0x8e, 0x2f, 0x18, 0xf7, 0x5a,
+	0x6b, 0x69, 0x2c, 0xf3, 0x8d, 0x07, 0x6a, 0x03, 0xeb, 0x50, 0xb5, 0xf7, 0x9c, 0xd3, 0xe1, 0x89,
+	0x75, 0x74, 0xd0, 0x2c, 0x18, 0x2f, 0xa1, 0xb2, 0x4c, 0xdd, 0x82, 0xb2, 0xeb, 0x79, 0x9c, 0xc4,
+	0x71, 0xf6, 0xed, 0xca, 0x4d, 0x06, 0x49, 0x44, 0x94, 0x83, 0xd4, 0x1d, 0x69, 0x1b, 0x14, 0xaa,
+	0x96, 0xbd, 0xaf, 0x08, 0x4f, 0x57, 0xd4, 0xd9, 0xce, 0x4d, 0xb2, 0xe4, 0xe4, 0x85, 0xd9, 0x82,
+	0xa2, 0x1f, 0xa5, 0xb2, 0xf4, 0x4b, 0x8b, 0xeb, 0x4e, 0xd1, 0xb2, 0x9d, 0xa2, 0x1f, 0x19, 0x6d,
+	0xd5, 0x64, 0x05, 0x34, 0xcb, 0x7e, 0xbb, 0xd7, 0x2c, 0x28, 0xeb, 0x45, 0x13, 0x19, 0x9f, 0x10,
+	0x34, 0xec, 0x3d, 0xe7, 0xe4, 0x98, 0xf0, 0x0f, 0xea, 0x4f, 0xee, 0xd2, 0x12, 0xdd, 0x43, 0xcb,
+	0x57, 0x50, 0x16, 0x7e, 0x48, 0xd8, 0x4c, 0x48, 0xb9, 0x6a, 0xbd, 0x6d, 0x33, 0x3d, 0x16, 0x66,
+	0x76, 0x2c, 0xcc, 0x81, 0x3a, 0x16, 0x7d, 0xed, 0xcb, 0xf7, 0x0e, 0x72, 0x32, 0x7e, 0xbf, 0xf5,
+	0x75, 0xa1, 0xa3, 0xab, 0x85, 0x8e, 0x7e, 0x2c, 0x74, 0xf4, 0xf9, 0x46, 0x2f, 0x5c, 0xdd, 0xe8,
+	0x85, 0x6f, 0x37, 0x7a, 0x61, 0x5c, 0x92, 0x6f, 0x9f, 0xff, 0x0a, 0x00, 0x00, 0xff, 0xff, 0x28,
+	0xf2, 0xa9, 0x23, 0xb1, 0x04, 0x00, 0x00,
 }
 
 func (m *NetworkLayer) Marshal() (dAtA []byte, err error) {
@@ -853,7 +815,7 @@ func (m *PhyPort) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *Controller) Marshal() (dAtA []byte, err error) {
+func (m *ControllerInfo) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -863,16 +825,42 @@ func (m *Controller) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Controller) MarshalTo(dAtA []byte) (int, error) {
+func (m *ControllerInfo) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *Controller) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ControllerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if len(m.Password) > 0 {
+		i -= len(m.Password)
+		copy(dAtA[i:], m.Password)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.Password)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.Username) > 0 {
+		i -= len(m.Username)
+		copy(dAtA[i:], m.Username)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.Username)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if m.ControlEndpoint != nil {
+		{
+			size, err := m.ControlEndpoint.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
 	if len(m.Role) > 0 {
 		i -= len(m.Role)
 		copy(dAtA[i:], m.Role)
@@ -979,63 +967,14 @@ func (m *P4RTServerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if m.Timeout != nil {
-		n3, err3 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Timeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout):])
-		if err3 != nil {
-			return 0, err3
+		n4, err4 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Timeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout):])
+		if err4 != nil {
+			return 0, err4
 		}
-		i -= n3
-		i = encodeVarintFabric(dAtA, i, uint64(n3))
+		i -= n4
+		i = encodeVarintFabric(dAtA, i, uint64(n4))
 		i--
 		dAtA[i] = 0x2a
-	}
-	if m.ControlEndpoint != nil {
-		{
-			size, err := m.ControlEndpoint.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintFabric(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *SdnControllerInfo) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *SdnControllerInfo) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *SdnControllerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Password) > 0 {
-		i -= len(m.Password)
-		copy(dAtA[i:], m.Password)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.Password)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if len(m.Username) > 0 {
-		i -= len(m.Username)
-		copy(dAtA[i:], m.Username)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.Username)))
-		i--
-		dAtA[i] = 0x1a
 	}
 	if m.ControlEndpoint != nil {
 		{
@@ -1144,7 +1083,7 @@ func (m *PhyPort) Size() (n int) {
 	return n
 }
 
-func (m *Controller) Size() (n int) {
+func (m *ControllerInfo) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1154,6 +1093,18 @@ func (m *Controller) Size() (n int) {
 		n += 1 + sovFabric(uint64(m.Type))
 	}
 	l = len(m.Role)
+	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.ControlEndpoint != nil {
+		l = m.ControlEndpoint.Size()
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	l = len(m.Username)
+	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	l = len(m.Password)
 	if l > 0 {
 		n += 1 + l + sovFabric(uint64(l))
 	}
@@ -1204,27 +1155,6 @@ func (m *P4RTServerInfo) Size() (n int) {
 	}
 	if m.Timeout != nil {
 		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout)
-		n += 1 + l + sovFabric(uint64(l))
-	}
-	return n
-}
-
-func (m *SdnControllerInfo) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.ControlEndpoint != nil {
-		l = m.ControlEndpoint.Size()
-		n += 1 + l + sovFabric(uint64(l))
-	}
-	l = len(m.Username)
-	if l > 0 {
-		n += 1 + l + sovFabric(uint64(l))
-	}
-	l = len(m.Password)
-	if l > 0 {
 		n += 1 + l + sovFabric(uint64(l))
 	}
 	return n
@@ -1789,7 +1719,7 @@ func (m *PhyPort) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *Controller) Unmarshal(dAtA []byte) error {
+func (m *ControllerInfo) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1812,10 +1742,10 @@ func (m *Controller) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Controller: wiretype end group for non-group")
+			return fmt.Errorf("proto: ControllerInfo: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Controller: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ControllerInfo: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1832,7 +1762,7 @@ func (m *Controller) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Type |= Controller_Type(b&0x7F) << shift
+				m.Type |= ControllerInfo_Type(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -1868,6 +1798,106 @@ func (m *Controller) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Role = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ControlEndpoint", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ControlEndpoint == nil {
+				m.ControlEndpoint = &Endpoint{}
+			}
+			if err := m.ControlEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Username", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Username = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Password", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Password = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2192,156 +2222,6 @@ func (m *P4RTServerInfo) Unmarshal(dAtA []byte) error {
 			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.Timeout, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipFabric(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *SdnControllerInfo) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowFabric
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: SdnControllerInfo: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: SdnControllerInfo: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ControlEndpoint", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthFabric
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.ControlEndpoint == nil {
-				m.ControlEndpoint = &Endpoint{}
-			}
-			if err := m.ControlEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Username", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthFabric
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Username = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Password", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthFabric
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Password = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
