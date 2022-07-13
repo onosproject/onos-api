@@ -23,6 +23,9 @@
     - [StopDeviceRequest](#onos-fabricsim-StopDeviceRequest)
     - [StopDeviceResponse](#onos-fabricsim-StopDeviceResponse)
   
+    - [DeviceType](#onos-fabricsim-DeviceType)
+    - [StopMode](#onos-fabricsim-StopMode)
+  
     - [DeviceService](#onos-fabricsim-DeviceService)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -66,13 +69,14 @@
 ### Device
 Device describes a simulated switch or IPU
 
-unique device id
-type - switch, IPU, etc.
-p4 port
-gnmi port
-list of ports
-behavior?
-gnmi models
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | unique device id and device type |
+| type | [DeviceType](#onos-fabricsim-DeviceType) |  |  |
+| ports | [Port](#onos-fabricsim-Port) | repeated | list of ports |
+| p4_port | [uint32](#uint32) |  | p4 and gnmi emulation ports |
+| gnmi_port | [uint32](#uint32) |  |  |
 
 
 
@@ -82,7 +86,13 @@ gnmi models
 <a name="onos-fabricsim-DisablePortRequest"></a>
 
 ### DisablePortRequest
-unique port id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| mode | [StopMode](#onos-fabricsim-StopMode) |  |  |
 
 
 
@@ -102,7 +112,12 @@ unique port id
 <a name="onos-fabricsim-EnablePortRequest"></a>
 
 ### EnablePortRequest
-unique port id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 
 
 
@@ -122,7 +137,12 @@ unique port id
 <a name="onos-fabricsim-GetDeviceRequest"></a>
 
 ### GetDeviceRequest
-unique device id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 
 
 
@@ -174,14 +194,14 @@ filters?
 ### Port
 Port describes a simulated device port
 
-unique port id
-type?
-name
-port number
-sdn port number
-speed
-p4 behaviors? (counters, etc.)
-gnmi behaviors? (counters, etc.)
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | unique port id and port type |
+| name | [string](#string) |  | display/friendly name |
+| number | [uint32](#uint32) |  | port number |
+| internal_number | [uint32](#uint32) |  | sdn/internal port number |
+| speed | [string](#string) |  | speed |
 
 
 
@@ -191,7 +211,12 @@ gnmi behaviors? (counters, etc.)
 <a name="onos-fabricsim-RemoveDeviceRequest"></a>
 
 ### RemoveDeviceRequest
-unique device id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 
 
 
@@ -211,7 +236,12 @@ unique device id
 <a name="onos-fabricsim-StartDeviceRequest"></a>
 
 ### StartDeviceRequest
-unique device id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
 
 
 
@@ -231,7 +261,13 @@ unique device id
 <a name="onos-fabricsim-StopDeviceRequest"></a>
 
 ### StopDeviceRequest
-unique device id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| mode | [StopMode](#onos-fabricsim-StopMode) |  |  |
 
 
 
@@ -248,6 +284,30 @@ unique device id
 
 
  
+
+
+<a name="onos-fabricsim-DeviceType"></a>
+
+### DeviceType
+DeviceType represents type of a device, i.e. switch, IPU, etc.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SWITCH | 0 | default assumption |
+| IPU | 1 |  |
+
+
+
+<a name="onos-fabricsim-StopMode"></a>
+
+### StopMode
+StopMode indicates whether to simulate orderly (administrative) or chaotic (power off) shutdown
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ORDERLY_STOP | 0 |  |
+| CHAOTIC_STOP | 1 |  |
+
 
  
 

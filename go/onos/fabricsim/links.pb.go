@@ -6,6 +6,7 @@ package fabricsim
 import (
 	context "context"
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -26,8 +27,39 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// LinkStatus represents the operational status of the link, derived from the status of its adjacent ports
+type LinkStatus int32
+
+const (
+	LinkStatus_LINK_DOWN LinkStatus = 0
+	LinkStatus_LINK_UP   LinkStatus = 1
+)
+
+var LinkStatus_name = map[int32]string{
+	0: "LINK_DOWN",
+	1: "LINK_UP",
+}
+
+var LinkStatus_value = map[string]int32{
+	"LINK_DOWN": 0,
+	"LINK_UP":   1,
+}
+
+func (x LinkStatus) String() string {
+	return proto.EnumName(LinkStatus_name, int32(x))
+}
+
+func (LinkStatus) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_fc16fca2ba28ce9e, []int{0}
+}
+
 // Link describes a simulated link, i.e a link between two device or host ports
 type Link struct {
+	// unique port ids of source and target ports
+	SrcID PortID `protobuf:"bytes,1,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
+	TgtID PortID `protobuf:"bytes,2,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
+	// status (operational state derived from the status of its adjacent ports)
+	Status LinkStatus `protobuf:"varint,3,opt,name=status,proto3,enum=onos.fabricsim.LinkStatus" json:"status,omitempty"`
 }
 
 func (m *Link) Reset()         { *m = Link{} }
@@ -62,6 +94,27 @@ func (m *Link) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_Link proto.InternalMessageInfo
+
+func (m *Link) GetSrcID() PortID {
+	if m != nil {
+		return m.SrcID
+	}
+	return ""
+}
+
+func (m *Link) GetTgtID() PortID {
+	if m != nil {
+		return m.TgtID
+	}
+	return ""
+}
+
+func (m *Link) GetStatus() LinkStatus {
+	if m != nil {
+		return m.Status
+	}
+	return LinkStatus_LINK_DOWN
+}
 
 type GetLinksRequest struct {
 }
@@ -144,6 +197,9 @@ func (m *GetLinksResponse) GetLinks() []*Link {
 }
 
 type GetLinkRequest struct {
+	// unique port ids of source and target ports
+	SrcID PortID `protobuf:"bytes,1,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
+	TgtID PortID `protobuf:"bytes,2,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
 }
 
 func (m *GetLinkRequest) Reset()         { *m = GetLinkRequest{} }
@@ -178,6 +234,20 @@ func (m *GetLinkRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_GetLinkRequest proto.InternalMessageInfo
+
+func (m *GetLinkRequest) GetSrcID() PortID {
+	if m != nil {
+		return m.SrcID
+	}
+	return ""
+}
+
+func (m *GetLinkRequest) GetTgtID() PortID {
+	if m != nil {
+		return m.TgtID
+	}
+	return ""
+}
 
 type GetLinkResponse struct {
 	Link *Link `protobuf:"bytes,1,opt,name=link,proto3" json:"link,omitempty"`
@@ -304,6 +374,9 @@ func (m *AddLinkResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddLinkResponse proto.InternalMessageInfo
 
 type RemoveLinkRequest struct {
+	// unique port ids of source and target ports
+	SrcID PortID `protobuf:"bytes,1,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
+	TgtID PortID `protobuf:"bytes,2,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
 }
 
 func (m *RemoveLinkRequest) Reset()         { *m = RemoveLinkRequest{} }
@@ -338,6 +411,20 @@ func (m *RemoveLinkRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_RemoveLinkRequest proto.InternalMessageInfo
+
+func (m *RemoveLinkRequest) GetSrcID() PortID {
+	if m != nil {
+		return m.SrcID
+	}
+	return ""
+}
+
+func (m *RemoveLinkRequest) GetTgtID() PortID {
+	if m != nil {
+		return m.TgtID
+	}
+	return ""
+}
 
 type RemoveLinkResponse struct {
 }
@@ -376,6 +463,7 @@ func (m *RemoveLinkResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RemoveLinkResponse proto.InternalMessageInfo
 
 func init() {
+	proto.RegisterEnum("onos.fabricsim.LinkStatus", LinkStatus_name, LinkStatus_value)
 	proto.RegisterType((*Link)(nil), "onos.fabricsim.Link")
 	proto.RegisterType((*GetLinksRequest)(nil), "onos.fabricsim.GetLinksRequest")
 	proto.RegisterType((*GetLinksResponse)(nil), "onos.fabricsim.GetLinksResponse")
@@ -390,26 +478,34 @@ func init() {
 func init() { proto.RegisterFile("onos/fabricsim/links.proto", fileDescriptor_fc16fca2ba28ce9e) }
 
 var fileDescriptor_fc16fca2ba28ce9e = []byte{
-	// 296 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0xca, 0xcf, 0xcb, 0x2f,
-	0xd6, 0x4f, 0x4b, 0x4c, 0x2a, 0xca, 0x4c, 0x2e, 0xce, 0xcc, 0xd5, 0xcf, 0xc9, 0xcc, 0xcb, 0x2e,
-	0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x03, 0xc9, 0xe9, 0xc1, 0xe5, 0x94, 0xd8, 0xb8,
-	0x58, 0x7c, 0x32, 0xf3, 0xb2, 0x95, 0x04, 0xb9, 0xf8, 0xdd, 0x53, 0x4b, 0x40, 0xcc, 0xe2, 0xa0,
-	0xd4, 0xc2, 0xd2, 0xd4, 0xe2, 0x12, 0x25, 0x3b, 0x2e, 0x01, 0x84, 0x50, 0x71, 0x41, 0x7e, 0x5e,
-	0x71, 0xaa, 0x90, 0x16, 0x17, 0x2b, 0xd8, 0x34, 0x09, 0x46, 0x05, 0x66, 0x0d, 0x6e, 0x23, 0x11,
-	0x3d, 0x54, 0xe3, 0xf4, 0x40, 0xaa, 0x83, 0x20, 0x4a, 0x94, 0x04, 0xb8, 0xf8, 0xa0, 0xfa, 0x61,
-	0x26, 0x5a, 0xc3, 0x2d, 0x81, 0x1b, 0xa8, 0xc1, 0xc5, 0x02, 0x52, 0x2d, 0xc1, 0xa8, 0xc0, 0x88,
-	0xd3, 0x3c, 0xb0, 0x0a, 0x25, 0x2b, 0x2e, 0x3e, 0xc7, 0x94, 0x14, 0x24, 0xe3, 0x48, 0xd0, 0x2b,
-	0xc8, 0xc5, 0x0f, 0xd7, 0x0b, 0xb1, 0x58, 0x49, 0x98, 0x4b, 0x30, 0x28, 0x35, 0x37, 0xbf, 0x2c,
-	0x15, 0xd9, 0x81, 0x22, 0x5c, 0x42, 0xc8, 0x82, 0x10, 0xa5, 0x46, 0xc7, 0x99, 0xb8, 0xb8, 0x41,
-	0x02, 0xc1, 0xa9, 0x45, 0x65, 0x99, 0xc9, 0xa9, 0x42, 0xbe, 0x5c, 0x1c, 0xb0, 0x80, 0x11, 0x92,
-	0x47, 0xb7, 0x15, 0x2d, 0x14, 0xa5, 0x14, 0x70, 0x2b, 0x80, 0x06, 0x81, 0x17, 0x17, 0x3b, 0x54,
-	0x4c, 0x48, 0x0e, 0x87, 0x62, 0x98, 0x61, 0xf2, 0x38, 0xe5, 0xa1, 0x66, 0x79, 0x72, 0xb1, 0x43,
-	0x3d, 0x8a, 0x69, 0x16, 0x6a, 0xe8, 0x49, 0x11, 0x90, 0x17, 0x0a, 0xe2, 0xe2, 0x42, 0x84, 0x85,
-	0x90, 0x22, 0xba, 0x6a, 0x8c, 0xc0, 0x93, 0x22, 0xac, 0xc4, 0x49, 0xe2, 0xc4, 0x23, 0x39, 0xc6,
-	0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63, 0x9c, 0xf0, 0x58, 0x8e, 0xe1, 0xc2, 0x63, 0x39,
-	0x86, 0x1b, 0x8f, 0xe5, 0x18, 0x92, 0xd8, 0xc0, 0xc9, 0xd3, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff,
-	0xdb, 0xbe, 0x3b, 0x5b, 0xbc, 0x02, 0x00, 0x00,
+	// 429 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x93, 0x4f, 0x8f, 0x93, 0x40,
+	0x18, 0xc6, 0x99, 0xdd, 0x2d, 0x75, 0xdf, 0x46, 0xb6, 0x1d, 0x7b, 0x20, 0x1c, 0x00, 0x39, 0x91,
+	0x1e, 0x68, 0x82, 0x37, 0x4d, 0x4c, 0xdc, 0x34, 0x31, 0xe8, 0xba, 0x6e, 0x58, 0x8d, 0xc7, 0xcd,
+	0x2e, 0x8c, 0x48, 0x6a, 0x99, 0xca, 0x4c, 0xfb, 0x39, 0x8c, 0x5f, 0x4a, 0x8f, 0x3d, 0x7a, 0x6a,
+	0x0c, 0xfd, 0x16, 0x9e, 0x0c, 0x03, 0x85, 0xfe, 0x91, 0xd4, 0x8b, 0x7b, 0x83, 0x79, 0x7e, 0xef,
+	0xfb, 0x3e, 0xef, 0x3c, 0x00, 0x1a, 0x4d, 0x28, 0x1b, 0x7e, 0xbc, 0xbd, 0x4b, 0xe3, 0x80, 0xc5,
+	0x93, 0xe1, 0xe7, 0x38, 0x19, 0x33, 0x67, 0x9a, 0x52, 0x4e, 0xb1, 0x92, 0x6b, 0x4e, 0xa5, 0x69,
+	0xfd, 0x88, 0x46, 0x54, 0x48, 0xc3, 0xfc, 0xa9, 0xa0, 0xac, 0x6f, 0x08, 0x4e, 0x2e, 0xe2, 0x64,
+	0x8c, 0x07, 0x20, 0xb3, 0x34, 0xb8, 0x89, 0x43, 0x15, 0x99, 0xc8, 0x3e, 0x3d, 0x7f, 0x94, 0x2d,
+	0x8d, 0xd6, 0x75, 0x1a, 0x78, 0xa3, 0xdf, 0x4b, 0x43, 0xbe, 0xa2, 0x29, 0xf7, 0x46, 0x7e, 0x8b,
+	0xa5, 0x81, 0x17, 0xe6, 0x2c, 0x8f, 0x78, 0xce, 0x1e, 0xd5, 0xec, 0xbb, 0x88, 0x6f, 0xb3, 0x3c,
+	0xe2, 0x5e, 0x88, 0x5d, 0x90, 0x19, 0xbf, 0xe5, 0x33, 0xa6, 0x1e, 0x9b, 0xc8, 0x56, 0x5c, 0xcd,
+	0xd9, 0xf6, 0xe5, 0xe4, 0xd3, 0xaf, 0x05, 0xe1, 0x97, 0xa4, 0xd5, 0x83, 0xb3, 0x97, 0x84, 0xe7,
+	0x02, 0xf3, 0xc9, 0x97, 0x19, 0x61, 0xdc, 0x7a, 0x0e, 0xdd, 0xfa, 0x88, 0x4d, 0x69, 0xc2, 0x08,
+	0x1e, 0x40, 0x4b, 0x2c, 0xac, 0x22, 0xf3, 0xd8, 0xee, 0xb8, 0xfd, 0xbf, 0x75, 0xf6, 0x0b, 0xc4,
+	0xfa, 0x04, 0x4a, 0x59, 0x5f, 0x76, 0xfc, 0x5f, 0x0b, 0x5b, 0xcf, 0x2a, 0xf3, 0x95, 0x51, 0x1b,
+	0x4e, 0x72, 0x17, 0x62, 0x50, 0x93, 0x4f, 0x41, 0x58, 0x4f, 0x41, 0x79, 0x11, 0x86, 0x9b, 0x36,
+	0xff, 0xbd, 0xb6, 0x07, 0x67, 0x55, 0x6d, 0x31, 0xd8, 0x1a, 0x43, 0xcf, 0x27, 0x13, 0x3a, 0x27,
+	0xf7, 0xb1, 0x78, 0x1f, 0xf0, 0xe6, 0xb0, 0xc2, 0xc2, 0xc0, 0x06, 0xa8, 0x13, 0xc6, 0x0f, 0xe1,
+	0xf4, 0xc2, 0xbb, 0x7c, 0x7d, 0x33, 0x7a, 0xfb, 0xe1, 0xb2, 0x2b, 0xe1, 0x0e, 0xb4, 0xc5, 0xeb,
+	0xfb, 0xab, 0x2e, 0x72, 0xbf, 0x1f, 0x41, 0x47, 0xa0, 0x24, 0x9d, 0xc7, 0x01, 0xc1, 0x6f, 0xe0,
+	0xc1, 0x3a, 0x72, 0x6c, 0xec, 0xee, 0xbd, 0xf3, 0x7d, 0x68, 0x66, 0x33, 0x50, 0x86, 0xf0, 0x0a,
+	0xda, 0xe5, 0x19, 0xd6, 0x1b, 0xe0, 0x75, 0x33, 0xa3, 0x51, 0x2f, 0x7b, 0x79, 0xd0, 0x2e, 0xaf,
+	0x7a, 0xbf, 0xd7, 0x76, 0x7e, 0xda, 0x01, 0x1d, 0xfb, 0x00, 0xf5, 0xad, 0xe1, 0xc7, 0xbb, 0xf4,
+	0x5e, 0x7c, 0xda, 0x61, 0xe4, 0x5c, 0xfd, 0x91, 0xe9, 0x68, 0x91, 0xe9, 0xe8, 0x57, 0xa6, 0xa3,
+	0xaf, 0x2b, 0x5d, 0x5a, 0xac, 0x74, 0xe9, 0xe7, 0x4a, 0x97, 0xee, 0x64, 0xf1, 0xd7, 0x3f, 0xf9,
+	0x13, 0x00, 0x00, 0xff, 0xff, 0x3a, 0x07, 0xdc, 0x5b, 0x39, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -628,6 +724,25 @@ func (m *Link) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.Status != 0 {
+		i = encodeVarintLinks(dAtA, i, uint64(m.Status))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.TgtID) > 0 {
+		i -= len(m.TgtID)
+		copy(dAtA[i:], m.TgtID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.TgtID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.SrcID) > 0 {
+		i -= len(m.SrcID)
+		copy(dAtA[i:], m.SrcID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.SrcID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -711,6 +826,20 @@ func (m *GetLinkRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.TgtID) > 0 {
+		i -= len(m.TgtID)
+		copy(dAtA[i:], m.TgtID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.TgtID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.SrcID) > 0 {
+		i -= len(m.SrcID)
+		copy(dAtA[i:], m.SrcID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.SrcID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -827,6 +956,20 @@ func (m *RemoveLinkRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.TgtID) > 0 {
+		i -= len(m.TgtID)
+		copy(dAtA[i:], m.TgtID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.TgtID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.SrcID) > 0 {
+		i -= len(m.SrcID)
+		copy(dAtA[i:], m.SrcID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.SrcID)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -870,6 +1013,17 @@ func (m *Link) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.SrcID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
+	l = len(m.TgtID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
+	if m.Status != 0 {
+		n += 1 + sovLinks(uint64(m.Status))
+	}
 	return n
 }
 
@@ -903,6 +1057,14 @@ func (m *GetLinkRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.SrcID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
+	l = len(m.TgtID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
 	return n
 }
 
@@ -947,6 +1109,14 @@ func (m *RemoveLinkRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.SrcID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
+	l = len(m.TgtID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
 	return n
 }
 
@@ -994,6 +1164,89 @@ func (m *Link) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Link: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SrcID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SrcID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TgtID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TgtID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			m.Status = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Status |= LinkStatus(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipLinks(dAtA[iNdEx:])
@@ -1178,6 +1431,70 @@ func (m *GetLinkRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GetLinkRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SrcID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SrcID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TgtID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TgtID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipLinks(dAtA[iNdEx:])
@@ -1450,6 +1767,70 @@ func (m *RemoveLinkRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: RemoveLinkRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SrcID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SrcID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TgtID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TgtID = PortID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipLinks(dAtA[iNdEx:])

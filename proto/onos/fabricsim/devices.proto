@@ -6,25 +6,47 @@ syntax = "proto3";
 
 package onos.fabricsim;
 
+import "gogoproto/gogo.proto";
+
 // Device describes a simulated switch or IPU
 message Device {
-    // unique device id
-    // type - switch, IPU, etc.
-    // p4 port
-    // gnmi port
+    // unique device id and device type
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "DeviceID"];
+    DeviceType type = 2;
+
     // list of ports
+    repeated Port ports = 3;
+
+    // p4 and gnmi emulation ports
+    uint32 p4_port = 4;
+    uint32 gnmi_port = 5;
+
+    // gnmi models?
     // behavior?
-    // gnmi models
+}
+
+// DeviceType represents type of a device, i.e. switch, IPU, etc.
+enum DeviceType {
+    SWITCH = 0; // default assumption
+    IPU = 1;
 }
 
 // Port describes a simulated device port
 message Port {
-    // unique port id
-    // type?
-    // name
+    // unique port id and port type
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PortID"];
+
+    // display/friendly name
+    string name = 3;
+
     // port number
-    // sdn port number
+    uint32 number = 4;
+    // sdn/internal port number
+    uint32 internal_number = 5;
+
     // speed
+    string speed = 6;
+
     // p4 behaviors? (counters, etc.)
     // gnmi behaviors? (counters, etc.)
 }
@@ -65,7 +87,7 @@ message GetDevicesResponse {
 }
 
 message GetDeviceRequest {
-    // unique device id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "DeviceID"];
 }
 
 message GetDeviceResponse {
@@ -80,35 +102,43 @@ message AddDeviceResponse {
 }
 
 message RemoveDeviceRequest {
-    // unique device id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "DeviceID"];
 }
 
 message RemoveDeviceResponse {
 }
 
 message StopDeviceRequest {
-    // unique device id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "DeviceID"];
+    StopMode mode = 2;
+}
+
+// StopMode indicates whether to simulate orderly (administrative) or chaotic (power off) shutdown
+enum StopMode {
+    ORDERLY_STOP = 0;
+    CHAOTIC_STOP = 1;
 }
 
 message StopDeviceResponse {
 }
 
 message StartDeviceRequest {
-    // unique device id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "DeviceID"];
 }
 
 message StartDeviceResponse {
 }
 
 message DisablePortRequest {
-    // unique port id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PortID"];
+    StopMode mode = 2;
 }
 
 message DisablePortResponse {
 }
 
 message EnablePortRequest {
-    // unique port id
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PortID"];
 }
 
 message EnablePortResponse {

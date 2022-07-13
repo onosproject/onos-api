@@ -14,6 +14,8 @@
     - [RemoveLinkRequest](#onos-fabricsim-RemoveLinkRequest)
     - [RemoveLinkResponse](#onos-fabricsim-RemoveLinkResponse)
   
+    - [LinkStatus](#onos-fabricsim-LinkStatus)
+  
     - [LinkService](#onos-fabricsim-LinkService)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -55,8 +57,13 @@
 <a name="onos-fabricsim-GetLinkRequest"></a>
 
 ### GetLinkRequest
-source unique port id
-destination unique port id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| src_id | [string](#string) |  | unique port ids of source and target ports |
+| tgt_id | [string](#string) |  |  |
 
 
 
@@ -108,9 +115,14 @@ filters?
 ### Link
 Link describes a simulated link, i.e a link between two device or host ports
 
-source unique port id
-destination unique port id
-status (operational state derived from the status of its adjacent ports)
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| src_id | [string](#string) |  | unique port ids of source and target ports |
+| tgt_id | [string](#string) |  |  |
+| status | [LinkStatus](#onos-fabricsim-LinkStatus) |  | status (operational state derived from the status of its adjacent ports)
+
+read-only entity |
 
 
 
@@ -120,8 +132,13 @@ status (operational state derived from the status of its adjacent ports)
 <a name="onos-fabricsim-RemoveLinkRequest"></a>
 
 ### RemoveLinkRequest
-source unique port id
-destination unique port id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| src_id | [string](#string) |  | unique port ids of source and target ports |
+| tgt_id | [string](#string) |  |  |
 
 
 
@@ -138,6 +155,18 @@ destination unique port id
 
 
  
+
+
+<a name="onos-fabricsim-LinkStatus"></a>
+
+### LinkStatus
+LinkStatus represents the operational status of the link, derived from the status of its adjacent ports
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LINK_DOWN | 0 |  |
+| LINK_UP | 1 |  |
+
 
  
 
