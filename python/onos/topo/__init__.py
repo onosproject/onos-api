@@ -413,7 +413,7 @@ class ControllerInfo(betterproto.Message):
     """Aspect for ad-hoc properties"""
 
     type: "ControllerInfoType" = betterproto.enum_field(1)
-    role: str = betterproto.string_field(2)
+    role: "ControllerRole" = betterproto.message_field(2)
     control_endpoint: "Endpoint" = betterproto.message_field(3)
     username: str = betterproto.string_field(4)
     password: str = betterproto.string_field(5)
@@ -423,15 +423,26 @@ class ControllerInfo(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Endpoint(betterproto.Message):
+class ControllerRole(betterproto.Message):
     """
     ProtocolState contains information related to service and connectivity to a
     device
     """
 
     # The protocol to which state relates
-    address: str = betterproto.string_field(1)
+    name: str = betterproto.string_field(1)
     # ConnectivityState contains the L3 connectivity information
+    config: "betterproto_lib_google_protobuf.Any" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Endpoint(betterproto.Message):
+    """Protocols"""
+
+    address: str = betterproto.string_field(1)
     port: int = betterproto.uint32_field(2)
 
     def __post_init__(self) -> None:
@@ -440,8 +451,6 @@ class Endpoint(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class IpAddress(betterproto.Message):
-    """Protocols"""
-
     type: "IpAddressType" = betterproto.enum_field(1)
     ip: str = betterproto.string_field(2)
 
@@ -452,7 +461,17 @@ class IpAddress(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class P4RtServerInfo(betterproto.Message):
     control_endpoint: "Endpoint" = betterproto.message_field(1)
-    timeout: timedelta = betterproto.message_field(5)
+    timeout: timedelta = betterproto.message_field(2)
+    device_id: int = betterproto.uint64_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class P4RtMastershipState(betterproto.Message):
+    term: int = betterproto.uint64_field(1)
+    node_id: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

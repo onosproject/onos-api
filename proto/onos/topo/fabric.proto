@@ -8,6 +8,7 @@ package onos.topo;
 
 import "gogoproto/gogo.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/any.proto";
 
 
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
@@ -47,10 +48,16 @@ message ControllerInfo {
   enum Type {
     P4RUNTIME = 0;
   }
-  string role = 2;
+  ControllerRole role = 2;
   Endpoint control_endpoint = 3;
   string username = 4;
   string password = 5;
+}
+
+message ControllerRole {
+  string name = 1;
+  google.protobuf.Any config = 2;
+
 }
 
 // Endpoint specifies ip and port number for an endpoint address
@@ -72,6 +79,14 @@ message IPAddress {
 // P4RTServerInfo aspect; specifies the control end point in a programmable device
 message P4RTServerInfo {
   Endpoint control_endpoint = 1;
-  google.protobuf.Duration timeout = 5 [(gogoproto.stdduration) = true];
+  google.protobuf.Duration timeout = 2 [(gogoproto.stdduration) = true];
+  uint64 device_id = 3 [(gogoproto.customname) = "DeviceID"];
 
 }
+
+// P4RTMastershipState mastership state for the P4runtime targets
+message P4RTMastershipState {
+  uint64 term = 1;
+  string node_id = 2;
+}
+
