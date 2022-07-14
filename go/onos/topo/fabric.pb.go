@@ -7,8 +7,8 @@ import (
 	fmt "fmt"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
-	_ "github.com/gogo/protobuf/types"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -93,7 +93,7 @@ func (x IPAddress_Type) String() string {
 }
 
 func (IPAddress_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{6, 0}
+	return fileDescriptor_705cdab724be9631, []int{7, 0}
 }
 
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
@@ -343,7 +343,7 @@ func (m *PhyPort) GetChannelNumber() uint32 {
 // Controller aspect; represents an instance of the controller deployment
 type ControllerInfo struct {
 	Type            ControllerInfo_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.ControllerInfo_Type" json:"type,omitempty"`
-	Role            string              `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	Role            *ControllerRole     `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
 	ControlEndpoint *Endpoint           `protobuf:"bytes,3,opt,name=control_endpoint,json=controlEndpoint,proto3" json:"control_endpoint,omitempty"`
 	Username        string              `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
 	Password        string              `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
@@ -389,11 +389,11 @@ func (m *ControllerInfo) GetType() ControllerInfo_Type {
 	return ControllerInfo_P4RUNTIME
 }
 
-func (m *ControllerInfo) GetRole() string {
+func (m *ControllerInfo) GetRole() *ControllerRole {
 	if m != nil {
 		return m.Role
 	}
-	return ""
+	return nil
 }
 
 func (m *ControllerInfo) GetControlEndpoint() *Endpoint {
@@ -417,6 +417,58 @@ func (m *ControllerInfo) GetPassword() string {
 	return ""
 }
 
+type ControllerRole struct {
+	Name   string     `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Config *types.Any `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
+}
+
+func (m *ControllerRole) Reset()         { *m = ControllerRole{} }
+func (m *ControllerRole) String() string { return proto.CompactTextString(m) }
+func (*ControllerRole) ProtoMessage()    {}
+func (*ControllerRole) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{5}
+}
+func (m *ControllerRole) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ControllerRole) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ControllerRole.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ControllerRole) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ControllerRole.Merge(m, src)
+}
+func (m *ControllerRole) XXX_Size() int {
+	return m.Size()
+}
+func (m *ControllerRole) XXX_DiscardUnknown() {
+	xxx_messageInfo_ControllerRole.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ControllerRole proto.InternalMessageInfo
+
+func (m *ControllerRole) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *ControllerRole) GetConfig() *types.Any {
+	if m != nil {
+		return m.Config
+	}
+	return nil
+}
+
 // Endpoint specifies ip and port number for an endpoint address
 type Endpoint struct {
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
@@ -427,7 +479,7 @@ func (m *Endpoint) Reset()         { *m = Endpoint{} }
 func (m *Endpoint) String() string { return proto.CompactTextString(m) }
 func (*Endpoint) ProtoMessage()    {}
 func (*Endpoint) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{5}
+	return fileDescriptor_705cdab724be9631, []int{6}
 }
 func (m *Endpoint) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -480,7 +532,7 @@ func (m *IPAddress) Reset()         { *m = IPAddress{} }
 func (m *IPAddress) String() string { return proto.CompactTextString(m) }
 func (*IPAddress) ProtoMessage()    {}
 func (*IPAddress) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{6}
+	return fileDescriptor_705cdab724be9631, []int{7}
 }
 func (m *IPAddress) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -526,14 +578,15 @@ func (m *IPAddress) GetIP() string {
 // P4RTServerInfo aspect; specifies the control end point in a programmable device
 type P4RTServerInfo struct {
 	ControlEndpoint *Endpoint      `protobuf:"bytes,1,opt,name=control_endpoint,json=controlEndpoint,proto3" json:"control_endpoint,omitempty"`
-	Timeout         *time.Duration `protobuf:"bytes,5,opt,name=timeout,proto3,stdduration" json:"timeout,omitempty"`
+	Timeout         *time.Duration `protobuf:"bytes,2,opt,name=timeout,proto3,stdduration" json:"timeout,omitempty"`
+	DeviceID        uint64         `protobuf:"varint,3,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
 }
 
 func (m *P4RTServerInfo) Reset()         { *m = P4RTServerInfo{} }
 func (m *P4RTServerInfo) String() string { return proto.CompactTextString(m) }
 func (*P4RTServerInfo) ProtoMessage()    {}
 func (*P4RTServerInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{7}
+	return fileDescriptor_705cdab724be9631, []int{8}
 }
 func (m *P4RTServerInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -576,6 +629,66 @@ func (m *P4RTServerInfo) GetTimeout() *time.Duration {
 	return nil
 }
 
+func (m *P4RTServerInfo) GetDeviceID() uint64 {
+	if m != nil {
+		return m.DeviceID
+	}
+	return 0
+}
+
+// P4RTMastershipState mastership state for the P4runtime targets
+type P4RTMastershipState struct {
+	Term   uint64 `protobuf:"varint,1,opt,name=term,proto3" json:"term,omitempty"`
+	NodeId string `protobuf:"bytes,2,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+}
+
+func (m *P4RTMastershipState) Reset()         { *m = P4RTMastershipState{} }
+func (m *P4RTMastershipState) String() string { return proto.CompactTextString(m) }
+func (*P4RTMastershipState) ProtoMessage()    {}
+func (*P4RTMastershipState) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{9}
+}
+func (m *P4RTMastershipState) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *P4RTMastershipState) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_P4RTMastershipState.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *P4RTMastershipState) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_P4RTMastershipState.Merge(m, src)
+}
+func (m *P4RTMastershipState) XXX_Size() int {
+	return m.Size()
+}
+func (m *P4RTMastershipState) XXX_DiscardUnknown() {
+	xxx_messageInfo_P4RTMastershipState.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_P4RTMastershipState proto.InternalMessageInfo
+
+func (m *P4RTMastershipState) GetTerm() uint64 {
+	if m != nil {
+		return m.Term
+	}
+	return 0
+}
+
+func (m *P4RTMastershipState) GetNodeId() string {
+	if m != nil {
+		return m.NodeId
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterEnum("onos.topo.NetworkLayer_Type", NetworkLayer_Type_name, NetworkLayer_Type_value)
 	proto.RegisterEnum("onos.topo.ControllerInfo_Type", ControllerInfo_Type_name, ControllerInfo_Type_value)
@@ -585,54 +698,63 @@ func init() {
 	proto.RegisterType((*Router)(nil), "onos.topo.Router")
 	proto.RegisterType((*PhyPort)(nil), "onos.topo.PhyPort")
 	proto.RegisterType((*ControllerInfo)(nil), "onos.topo.ControllerInfo")
+	proto.RegisterType((*ControllerRole)(nil), "onos.topo.ControllerRole")
 	proto.RegisterType((*Endpoint)(nil), "onos.topo.Endpoint")
 	proto.RegisterType((*IPAddress)(nil), "onos.topo.IPAddress")
 	proto.RegisterType((*P4RTServerInfo)(nil), "onos.topo.P4RTServerInfo")
+	proto.RegisterType((*P4RTMastershipState)(nil), "onos.topo.P4RTMastershipState")
 }
 
 func init() { proto.RegisterFile("onos/topo/fabric.proto", fileDescriptor_705cdab724be9631) }
 
 var fileDescriptor_705cdab724be9631 = []byte{
-	// 615 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x4d, 0x6f, 0xd3, 0x4c,
-	0x10, 0xce, 0xe6, 0x75, 0xf3, 0x31, 0x69, 0xf2, 0x46, 0xdb, 0x52, 0xa5, 0x11, 0x72, 0x8a, 0x25,
-	0x50, 0x2f, 0x38, 0x28, 0x54, 0x08, 0x2e, 0x48, 0x0d, 0xe9, 0xc1, 0x52, 0x1b, 0x59, 0x6e, 0x8b,
-	0xc4, 0x29, 0x72, 0xe2, 0x6d, 0x6a, 0x61, 0xef, 0x5a, 0xeb, 0x0d, 0x55, 0x0e, 0xfc, 0x81, 0x72,
-	0xe1, 0xc8, 0x4f, 0xe2, 0xd8, 0x23, 0xa7, 0x82, 0xd2, 0x03, 0x7f, 0x03, 0x79, 0xbd, 0x0e, 0x0e,
-	0xed, 0x81, 0x72, 0x9b, 0x79, 0xe6, 0xd9, 0xf9, 0x78, 0x76, 0x34, 0xb0, 0xc5, 0x28, 0x8b, 0xbb,
-	0x82, 0x45, 0xac, 0x7b, 0xe6, 0x8e, 0xb9, 0x3f, 0x31, 0x23, 0xce, 0x04, 0xc3, 0xd5, 0x04, 0x37,
-	0x13, 0xbc, 0xbd, 0x39, 0x65, 0x53, 0x26, 0xd1, 0x6e, 0x62, 0xa5, 0x84, 0xb6, 0x3e, 0x65, 0x6c,
-	0x1a, 0x90, 0xae, 0xf4, 0xc6, 0xb3, 0xb3, 0xae, 0x37, 0xe3, 0xae, 0xf0, 0x19, 0x4d, 0xe3, 0xc6,
-	0x1c, 0xd6, 0x87, 0x44, 0x5c, 0x30, 0xfe, 0xfe, 0xd0, 0x9d, 0x13, 0x8e, 0x9f, 0x81, 0x26, 0xe6,
-	0x11, 0x69, 0xa1, 0x1d, 0xb4, 0xdb, 0xe8, 0x3d, 0x34, 0x97, 0xf9, 0xcd, 0x3c, 0xcd, 0x3c, 0x99,
-	0x47, 0xc4, 0x91, 0x4c, 0xfc, 0x08, 0xd6, 0x3d, 0x3f, 0x8e, 0x02, 0x77, 0x3e, 0xa2, 0x6e, 0x48,
-	0x5a, 0xc5, 0x1d, 0xb4, 0x5b, 0x75, 0x6a, 0x0a, 0x1b, 0xba, 0x21, 0x31, 0x36, 0x41, 0x4b, 0x1e,
-	0xe0, 0x75, 0xa8, 0x9c, 0x0e, 0x07, 0x07, 0xce, 0xe1, 0xfe, 0xbb, 0x66, 0xc1, 0xb8, 0x44, 0x50,
-	0x3a, 0xbe, 0xf0, 0xc5, 0xe4, 0x1c, 0x3f, 0x81, 0x4a, 0xc8, 0x3c, 0x12, 0x8c, 0x7c, 0x4f, 0x56,
-	0xae, 0xf6, 0x6b, 0x8b, 0xeb, 0x4e, 0xf9, 0x28, 0xc1, 0xac, 0x81, 0x53, 0x96, 0x41, 0xcb, 0xc3,
-	0x18, 0x34, 0xce, 0x82, 0xac, 0x86, 0xb4, 0xf1, 0x00, 0x36, 0x42, 0x97, 0xba, 0x53, 0x12, 0x12,
-	0x2a, 0x46, 0x84, 0x7a, 0x11, 0xf3, 0xa9, 0x68, 0x69, 0x3b, 0x68, 0xb7, 0xd6, 0xdb, 0xc8, 0x0d,
-	0x70, 0xa0, 0x42, 0x0e, 0xfe, 0xcd, 0xcf, 0x30, 0xe3, 0x23, 0x94, 0x1c, 0x36, 0x13, 0x84, 0xe3,
-	0xed, 0x3f, 0x7b, 0xf9, 0xa7, 0xf2, 0xff, 0xdd, 0xaf, 0xfc, 0x25, 0x82, 0xb2, 0x7d, 0x3e, 0xb7,
-	0x19, 0x17, 0xb7, 0x04, 0x45, 0xb7, 0x04, 0xc5, 0x9b, 0xb0, 0x16, 0x47, 0x84, 0x78, 0xaa, 0x93,
-	0xd4, 0xc1, 0x1d, 0xa8, 0x45, 0x8c, 0x8b, 0x11, 0x9d, 0x85, 0x63, 0xc2, 0x65, 0x0b, 0x75, 0x07,
-	0x12, 0x68, 0x28, 0x11, 0xfc, 0x18, 0x1a, 0x93, 0x73, 0x97, 0x52, 0x12, 0x64, 0x1c, 0x4d, 0x72,
-	0xea, 0x0a, 0x4d, 0x69, 0xc6, 0x4f, 0x04, 0x8d, 0x37, 0x8c, 0x0a, 0xce, 0x82, 0x80, 0x70, 0x8b,
-	0x9e, 0x31, 0xdc, 0x5b, 0x59, 0x0b, 0x3d, 0x37, 0xd6, 0x2a, 0x31, 0xbf, 0x18, 0x77, 0xa9, 0xf5,
-	0x1a, 0x9a, 0x93, 0xf4, 0xc1, 0x5f, 0x49, 0xf5, 0xbf, 0x22, 0x67, 0x00, 0x6e, 0x43, 0x65, 0x16,
-	0x13, 0x2e, 0x75, 0xd1, 0x64, 0xde, 0xa5, 0x9f, 0xc4, 0x22, 0x37, 0x8e, 0x2f, 0x18, 0xf7, 0x5a,
-	0x6b, 0x69, 0x2c, 0xf3, 0x8d, 0x07, 0x6a, 0x03, 0xeb, 0x50, 0xb5, 0xf7, 0x9c, 0xd3, 0xe1, 0x89,
-	0x75, 0x74, 0xd0, 0x2c, 0x18, 0x2f, 0xa1, 0xb2, 0x4c, 0xdd, 0x82, 0xb2, 0xeb, 0x79, 0x9c, 0xc4,
-	0x71, 0xf6, 0xed, 0xca, 0x4d, 0x06, 0x49, 0x44, 0x94, 0x83, 0xd4, 0x1d, 0x69, 0x1b, 0x14, 0xaa,
-	0x96, 0xbd, 0xaf, 0x08, 0x4f, 0x57, 0xd4, 0xd9, 0xce, 0x4d, 0xb2, 0xe4, 0xe4, 0x85, 0xd9, 0x82,
-	0xa2, 0x1f, 0xa5, 0xb2, 0xf4, 0x4b, 0x8b, 0xeb, 0x4e, 0xd1, 0xb2, 0x9d, 0xa2, 0x1f, 0x19, 0x6d,
-	0xd5, 0x64, 0x05, 0x34, 0xcb, 0x7e, 0xbb, 0xd7, 0x2c, 0x28, 0xeb, 0x45, 0x13, 0x19, 0x9f, 0x10,
-	0x34, 0xec, 0x3d, 0xe7, 0xe4, 0x98, 0xf0, 0x0f, 0xea, 0x4f, 0xee, 0xd2, 0x12, 0xdd, 0x43, 0xcb,
-	0x57, 0x50, 0x16, 0x7e, 0x48, 0xd8, 0x4c, 0x48, 0xb9, 0x6a, 0xbd, 0x6d, 0x33, 0x3d, 0x16, 0x66,
-	0x76, 0x2c, 0xcc, 0x81, 0x3a, 0x16, 0x7d, 0xed, 0xcb, 0xf7, 0x0e, 0x72, 0x32, 0x7e, 0xbf, 0xf5,
-	0x75, 0xa1, 0xa3, 0xab, 0x85, 0x8e, 0x7e, 0x2c, 0x74, 0xf4, 0xf9, 0x46, 0x2f, 0x5c, 0xdd, 0xe8,
-	0x85, 0x6f, 0x37, 0x7a, 0x61, 0x5c, 0x92, 0x6f, 0x9f, 0xff, 0x0a, 0x00, 0x00, 0xff, 0xff, 0x28,
-	0xf2, 0xa9, 0x23, 0xb1, 0x04, 0x00, 0x00,
+	// 729 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x3d, 0x6f, 0xe3, 0x46,
+	0x10, 0x15, 0x15, 0x5a, 0x1f, 0xa3, 0x8f, 0x08, 0x6b, 0xc5, 0x91, 0x85, 0x80, 0x72, 0x08, 0x24,
+	0x70, 0x80, 0x98, 0x0a, 0x14, 0x23, 0x48, 0x9a, 0x00, 0x56, 0xe4, 0x82, 0x80, 0x2d, 0x08, 0x6b,
+	0x3b, 0x40, 0x2a, 0x81, 0x12, 0x57, 0x12, 0x11, 0x72, 0x97, 0x58, 0xae, 0x6c, 0xb0, 0x48, 0x93,
+	0xd2, 0x55, 0xca, 0xfc, 0x92, 0xfc, 0x86, 0x94, 0x2e, 0xaf, 0xf2, 0x1d, 0xe4, 0x3f, 0x72, 0xe0,
+	0x72, 0xa9, 0xa3, 0x3f, 0x8a, 0xf3, 0x75, 0x33, 0x6f, 0x1e, 0x77, 0x66, 0xdf, 0xbc, 0x25, 0xec,
+	0x31, 0xca, 0xa2, 0xbe, 0x60, 0x21, 0xeb, 0x2f, 0x9c, 0x19, 0xf7, 0xe6, 0x56, 0xc8, 0x99, 0x60,
+	0xa8, 0x9a, 0xe0, 0x56, 0x82, 0x77, 0xdb, 0x4b, 0xb6, 0x64, 0x12, 0xed, 0x27, 0x51, 0x4a, 0xe8,
+	0x1a, 0x4b, 0xc6, 0x96, 0x3e, 0xe9, 0xcb, 0x6c, 0xb6, 0x5e, 0xf4, 0xdd, 0x35, 0x77, 0x84, 0xc7,
+	0xa8, 0xaa, 0xef, 0x3f, 0xad, 0x3b, 0x34, 0x4e, 0x4b, 0x66, 0x0c, 0xf5, 0x31, 0x11, 0x37, 0x8c,
+	0xff, 0x79, 0xe6, 0xc4, 0x84, 0xa3, 0x1f, 0x40, 0x17, 0x71, 0x48, 0x3a, 0xda, 0x81, 0x76, 0xd8,
+	0x1c, 0x7c, 0x65, 0x6d, 0x5b, 0x5b, 0x79, 0x9a, 0x75, 0x19, 0x87, 0x04, 0x4b, 0x26, 0xfa, 0x1a,
+	0xea, 0xae, 0x17, 0x85, 0xbe, 0x13, 0x4f, 0xa9, 0x13, 0x90, 0x4e, 0xf1, 0x40, 0x3b, 0xac, 0xe2,
+	0x9a, 0xc2, 0xc6, 0x4e, 0x40, 0xcc, 0x36, 0xe8, 0xc9, 0x07, 0xa8, 0x0e, 0x95, 0xab, 0xf1, 0xe8,
+	0x14, 0x9f, 0x9d, 0xfc, 0xd1, 0x2a, 0x98, 0xb7, 0x1a, 0x94, 0x2e, 0x6e, 0x3c, 0x31, 0x5f, 0xa1,
+	0x6f, 0xa1, 0x12, 0x30, 0x97, 0xf8, 0x53, 0xcf, 0x95, 0x9d, 0xab, 0xc3, 0xda, 0xe6, 0xbe, 0x57,
+	0x3e, 0x4f, 0x30, 0x7b, 0x84, 0xcb, 0xb2, 0x68, 0xbb, 0x08, 0x81, 0xce, 0x99, 0x9f, 0xf5, 0x90,
+	0x31, 0x1a, 0xc1, 0x6e, 0xe0, 0x50, 0x67, 0x49, 0x02, 0x42, 0xc5, 0x94, 0x50, 0x37, 0x64, 0x1e,
+	0x15, 0x1d, 0xfd, 0x40, 0x3b, 0xac, 0x0d, 0x76, 0x73, 0x17, 0x38, 0x55, 0x25, 0x8c, 0x3e, 0xf0,
+	0x33, 0xcc, 0xfc, 0x0b, 0x4a, 0x98, 0xad, 0x05, 0xe1, 0x68, 0xff, 0xe9, 0x2c, 0x9f, 0xd4, 0xfe,
+	0xb3, 0xd7, 0xb5, 0xbf, 0xd5, 0xa0, 0x3c, 0x59, 0xc5, 0x13, 0xc6, 0xc5, 0x33, 0x41, 0xb5, 0x67,
+	0x82, 0xa2, 0x36, 0xec, 0x44, 0x21, 0x21, 0xae, 0x9a, 0x24, 0x4d, 0x50, 0x0f, 0x6a, 0x21, 0xe3,
+	0x62, 0x4a, 0xd7, 0xc1, 0x8c, 0x70, 0x39, 0x42, 0x03, 0x43, 0x02, 0x8d, 0x25, 0x82, 0xbe, 0x81,
+	0xe6, 0x7c, 0xe5, 0x50, 0x4a, 0xfc, 0x8c, 0xa3, 0x4b, 0x4e, 0x43, 0xa1, 0x29, 0xcd, 0xfc, 0xbb,
+	0x08, 0xcd, 0xdf, 0x18, 0x15, 0x9c, 0xf9, 0x3e, 0xe1, 0x36, 0x5d, 0x30, 0x34, 0x78, 0x64, 0x0b,
+	0x23, 0x77, 0xad, 0xc7, 0xc4, 0xbc, 0x31, 0x8e, 0x72, 0x6a, 0xd5, 0x06, 0xfb, 0x2f, 0x7e, 0x83,
+	0x99, 0x4f, 0x94, 0x90, 0xbf, 0x42, 0x6b, 0x9e, 0xe2, 0x1f, 0xa5, 0xe2, 0xe7, 0x8a, 0x9c, 0x01,
+	0xa8, 0x0b, 0x95, 0x75, 0x44, 0xb8, 0x94, 0x4c, 0x97, 0xb2, 0x6c, 0xf3, 0xa4, 0x16, 0x3a, 0x51,
+	0x74, 0xc3, 0xb8, 0xdb, 0xd9, 0x49, 0x6b, 0x59, 0x6e, 0x7e, 0xa1, 0xcc, 0xd9, 0x80, 0xea, 0xe4,
+	0x18, 0x5f, 0x8d, 0x2f, 0xed, 0xf3, 0xd3, 0x56, 0xc1, 0xc4, 0x79, 0x0d, 0x92, 0x31, 0x93, 0xed,
+	0xe7, 0xf6, 0x21, 0x63, 0xf4, 0x3d, 0x94, 0xe6, 0x8c, 0x2e, 0xbc, 0xa5, 0xba, 0x65, 0xdb, 0x4a,
+	0x9f, 0x9a, 0x95, 0x3d, 0x35, 0xeb, 0x84, 0xc6, 0x58, 0x71, 0xcc, 0x9f, 0xa1, 0xb2, 0x1d, 0xb7,
+	0x03, 0x65, 0xc7, 0x75, 0x39, 0x89, 0xa2, 0xcc, 0x65, 0x2a, 0x4d, 0xfa, 0x24, 0x3b, 0x93, 0x27,
+	0x36, 0xb0, 0x8c, 0x4d, 0x0a, 0x55, 0x7b, 0x72, 0xa2, 0x08, 0x47, 0x8f, 0x96, 0x91, 0x17, 0x76,
+	0xcb, 0xc9, 0xef, 0x61, 0x0f, 0x8a, 0x5e, 0x98, 0x3a, 0x65, 0x58, 0xda, 0xdc, 0xf7, 0x8a, 0xf6,
+	0x04, 0x17, 0xbd, 0xd0, 0xec, 0xaa, 0x8b, 0x57, 0x40, 0xb7, 0x27, 0xbf, 0x1f, 0xb7, 0x0a, 0x2a,
+	0xfa, 0xa9, 0xa5, 0x99, 0xff, 0x69, 0xd0, 0x9c, 0x1c, 0xe3, 0xcb, 0x0b, 0xc2, 0xaf, 0x95, 0x05,
+	0x5e, 0xda, 0x8f, 0xf6, 0x8a, 0xfd, 0xfc, 0x02, 0x65, 0xe1, 0x05, 0x84, 0xad, 0xc5, 0xd6, 0x11,
+	0x4f, 0xb5, 0x1a, 0xa9, 0xdf, 0xd6, 0x50, 0xff, 0xf7, 0x6d, 0x4f, 0xc3, 0x19, 0x1f, 0x7d, 0x07,
+	0x55, 0x97, 0x5c, 0x7b, 0x73, 0x92, 0xbc, 0xc9, 0xc4, 0x13, 0xfa, 0xb0, 0xbe, 0xb9, 0xef, 0x55,
+	0x46, 0x12, 0xb4, 0x47, 0xb8, 0x92, 0x96, 0x6d, 0xd7, 0x1c, 0xc2, 0x6e, 0x32, 0xf7, 0xb9, 0x13,
+	0x09, 0xc2, 0xa3, 0x95, 0x17, 0x5e, 0x08, 0x47, 0xc8, 0xdd, 0x09, 0xc2, 0x03, 0x39, 0xb0, 0x8e,
+	0x65, 0x8c, 0xbe, 0x84, 0x32, 0x65, 0xae, 0x3c, 0x33, 0x7d, 0x46, 0xa5, 0x24, 0xb5, 0xdd, 0x61,
+	0xe7, 0xff, 0x8d, 0xa1, 0xdd, 0x6d, 0x0c, 0xed, 0xdd, 0xc6, 0xd0, 0xfe, 0x79, 0x30, 0x0a, 0x77,
+	0x0f, 0x46, 0xe1, 0xcd, 0x83, 0x51, 0x98, 0x95, 0xe4, 0xa8, 0x3f, 0xbe, 0x0f, 0x00, 0x00, 0xff,
+	0xff, 0x24, 0x7a, 0x3e, 0xb9, 0xaa, 0x05, 0x00, 0x00,
 }
 
 func (m *NetworkLayer) Marshal() (dAtA []byte, err error) {
@@ -861,10 +983,15 @@ func (m *ControllerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.Role) > 0 {
-		i -= len(m.Role)
-		copy(dAtA[i:], m.Role)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.Role)))
+	if m.Role != nil {
+		{
+			size, err := m.Role.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -872,6 +999,48 @@ func (m *ControllerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintFabric(dAtA, i, uint64(m.Type))
 		i--
 		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ControllerRole) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ControllerRole) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ControllerRole) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Config != nil {
+		{
+			size, err := m.Config.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -966,15 +1135,20 @@ func (m *P4RTServerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Timeout != nil {
-		n4, err4 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Timeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout):])
-		if err4 != nil {
-			return 0, err4
-		}
-		i -= n4
-		i = encodeVarintFabric(dAtA, i, uint64(n4))
+	if m.DeviceID != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.DeviceID))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x18
+	}
+	if m.Timeout != nil {
+		n6, err6 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Timeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout):])
+		if err6 != nil {
+			return 0, err6
+		}
+		i -= n6
+		i = encodeVarintFabric(dAtA, i, uint64(n6))
+		i--
+		dAtA[i] = 0x12
 	}
 	if m.ControlEndpoint != nil {
 		{
@@ -987,6 +1161,41 @@ func (m *P4RTServerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *P4RTMastershipState) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *P4RTMastershipState) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *P4RTMastershipState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.NodeId) > 0 {
+		i -= len(m.NodeId)
+		copy(dAtA[i:], m.NodeId)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.NodeId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Term != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.Term))
+		i--
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -1092,8 +1301,8 @@ func (m *ControllerInfo) Size() (n int) {
 	if m.Type != 0 {
 		n += 1 + sovFabric(uint64(m.Type))
 	}
-	l = len(m.Role)
-	if l > 0 {
+	if m.Role != nil {
+		l = m.Role.Size()
 		n += 1 + l + sovFabric(uint64(l))
 	}
 	if m.ControlEndpoint != nil {
@@ -1106,6 +1315,23 @@ func (m *ControllerInfo) Size() (n int) {
 	}
 	l = len(m.Password)
 	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	return n
+}
+
+func (m *ControllerRole) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.Config != nil {
+		l = m.Config.Size()
 		n += 1 + l + sovFabric(uint64(l))
 	}
 	return n
@@ -1155,6 +1381,25 @@ func (m *P4RTServerInfo) Size() (n int) {
 	}
 	if m.Timeout != nil {
 		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout)
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.DeviceID != 0 {
+		n += 1 + sovFabric(uint64(m.DeviceID))
+	}
+	return n
+}
+
+func (m *P4RTMastershipState) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Term != 0 {
+		n += 1 + sovFabric(uint64(m.Term))
+	}
+	l = len(m.NodeId)
+	if l > 0 {
 		n += 1 + l + sovFabric(uint64(l))
 	}
 	return n
@@ -1771,7 +2016,7 @@ func (m *ControllerInfo) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Role", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowFabric
@@ -1781,23 +2026,27 @@ func (m *ControllerInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthFabric
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthFabric
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Role = string(dAtA[iNdEx:postIndex])
+			if m.Role == nil {
+				m.Role = &ControllerRole{}
+			}
+			if err := m.Role.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
@@ -1898,6 +2147,124 @@ func (m *ControllerInfo) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Password = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipFabric(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ControllerRole) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowFabric
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ControllerRole: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ControllerRole: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Config", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Config == nil {
+				m.Config = &types.Any{}
+			}
+			if err := m.Config.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2187,7 +2554,7 @@ func (m *P4RTServerInfo) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 5:
+		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timeout", wireType)
 			}
@@ -2222,6 +2589,126 @@ func (m *P4RTServerInfo) Unmarshal(dAtA []byte) error {
 			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.Timeout, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DeviceID", wireType)
+			}
+			m.DeviceID = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.DeviceID |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipFabric(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *P4RTMastershipState) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowFabric
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: P4RTMastershipState: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: P4RTMastershipState: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Term", wireType)
+			}
+			m.Term = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Term |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NodeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NodeId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
