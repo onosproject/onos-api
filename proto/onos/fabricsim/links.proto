@@ -36,10 +36,10 @@ service LinkService {
     rpc GetLink(GetLinkRequest) returns (GetLinkResponse);
 
     // AddLink adds a new simulated link
-    rpc AddLink(AddLinkRequest) returns (AddLinkRequest);
+    rpc AddLink(AddLinkRequest) returns (AddLinkResponse);
 
     // RemoveLink removes a simulated link
-    rpc RemoveLink(RemoveLinkRequest) returns (RemoveLinkRequest);
+    rpc RemoveLink(RemoveLinkRequest) returns (RemoveLinkResponse);
 }
 
 message GetLinksRequest {
