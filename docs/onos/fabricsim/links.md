@@ -62,8 +62,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| src_id | [string](#string) |  | unique port ids of source and target ports |
-| tgt_id | [string](#string) |  |  |
+| id | [string](#string) |  |  |
 
 
 
@@ -118,6 +117,7 @@ Link describes a simulated link, i.e a link between two device or host ports
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | unique port id and port type |
 | src_id | [string](#string) |  | unique port ids of source and target ports |
 | tgt_id | [string](#string) |  |  |
 | status | [LinkStatus](#onos-fabricsim-LinkStatus) |  | status (operational state derived from the status of its adjacent ports)
@@ -137,8 +137,7 @@ read-only entity |
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| src_id | [string](#string) |  | unique port ids of source and target ports |
-| tgt_id | [string](#string) |  |  |
+| id | [string](#string) |  |  |
 
 
 
