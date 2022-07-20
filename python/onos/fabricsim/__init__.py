@@ -305,10 +305,12 @@ class Link(betterproto.Message):
     """Device describes a simulated switch or IPU"""
 
     # unique device id and device type
-    src_id: str = betterproto.string_field(1)
-    tgt_id: str = betterproto.string_field(2)
+    id: str = betterproto.string_field(1)
+    src_id: str = betterproto.string_field(2)
     # list of ports
-    status: "LinkStatus" = betterproto.enum_field(3)
+    tgt_id: str = betterproto.string_field(3)
+    # control port for p4 and gnmi simulation
+    status: "LinkStatus" = betterproto.enum_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -334,8 +336,7 @@ class GetLinksResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinkRequest(betterproto.Message):
-    src_id: str = betterproto.string_field(1)
-    tgt_id: str = betterproto.string_field(2)
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -367,8 +368,7 @@ class AddLinkResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RemoveLinkRequest(betterproto.Message):
-    src_id: str = betterproto.string_field(1)
-    tgt_id: str = betterproto.string_field(2)
+    id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -551,20 +551,17 @@ class LinkServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.LinkService/GetLinks", request, GetLinksResponse
         )
 
-    async def get_link(
-        self, *, src_id: str = "", tgt_id: str = ""
-    ) -> "GetLinkResponse":
+    async def get_link(self, *, id: str = "") -> "GetLinkResponse":
         """GetDevice gets a specific device entry"""
 
         request = GetLinkRequest()
-        request.src_id = src_id
-        request.tgt_id = tgt_id
+        request.id = id
 
         return await self._unary_unary(
             "/onos.fabricsim.LinkService/GetLink", request, GetLinkResponse
         )
 
-    async def add_link(self, *, link: "Link" = None) -> "AddLinkRequest":
+    async def add_link(self, *, link: "Link" = None) -> "AddLinkResponse":
         """
         AddDevice creates a new simulated deviceand start its P4Runtime and
         gNMI services
@@ -575,18 +572,15 @@ class LinkServiceStub(betterproto.ServiceStub):
             request.link = link
 
         return await self._unary_unary(
-            "/onos.fabricsim.LinkService/AddLink", request, AddLinkRequest
+            "/onos.fabricsim.LinkService/AddLink", request, AddLinkResponse
         )
 
-    async def remove_link(
-        self, *, src_id: str = "", tgt_id: str = ""
-    ) -> "RemoveLinkRequest":
+    async def remove_link(self, *, id: str = "") -> "RemoveLinkResponse":
         """RemoveDevice removes a simulated device"""
 
         request = RemoveLinkRequest()
-        request.src_id = src_id
-        request.tgt_id = tgt_id
+        request.id = id
 
         return await self._unary_unary(
-            "/onos.fabricsim.LinkService/RemoveLink", request, RemoveLinkRequest
+            "/onos.fabricsim.LinkService/RemoveLink", request, RemoveLinkResponse
         )

@@ -55,11 +55,13 @@ func (LinkStatus) EnumDescriptor() ([]byte, []int) {
 
 // Link describes a simulated link, i.e a link between two device or host ports
 type Link struct {
+	// unique port id and port type
+	ID LinkID `protobuf:"bytes,1,opt,name=id,proto3,casttype=LinkID" json:"id,omitempty"`
 	// unique port ids of source and target ports
-	SrcID PortID `protobuf:"bytes,1,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
-	TgtID PortID `protobuf:"bytes,2,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
+	SrcID PortID `protobuf:"bytes,2,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
+	TgtID PortID `protobuf:"bytes,3,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
 	// status (operational state derived from the status of its adjacent ports)
-	Status LinkStatus `protobuf:"varint,3,opt,name=status,proto3,enum=onos.fabricsim.LinkStatus" json:"status,omitempty"`
+	Status LinkStatus `protobuf:"varint,4,opt,name=status,proto3,enum=onos.fabricsim.LinkStatus" json:"status,omitempty"`
 }
 
 func (m *Link) Reset()         { *m = Link{} }
@@ -94,6 +96,13 @@ func (m *Link) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_Link proto.InternalMessageInfo
+
+func (m *Link) GetID() LinkID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
 
 func (m *Link) GetSrcID() PortID {
 	if m != nil {
@@ -197,9 +206,7 @@ func (m *GetLinksResponse) GetLinks() []*Link {
 }
 
 type GetLinkRequest struct {
-	// unique port ids of source and target ports
-	SrcID PortID `protobuf:"bytes,1,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
-	TgtID PortID `protobuf:"bytes,2,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
+	ID LinkID `protobuf:"bytes,1,opt,name=id,proto3,casttype=LinkID" json:"id,omitempty"`
 }
 
 func (m *GetLinkRequest) Reset()         { *m = GetLinkRequest{} }
@@ -235,16 +242,9 @@ func (m *GetLinkRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetLinkRequest proto.InternalMessageInfo
 
-func (m *GetLinkRequest) GetSrcID() PortID {
+func (m *GetLinkRequest) GetID() LinkID {
 	if m != nil {
-		return m.SrcID
-	}
-	return ""
-}
-
-func (m *GetLinkRequest) GetTgtID() PortID {
-	if m != nil {
-		return m.TgtID
+		return m.ID
 	}
 	return ""
 }
@@ -374,9 +374,7 @@ func (m *AddLinkResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddLinkResponse proto.InternalMessageInfo
 
 type RemoveLinkRequest struct {
-	// unique port ids of source and target ports
-	SrcID PortID `protobuf:"bytes,1,opt,name=src_id,json=srcId,proto3,casttype=PortID" json:"src_id,omitempty"`
-	TgtID PortID `protobuf:"bytes,2,opt,name=tgt_id,json=tgtId,proto3,casttype=PortID" json:"tgt_id,omitempty"`
+	ID LinkID `protobuf:"bytes,1,opt,name=id,proto3,casttype=LinkID" json:"id,omitempty"`
 }
 
 func (m *RemoveLinkRequest) Reset()         { *m = RemoveLinkRequest{} }
@@ -412,16 +410,9 @@ func (m *RemoveLinkRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RemoveLinkRequest proto.InternalMessageInfo
 
-func (m *RemoveLinkRequest) GetSrcID() PortID {
+func (m *RemoveLinkRequest) GetID() LinkID {
 	if m != nil {
-		return m.SrcID
-	}
-	return ""
-}
-
-func (m *RemoveLinkRequest) GetTgtID() PortID {
-	if m != nil {
-		return m.TgtID
+		return m.ID
 	}
 	return ""
 }
@@ -478,34 +469,36 @@ func init() {
 func init() { proto.RegisterFile("onos/fabricsim/links.proto", fileDescriptor_fc16fca2ba28ce9e) }
 
 var fileDescriptor_fc16fca2ba28ce9e = []byte{
-	// 429 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x93, 0x4f, 0x8f, 0x93, 0x40,
-	0x18, 0xc6, 0x99, 0xdd, 0x2d, 0x75, 0xdf, 0x46, 0xb6, 0x1d, 0x7b, 0x20, 0x1c, 0x00, 0x39, 0x91,
-	0x1e, 0x68, 0x82, 0x37, 0x4d, 0x4c, 0xdc, 0x34, 0x31, 0xe8, 0xba, 0x6e, 0x58, 0x8d, 0xc7, 0xcd,
-	0x2e, 0x8c, 0x48, 0x6a, 0x99, 0xca, 0x4c, 0xfb, 0x39, 0x8c, 0x5f, 0x4a, 0x8f, 0x3d, 0x7a, 0x6a,
-	0x0c, 0xfd, 0x16, 0x9e, 0x0c, 0x03, 0x85, 0xfe, 0x91, 0xd4, 0x8b, 0x7b, 0x83, 0x79, 0x7e, 0xef,
-	0xfb, 0x3e, 0xef, 0x3c, 0x00, 0x1a, 0x4d, 0x28, 0x1b, 0x7e, 0xbc, 0xbd, 0x4b, 0xe3, 0x80, 0xc5,
-	0x93, 0xe1, 0xe7, 0x38, 0x19, 0x33, 0x67, 0x9a, 0x52, 0x4e, 0xb1, 0x92, 0x6b, 0x4e, 0xa5, 0x69,
-	0xfd, 0x88, 0x46, 0x54, 0x48, 0xc3, 0xfc, 0xa9, 0xa0, 0xac, 0x6f, 0x08, 0x4e, 0x2e, 0xe2, 0x64,
-	0x8c, 0x07, 0x20, 0xb3, 0x34, 0xb8, 0x89, 0x43, 0x15, 0x99, 0xc8, 0x3e, 0x3d, 0x7f, 0x94, 0x2d,
-	0x8d, 0xd6, 0x75, 0x1a, 0x78, 0xa3, 0xdf, 0x4b, 0x43, 0xbe, 0xa2, 0x29, 0xf7, 0x46, 0x7e, 0x8b,
-	0xa5, 0x81, 0x17, 0xe6, 0x2c, 0x8f, 0x78, 0xce, 0x1e, 0xd5, 0xec, 0xbb, 0x88, 0x6f, 0xb3, 0x3c,
-	0xe2, 0x5e, 0x88, 0x5d, 0x90, 0x19, 0xbf, 0xe5, 0x33, 0xa6, 0x1e, 0x9b, 0xc8, 0x56, 0x5c, 0xcd,
-	0xd9, 0xf6, 0xe5, 0xe4, 0xd3, 0xaf, 0x05, 0xe1, 0x97, 0xa4, 0xd5, 0x83, 0xb3, 0x97, 0x84, 0xe7,
-	0x02, 0xf3, 0xc9, 0x97, 0x19, 0x61, 0xdc, 0x7a, 0x0e, 0xdd, 0xfa, 0x88, 0x4d, 0x69, 0xc2, 0x08,
-	0x1e, 0x40, 0x4b, 0x2c, 0xac, 0x22, 0xf3, 0xd8, 0xee, 0xb8, 0xfd, 0xbf, 0x75, 0xf6, 0x0b, 0xc4,
-	0xfa, 0x04, 0x4a, 0x59, 0x5f, 0x76, 0xfc, 0x5f, 0x0b, 0x5b, 0xcf, 0x2a, 0xf3, 0x95, 0x51, 0x1b,
-	0x4e, 0x72, 0x17, 0x62, 0x50, 0x93, 0x4f, 0x41, 0x58, 0x4f, 0x41, 0x79, 0x11, 0x86, 0x9b, 0x36,
-	0xff, 0xbd, 0xb6, 0x07, 0x67, 0x55, 0x6d, 0x31, 0xd8, 0x1a, 0x43, 0xcf, 0x27, 0x13, 0x3a, 0x27,
-	0xf7, 0xb1, 0x78, 0x1f, 0xf0, 0xe6, 0xb0, 0xc2, 0xc2, 0xc0, 0x06, 0xa8, 0x13, 0xc6, 0x0f, 0xe1,
-	0xf4, 0xc2, 0xbb, 0x7c, 0x7d, 0x33, 0x7a, 0xfb, 0xe1, 0xb2, 0x2b, 0xe1, 0x0e, 0xb4, 0xc5, 0xeb,
-	0xfb, 0xab, 0x2e, 0x72, 0xbf, 0x1f, 0x41, 0x47, 0xa0, 0x24, 0x9d, 0xc7, 0x01, 0xc1, 0x6f, 0xe0,
-	0xc1, 0x3a, 0x72, 0x6c, 0xec, 0xee, 0xbd, 0xf3, 0x7d, 0x68, 0x66, 0x33, 0x50, 0x86, 0xf0, 0x0a,
-	0xda, 0xe5, 0x19, 0xd6, 0x1b, 0xe0, 0x75, 0x33, 0xa3, 0x51, 0x2f, 0x7b, 0x79, 0xd0, 0x2e, 0xaf,
-	0x7a, 0xbf, 0xd7, 0x76, 0x7e, 0xda, 0x01, 0x1d, 0xfb, 0x00, 0xf5, 0xad, 0xe1, 0xc7, 0xbb, 0xf4,
-	0x5e, 0x7c, 0xda, 0x61, 0xe4, 0x5c, 0xfd, 0x91, 0xe9, 0x68, 0x91, 0xe9, 0xe8, 0x57, 0xa6, 0xa3,
-	0xaf, 0x2b, 0x5d, 0x5a, 0xac, 0x74, 0xe9, 0xe7, 0x4a, 0x97, 0xee, 0x64, 0xf1, 0xd7, 0x3f, 0xf9,
-	0x13, 0x00, 0x00, 0xff, 0xff, 0x3a, 0x07, 0xdc, 0x5b, 0x39, 0x04, 0x00, 0x00,
+	// 449 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0xcf, 0x6e, 0xd3, 0x40,
+	0x10, 0xc6, 0xb3, 0x6e, 0x92, 0xd2, 0x89, 0x48, 0x93, 0x25, 0x07, 0xcb, 0x07, 0xdb, 0xec, 0xc9,
+	0xca, 0xc1, 0x91, 0x8c, 0xb8, 0x80, 0x84, 0x44, 0x65, 0x09, 0x19, 0x4a, 0xa9, 0x1c, 0x10, 0xc7,
+	0xaa, 0xb5, 0x17, 0x6b, 0x55, 0xea, 0x2d, 0xde, 0x6d, 0x9f, 0x83, 0x87, 0xe1, 0x21, 0xe0, 0xd6,
+	0x23, 0xa7, 0x08, 0x39, 0x6f, 0xc1, 0x09, 0x79, 0xed, 0xda, 0x8d, 0x83, 0xf9, 0x73, 0xb3, 0xf7,
+	0xfb, 0xcd, 0x37, 0xb3, 0xdf, 0x68, 0xc1, 0xe0, 0x29, 0x17, 0x8b, 0x0f, 0xa7, 0x67, 0x19, 0x8b,
+	0x04, 0xbb, 0x58, 0x7c, 0x64, 0xe9, 0xb9, 0x70, 0x2f, 0x33, 0x2e, 0x39, 0x1e, 0x17, 0x9a, 0x5b,
+	0x6b, 0xc6, 0x2c, 0xe1, 0x09, 0x57, 0xd2, 0xa2, 0xf8, 0x2a, 0x29, 0xf2, 0x05, 0x41, 0xff, 0x90,
+	0xa5, 0xe7, 0xd8, 0x06, 0x8d, 0xc5, 0x3a, 0xb2, 0x91, 0xb3, 0x77, 0x30, 0xc9, 0x57, 0x96, 0x16,
+	0xf8, 0x3f, 0x57, 0xd6, 0xb0, 0xd0, 0x02, 0x3f, 0xd4, 0x58, 0x8c, 0xe7, 0x30, 0x14, 0x59, 0x74,
+	0xc2, 0x62, 0x5d, 0x53, 0xd4, 0x83, 0x7c, 0x65, 0x0d, 0x96, 0x59, 0x54, 0x82, 0xc7, 0x3c, 0x93,
+	0x81, 0x1f, 0x0e, 0x44, 0x16, 0x05, 0x8a, 0x95, 0x89, 0x2c, 0xd8, 0x9d, 0x86, 0x7d, 0x9b, 0xc8,
+	0x4d, 0x56, 0x26, 0x32, 0x88, 0xb1, 0x07, 0x43, 0x21, 0x4f, 0xe5, 0x95, 0xd0, 0xfb, 0x36, 0x72,
+	0xc6, 0x9e, 0xe1, 0x6e, 0x4e, 0xee, 0x16, 0x33, 0x2c, 0x15, 0x11, 0x56, 0x24, 0x99, 0xc2, 0xfe,
+	0x0b, 0x2a, 0x0b, 0x41, 0x84, 0xf4, 0xd3, 0x15, 0x15, 0x92, 0x3c, 0x83, 0x49, 0x73, 0x24, 0x2e,
+	0x79, 0x2a, 0x28, 0x9e, 0xc3, 0x40, 0x45, 0xa2, 0x23, 0x7b, 0xc7, 0x19, 0x79, 0xb3, 0xdf, 0x39,
+	0x87, 0x25, 0x42, 0x3c, 0x18, 0x57, 0xf5, 0x95, 0xe3, 0xdf, 0x23, 0x21, 0x4f, 0xeb, 0x31, 0xea,
+	0x96, 0x0e, 0xf4, 0x0b, 0x3f, 0x55, 0xd6, 0xd5, 0x51, 0x11, 0xe4, 0x09, 0x8c, 0x9f, 0xc7, 0xf1,
+	0xdd, 0x86, 0xff, 0x5e, 0x3b, 0x85, 0xfd, 0xba, 0xb6, 0x6c, 0x4c, 0x1e, 0xc3, 0x34, 0xa4, 0x17,
+	0xfc, 0x9a, 0xfe, 0xdf, 0x15, 0x66, 0x80, 0xef, 0x96, 0x95, 0x66, 0x73, 0x07, 0xa0, 0x49, 0x1d,
+	0xdf, 0x87, 0xbd, 0xc3, 0xe0, 0xe8, 0xd5, 0x89, 0xff, 0xe6, 0xfd, 0xd1, 0xa4, 0x87, 0x47, 0xb0,
+	0xab, 0x7e, 0xdf, 0x1d, 0x4f, 0x90, 0xf7, 0x4d, 0x83, 0x91, 0x42, 0x69, 0x76, 0xcd, 0x22, 0x8a,
+	0x5f, 0xc3, 0xbd, 0xdb, 0x35, 0x60, 0xab, 0x7d, 0x83, 0xd6, 0xce, 0x0c, 0xbb, 0x1b, 0xa8, 0xe2,
+	0x7c, 0x09, 0xbb, 0xd5, 0x19, 0x36, 0x3b, 0xe0, 0x5b, 0x33, 0xab, 0x53, 0x6f, 0xbc, 0xaa, 0xd0,
+	0xb6, 0xbd, 0x36, 0x37, 0xb1, 0xed, 0xd5, 0x4a, 0x1b, 0x2f, 0x01, 0x9a, 0xd8, 0xf0, 0xc3, 0x36,
+	0xbe, 0xb5, 0x09, 0x83, 0xfc, 0x09, 0x29, 0x4d, 0x0f, 0xf4, 0xaf, 0xb9, 0x89, 0x6e, 0x72, 0x13,
+	0xfd, 0xc8, 0x4d, 0xf4, 0x79, 0x6d, 0xf6, 0x6e, 0xd6, 0x66, 0xef, 0xfb, 0xda, 0xec, 0x9d, 0x0d,
+	0xd5, 0x6b, 0x7d, 0xf4, 0x2b, 0x00, 0x00, 0xff, 0xff, 0xfc, 0xde, 0xa6, 0x48, 0xf1, 0x03, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -525,9 +518,9 @@ type LinkServiceClient interface {
 	// GetLink gets a specific link entry
 	GetLink(ctx context.Context, in *GetLinkRequest, opts ...grpc.CallOption) (*GetLinkResponse, error)
 	// AddLink adds a new simulated link
-	AddLink(ctx context.Context, in *AddLinkRequest, opts ...grpc.CallOption) (*AddLinkRequest, error)
+	AddLink(ctx context.Context, in *AddLinkRequest, opts ...grpc.CallOption) (*AddLinkResponse, error)
 	// RemoveLink removes a simulated link
-	RemoveLink(ctx context.Context, in *RemoveLinkRequest, opts ...grpc.CallOption) (*RemoveLinkRequest, error)
+	RemoveLink(ctx context.Context, in *RemoveLinkRequest, opts ...grpc.CallOption) (*RemoveLinkResponse, error)
 }
 
 type linkServiceClient struct {
@@ -556,8 +549,8 @@ func (c *linkServiceClient) GetLink(ctx context.Context, in *GetLinkRequest, opt
 	return out, nil
 }
 
-func (c *linkServiceClient) AddLink(ctx context.Context, in *AddLinkRequest, opts ...grpc.CallOption) (*AddLinkRequest, error) {
-	out := new(AddLinkRequest)
+func (c *linkServiceClient) AddLink(ctx context.Context, in *AddLinkRequest, opts ...grpc.CallOption) (*AddLinkResponse, error) {
+	out := new(AddLinkResponse)
 	err := c.cc.Invoke(ctx, "/onos.fabricsim.LinkService/AddLink", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -565,8 +558,8 @@ func (c *linkServiceClient) AddLink(ctx context.Context, in *AddLinkRequest, opt
 	return out, nil
 }
 
-func (c *linkServiceClient) RemoveLink(ctx context.Context, in *RemoveLinkRequest, opts ...grpc.CallOption) (*RemoveLinkRequest, error) {
-	out := new(RemoveLinkRequest)
+func (c *linkServiceClient) RemoveLink(ctx context.Context, in *RemoveLinkRequest, opts ...grpc.CallOption) (*RemoveLinkResponse, error) {
+	out := new(RemoveLinkResponse)
 	err := c.cc.Invoke(ctx, "/onos.fabricsim.LinkService/RemoveLink", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -581,9 +574,9 @@ type LinkServiceServer interface {
 	// GetLink gets a specific link entry
 	GetLink(context.Context, *GetLinkRequest) (*GetLinkResponse, error)
 	// AddLink adds a new simulated link
-	AddLink(context.Context, *AddLinkRequest) (*AddLinkRequest, error)
+	AddLink(context.Context, *AddLinkRequest) (*AddLinkResponse, error)
 	// RemoveLink removes a simulated link
-	RemoveLink(context.Context, *RemoveLinkRequest) (*RemoveLinkRequest, error)
+	RemoveLink(context.Context, *RemoveLinkRequest) (*RemoveLinkResponse, error)
 }
 
 // UnimplementedLinkServiceServer can be embedded to have forward compatible implementations.
@@ -596,10 +589,10 @@ func (*UnimplementedLinkServiceServer) GetLinks(ctx context.Context, req *GetLin
 func (*UnimplementedLinkServiceServer) GetLink(ctx context.Context, req *GetLinkRequest) (*GetLinkResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLink not implemented")
 }
-func (*UnimplementedLinkServiceServer) AddLink(ctx context.Context, req *AddLinkRequest) (*AddLinkRequest, error) {
+func (*UnimplementedLinkServiceServer) AddLink(ctx context.Context, req *AddLinkRequest) (*AddLinkResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddLink not implemented")
 }
-func (*UnimplementedLinkServiceServer) RemoveLink(ctx context.Context, req *RemoveLinkRequest) (*RemoveLinkRequest, error) {
+func (*UnimplementedLinkServiceServer) RemoveLink(ctx context.Context, req *RemoveLinkRequest) (*RemoveLinkResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveLink not implemented")
 }
 
@@ -727,19 +720,26 @@ func (m *Link) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.Status != 0 {
 		i = encodeVarintLinks(dAtA, i, uint64(m.Status))
 		i--
-		dAtA[i] = 0x18
+		dAtA[i] = 0x20
 	}
 	if len(m.TgtID) > 0 {
 		i -= len(m.TgtID)
 		copy(dAtA[i:], m.TgtID)
 		i = encodeVarintLinks(dAtA, i, uint64(len(m.TgtID)))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x1a
 	}
 	if len(m.SrcID) > 0 {
 		i -= len(m.SrcID)
 		copy(dAtA[i:], m.SrcID)
 		i = encodeVarintLinks(dAtA, i, uint64(len(m.SrcID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.ID)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -826,17 +826,10 @@ func (m *GetLinkRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.TgtID) > 0 {
-		i -= len(m.TgtID)
-		copy(dAtA[i:], m.TgtID)
-		i = encodeVarintLinks(dAtA, i, uint64(len(m.TgtID)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.SrcID) > 0 {
-		i -= len(m.SrcID)
-		copy(dAtA[i:], m.SrcID)
-		i = encodeVarintLinks(dAtA, i, uint64(len(m.SrcID)))
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.ID)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -956,17 +949,10 @@ func (m *RemoveLinkRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.TgtID) > 0 {
-		i -= len(m.TgtID)
-		copy(dAtA[i:], m.TgtID)
-		i = encodeVarintLinks(dAtA, i, uint64(len(m.TgtID)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.SrcID) > 0 {
-		i -= len(m.SrcID)
-		copy(dAtA[i:], m.SrcID)
-		i = encodeVarintLinks(dAtA, i, uint64(len(m.SrcID)))
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintLinks(dAtA, i, uint64(len(m.ID)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1013,6 +999,10 @@ func (m *Link) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovLinks(uint64(l))
+	}
 	l = len(m.SrcID)
 	if l > 0 {
 		n += 1 + l + sovLinks(uint64(l))
@@ -1057,11 +1047,7 @@ func (m *GetLinkRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.SrcID)
-	if l > 0 {
-		n += 1 + l + sovLinks(uint64(l))
-	}
-	l = len(m.TgtID)
+	l = len(m.ID)
 	if l > 0 {
 		n += 1 + l + sovLinks(uint64(l))
 	}
@@ -1109,11 +1095,7 @@ func (m *RemoveLinkRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.SrcID)
-	if l > 0 {
-		n += 1 + l + sovLinks(uint64(l))
-	}
-	l = len(m.TgtID)
+	l = len(m.ID)
 	if l > 0 {
 		n += 1 + l + sovLinks(uint64(l))
 	}
@@ -1166,6 +1148,38 @@ func (m *Link) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowLinks
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthLinks
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthLinks
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = LinkID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SrcID", wireType)
 			}
 			var stringLen uint64
@@ -1196,7 +1210,7 @@ func (m *Link) Unmarshal(dAtA []byte) error {
 			}
 			m.SrcID = PortID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TgtID", wireType)
 			}
@@ -1228,7 +1242,7 @@ func (m *Link) Unmarshal(dAtA []byte) error {
 			}
 			m.TgtID = PortID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
 			}
@@ -1433,7 +1447,7 @@ func (m *GetLinkRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SrcID", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1461,39 +1475,7 @@ func (m *GetLinkRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.SrcID = PortID(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TgtID", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowLinks
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthLinks
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthLinks
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TgtID = PortID(dAtA[iNdEx:postIndex])
+			m.ID = LinkID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1769,7 +1751,7 @@ func (m *RemoveLinkRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SrcID", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1797,39 +1779,7 @@ func (m *RemoveLinkRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.SrcID = PortID(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TgtID", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowLinks
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthLinks
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthLinks
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TgtID = PortID(dAtA[iNdEx:postIndex])
+			m.ID = LinkID(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

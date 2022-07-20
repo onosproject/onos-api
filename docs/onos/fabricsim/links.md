@@ -62,8 +62,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| src_id | [string](#string) |  | unique port ids of source and target ports |
-| tgt_id | [string](#string) |  |  |
+| id | [string](#string) |  |  |
 
 
 
@@ -118,6 +117,7 @@ Link describes a simulated link, i.e a link between two device or host ports
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | unique port id and port type |
 | src_id | [string](#string) |  | unique port ids of source and target ports |
 | tgt_id | [string](#string) |  |  |
 | status | [LinkStatus](#onos-fabricsim-LinkStatus) |  | status (operational state derived from the status of its adjacent ports)
@@ -137,8 +137,7 @@ read-only entity |
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| src_id | [string](#string) |  | unique port ids of source and target ports |
-| tgt_id | [string](#string) |  |  |
+| id | [string](#string) |  |  |
 
 
 
@@ -182,8 +181,8 @@ LinkService provides means to control inventory of simulated links
 | ----------- | ------------ | ------------- | ------------|
 | GetLinks | [GetLinksRequest](#onos-fabricsim-GetLinksRequest) | [GetLinksResponse](#onos-fabricsim-GetLinksResponse) | GetLinks gets a list of all simulated links |
 | GetLink | [GetLinkRequest](#onos-fabricsim-GetLinkRequest) | [GetLinkResponse](#onos-fabricsim-GetLinkResponse) | GetLink gets a specific link entry |
-| AddLink | [AddLinkRequest](#onos-fabricsim-AddLinkRequest) | [AddLinkRequest](#onos-fabricsim-AddLinkRequest) | AddLink adds a new simulated link |
-| RemoveLink | [RemoveLinkRequest](#onos-fabricsim-RemoveLinkRequest) | [RemoveLinkRequest](#onos-fabricsim-RemoveLinkRequest) | RemoveLink removes a simulated link |
+| AddLink | [AddLinkRequest](#onos-fabricsim-AddLinkRequest) | [AddLinkResponse](#onos-fabricsim-AddLinkResponse) | AddLink adds a new simulated link |
+| RemoveLink | [RemoveLinkRequest](#onos-fabricsim-RemoveLinkRequest) | [RemoveLinkResponse](#onos-fabricsim-RemoveLinkResponse) | RemoveLink removes a simulated link |
 
  
 

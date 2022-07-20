@@ -10,12 +10,15 @@ import "gogoproto/gogo.proto";
 
 // Link describes a simulated link, i.e a link between two device or host ports
 message Link {
+    // unique port id and port type
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "LinkID"];
+
     // unique port ids of source and target ports
-    string src_id = 1 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
-    string tgt_id = 2 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
+    string src_id = 2 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
+    string tgt_id = 3 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
 
     // status (operational state derived from the status of its adjacent ports)
-    LinkStatus status = 3; // read-only entity
+    LinkStatus status = 4; // read-only entity
 }
 
 // LinkStatus represents the operational status of the link, derived from the status of its adjacent ports
@@ -33,10 +36,10 @@ service LinkService {
     rpc GetLink(GetLinkRequest) returns (GetLinkResponse);
 
     // AddLink adds a new simulated link
-    rpc AddLink(AddLinkRequest) returns (AddLinkRequest);
+    rpc AddLink(AddLinkRequest) returns (AddLinkResponse);
 
     // RemoveLink removes a simulated link
-    rpc RemoveLink(RemoveLinkRequest) returns (RemoveLinkRequest);
+    rpc RemoveLink(RemoveLinkRequest) returns (RemoveLinkResponse);
 }
 
 message GetLinksRequest {
@@ -48,9 +51,7 @@ message GetLinksResponse {
 }
 
 message GetLinkRequest {
-    // unique port ids of source and target ports
-    string src_id = 1 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
-    string tgt_id = 2 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "LinkID"];
 }
 
 message GetLinkResponse {
@@ -65,9 +66,7 @@ message AddLinkResponse {
 }
 
 message RemoveLinkRequest {
-    // unique port ids of source and target ports
-    string src_id = 1 [(gogoproto.customname) = "SrcID", (gogoproto.casttype) = "PortID"];
-    string tgt_id = 2 [(gogoproto.customname) = "TgtID", (gogoproto.casttype) = "PortID"];
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "LinkID"];
 }
 
 message RemoveLinkResponse {
