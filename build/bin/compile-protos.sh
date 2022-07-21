@@ -67,6 +67,7 @@ protoc --proto_path=$proto_path \
     proto/onos/config/v2/configuration.proto
 
 
+
 # fabric-sim
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/fabricsim \
@@ -131,6 +132,12 @@ protoc --proto_path=$proto_path \
     proto/onos/ransim/types/types.proto
 
 
+# p4rt
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/p4rt \
+    --doc_opt=markdown,p4rt.md \
+    proto/onos/p4rt/v1/pipeline_config.proto
+
 ### Go Protobuf code generation
 go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types"
@@ -194,6 +201,11 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/fabricsim,plugins=grpc:./go \
     proto/onos/fabricsim/*.proto
+
+# p4rt
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/p4rt,plugins=grpc:./go \
+    proto/onos/p4rt/v1/*.proto
 
 # kpimon
 protoc --proto_path=$proto_path \
