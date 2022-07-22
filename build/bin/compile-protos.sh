@@ -135,7 +135,7 @@ protoc --proto_path=$proto_path \
 # p4rt
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/p4rt \
-    --doc_opt=markdown,p4rt.md \
+    --doc_opt=markdown,pipeline_config.md \
     proto/onos/p4rt/v1/pipeline_config.proto
 
 ### Go Protobuf code generation

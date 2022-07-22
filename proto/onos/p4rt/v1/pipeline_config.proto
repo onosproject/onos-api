@@ -3,6 +3,78 @@
 // SPDX-License-Identifier: Apache-2.0
 
 syntax = "proto3";
+import "gogoproto/gogo.proto";
+import "onos/p4rt/v1/object.proto";
+
 
 package onos.p4rt.v1;
 
+message PipelineConfig {
+  ObjectMeta meta = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
+
+  // 'id' is a unique configuration identifier
+  string id = 2 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PipelineConfigID"];
+
+  // 'target_id' is the target to which the desired target configuration applies
+  string target_id = 3 [(gogoproto.customname) = "TargetID", (gogoproto.casttype) = "TargetID"];
+
+  // 'p4_device_config' P4 device configuration bytes
+  bytes p4_device_config = 4;
+
+  // 'ConfigurationAction'
+  ConfigurationAction action = 5;
+
+  // 'ConfigurationStatus' is the current lifecycle status of the configuration
+  PipelineConfigStatus status = 6 [(gogoproto.nullable) = false];
+
+}
+
+// ConfigurationAction
+enum ConfigurationAction {
+  UNSPECIFIED = 0;
+  // Verifies that the target can realize the given config. The forwarding state in the target is not modified.
+  VERIFY = 1;
+  // Saves the config if the P4Runtime target can realize it. The forwarding state in the target is not modified.
+  VERIFY_AND_SAVE = 2;
+  // Saves and realizes the given config if the P4Runtime target can realize it. The forwarding state in the target is cleared.
+  VERIFY_AND_COMMIT = 3;
+  // Realizes the last saved, but not yet committed, config.
+  // The forwarding state in the target is updated by replaying the write requests to the target device since the last config was saved
+  COMMIT = 4;
+  // Verifies, saves and realizes the given config, while preserving the forwarding state in the target.
+  RECONCILE_AND_COMMIT = 5;
+}
+
+// PipelineConfigStatus
+message PipelineConfigStatus {
+  State state = 1;
+
+  // State is the configuration state
+  enum State {
+    UNKNOWN = 0;
+    SYNCHRONIZING = 1;
+    SYNCHRONIZED = 2;
+    PERSISTED = 3;
+  }
+}
+
+// ConfigurationEvent configuration store event
+message ConfigurationEvent {
+  // EventType configuration event types for configuration store
+  enum EventType {
+    // UNKNOWN indicates unknown configuration store event
+    UNKNOWN = 0;
+    // CREATED indicates the configuration entry in the store is created
+    CREATED = 1;
+    // UPDATED indicates the configuration entry in the store is updated
+    UPDATED = 2;
+    // DELETED indicates the configuration entry in the store is deleted
+    DELETED = 3;
+    // REPLAYED
+    REPLAYED = 4;
+  }
+
+  // EventType configuration event type
+  EventType type = 1;
+  PipelineConfig pipeline_config = 2 [(gogoproto.nullable) = false];
+}
