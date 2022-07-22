@@ -81,7 +81,15 @@ message P4RTServerInfo {
   Endpoint control_endpoint = 1;
   google.protobuf.Duration timeout = 2 [(gogoproto.stdduration) = true];
   uint64 device_id = 3 [(gogoproto.customname) = "DeviceID"];
+  repeated P4PipelineInfo pipelines = 4;
 
+}
+
+// P4PipelineInfo p4 pipeline information
+message P4PipelineInfo {
+  string name = 1;
+  string version = 2;
+  string architecture = 3;
 }
 
 // P4RTMastershipState mastership state for the P4runtime targets
