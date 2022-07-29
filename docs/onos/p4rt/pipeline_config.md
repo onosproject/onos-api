@@ -12,8 +12,8 @@
     - [PipelineConfigStatus](#onos-p4rt-v1-PipelineConfigStatus)
   
     - [ConfigurationAction](#onos-p4rt-v1-ConfigurationAction)
-    - [ConfigurationEvent.EventType](#onos-p4rt-v1-ConfigurationEvent-EventType)
-    - [PipelineConfigState](#onos-p4rt-v1-PipelineConfigState)
+    - [ConfigurationEvent.Type](#onos-p4rt-v1-ConfigurationEvent-Type)
+    - [PipelineConfigStatus.PipelineConfigState](#onos-p4rt-v1-PipelineConfigStatus-PipelineConfigState)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -34,7 +34,7 @@ ConfigurationEvent configuration store event
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [ConfigurationEvent.EventType](#onos-p4rt-v1-ConfigurationEvent-EventType) |  | EventType configuration event type |
+| type | [ConfigurationEvent.Type](#onos-p4rt-v1-ConfigurationEvent-Type) |  | EventType configuration event type |
 | pipeline_config | [PipelineConfig](#onos-p4rt-v1-PipelineConfig) |  |  |
 
 
@@ -118,7 +118,7 @@ PipelineConfigStatus pipelineConfig status
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| state | [PipelineConfigState](#onos-p4rt-v1-PipelineConfigState) |  | &#39;PipelineConfigState&#39; pipeline config state |
+| state | [PipelineConfigStatus.PipelineConfigState](#onos-p4rt-v1-PipelineConfigStatus-PipelineConfigState) |  | &#39;PipelineConfigState&#39; pipeline config state |
 | mastership | [MastershipInfo](#onos-p4rt-v1-MastershipInfo) |  | &#39;mastership&#39; is the current mastership info for the configuration |
 
 
@@ -144,10 +144,10 @@ ConfigurationAction
 
 
 
-<a name="onos-p4rt-v1-ConfigurationEvent-EventType"></a>
+<a name="onos-p4rt-v1-ConfigurationEvent-Type"></a>
 
-### ConfigurationEvent.EventType
-EventType configuration event types for configuration store
+### ConfigurationEvent.Type
+Type configuration event types for configuration store
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
@@ -159,16 +159,16 @@ EventType configuration event types for configuration store
 
 
 
-<a name="onos-p4rt-v1-PipelineConfigState"></a>
+<a name="onos-p4rt-v1-PipelineConfigStatus-PipelineConfigState"></a>
 
-### PipelineConfigState
+### PipelineConfigStatus.PipelineConfigState
 
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PIPELINE_CONFIG_PENDING | 0 | PIPELINE_CONFIG_PENDING indicates the pipeline configuration phase is pending |
-| PIPELINE_CONFIG_COMPLETE | 1 | PIPELINE_CONFIG_COMPLETE indicates the pipeline configuration phase is complete |
-| PIPELINE_CONFIG_FAILED | 2 | PIPELINE_CONFIG_FAILED indicates the pipeline configuration phase failed |
+| PENDING | 0 | PENDING indicates the pipeline configuration phase is pending |
+| COMPLETE | 1 | COMPLETE indicates the pipeline configuration phase is complete |
+| FAILED | 2 | FAILED indicates the pipeline configuration phase failed |
 
 
  

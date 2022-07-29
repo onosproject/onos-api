@@ -7,12 +7,6 @@ from datetime import datetime
 import betterproto
 
 
-class PipelineConfigState(betterproto.Enum):
-    PIPELINE_CONFIG_PENDING = 0
-    PIPELINE_CONFIG_COMPLETE = 1
-    PIPELINE_CONFIG_FAILED = 2
-
-
 class ConfigurationAction(betterproto.Enum):
     UNSPECIFIED = 0
     VERIFY = 1
@@ -22,7 +16,13 @@ class ConfigurationAction(betterproto.Enum):
     RECONCILE_AND_COMMIT = 5
 
 
-class ConfigurationEventEventType(betterproto.Enum):
+class PipelineConfigStatusPipelineConfigState(betterproto.Enum):
+    PENDING = 0
+    COMPLETE = 1
+    FAILED = 2
+
+
+class ConfigurationEventType(betterproto.Enum):
     UNKNOWN = 0
     CREATED = 1
     UPDATED = 2
@@ -76,7 +76,7 @@ class Cookie(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class PipelineConfigStatus(betterproto.Message):
-    state: "PipelineConfigState" = betterproto.enum_field(1)
+    state: "PipelineConfigStatusPipelineConfigState" = betterproto.enum_field(1)
     mastership: "MastershipInfo" = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
@@ -94,7 +94,7 @@ class MastershipInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ConfigurationEvent(betterproto.Message):
-    type: "ConfigurationEventEventType" = betterproto.enum_field(1)
+    type: "ConfigurationEventType" = betterproto.enum_field(1)
     pipeline_config: "PipelineConfig" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
