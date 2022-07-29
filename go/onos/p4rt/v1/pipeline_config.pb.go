@@ -5,8 +5,11 @@ package p4rt
 
 import (
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	io "io"
 	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -20,17 +23,1768 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// ConfigurationAction
+type ConfigurationAction int32
+
+const (
+	ConfigurationAction_UNSPECIFIED ConfigurationAction = 0
+	// Verifies that the target can realize the given config. The forwarding state in the target is not modified.
+	ConfigurationAction_VERIFY ConfigurationAction = 1
+	// Saves the config if the P4Runtime target can realize it. The forwarding state in the target is not modified.
+	ConfigurationAction_VERIFY_AND_SAVE ConfigurationAction = 2
+	// Saves and realizes the given config if the P4Runtime target can realize it. The forwarding state in the target is cleared.
+	ConfigurationAction_VERIFY_AND_COMMIT ConfigurationAction = 3
+	// Realizes the last saved, but not yet committed, config.
+	// The forwarding state in the target is updated by replaying the write requests to the target device since the last config was saved
+	ConfigurationAction_COMMIT ConfigurationAction = 4
+	// Verifies, saves and realizes the given config, while preserving the forwarding state in the target.
+	ConfigurationAction_RECONCILE_AND_COMMIT ConfigurationAction = 5
+)
+
+var ConfigurationAction_name = map[int32]string{
+	0: "UNSPECIFIED",
+	1: "VERIFY",
+	2: "VERIFY_AND_SAVE",
+	3: "VERIFY_AND_COMMIT",
+	4: "COMMIT",
+	5: "RECONCILE_AND_COMMIT",
+}
+
+var ConfigurationAction_value = map[string]int32{
+	"UNSPECIFIED":          0,
+	"VERIFY":               1,
+	"VERIFY_AND_SAVE":      2,
+	"VERIFY_AND_COMMIT":    3,
+	"COMMIT":               4,
+	"RECONCILE_AND_COMMIT": 5,
+}
+
+func (x ConfigurationAction) String() string {
+	return proto.EnumName(ConfigurationAction_name, int32(x))
+}
+
+func (ConfigurationAction) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{0}
+}
+
+type PipelineConfigStatus_PipelineConfigState int32
+
+const (
+	// PENDING indicates the pipeline configuration phase is pending
+	PipelineConfigStatus_PENDING PipelineConfigStatus_PipelineConfigState = 0
+	// COMPLETE indicates the pipeline configuration phase is complete
+	PipelineConfigStatus_COMPLETE PipelineConfigStatus_PipelineConfigState = 1
+	// FAILED indicates the pipeline configuration phase failed
+	PipelineConfigStatus_FAILED PipelineConfigStatus_PipelineConfigState = 2
+)
+
+var PipelineConfigStatus_PipelineConfigState_name = map[int32]string{
+	0: "PENDING",
+	1: "COMPLETE",
+	2: "FAILED",
+}
+
+var PipelineConfigStatus_PipelineConfigState_value = map[string]int32{
+	"PENDING":  0,
+	"COMPLETE": 1,
+	"FAILED":   2,
+}
+
+func (x PipelineConfigStatus_PipelineConfigState) String() string {
+	return proto.EnumName(PipelineConfigStatus_PipelineConfigState_name, int32(x))
+}
+
+func (PipelineConfigStatus_PipelineConfigState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{3, 0}
+}
+
+// Type configuration event types for configuration store
+type ConfigurationEvent_Type int32
+
+const (
+	// UNKNOWN indicates unknown configuration store event
+	ConfigurationEvent_UNKNOWN ConfigurationEvent_Type = 0
+	// CREATED indicates the configuration entry in the store is created
+	ConfigurationEvent_CREATED ConfigurationEvent_Type = 1
+	// UPDATED indicates the configuration entry in the store is updated
+	ConfigurationEvent_UPDATED ConfigurationEvent_Type = 2
+	// DELETED indicates the configuration entry in the store is deleted
+	ConfigurationEvent_DELETED ConfigurationEvent_Type = 3
+	// REPLAYED
+	ConfigurationEvent_REPLAYED ConfigurationEvent_Type = 4
+)
+
+var ConfigurationEvent_Type_name = map[int32]string{
+	0: "UNKNOWN",
+	1: "CREATED",
+	2: "UPDATED",
+	3: "DELETED",
+	4: "REPLAYED",
+}
+
+var ConfigurationEvent_Type_value = map[string]int32{
+	"UNKNOWN":  0,
+	"CREATED":  1,
+	"UPDATED":  2,
+	"DELETED":  3,
+	"REPLAYED": 4,
+}
+
+func (x ConfigurationEvent_Type) String() string {
+	return proto.EnumName(ConfigurationEvent_Type_name, int32(x))
+}
+
+func (ConfigurationEvent_Type) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{5, 0}
+}
+
+// PipelineConfig P4 device pipeline config
+type PipelineConfig struct {
+	ObjectMeta `protobuf:"bytes,1,opt,name=meta,proto3,embedded=meta" json:"meta"`
+	// 'id' is a unique configuration identifier
+	ID PipelineConfigID `protobuf:"bytes,2,opt,name=id,proto3,casttype=PipelineConfigID" json:"id,omitempty"`
+	// 'target_id' is the target to which the desired target configuration applies
+	TargetID TargetID `protobuf:"bytes,3,opt,name=target_id,json=targetId,proto3,casttype=TargetID" json:"target_id,omitempty"`
+	// 'cookie' to uniquely identify a forwarding-pipeline configuration among others managed by the same control plane
+	Cookie *Cookie `protobuf:"bytes,6,opt,name=cookie,proto3" json:"cookie,omitempty"`
+	// 'ConfigurationStatus' is the current lifecycle status of the configuration
+	Status PipelineConfigStatus `protobuf:"bytes,7,opt,name=status,proto3" json:"status"`
+	// ConfigurationAction
+	Action ConfigurationAction `protobuf:"varint,8,opt,name=action,proto3,enum=onos.p4rt.v1.ConfigurationAction" json:"action,omitempty"`
+	// PipelineConfigSpec device pipeline config spec
+	Spec *PipelineConfigSpec `protobuf:"bytes,9,opt,name=spec,proto3" json:"spec,omitempty"`
+}
+
+func (m *PipelineConfig) Reset()         { *m = PipelineConfig{} }
+func (m *PipelineConfig) String() string { return proto.CompactTextString(m) }
+func (*PipelineConfig) ProtoMessage()    {}
+func (*PipelineConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{0}
+}
+func (m *PipelineConfig) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PipelineConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PipelineConfig.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PipelineConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PipelineConfig.Merge(m, src)
+}
+func (m *PipelineConfig) XXX_Size() int {
+	return m.Size()
+}
+func (m *PipelineConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_PipelineConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PipelineConfig proto.InternalMessageInfo
+
+func (m *PipelineConfig) GetID() PipelineConfigID {
+	if m != nil {
+		return m.ID
+	}
+	return ""
+}
+
+func (m *PipelineConfig) GetTargetID() TargetID {
+	if m != nil {
+		return m.TargetID
+	}
+	return ""
+}
+
+func (m *PipelineConfig) GetCookie() *Cookie {
+	if m != nil {
+		return m.Cookie
+	}
+	return nil
+}
+
+func (m *PipelineConfig) GetStatus() PipelineConfigStatus {
+	if m != nil {
+		return m.Status
+	}
+	return PipelineConfigStatus{}
+}
+
+func (m *PipelineConfig) GetAction() ConfigurationAction {
+	if m != nil {
+		return m.Action
+	}
+	return ConfigurationAction_UNSPECIFIED
+}
+
+func (m *PipelineConfig) GetSpec() *PipelineConfigSpec {
+	if m != nil {
+		return m.Spec
+	}
+	return nil
+}
+
+// PipelineConfigSpec device pipeline configuration spec
+type PipelineConfigSpec struct {
+	// 'p4_device_config' P4 device configuration bytes
+	P4DeviceConfig []byte `protobuf:"bytes,1,opt,name=p4_device_config,json=p4DeviceConfig,proto3" json:"p4_device_config,omitempty"`
+	// TODO since p4 info is target agnostic, we can import it from P4runtime and use it as it is, a new version of proto compiler image is needed
+	// 'p4_info' P4 info
+	P4Info []byte `protobuf:"bytes,2,opt,name=p4_info,json=p4Info,proto3" json:"p4_info,omitempty"`
+}
+
+func (m *PipelineConfigSpec) Reset()         { *m = PipelineConfigSpec{} }
+func (m *PipelineConfigSpec) String() string { return proto.CompactTextString(m) }
+func (*PipelineConfigSpec) ProtoMessage()    {}
+func (*PipelineConfigSpec) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{1}
+}
+func (m *PipelineConfigSpec) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PipelineConfigSpec) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PipelineConfigSpec.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PipelineConfigSpec) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PipelineConfigSpec.Merge(m, src)
+}
+func (m *PipelineConfigSpec) XXX_Size() int {
+	return m.Size()
+}
+func (m *PipelineConfigSpec) XXX_DiscardUnknown() {
+	xxx_messageInfo_PipelineConfigSpec.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PipelineConfigSpec proto.InternalMessageInfo
+
+func (m *PipelineConfigSpec) GetP4DeviceConfig() []byte {
+	if m != nil {
+		return m.P4DeviceConfig
+	}
+	return nil
+}
+
+func (m *PipelineConfigSpec) GetP4Info() []byte {
+	if m != nil {
+		return m.P4Info
+	}
+	return nil
+}
+
+// Cookie
+type Cookie struct {
+	Cookie uint64 `protobuf:"varint,1,opt,name=cookie,proto3" json:"cookie,omitempty"`
+}
+
+func (m *Cookie) Reset()         { *m = Cookie{} }
+func (m *Cookie) String() string { return proto.CompactTextString(m) }
+func (*Cookie) ProtoMessage()    {}
+func (*Cookie) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{2}
+}
+func (m *Cookie) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Cookie) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Cookie.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Cookie) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Cookie.Merge(m, src)
+}
+func (m *Cookie) XXX_Size() int {
+	return m.Size()
+}
+func (m *Cookie) XXX_DiscardUnknown() {
+	xxx_messageInfo_Cookie.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Cookie proto.InternalMessageInfo
+
+func (m *Cookie) GetCookie() uint64 {
+	if m != nil {
+		return m.Cookie
+	}
+	return 0
+}
+
+// PipelineConfigStatus pipelineConfig status
+type PipelineConfigStatus struct {
+	// 'PipelineConfigState' pipeline config state
+	State PipelineConfigStatus_PipelineConfigState `protobuf:"varint,1,opt,name=state,proto3,enum=onos.p4rt.v1.PipelineConfigStatus_PipelineConfigState" json:"state,omitempty"`
+	// 'mastership' is the current mastership info for the configuration
+	Mastership MastershipInfo `protobuf:"bytes,3,opt,name=mastership,proto3" json:"mastership"`
+}
+
+func (m *PipelineConfigStatus) Reset()         { *m = PipelineConfigStatus{} }
+func (m *PipelineConfigStatus) String() string { return proto.CompactTextString(m) }
+func (*PipelineConfigStatus) ProtoMessage()    {}
+func (*PipelineConfigStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{3}
+}
+func (m *PipelineConfigStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PipelineConfigStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PipelineConfigStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PipelineConfigStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PipelineConfigStatus.Merge(m, src)
+}
+func (m *PipelineConfigStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *PipelineConfigStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_PipelineConfigStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PipelineConfigStatus proto.InternalMessageInfo
+
+func (m *PipelineConfigStatus) GetState() PipelineConfigStatus_PipelineConfigState {
+	if m != nil {
+		return m.State
+	}
+	return PipelineConfigStatus_PENDING
+}
+
+func (m *PipelineConfigStatus) GetMastership() MastershipInfo {
+	if m != nil {
+		return m.Mastership
+	}
+	return MastershipInfo{}
+}
+
+type MastershipInfo struct {
+	Master string         `protobuf:"bytes,1,opt,name=master,proto3" json:"master,omitempty"`
+	Term   MastershipTerm `protobuf:"varint,2,opt,name=term,proto3,casttype=MastershipTerm" json:"term,omitempty"`
+}
+
+func (m *MastershipInfo) Reset()         { *m = MastershipInfo{} }
+func (m *MastershipInfo) String() string { return proto.CompactTextString(m) }
+func (*MastershipInfo) ProtoMessage()    {}
+func (*MastershipInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{4}
+}
+func (m *MastershipInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MastershipInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MastershipInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MastershipInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MastershipInfo.Merge(m, src)
+}
+func (m *MastershipInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *MastershipInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_MastershipInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MastershipInfo proto.InternalMessageInfo
+
+func (m *MastershipInfo) GetMaster() string {
+	if m != nil {
+		return m.Master
+	}
+	return ""
+}
+
+func (m *MastershipInfo) GetTerm() MastershipTerm {
+	if m != nil {
+		return m.Term
+	}
+	return 0
+}
+
+// ConfigurationEvent configuration store event
+type ConfigurationEvent struct {
+	// EventType configuration event type
+	Type           ConfigurationEvent_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.p4rt.v1.ConfigurationEvent_Type" json:"type,omitempty"`
+	PipelineConfig PipelineConfig          `protobuf:"bytes,2,opt,name=pipeline_config,json=pipelineConfig,proto3" json:"pipeline_config"`
+}
+
+func (m *ConfigurationEvent) Reset()         { *m = ConfigurationEvent{} }
+func (m *ConfigurationEvent) String() string { return proto.CompactTextString(m) }
+func (*ConfigurationEvent) ProtoMessage()    {}
+func (*ConfigurationEvent) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6080f98dc2058397, []int{5}
+}
+func (m *ConfigurationEvent) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ConfigurationEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ConfigurationEvent.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ConfigurationEvent) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfigurationEvent.Merge(m, src)
+}
+func (m *ConfigurationEvent) XXX_Size() int {
+	return m.Size()
+}
+func (m *ConfigurationEvent) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfigurationEvent.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConfigurationEvent proto.InternalMessageInfo
+
+func (m *ConfigurationEvent) GetType() ConfigurationEvent_Type {
+	if m != nil {
+		return m.Type
+	}
+	return ConfigurationEvent_UNKNOWN
+}
+
+func (m *ConfigurationEvent) GetPipelineConfig() PipelineConfig {
+	if m != nil {
+		return m.PipelineConfig
+	}
+	return PipelineConfig{}
+}
+
+func init() {
+	proto.RegisterEnum("onos.p4rt.v1.ConfigurationAction", ConfigurationAction_name, ConfigurationAction_value)
+	proto.RegisterEnum("onos.p4rt.v1.PipelineConfigStatus_PipelineConfigState", PipelineConfigStatus_PipelineConfigState_name, PipelineConfigStatus_PipelineConfigState_value)
+	proto.RegisterEnum("onos.p4rt.v1.ConfigurationEvent_Type", ConfigurationEvent_Type_name, ConfigurationEvent_Type_value)
+	proto.RegisterType((*PipelineConfig)(nil), "onos.p4rt.v1.PipelineConfig")
+	proto.RegisterType((*PipelineConfigSpec)(nil), "onos.p4rt.v1.PipelineConfigSpec")
+	proto.RegisterType((*Cookie)(nil), "onos.p4rt.v1.Cookie")
+	proto.RegisterType((*PipelineConfigStatus)(nil), "onos.p4rt.v1.PipelineConfigStatus")
+	proto.RegisterType((*MastershipInfo)(nil), "onos.p4rt.v1.MastershipInfo")
+	proto.RegisterType((*ConfigurationEvent)(nil), "onos.p4rt.v1.ConfigurationEvent")
+}
+
 func init() {
 	proto.RegisterFile("onos/p4rt/v1/pipeline_config.proto", fileDescriptor_6080f98dc2058397)
 }
 
 var fileDescriptor_6080f98dc2058397 = []byte{
-	// 103 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0xca, 0xcf, 0xcb, 0x2f,
-	0xd6, 0x2f, 0x30, 0x29, 0x2a, 0xd1, 0x2f, 0x33, 0xd4, 0x2f, 0xc8, 0x2c, 0x48, 0xcd, 0xc9, 0xcc,
-	0x4b, 0x8d, 0x4f, 0xce, 0xcf, 0x4b, 0xcb, 0x4c, 0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2,
-	0x01, 0xa9, 0xd1, 0x03, 0xa9, 0xd1, 0x2b, 0x33, 0x74, 0x92, 0x38, 0xf1, 0x48, 0x8e, 0xf1, 0xc2,
-	0x23, 0x39, 0xc6, 0x07, 0x8f, 0xe4, 0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1,
-	0xc6, 0x63, 0x39, 0x86, 0x24, 0x36, 0xb0, 0x72, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0xbd,
-	0x6b, 0x32, 0xb3, 0x54, 0x00, 0x00, 0x00,
+	// 713 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x94, 0x41, 0x6f, 0xda, 0x4a,
+	0x10, 0xc7, 0x31, 0x38, 0x0e, 0x0c, 0x88, 0xf8, 0x6d, 0x78, 0xef, 0xb9, 0x51, 0x05, 0xd4, 0x52,
+	0x2b, 0x14, 0x55, 0xa0, 0x50, 0x1a, 0x29, 0x52, 0x0f, 0x05, 0x7b, 0xd3, 0x5a, 0x01, 0x83, 0x36,
+	0x24, 0x51, 0x4e, 0x88, 0xc0, 0x86, 0xba, 0x2d, 0xd8, 0x32, 0x1b, 0xa4, 0xdc, 0x7b, 0xec, 0xa1,
+	0x1f, 0x2b, 0xc7, 0x1c, 0x7b, 0x42, 0x15, 0x91, 0xfa, 0x21, 0x72, 0xaa, 0x76, 0xed, 0x44, 0x38,
+	0x41, 0xe9, 0x6d, 0x77, 0xe6, 0xff, 0x9f, 0x19, 0xff, 0x66, 0x01, 0x74, 0x77, 0xe2, 0x4e, 0x2b,
+	0x5e, 0xcd, 0x67, 0x95, 0xd9, 0x4e, 0xc5, 0x73, 0x3c, 0xfa, 0xd5, 0x99, 0xd0, 0xde, 0xc0, 0x9d,
+	0x9c, 0x3b, 0xa3, 0xb2, 0xe7, 0xbb, 0xcc, 0x45, 0x19, 0xae, 0x29, 0x73, 0x4d, 0x79, 0xb6, 0xb3,
+	0x95, 0x1b, 0xb9, 0x23, 0x57, 0x24, 0x2a, 0xfc, 0x14, 0x68, 0xb6, 0x9e, 0x45, 0xea, 0xb8, 0x67,
+	0x9f, 0xe9, 0x80, 0x05, 0x29, 0xfd, 0x7b, 0x02, 0xb2, 0x9d, 0xb0, 0xb0, 0x21, 0xea, 0xa2, 0x5d,
+	0x90, 0xc7, 0x94, 0xf5, 0x35, 0xa9, 0x28, 0x95, 0xd2, 0x55, 0xad, 0xbc, 0xdc, 0xa0, 0xdc, 0x16,
+	0xe6, 0x16, 0x65, 0xfd, 0x46, 0xf2, 0x6a, 0x5e, 0x88, 0x5d, 0xcf, 0x0b, 0x12, 0x11, 0x7a, 0xb4,
+	0x0d, 0x71, 0x67, 0xa8, 0xc5, 0x8b, 0x52, 0x29, 0xd5, 0xd8, 0x5a, 0xcc, 0x0b, 0x71, 0xcb, 0xbc,
+	0x9d, 0x17, 0xd4, 0x68, 0x75, 0xcb, 0x24, 0x71, 0x67, 0x88, 0xde, 0x42, 0x8a, 0xf5, 0xfd, 0x11,
+	0x65, 0x3d, 0x67, 0xa8, 0x25, 0x84, 0x45, 0x5b, 0xcc, 0x0b, 0xc9, 0xae, 0x08, 0x0a, 0xe3, 0xfd,
+	0x99, 0x24, 0x03, 0xa9, 0x35, 0x44, 0xaf, 0x41, 0x19, 0xb8, 0xee, 0x17, 0x87, 0x6a, 0x8a, 0x18,
+	0x2e, 0x17, 0x1d, 0xce, 0x10, 0x39, 0x12, 0x6a, 0xd0, 0x7b, 0x50, 0xa6, 0xac, 0xcf, 0x2e, 0xa6,
+	0xda, 0xba, 0x50, 0xeb, 0x51, 0x75, 0x74, 0xb0, 0x43, 0xa1, 0x6c, 0xc8, 0xfc, 0xa3, 0x48, 0xe8,
+	0x43, 0x7b, 0xa0, 0xf4, 0x07, 0xcc, 0x71, 0x27, 0x5a, 0xb2, 0x28, 0x95, 0xb2, 0xd5, 0x17, 0x0f,
+	0xfb, 0x71, 0xe7, 0x85, 0xdf, 0xe7, 0x92, 0xba, 0x10, 0x92, 0xd0, 0x80, 0x6a, 0x20, 0x4f, 0x3d,
+	0x3a, 0xd0, 0x52, 0xa2, 0x75, 0xf1, 0xc9, 0xd6, 0x1e, 0x1d, 0x10, 0xa1, 0xd6, 0x4f, 0x00, 0x3d,
+	0xce, 0xa1, 0x12, 0xa8, 0x5e, 0xad, 0x37, 0xa4, 0x33, 0x67, 0x70, 0xb7, 0x7d, 0xb1, 0x9d, 0x0c,
+	0xc9, 0x7a, 0x35, 0x53, 0x84, 0xc3, 0xdd, 0xfd, 0x0f, 0xeb, 0x5e, 0xad, 0xe7, 0x4c, 0xce, 0x5d,
+	0xb1, 0x88, 0x0c, 0x51, 0xbc, 0x9a, 0x35, 0x39, 0x77, 0xf5, 0x22, 0x28, 0x01, 0x1d, 0xf4, 0xdf,
+	0x3d, 0x43, 0x5e, 0x42, 0xbe, 0xa3, 0xa5, 0xff, 0x96, 0x20, 0xb7, 0x0a, 0x09, 0x6a, 0xc2, 0x1a,
+	0xc7, 0x11, 0xe8, 0xb3, 0xd5, 0xdd, 0xbf, 0x53, 0x5c, 0x11, 0xa4, 0x24, 0x28, 0x82, 0x1a, 0x00,
+	0xe3, 0xfe, 0x94, 0x51, 0x7f, 0xfa, 0xc9, 0xf1, 0xc4, 0xea, 0xd3, 0xd5, 0xe7, 0xd1, 0x92, 0xad,
+	0xfb, 0x3c, 0x1f, 0x3d, 0x5c, 0xc9, 0x92, 0x4b, 0x7f, 0x07, 0x9b, 0x2b, 0x3a, 0xa0, 0x34, 0xac,
+	0x77, 0xb0, 0x6d, 0x5a, 0xf6, 0x07, 0x35, 0x86, 0x32, 0x90, 0x34, 0xda, 0xad, 0x4e, 0x13, 0x77,
+	0xb1, 0x2a, 0x21, 0x00, 0x65, 0xbf, 0x6e, 0x35, 0xb1, 0xa9, 0xc6, 0xf5, 0x0e, 0x64, 0xa3, 0x1d,
+	0x38, 0x92, 0xa0, 0xba, 0xf8, 0xc4, 0x14, 0x09, 0x6f, 0xe8, 0x15, 0xc8, 0x8c, 0xfa, 0x63, 0x81,
+	0x52, 0x6e, 0xa0, 0xdb, 0x79, 0x61, 0xc9, 0xd9, 0xa5, 0xfe, 0x98, 0x88, 0x3c, 0x47, 0x87, 0x22,
+	0x6f, 0x01, 0xcf, 0xe8, 0x84, 0xa1, 0x3d, 0x90, 0xd9, 0xa5, 0x77, 0xc7, 0xed, 0xe5, 0x13, 0x6f,
+	0x47, 0xe8, 0xcb, 0xdd, 0x4b, 0x8f, 0x12, 0x61, 0x41, 0x07, 0xb0, 0xf1, 0xe0, 0xe7, 0x2e, 0x86,
+	0x78, 0x84, 0x2a, 0x8a, 0x21, 0x44, 0x95, 0xf5, 0x22, 0x51, 0xfd, 0x23, 0xc8, 0xbc, 0x34, 0xe7,
+	0x73, 0x64, 0x1f, 0xd8, 0xed, 0x13, 0x5b, 0x8d, 0xf1, 0x8b, 0x41, 0x70, 0xbd, 0x8b, 0x4d, 0x55,
+	0x12, 0x99, 0x8e, 0x29, 0x2e, 0x71, 0x7e, 0x31, 0x31, 0xe7, 0x66, 0xaa, 0x09, 0x8e, 0x91, 0xe0,
+	0x4e, 0xb3, 0x7e, 0x8a, 0x4d, 0x55, 0xde, 0xfe, 0x26, 0xc1, 0xe6, 0x8a, 0x47, 0x8f, 0x36, 0x20,
+	0x7d, 0x64, 0x1f, 0x76, 0xb0, 0x61, 0xed, 0x5b, 0xd8, 0x54, 0x63, 0x9c, 0xf7, 0x31, 0x26, 0xd6,
+	0xfe, 0xa9, 0x2a, 0xa1, 0x4d, 0xd8, 0x08, 0xce, 0xbd, 0xba, 0x6d, 0xf6, 0x0e, 0xeb, 0xc7, 0x58,
+	0x8d, 0xa3, 0x7f, 0xe1, 0x9f, 0xa5, 0xa0, 0xd1, 0x6e, 0xb5, 0xac, 0xae, 0x9a, 0xe0, 0xbe, 0xf0,
+	0x2c, 0x23, 0x0d, 0x72, 0x04, 0x1b, 0x6d, 0xdb, 0xb0, 0x9a, 0x78, 0x59, 0xb5, 0xd6, 0xd0, 0xae,
+	0x16, 0x79, 0xe9, 0x7a, 0x91, 0x97, 0x7e, 0x2d, 0xf2, 0xd2, 0x8f, 0x9b, 0x7c, 0xec, 0xfa, 0x26,
+	0x1f, 0xfb, 0x79, 0x93, 0x8f, 0x9d, 0x29, 0xe2, 0x5f, 0xed, 0xcd, 0x9f, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0x24, 0xea, 0xc5, 0x65, 0x3a, 0x05, 0x00, 0x00,
 }
+
+func (m *PipelineConfig) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PipelineConfig) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PipelineConfig) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Spec != nil {
+		{
+			size, err := m.Spec.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPipelineConfig(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x4a
+	}
+	if m.Action != 0 {
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(m.Action))
+		i--
+		dAtA[i] = 0x40
+	}
+	{
+		size, err := m.Status.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x3a
+	if m.Cookie != nil {
+		{
+			size, err := m.Cookie.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPipelineConfig(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.TargetID) > 0 {
+		i -= len(m.TargetID)
+		copy(dAtA[i:], m.TargetID)
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(len(m.TargetID)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	{
+		size, err := m.ObjectMeta.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *PipelineConfigSpec) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PipelineConfigSpec) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PipelineConfigSpec) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.P4Info) > 0 {
+		i -= len(m.P4Info)
+		copy(dAtA[i:], m.P4Info)
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(len(m.P4Info)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.P4DeviceConfig) > 0 {
+		i -= len(m.P4DeviceConfig)
+		copy(dAtA[i:], m.P4DeviceConfig)
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(len(m.P4DeviceConfig)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Cookie) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Cookie) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Cookie) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Cookie != 0 {
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(m.Cookie))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *PipelineConfigStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PipelineConfigStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PipelineConfigStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Mastership.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	if m.State != 0 {
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(m.State))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MastershipInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MastershipInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MastershipInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Term != 0 {
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(m.Term))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Master) > 0 {
+		i -= len(m.Master)
+		copy(dAtA[i:], m.Master)
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(len(m.Master)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ConfigurationEvent) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ConfigurationEvent) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ConfigurationEvent) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.PipelineConfig.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if m.Type != 0 {
+		i = encodeVarintPipelineConfig(dAtA, i, uint64(m.Type))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func encodeVarintPipelineConfig(dAtA []byte, offset int, v uint64) int {
+	offset -= sovPipelineConfig(v)
+	base := offset
+	for v >= 1<<7 {
+		dAtA[offset] = uint8(v&0x7f | 0x80)
+		v >>= 7
+		offset++
+	}
+	dAtA[offset] = uint8(v)
+	return base
+}
+func (m *PipelineConfig) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.ObjectMeta.Size()
+	n += 1 + l + sovPipelineConfig(uint64(l))
+	l = len(m.ID)
+	if l > 0 {
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	l = len(m.TargetID)
+	if l > 0 {
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	if m.Cookie != nil {
+		l = m.Cookie.Size()
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	l = m.Status.Size()
+	n += 1 + l + sovPipelineConfig(uint64(l))
+	if m.Action != 0 {
+		n += 1 + sovPipelineConfig(uint64(m.Action))
+	}
+	if m.Spec != nil {
+		l = m.Spec.Size()
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	return n
+}
+
+func (m *PipelineConfigSpec) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.P4DeviceConfig)
+	if l > 0 {
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	l = len(m.P4Info)
+	if l > 0 {
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	return n
+}
+
+func (m *Cookie) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Cookie != 0 {
+		n += 1 + sovPipelineConfig(uint64(m.Cookie))
+	}
+	return n
+}
+
+func (m *PipelineConfigStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.State != 0 {
+		n += 1 + sovPipelineConfig(uint64(m.State))
+	}
+	l = m.Mastership.Size()
+	n += 1 + l + sovPipelineConfig(uint64(l))
+	return n
+}
+
+func (m *MastershipInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Master)
+	if l > 0 {
+		n += 1 + l + sovPipelineConfig(uint64(l))
+	}
+	if m.Term != 0 {
+		n += 1 + sovPipelineConfig(uint64(m.Term))
+	}
+	return n
+}
+
+func (m *ConfigurationEvent) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Type != 0 {
+		n += 1 + sovPipelineConfig(uint64(m.Type))
+	}
+	l = m.PipelineConfig.Size()
+	n += 1 + l + sovPipelineConfig(uint64(l))
+	return n
+}
+
+func sovPipelineConfig(x uint64) (n int) {
+	return (math_bits.Len64(x|1) + 6) / 7
+}
+func sozPipelineConfig(x uint64) (n int) {
+	return sovPipelineConfig(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *PipelineConfig) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PipelineConfig: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PipelineConfig: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ObjectMeta", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.ObjectMeta.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ID = PipelineConfigID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TargetID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TargetID = TargetID(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cookie", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Cookie == nil {
+				m.Cookie = &Cookie{}
+			}
+			if err := m.Cookie.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Status.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Action", wireType)
+			}
+			m.Action = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Action |= ConfigurationAction(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Spec", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Spec == nil {
+				m.Spec = &PipelineConfigSpec{}
+			}
+			if err := m.Spec.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPipelineConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PipelineConfigSpec) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PipelineConfigSpec: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PipelineConfigSpec: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field P4DeviceConfig", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.P4DeviceConfig = append(m.P4DeviceConfig[:0], dAtA[iNdEx:postIndex]...)
+			if m.P4DeviceConfig == nil {
+				m.P4DeviceConfig = []byte{}
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field P4Info", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.P4Info = append(m.P4Info[:0], dAtA[iNdEx:postIndex]...)
+			if m.P4Info == nil {
+				m.P4Info = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPipelineConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Cookie) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Cookie: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Cookie: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cookie", wireType)
+			}
+			m.Cookie = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Cookie |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPipelineConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PipelineConfigStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PipelineConfigStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PipelineConfigStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			m.State = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.State |= PipelineConfigStatus_PipelineConfigState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Mastership", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Mastership.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPipelineConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MastershipInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MastershipInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MastershipInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Master", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Master = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Term", wireType)
+			}
+			m.Term = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Term |= MastershipTerm(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPipelineConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ConfigurationEvent) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ConfigurationEvent: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ConfigurationEvent: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			m.Type = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Type |= ConfigurationEvent_Type(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PipelineConfig", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.PipelineConfig.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPipelineConfig(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPipelineConfig
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func skipPipelineConfig(dAtA []byte) (n int, err error) {
+	l := len(dAtA)
+	iNdEx := 0
+	depth := 0
+	for iNdEx < l {
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return 0, ErrIntOverflowPipelineConfig
+			}
+			if iNdEx >= l {
+				return 0, io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		wireType := int(wire & 0x7)
+		switch wireType {
+		case 0:
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				iNdEx++
+				if dAtA[iNdEx-1] < 0x80 {
+					break
+				}
+			}
+		case 1:
+			iNdEx += 8
+		case 2:
+			var length int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowPipelineConfig
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				length |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if length < 0 {
+				return 0, ErrInvalidLengthPipelineConfig
+			}
+			iNdEx += length
+		case 3:
+			depth++
+		case 4:
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupPipelineConfig
+			}
+			depth--
+		case 5:
+			iNdEx += 4
+		default:
+			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
+		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthPipelineConfig
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
+	}
+	return 0, io.ErrUnexpectedEOF
+}
+
+var (
+	ErrInvalidLengthPipelineConfig        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowPipelineConfig          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupPipelineConfig = fmt.Errorf("proto: unexpected end of group")
+)
