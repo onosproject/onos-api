@@ -463,6 +463,17 @@ class P4RtServerInfo(betterproto.Message):
     control_endpoint: "Endpoint" = betterproto.message_field(1)
     timeout: timedelta = betterproto.message_field(2)
     device_id: int = betterproto.uint64_field(3)
+    pipelines: List["P4PipelineInfo"] = betterproto.message_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class P4PipelineInfo(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    version: str = betterproto.string_field(2)
+    architecture: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

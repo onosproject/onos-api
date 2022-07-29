@@ -4,6 +4,17 @@
 ## Table of Contents
 
 - [onos/p4rt/v1/pipeline_config.proto](#onos_p4rt_v1_pipeline_config-proto)
+    - [ConfigurationEvent](#onos-p4rt-v1-ConfigurationEvent)
+    - [Cookie](#onos-p4rt-v1-Cookie)
+    - [MastershipInfo](#onos-p4rt-v1-MastershipInfo)
+    - [PipelineConfig](#onos-p4rt-v1-PipelineConfig)
+    - [PipelineConfigSpec](#onos-p4rt-v1-PipelineConfigSpec)
+    - [PipelineConfigStatus](#onos-p4rt-v1-PipelineConfigStatus)
+  
+    - [ConfigurationAction](#onos-p4rt-v1-ConfigurationAction)
+    - [ConfigurationEvent.EventType](#onos-p4rt-v1-ConfigurationEvent-EventType)
+    - [PipelineConfigState](#onos-p4rt-v1-PipelineConfigState)
+  
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -14,7 +25,151 @@
 ## onos/p4rt/v1/pipeline_config.proto
 
 
+
+<a name="onos-p4rt-v1-ConfigurationEvent"></a>
+
+### ConfigurationEvent
+ConfigurationEvent configuration store event
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [ConfigurationEvent.EventType](#onos-p4rt-v1-ConfigurationEvent-EventType) |  | EventType configuration event type |
+| pipeline_config | [PipelineConfig](#onos-p4rt-v1-PipelineConfig) |  |  |
+
+
+
+
+
+
+<a name="onos-p4rt-v1-Cookie"></a>
+
+### Cookie
+Cookie
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cookie | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos-p4rt-v1-MastershipInfo"></a>
+
+### MastershipInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| master | [string](#string) |  |  |
+| term | [uint64](#uint64) |  |  |
+
+
+
+
+
+
+<a name="onos-p4rt-v1-PipelineConfig"></a>
+
+### PipelineConfig
+PipelineConfig P4 device pipeline config
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| meta | [ObjectMeta](#onos-p4rt-v1-ObjectMeta) |  |  |
+| id | [string](#string) |  | &#39;id&#39; is a unique configuration identifier |
+| target_id | [string](#string) |  | &#39;target_id&#39; is the target to which the desired target configuration applies |
+| cookie | [Cookie](#onos-p4rt-v1-Cookie) |  | &#39;cookie&#39; to uniquely identify a forwarding-pipeline configuration among others managed by the same control plane |
+| status | [PipelineConfigStatus](#onos-p4rt-v1-PipelineConfigStatus) |  | &#39;ConfigurationStatus&#39; is the current lifecycle status of the configuration |
+| action | [ConfigurationAction](#onos-p4rt-v1-ConfigurationAction) |  | ConfigurationAction |
+| spec | [PipelineConfigSpec](#onos-p4rt-v1-PipelineConfigSpec) |  | PipelineConfigSpec device pipeline config spec |
+
+
+
+
+
+
+<a name="onos-p4rt-v1-PipelineConfigSpec"></a>
+
+### PipelineConfigSpec
+PipelineConfigSpec device pipeline configuration spec
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| p4_device_config | [bytes](#bytes) |  | &#39;p4_device_config&#39; P4 device configuration bytes |
+| p4_info | [bytes](#bytes) |  | TODO since p4 info is target agnostic, we can import it from P4runtime and use it as it is, a new version of proto compiler image is needed &#39;p4_info&#39; P4 info |
+
+
+
+
+
+
+<a name="onos-p4rt-v1-PipelineConfigStatus"></a>
+
+### PipelineConfigStatus
+PipelineConfigStatus pipelineConfig status
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [PipelineConfigState](#onos-p4rt-v1-PipelineConfigState) |  | &#39;PipelineConfigState&#39; pipeline config state |
+| mastership | [MastershipInfo](#onos-p4rt-v1-MastershipInfo) |  | &#39;mastership&#39; is the current mastership info for the configuration |
+
+
+
+
+
  
+
+
+<a name="onos-p4rt-v1-ConfigurationAction"></a>
+
+### ConfigurationAction
+ConfigurationAction
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNSPECIFIED | 0 |  |
+| VERIFY | 1 | Verifies that the target can realize the given config. The forwarding state in the target is not modified. |
+| VERIFY_AND_SAVE | 2 | Saves the config if the P4Runtime target can realize it. The forwarding state in the target is not modified. |
+| VERIFY_AND_COMMIT | 3 | Saves and realizes the given config if the P4Runtime target can realize it. The forwarding state in the target is cleared. |
+| COMMIT | 4 | Realizes the last saved, but not yet committed, config. The forwarding state in the target is updated by replaying the write requests to the target device since the last config was saved |
+| RECONCILE_AND_COMMIT | 5 | Verifies, saves and realizes the given config, while preserving the forwarding state in the target. |
+
+
+
+<a name="onos-p4rt-v1-ConfigurationEvent-EventType"></a>
+
+### ConfigurationEvent.EventType
+EventType configuration event types for configuration store
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 | UNKNOWN indicates unknown configuration store event |
+| CREATED | 1 | CREATED indicates the configuration entry in the store is created |
+| UPDATED | 2 | UPDATED indicates the configuration entry in the store is updated |
+| DELETED | 3 | DELETED indicates the configuration entry in the store is deleted |
+| REPLAYED | 4 | REPLAYED |
+
+
+
+<a name="onos-p4rt-v1-PipelineConfigState"></a>
+
+### PipelineConfigState
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PIPELINE_CONFIG_PENDING | 0 | PIPELINE_CONFIG_PENDING indicates the pipeline configuration phase is pending |
+| PIPELINE_CONFIG_COMPLETE | 1 | PIPELINE_CONFIG_COMPLETE indicates the pipeline configuration phase is complete |
+| PIPELINE_CONFIG_FAILED | 2 | PIPELINE_CONFIG_FAILED indicates the pipeline configuration phase failed |
+
 
  
 
