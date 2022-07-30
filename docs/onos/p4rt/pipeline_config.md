@@ -166,9 +166,10 @@ Type configuration event types for configuration store
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| PENDING | 0 | PENDING indicates the pipeline configuration phase is pending |
-| COMPLETE | 1 | COMPLETE indicates the pipeline configuration phase is complete |
-| FAILED | 2 | FAILED indicates the pipeline configuration phase failed |
+| UNKNOWN | 0 | UNKNOWN indicates the pipeline configuration state is unknown |
+| PENDING | 1 | PENDING indicates the pipeline configuration state is pending |
+| COMPLETE | 2 | COMPLETE indicates the pipeline configuration state is complete |
+| FAILED | 3 | FAILED indicates the pipeline configuration state failed |
 
 
  
