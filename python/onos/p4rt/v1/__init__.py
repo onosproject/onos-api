@@ -17,9 +17,10 @@ class ConfigurationAction(betterproto.Enum):
 
 
 class PipelineConfigStatusPipelineConfigState(betterproto.Enum):
-    PENDING = 0
-    COMPLETE = 1
-    FAILED = 2
+    UNKNOWN = 0
+    PENDING = 1
+    COMPLETE = 2
+    FAILED = 3
 
 
 class ConfigurationEventType(betterproto.Enum):

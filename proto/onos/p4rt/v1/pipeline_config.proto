@@ -74,12 +74,14 @@ message PipelineConfigStatus {
   MastershipInfo mastership = 3 [(gogoproto.nullable) = false];
 
   enum PipelineConfigState {
-    // PENDING indicates the pipeline configuration phase is pending
-    PENDING = 0;
-    // COMPLETE indicates the pipeline configuration phase is complete
-    COMPLETE = 1;
-    // FAILED indicates the pipeline configuration phase failed
-    FAILED = 2;
+    // UNKNOWN indicates the pipeline configuration state is unknown
+    UNKNOWN = 0;
+    // PENDING indicates the pipeline configuration state is pending
+    PENDING = 1;
+    // COMPLETE indicates the pipeline configuration state is complete
+    COMPLETE = 2;
+    // FAILED indicates the pipeline configuration state failed
+    FAILED = 3;
   }
 
 }
