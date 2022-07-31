@@ -235,6 +235,7 @@ class ErrorCauseTransport(betterproto.Message):
 class ControlRequest(betterproto.Message):
     headers: "RequestHeaders" = betterproto.message_field(1)
     message: "ControlMessage" = betterproto.message_field(2)
+    call_process_id: bytes = betterproto.bytes_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -357,6 +358,7 @@ class Acknowledgement(betterproto.Message):
 class Indication(betterproto.Message):
     header: bytes = betterproto.bytes_field(1)
     payload: bytes = betterproto.bytes_field(2)
+    call_process_id: bytes = betterproto.bytes_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -563,7 +565,11 @@ class SubscriptionStatus(betterproto.Message):
 
 class ControlServiceStub(betterproto.ServiceStub):
     async def control(
-        self, *, headers: "RequestHeaders" = None, message: "ControlMessage" = None
+        self,
+        *,
+        headers: "RequestHeaders" = None,
+        message: "ControlMessage" = None,
+        call_process_id: bytes = b"",
     ) -> "ControlResponse":
 
         request = ControlRequest()
@@ -571,6 +577,7 @@ class ControlServiceStub(betterproto.ServiceStub):
             request.headers = headers
         if message is not None:
             request.message = message
+        request.call_process_id = call_process_id
 
         return await self._unary_unary(
             "/onos.e2t.e2.v1beta1.ControlService/Control", request, ControlResponse

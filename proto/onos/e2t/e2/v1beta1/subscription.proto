@@ -105,6 +105,7 @@ message Acknowledgement {
 message Indication {
     bytes header = 1;
     bytes payload = 2;
+    bytes call_process_id = 3;
 }
 
 service SubscriptionAdminService {
