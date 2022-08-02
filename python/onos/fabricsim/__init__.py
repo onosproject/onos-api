@@ -43,6 +43,8 @@ class Device(betterproto.Message):
     ports: List["Port"] = betterproto.message_field(3)
     # control port for p4 and gnmi simulation
     control_port: int = betterproto.int32_field(4)
+    # unique chassis ID
+    chassis_id: int = betterproto.uint64_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
