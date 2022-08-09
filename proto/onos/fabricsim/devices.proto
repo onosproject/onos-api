@@ -20,6 +20,9 @@ message Device {
     // control port for p4 and gnmi simulation
     int32 control_port = 4;
 
+    // unique chassis ID
+    uint64 chassis_id = 5 [(gogoproto.customname) = "ChassisID"];
+
     // gnmi models?
     // behavior?
 }

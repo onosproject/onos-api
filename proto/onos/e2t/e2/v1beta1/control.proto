@@ -19,6 +19,7 @@ service ControlService {
 message ControlRequest {
     RequestHeaders headers = 1 [(gogoproto.nullable) = false];
     ControlMessage message = 2 [(gogoproto.nullable) = false];
+    bytes call_process_id = 3;
 }
 
 message ControlMessage {

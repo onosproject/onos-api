@@ -76,6 +76,7 @@ Device describes a simulated switch or IPU
 | type | [DeviceType](#onos-fabricsim-DeviceType) |  |  |
 | ports | [Port](#onos-fabricsim-Port) | repeated | list of ports |
 | control_port | [int32](#int32) |  | control port for p4 and gnmi simulation |
+| chassis_id | [uint64](#uint64) |  | unique chassis ID |
 
 
 
