@@ -89,6 +89,23 @@ message P4PipelineInfo {
   string name = 1;
   string version = 2;
   string architecture = 3;
+  ConfigurationAction configuration_action = 4;
+
+  // ConfigurationAction
+  enum ConfigurationAction {
+    UNSPECIFIED = 0;
+    // Verifies that the target can realize the given config. The forwarding state in the target is not modified.
+    VERIFY = 1;
+    // Saves the config if the P4Runtime target can realize it. The forwarding state in the target is not modified.
+    VERIFY_AND_SAVE = 2;
+    // Saves and realizes the given config if the P4Runtime target can realize it. The forwarding state in the target is cleared.
+    VERIFY_AND_COMMIT = 3;
+    // Realizes the last saved, but not yet committed, config.
+    // The forwarding state in the target is updated by replaying the write requests to the target device since the last config was saved
+    COMMIT = 4;
+    // Verifies, saves and realizes the given config, while preserving the forwarding state in the target.
+    RECONCILE_AND_COMMIT = 5;
+  }
 }
 
 // P4RTMastershipState mastership state for the P4runtime targets
