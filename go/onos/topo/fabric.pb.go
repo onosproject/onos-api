@@ -688,7 +688,7 @@ func (m *P4RTServerInfo) GetPipelines() []*P4PipelineInfo {
 	return nil
 }
 
-// P4PipelineInfo p4 pipelineconfig information
+// P4PipelineInfo p4 pipeline information
 type P4PipelineInfo struct {
 	Name                string                             `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Version             string                             `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
