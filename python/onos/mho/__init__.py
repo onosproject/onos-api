@@ -2,67 +2,10 @@
 # sources: onos/mho/mho.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
 import betterproto
 import grpclib
-
-
-class MhoParamType(betterproto.Enum):
-    """MhoParamType is enumeration type of MHO parameters"""
-
-    ALL = 0
-    A3OFFSET = 1
-    HYSTERESIS = 2
-    TIMETOTRIGGER = 3
-
-
-@dataclass(eq=False, repr=False)
-class GetMhoParamRequest(betterproto.Message):
-    # hoParamType is a type of handover parameter
-    ho_param_type: "MhoParamType" = betterproto.enum_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class GetMhoParamResponse(betterproto.Message):
-    # hoParamType is a type of handover parameter
-    ho_param_type: "MhoParamType" = betterproto.enum_field(1)
-    # A3-Offset value
-    a3_offset: int = betterproto.int32_field(2)
-    # Hysteresis value
-    hysteresis: int = betterproto.int32_field(3)
-    # Time-to-Trigger value
-    time_to_trigger: int = betterproto.int32_field(4)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class SetMhoParamRequest(betterproto.Message):
-    # hoParamType is a type of handover parameter
-    ho_param_type: "MhoParamType" = betterproto.enum_field(1)
-    # A3-Offset value
-    a3_offset: int = betterproto.int32_field(2)
-    # Hysteresis value
-    hysteresis: int = betterproto.int32_field(3)
-    # Time-to-Trigger value
-    time_to_trigger: int = betterproto.int32_field(4)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class SetMhoParamResponse(betterproto.Message):
-    # success is a result whether MHO param is set successfully or not
-    success: bool = betterproto.bool_field(1)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
@@ -92,7 +35,7 @@ class CellList(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class Ue(betterproto.Message):
     ue_id: str = betterproto.string_field(1)
-    rrc_state: str = betterproto.string_field(2)
+    ho_state: str = betterproto.string_field(2)
     cgi: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
@@ -111,38 +54,6 @@ class Cell(betterproto.Message):
 
 
 class MhoStub(betterproto.ServiceStub):
-    async def get_mho_params(
-        self, *, ho_param_type: "MhoParamType" = None
-    ) -> "GetMhoParamResponse":
-        """To get MHO parameters"""
-
-        request = GetMhoParamRequest()
-        request.ho_param_type = ho_param_type
-
-        return await self._unary_unary(
-            "/onos.mho.mho/GetMhoParams", request, GetMhoParamResponse
-        )
-
-    async def set_mho_params(
-        self,
-        *,
-        ho_param_type: "MhoParamType" = None,
-        a3_offset: int = 0,
-        hysteresis: int = 0,
-        time_to_trigger: int = 0,
-    ) -> "SetMhoParamResponse":
-        """To set MHO parameters"""
-
-        request = SetMhoParamRequest()
-        request.ho_param_type = ho_param_type
-        request.a3_offset = a3_offset
-        request.hysteresis = hysteresis
-        request.time_to_trigger = time_to_trigger
-
-        return await self._unary_unary(
-            "/onos.mho.mho/SetMhoParams", request, SetMhoParamResponse
-        )
-
     async def get_ues(self) -> "UeList":
 
         request = GetRequest()
