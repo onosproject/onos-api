@@ -90,6 +90,15 @@ class IpAddressType(betterproto.Enum):
     IPV6 = 1
 
 
+class P4PipelineInfoConfigurationAction(betterproto.Enum):
+    UNSPECIFIED = 0
+    VERIFY = 1
+    VERIFY_AND_SAVE = 2
+    VERIFY_AND_COMMIT = 3
+    COMMIT = 4
+    RECONCILE_AND_COMMIT = 5
+
+
 class RanEntityKinds(betterproto.Enum):
     """Protocol to interact with a device"""
 
@@ -474,6 +483,9 @@ class P4PipelineInfo(betterproto.Message):
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
     architecture: str = betterproto.string_field(3)
+    configuration_action: "P4PipelineInfoConfigurationAction" = betterproto.enum_field(
+        4
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()

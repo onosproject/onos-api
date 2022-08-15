@@ -70,13 +70,13 @@ func (ConfigurationAction) EnumDescriptor() ([]byte, []int) {
 type PipelineConfigStatus_PipelineConfigState int32
 
 const (
-	// UNKNOWN indicates the pipeline configuration state is unknown
+	// UNKNOWN indicates the pipelineconfig configuration state is unknown
 	PipelineConfigStatus_UNKNOWN PipelineConfigStatus_PipelineConfigState = 0
-	// PENDING indicates the pipeline configuration state is pending
+	// PENDING indicates the pipelineconfig configuration state is pending
 	PipelineConfigStatus_PENDING PipelineConfigStatus_PipelineConfigState = 1
-	// COMPLETE indicates the pipeline configuration state is complete
+	// COMPLETE indicates the pipelineconfig configuration state is complete
 	PipelineConfigStatus_COMPLETE PipelineConfigStatus_PipelineConfigState = 2
-	// FAILED indicates the pipeline configuration state failed
+	// FAILED indicates the pipelineconfig configuration state failed
 	PipelineConfigStatus_FAILED PipelineConfigStatus_PipelineConfigState = 3
 )
 
@@ -142,20 +142,20 @@ func (ConfigurationEvent_Type) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_6080f98dc2058397, []int{5, 0}
 }
 
-// PipelineConfig P4 device pipeline config
+// PipelineConfig P4 device pipelineconfig config
 type PipelineConfig struct {
 	ObjectMeta `protobuf:"bytes,1,opt,name=meta,proto3,embedded=meta" json:"meta"`
 	// 'id' is a unique configuration identifier
 	ID PipelineConfigID `protobuf:"bytes,2,opt,name=id,proto3,casttype=PipelineConfigID" json:"id,omitempty"`
 	// 'target_id' is the target to which the desired target configuration applies
 	TargetID TargetID `protobuf:"bytes,3,opt,name=target_id,json=targetId,proto3,casttype=TargetID" json:"target_id,omitempty"`
-	// 'cookie' to uniquely identify a forwarding-pipeline configuration among others managed by the same control plane
+	// 'cookie' to uniquely identify a forwarding-pipelineconfig configuration among others managed by the same control plane
 	Cookie *Cookie `protobuf:"bytes,6,opt,name=cookie,proto3" json:"cookie,omitempty"`
 	// 'ConfigurationStatus' is the current lifecycle status of the configuration
 	Status PipelineConfigStatus `protobuf:"bytes,7,opt,name=status,proto3" json:"status"`
 	// ConfigurationAction
 	Action ConfigurationAction `protobuf:"varint,8,opt,name=action,proto3,enum=onos.p4rt.v1.ConfigurationAction" json:"action,omitempty"`
-	// PipelineConfigSpec device pipeline config spec
+	// PipelineConfigSpec device pipelineconfig config spec
 	Spec *PipelineConfigSpec `protobuf:"bytes,9,opt,name=spec,proto3" json:"spec,omitempty"`
 }
 
@@ -234,7 +234,7 @@ func (m *PipelineConfig) GetSpec() *PipelineConfigSpec {
 	return nil
 }
 
-// PipelineConfigSpec device pipeline configuration spec
+// PipelineConfigSpec device pipelineconfig configuration spec
 type PipelineConfigSpec struct {
 	// 'p4_device_config' P4 device configuration bytes
 	P4DeviceConfig []byte `protobuf:"bytes,1,opt,name=p4_device_config,json=p4DeviceConfig,proto3" json:"p4_device_config,omitempty"`
@@ -337,7 +337,7 @@ func (m *Cookie) GetCookie() uint64 {
 
 // PipelineConfigStatus pipelineConfig status
 type PipelineConfigStatus struct {
-	// 'PipelineConfigState' pipeline config state
+	// 'PipelineConfigState' pipelineconfig config state
 	State PipelineConfigStatus_PipelineConfigState `protobuf:"varint,1,opt,name=state,proto3,enum=onos.p4rt.v1.PipelineConfigStatus_PipelineConfigState" json:"state,omitempty"`
 	// 'mastership' is the current mastership info for the configuration
 	Mastership MastershipInfo `protobuf:"bytes,3,opt,name=mastership,proto3" json:"mastership"`
