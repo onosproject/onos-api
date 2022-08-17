@@ -25,6 +25,9 @@ message Device {
 
     // gnmi models?
     // behavior?
+
+    // forwarding pipeline information
+    PipelineInfo pipeline_info = 6;
 }
 
 // DeviceType represents type of a device, i.e. switch, IPU, etc.
@@ -51,6 +54,23 @@ message Port {
 
     // p4 behaviors? (counters, etc.)
     // gnmi behaviors? (counters, etc.)
+}
+
+// PipelineInfo provides information about the currently deployed forwarding pipeline
+message PipelineInfo {
+    uint64 cookie = 1;
+    bytes p4_info = 2;
+
+    // summary information about tables, counters and meters
+    repeated EntitiesInfo tables = 3;
+    repeated EntitiesInfo counters = 4;
+    repeated EntitiesInfo meters = 5;
+}
+
+// EntitiesInfo provides information about size of pipeline entities, tables, meters, counters
+message EntitiesInfo {
+    uint32 id = 1 [(gogoproto.customname) = "ID"];
+    uint32 size = 2;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
