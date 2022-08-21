@@ -501,6 +501,14 @@ class P4RtMastershipState(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Service(betterproto.Message):
+    mastershipstate: "P4RtMastershipState" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class Location(betterproto.Message):
     """Basic asset information"""
 

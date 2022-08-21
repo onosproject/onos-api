@@ -52,6 +52,7 @@ const (
 	ControlsKind   = "controls"
 	ContainsKind   = "contains"
 	NeighborsKind  = "neighbors"
+	MembershipKind = "membership"
 
 	// Fabric Entity kinds
 	NetworkLayerKind = "network-layer"
@@ -61,6 +62,7 @@ const (
 	InterfaceKind    = "interface"
 	LinkKind         = "link"
 	ControllerKind   = "controller"
+	ServiceKind      = "service"
 
 	// onos-config entity
 	OnosConfigKind = "onos-config"

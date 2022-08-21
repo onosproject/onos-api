@@ -11,6 +11,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/any.proto";
 
 
+
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
 message NetworkLayer {
   Type type = 1;
@@ -112,5 +113,11 @@ message P4PipelineInfo {
 message P4RTMastershipState {
   uint64 term = 1;
   string node_id = 2;
+}
+
+
+// Service service entity which will be used to store mastership state for an application
+message Service {
+    P4RTMastershipState mastershipstate = 1;
 }
 
