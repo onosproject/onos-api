@@ -494,7 +494,7 @@ class P4PipelineInfo(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class P4RtMastershipState(betterproto.Message):
     term: int = betterproto.uint64_field(1)
-    node_id: str = betterproto.string_field(2)
+    connection_id: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

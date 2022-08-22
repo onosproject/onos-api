@@ -52,7 +52,7 @@ const (
 	ControlsKind   = "controls"
 	ContainsKind   = "contains"
 	NeighborsKind  = "neighbors"
-	MembershipKind = "membership"
+	ConnectionKind = "connection"
 
 	// Fabric Entity kinds
 	NetworkLayerKind = "network-layer"

@@ -112,7 +112,7 @@ message P4PipelineInfo {
 // P4RTMastershipState mastership state for the P4runtime targets
 message P4RTMastershipState {
   uint64 term = 1;
-  string node_id = 2;
+  string connection_id = 2 [(gogoproto.customname) = "ConnectionID"];;
 }
 
 
