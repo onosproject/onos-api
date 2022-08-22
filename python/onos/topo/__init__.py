@@ -495,6 +495,7 @@ class P4PipelineInfo(betterproto.Message):
 class P4RtMastershipState(betterproto.Message):
     term: int = betterproto.uint64_field(1)
     connection_id: str = betterproto.string_field(2)
+    role: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -502,7 +503,8 @@ class P4RtMastershipState(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Service(betterproto.Message):
-    mastershipstate: "P4RtMastershipState" = betterproto.message_field(1)
+    target_id: str = betterproto.string_field(1)
+    mastershipstate: "P4RtMastershipState" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

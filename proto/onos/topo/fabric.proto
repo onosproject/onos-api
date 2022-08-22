@@ -112,12 +112,14 @@ message P4PipelineInfo {
 // P4RTMastershipState mastership state for the P4runtime targets
 message P4RTMastershipState {
   uint64 term = 1;
-  string connection_id = 2 [(gogoproto.customname) = "ConnectionID"];;
+  string connection_id = 2 [(gogoproto.customname) = "ConnectionID"];
+  string role = 3;
 }
 
 
 // Service service entity which will be used to store mastership state for an application
 message Service {
-    P4RTMastershipState mastershipstate = 1;
+    string  target_id = 1 [(gogoproto.customname) = "TargetID"];
+    P4RTMastershipState mastershipstate = 2;
 }
 
