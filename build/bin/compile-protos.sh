@@ -138,6 +138,13 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,pipeline_config.md \
     proto/onos/p4rt/v1/pipeline_config.proto
 
+# device-provisioner
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/device-provisioner \
+    --doc_opt=markdown,admin.md \
+    proto/onos/device-provisioner/admin/admin.proto
+
+
 ### Go Protobuf code generation
 go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types"
@@ -152,6 +159,11 @@ go_import_paths="${go_import_paths},Monos/config/v2/value.proto=github.com/onosp
 go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/proposal.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"
+go_import_paths="${go_import_paths},Monos/p4rt/v1/pipeline_config.proto=github.com/onosproject/onos-api/go/onos/p4rt/v1"
+go_import_paths="${go_import_paths},Monos/p4rt/v1/object.proto=github.com/onosproject/onos-api/go/onos/p4rt/v1"
+go_import_paths="${go_import_paths},Monos/device-provisioner/admin/admin.proto=github.com/onosproject/onos-api/go/onos/device-provisioner/admin"
+
+
 
 
 # topo and UE-NIB
@@ -206,6 +218,11 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/p4rt,plugins=grpc:./go \
     proto/onos/p4rt/v1/*.proto
+
+# device-provisioner
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/device-provisioner/admin,plugins=grpc:./go \
+    proto/onos/device-provisioner/admin/*.proto
 
 # kpimon
 protoc --proto_path=$proto_path \
