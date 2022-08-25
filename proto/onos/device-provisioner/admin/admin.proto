@@ -1,0 +1,56 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+// Package admin defines the administrative gRPC interfaces.
+package onos.deviceprovisioner.admin;
+
+import "onos/p4rt/v1/pipeline_config.proto";
+import "gogoproto/gogo.proto";
+
+
+
+
+
+// PipelineConfigService
+service PipelineConfigService {
+  // Get pipeline config based on a given ID
+  rpc GetPipeline (GetPipelineRequest) returns (GetPipelineResponse) {
+  }
+
+  // List returns all target pipelines
+  rpc ListPipelines (ListPipelinesRequest) returns (stream ListPipelinesResponse) {
+  }
+
+  // Watch returns a stream of pipeline change notifications
+  rpc WatchPipelines (WatchPipelinesRequest) returns (stream WatchPipelinesResponse) {
+  }
+}
+
+// GetPipelineRequest get pipeline request
+message GetPipelineRequest {
+  string pipelineconfig_id = 1 [(gogoproto.customname) = "PipelineConfigID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/p4rt/v1.PipelineConfigID"];
+
+}
+
+// GetPipelineResponse get pipeline response
+message GetPipelineResponse {
+  onos.p4rt.v1.PipelineConfig pipelineconfig = 1;
+
+}
+
+message ListPipelinesRequest {}
+
+message ListPipelinesResponse {
+  onos.p4rt.v1.PipelineConfig pipelineconfig = 1;
+}
+
+message WatchPipelinesRequest {
+
+}
+
+message WatchPipelinesResponse {
+
+}
