@@ -57,7 +57,7 @@ GetPipelineResponse get pipeline response
 <a name="onos-deviceprovisioner-admin-ListPipelinesRequest"></a>
 
 ### ListPipelinesRequest
-
+ListPipelineRequest
 
 
 
@@ -67,7 +67,7 @@ GetPipelineResponse get pipeline response
 <a name="onos-deviceprovisioner-admin-ListPipelinesResponse"></a>
 
 ### ListPipelinesResponse
-
+ListPipelineResponse
 
 
 | Field | Type | Label | Description |
@@ -82,7 +82,13 @@ GetPipelineResponse get pipeline response
 <a name="onos-deviceprovisioner-admin-WatchPipelinesRequest"></a>
 
 ### WatchPipelinesRequest
+WatchPipelineRequest
 
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pipelineconfig_id | [string](#string) |  |  |
+| noreplay | [bool](#bool) |  |  |
 
 
 
@@ -92,7 +98,12 @@ GetPipelineResponse get pipeline response
 <a name="onos-deviceprovisioner-admin-WatchPipelinesResponse"></a>
 
 ### WatchPipelinesResponse
+WatchPipelineResponse
 
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pipelineconfig | [onos.p4rt.v1.PipelineConfig](#onos-p4rt-v1-PipelineConfig) |  |  |
 
 
 

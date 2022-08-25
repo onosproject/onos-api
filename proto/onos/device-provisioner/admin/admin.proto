@@ -41,16 +41,23 @@ message GetPipelineResponse {
 
 }
 
+// ListPipelineRequest
 message ListPipelinesRequest {}
 
+// ListPipelineResponse
 message ListPipelinesResponse {
   onos.p4rt.v1.PipelineConfig pipelineconfig = 1;
 }
 
+// WatchPipelineRequest
 message WatchPipelinesRequest {
+  string pipelineconfig_id = 1 [(gogoproto.customname) = "PipelineConfigID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/p4rt/v1.PipelineConfigID"];
+  bool noreplay = 2;
 
 }
 
+// WatchPipelineResponse
 message WatchPipelinesResponse {
+  onos.p4rt.v1.PipelineConfig pipelineconfig = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
 
 }

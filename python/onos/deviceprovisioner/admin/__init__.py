@@ -30,6 +30,8 @@ class GetPipelineResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListPipelinesRequest(betterproto.Message):
+    """ListPipelineRequest"""
+
     pass
 
     def __post_init__(self) -> None:
@@ -38,6 +40,8 @@ class ListPipelinesRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListPipelinesResponse(betterproto.Message):
+    """ListPipelineResponse"""
+
     pipelineconfig: "__p4_rt_v1__.PipelineConfig" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -46,7 +50,10 @@ class ListPipelinesResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchPipelinesRequest(betterproto.Message):
-    pass
+    """WatchPipelineRequest"""
+
+    pipelineconfig_id: str = betterproto.string_field(1)
+    noreplay: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -54,7 +61,9 @@ class WatchPipelinesRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchPipelinesResponse(betterproto.Message):
-    pass
+    """WatchPipelineResponse"""
+
+    pipelineconfig: "__p4_rt_v1__.PipelineConfig" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -89,10 +98,14 @@ class PipelineConfigServiceStub(betterproto.ServiceStub):
         ):
             yield response
 
-    async def watch_pipelines(self) -> AsyncIterator["WatchPipelinesResponse"]:
+    async def watch_pipelines(
+        self, *, pipelineconfig_id: str = "", noreplay: bool = False
+    ) -> AsyncIterator["WatchPipelinesResponse"]:
         """Watch returns a stream of pipeline change notifications"""
 
         request = WatchPipelinesRequest()
+        request.pipelineconfig_id = pipelineconfig_id
+        request.noreplay = noreplay
 
         async for response in self._unary_stream(
             "/onos.deviceprovisioner.admin.PipelineConfigService/WatchPipelines",
