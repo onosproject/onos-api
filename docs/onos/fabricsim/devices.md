@@ -16,6 +16,7 @@
     - [GetDeviceResponse](#onos-fabricsim-GetDeviceResponse)
     - [GetDevicesRequest](#onos-fabricsim-GetDevicesRequest)
     - [GetDevicesResponse](#onos-fabricsim-GetDevicesResponse)
+    - [GridPosition](#onos-fabricsim-GridPosition)
     - [PipelineInfo](#onos-fabricsim-PipelineInfo)
     - [Port](#onos-fabricsim-Port)
     - [RemoveDeviceRequest](#onos-fabricsim-RemoveDeviceRequest)
@@ -80,6 +81,7 @@ Device describes a simulated switch or IPU
 | control_port | [int32](#int32) |  | control port for p4 and gnmi simulation |
 | chassis_id | [uint64](#uint64) |  | unique chassis ID |
 | pipeline_info | [PipelineInfo](#onos-fabricsim-PipelineInfo) |  | forwarding pipeline information |
+| pos | [GridPosition](#onos-fabricsim-GridPosition) |  |  |
 
 
 
@@ -202,6 +204,22 @@ filters?
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | devices | [Device](#onos-fabricsim-Device) | repeated |  |
+
+
+
+
+
+
+<a name="onos-fabricsim-GridPosition"></a>
+
+### GridPosition
+GridPosition indicates where on a grid an entity should be located; used for visualization purposes
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| x | [uint32](#uint32) |  |  |
+| y | [uint32](#uint32) |  |  |
 
 
 
