@@ -412,6 +412,7 @@ class PhyPort(betterproto.Message):
     speed: str = betterproto.string_field(2)
     port_number: int = betterproto.uint32_field(3)
     channel_number: int = betterproto.uint32_field(4)
+    target_id: str = betterproto.string_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()

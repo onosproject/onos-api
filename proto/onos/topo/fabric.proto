@@ -41,6 +41,7 @@ message PhyPort {
   string speed = 2;
   uint32  port_number = 3;
   uint32 channel_number = 4;
+  string target_id = 5 [(gogoproto.customname) = "TargetID"];
 }
 
 // Controller aspect; represents an instance of the controller deployment
