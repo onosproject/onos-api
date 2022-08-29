@@ -413,6 +413,9 @@ class PhyPort(betterproto.Message):
     port_number: int = betterproto.uint32_field(3)
     channel_number: int = betterproto.uint32_field(4)
     target_id: str = betterproto.string_field(5)
+    enabled: bool = betterproto.bool_field(6)
+    health_indicator: str = betterproto.string_field(7)
+    if_index: int = betterproto.uint32_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
