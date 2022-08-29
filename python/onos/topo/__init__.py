@@ -416,6 +416,8 @@ class PhyPort(betterproto.Message):
     enabled: bool = betterproto.bool_field(6)
     health_indicator: str = betterproto.string_field(7)
     if_index: int = betterproto.uint32_field(8)
+    mac_address: str = betterproto.string_field(9)
+    auto_negotiate: bool = betterproto.bool_field(10)
 
     def __post_init__(self) -> None:
         super().__post_init__()

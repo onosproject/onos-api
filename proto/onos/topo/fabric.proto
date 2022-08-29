@@ -45,6 +45,8 @@ message PhyPort {
   bool enabled = 6;
   string health_indicator = 7;
   uint32 if_index = 8;
+  string mac_address = 9;
+  bool  auto_negotiate = 10;
 }
 
 // Controller aspect; represents an instance of the controller deployment
