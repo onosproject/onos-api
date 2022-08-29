@@ -119,6 +119,7 @@ Host describes a simulated host (bare metal, VM or container)
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  | unique host id |
 | interfaces | [NetworkInterface](#onos-fabricsim-NetworkInterface) | repeated | network interfaces |
+| pos | [GridPosition](#onos-fabricsim-GridPosition) |  |  |
 
 
 

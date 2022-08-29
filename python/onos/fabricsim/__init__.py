@@ -47,6 +47,7 @@ class Device(betterproto.Message):
     chassis_id: int = betterproto.uint64_field(5)
     # forwarding pipeline information
     pipeline_info: "PipelineInfo" = betterproto.message_field(6)
+    pos: "GridPosition" = betterproto.message_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -98,6 +99,20 @@ class EntitiesInfo(betterproto.Message):
 
     id: int = betterproto.uint32_field(1)
     size: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GridPosition(betterproto.Message):
+    """
+    GridPosition indicates where on a grid an entity should be located; used
+    for visualization purposes
+    """
+
+    x: int = betterproto.uint32_field(1)
+    y: int = betterproto.uint32_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -240,6 +255,8 @@ class Host(betterproto.Message):
     # unique device id and device type
     id: str = betterproto.string_field(1)
     interfaces: List["NetworkInterface"] = betterproto.message_field(2)
+    # list of ports
+    pos: "GridPosition" = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -292,6 +309,11 @@ class GetHostsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostsResponse(betterproto.Message):
+    """
+    GridPosition indicates where on a grid an entity should be located; used
+    for visualization purposes
+    """
+
     hosts: List["Host"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -400,6 +422,11 @@ class GetLinkRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinkResponse(betterproto.Message):
+    """
+    GridPosition indicates where on a grid an entity should be located; used
+    for visualization purposes
+    """
+
     link: "Link" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:

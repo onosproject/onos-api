@@ -28,6 +28,7 @@ message Device {
 
     // forwarding pipeline information
     PipelineInfo pipeline_info = 6;
+    GridPosition pos = 7;
 }
 
 // DeviceType represents type of a device, i.e. switch, IPU, etc.
@@ -71,6 +72,12 @@ message PipelineInfo {
 message EntitiesInfo {
     uint32 id = 1 [(gogoproto.customname) = "ID"];
     uint32 size = 2;
+}
+
+// GridPosition indicates where on a grid an entity should be located; used for visualization purposes
+message GridPosition {
+    uint32 x = 1;
+    uint32 y = 2;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
