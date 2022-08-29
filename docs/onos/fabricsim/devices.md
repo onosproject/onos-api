@@ -218,8 +218,8 @@ GridPosition indicates where on a grid an entity should be located; used for vis
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| x | [uint32](#uint32) |  |  |
-| y | [uint32](#uint32) |  |  |
+| x | [int32](#int32) |  |  |
+| y | [int32](#int32) |  |  |
 
 
 
