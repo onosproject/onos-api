@@ -111,8 +111,8 @@ class GridPosition(betterproto.Message):
     for visualization purposes
     """
 
-    x: int = betterproto.uint32_field(1)
-    y: int = betterproto.uint32_field(2)
+    x: int = betterproto.int32_field(1)
+    y: int = betterproto.int32_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

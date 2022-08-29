@@ -76,8 +76,8 @@ message EntitiesInfo {
 
 // GridPosition indicates where on a grid an entity should be located; used for visualization purposes
 message GridPosition {
-    uint32 x = 1;
-    uint32 y = 2;
+    int32 x = 1;
+    int32 y = 2;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
