@@ -46,7 +46,7 @@ class ErrorCauseRicType(betterproto.Enum):
     CALL_PROCESS_ID_INVALID = 10
     CONTROL_TIMER_EXPIRED = 11
     CONTROL_FAILED_TO_EXECUTE = 12
-    CONTROL_SYSTEM_NOT_READY = 13
+    SYSTEM_NOT_READY = 13
 
 
 class ErrorCauseRicServiceType(betterproto.Enum):
