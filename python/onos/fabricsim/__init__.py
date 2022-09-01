@@ -45,6 +45,9 @@ class Device(betterproto.Message):
     control_port: int = betterproto.int32_field(4)
     # unique chassis ID
     chassis_id: int = betterproto.uint64_field(5)
+    # forwarding pipeline information
+    pipeline_info: "PipelineInfo" = betterproto.message_field(6)
+    pos: "GridPosition" = betterproto.message_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -64,6 +67,52 @@ class Port(betterproto.Message):
     internal_number: int = betterproto.uint32_field(5)
     # speed
     speed: str = betterproto.string_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class PipelineInfo(betterproto.Message):
+    """
+    PipelineInfo provides information about the currently deployed forwarding
+    pipeline
+    """
+
+    cookie: int = betterproto.uint64_field(1)
+    p4_info: bytes = betterproto.bytes_field(2)
+    # summary information about tables, counters and meters
+    tables: List["EntitiesInfo"] = betterproto.message_field(3)
+    counters: List["EntitiesInfo"] = betterproto.message_field(4)
+    meters: List["EntitiesInfo"] = betterproto.message_field(5)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class EntitiesInfo(betterproto.Message):
+    """
+    EntitiesInfo provides information about size of pipeline entities, tables,
+    meters, counters
+    """
+
+    id: int = betterproto.uint32_field(1)
+    size: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GridPosition(betterproto.Message):
+    """
+    GridPosition indicates where on a grid an entity should be located; used
+    for visualization purposes
+    """
+
+    x: int = betterproto.int32_field(1)
+    y: int = betterproto.int32_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -206,6 +255,8 @@ class Host(betterproto.Message):
     # unique device id and device type
     id: str = betterproto.string_field(1)
     interfaces: List["NetworkInterface"] = betterproto.message_field(2)
+    # list of ports
+    pos: "GridPosition" = betterproto.message_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -232,6 +283,11 @@ class NetworkInterface(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class NetworkInterfaceBehavior(betterproto.Message):
+    """
+    PipelineInfo provides information about the currently deployed forwarding
+    pipeline
+    """
+
     pass
 
     def __post_init__(self) -> None:
@@ -240,6 +296,11 @@ class NetworkInterfaceBehavior(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostsRequest(betterproto.Message):
+    """
+    EntitiesInfo provides information about size of pipeline entities, tables,
+    meters, counters
+    """
+
     pass
 
     def __post_init__(self) -> None:
@@ -248,6 +309,11 @@ class GetHostsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostsResponse(betterproto.Message):
+    """
+    GridPosition indicates where on a grid an entity should be located; used
+    for visualization purposes
+    """
+
     hosts: List["Host"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -330,6 +396,11 @@ class GetLinksRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinksResponse(betterproto.Message):
+    """
+    PipelineInfo provides information about the currently deployed forwarding
+    pipeline
+    """
+
     links: List["Link"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -338,6 +409,11 @@ class GetLinksResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinkRequest(betterproto.Message):
+    """
+    EntitiesInfo provides information about size of pipeline entities, tables,
+    meters, counters
+    """
+
     id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
@@ -346,6 +422,11 @@ class GetLinkRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinkResponse(betterproto.Message):
+    """
+    GridPosition indicates where on a grid an entity should be located; used
+    for visualization purposes
+    """
+
     link: "Link" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:

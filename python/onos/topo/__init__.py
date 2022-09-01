@@ -90,6 +90,15 @@ class IpAddressType(betterproto.Enum):
     IPV6 = 1
 
 
+class P4PipelineInfoConfigurationAction(betterproto.Enum):
+    UNSPECIFIED = 0
+    VERIFY = 1
+    VERIFY_AND_SAVE = 2
+    VERIFY_AND_COMMIT = 3
+    COMMIT = 4
+    RECONCILE_AND_COMMIT = 5
+
+
 class RanEntityKinds(betterproto.Enum):
     """Protocol to interact with a device"""
 
@@ -403,6 +412,12 @@ class PhyPort(betterproto.Message):
     speed: str = betterproto.string_field(2)
     port_number: int = betterproto.uint32_field(3)
     channel_number: int = betterproto.uint32_field(4)
+    target_id: str = betterproto.string_field(5)
+    enabled: bool = betterproto.bool_field(6)
+    health_indicator: str = betterproto.string_field(7)
+    if_index: int = betterproto.uint32_field(8)
+    mac_address: str = betterproto.string_field(9)
+    auto_negotiate: bool = betterproto.bool_field(10)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -474,6 +489,9 @@ class P4PipelineInfo(betterproto.Message):
     name: str = betterproto.string_field(1)
     version: str = betterproto.string_field(2)
     architecture: str = betterproto.string_field(3)
+    configuration_action: "P4PipelineInfoConfigurationAction" = betterproto.enum_field(
+        4
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -482,7 +500,17 @@ class P4PipelineInfo(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class P4RtMastershipState(betterproto.Message):
     term: int = betterproto.uint64_field(1)
-    node_id: str = betterproto.string_field(2)
+    connection_id: str = betterproto.string_field(2)
+    role: str = betterproto.string_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Service(betterproto.Message):
+    target_id: str = betterproto.string_field(1)
+    mastershipstate: "P4RtMastershipState" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

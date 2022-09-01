@@ -11,10 +11,13 @@
     - [DisablePortResponse](#onos-fabricsim-DisablePortResponse)
     - [EnablePortRequest](#onos-fabricsim-EnablePortRequest)
     - [EnablePortResponse](#onos-fabricsim-EnablePortResponse)
+    - [EntitiesInfo](#onos-fabricsim-EntitiesInfo)
     - [GetDeviceRequest](#onos-fabricsim-GetDeviceRequest)
     - [GetDeviceResponse](#onos-fabricsim-GetDeviceResponse)
     - [GetDevicesRequest](#onos-fabricsim-GetDevicesRequest)
     - [GetDevicesResponse](#onos-fabricsim-GetDevicesResponse)
+    - [GridPosition](#onos-fabricsim-GridPosition)
+    - [PipelineInfo](#onos-fabricsim-PipelineInfo)
     - [Port](#onos-fabricsim-Port)
     - [RemoveDeviceRequest](#onos-fabricsim-RemoveDeviceRequest)
     - [RemoveDeviceResponse](#onos-fabricsim-RemoveDeviceResponse)
@@ -77,6 +80,8 @@ Device describes a simulated switch or IPU
 | ports | [Port](#onos-fabricsim-Port) | repeated | list of ports |
 | control_port | [int32](#int32) |  | control port for p4 and gnmi simulation |
 | chassis_id | [uint64](#uint64) |  | unique chassis ID |
+| pipeline_info | [PipelineInfo](#onos-fabricsim-PipelineInfo) |  | forwarding pipeline information |
+| pos | [GridPosition](#onos-fabricsim-GridPosition) |  |  |
 
 
 
@@ -134,6 +139,22 @@ Device describes a simulated switch or IPU
 
 
 
+<a name="onos-fabricsim-EntitiesInfo"></a>
+
+### EntitiesInfo
+EntitiesInfo provides information about size of pipeline entities, tables, meters, counters
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [uint32](#uint32) |  |  |
+| size | [uint32](#uint32) |  |  |
+
+
+
+
+
+
 <a name="onos-fabricsim-GetDeviceRequest"></a>
 
 ### GetDeviceRequest
@@ -183,6 +204,41 @@ filters?
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | devices | [Device](#onos-fabricsim-Device) | repeated |  |
+
+
+
+
+
+
+<a name="onos-fabricsim-GridPosition"></a>
+
+### GridPosition
+GridPosition indicates where on a grid an entity should be located; used for visualization purposes
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| x | [int32](#int32) |  |  |
+| y | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="onos-fabricsim-PipelineInfo"></a>
+
+### PipelineInfo
+PipelineInfo provides information about the currently deployed forwarding pipeline
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cookie | [uint64](#uint64) |  |  |
+| p4_info | [bytes](#bytes) |  |  |
+| tables | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated | summary information about tables, counters and meters |
+| counters | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
+| meters | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
 
 
 

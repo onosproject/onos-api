@@ -11,6 +11,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/any.proto";
 
 
+
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
 message NetworkLayer {
   Type type = 1;
@@ -40,6 +41,12 @@ message PhyPort {
   string speed = 2;
   uint32  port_number = 3;
   uint32 channel_number = 4;
+  string target_id = 5 [(gogoproto.customname) = "TargetID"];
+  bool enabled = 6;
+  string health_indicator = 7;
+  uint32 if_index = 8;
+  string mac_address = 9;
+  bool  auto_negotiate = 10;
 }
 
 // Controller aspect; represents an instance of the controller deployment
@@ -89,11 +96,36 @@ message P4PipelineInfo {
   string name = 1;
   string version = 2;
   string architecture = 3;
+  ConfigurationAction configuration_action = 4;
+
+  // ConfigurationAction
+  enum ConfigurationAction {
+    UNSPECIFIED = 0;
+    // Verifies that the target can realize the given config. The forwarding state in the target is not modified.
+    VERIFY = 1;
+    // Saves the config if the P4Runtime target can realize it. The forwarding state in the target is not modified.
+    VERIFY_AND_SAVE = 2;
+    // Saves and realizes the given config if the P4Runtime target can realize it. The forwarding state in the target is cleared.
+    VERIFY_AND_COMMIT = 3;
+    // Realizes the last saved, but not yet committed, config.
+    // The forwarding state in the target is updated by replaying the write requests to the target device since the last config was saved
+    COMMIT = 4;
+    // Verifies, saves and realizes the given config, while preserving the forwarding state in the target.
+    RECONCILE_AND_COMMIT = 5;
+  }
 }
 
 // P4RTMastershipState mastership state for the P4runtime targets
 message P4RTMastershipState {
   uint64 term = 1;
-  string node_id = 2;
+  string connection_id = 2 [(gogoproto.customname) = "ConnectionID"];
+  string role = 3;
+}
+
+
+// Service service entity which will be used to store mastership state for an application
+message Service {
+    string  target_id = 1 [(gogoproto.customname) = "TargetID"];
+    P4RTMastershipState mastershipstate = 2;
 }
 
