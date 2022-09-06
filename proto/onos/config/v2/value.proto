@@ -25,6 +25,8 @@ enum ValueType {
     LEAFLIST_DECIMAL = 12;
     LEAFLIST_FLOAT = 13;
     LEAFLIST_BYTES = 14;
+    DOUBLE = 15;
+    LEAFLIST_DOUBLE = 16;
 }
 
 // TypedValue is a value represented as a byte array

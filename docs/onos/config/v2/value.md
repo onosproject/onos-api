@@ -111,6 +111,8 @@ ValueType is the type for a value
 | LEAFLIST_DECIMAL | 12 |  |
 | LEAFLIST_FLOAT | 13 |  |
 | LEAFLIST_BYTES | 14 |  |
+| DOUBLE | 15 |  |
+| LEAFLIST_DOUBLE | 16 |  |
 
 
  
