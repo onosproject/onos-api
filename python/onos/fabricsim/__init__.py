@@ -99,6 +99,7 @@ class EntitiesInfo(betterproto.Message):
 
     id: int = betterproto.uint32_field(1)
     size: int = betterproto.uint32_field(2)
+    name: str = betterproto.string_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

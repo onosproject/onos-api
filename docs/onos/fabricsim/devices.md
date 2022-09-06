@@ -149,6 +149,7 @@ EntitiesInfo provides information about size of pipeline entities, tables, meter
 | ----- | ---- | ----- | ----------- |
 | id | [uint32](#uint32) |  |  |
 | size | [uint32](#uint32) |  |  |
+| name | [string](#string) |  |  |
 
 
 

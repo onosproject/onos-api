@@ -72,6 +72,7 @@ message PipelineInfo {
 message EntitiesInfo {
     uint32 id = 1 [(gogoproto.customname) = "ID"];
     uint32 size = 2;
+    string name = 3;
 }
 
 // GridPosition indicates where on a grid an entity should be located; used for visualization purposes
