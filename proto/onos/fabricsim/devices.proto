@@ -50,8 +50,9 @@ message Port {
     // sdn/internal port number
     uint32 internal_number = 5;
 
-    // speed
+    // speed and status
     string speed = 6;
+    bool enabled = 7;
 
     // p4 behaviors? (counters, etc.)
     // gnmi behaviors? (counters, etc.)
