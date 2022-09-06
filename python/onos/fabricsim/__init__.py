@@ -65,8 +65,9 @@ class Port(betterproto.Message):
     number: int = betterproto.uint32_field(4)
     # sdn/internal port number
     internal_number: int = betterproto.uint32_field(5)
-    # speed
+    # speed and status
     speed: str = betterproto.string_field(6)
+    enabled: bool = betterproto.bool_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -275,7 +276,7 @@ class NetworkInterface(betterproto.Message):
     ip_address: str = betterproto.string_field(3)
     # sdn/internal port number
     ipv6_address: str = betterproto.string_field(4)
-    # speed
+    # speed and status
     behavior: "NetworkInterfaceBehavior" = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
@@ -363,6 +364,24 @@ class RemoveHostRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RemoveHostResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class EmitArPsRequest(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    mac_address: str = betterproto.string_field(2)
+    ip_addresses: List[str] = betterproto.string_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class EmitArPsResponse(betterproto.Message):
     pass
 
     def __post_init__(self) -> None:
@@ -615,6 +634,15 @@ class HostServiceStub(betterproto.ServiceStub):
 
         return await self._unary_unary(
             "/onos.fabricsim.HostService/RemoveHost", request, RemoveHostResponse
+        )
+
+    async def emit_ar_ps(self) -> "EmitArPsResponse":
+        """StopDevice stops the simulated deviceP4Runtime and gNMI services"""
+
+        request = EmitArPsRequest()
+
+        return await self._unary_unary(
+            "/onos.fabricsim.HostService/EmitARPs", request, EmitArPsResponse
         )
 
 

@@ -6,6 +6,8 @@
 - [onos/fabricsim/hosts.proto](#onos_fabricsim_hosts-proto)
     - [AddHostRequest](#onos-fabricsim-AddHostRequest)
     - [AddHostResponse](#onos-fabricsim-AddHostResponse)
+    - [EmitARPsRequest](#onos-fabricsim-EmitARPsRequest)
+    - [EmitARPsResponse](#onos-fabricsim-EmitARPsResponse)
     - [GetHostRequest](#onos-fabricsim-GetHostRequest)
     - [GetHostResponse](#onos-fabricsim-GetHostResponse)
     - [GetHostsRequest](#onos-fabricsim-GetHostsRequest)
@@ -47,6 +49,33 @@
 <a name="onos-fabricsim-AddHostResponse"></a>
 
 ### AddHostResponse
+
+
+
+
+
+
+
+<a name="onos-fabricsim-EmitARPsRequest"></a>
+
+### EmitARPsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| mac_address | [string](#string) |  |  |
+| ip_addresses | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="onos-fabricsim-EmitARPsResponse"></a>
+
+### EmitARPsResponse
 
 
 
@@ -200,6 +229,7 @@ HostService provides means to control inventory of simulated hosts
 | GetHost | [GetHostRequest](#onos-fabricsim-GetHostRequest) | [GetHostResponse](#onos-fabricsim-GetHostResponse) | GetHost gets a specific host entry |
 | AddHost | [AddHostRequest](#onos-fabricsim-AddHostRequest) | [AddHostResponse](#onos-fabricsim-AddHostResponse) | AddHost adds a new simulated host |
 | RemoveHost | [RemoveHostRequest](#onos-fabricsim-RemoveHostRequest) | [RemoveHostResponse](#onos-fabricsim-RemoveHostResponse) | RemoveHost removes a simulated host |
+| EmitARPs | [EmitARPsRequest](#onos-fabricsim-EmitARPsRequest) | [EmitARPsResponse](#onos-fabricsim-EmitARPsResponse) | EmitARPs triggers the specified host NIC to send ARP requests for a set of IP addresses |
 
  
 

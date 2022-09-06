@@ -55,6 +55,9 @@ service HostService {
 
     // RemoveHost removes a simulated host
     rpc RemoveHost(RemoveHostRequest) returns (RemoveHostResponse);
+
+    // EmitARPs triggers the specified host NIC to send ARP requests for a set of IP addresses
+    rpc EmitARPs(EmitARPsRequest) returns (EmitARPsResponse);
 }
 
 message GetHostsRequest {
@@ -85,4 +88,13 @@ message RemoveHostRequest {
 }
 
 message RemoveHostResponse {
+}
+
+message EmitARPsRequest {
+    string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "HostID"];
+    string mac_address = 2;
+    repeated string ip_addresses = 3;
+}
+
+message EmitARPsResponse {
 }

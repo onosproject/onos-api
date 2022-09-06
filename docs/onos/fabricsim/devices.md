@@ -258,7 +258,8 @@ Port describes a simulated device port
 | name | [string](#string) |  | display/friendly name |
 | number | [uint32](#uint32) |  | port number |
 | internal_number | [uint32](#uint32) |  | sdn/internal port number |
-| speed | [string](#string) |  | speed |
+| speed | [string](#string) |  | speed and status |
+| enabled | [bool](#bool) |  |  |
 
 
 
