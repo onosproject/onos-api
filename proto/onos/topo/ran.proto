@@ -285,6 +285,14 @@ message RCInsertStyle {
 message RCPolicyStyle {
     string name = 1;
     int32 type = 2;
+    repeated PolicyAction policy_actions = 3;
+}
+
+message PolicyAction {
+    int32 id = 1 [(gogoproto.customname) = "ID"];
+    string name = 2;
+    repeated RANParameter policy_action_ran_parameters = 3;
+    repeated RANParameter policy_condition_ran_parameters = 4;
 }
 
 message RCControlStyle {

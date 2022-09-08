@@ -848,6 +848,18 @@ class RcInsertStyle(betterproto.Message):
 class RcPolicyStyle(betterproto.Message):
     name: str = betterproto.string_field(1)
     type: int = betterproto.int32_field(2)
+    policy_actions: List["PolicyAction"] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class PolicyAction(betterproto.Message):
+    id: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+    policy_action_ran_parameters: List["RanParameter"] = betterproto.message_field(3)
+    policy_condition_ran_parameters: List["RanParameter"] = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
