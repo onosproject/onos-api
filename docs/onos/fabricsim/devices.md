@@ -149,6 +149,7 @@ EntitiesInfo provides information about size of pipeline entities, tables, meter
 | ----- | ---- | ----- | ----------- |
 | id | [uint32](#uint32) |  |  |
 | size | [uint32](#uint32) |  |  |
+| name | [string](#string) |  |  |
 
 
 
@@ -257,7 +258,8 @@ Port describes a simulated device port
 | name | [string](#string) |  | display/friendly name |
 | number | [uint32](#uint32) |  | port number |
 | internal_number | [uint32](#uint32) |  | sdn/internal port number |
-| speed | [string](#string) |  | speed |
+| speed | [string](#string) |  | speed and status |
+| enabled | [bool](#bool) |  |  |
 
 
 

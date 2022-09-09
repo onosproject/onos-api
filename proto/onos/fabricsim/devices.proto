@@ -50,8 +50,9 @@ message Port {
     // sdn/internal port number
     uint32 internal_number = 5;
 
-    // speed
+    // speed and status
     string speed = 6;
+    bool enabled = 7;
 
     // p4 behaviors? (counters, etc.)
     // gnmi behaviors? (counters, etc.)
@@ -72,6 +73,7 @@ message PipelineInfo {
 message EntitiesInfo {
     uint32 id = 1 [(gogoproto.customname) = "ID"];
     uint32 size = 2;
+    string name = 3;
 }
 
 // GridPosition indicates where on a grid an entity should be located; used for visualization purposes
