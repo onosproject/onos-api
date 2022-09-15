@@ -51,6 +51,8 @@ func (tv *TypedValue) ValueToString() string {
 		return (*TypedDecimal)(tv).String()
 	case ValueType_FLOAT:
 		return (*TypedFloat)(tv).String()
+	case ValueType_DOUBLE:
+		return (*TypedDouble)(tv).String()
 	case ValueType_BYTES:
 		return (*TypedBytes)(tv).String()
 	case ValueType_LEAFLIST_STRING:
@@ -131,6 +133,8 @@ func NewTypedValue(bytes []byte, valueType ValueType, typeOpts []uint8) (*TypedV
 			return nil, fmt.Errorf("expecting 8 bytes for FLOAT. Got %d", len(bytes))
 		}
 		return NewTypedValueFloat(float64(math.Float64frombits(binary.LittleEndian.Uint64(bytes)))), nil
+	case ValueType_DOUBLE:
+		return NewTypedValueDouble(float64(math.Float64frombits(binary.LittleEndian.Uint64(bytes)))), nil
 	case ValueType_BYTES:
 		return NewTypedValueBytes(bytes), nil
 	case ValueType_LEAFLIST_STRING:
@@ -145,6 +149,8 @@ func NewTypedValue(bytes []byte, valueType ValueType, typeOpts []uint8) (*TypedV
 		return caseValueTypeLeafListDECIMAL(bytes, typeOpts)
 	case ValueType_LEAFLIST_FLOAT:
 		return caseValueTypeLeafListFLOAT(bytes)
+	case ValueType_LEAFLIST_DOUBLE:
+		return caseValueTypeLeafListDOUBLE(bytes)
 	case ValueType_LEAFLIST_BYTES:
 		return caseValueTypeLeafListBYTES(bytes, typeOpts)
 	}
@@ -257,6 +263,18 @@ func caseValueTypeLeafListFLOAT(bytes []byte) (*TypedValue, error) {
 		float32s = append(float32s, float32(math.Float64frombits(binary.LittleEndian.Uint64(v))))
 	}
 	return NewLeafListFloatTv(float32s), nil
+}
+
+// caseValueTypeLeafListDOUBLE is moved out of NewTypedValue because of gocyclo
+func caseValueTypeLeafListDOUBLE(bytes []byte) (*TypedValue, error) {
+	count := len(bytes) / 8
+	doubles := make([]float64, 0)
+
+	for i := 0; i < count; i++ {
+		v := bytes[i*8 : i*8+8]
+		doubles = append(doubles, float64(math.Float64frombits(binary.LittleEndian.Uint64(v))))
+	}
+	return NewLeafListDoubleTv(doubles), nil
 }
 
 // caseValueTypeLeafListBYTES is moved out of NewTypedValue because of gocyclo
@@ -567,6 +585,48 @@ func (tv *TypedFloat) Float32() float32 {
 	_ = value.GobDecode(tv.Bytes)
 	flt32, _ := value.Float32()
 	return flt32
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// TypedDouble
+////////////////////////////////////////////////////////////////////////////////
+
+// TypedDouble for a float value
+type TypedDouble TypedValue
+
+// NewTypedValueDouble decodes a decimal value in to an object
+func NewTypedValueDouble(value float64) *TypedValue {
+	return (*TypedValue)(newDouble(big.NewFloat(value)))
+}
+
+// newDouble decodes a decimal value in to a Bool type
+func newDouble(value *big.Float) *TypedDouble {
+	bytes, _ := value.GobEncode()
+	typedDouble := TypedDouble{
+		Bytes: bytes,
+		Type:  ValueType_DOUBLE,
+	}
+	return &typedDouble
+}
+
+// ValueType gives the value type
+func (tv *TypedDouble) ValueType() ValueType {
+	return tv.Type
+}
+
+func (tv *TypedDouble) String() string {
+	return fmt.Sprintf("%f", tv.Double())
+}
+
+// Double extracts the float value
+func (tv *TypedDouble) Double() float64 {
+	if len(tv.Bytes) == 0 {
+		return 0.0
+	}
+	var value big.Float
+	_ = value.GobDecode(tv.Bytes)
+	double, _ := value.Float64()
+	return double
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -981,6 +1041,60 @@ func (tv *TypedLeafListFloat) List() []float32 {
 	}
 
 	return float32s
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// TypedLeafListDouble
+////////////////////////////////////////////////////////////////////////////////
+
+// TypedLeafListDouble for a Double leaf list
+type TypedLeafListDouble TypedValue
+
+// NewLeafListDoubleTv decodes double values in to a Leaf list
+func NewLeafListDoubleTv(values []float64) *TypedValue {
+	return (*TypedValue)(newLeafListDouble(values))
+}
+
+// newLeafListDouble decodes double values in to a Leaf list type
+func newLeafListDouble(values []float64) *TypedLeafListDouble {
+	bytes := make([]byte, 0)
+	for _, f := range values {
+		buf := make([]byte, 8)
+		binary.LittleEndian.PutUint64(buf, math.Float64bits(float64(f)))
+		bytes = append(bytes, buf...)
+	}
+	typedLeafListDouble := TypedLeafListDouble{
+		Bytes: bytes,
+		Type:  ValueType_LEAFLIST_DOUBLE,
+	}
+	return &typedLeafListDouble
+}
+
+// ValueType gives the value type
+func (tv *TypedLeafListDouble) ValueType() ValueType {
+	return tv.Type
+}
+
+func (tv *TypedLeafListDouble) String() string {
+	listStr := make([]string, 0)
+	for _, f := range tv.ListDouble() {
+		listStr = append(listStr, fmt.Sprintf("%f", f))
+	}
+
+	return strings.Join(listStr, ",")
+}
+
+// ListDouble extracts the leaf list values
+func (tv *TypedLeafListDouble) ListDouble() []float64 {
+	count := len(tv.Bytes) / 8
+	doubles := make([]float64, 0)
+
+	for i := 0; i < count; i++ {
+		v := tv.Bytes[i*8 : i*8+8]
+		doubles = append(doubles, float64(math.Float64frombits(binary.LittleEndian.Uint64(v))))
+	}
+
+	return doubles
 }
 
 ////////////////////////////////////////////////////////////////////////////////

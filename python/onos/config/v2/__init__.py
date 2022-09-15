@@ -26,6 +26,8 @@ class ValueType(betterproto.Enum):
     LEAFLIST_DECIMAL = 12
     LEAFLIST_FLOAT = 13
     LEAFLIST_BYTES = 14
+    DOUBLE = 15
+    LEAFLIST_DOUBLE = 16
 
 
 class FailureType(betterproto.Enum):
