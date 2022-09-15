@@ -74,6 +74,12 @@ message ReadWritePath {
     repeated string defaults = 12;
 }
 
+// Namespace is a mapping between a module name and its shorthand prefix
+message Namespace {
+    string module = 1;
+    string prefix = 2;
+}
+
 // ModelInfo is general information about a model plugin.
 message ModelInfo {
     // name is the name given to the model plugin - no spaces and title case.
@@ -84,8 +90,8 @@ message ModelInfo {
     // generating the model plugin. It includes name, version and organization for
     // each YANG file, similar to how they are represented in gNMI Capabilities.
     repeated gnmi.ModelData model_data = 3;
-    // module is the name of the Model Plugin on the file system - usually ending in .so.<version>.
-    string module = 4;
+    // module is no longer used
+    string module = 4 [ deprecated=true ];
     // getStateMode is flag that defines how the "get state" operation works.
     //  0) means that no retrieval of state is attempted
     //  1) means that the synchronizer will make 2 requests to the device - one for
@@ -106,6 +112,12 @@ message ModelInfo {
     repeated ReadWritePath read_write_path = 8;
 
     repeated gnmi.Encoding supported_encodings = 9;
+
+    // namespace_mappings is a set of all prefix to module name mapping in the model
+    repeated Namespace namespace_mappings = 10;
+
+    // southboundUsePrefix indicates that the southbound should add prefixes in gNMI paths
+    bool southboundUsePrefix = 11;
 }
 
 message ModelPlugin {

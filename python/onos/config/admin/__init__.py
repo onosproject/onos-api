@@ -95,6 +95,19 @@ class ReadWritePath(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Namespace(betterproto.Message):
+    """
+    Namespace is a mapping between a module name and its shorthand prefix
+    """
+
+    module: str = betterproto.string_field(1)
+    prefix: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class ModelInfo(betterproto.Message):
     """ModelInfo is general information about a model plugin."""
 
@@ -106,8 +119,7 @@ class ModelInfo(betterproto.Message):
     # generating the model plugin. It includes name, version and organization for
     # each YANG file, similar to how they are represented in gNMI Capabilities.
     model_data: List["___gnmi__.ModelData"] = betterproto.message_field(3)
-    # module is the name of the Model Plugin on the file system - usually ending
-    # in .so.<version>.
+    # module is no longer used
     module: str = betterproto.string_field(4)
     # getStateMode is flag that defines how the "get state" operation works.  0)
     # means that no retrieval of state is attempted  1) means that the
@@ -127,9 +139,17 @@ class ModelInfo(betterproto.Message):
     # read_write_path is all of the read write paths for the model plugin.
     read_write_path: List["ReadWritePath"] = betterproto.message_field(8)
     supported_encodings: List["___gnmi__.Encoding"] = betterproto.enum_field(9)
+    # namespace_mappings is a set of all prefix to module name mapping in the
+    # model
+    namespace_mappings: List["Namespace"] = betterproto.message_field(10)
+    # southboundUsePrefix indicates that the southbound should add prefixes in
+    # gNMI paths
+    southbound_use_prefix: bool = betterproto.bool_field(11)
 
     def __post_init__(self) -> None:
         super().__post_init__()
+        if self.module:
+            warnings.warn("ModelInfo.module is deprecated", DeprecationWarning)
 
 
 @dataclass(eq=False, repr=False)
