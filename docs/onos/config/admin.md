@@ -17,6 +17,7 @@
     - [ModelInfoRequest](#onos-config-admin-ModelInfoRequest)
     - [ModelInfoResponse](#onos-config-admin-ModelInfoResponse)
     - [ModelPlugin](#onos-config-admin-ModelPlugin)
+    - [Namespace](#onos-config-admin-Namespace)
     - [PathValuesRequest](#onos-config-admin-PathValuesRequest)
     - [PathValuesResponse](#onos-config-admin-PathValuesResponse)
     - [ReadOnlyPath](#onos-config-admin-ReadOnlyPath)
@@ -186,11 +187,13 @@ ModelInfo is general information about a model plugin.
 | name | [string](#string) |  | name is the name given to the model plugin - no spaces and title case. |
 | version | [string](#string) |  | version is the semantic version of the Plugin e.g. 1.0.0. |
 | model_data | [gnmi.ModelData](#gnmi-ModelData) | repeated | model_data is a set of metadata about the YANG files that went in to generating the model plugin. It includes name, version and organization for each YANG file, similar to how they are represented in gNMI Capabilities. |
-| module | [string](#string) |  | module is the name of the Model Plugin on the file system - usually ending in .so.&lt;version&gt;. |
+| module | [string](#string) |  | **Deprecated.** module is no longer used |
 | getStateMode | [uint32](#uint32) |  | getStateMode is flag that defines how the &#34;get state&#34; operation works. 0) means that no retrieval of state is attempted 1) means that the synchronizer will make 2 requests to the device - one for Get with State and another for Get with Operational. 2) means that the synchronizer will do a Get request comprising of each one of the ReadOnlyPaths and their sub paths. If there is a `list` in any one of these paths it will be sent down as is, expecting the devices implementation of gNMI will be able to expand wildcards. 3) means that the synchronizer will do a Get request comprising of each one of the ReadOnlyPaths and their sub paths. If there is a `list` in any one of these paths, a separate call will be made first to find all the instances in the list and a Get including these expanded wildcards will be sent down to the device. |
 | read_only_path | [ReadOnlyPath](#onos-config-admin-ReadOnlyPath) | repeated | read_only_path is all of the read only paths for the model plugin. |
 | read_write_path | [ReadWritePath](#onos-config-admin-ReadWritePath) | repeated | read_write_path is all of the read write paths for the model plugin. |
 | supported_encodings | [gnmi.Encoding](#gnmi-Encoding) | repeated |  |
+| namespace_mappings | [Namespace](#onos-config-admin-Namespace) | repeated | namespace_mappings is a set of all prefix to module name mapping in the model |
+| southboundUsePrefix | [bool](#bool) |  | southboundUsePrefix indicates that the southbound should add prefixes in gNMI paths |
 
 
 
@@ -235,6 +238,22 @@ ModelInfoResponse carries response for the model information query
 | info | [ModelInfo](#onos-config-admin-ModelInfo) |  |  |
 | status | [string](#string) |  |  |
 | error | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos-config-admin-Namespace"></a>
+
+### Namespace
+Namespace is a mapping between a module name and its shorthand prefix
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| module | [string](#string) |  |  |
+| prefix | [string](#string) |  |  |
 
 
 
