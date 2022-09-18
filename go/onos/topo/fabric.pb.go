@@ -315,7 +315,7 @@ func (m *Router) GetManagementEndpoint() *Endpoint {
 	return nil
 }
 
-// Link link aspect
+// Link link aspect; represents a link between two physical interfaces
 type Link struct {
 	SourceIP      *IPAddress `protobuf:"bytes,1,opt,name=source_ip,json=sourceIp,proto3" json:"source_ip,omitempty"`
 	DestinationIP *IPAddress `protobuf:"bytes,2,opt,name=dest_ip,json=destIp,proto3" json:"dest_ip,omitempty"`

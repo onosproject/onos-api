@@ -35,7 +35,7 @@ message Router {
   Endpoint management_endpoint = 3;
 }
 
-// Link link aspect
+// Link link aspect; represents a link between two physical interfaces
 message Link {
   IPAddress source_ip = 1 [(gogoproto.customname) = "SourceIP"];;
   IPAddress dest_ip = 2 [(gogoproto.customname) = "DestinationIP"];
