@@ -405,8 +405,19 @@ class Router(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class PhyPort(betterproto.Message):
+class Link(betterproto.Message):
     """TLS connectivity aspect"""
+
+    source_ip: "IpAddress" = betterproto.message_field(1)
+    dest_ip: "IpAddress" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class PhyInterface(betterproto.Message):
+    """Aspect for ad-hoc properties"""
 
     display_name: str = betterproto.string_field(1)
     speed: str = betterproto.string_field(2)
@@ -418,6 +429,7 @@ class PhyPort(betterproto.Message):
     if_index: int = betterproto.uint32_field(8)
     mac_address: str = betterproto.string_field(9)
     auto_negotiate: bool = betterproto.bool_field(10)
+    ip: "IpAddress" = betterproto.message_field(11)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -425,11 +437,19 @@ class PhyPort(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ControllerInfo(betterproto.Message):
-    """Aspect for ad-hoc properties"""
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
 
+    # The protocol to which state relates
     type: "ControllerInfoType" = betterproto.enum_field(1)
+    # ConnectivityState contains the L3 connectivity information
     role: "ControllerRole" = betterproto.message_field(2)
+    # ChannelState relates to the availability of the gRPC channel
     control_endpoint: "Endpoint" = betterproto.message_field(3)
+    # ServiceState indicates the availability of the gRPC servic on top of the
+    # channel
     username: str = betterproto.string_field(4)
     password: str = betterproto.string_field(5)
 
@@ -439,14 +459,9 @@ class ControllerInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ControllerRole(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
+    """Protocols"""
 
-    # The protocol to which state relates
     name: str = betterproto.string_field(1)
-    # ConnectivityState contains the L3 connectivity information
     config: "betterproto_lib_google_protobuf.Any" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
@@ -455,8 +470,6 @@ class ControllerRole(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Endpoint(betterproto.Message):
-    """Protocols"""
-
     address: str = betterproto.string_field(1)
     port: int = betterproto.uint32_field(2)
 
