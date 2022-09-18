@@ -35,8 +35,14 @@ message Router {
   Endpoint management_endpoint = 3;
 }
 
-// PhyPort aspect; an aspect to represent a physical switch port
-message PhyPort {
+// Link link aspect; represents a link between two physical interfaces
+message Link {
+  IPAddress source_ip = 1 [(gogoproto.customname) = "SourceIP"];;
+  IPAddress dest_ip = 2 [(gogoproto.customname) = "DestinationIP"];
+}
+
+// PhyInterface  aspect; an aspect to represent a physical switch interface
+message PhyInterface {
   string display_name = 1;
   string speed = 2;
   uint32  port_number = 3;
@@ -47,7 +53,10 @@ message PhyPort {
   uint32 if_index = 8;
   string mac_address = 9;
   bool  auto_negotiate = 10;
+  IPAddress ip = 11;
 }
+
+
 
 // Controller aspect; represents an instance of the controller deployment
 message ControllerInfo {

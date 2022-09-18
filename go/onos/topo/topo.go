@@ -58,7 +58,6 @@ const (
 	NetworkLayerKind = "network-layer"
 	SwitchKind       = "switch"
 	RouterKind       = "router"
-	PortKind         = "port"
 	InterfaceKind    = "interface"
 	LinkKind         = "link"
 	ControllerKind   = "controller"
