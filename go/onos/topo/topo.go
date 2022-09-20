@@ -62,6 +62,7 @@ const (
 	LinkKind         = "link"
 	ControllerKind   = "controller"
 	ServiceKind      = "service"
+	HostKind         = "host"
 
 	// onos-config entity
 	OnosConfigKind = "onos-config"
