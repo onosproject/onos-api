@@ -271,6 +271,35 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/topo,plugins=grpc:./go \
     proto/onos/perf/perf.proto
 
+
+## Protoset generation to allow use of grpcurl
+
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/onos-topo.protoset \
+    --include_imports \
+    proto/onos/topo/*.proto
+
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/onos-uenib.protoset \
+    --include_imports \
+    proto/onos/uenib/*.proto
+
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/onos-config.protoset \
+    --include_imports \
+    proto/onos/config/v2/*.proto
+
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/onos-config-admin.protoset \
+    --include_imports \
+    proto/onos/config/admin/*.proto
+
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/fabricsim.protoset \
+    --include_imports \
+    proto/onos/fabricsim/*.proto
+
+
 ### Python Protobuf code generation
 mkdir -p ./python
 protoc --proto_path=$proto_path \
@@ -279,4 +308,5 @@ protoc --proto_path=$proto_path \
 
 # FIXME: come up with a better way to patch python files; this is too brittle
 # git apply ./build/bin/patches/*.patch
+
 

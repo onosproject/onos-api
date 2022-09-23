@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
-Files: VERSION *.so *.gnmi *.png *.gif *.jpg */go.mod */go.sum *.pb.go *_mock_test.go */__init__.py docs/*.md MANIFEST.in */py.typed *.patch *_mock.go
+Files: VERSION *.so *.gnmi *.png *.gif *.jpg */go.mod */go.sum *.pb.go *_mock_test.go protoset/* */__init__.py docs/*.md MANIFEST.in */py.typed *.patch *_mock.go
 Copyright: 2021 Open Networking Foundation
 License: Apache-2.0
 
