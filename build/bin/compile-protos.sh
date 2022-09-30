@@ -214,6 +214,12 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/fabricsim,plugins=grpc:./go \
     proto/onos/fabricsim/*.proto
 
+# stratum role config (for fabricsim)
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/stratum,plugins=grpc:./go \
+    proto/onos/stratum/*.proto
+
+
 # p4rt
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/p4rt,plugins=grpc:./go \
