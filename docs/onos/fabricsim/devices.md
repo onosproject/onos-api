@@ -6,6 +6,7 @@
 - [onos/fabricsim/devices.proto](#onos_fabricsim_devices-proto)
     - [AddDeviceRequest](#onos-fabricsim-AddDeviceRequest)
     - [AddDeviceResponse](#onos-fabricsim-AddDeviceResponse)
+    - [Connection](#onos-fabricsim-Connection)
     - [Device](#onos-fabricsim-Device)
     - [DisablePortRequest](#onos-fabricsim-DisablePortRequest)
     - [DisablePortResponse](#onos-fabricsim-DisablePortResponse)
@@ -67,6 +68,23 @@
 
 
 
+<a name="onos-fabricsim-Connection"></a>
+
+### Connection
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| from_address | [string](#string) |  |  |
+| protocol | [string](#string) |  |  |
+| time | [int64](#int64) |  |  |
+
+
+
+
+
+
 <a name="onos-fabricsim-Device"></a>
 
 ### Device
@@ -81,7 +99,9 @@ Device describes a simulated switch or IPU
 | control_port | [int32](#int32) |  | control port for p4 and gnmi simulation |
 | chassis_id | [uint64](#uint64) |  | unique chassis ID |
 | pipeline_info | [PipelineInfo](#onos-fabricsim-PipelineInfo) |  | forwarding pipeline information |
-| pos | [GridPosition](#onos-fabricsim-GridPosition) |  |  |
+| pos | [GridPosition](#onos-fabricsim-GridPosition) |  | Screen coordinates |
+| connections | [Connection](#onos-fabricsim-Connection) | repeated | Current connections and total connection count |
+| total_connections | [int32](#int32) |  |  |
 
 
 
