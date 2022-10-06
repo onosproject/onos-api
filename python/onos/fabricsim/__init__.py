@@ -47,7 +47,11 @@ class Device(betterproto.Message):
     chassis_id: int = betterproto.uint64_field(5)
     # forwarding pipeline information
     pipeline_info: "PipelineInfo" = betterproto.message_field(6)
+    # Screen coordinates
     pos: "GridPosition" = betterproto.message_field(7)
+    # Current connections and total connection count
+    connections: List["Connection"] = betterproto.message_field(8)
+    total_connections: int = betterproto.int32_field(9)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -115,6 +119,16 @@ class GridPosition(betterproto.Message):
 
     x: int = betterproto.int32_field(1)
     y: int = betterproto.int32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Connection(betterproto.Message):
+    from_address: str = betterproto.string_field(1)
+    protocol: str = betterproto.string_field(2)
+    time: int = betterproto.int64_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()

@@ -28,7 +28,13 @@ message Device {
 
     // forwarding pipeline information
     PipelineInfo pipeline_info = 6;
+
+    // Screen coordinates
     GridPosition pos = 7;
+
+    // Current connections and total connection count
+    repeated Connection connections = 8;
+    int32 total_connections = 9;
 }
 
 // DeviceType represents type of a device, i.e. switch, IPU, etc.
@@ -80,6 +86,12 @@ message EntitiesInfo {
 message GridPosition {
     int32 x = 1;
     int32 y = 2;
+}
+
+message Connection {
+    string from_address = 1;
+    string protocol = 2;
+    int64 time = 3;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
