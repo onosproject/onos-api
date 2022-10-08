@@ -164,7 +164,8 @@ NetworkInterface describes simulated host&#39;s attachment to the network
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  | unique port id |
-| mac_address | [string](#string) |  | mac address |
+| mac_address | [string](#string) |  | mac address and VLAN |
+| vlan | [uint32](#uint32) |  |  |
 | ip_address | [string](#string) |  | ipv4 address |
 | ipv6_address | [string](#string) |  | ipv6 address |
 | behavior | [NetworkInterfaceBehavior](#onos-fabricsim-NetworkInterfaceBehavior) |  | behavior |

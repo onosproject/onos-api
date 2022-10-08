@@ -24,8 +24,9 @@ message NetworkInterface {
     // unique port id
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "PortID"];
 
-    // mac address
+    // mac address and VLAN
     string mac_address = 2;
+    uint32 vlan = 6 [(gogoproto.customname) = "VLAN"];
 
     // ipv4 address
     string ip_address = 3;

@@ -287,10 +287,11 @@ class NetworkInterface(betterproto.Message):
     # display/friendly name
     mac_address: str = betterproto.string_field(2)
     # port number
-    ip_address: str = betterproto.string_field(3)
+    vlan: int = betterproto.uint32_field(6)
     # sdn/internal port number
-    ipv6_address: str = betterproto.string_field(4)
+    ip_address: str = betterproto.string_field(3)
     # speed and status
+    ipv6_address: str = betterproto.string_field(4)
     behavior: "NetworkInterfaceBehavior" = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
