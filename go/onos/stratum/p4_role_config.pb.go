@@ -23,18 +23,19 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // The P4RoleConfig message conists of these fields:
-//  exclusive_p4_ids - A list of P4 entities for which this role exclusivly may
-//      issue Write updates. Those entities are also filtered out of Read
-//      responses.
-//  shared_p4_ids - A list of P4 entities for which this role may issue Write
-//      updates. Access to those entities is shared with other roles. Those
-//      entities are also filtered out of Read responses.
-//  packet_in_filter - A single PacketFilter that is applied to incoming packets
-//      to determine whether this role should receive them. An empty list
-//      results in no filtering. This is a positive filter, a packet must
-//      contain the exact specified value to be forwarded.
-//  receives_packet_ins - A toggle to set if this role should receive PacketIns.
-//  can_push_pipeline - Determines if this role is allowed to push a pipeline.
+//
+//	exclusive_p4_ids - A list of P4 entities for which this role exclusivly may
+//	    issue Write updates. Those entities are also filtered out of Read
+//	    responses.
+//	shared_p4_ids - A list of P4 entities for which this role may issue Write
+//	    updates. Access to those entities is shared with other roles. Those
+//	    entities are also filtered out of Read responses.
+//	packet_in_filter - A single PacketFilter that is applied to incoming packets
+//	    to determine whether this role should receive them. An empty list
+//	    results in no filtering. This is a positive filter, a packet must
+//	    contain the exact specified value to be forwarded.
+//	receives_packet_ins - A toggle to set if this role should receive PacketIns.
+//	can_push_pipeline - Determines if this role is allowed to push a pipeline.
 type P4RoleConfig struct {
 	ExclusiveP4Ids    []uint32                   `protobuf:"varint,1,rep,packed,name=exclusive_p4_ids,json=exclusiveP4Ids,proto3" json:"exclusive_p4_ids,omitempty"`
 	SharedP4Ids       []uint32                   `protobuf:"varint,2,rep,packed,name=shared_p4_ids,json=sharedP4Ids,proto3" json:"shared_p4_ids,omitempty"`

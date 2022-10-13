@@ -523,6 +523,7 @@ func (m *UeIdentity) GetPreferredIDType() UeIdType {
 
 type BearerId struct {
 	// Types that are valid to be assigned to BearerId:
+	//
 	//	*BearerId_DrbId
 	BearerId isBearerId_BearerId `protobuf_oneof:"bearer_id"`
 }
@@ -595,6 +596,7 @@ func (*BearerId) XXX_OneofWrappers() []interface{} {
 
 type DrbId struct {
 	// Types that are valid to be assigned to DrbId:
+	//
 	//	*DrbId_FourGdrbId
 	//	*DrbId_FiveGdrbId
 	DrbId isDrbId_DrbId `protobuf_oneof:"drb_id"`
@@ -784,6 +786,7 @@ func (m *Qfi) GetValue() int32 {
 
 type QoSflowLevelParameters struct {
 	// Types that are valid to be assigned to QosFlowLevelParameters:
+	//
 	//	*QoSflowLevelParameters_DynamicFiveQi
 	//	*QoSflowLevelParameters_NonDynamicFiveQi
 	QosFlowLevelParameters isQoSflowLevelParameters_QosFlowLevelParameters `protobuf_oneof:"qos_flow_level_parameters"`
