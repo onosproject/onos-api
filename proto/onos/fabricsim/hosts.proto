@@ -11,12 +11,22 @@ import "onos/fabricsim/devices.proto";
 
 // Host describes a simulated host (bare metal, VM or container)
 message Host {
-    // unique host id
+    // unique host id and host type
     string id = 1 [(gogoproto.customname) = "ID", (gogoproto.casttype) = "HostID"];
+    HostType type = 4;
 
     // network interfaces
     repeated NetworkInterface interfaces = 2;
     GridPosition pos = 3;
+
+    // virtual hosts being hosted by this (bare metal) host
+    repeated Host hosts = 5;
+}
+
+// HostType represents type of a host, i.e. bare metal, virtual, etc.
+enum HostType {
+    BARE_METAL = 0; // default assumption
+    VIRTUAL = 1;
 }
 
 // NetworkInterface describes simulated host's attachment to the network
@@ -79,6 +89,7 @@ message GetHostResponse {
 
 message AddHostRequest {
     Host host = 1;
+    string hosted_by = 2 [(gogoproto.casttype) = "HostID"];
 }
 
 message AddHostResponse {

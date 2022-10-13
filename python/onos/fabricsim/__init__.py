@@ -25,6 +25,13 @@ class StopMode(betterproto.Enum):
     CHAOTIC_STOP = 1
 
 
+class HostType(betterproto.Enum):
+    """DeviceType represents type of a device, i.e. switch, IPU, etc."""
+
+    BARE_METAL = 0
+    VIRTUAL = 1
+
+
 class LinkStatus(betterproto.Enum):
     """DeviceType represents type of a device, i.e. switch, IPU, etc."""
 
@@ -86,10 +93,13 @@ class PipelineInfo(betterproto.Message):
 
     cookie: int = betterproto.uint64_field(1)
     p4_info: bytes = betterproto.bytes_field(2)
-    # summary information about tables, counters and meters
+    # summary information about tables, counters, meters, groups, etc.
     tables: List["EntitiesInfo"] = betterproto.message_field(3)
     counters: List["EntitiesInfo"] = betterproto.message_field(4)
     meters: List["EntitiesInfo"] = betterproto.message_field(5)
+    groups: List["EntitiesInfo"] = betterproto.message_field(6)
+    multicast_groups: List["EntitiesInfo"] = betterproto.message_field(7)
+    clone_sessions: List["EntitiesInfo"] = betterproto.message_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -270,9 +280,13 @@ class Host(betterproto.Message):
 
     # unique device id and device type
     id: str = betterproto.string_field(1)
-    interfaces: List["NetworkInterface"] = betterproto.message_field(2)
+    type: "HostType" = betterproto.enum_field(4)
     # list of ports
+    interfaces: List["NetworkInterface"] = betterproto.message_field(2)
+    # control port for p4 and gnmi simulation
     pos: "GridPosition" = betterproto.message_field(3)
+    # unique chassis ID
+    hosts: List["Host"] = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -356,6 +370,7 @@ class GetHostResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class AddHostRequest(betterproto.Message):
     host: "Host" = betterproto.message_field(1)
+    hosted_by: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -627,7 +642,9 @@ class HostServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.HostService/GetHost", request, GetHostResponse
         )
 
-    async def add_host(self, *, host: "Host" = None) -> "AddHostResponse":
+    async def add_host(
+        self, *, host: "Host" = None, hosted_by: str = ""
+    ) -> "AddHostResponse":
         """
         AddDevice creates a new simulated deviceand start its P4Runtime and
         gNMI services
@@ -636,6 +653,7 @@ class HostServiceStub(betterproto.ServiceStub):
         request = AddHostRequest()
         if host is not None:
             request.host = host
+        request.hosted_by = hosted_by
 
         return await self._unary_unary(
             "/onos.fabricsim.HostService/AddHost", request, AddHostResponse
