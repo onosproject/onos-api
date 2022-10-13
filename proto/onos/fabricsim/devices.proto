@@ -69,10 +69,13 @@ message PipelineInfo {
     uint64 cookie = 1;
     bytes p4_info = 2;
 
-    // summary information about tables, counters and meters
+    // summary information about tables, counters, meters, groups, etc.
     repeated EntitiesInfo tables = 3;
     repeated EntitiesInfo counters = 4;
     repeated EntitiesInfo meters = 5;
+    repeated EntitiesInfo groups = 6;
+    repeated EntitiesInfo multicast_groups = 7;
+    repeated EntitiesInfo clone_sessions = 8;
 }
 
 // EntitiesInfo provides information about size of pipeline entities, tables, meters, counters

@@ -18,6 +18,8 @@
     - [RemoveHostRequest](#onos-fabricsim-RemoveHostRequest)
     - [RemoveHostResponse](#onos-fabricsim-RemoveHostResponse)
   
+    - [HostType](#onos-fabricsim-HostType)
+  
     - [HostService](#onos-fabricsim-HostService)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -40,6 +42,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | host | [Host](#onos-fabricsim-Host) |  |  |
+| hosted_by | [string](#string) |  |  |
 
 
 
@@ -146,9 +149,11 @@ Host describes a simulated host (bare metal, VM or container)
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  | unique host id |
+| id | [string](#string) |  | unique host id and host type |
+| type | [HostType](#onos-fabricsim-HostType) |  |  |
 | interfaces | [NetworkInterface](#onos-fabricsim-NetworkInterface) | repeated | network interfaces |
 | pos | [GridPosition](#onos-fabricsim-GridPosition) |  |  |
+| hosts | [Host](#onos-fabricsim-Host) | repeated | virtual hosts being hosted by this (bare metal) host |
 
 
 
@@ -164,7 +169,8 @@ NetworkInterface describes simulated host&#39;s attachment to the network
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  | unique port id |
-| mac_address | [string](#string) |  | mac address |
+| mac_address | [string](#string) |  | mac address and VLAN |
+| vlan | [uint32](#uint32) |  |  |
 | ip_address | [string](#string) |  | ipv4 address |
 | ipv6_address | [string](#string) |  | ipv6 address |
 | behavior | [NetworkInterfaceBehavior](#onos-fabricsim-NetworkInterfaceBehavior) |  | behavior |
@@ -212,6 +218,18 @@ TBD
 
 
  
+
+
+<a name="onos-fabricsim-HostType"></a>
+
+### HostType
+HostType represents type of a host, i.e. bare metal, virtual, etc.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| BARE_METAL | 0 | default assumption |
+| VIRTUAL | 1 |  |
+
 
  
 

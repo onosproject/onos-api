@@ -257,9 +257,12 @@ PipelineInfo provides information about the currently deployed forwarding pipeli
 | ----- | ---- | ----- | ----------- |
 | cookie | [uint64](#uint64) |  |  |
 | p4_info | [bytes](#bytes) |  |  |
-| tables | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated | summary information about tables, counters and meters |
+| tables | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated | summary information about tables, counters, meters, groups, etc. |
 | counters | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
 | meters | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
+| groups | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
+| multicast_groups | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
+| clone_sessions | [EntitiesInfo](#onos-fabricsim-EntitiesInfo) | repeated |  |
 
 
 
