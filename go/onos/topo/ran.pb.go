@@ -3443,6 +3443,7 @@ func (m *UeIdentity) GetDrbId() *DrbId {
 
 type DrbId struct {
 	// Types that are valid to be assigned to DrbId:
+	//
 	//	*DrbId_FourGdrbId
 	//	*DrbId_FiveGdrbId
 	DrbId isDrbId_DrbId `protobuf_oneof:"drb_id"`
@@ -3632,6 +3633,7 @@ func (m *Qfi) GetValue() int32 {
 
 type QoSflowLevelParameters struct {
 	// Types that are valid to be assigned to QosFlowLevelParameters:
+	//
 	//	*QoSflowLevelParameters_DynamicFiveQi
 	//	*QoSflowLevelParameters_NonDynamicFiveQi
 	QosFlowLevelParameters isQoSflowLevelParameters_QosFlowLevelParameters `protobuf_oneof:"qos_flow_level_parameters"`

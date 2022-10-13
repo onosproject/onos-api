@@ -378,18 +378,18 @@ type ModelInfo struct {
 	// module is no longer used
 	Module string `protobuf:"bytes,4,opt,name=module,proto3" json:"module,omitempty"` // Deprecated: Do not use.
 	// getStateMode is flag that defines how the "get state" operation works.
-	//  0) means that no retrieval of state is attempted
-	//  1) means that the synchronizer will make 2 requests to the device - one for
-	//      Get with State and another for Get with Operational.
-	//  2) means that the synchronizer will do a Get request comprising of each
-	//      one of the ReadOnlyPaths and their sub paths. If there is a `list`
-	//      in any one of these paths it will be sent down as is, expecting the
-	//      devices implementation of gNMI will be able to expand wildcards.
-	//  3) means that the synchronizer will do a Get request comprising of each
-	//      one of the ReadOnlyPaths and their sub paths. If there is a `list`
-	//      in any one of these paths, a separate call will be made first to find
-	//      all the instances in the list and a Get including these expanded wildcards
-	//      will be sent down to the device.
+	//  0. means that no retrieval of state is attempted
+	//  1. means that the synchronizer will make 2 requests to the device - one for
+	//     Get with State and another for Get with Operational.
+	//  2. means that the synchronizer will do a Get request comprising of each
+	//     one of the ReadOnlyPaths and their sub paths. If there is a `list`
+	//     in any one of these paths it will be sent down as is, expecting the
+	//     devices implementation of gNMI will be able to expand wildcards.
+	//  3. means that the synchronizer will do a Get request comprising of each
+	//     one of the ReadOnlyPaths and their sub paths. If there is a `list`
+	//     in any one of these paths, a separate call will be made first to find
+	//     all the instances in the list and a Get including these expanded wildcards
+	//     will be sent down to the device.
 	GetStateMode uint32 `protobuf:"varint,5,opt,name=getStateMode,proto3" json:"getStateMode,omitempty"`
 	// read_only_path is all of the read only paths for the model plugin.
 	ReadOnlyPath []*ReadOnlyPath `protobuf:"bytes,7,rep,name=read_only_path,json=readOnlyPath,proto3" json:"read_only_path,omitempty"`
