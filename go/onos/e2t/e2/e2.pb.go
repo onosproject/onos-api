@@ -600,6 +600,7 @@ func (m *ControlRequest) GetControlAckRequest() ControlAckRequest {
 type ControlResponse struct {
 	Header *ResponseHeader `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
 	// Types that are valid to be assigned to Response:
+	//
 	//	*ControlResponse_ControlAcknowledge
 	//	*ControlResponse_ControlFailure
 	Response isControlResponse_Response `protobuf_oneof:"response"`

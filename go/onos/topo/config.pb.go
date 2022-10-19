@@ -67,7 +67,7 @@ func (Protocol) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_6fc2683aefb53254, []int{0}
 }
 
-//ConnectivityState represents the L3 reachability of a device from the service container (e.g. enos-config), independently of gRPC or the service itself (e.g. gNMI)
+// ConnectivityState represents the L3 reachability of a device from the service container (e.g. enos-config), independently of gRPC or the service itself (e.g. gNMI)
 type ConnectivityState int32
 
 const (
@@ -99,7 +99,7 @@ func (ConnectivityState) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_6fc2683aefb53254, []int{1}
 }
 
-//ConnectivityState represents the state of a gRPC channel to the device from the service container
+// ConnectivityState represents the state of a gRPC channel to the device from the service container
 type ChannelState int32
 
 const (
@@ -131,7 +131,7 @@ func (ChannelState) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_6fc2683aefb53254, []int{2}
 }
 
-//ServiceState represents the state of the gRPC service (e.g. gNMI) to the device from the service container
+// ServiceState represents the state of the gRPC service (e.g. gNMI) to the device from the service container
 type ServiceState int32
 
 const (
@@ -530,13 +530,13 @@ func (m *AdHoc) GetProperties() map[string]string {
 
 // ProtocolState contains information related to service and connectivity to a device
 type ProtocolState struct {
-	//The protocol to which state relates
+	// The protocol to which state relates
 	Protocol Protocol `protobuf:"varint,1,opt,name=protocol,proto3,enum=onos.topo.Protocol" json:"protocol,omitempty"`
-	//ConnectivityState contains the L3 connectivity information
+	// ConnectivityState contains the L3 connectivity information
 	ConnectivityState ConnectivityState `protobuf:"varint,2,opt,name=connectivityState,proto3,enum=onos.topo.ConnectivityState" json:"connectivityState,omitempty"`
-	//ChannelState relates to the availability of the gRPC channel
+	// ChannelState relates to the availability of the gRPC channel
 	ChannelState ChannelState `protobuf:"varint,3,opt,name=channelState,proto3,enum=onos.topo.ChannelState" json:"channelState,omitempty"`
-	//ServiceState indicates the availability of the gRPC servic on top of the channel
+	// ServiceState indicates the availability of the gRPC servic on top of the channel
 	ServiceState ServiceState `protobuf:"varint,4,opt,name=serviceState,proto3,enum=onos.topo.ServiceState" json:"serviceState,omitempty"`
 }
 
@@ -601,7 +601,7 @@ func (m *ProtocolState) GetServiceState() ServiceState {
 	return ServiceState_UNKNOWN_SERVICE_STATE
 }
 
-//Protocols
+// Protocols
 type Protocols struct {
 	State []*ProtocolState `protobuf:"bytes,1,rep,name=state,proto3" json:"state,omitempty"`
 }

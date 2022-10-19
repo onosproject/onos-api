@@ -412,6 +412,7 @@ func (m *SubscribeRequest) GetTransactionTimeout() *time.Duration {
 type SubscribeResponse struct {
 	Headers ResponseHeaders `protobuf:"bytes,1,opt,name=headers,proto3" json:"headers"`
 	// Types that are valid to be assigned to Message:
+	//
 	//	*SubscribeResponse_Ack
 	//	*SubscribeResponse_Indication
 	Message isSubscribeResponse_Message `protobuf_oneof:"message"`

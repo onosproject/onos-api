@@ -462,6 +462,7 @@ func (m *Error) GetCause() *Error_Cause {
 
 type Error_Cause struct {
 	// Types that are valid to be assigned to Cause:
+	//
 	//	*Error_Cause_Unknown_
 	//	*Error_Cause_Protocol_
 	//	*Error_Cause_Ric_

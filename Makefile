@@ -4,8 +4,8 @@
 
 .PHONY: build
 
-ONOS_PROTOC_VERSION := v1.2.1
-BUF_VERSION := 0.47.0
+ONOS_PROTOC_VERSION := v1.3.0
+BUF_VERSION := 1.8.0
 
 all: protos golang
 
