@@ -40,7 +40,7 @@ mockClient := topoapi.NewMockTopoClient(ctrl)
 
 ## Python
 
-The `python` source tree holds gRPC bindings are generated for [Python]. Pyhton bindings are generated with the [python-betterproto] protoc plugin and support Python3's `asyncio` framework.
+The `python` source tree holds gRPC bindings are generated for [Python]. Pyhton bindings are generated with the [python-betterproto] protoc plugin and support Python3's `asyncio` framework. This is to test new executor. 
 
 [gomock]: https://github.com/golang/mock
 [Go]: https://golang.org/
