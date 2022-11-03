@@ -59,6 +59,8 @@ class Device(betterproto.Message):
     # Current connections and total connection count
     connections: List["Connection"] = betterproto.message_field(8)
     total_connections: int = betterproto.int32_field(9)
+    # Cumulative I/O stats for the device P4Runtime, gNMI and gNOI agent(s)
+    io_stats: "IoStats" = betterproto.message_field(10)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -136,9 +138,27 @@ class GridPosition(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Connection(betterproto.Message):
+    """
+    Connection contains information about a single gRPC client connection
+    """
+
     from_address: str = betterproto.string_field(1)
     protocol: str = betterproto.string_field(2)
     time: int = betterproto.int64_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class IoStats(betterproto.Message):
+    """IOStats represents I/O statistics for a single device agent"""
+
+    in_bytes: int = betterproto.uint32_field(1)
+    in_messages: int = betterproto.uint32_field(2)
+    out_bytes: int = betterproto.uint32_field(3)
+    out_messages: int = betterproto.uint32_field(4)
+    duration_seconds: int = betterproto.uint32_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -353,6 +373,10 @@ class GetHostsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostRequest(betterproto.Message):
+    """
+    Connection contains information about a single gRPC client connection
+    """
+
     id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
@@ -361,6 +385,8 @@ class GetHostRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostResponse(betterproto.Message):
+    """IOStats represents I/O statistics for a single device agent"""
+
     host: "Host" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -485,6 +511,10 @@ class GetLinkResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class AddLinkRequest(betterproto.Message):
+    """
+    Connection contains information about a single gRPC client connection
+    """
+
     link: "Link" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -493,6 +523,8 @@ class AddLinkRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class AddLinkResponse(betterproto.Message):
+    """IOStats represents I/O statistics for a single device agent"""
+
     pass
 
     def __post_init__(self) -> None:

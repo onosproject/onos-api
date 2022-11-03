@@ -35,6 +35,9 @@ message Device {
     // Current connections and total connection count
     repeated Connection connections = 8;
     int32 total_connections = 9;
+
+    // Cumulative I/O stats for the device P4Runtime, gNMI and gNOI agent(s)
+    IOStats io_stats = 10;
 }
 
 // DeviceType represents type of a device, i.e. switch, IPU, etc.
@@ -91,10 +94,20 @@ message GridPosition {
     int32 y = 2;
 }
 
+// Connection contains information about a single gRPC client connection
 message Connection {
     string from_address = 1;
     string protocol = 2;
     int64 time = 3;
+}
+
+// IOStats represents I/O statistics for a single device agent
+message IOStats {
+    uint32 in_bytes = 1;
+    uint32 in_messages = 2;
+    uint32 out_bytes = 3;
+    uint32 out_messages = 4;
+    uint32 duration_seconds = 5;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
