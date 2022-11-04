@@ -158,7 +158,8 @@ class IoStats(betterproto.Message):
     in_messages: int = betterproto.uint32_field(2)
     out_bytes: int = betterproto.uint32_field(3)
     out_messages: int = betterproto.uint32_field(4)
-    duration_seconds: int = betterproto.uint32_field(5)
+    first_update_time: int = betterproto.uint64_field(5)
+    last_update_time: int = betterproto.uint64_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()

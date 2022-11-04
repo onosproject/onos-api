@@ -261,7 +261,8 @@ IOStats represents I/O statistics for a single device agent
 | in_messages | [uint32](#uint32) |  |  |
 | out_bytes | [uint32](#uint32) |  |  |
 | out_messages | [uint32](#uint32) |  |  |
-| duration_seconds | [uint32](#uint32) |  |  |
+| first_update_time | [uint64](#uint64) |  |  |
+| last_update_time | [uint64](#uint64) |  |  |
 
 
 

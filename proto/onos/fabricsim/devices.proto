@@ -37,7 +37,7 @@ message Device {
     int32 total_connections = 9;
 
     // Cumulative I/O stats for the device P4Runtime, gNMI and gNOI agent(s)
-    IOStats io_stats = 10;
+    IOStats io_stats = 10 [(gogoproto.customname) = "IOStats"];
 }
 
 // DeviceType represents type of a device, i.e. switch, IPU, etc.
@@ -107,7 +107,8 @@ message IOStats {
     uint32 in_messages = 2;
     uint32 out_bytes = 3;
     uint32 out_messages = 4;
-    uint32 duration_seconds = 5;
+    uint64 first_update_time = 5;
+    uint64 last_update_time = 6;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports
