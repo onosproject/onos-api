@@ -18,6 +18,7 @@
     - [GetDevicesRequest](#onos-fabricsim-GetDevicesRequest)
     - [GetDevicesResponse](#onos-fabricsim-GetDevicesResponse)
     - [GridPosition](#onos-fabricsim-GridPosition)
+    - [IOStats](#onos-fabricsim-IOStats)
     - [PipelineInfo](#onos-fabricsim-PipelineInfo)
     - [Port](#onos-fabricsim-Port)
     - [RemoveDeviceRequest](#onos-fabricsim-RemoveDeviceRequest)
@@ -71,7 +72,7 @@
 <a name="onos-fabricsim-Connection"></a>
 
 ### Connection
-
+Connection contains information about a single gRPC client connection
 
 
 | Field | Type | Label | Description |
@@ -102,6 +103,7 @@ Device describes a simulated switch or IPU
 | pos | [GridPosition](#onos-fabricsim-GridPosition) |  | Screen coordinates |
 | connections | [Connection](#onos-fabricsim-Connection) | repeated | Current connections and total connection count |
 | total_connections | [int32](#int32) |  |  |
+| io_stats | [IOStats](#onos-fabricsim-IOStats) |  | Cumulative I/O stats for the device P4Runtime, gNMI and gNOI agent(s) |
 
 
 
@@ -241,6 +243,26 @@ GridPosition indicates where on a grid an entity should be located; used for vis
 | ----- | ---- | ----- | ----------- |
 | x | [int32](#int32) |  |  |
 | y | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="onos-fabricsim-IOStats"></a>
+
+### IOStats
+IOStats represents I/O statistics for a single device agent
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| in_bytes | [uint32](#uint32) |  |  |
+| in_messages | [uint32](#uint32) |  |  |
+| out_bytes | [uint32](#uint32) |  |  |
+| out_messages | [uint32](#uint32) |  |  |
+| first_update_time | [uint64](#uint64) |  |  |
+| last_update_time | [uint64](#uint64) |  |  |
 
 
 
