@@ -1,0 +1,29 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.fabricsim;
+
+import "gogoproto/gogo.proto";
+import "onos/fabricsim/devices.proto";
+
+// FabricSimulator provides an auxiliary API to interact with the fabric simulator.
+service FabricSimulator {
+    // GetIOStats returns list of aggregate I/O stats.
+    rpc GetIOStats(GetIOStatsRequest) returns (GetIOStatsResponse);
+}
+
+message GetIOStatsRequest {
+    enum Mode {
+        REPLAY_ONLY = 0; // default assumption
+        REPLAY_AND_WATCH = 1;
+    }
+
+    Mode mode = 1;
+}
+
+message GetIOStatsResponse {
+    repeated IOStats stats = 1;
+}
