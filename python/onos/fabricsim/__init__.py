@@ -25,11 +25,6 @@ class StopMode(betterproto.Enum):
     CHAOTIC_STOP = 1
 
 
-class GetIoStatsRequestMode(betterproto.Enum):
-    REPLAY_ONLY = 0
-    REPLAY_AND_WATCH = 1
-
-
 class HostType(betterproto.Enum):
     """DeviceType represents type of a device, i.e. switch, IPU, etc."""
 
@@ -304,8 +299,7 @@ class EnablePortResponse(betterproto.Message):
 class GetIoStatsRequest(betterproto.Message):
     """Device describes a simulated switch or IPU"""
 
-    # unique device id and device type
-    mode: "GetIoStatsRequestMode" = betterproto.enum_field(1)
+    pass
 
     def __post_init__(self) -> None:
         super().__post_init__()
