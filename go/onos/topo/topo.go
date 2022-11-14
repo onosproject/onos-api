@@ -6,7 +6,6 @@ package topo
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 
 	"github.com/gogo/protobuf/jsonpb"
@@ -112,20 +111,21 @@ func MultiRelationID(srcID ID, relationKind ID, tgtID ID, discriminant uint8) ID
 // GetAspect retrieves the specified aspect value from the given object.
 func (obj *Object) GetAspect(destValue proto.Message) error {
 	if obj.Aspects == nil {
-		return errors.New("aspect not found")
+		return fmt.Errorf("no aspects found on %s", obj.String())
 	}
 	aspectType := proto.MessageName(destValue)
 	any := obj.Aspects[aspectType]
 	if any == nil {
-		return errors.New("aspect not found")
+		return fmt.Errorf("aspect '%s' not found in %s", aspectType, obj.String())
 	}
 	if any.TypeUrl != aspectType {
-		return errors.New("unexpected aspect type")
+		return fmt.Errorf("unexpected aspect type: %s", aspectType)
 	}
 	reader := bytes.NewReader(any.Value)
 	err := jsonpb.Unmarshal(reader, destValue)
 	if err != nil {
-		return err
+		return fmt.Errorf("error '%s' when unmarshalling aspect %s: %v from %s",
+			err.Error(), aspectType, any.Value, obj.String())
 	}
 	return nil
 }
@@ -133,11 +133,11 @@ func (obj *Object) GetAspect(destValue proto.Message) error {
 // GetAspectBytes applies the specified aspect as raw JSON bytes to the given object.
 func (obj *Object) GetAspectBytes(aspectType string) ([]byte, error) {
 	if obj.Aspects == nil {
-		return nil, errors.New("aspect not found")
+		return nil, fmt.Errorf("no aspects found on %s", obj.String())
 	}
 	any := obj.Aspects[aspectType]
 	if any == nil {
-		return nil, errors.New("aspect not found")
+		return nil, fmt.Errorf("aspect '%s' not found on %s", aspectType, obj.String())
 	}
 	return any.Value, nil
 }
@@ -148,7 +148,8 @@ func (obj *Object) SetAspect(value proto.Message) error {
 	writer := bytes.Buffer{}
 	err := jm.Marshal(&writer, value)
 	if err != nil {
-		return err
+		return fmt.Errorf("error '%s' marshaling aspect %v on to %s",
+			err.Error(), value, obj.String())
 	}
 	if obj.Aspects == nil {
 		obj.Aspects = make(map[string]*types.Any)
