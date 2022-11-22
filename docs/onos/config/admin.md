@@ -27,6 +27,8 @@
     - [RollbackResponse](#onos-config-admin-RollbackResponse)
     - [ValidateConfigRequest](#onos-config-admin-ValidateConfigRequest)
     - [ValidateConfigResponse](#onos-config-admin-ValidateConfigResponse)
+    - [ValueSelectionRequest](#onos-config-admin-ValueSelectionRequest)
+    - [ValueSelectionResponse](#onos-config-admin-ValueSelectionResponse)
     - [WatchConfigurationsRequest](#onos-config-admin-WatchConfigurationsRequest)
     - [WatchConfigurationsResponse](#onos-config-admin-WatchConfigurationsResponse)
     - [WatchTransactionsRequest](#onos-config-admin-WatchTransactionsRequest)
@@ -426,6 +428,37 @@ ValidateConfigResponse carries the result of the validation
 
 
 
+<a name="onos-config-admin-ValueSelectionRequest"></a>
+
+### ValueSelectionRequest
+ValueSelectionRequest carries the necessary parts to form a selection context
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| selectionPath | [string](#string) |  | selectionPath is a configuration path to a leaf in the format: /a/b[key1=index][key2=index2]/c/d where d is a leaf node |
+| configJson | [bytes](#bytes) |  | configJson is a JSON tree view of the complete Configuration for a Target |
+
+
+
+
+
+
+<a name="onos-config-admin-ValueSelectionResponse"></a>
+
+### ValueSelectionResponse
+ValueSelectionResponse returns the result of applying the selection rules to the selection context
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| selection | [string](#string) | repeated | selection is an array of string values |
+
+
+
+
+
+
 <a name="onos-config-admin-WatchConfigurationsRequest"></a>
 
 ### WatchConfigurationsRequest
@@ -527,6 +560,7 @@ ModelPluginService is to be implemented by model plugin sidecar
 | GetModelInfo | [ModelInfoRequest](#onos-config-admin-ModelInfoRequest) | [ModelInfoResponse](#onos-config-admin-ModelInfoResponse) | GetModelInfo provides information about the model |
 | ValidateConfig | [ValidateConfigRequest](#onos-config-admin-ValidateConfigRequest) | [ValidateConfigResponse](#onos-config-admin-ValidateConfigResponse) | ValidateConfig validates the provided configuration data against the model |
 | GetPathValues | [PathValuesRequest](#onos-config-admin-PathValuesRequest) | [PathValuesResponse](#onos-config-admin-PathValuesResponse) | GetPathValues produces list of typed path value entries from the specified configuration change JSON tree |
+| GetValueSelection | [ValueSelectionRequest](#onos-config-admin-ValueSelectionRequest) | [ValueSelectionResponse](#onos-config-admin-ValueSelectionResponse) | GetValueSelection gets a list of valid options for a leaf by applying selection rules in YANG. The selection rules should be defined as an XPath expression, as an argument to a `leaf-selection` extension in the YANG model (Used to support the ROC GUI) |
 
 
 <a name="onos-config-admin-TransactionService"></a>

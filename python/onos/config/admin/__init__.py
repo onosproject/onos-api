@@ -275,6 +275,37 @@ class PathValuesResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ValueSelectionRequest(betterproto.Message):
+    """
+    ValueSelectionRequest carries the necessary parts to form a selection
+    context
+    """
+
+    # selectionPath is a configuration path to a leaf in the format:
+    # /a/b[key1=index][key2=index2]/c/d where d is a leaf node
+    selection_path: str = betterproto.string_field(1)
+    # configJson is a JSON tree view of the complete Configuration for a Target
+    config_json: bytes = betterproto.bytes_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ValueSelectionResponse(betterproto.Message):
+    """
+    ValueSelectionResponse returns the result of applying the selection rules
+    to the selection context
+    """
+
+    # selection is an array of string values
+    selection: List[str] = betterproto.string_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class GetTransactionRequest(betterproto.Message):
     # ID of transaction to get
     id: str = betterproto.string_field(1)
@@ -460,6 +491,26 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
             "/onos.config.admin.ModelPluginService/GetPathValues",
             request,
             PathValuesResponse,
+        )
+
+    async def get_value_selection(
+        self, *, selection_path: str = "", config_json: bytes = b""
+    ) -> "ValueSelectionResponse":
+        """
+        GetValueSelection gets a list of valid options for a leaf by applying
+        selection rules in YANG. The selection rules should be defined as an
+        XPath expression, as an argument to a `leaf-selection` extension in the
+        YANG model (Used to support the ROC GUI)
+        """
+
+        request = ValueSelectionRequest()
+        request.selection_path = selection_path
+        request.config_json = config_json
+
+        return await self._unary_unary(
+            "/onos.config.admin.ModelPluginService/GetValueSelection",
+            request,
+            ValueSelectionResponse,
         )
 
 
