@@ -3,7 +3,7 @@
 # plugin: python-betterproto
 import warnings
 from dataclasses import dataclass
-from typing import AsyncIterator, List
+from typing import AsyncIterator, List, Optional
 
 import betterproto
 import grpclib
@@ -204,6 +204,39 @@ class RollbackResponse(betterproto.Message):
     id: str = betterproto.string_field(1)
     # index of the rollback transaction
     index: int = betterproto.uint64_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class LeafSelectionQueryRequest(betterproto.Message):
+    """
+    LeafSelectionQueryRequest carries request for the selection of leaf values
+    """
+
+    # target is the name of the target (device) to perform the query on
+    target: str = betterproto.string_field(1)
+    # selectionPath is a configuration path to a leaf in the format:
+    # /a/b[key1=index][key2=index2]/c/d where d is a leaf node
+    selection_path: str = betterproto.string_field(2)
+    # changeContext is the set of changes from the GUI form that have to be
+    # superimposed on the current configuration before the leaf selection can be
+    # made All the changes in this should be for the same target
+    change_context: "___gnmi__.SetRequest" = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class LeafSelectionQueryResponse(betterproto.Message):
+    """
+    LeafSelectionQueryResponse carries response for the model information query
+    """
+
+    # selection is an array of string values
+    selection: List[str] = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -443,6 +476,32 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
             "/onos.config.admin.ConfigAdminService/RollbackTransaction",
             request,
             RollbackResponse,
+        )
+
+    async def leaf_selection_query(
+        self,
+        *,
+        target: str = "",
+        selection_path: str = "",
+        change_context: "___gnmi__.SetRequest" = None,
+    ) -> "LeafSelectionQueryResponse":
+        """
+        LeafSelectionQuery selects values allowable for leaf. It supports the
+        ROC GUI by supplying a list of valid leaf values based off an XPath
+        query defined in a 'leaf-selection' YANG extension Calls on
+        GetValueSelection RPC on Model Plugin
+        """
+
+        request = LeafSelectionQueryRequest()
+        request.target = target
+        request.selection_path = selection_path
+        if change_context is not None:
+            request.change_context = change_context
+
+        return await self._unary_unary(
+            "/onos.config.admin.ConfigAdminService/LeafSelectionQuery",
+            request,
+            LeafSelectionQueryResponse,
         )
 
 

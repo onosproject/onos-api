@@ -8,6 +8,8 @@
     - [GetConfigurationResponse](#onos-config-admin-GetConfigurationResponse)
     - [GetTransactionRequest](#onos-config-admin-GetTransactionRequest)
     - [GetTransactionResponse](#onos-config-admin-GetTransactionResponse)
+    - [LeafSelectionQueryRequest](#onos-config-admin-LeafSelectionQueryRequest)
+    - [LeafSelectionQueryResponse](#onos-config-admin-LeafSelectionQueryResponse)
     - [ListConfigurationsRequest](#onos-config-admin-ListConfigurationsRequest)
     - [ListConfigurationsResponse](#onos-config-admin-ListConfigurationsResponse)
     - [ListModelsRequest](#onos-config-admin-ListModelsRequest)
@@ -105,6 +107,38 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | transaction | [onos.config.v2.Transaction](#onos-config-v2-Transaction) |  |  |
+
+
+
+
+
+
+<a name="onos-config-admin-LeafSelectionQueryRequest"></a>
+
+### LeafSelectionQueryRequest
+LeafSelectionQueryRequest carries request for the selection of leaf values
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| target | [string](#string) |  | target is the name of the target (device) to perform the query on |
+| selectionPath | [string](#string) |  | selectionPath is a configuration path to a leaf in the format: /a/b[key1=index][key2=index2]/c/d where d is a leaf node |
+| changeContext | [gnmi.SetRequest](#gnmi-SetRequest) |  | changeContext is the set of changes from the GUI form that have to be superimposed on the current configuration before the leaf selection can be made All the changes in this should be for the same target |
+
+
+
+
+
+
+<a name="onos-config-admin-LeafSelectionQueryResponse"></a>
+
+### LeafSelectionQueryResponse
+LeafSelectionQueryResponse carries response for the model information query
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| selection | [string](#string) | repeated | selection is an array of string values |
 
 
 
@@ -536,6 +570,7 @@ ConfigAdminService provides means for enhanced interactions with the configurati
 | ----------- | ------------ | ------------- | ------------|
 | ListRegisteredModels | [ListModelsRequest](#onos-config-admin-ListModelsRequest) | [ModelPlugin](#onos-config-admin-ModelPlugin) stream | ListRegisteredModels returns a stream of registered models. |
 | RollbackTransaction | [RollbackRequest](#onos-config-admin-RollbackRequest) | [RollbackResponse](#onos-config-admin-RollbackResponse) | RollbackTransaction rolls back the specified configuration change transaction. |
+| LeafSelectionQuery | [LeafSelectionQueryRequest](#onos-config-admin-LeafSelectionQueryRequest) | [LeafSelectionQueryResponse](#onos-config-admin-LeafSelectionQueryResponse) | LeafSelectionQuery selects values allowable for leaf. It supports the ROC GUI by supplying a list of valid leaf values based off an XPath query defined in a &#39;leaf-selection&#39; YANG extension Calls on GetValueSelection RPC on Model Plugin |
 
 
 <a name="onos-config-admin-ConfigurationService"></a>
