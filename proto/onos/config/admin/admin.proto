@@ -176,9 +176,9 @@ message LeafSelectionQueryRequest {
     // /a/b[key1=index][key2=index2]/c/d where d is a leaf node
     string selectionPath = 2;
 
-    // changeContext is the set of changes from the GUI form that have to be superimposed
+    // changeContext is the set of changes (e.g. from the GUI form) that have to be superimposed
     // on the current configuration before the leaf selection can be made
-    // All the changes in this should be for the same target
+    // All the changes in this request should match the target given above
     gnmi.SetRequest changeContext = 3;
 }
 

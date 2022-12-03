@@ -220,9 +220,9 @@ class LeafSelectionQueryRequest(betterproto.Message):
     # selectionPath is a configuration path to a leaf in the format:
     # /a/b[key1=index][key2=index2]/c/d where d is a leaf node
     selection_path: str = betterproto.string_field(2)
-    # changeContext is the set of changes from the GUI form that have to be
-    # superimposed on the current configuration before the leaf selection can be
-    # made All the changes in this should be for the same target
+    # changeContext is the set of changes (e.g. from the GUI form) that have to
+    # be superimposed on the current configuration before the leaf selection can
+    # be made All the changes in this request should match the target given above
     change_context: "___gnmi__.SetRequest" = betterproto.message_field(3)
 
     def __post_init__(self) -> None:

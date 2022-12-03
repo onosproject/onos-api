@@ -724,9 +724,9 @@ type LeafSelectionQueryRequest struct {
 	// selectionPath is a configuration path to a leaf in the format:
 	// /a/b[key1=index][key2=index2]/c/d where d is a leaf node
 	SelectionPath string `protobuf:"bytes,2,opt,name=selectionPath,proto3" json:"selectionPath,omitempty"`
-	// changeContext is the set of changes from the GUI form that have to be superimposed
+	// changeContext is the set of changes (e.g. from the GUI form) that have to be superimposed
 	// on the current configuration before the leaf selection can be made
-	// All the changes in this should be for the same target
+	// All the changes in this request should match the target given above
 	ChangeContext        *gnmi.SetRequest `protobuf:"bytes,3,opt,name=changeContext,proto3" json:"changeContext,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
 	XXX_unrecognized     []byte           `json:"-"`

@@ -123,7 +123,7 @@ LeafSelectionQueryRequest carries request for the selection of leaf values
 | ----- | ---- | ----- | ----------- |
 | target | [string](#string) |  | target is the name of the target (device) to perform the query on |
 | selectionPath | [string](#string) |  | selectionPath is a configuration path to a leaf in the format: /a/b[key1=index][key2=index2]/c/d where d is a leaf node |
-| changeContext | [gnmi.SetRequest](#gnmi-SetRequest) |  | changeContext is the set of changes from the GUI form that have to be superimposed on the current configuration before the leaf selection can be made All the changes in this should be for the same target |
+| changeContext | [gnmi.SetRequest](#gnmi-SetRequest) |  | changeContext is the set of changes (e.g. from the GUI form) that have to be superimposed on the current configuration before the leaf selection can be made All the changes in this request should match the target given above |
 
 
 
