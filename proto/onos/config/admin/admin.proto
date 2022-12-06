@@ -172,14 +172,21 @@ message LeafSelectionQueryRequest {
     // target is the name of the target (device) to perform the query on
     string target = 1;
 
+    // type of model plugin to perform the query on
+    string type = 2;
+
+    // version of model plugin to perform the query on
+    string version = 3;
+
     // selectionPath is a configuration path to a leaf in the format:
     // /a/b[key1=index][key2=index2]/c/d where d is a leaf node
-    string selectionPath = 2;
+    string selectionPath = 4;
 
     // changeContext is the set of changes (e.g. from the GUI form) that have to be superimposed
     // on the current configuration before the leaf selection can be made
     // All the changes in this request should match the target given above
-    gnmi.SetRequest changeContext = 3;
+    // optional
+    gnmi.SetRequest changeContext = 5;
 }
 
 // LeafSelectionQueryResponse carries response for the model information query

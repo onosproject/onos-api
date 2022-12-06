@@ -217,13 +217,17 @@ class LeafSelectionQueryRequest(betterproto.Message):
 
     # target is the name of the target (device) to perform the query on
     target: str = betterproto.string_field(1)
+    # type type of model plugin to perform the query on
+    type: str = betterproto.string_field(2)
+    # version of model plugin to perform the query on
+    version: str = betterproto.string_field(3)
     # selectionPath is a configuration path to a leaf in the format:
     # /a/b[key1=index][key2=index2]/c/d where d is a leaf node
-    selection_path: str = betterproto.string_field(2)
+    selection_path: str = betterproto.string_field(4)
     # changeContext is the set of changes (e.g. from the GUI form) that have to
     # be superimposed on the current configuration before the leaf selection can
     # be made All the changes in this request should match the target given above
-    change_context: "___gnmi__.SetRequest" = betterproto.message_field(3)
+    change_context: "___gnmi__.SetRequest" = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -482,6 +486,8 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
         self,
         *,
         target: str = "",
+        type: str = "",
+        version: str = "",
         selection_path: str = "",
         change_context: "___gnmi__.SetRequest" = None,
     ) -> "LeafSelectionQueryResponse":
@@ -494,6 +500,8 @@ class ConfigAdminServiceStub(betterproto.ServiceStub):
 
         request = LeafSelectionQueryRequest()
         request.target = target
+        request.type = type
+        request.version = version
         request.selection_path = selection_path
         if change_context is not None:
             request.change_context = change_context
