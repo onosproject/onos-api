@@ -22,11 +22,8 @@ mod-lint: mod-update # @HELP ensure that the required dependencies are in place
 golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
-python-pip:
-	python3 --version && python3 -m ensurepip --upgrade
-
 test: # @HELP run the unit tests and source code validation
-test: protos golang linters-go deps-go python-pip license
+test: protos golang linters-go deps-go license
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
