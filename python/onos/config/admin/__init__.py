@@ -217,7 +217,7 @@ class LeafSelectionQueryRequest(betterproto.Message):
 
     # target is the name of the target (device) to perform the query on
     target: str = betterproto.string_field(1)
-    # type type of model plugin to perform the query on
+    # type of model plugin to perform the query on
     type: str = betterproto.string_field(2)
     # version of model plugin to perform the query on
     version: str = betterproto.string_field(3)
@@ -227,6 +227,7 @@ class LeafSelectionQueryRequest(betterproto.Message):
     # changeContext is the set of changes (e.g. from the GUI form) that have to
     # be superimposed on the current configuration before the leaf selection can
     # be made All the changes in this request should match the target given above
+    # optional
     change_context: "___gnmi__.SetRequest" = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
