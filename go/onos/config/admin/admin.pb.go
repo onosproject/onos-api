@@ -721,7 +721,7 @@ func (m *RollbackResponse) GetIndex() github_com_onosproject_onos_api_go_onos_co
 type LeafSelectionQueryRequest struct {
 	// target is the name of the target (device) to perform the query on
 	Target string `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
-	// type type of model plugin to perform the query on
+	// type of model plugin to perform the query on
 	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	// version of model plugin to perform the query on
 	Version string `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
@@ -731,6 +731,7 @@ type LeafSelectionQueryRequest struct {
 	// changeContext is the set of changes (e.g. from the GUI form) that have to be superimposed
 	// on the current configuration before the leaf selection can be made
 	// All the changes in this request should match the target given above
+	// optional
 	ChangeContext        *gnmi.SetRequest `protobuf:"bytes,5,opt,name=changeContext,proto3" json:"changeContext,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
 	XXX_unrecognized     []byte           `json:"-"`
