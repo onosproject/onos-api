@@ -23,7 +23,7 @@ golang: # @HELP compile Golang sources
 	cd go && go build ./...
 
 test: # @HELP run the unit tests and source code validation
-test: protos golang linters-go deps-go #license skipping license until python problems are fixed in Jenkins
+test: protos golang linters-go deps-go license
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
 jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
