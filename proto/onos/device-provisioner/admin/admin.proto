@@ -10,53 +10,63 @@ package onos.deviceprovisioner.admin;
 import "onos/p4rt/v1/pipeline_config.proto";
 import "gogoproto/gogo.proto";
 
-
-
-
-
 // PipelineConfigService
 service PipelineConfigService {
-  // Get pipeline config based on a given ID
-  rpc GetPipeline (GetPipelineRequest) returns (GetPipelineResponse) {
-  }
+  // AddPipeline registers new pipeline configuration
+  rpc AddPipeline(AddPipelineRequest) returns (AddPipelineResponse);
 
-  // List returns all target pipelines
-  rpc ListPipelines (ListPipelinesRequest) returns (stream ListPipelinesResponse) {
-  }
+  // DeletePipeline unregisters new pipeline configuration
+  rpc DeletePipeline(DeletePipelineRequest) returns (DeletePipelineResponse);
+
+  // GetPipeline returns pipeline configuration based on a given ID
+  rpc GetPipeline (GetPipelineRequest) returns (GetPipelineResponse);
+
+  // List returns all registered pipelines
+  rpc ListPipelines (ListPipelinesRequest) returns (stream ListPipelinesResponse);
 
   // Watch returns a stream of pipeline change notifications
-  rpc WatchPipelines (WatchPipelinesRequest) returns (stream WatchPipelinesResponse) {
-  }
+  rpc WatchPipelines (WatchPipelinesRequest) returns (stream WatchPipelinesResponse);
 }
 
-// GetPipelineRequest get pipeline request
+
+message AddPipelineRequest {
+
+}
+
+message AddPipelineResponse {
+
+}
+
+message DeletePipelineRequest {
+
+}
+
+message DeletePipelineResponse {
+
+}
+
 message GetPipelineRequest {
   string pipelineconfig_id = 1 [(gogoproto.customname) = "PipelineConfigID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/p4rt/v1.PipelineConfigID"];
 
 }
 
-// GetPipelineResponse get pipeline response
 message GetPipelineResponse {
   onos.p4rt.v1.PipelineConfig pipelineconfig = 1;
 
 }
 
-// ListPipelineRequest
 message ListPipelinesRequest {}
 
-// ListPipelineResponse
 message ListPipelinesResponse {
   onos.p4rt.v1.PipelineConfig pipelineconfig = 1;
 }
 
-// WatchPipelineRequest
 message WatchPipelinesRequest {
   string pipelineconfig_id = 1 [(gogoproto.customname) = "PipelineConfigID", (gogoproto.casttype) = "github.com/onosproject/onos-api/go/onos/p4rt/v1.PipelineConfigID"];
   bool noreplay = 2;
 
 }
 
-// WatchPipelineResponse
 message WatchPipelinesResponse {
   onos.p4rt.v1.PipelineConfig pipelineconfig = 1 [(gogoproto.embed) = true, (gogoproto.nullable) = false];
 

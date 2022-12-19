@@ -27,7 +27,11 @@ service Topo {
   rpc Delete (DeleteRequest) returns (DeleteResponse) {
   }
 
-  // List gets a stream of requested objects
+  // Query gets a stream of requested objects
+  rpc Query (QueryRequest) returns (stream QueryResponse) {
+  }
+
+  // DEPRECATED: List gets a list of requested objects
   rpc List (ListRequest) returns (ListResponse) {
   }
 
@@ -126,17 +130,27 @@ message Filters {
   repeated string with_aspects = 6;
 }
 
+message QueryRequest {
+  Filters filters = 1;
+}
+
+message QueryResponse {
+  Object object = 1;
+}
+
 enum SortOrder {
   UNORDERED = 0;
   ASCENDING = 1;
   DESCENDING = 2;
 }
 
+// DEPRECATED
 message ListRequest {
   Filters filters = 1;
   SortOrder sort_order = 2;
 }
 
+// DEPRECATED
 message ListResponse {
   repeated Object objects = 1 [(gogoproto.nullable) = false];
 }

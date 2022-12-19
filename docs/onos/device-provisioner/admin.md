@@ -4,6 +4,10 @@
 ## Table of Contents
 
 - [onos/device-provisioner/admin/admin.proto](#onos_device-provisioner_admin_admin-proto)
+    - [AddPipelineRequest](#onos-deviceprovisioner-admin-AddPipelineRequest)
+    - [AddPipelineResponse](#onos-deviceprovisioner-admin-AddPipelineResponse)
+    - [DeletePipelineRequest](#onos-deviceprovisioner-admin-DeletePipelineRequest)
+    - [DeletePipelineResponse](#onos-deviceprovisioner-admin-DeletePipelineResponse)
     - [GetPipelineRequest](#onos-deviceprovisioner-admin-GetPipelineRequest)
     - [GetPipelineResponse](#onos-deviceprovisioner-admin-GetPipelineResponse)
     - [ListPipelinesRequest](#onos-deviceprovisioner-admin-ListPipelinesRequest)
@@ -24,10 +28,50 @@
 
 
 
+<a name="onos-deviceprovisioner-admin-AddPipelineRequest"></a>
+
+### AddPipelineRequest
+
+
+
+
+
+
+
+<a name="onos-deviceprovisioner-admin-AddPipelineResponse"></a>
+
+### AddPipelineResponse
+
+
+
+
+
+
+
+<a name="onos-deviceprovisioner-admin-DeletePipelineRequest"></a>
+
+### DeletePipelineRequest
+
+
+
+
+
+
+
+<a name="onos-deviceprovisioner-admin-DeletePipelineResponse"></a>
+
+### DeletePipelineResponse
+
+
+
+
+
+
+
 <a name="onos-deviceprovisioner-admin-GetPipelineRequest"></a>
 
 ### GetPipelineRequest
-GetPipelineRequest get pipeline request
+
 
 
 | Field | Type | Label | Description |
@@ -42,7 +86,7 @@ GetPipelineRequest get pipeline request
 <a name="onos-deviceprovisioner-admin-GetPipelineResponse"></a>
 
 ### GetPipelineResponse
-GetPipelineResponse get pipeline response
+
 
 
 | Field | Type | Label | Description |
@@ -57,7 +101,7 @@ GetPipelineResponse get pipeline response
 <a name="onos-deviceprovisioner-admin-ListPipelinesRequest"></a>
 
 ### ListPipelinesRequest
-ListPipelineRequest
+
 
 
 
@@ -67,7 +111,7 @@ ListPipelineRequest
 <a name="onos-deviceprovisioner-admin-ListPipelinesResponse"></a>
 
 ### ListPipelinesResponse
-ListPipelineResponse
+
 
 
 | Field | Type | Label | Description |
@@ -82,7 +126,7 @@ ListPipelineResponse
 <a name="onos-deviceprovisioner-admin-WatchPipelinesRequest"></a>
 
 ### WatchPipelinesRequest
-WatchPipelineRequest
+
 
 
 | Field | Type | Label | Description |
@@ -98,7 +142,7 @@ WatchPipelineRequest
 <a name="onos-deviceprovisioner-admin-WatchPipelinesResponse"></a>
 
 ### WatchPipelinesResponse
-WatchPipelineResponse
+
 
 
 | Field | Type | Label | Description |
@@ -123,8 +167,10 @@ PipelineConfigService
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetPipeline | [GetPipelineRequest](#onos-deviceprovisioner-admin-GetPipelineRequest) | [GetPipelineResponse](#onos-deviceprovisioner-admin-GetPipelineResponse) | Get pipeline config based on a given ID |
-| ListPipelines | [ListPipelinesRequest](#onos-deviceprovisioner-admin-ListPipelinesRequest) | [ListPipelinesResponse](#onos-deviceprovisioner-admin-ListPipelinesResponse) stream | List returns all target pipelines |
+| AddPipeline | [AddPipelineRequest](#onos-deviceprovisioner-admin-AddPipelineRequest) | [AddPipelineResponse](#onos-deviceprovisioner-admin-AddPipelineResponse) | AddPipeline registers new pipeline configuration |
+| DeletePipeline | [DeletePipelineRequest](#onos-deviceprovisioner-admin-DeletePipelineRequest) | [DeletePipelineResponse](#onos-deviceprovisioner-admin-DeletePipelineResponse) | DeletePipeline unregisters new pipeline configuration |
+| GetPipeline | [GetPipelineRequest](#onos-deviceprovisioner-admin-GetPipelineRequest) | [GetPipelineResponse](#onos-deviceprovisioner-admin-GetPipelineResponse) | GetPipeline returns pipeline configuration based on a given ID |
+| ListPipelines | [ListPipelinesRequest](#onos-deviceprovisioner-admin-ListPipelinesRequest) | [ListPipelinesResponse](#onos-deviceprovisioner-admin-ListPipelinesResponse) stream | List returns all registered pipelines |
 | WatchPipelines | [WatchPipelinesRequest](#onos-deviceprovisioner-admin-WatchPipelinesRequest) | [WatchPipelinesResponse](#onos-deviceprovisioner-admin-WatchPipelinesResponse) stream | Watch returns a stream of pipeline change notifications |
 
  
