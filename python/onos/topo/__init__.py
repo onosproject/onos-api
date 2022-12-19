@@ -1289,6 +1289,22 @@ class Filters(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class QueryRequest(betterproto.Message):
+    filters: "Filters" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class QueryResponse(betterproto.Message):
+    object: "Object" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class ListRequest(betterproto.Message):
     filters: "Filters" = betterproto.message_field(1)
     sort_order: "SortOrder" = betterproto.enum_field(2)
@@ -1407,6 +1423,21 @@ class TopoStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.topo.Topo/Delete", request, DeleteResponse
         )
+
+    async def query(
+        self, *, filters: "Filters" = None
+    ) -> AsyncIterator["QueryResponse"]:
+
+        request = QueryRequest()
+        if filters is not None:
+            request.filters = filters
+
+        async for response in self._unary_stream(
+            "/onos.topo.Topo/Query",
+            request,
+            QueryResponse,
+        ):
+            yield response
 
     async def list(
         self, *, filters: "Filters" = None, sort_order: "SortOrder" = None

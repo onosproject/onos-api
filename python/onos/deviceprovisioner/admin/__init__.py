@@ -9,9 +9,39 @@ import grpclib
 
 
 @dataclass(eq=False, repr=False)
-class GetPipelineRequest(betterproto.Message):
-    """GetPipelineRequest get pipeline request"""
+class AddPipelineRequest(betterproto.Message):
+    pass
 
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class AddPipelineResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class DeletePipelineRequest(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class DeletePipelineResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GetPipelineRequest(betterproto.Message):
     pipelineconfig_id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
@@ -20,8 +50,6 @@ class GetPipelineRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetPipelineResponse(betterproto.Message):
-    """GetPipelineResponse get pipeline response"""
-
     pipelineconfig: "__p4_rt_v1__.PipelineConfig" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -30,8 +58,6 @@ class GetPipelineResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListPipelinesRequest(betterproto.Message):
-    """ListPipelineRequest"""
-
     pass
 
     def __post_init__(self) -> None:
@@ -40,8 +66,6 @@ class ListPipelinesRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListPipelinesResponse(betterproto.Message):
-    """ListPipelineResponse"""
-
     pipelineconfig: "__p4_rt_v1__.PipelineConfig" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -50,8 +74,6 @@ class ListPipelinesResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchPipelinesRequest(betterproto.Message):
-    """WatchPipelineRequest"""
-
     pipelineconfig_id: str = betterproto.string_field(1)
     noreplay: bool = betterproto.bool_field(2)
 
@@ -61,8 +83,6 @@ class WatchPipelinesRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class WatchPipelinesResponse(betterproto.Message):
-    """WatchPipelineResponse"""
-
     pipelineconfig: "__p4_rt_v1__.PipelineConfig" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -72,10 +92,32 @@ class WatchPipelinesResponse(betterproto.Message):
 class PipelineConfigServiceStub(betterproto.ServiceStub):
     """PipelineConfigService"""
 
+    async def add_pipeline(self) -> "AddPipelineResponse":
+        """AddPipeline registers new pipeline configuration"""
+
+        request = AddPipelineRequest()
+
+        return await self._unary_unary(
+            "/onos.deviceprovisioner.admin.PipelineConfigService/AddPipeline",
+            request,
+            AddPipelineResponse,
+        )
+
+    async def delete_pipeline(self) -> "DeletePipelineResponse":
+        """DeletePipeline unregisters new pipeline configuration"""
+
+        request = DeletePipelineRequest()
+
+        return await self._unary_unary(
+            "/onos.deviceprovisioner.admin.PipelineConfigService/DeletePipeline",
+            request,
+            DeletePipelineResponse,
+        )
+
     async def get_pipeline(
         self, *, pipelineconfig_id: str = ""
     ) -> "GetPipelineResponse":
-        """Get pipeline config based on a given ID"""
+        """GetPipeline returns pipeline configuration based on a given ID"""
 
         request = GetPipelineRequest()
         request.pipelineconfig_id = pipelineconfig_id
@@ -87,7 +129,7 @@ class PipelineConfigServiceStub(betterproto.ServiceStub):
         )
 
     async def list_pipelines(self) -> AsyncIterator["ListPipelinesResponse"]:
-        """List returns all target pipelines"""
+        """List returns all registered pipelines"""
 
         request = ListPipelinesRequest()
 

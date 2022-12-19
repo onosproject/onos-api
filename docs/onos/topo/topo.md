@@ -23,6 +23,8 @@
     - [Object](#onos-topo-Object)
     - [Object.AspectsEntry](#onos-topo-Object-AspectsEntry)
     - [Object.LabelsEntry](#onos-topo-Object-LabelsEntry)
+    - [QueryRequest](#onos-topo-QueryRequest)
+    - [QueryResponse](#onos-topo-QueryResponse)
     - [Relation](#onos-topo-Relation)
     - [RelationFilter](#onos-topo-RelationFilter)
     - [UpdateRequest](#onos-topo-UpdateRequest)
@@ -252,7 +254,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 <a name="onos-topo-ListRequest"></a>
 
 ### ListRequest
-
+DEPRECATED
 
 
 | Field | Type | Label | Description |
@@ -268,7 +270,7 @@ Kind represents an archetype of an object, i.e. entity or relation
 <a name="onos-topo-ListResponse"></a>
 
 ### ListResponse
-
+DEPRECATED
 
 
 | Field | Type | Label | Description |
@@ -344,6 +346,36 @@ Object is an one of the following: a kind (archetype of entity or relation), an 
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos-topo-QueryRequest"></a>
+
+### QueryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| filters | [Filters](#onos-topo-Filters) |  |  |
+
+
+
+
+
+
+<a name="onos-topo-QueryResponse"></a>
+
+### QueryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| object | [Object](#onos-topo-Object) |  |  |
 
 
 
@@ -520,7 +552,8 @@ EntityService provides an API for managing entities.
 | Get | [GetRequest](#onos-topo-GetRequest) | [GetResponse](#onos-topo-GetResponse) | Get an object from topology |
 | Update | [UpdateRequest](#onos-topo-UpdateRequest) | [UpdateResponse](#onos-topo-UpdateResponse) | Update an existing topology object |
 | Delete | [DeleteRequest](#onos-topo-DeleteRequest) | [DeleteResponse](#onos-topo-DeleteResponse) | Delete an object from topology |
-| List | [ListRequest](#onos-topo-ListRequest) | [ListResponse](#onos-topo-ListResponse) | List gets a stream of requested objects |
+| Query | [QueryRequest](#onos-topo-QueryRequest) | [QueryResponse](#onos-topo-QueryResponse) stream | Query gets a stream of requested objects |
+| List | [ListRequest](#onos-topo-ListRequest) | [ListResponse](#onos-topo-ListResponse) | DEPRECATED: List gets a list of requested objects |
 | Watch | [WatchRequest](#onos-topo-WatchRequest) | [WatchResponse](#onos-topo-WatchResponse) stream | Watch returns a stream of topo change notifications |
 
  

@@ -31,7 +31,150 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GetPipelineRequest get pipeline request
+type AddPipelineRequest struct {
+}
+
+func (m *AddPipelineRequest) Reset()         { *m = AddPipelineRequest{} }
+func (m *AddPipelineRequest) String() string { return proto.CompactTextString(m) }
+func (*AddPipelineRequest) ProtoMessage()    {}
+func (*AddPipelineRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a02bb4de82d3ef5e, []int{0}
+}
+func (m *AddPipelineRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *AddPipelineRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_AddPipelineRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *AddPipelineRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddPipelineRequest.Merge(m, src)
+}
+func (m *AddPipelineRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *AddPipelineRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddPipelineRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AddPipelineRequest proto.InternalMessageInfo
+
+type AddPipelineResponse struct {
+}
+
+func (m *AddPipelineResponse) Reset()         { *m = AddPipelineResponse{} }
+func (m *AddPipelineResponse) String() string { return proto.CompactTextString(m) }
+func (*AddPipelineResponse) ProtoMessage()    {}
+func (*AddPipelineResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a02bb4de82d3ef5e, []int{1}
+}
+func (m *AddPipelineResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *AddPipelineResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_AddPipelineResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *AddPipelineResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddPipelineResponse.Merge(m, src)
+}
+func (m *AddPipelineResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *AddPipelineResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddPipelineResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AddPipelineResponse proto.InternalMessageInfo
+
+type DeletePipelineRequest struct {
+}
+
+func (m *DeletePipelineRequest) Reset()         { *m = DeletePipelineRequest{} }
+func (m *DeletePipelineRequest) String() string { return proto.CompactTextString(m) }
+func (*DeletePipelineRequest) ProtoMessage()    {}
+func (*DeletePipelineRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a02bb4de82d3ef5e, []int{2}
+}
+func (m *DeletePipelineRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeletePipelineRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeletePipelineRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeletePipelineRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeletePipelineRequest.Merge(m, src)
+}
+func (m *DeletePipelineRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeletePipelineRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeletePipelineRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeletePipelineRequest proto.InternalMessageInfo
+
+type DeletePipelineResponse struct {
+}
+
+func (m *DeletePipelineResponse) Reset()         { *m = DeletePipelineResponse{} }
+func (m *DeletePipelineResponse) String() string { return proto.CompactTextString(m) }
+func (*DeletePipelineResponse) ProtoMessage()    {}
+func (*DeletePipelineResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a02bb4de82d3ef5e, []int{3}
+}
+func (m *DeletePipelineResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeletePipelineResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeletePipelineResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DeletePipelineResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeletePipelineResponse.Merge(m, src)
+}
+func (m *DeletePipelineResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeletePipelineResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeletePipelineResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeletePipelineResponse proto.InternalMessageInfo
+
 type GetPipelineRequest struct {
 	PipelineConfigID github_com_onosproject_onos_api_go_onos_p4rt_v1.PipelineConfigID `protobuf:"bytes,1,opt,name=pipelineconfig_id,json=pipelineconfigId,proto3,casttype=github.com/onosproject/onos-api/go/onos/p4rt/v1.PipelineConfigID" json:"pipelineconfig_id,omitempty"`
 }
@@ -40,7 +183,7 @@ func (m *GetPipelineRequest) Reset()         { *m = GetPipelineRequest{} }
 func (m *GetPipelineRequest) String() string { return proto.CompactTextString(m) }
 func (*GetPipelineRequest) ProtoMessage()    {}
 func (*GetPipelineRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a02bb4de82d3ef5e, []int{0}
+	return fileDescriptor_a02bb4de82d3ef5e, []int{4}
 }
 func (m *GetPipelineRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -76,7 +219,6 @@ func (m *GetPipelineRequest) GetPipelineConfigID() github_com_onosproject_onos_a
 	return ""
 }
 
-// GetPipelineResponse get pipeline response
 type GetPipelineResponse struct {
 	Pipelineconfig *v1.PipelineConfig `protobuf:"bytes,1,opt,name=pipelineconfig,proto3" json:"pipelineconfig,omitempty"`
 }
@@ -85,7 +227,7 @@ func (m *GetPipelineResponse) Reset()         { *m = GetPipelineResponse{} }
 func (m *GetPipelineResponse) String() string { return proto.CompactTextString(m) }
 func (*GetPipelineResponse) ProtoMessage()    {}
 func (*GetPipelineResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a02bb4de82d3ef5e, []int{1}
+	return fileDescriptor_a02bb4de82d3ef5e, []int{5}
 }
 func (m *GetPipelineResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -121,7 +263,6 @@ func (m *GetPipelineResponse) GetPipelineconfig() *v1.PipelineConfig {
 	return nil
 }
 
-// ListPipelineRequest
 type ListPipelinesRequest struct {
 }
 
@@ -129,7 +270,7 @@ func (m *ListPipelinesRequest) Reset()         { *m = ListPipelinesRequest{} }
 func (m *ListPipelinesRequest) String() string { return proto.CompactTextString(m) }
 func (*ListPipelinesRequest) ProtoMessage()    {}
 func (*ListPipelinesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a02bb4de82d3ef5e, []int{2}
+	return fileDescriptor_a02bb4de82d3ef5e, []int{6}
 }
 func (m *ListPipelinesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -158,7 +299,6 @@ func (m *ListPipelinesRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ListPipelinesRequest proto.InternalMessageInfo
 
-// ListPipelineResponse
 type ListPipelinesResponse struct {
 	Pipelineconfig *v1.PipelineConfig `protobuf:"bytes,1,opt,name=pipelineconfig,proto3" json:"pipelineconfig,omitempty"`
 }
@@ -167,7 +307,7 @@ func (m *ListPipelinesResponse) Reset()         { *m = ListPipelinesResponse{} }
 func (m *ListPipelinesResponse) String() string { return proto.CompactTextString(m) }
 func (*ListPipelinesResponse) ProtoMessage()    {}
 func (*ListPipelinesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a02bb4de82d3ef5e, []int{3}
+	return fileDescriptor_a02bb4de82d3ef5e, []int{7}
 }
 func (m *ListPipelinesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -203,7 +343,6 @@ func (m *ListPipelinesResponse) GetPipelineconfig() *v1.PipelineConfig {
 	return nil
 }
 
-// WatchPipelineRequest
 type WatchPipelinesRequest struct {
 	PipelineConfigID github_com_onosproject_onos_api_go_onos_p4rt_v1.PipelineConfigID `protobuf:"bytes,1,opt,name=pipelineconfig_id,json=pipelineconfigId,proto3,casttype=github.com/onosproject/onos-api/go/onos/p4rt/v1.PipelineConfigID" json:"pipelineconfig_id,omitempty"`
 	Noreplay         bool                                                             `protobuf:"varint,2,opt,name=noreplay,proto3" json:"noreplay,omitempty"`
@@ -213,7 +352,7 @@ func (m *WatchPipelinesRequest) Reset()         { *m = WatchPipelinesRequest{} }
 func (m *WatchPipelinesRequest) String() string { return proto.CompactTextString(m) }
 func (*WatchPipelinesRequest) ProtoMessage()    {}
 func (*WatchPipelinesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a02bb4de82d3ef5e, []int{4}
+	return fileDescriptor_a02bb4de82d3ef5e, []int{8}
 }
 func (m *WatchPipelinesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -256,7 +395,6 @@ func (m *WatchPipelinesRequest) GetNoreplay() bool {
 	return false
 }
 
-// WatchPipelineResponse
 type WatchPipelinesResponse struct {
 	v1.PipelineConfig `protobuf:"bytes,1,opt,name=pipelineconfig,proto3,embedded=pipelineconfig" json:"pipelineconfig"`
 }
@@ -265,7 +403,7 @@ func (m *WatchPipelinesResponse) Reset()         { *m = WatchPipelinesResponse{}
 func (m *WatchPipelinesResponse) String() string { return proto.CompactTextString(m) }
 func (*WatchPipelinesResponse) ProtoMessage()    {}
 func (*WatchPipelinesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a02bb4de82d3ef5e, []int{5}
+	return fileDescriptor_a02bb4de82d3ef5e, []int{9}
 }
 func (m *WatchPipelinesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -295,6 +433,10 @@ func (m *WatchPipelinesResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_WatchPipelinesResponse proto.InternalMessageInfo
 
 func init() {
+	proto.RegisterType((*AddPipelineRequest)(nil), "onos.deviceprovisioner.admin.AddPipelineRequest")
+	proto.RegisterType((*AddPipelineResponse)(nil), "onos.deviceprovisioner.admin.AddPipelineResponse")
+	proto.RegisterType((*DeletePipelineRequest)(nil), "onos.deviceprovisioner.admin.DeletePipelineRequest")
+	proto.RegisterType((*DeletePipelineResponse)(nil), "onos.deviceprovisioner.admin.DeletePipelineResponse")
 	proto.RegisterType((*GetPipelineRequest)(nil), "onos.deviceprovisioner.admin.GetPipelineRequest")
 	proto.RegisterType((*GetPipelineResponse)(nil), "onos.deviceprovisioner.admin.GetPipelineResponse")
 	proto.RegisterType((*ListPipelinesRequest)(nil), "onos.deviceprovisioner.admin.ListPipelinesRequest")
@@ -308,35 +450,39 @@ func init() {
 }
 
 var fileDescriptor_a02bb4de82d3ef5e = []byte{
-	// 441 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xd2, 0xcc, 0xcf, 0xcb, 0x2f,
-	0xd6, 0x4f, 0x49, 0x2d, 0xcb, 0x4c, 0x4e, 0xd5, 0x2d, 0x28, 0xca, 0x2f, 0xcb, 0x2c, 0xce, 0xcc,
-	0xcf, 0x4b, 0x2d, 0xd2, 0x4f, 0x4c, 0xc9, 0xcd, 0xcc, 0x83, 0x90, 0x7a, 0x05, 0x45, 0xf9, 0x25,
-	0xf9, 0x42, 0x32, 0x20, 0xa5, 0x7a, 0x10, 0xa5, 0x48, 0x2a, 0xf5, 0xc0, 0x6a, 0xa4, 0x94, 0xc0,
-	0x06, 0x15, 0x98, 0x14, 0x95, 0xe8, 0x97, 0x19, 0xea, 0x17, 0x64, 0x16, 0xa4, 0xe6, 0x64, 0xe6,
-	0xa5, 0xc6, 0x27, 0xe7, 0xe7, 0xa5, 0x65, 0xa6, 0x43, 0x4c, 0x90, 0x12, 0x49, 0xcf, 0x4f, 0xcf,
-	0x07, 0x33, 0xf5, 0x41, 0x2c, 0x88, 0xa8, 0xd2, 0x1c, 0x46, 0x2e, 0x21, 0xf7, 0xd4, 0x92, 0x00,
-	0xa8, 0x96, 0xa0, 0xd4, 0xc2, 0xd2, 0xd4, 0xe2, 0x12, 0xa1, 0x56, 0x46, 0x2e, 0x41, 0x98, 0x31,
-	0x10, 0x53, 0xe2, 0x33, 0x53, 0x24, 0x18, 0x15, 0x18, 0x35, 0x38, 0x9d, 0x22, 0x1e, 0xdd, 0x93,
-	0x17, 0x80, 0x69, 0x70, 0x06, 0x4b, 0x7a, 0xba, 0xfc, 0xba, 0x27, 0xef, 0x90, 0x9e, 0x59, 0x92,
-	0x51, 0x9a, 0xa4, 0x97, 0x9c, 0x9f, 0xab, 0x0f, 0x72, 0x4f, 0x41, 0x51, 0x7e, 0x56, 0x6a, 0x72,
-	0x09, 0x98, 0xad, 0x9b, 0x58, 0x90, 0xa9, 0x9f, 0x9e, 0xaf, 0x8f, 0xec, 0x4e, 0x3d, 0x74, 0x33,
-	0x82, 0x04, 0x50, 0xad, 0xf4, 0x4c, 0x51, 0x8a, 0xe6, 0x12, 0x46, 0x71, 0x5d, 0x71, 0x41, 0x7e,
-	0x5e, 0x71, 0xaa, 0x90, 0x0b, 0x17, 0x1f, 0xaa, 0x52, 0xb0, 0xd3, 0xb8, 0x8d, 0x64, 0xf4, 0xc0,
-	0xc1, 0x04, 0xb2, 0x40, 0x0f, 0xc3, 0x82, 0x20, 0x34, 0x3d, 0x4a, 0x62, 0x5c, 0x22, 0x3e, 0x99,
-	0xc5, 0x70, 0xd3, 0x8b, 0xa1, 0x9e, 0x57, 0x8a, 0xe5, 0x12, 0x45, 0x13, 0xa7, 0xaa, 0xb5, 0xbb,
-	0x19, 0xb9, 0x44, 0xc3, 0x13, 0x4b, 0x92, 0x33, 0xd0, 0x2d, 0x1e, 0x2c, 0xa1, 0x2e, 0x24, 0xc5,
-	0xc5, 0x91, 0x97, 0x5f, 0x94, 0x5a, 0x90, 0x93, 0x58, 0x29, 0xc1, 0xa4, 0xc0, 0xa8, 0xc1, 0x11,
-	0x04, 0xe7, 0x2b, 0x65, 0x70, 0x89, 0xa1, 0x3b, 0x1e, 0x1a, 0x3a, 0x7e, 0xe4, 0x84, 0x8e, 0x13,
-	0xc7, 0x89, 0x7b, 0xf2, 0x0c, 0x17, 0xee, 0xc9, 0x33, 0xa2, 0x87, 0x93, 0x51, 0x0f, 0x33, 0x97,
-	0x28, 0xaa, 0xe2, 0xe0, 0xd4, 0x22, 0x50, 0xfa, 0x17, 0x2a, 0xe1, 0xe2, 0x46, 0x4a, 0x15, 0x42,
-	0x06, 0x7a, 0xf8, 0x32, 0x87, 0x1e, 0x66, 0xf2, 0x96, 0x32, 0x24, 0x41, 0x07, 0xc4, 0x77, 0x4a,
-	0x0c, 0x42, 0x35, 0x5c, 0xbc, 0x28, 0xc9, 0x42, 0xc8, 0x08, 0xbf, 0x29, 0xd8, 0xd2, 0x96, 0x94,
-	0x31, 0x49, 0x7a, 0x60, 0x76, 0x1b, 0x30, 0x0a, 0xd5, 0x73, 0xf1, 0xa1, 0x86, 0xbb, 0x10, 0x01,
-	0xa3, 0xb0, 0x26, 0x31, 0x29, 0x13, 0xd2, 0x34, 0x21, 0x1c, 0xe0, 0x24, 0x71, 0xe2, 0x91, 0x1c,
-	0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1, 0xb1,
-	0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x49, 0x6c, 0xe0, 0xa2, 0xc4, 0x18, 0x10, 0x00, 0x00, 0xff,
-	0xff, 0x7b, 0x59, 0x99, 0x09, 0xcf, 0x04, 0x00, 0x00,
+	// 502 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x54, 0xc1, 0x8a, 0xd3, 0x40,
+	0x18, 0xee, 0x88, 0x48, 0xfd, 0x8b, 0x65, 0x9d, 0x6d, 0x6a, 0x09, 0x4b, 0xba, 0xe4, 0xb4, 0x1e,
+	0x76, 0xd2, 0x6d, 0xf7, 0x01, 0xb4, 0x16, 0x64, 0x41, 0x44, 0xea, 0x41, 0x41, 0x64, 0xe9, 0x26,
+	0x63, 0x3a, 0xd2, 0xcd, 0x8c, 0x93, 0x6c, 0x41, 0xc5, 0xa3, 0x77, 0x1f, 0xc0, 0x37, 0xf1, 0x05,
+	0xf6, 0xd8, 0xa3, 0xa7, 0x22, 0xed, 0x43, 0x08, 0x9e, 0x24, 0x93, 0xb4, 0x74, 0xa6, 0xa1, 0xa5,
+	0xe2, 0x61, 0x2f, 0x61, 0x32, 0xf3, 0x7d, 0xff, 0xf7, 0xff, 0x5f, 0xe6, 0x0b, 0x3c, 0xe4, 0x11,
+	0x8f, 0xbd, 0x80, 0x8e, 0x99, 0x4f, 0x8f, 0x85, 0xe4, 0x63, 0x16, 0x33, 0x1e, 0x51, 0xe9, 0x0d,
+	0x82, 0x4b, 0x16, 0x65, 0x4f, 0x22, 0x24, 0x4f, 0x38, 0x3e, 0x48, 0xa1, 0x24, 0x83, 0xae, 0x20,
+	0x89, 0xc2, 0xd8, 0xae, 0x2a, 0x24, 0x4e, 0x65, 0xe2, 0x8d, 0x4f, 0x3c, 0xc1, 0x04, 0x1d, 0xb1,
+	0x88, 0x9e, 0xfb, 0x3c, 0x7a, 0xc7, 0xc2, 0xac, 0x82, 0x5d, 0x0b, 0x79, 0xc8, 0xd5, 0xd2, 0x4b,
+	0x57, 0xd9, 0xae, 0x5b, 0x03, 0xfc, 0x38, 0x08, 0x5e, 0xe4, 0x8c, 0x3e, 0xfd, 0x70, 0x45, 0xe3,
+	0xc4, 0xb5, 0x60, 0x5f, 0xdb, 0x8d, 0x05, 0x8f, 0x62, 0xea, 0x3e, 0x00, 0xab, 0x47, 0x47, 0x34,
+	0xa1, 0x26, 0xbe, 0x01, 0x75, 0xf3, 0x20, 0xa7, 0x7c, 0x47, 0x80, 0x9f, 0xd2, 0xc4, 0x20, 0xe0,
+	0xaf, 0x08, 0xee, 0x2f, 0xda, 0xcc, 0xba, 0x3c, 0x67, 0x41, 0x03, 0x1d, 0xa2, 0xa3, 0xbb, 0xdd,
+	0xd7, 0xb3, 0x69, 0x73, 0x6f, 0x41, 0x78, 0xa2, 0x0e, 0xcf, 0x7a, 0x7f, 0xa6, 0xcd, 0x47, 0x21,
+	0x4b, 0x86, 0x57, 0x17, 0xc4, 0xe7, 0x97, 0x5e, 0x3a, 0xaf, 0x90, 0xfc, 0x3d, 0xf5, 0x13, 0xb5,
+	0x3e, 0x1e, 0x08, 0xe6, 0x85, 0xdc, 0x5b, 0xf5, 0x81, 0x98, 0x35, 0xfa, 0x7b, 0xba, 0xe4, 0x59,
+	0xe0, 0xbe, 0x81, 0x7d, 0xad, 0xbb, 0xac, 0x6b, 0xdc, 0x83, 0xaa, 0x0e, 0x55, 0xad, 0x55, 0xda,
+	0x07, 0x44, 0x7d, 0x86, 0x54, 0x80, 0xac, 0x09, 0xf4, 0x0d, 0x8e, 0x5b, 0x87, 0xda, 0x33, 0x16,
+	0x2f, 0xab, 0xc7, 0x0b, 0xb7, 0xde, 0x82, 0x65, 0xec, 0xff, 0x57, 0xd9, 0x1f, 0x08, 0xac, 0x57,
+	0x83, 0xc4, 0x1f, 0x9a, 0xc2, 0x37, 0xc5, 0x75, 0x6c, 0x43, 0x39, 0xe2, 0x92, 0x8a, 0xd1, 0xe0,
+	0x63, 0xe3, 0xd6, 0x21, 0x3a, 0x2a, 0xf7, 0x97, 0xef, 0xee, 0x10, 0xea, 0x66, 0xf3, 0xb9, 0x3b,
+	0xcf, 0xff, 0xc5, 0x9d, 0x6e, 0xf9, 0x7a, 0xda, 0x2c, 0x4d, 0xa6, 0x4d, 0x64, 0xfa, 0xd4, 0xfe,
+	0x7d, 0x1b, 0x2c, 0x1d, 0xfc, 0x92, 0xca, 0x34, 0x5f, 0x58, 0x42, 0x65, 0xe5, 0xfa, 0xe3, 0x16,
+	0xd9, 0x14, 0x3e, 0xb2, 0x9e, 0x1f, 0xfb, 0x64, 0x07, 0x46, 0x3e, 0xdd, 0x67, 0xa8, 0xea, 0x11,
+	0xc2, 0x9d, 0xcd, 0x45, 0x0a, 0x93, 0x68, 0x9f, 0xee, 0x46, 0xca, 0xc5, 0x25, 0x54, 0x56, 0x62,
+	0xb0, 0x6d, 0xe0, 0xf5, 0x3c, 0x6f, 0x1b, 0xb8, 0x28, 0x63, 0x9f, 0xe0, 0x9e, 0x96, 0x02, 0xdc,
+	0xde, 0x5c, 0xa3, 0x28, 0x4a, 0x76, 0x67, 0x27, 0x4e, 0xa6, 0xdc, 0x42, 0xf8, 0x0b, 0x54, 0xf5,
+	0x4b, 0xb6, 0xcd, 0xec, 0xc2, 0x3c, 0x6d, 0x33, 0xbb, 0xf8, 0x1e, 0xb7, 0x50, 0xb7, 0x71, 0x3d,
+	0x73, 0xd0, 0x64, 0xe6, 0xa0, 0x5f, 0x33, 0x07, 0x7d, 0x9b, 0x3b, 0xa5, 0xc9, 0xdc, 0x29, 0xfd,
+	0x9c, 0x3b, 0xa5, 0x8b, 0x3b, 0xea, 0xaf, 0xdc, 0xf9, 0x1b, 0x00, 0x00, 0xff, 0xff, 0x01, 0x11,
+	0xcd, 0x01, 0x1a, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -351,9 +497,13 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PipelineConfigServiceClient interface {
-	// Get pipeline config based on a given ID
+	// AddPipeline registers new pipeline configuration
+	AddPipeline(ctx context.Context, in *AddPipelineRequest, opts ...grpc.CallOption) (*AddPipelineResponse, error)
+	// DeletePipeline unregisters new pipeline configuration
+	DeletePipeline(ctx context.Context, in *DeletePipelineRequest, opts ...grpc.CallOption) (*DeletePipelineResponse, error)
+	// GetPipeline returns pipeline configuration based on a given ID
 	GetPipeline(ctx context.Context, in *GetPipelineRequest, opts ...grpc.CallOption) (*GetPipelineResponse, error)
-	// List returns all target pipelines
+	// List returns all registered pipelines
 	ListPipelines(ctx context.Context, in *ListPipelinesRequest, opts ...grpc.CallOption) (PipelineConfigService_ListPipelinesClient, error)
 	// Watch returns a stream of pipeline change notifications
 	WatchPipelines(ctx context.Context, in *WatchPipelinesRequest, opts ...grpc.CallOption) (PipelineConfigService_WatchPipelinesClient, error)
@@ -365,6 +515,24 @@ type pipelineConfigServiceClient struct {
 
 func NewPipelineConfigServiceClient(cc *grpc.ClientConn) PipelineConfigServiceClient {
 	return &pipelineConfigServiceClient{cc}
+}
+
+func (c *pipelineConfigServiceClient) AddPipeline(ctx context.Context, in *AddPipelineRequest, opts ...grpc.CallOption) (*AddPipelineResponse, error) {
+	out := new(AddPipelineResponse)
+	err := c.cc.Invoke(ctx, "/onos.deviceprovisioner.admin.PipelineConfigService/AddPipeline", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pipelineConfigServiceClient) DeletePipeline(ctx context.Context, in *DeletePipelineRequest, opts ...grpc.CallOption) (*DeletePipelineResponse, error) {
+	out := new(DeletePipelineResponse)
+	err := c.cc.Invoke(ctx, "/onos.deviceprovisioner.admin.PipelineConfigService/DeletePipeline", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *pipelineConfigServiceClient) GetPipeline(ctx context.Context, in *GetPipelineRequest, opts ...grpc.CallOption) (*GetPipelineResponse, error) {
@@ -442,9 +610,13 @@ func (x *pipelineConfigServiceWatchPipelinesClient) Recv() (*WatchPipelinesRespo
 
 // PipelineConfigServiceServer is the server API for PipelineConfigService service.
 type PipelineConfigServiceServer interface {
-	// Get pipeline config based on a given ID
+	// AddPipeline registers new pipeline configuration
+	AddPipeline(context.Context, *AddPipelineRequest) (*AddPipelineResponse, error)
+	// DeletePipeline unregisters new pipeline configuration
+	DeletePipeline(context.Context, *DeletePipelineRequest) (*DeletePipelineResponse, error)
+	// GetPipeline returns pipeline configuration based on a given ID
 	GetPipeline(context.Context, *GetPipelineRequest) (*GetPipelineResponse, error)
-	// List returns all target pipelines
+	// List returns all registered pipelines
 	ListPipelines(*ListPipelinesRequest, PipelineConfigService_ListPipelinesServer) error
 	// Watch returns a stream of pipeline change notifications
 	WatchPipelines(*WatchPipelinesRequest, PipelineConfigService_WatchPipelinesServer) error
@@ -454,6 +626,12 @@ type PipelineConfigServiceServer interface {
 type UnimplementedPipelineConfigServiceServer struct {
 }
 
+func (*UnimplementedPipelineConfigServiceServer) AddPipeline(ctx context.Context, req *AddPipelineRequest) (*AddPipelineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPipeline not implemented")
+}
+func (*UnimplementedPipelineConfigServiceServer) DeletePipeline(ctx context.Context, req *DeletePipelineRequest) (*DeletePipelineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePipeline not implemented")
+}
 func (*UnimplementedPipelineConfigServiceServer) GetPipeline(ctx context.Context, req *GetPipelineRequest) (*GetPipelineResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPipeline not implemented")
 }
@@ -466,6 +644,42 @@ func (*UnimplementedPipelineConfigServiceServer) WatchPipelines(req *WatchPipeli
 
 func RegisterPipelineConfigServiceServer(s *grpc.Server, srv PipelineConfigServiceServer) {
 	s.RegisterService(&_PipelineConfigService_serviceDesc, srv)
+}
+
+func _PipelineConfigService_AddPipeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPipelineRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PipelineConfigServiceServer).AddPipeline(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.deviceprovisioner.admin.PipelineConfigService/AddPipeline",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PipelineConfigServiceServer).AddPipeline(ctx, req.(*AddPipelineRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PipelineConfigService_DeletePipeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePipelineRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PipelineConfigServiceServer).DeletePipeline(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/onos.deviceprovisioner.admin.PipelineConfigService/DeletePipeline",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PipelineConfigServiceServer).DeletePipeline(ctx, req.(*DeletePipelineRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _PipelineConfigService_GetPipeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -533,6 +747,14 @@ var _PipelineConfigService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*PipelineConfigServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "AddPipeline",
+			Handler:    _PipelineConfigService_AddPipeline_Handler,
+		},
+		{
+			MethodName: "DeletePipeline",
+			Handler:    _PipelineConfigService_DeletePipeline_Handler,
+		},
+		{
 			MethodName: "GetPipeline",
 			Handler:    _PipelineConfigService_GetPipeline_Handler,
 		},
@@ -550,6 +772,98 @@ var _PipelineConfigService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Metadata: "onos/device-provisioner/admin/admin.proto",
+}
+
+func (m *AddPipelineRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *AddPipelineRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *AddPipelineRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *AddPipelineResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *AddPipelineResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *AddPipelineResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *DeletePipelineRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeletePipelineRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeletePipelineRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *DeletePipelineResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeletePipelineResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeletePipelineResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
 }
 
 func (m *GetPipelineRequest) Marshal() (dAtA []byte, err error) {
@@ -759,6 +1073,42 @@ func encodeVarintAdmin(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+func (m *AddPipelineRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *AddPipelineResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *DeletePipelineRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *DeletePipelineResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
 func (m *GetPipelineRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -839,6 +1189,206 @@ func sovAdmin(x uint64) (n int) {
 }
 func sozAdmin(x uint64) (n int) {
 	return sovAdmin(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *AddPipelineRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAdmin
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AddPipelineRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AddPipelineRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAdmin(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthAdmin
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *AddPipelineResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAdmin
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AddPipelineResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AddPipelineResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAdmin(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthAdmin
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeletePipelineRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAdmin
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeletePipelineRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeletePipelineRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAdmin(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthAdmin
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeletePipelineResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAdmin
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeletePipelineResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeletePipelineResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAdmin(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthAdmin
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
 }
 func (m *GetPipelineRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
