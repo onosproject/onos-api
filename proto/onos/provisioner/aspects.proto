@@ -1,0 +1,30 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+// Package provisioner defines the main device provisioner gRPC interface
+package onos.provisioner;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+// DeviceConfig is a topology entity aspect used to specify what pipeline and chassis config a device should have applied to it
+message DeviceConfig {
+  string pipeline_config_id = 1 [(gogoproto.customname) = "PipelineConfigID", (gogoproto.casttype) = "ConfigID"];
+  string chassis_config_id = 2 [(gogoproto.customname) = "ChassisConfigID", (gogoproto.casttype) = "ConfigID"];
+}
+
+// PipelineConfigState is a topology entity aspect used to indicate what pipeline config a device has presently applied to it
+message PipelineConfigState {
+  string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
+  uint64 cookie = 2;
+  google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+}
+
+// ChassisConfigState is a topology entity aspect used to indicate what chassis config a device has presently applied to it
+message ChassisConfigState {
+  string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
+  google.protobuf.Timestamp updated = 2 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+}
