@@ -12,6 +12,64 @@ proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/sr
 
 ### Documentation generation
 
+# topo & uenib
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/topo \
+    --doc_opt=markdown,topo.md \
+    proto/onos/topo/topo.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/uenib \
+    --doc_opt=markdown,uenib.md \
+    proto/onos/uenib/uenib.proto
+
+# provisioner
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/provisioner \
+    --doc_opt=markdown,pipeline.md \
+    proto/onos/provisioner/pipeline.proto
+
+# fabric-sim
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/fabricsim \
+    --doc_opt=markdown,devices.md \
+    proto/onos/fabricsim/devices.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/fabricsim \
+    --doc_opt=markdown,links.md \
+    proto/onos/fabricsim/links.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/fabricsim \
+    --doc_opt=markdown,hosts.md \
+    proto/onos/fabricsim/hosts.proto
+
+
+# config
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config \
+    --doc_opt=markdown,admin.md \
+    proto/onos/config/admin/admin.proto
+
+## onos-config v2 API
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,value.md \
+    proto/onos/config/v2/value.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,transaction.md \
+    proto/onos/config/v2/transaction.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,proposal.md \
+    proto/onos/config/v2/proposal.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v2 \
+    --doc_opt=markdown,configuration.md \
+    proto/onos/config/v2/configuration.proto
+
+
+# SD-RAN Stuff
 # e2t
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/e2t \
@@ -31,59 +89,6 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/a1t \
     --doc_opt=markdown,a1.md \
     proto/onos/a1t/admin/*.proto
-
-# topo
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/topo \
-    --doc_opt=markdown,topo.md \
-    proto/onos/topo/topo.proto
-
-# config
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config \
-    --doc_opt=markdown,admin.md \
-    proto/onos/config/admin/admin.proto
-
-## onos-config v2 API
-
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config/v2 \
-    --doc_opt=markdown,value.md \
-    proto/onos/config/v2/value.proto
-
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config/v2 \
-    --doc_opt=markdown,transaction.md \
-    proto/onos/config/v2/transaction.proto
-
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config/v2 \
-    --doc_opt=markdown,proposal.md \
-    proto/onos/config/v2/proposal.proto
-
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/config/v2 \
-    --doc_opt=markdown,configuration.md \
-    proto/onos/config/v2/configuration.proto
-
-
-
-# fabric-sim
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/fabricsim \
-    --doc_opt=markdown,devices.md \
-    proto/onos/fabricsim/devices.proto
-
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/fabricsim \
-    --doc_opt=markdown,links.md \
-    proto/onos/fabricsim/links.proto
-
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/fabricsim \
-    --doc_opt=markdown,hosts.md \
-    proto/onos/fabricsim/hosts.proto
-
 
 # kpimon
 protoc --proto_path=$proto_path \
@@ -114,36 +119,18 @@ protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
     --doc_opt=markdown,metrics.md \
     proto/onos/ransim/metrics/metrics.proto
-
-
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
     --doc_opt=markdown,model.md \
     proto/onos/ransim/model/model.proto
-
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
     --doc_opt=markdown,trafficsim.md \
     proto/onos/ransim/trafficsim/trafficsim.proto
-
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/ransim \
     --doc_opt=markdown,types.md \
     proto/onos/ransim/types/types.proto
-
-
-# p4rt
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/p4rt \
-    --doc_opt=markdown,pipeline_config.md \
-    proto/onos/p4rt/v1/pipeline_config.proto
-
-# device-provisioner
-protoc --proto_path=$proto_path \
-    --doc_out=docs/onos/device-provisioner \
-    --doc_opt=markdown,admin.md \
-    proto/onos/device-provisioner/admin/admin.proto
-
 
 ### Go Protobuf code generation
 go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
@@ -159,11 +146,6 @@ go_import_paths="${go_import_paths},Monos/config/v2/value.proto=github.com/onosp
 go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/proposal.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"
-go_import_paths="${go_import_paths},Monos/p4rt/v1/pipeline_config.proto=github.com/onosproject/onos-api/go/onos/p4rt/v1"
-go_import_paths="${go_import_paths},Monos/p4rt/v1/object.proto=github.com/onosproject/onos-api/go/onos/p4rt/v1"
-go_import_paths="${go_import_paths},Monos/device-provisioner/admin/admin.proto=github.com/onosproject/onos-api/go/onos/device-provisioner/admin"
-
-
 
 
 # topo and UE-NIB
@@ -174,6 +156,34 @@ protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/uenib,plugins=grpc:./go \
     proto/onos/uenib/*.proto
 
+# stratum role config (for fabricsim)
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/stratum,plugins=grpc:./go \
+    proto/onos/stratum/*.proto
+
+# provisioner
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/provisioner,plugins=grpc:./go \
+    proto/onos/provisioner/*.proto
+
+
+# onos-config v2 API
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/config/v2,plugins=grpc:./go \
+    proto/onos/config/v2/*.proto
+
+# admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
+protoc --proto_path=$proto_path \
+    --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
+    proto/onos/config/admin/*.proto
+
+# fabricsim
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/fabricsim,plugins=grpc:./go \
+    proto/onos/fabricsim/*.proto
+
+
+# SD-RAN Stuff
 # e2t
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/e2t/admin,plugins=grpc:./go \
@@ -197,38 +207,6 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/o1t,plugins=grpc:./go \
     proto/onos/o1t/*.proto
-
-# onos-config v2 API
-
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/config/v2,plugins=grpc:./go \
-    proto/onos/config/v2/*.proto
-
-# admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
-protoc --proto_path=$proto_path \
-    --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
-    proto/onos/config/admin/*.proto
-
-# fabricsim
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/fabricsim,plugins=grpc:./go \
-    proto/onos/fabricsim/*.proto
-
-# stratum role config (for fabricsim)
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/stratum,plugins=grpc:./go \
-    proto/onos/stratum/*.proto
-
-
-# p4rt
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/p4rt,plugins=grpc:./go \
-    proto/onos/p4rt/v1/*.proto
-
-# device-provisioner
-protoc --proto_path=$proto_path \
-    --gogofaster_out=$go_import_paths,import_path=onos/device-provisioner/admin,plugins=grpc:./go \
-    proto/onos/device-provisioner/admin/*.proto
 
 # kpimon
 protoc --proto_path=$proto_path \
@@ -284,17 +262,20 @@ protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-topo.protoset \
     --include_imports \
     proto/onos/topo/*.proto
-
 protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-uenib.protoset \
     --include_imports \
     proto/onos/uenib/*.proto
 
 protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/provisioner.protoset \
+    --include_imports \
+    proto/onos/provisioner/*.proto
+
+protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-config.protoset \
     --include_imports \
     proto/onos/config/v2/*.proto
-
 protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-config-admin.protoset \
     --include_imports \
