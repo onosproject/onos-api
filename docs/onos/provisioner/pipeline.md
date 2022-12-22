@@ -3,83 +3,206 @@
 
 ## Table of Contents
 
-- [onos/provisioner/pipeline.proto](#onos_provisioner_pipeline-proto)
-    - [AddPipelineConfigRequest](#onos-provisioner-AddPipelineConfigRequest)
-    - [AddPipelineConfigResponse](#onos-provisioner-AddPipelineConfigResponse)
-    - [DeletePipelineConfigRequest](#onos-provisioner-DeletePipelineConfigRequest)
-    - [DeletePipelineConfigResponse](#onos-provisioner-DeletePipelineConfigResponse)
-    - [GetPipelineConfigRequest](#onos-provisioner-GetPipelineConfigRequest)
-    - [GetPipelineConfigResponse](#onos-provisioner-GetPipelineConfigResponse)
-    - [ListPipelineConfigsRequest](#onos-provisioner-ListPipelineConfigsRequest)
-    - [ListPipelineConfigsResponse](#onos-provisioner-ListPipelineConfigsResponse)
-    - [PipelineConfig](#onos-provisioner-PipelineConfig)
+- [onos/provisioner/aspects.proto](#onos_provisioner_aspects-proto)
+    - [ChassisConfigState](#onos-provisioner-ChassisConfigState)
+    - [DeviceConfig](#onos-provisioner-DeviceConfig)
+    - [PipelineConfigState](#onos-provisioner-PipelineConfigState)
   
-    - [PipelineConfigService](#onos-provisioner-PipelineConfigService)
+- [onos/provisioner/config.proto](#onos_provisioner_config-proto)
+    - [AddConfigRequest](#onos-provisioner-AddConfigRequest)
+    - [AddConfigResponse](#onos-provisioner-AddConfigResponse)
+    - [Config](#onos-provisioner-Config)
+    - [Config.ArtifactsEntry](#onos-provisioner-Config-ArtifactsEntry)
+    - [ConfigRecord](#onos-provisioner-ConfigRecord)
+    - [DeleteConfigRequest](#onos-provisioner-DeleteConfigRequest)
+    - [DeleteConfigResponse](#onos-provisioner-DeleteConfigResponse)
+    - [GetConfigRequest](#onos-provisioner-GetConfigRequest)
+    - [GetConfigResponse](#onos-provisioner-GetConfigResponse)
+    - [ListConfigsRequest](#onos-provisioner-ListConfigsRequest)
+    - [ListConfigsResponse](#onos-provisioner-ListConfigsResponse)
+  
+    - [ProvisionerService](#onos-provisioner-ProvisionerService)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="onos_provisioner_pipeline-proto"></a>
+<a name="onos_provisioner_aspects-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## onos/provisioner/pipeline.proto
+## onos/provisioner/aspects.proto
 
 
 
-<a name="onos-provisioner-AddPipelineConfigRequest"></a>
+<a name="onos-provisioner-ChassisConfigState"></a>
 
-### AddPipelineConfigRequest
+### ChassisConfigState
+ChassisConfigState is a topology entity aspect used to indicate what chassis config a device has presently applied to it
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| config_id | [string](#string) |  |  |
+| updated | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+
+
+
+
+
+
+<a name="onos-provisioner-DeviceConfig"></a>
+
+### DeviceConfig
+DeviceConfig is a topology entity aspect used to specify what pipeline and chassis config a device should have applied to it
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pipeline_config_id | [string](#string) |  |  |
+| chassis_config_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos-provisioner-PipelineConfigState"></a>
+
+### PipelineConfigState
+PipelineConfigState is a topology entity aspect used to indicate what pipeline config a device has presently applied to it
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| config_id | [string](#string) |  |  |
+| cookie | [uint64](#uint64) |  |  |
+| updated | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="onos_provisioner_config-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## onos/provisioner/config.proto
+
+
+
+<a name="onos-provisioner-AddConfigRequest"></a>
+
+### AddConfigRequest
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| config | [PipelineConfig](#onos-provisioner-PipelineConfig) |  |  |
+| config | [Config](#onos-provisioner-Config) |  |  |
 
 
 
 
 
 
-<a name="onos-provisioner-AddPipelineConfigResponse"></a>
+<a name="onos-provisioner-AddConfigResponse"></a>
 
-### AddPipelineConfigResponse
-
-
+### AddConfigResponse
 
 
 
 
 
-<a name="onos-provisioner-DeletePipelineConfigRequest"></a>
 
-### DeletePipelineConfigRequest
+
+<a name="onos-provisioner-Config"></a>
+
+### Config
+Config represents
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| record | [ConfigRecord](#onos-provisioner-ConfigRecord) |  |  |
+| artifacts | [Config.ArtifactsEntry](#onos-provisioner-Config-ArtifactsEntry) | repeated |  |
+
+
+
+
+
+
+<a name="onos-provisioner-Config-ArtifactsEntry"></a>
+
+### Config.ArtifactsEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pipeline_config | [PipelineConfig](#onos-provisioner-PipelineConfig) |  | config_id and revision must be present; all others optional |
+| key | [string](#string) |  |  |
+| value | [bytes](#bytes) |  |  |
 
 
 
 
 
 
-<a name="onos-provisioner-DeletePipelineConfigResponse"></a>
+<a name="onos-provisioner-ConfigRecord"></a>
 
-### DeletePipelineConfigResponse
-
-
-
-
+### ConfigRecord
+ConfigRecord is used for storing a record of the pipeline or chassis configuration with
+references to its related file artifact(s)
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| config_id | [string](#string) |  |  |
+| revision | [uint64](#uint64) |  |  |
+| kind | [string](#string) |  | pipeline, chassis, etc. |
+| artifacts | [string](#string) | repeated | list of associated artifact types |
 
-<a name="onos-provisioner-GetPipelineConfigRequest"></a>
 
-### GetPipelineConfigRequest
+
+
+
+
+<a name="onos-provisioner-DeleteConfigRequest"></a>
+
+### DeleteConfigRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| record | [ConfigRecord](#onos-provisioner-ConfigRecord) |  | config_id and revision must be present; all others optional |
+
+
+
+
+
+
+<a name="onos-provisioner-DeleteConfigResponse"></a>
+
+### DeleteConfigResponse
+
+
+
+
+
+
+
+<a name="onos-provisioner-GetConfigRequest"></a>
+
+### GetConfigRequest
 
 
 
@@ -92,29 +215,30 @@
 
 
 
-<a name="onos-provisioner-GetPipelineConfigResponse"></a>
+<a name="onos-provisioner-GetConfigResponse"></a>
 
-### GetPipelineConfigResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| config | [PipelineConfig](#onos-provisioner-PipelineConfig) |  |  |
-
-
-
-
-
-
-<a name="onos-provisioner-ListPipelineConfigsRequest"></a>
-
-### ListPipelineConfigsRequest
+### GetConfigResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| config | [Config](#onos-provisioner-Config) |  |  |
+
+
+
+
+
+
+<a name="onos-provisioner-ListConfigsRequest"></a>
+
+### ListConfigsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| kind | [string](#string) |  |  |
 | watch | [bool](#bool) |  |  |
 
 
@@ -122,33 +246,15 @@
 
 
 
-<a name="onos-provisioner-ListPipelineConfigsResponse"></a>
+<a name="onos-provisioner-ListConfigsResponse"></a>
 
-### ListPipelineConfigsResponse
+### ListConfigsResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| config | [PipelineConfig](#onos-provisioner-PipelineConfig) |  |  |
-
-
-
-
-
-
-<a name="onos-provisioner-PipelineConfig"></a>
-
-### PipelineConfig
-PipelineConfig
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| config_id | [string](#string) |  |  |
-| revision | [uint64](#uint64) |  |  |
-| p4_info | [bytes](#bytes) |  |  |
-| p4_binary | [bytes](#bytes) |  |  |
+| config | [Config](#onos-provisioner-Config) |  |  |
 
 
 
@@ -161,17 +267,17 @@ PipelineConfig
  
 
 
-<a name="onos-provisioner-PipelineConfigService"></a>
+<a name="onos-provisioner-ProvisionerService"></a>
 
-### PipelineConfigService
-PipelineConfigService
+### ProvisionerService
+ProvisionerService allows managing inventory of various device configuratoins, e.g., pipeline, chassis.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Add | [AddPipelineConfigRequest](#onos-provisioner-AddPipelineConfigRequest) | [AddPipelineConfigResponse](#onos-provisioner-AddPipelineConfigResponse) | Add registers new pipeline configuration |
-| Delete | [DeletePipelineConfigRequest](#onos-provisioner-DeletePipelineConfigRequest) | [DeletePipelineConfigResponse](#onos-provisioner-DeletePipelineConfigResponse) | Delete removes a pipeline configuration |
-| Get | [GetPipelineConfigRequest](#onos-provisioner-GetPipelineConfigRequest) | [GetPipelineConfigResponse](#onos-provisioner-GetPipelineConfigResponse) | Get returns pipeline configuration based on a given ID |
-| List | [ListPipelineConfigsRequest](#onos-provisioner-ListPipelineConfigsRequest) | [ListPipelineConfigsResponse](#onos-provisioner-ListPipelineConfigsResponse) stream | List returns all registered pipelines |
+| Add | [AddConfigRequest](#onos-provisioner-AddConfigRequest) | [AddConfigResponse](#onos-provisioner-AddConfigResponse) | Add registers new pipeline configuration |
+| Delete | [DeleteConfigRequest](#onos-provisioner-DeleteConfigRequest) | [DeleteConfigResponse](#onos-provisioner-DeleteConfigResponse) | Delete removes a pipeline configuration |
+| Get | [GetConfigRequest](#onos-provisioner-GetConfigRequest) | [GetConfigResponse](#onos-provisioner-GetConfigResponse) | Get returns pipeline configuration based on a given ID |
+| List | [ListConfigsRequest](#onos-provisioner-ListConfigsRequest) | [ListConfigsResponse](#onos-provisioner-ListConfigsResponse) stream | List returns all registered pipelines |
 
  
 
