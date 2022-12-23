@@ -26,7 +26,7 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/provisioner \
     --doc_opt=markdown,pipeline.md \
-    proto/onos/provisioner/pipeline.proto
+    proto/onos/provisioner/*.proto
 
 # fabric-sim
 protoc --proto_path=$proto_path \

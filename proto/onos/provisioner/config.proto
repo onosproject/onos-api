@@ -1,0 +1,70 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.provisioner;
+
+import "gogoproto/gogo.proto";
+
+// ProvisionerService allows managing inventory of various device configuratoins, e.g., pipeline, chassis.
+service ProvisionerService {
+  // Add registers new pipeline configuration
+  rpc Add(AddConfigRequest) returns (AddConfigResponse);
+
+  // Delete removes a pipeline configuration
+  rpc Delete(DeleteConfigRequest) returns (DeleteConfigResponse);
+
+  // Get returns pipeline configuration based on a given ID
+  rpc Get(GetConfigRequest) returns (GetConfigResponse);
+
+  // List returns all registered pipelines
+  rpc List(ListConfigsRequest) returns (stream ListConfigsResponse);
+}
+
+// ConfigRecord is used for storing a record of the pipeline or chassis configuration with
+// references to its related file artifact(s)
+message ConfigRecord {
+  string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
+  uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
+  string kind = 3;  // pipeline, chassis, etc.
+  repeated string artifacts = 4;  // list of associated artifact types
+}
+
+// Config represents
+message Config {
+  ConfigRecord record = 1;
+  map<string, bytes> artifacts = 4;
+}
+
+message AddConfigRequest {
+  Config config = 1;
+}
+
+message AddConfigResponse {
+}
+
+message DeleteConfigRequest {
+  ConfigRecord record = 1; // config_id and revision must be present; all others optional
+}
+
+message DeleteConfigResponse {
+}
+
+message GetConfigRequest {
+  string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
+}
+
+message GetConfigResponse {
+  Config config = 1;
+}
+
+message ListConfigsRequest {
+  string kind = 1;
+  bool watch = 2;
+}
+
+message ListConfigsResponse {
+  Config config = 1;
+}
