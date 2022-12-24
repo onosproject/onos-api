@@ -27,7 +27,6 @@ service ProvisionerService {
 // references to its related file artifact(s)
 message ConfigRecord {
   string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
-  uint64 revision = 2 [(gogoproto.casttype) = "Revision"];
   string kind = 3;  // pipeline, chassis, etc.
   repeated string artifacts = 4;  // list of associated artifact types
 }
@@ -46,7 +45,7 @@ message AddConfigResponse {
 }
 
 message DeleteConfigRequest {
-  ConfigRecord record = 1; // config_id and revision must be present; all others optional
+  string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
 }
 
 message DeleteConfigResponse {

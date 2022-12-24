@@ -77,17 +77,17 @@ class ServiceState(betterproto.Enum):
     CONNECTING = 3
 
 
+class IpAddressType(betterproto.Enum):
+    IPV4 = 0
+    IPV6 = 1
+
+
 class NetworkLayerType(betterproto.Enum):
     UNDERLAY = 0
 
 
 class ControllerInfoType(betterproto.Enum):
     P4RUNTIME = 0
-
-
-class IpAddressType(betterproto.Enum):
-    IPV4 = 0
-    IPV6 = 1
 
 
 class P4PipelineInfoConfigurationAction(betterproto.Enum):
@@ -370,8 +370,51 @@ class Protocols(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class NetworkLayer(betterproto.Message):
+class Endpoint(betterproto.Message):
     """Basic asset information"""
+
+    address: str = betterproto.string_field(1)
+    port: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class IpAddress(betterproto.Message):
+    """Configurable device aspect"""
+
+    type: "IpAddressType" = betterproto.enum_field(1)
+    ip: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class P4RuntimeServer(betterproto.Message):
+    """Aspect for tracking device mastership"""
+
+    endpoint: "Endpoint" = betterproto.message_field(1)
+    device_id: int = betterproto.uint64_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GNmiServer(betterproto.Message):
+    """TLS connectivity aspect"""
+
+    endpoint: "Endpoint" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class NetworkLayer(betterproto.Message):
+    """Aspect for ad-hoc properties"""
 
     type: "NetworkLayerType" = betterproto.enum_field(1)
     display_name: str = betterproto.string_field(2)
@@ -382,10 +425,16 @@ class NetworkLayer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Switch(betterproto.Message):
-    """Configurable device aspect"""
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
 
+    # The protocol to which state relates
     model_id: str = betterproto.string_field(1)
+    # ConnectivityState contains the L3 connectivity information
     role: str = betterproto.string_field(2)
+    # ChannelState relates to the availability of the gRPC channel
     management_endpoint: "Endpoint" = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
@@ -394,7 +443,7 @@ class Switch(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Router(betterproto.Message):
-    """Aspect for tracking device mastership"""
+    """Protocols"""
 
     model_id: str = betterproto.string_field(1)
     role: str = betterproto.string_field(2)
@@ -406,8 +455,6 @@ class Router(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Link(betterproto.Message):
-    """TLS connectivity aspect"""
-
     source_ip: "IpAddress" = betterproto.message_field(1)
     dest_ip: "IpAddress" = betterproto.message_field(2)
 
@@ -417,8 +464,6 @@ class Link(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class PhyInterface(betterproto.Message):
-    """Aspect for ad-hoc properties"""
-
     display_name: str = betterproto.string_field(1)
     speed: str = betterproto.string_field(2)
     port_number: int = betterproto.uint32_field(3)
@@ -437,19 +482,9 @@ class PhyInterface(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ControllerInfo(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
-
-    # The protocol to which state relates
     type: "ControllerInfoType" = betterproto.enum_field(1)
-    # ConnectivityState contains the L3 connectivity information
     role: "ControllerRole" = betterproto.message_field(2)
-    # ChannelState relates to the availability of the gRPC channel
     control_endpoint: "Endpoint" = betterproto.message_field(3)
-    # ServiceState indicates the availability of the gRPC servic on top of the
-    # channel
     username: str = betterproto.string_field(4)
     password: str = betterproto.string_field(5)
 
@@ -459,28 +494,8 @@ class ControllerInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ControllerRole(betterproto.Message):
-    """Protocols"""
-
     name: str = betterproto.string_field(1)
     config: "betterproto_lib_google_protobuf.Any" = betterproto.message_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Endpoint(betterproto.Message):
-    address: str = betterproto.string_field(1)
-    port: int = betterproto.uint32_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class IpAddress(betterproto.Message):
-    type: "IpAddressType" = betterproto.enum_field(1)
-    ip: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
