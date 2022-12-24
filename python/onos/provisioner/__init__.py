@@ -60,7 +60,6 @@ class ConfigRecord(betterproto.Message):
     """
 
     config_id: str = betterproto.string_field(1)
-    revision: int = betterproto.uint64_field(2)
     kind: str = betterproto.string_field(3)
     artifacts: List[str] = betterproto.string_field(4)
 
@@ -107,7 +106,7 @@ class AddConfigResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class DeleteConfigRequest(betterproto.Message):
-    record: "ConfigRecord" = betterproto.message_field(1)
+    config_id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -165,11 +164,10 @@ class ProvisionerServiceStub(betterproto.ServiceStub):
             "/onos.provisioner.ProvisionerService/Add", request, AddConfigResponse
         )
 
-    async def delete(self, *, record: "ConfigRecord" = None) -> "DeleteConfigResponse":
+    async def delete(self, *, config_id: str = "") -> "DeleteConfigResponse":
 
         request = DeleteConfigRequest()
-        if record is not None:
-            request.record = record
+        request.config_id = config_id
 
         return await self._unary_unary(
             "/onos.provisioner.ProvisionerService/Delete", request, DeleteConfigResponse

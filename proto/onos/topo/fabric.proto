@@ -10,7 +10,37 @@ import "gogoproto/gogo.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/any.proto";
 
+// Endpoint is a pair of an IP Address or DNS name and a TCP port number
+message Endpoint {
+  string address = 1;
+  uint32 port = 2;
+}
 
+// IPAddress defines an IPv4 or IPv6 address
+message IPAddress {
+  Type type = 1;
+  enum Type {
+    IPV4 = 0;
+    IPV6 = 1;
+  }
+  string ip = 2 [(gogoproto.customname) = "IP"];
+}
+
+// P4RuntimeServer is an entity aspect tracking P4Runtime server contact details
+message P4RuntimeServer {
+  Endpoint endpoint = 1;
+  uint64 device_id = 3 [(gogoproto.customname) = "DeviceID"];
+  // TODO: add reference to secret
+}
+
+// GNMIServer is an entity aspect tracking gNMI server contact details
+message gNMIServer {
+  Endpoint endpoint = 1;
+  // TODO: add reference to secret
+}
+
+
+// TODO: Refactor, simplify and clean-up the aspects below; move them to Underlay/VirtualNet/etc. app APIs
 
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
 message NetworkLayer {
@@ -74,22 +104,6 @@ message ControllerRole {
   string name = 1;
   google.protobuf.Any config = 2;
 
-}
-
-// Endpoint specifies ip and port number for an endpoint address
-message Endpoint {
-  string address = 1;
-  uint32 port = 2;
-}
-
-// IPAddress defines an ipv4 or ipv6 address
-message IPAddress {
-  Type type = 1;
-  enum Type {
-    IPV4 = 0;
-    IPV6 = 1;
-  }
-  string ip = 2 [(gogoproto.customname) = "IP"];
 }
 
 // P4RTServerInfo aspect; specifies the control end point in a programmable device

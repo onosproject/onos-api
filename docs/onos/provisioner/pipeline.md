@@ -166,7 +166,6 @@ references to its related file artifact(s)
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | config_id | [string](#string) |  |  |
-| revision | [uint64](#uint64) |  |  |
 | kind | [string](#string) |  | pipeline, chassis, etc. |
 | artifacts | [string](#string) | repeated | list of associated artifact types |
 
@@ -183,7 +182,7 @@ references to its related file artifact(s)
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| record | [ConfigRecord](#onos-provisioner-ConfigRecord) |  | config_id and revision must be present; all others optional |
+| config_id | [string](#string) |  |  |
 
 
 
