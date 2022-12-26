@@ -782,6 +782,47 @@ class E2Cell(betterproto.Message):
         7, betterproto.TYPE_STRING, betterproto.TYPE_UINT32
     )
     neighbor_cell_ids: List["NeighborCellId"] = betterproto.message_field(8)
+    plmn_id: str = betterproto.string_field(9)
+    slice_id: "SliceId" = betterproto.message_field(10)
+    sul_freq_band: int = betterproto.uint32_field(11)
+    freq_band: int = betterproto.uint32_field(12)
+    amf_region: "AmfRegion" = betterproto.message_field(13)
+    ran_ac: int = betterproto.uint32_field(14)
+    measure_timing_configuration: bytes = betterproto.bytes_field(15)
+    neighbor_cell_info: List["NeighborCellInfo"] = betterproto.message_field(16)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class NeighborCellInfo(betterproto.Message):
+    plmn_id: str = betterproto.string_field(1)
+    cell_global_id: "CellGlobalId" = betterproto.message_field(2)
+    pci: int = betterproto.uint32_field(3)
+    arfcn: int = betterproto.uint32_field(4)
+    sul_freq_band: int = betterproto.uint32_field(5)
+    freq_band: int = betterproto.uint32_field(6)
+    ran_ac: int = betterproto.uint32_field(7)
+    measure_timing_configuration: bytes = betterproto.bytes_field(8)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SliceId(betterproto.Message):
+    sst: bytes = betterproto.bytes_field(1)
+    sd: bytes = betterproto.bytes_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class AmfRegion(betterproto.Message):
+    amf_region_id: bytes = betterproto.bytes_field(1)
+    amf_region_id_len: int = betterproto.int32_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

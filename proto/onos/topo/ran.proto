@@ -225,6 +225,35 @@ message E2Cell {
     uint32 pci = 6  [(gogoproto.customname) = "PCI"];
     map<string, uint32> kpi_reports = 7 [(gogoproto.customname) = "KpiReports"];
     repeated NeighborCellID neighbor_cell_ids = 8 [(gogoproto.customname) = "NeighborCellIDs"];
+    string plmn_id = 9 [(gogoproto.customname) = "PlmnID"];
+    SliceID slice_id = 10 [(gogoproto.customname) = "SliceID"];
+    uint32 sul_freq_band = 11 [(gogoproto.customname) = "SulFreqBand"];
+    uint32 freq_band = 12  [(gogoproto.customname) = "FreqBand"];
+    AmfRegion amf_region = 13 [(gogoproto.customname) = "AmfRegion"];
+    uint32 ran_ac = 14 [(gogoproto.customname) = "RanAC"];
+    bytes measure_timing_configuration = 15 [(gogoproto.customname) = "MeasureTimingConfigurationBytes"];
+    repeated NeighborCellInfo neighbor_cell_info = 16 [(gogoproto.customname) = "NeighborCellInfo"];
+}
+
+message NeighborCellInfo {
+    string plmn_id = 1;
+    CellGlobalID cell_global_id = 2 [(gogoproto.customname) = "CellGlobalID"];
+    uint32 pci = 3 [(gogoproto.customname) = "PCI"];
+    uint32 arfcn = 4 [(gogoproto.customname) = "ARFCN"];
+    uint32 sul_freq_band = 5 [(gogoproto.customname) = "SulFreqBand"];
+    uint32 freq_band = 6 [(gogoproto.customname) = "FreqBand"];
+    uint32 ran_ac = 7 [(gogoproto.customname) = "RanAC"];
+    bytes measure_timing_configuration = 8 [(gogoproto.customname) = "MeasureTimingConfiguration"];
+}
+
+message SliceID {
+    bytes sst = 1;
+    bytes sd = 2;
+}
+
+message AmfRegion {
+    bytes amf_region_id = 1 [(gogoproto.customname) = "AmfRegionID"];
+    int32 amf_region_id_len = 2[(gogoproto.customname) = "AmfRegionIDLen"];
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
