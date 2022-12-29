@@ -123,6 +123,7 @@ class DeleteConfigResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class GetConfigRequest(betterproto.Message):
     config_id: str = betterproto.string_field(1)
+    include_artifacts: bool = betterproto.bool_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -139,7 +140,8 @@ class GetConfigResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class ListConfigsRequest(betterproto.Message):
     kind: str = betterproto.string_field(1)
-    watch: bool = betterproto.bool_field(2)
+    include_artifacts: bool = betterproto.bool_field(2)
+    watch: bool = betterproto.bool_field(3)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -173,21 +175,25 @@ class ProvisionerServiceStub(betterproto.ServiceStub):
             "/onos.provisioner.ProvisionerService/Delete", request, DeleteConfigResponse
         )
 
-    async def get(self, *, config_id: str = "") -> "GetConfigResponse":
+    async def get(
+        self, *, config_id: str = "", include_artifacts: bool = False
+    ) -> "GetConfigResponse":
 
         request = GetConfigRequest()
         request.config_id = config_id
+        request.include_artifacts = include_artifacts
 
         return await self._unary_unary(
             "/onos.provisioner.ProvisionerService/Get", request, GetConfigResponse
         )
 
     async def list(
-        self, *, kind: str = "", watch: bool = False
+        self, *, kind: str = "", include_artifacts: bool = False, watch: bool = False
     ) -> AsyncIterator["ListConfigsResponse"]:
 
         request = ListConfigsRequest()
         request.kind = kind
+        request.include_artifacts = include_artifacts
         request.watch = watch
 
         async for response in self._unary_stream(

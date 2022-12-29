@@ -53,6 +53,7 @@ message DeleteConfigResponse {
 
 message GetConfigRequest {
   string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
+  bool include_artifacts = 2;
 }
 
 message GetConfigResponse {
@@ -61,7 +62,8 @@ message GetConfigResponse {
 
 message ListConfigsRequest {
   string kind = 1;
-  bool watch = 2;
+  bool include_artifacts = 2;
+  bool watch = 3;
 }
 
 message ListConfigsResponse {
