@@ -208,6 +208,7 @@ references to its related file artifact(s)
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | config_id | [string](#string) |  |  |
+| include_artifacts | [bool](#bool) |  |  |
 
 
 
@@ -238,6 +239,7 @@ references to its related file artifact(s)
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | kind | [string](#string) |  |  |
+| include_artifacts | [bool](#bool) |  |  |
 | watch | [bool](#bool) |  |  |
 
 
