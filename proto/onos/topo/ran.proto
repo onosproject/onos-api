@@ -225,35 +225,123 @@ message E2Cell {
     uint32 pci = 6  [(gogoproto.customname) = "PCI"];
     map<string, uint32> kpi_reports = 7 [(gogoproto.customname) = "KpiReports"];
     repeated NeighborCellID neighbor_cell_ids = 8 [(gogoproto.customname) = "NeighborCellIDs"];
-    string plmn_id = 9 [(gogoproto.customname) = "PlmnID"];
-    SliceID slice_id = 10 [(gogoproto.customname) = "SliceID"];
-    uint32 sul_freq_band = 11 [(gogoproto.customname) = "SulFreqBand"];
-    uint32 freq_band = 12  [(gogoproto.customname) = "FreqBand"];
-    AmfRegion amf_region = 13 [(gogoproto.customname) = "AmfRegion"];
-    uint32 ran_ac = 14 [(gogoproto.customname) = "RanAC"];
-    bytes measure_timing_configuration = 15 [(gogoproto.customname) = "MeasureTimingConfigurationBytes"];
-    repeated NeighborCellInfo neighbor_cell_info = 16 [(gogoproto.customname) = "NeighborCellInfo"];
+    uint32 gnb_du_id = 9;
+    uint32 latest_rrc_version = 10;
+    repeated uint32 served_plmns = 11;
+    oneof nr_mode_info {
+        FDDInfo fdd_info = 12;
+        TDDInfo tdd_info = 13;
+    }
+    uint32 measurement_timing_configuration = 14;
+    GlobalNgRanNodeID global_ng_ran_node_id = 15;
+    TaiSupportList tai_support_list = 16;
+    AmfRegionInformation amf_region_information = 17;
+    ConnectivitySupport connectivity_support = 18;
+    repeated NeighborInformationNr neighbor_information_nrs = 19;
 }
 
-message NeighborCellInfo {
-    string plmn_id = 1;
-    CellGlobalID cell_global_id = 2 [(gogoproto.customname) = "CellGlobalID"];
-    uint32 pci = 3 [(gogoproto.customname) = "PCI"];
-    uint32 arfcn = 4 [(gogoproto.customname) = "ARFCN"];
-    uint32 sul_freq_band = 5 [(gogoproto.customname) = "SulFreqBand"];
-    uint32 freq_band = 6 [(gogoproto.customname) = "FreqBand"];
-    uint32 ran_ac = 7 [(gogoproto.customname) = "RanAC"];
-    bytes measure_timing_configuration = 8 [(gogoproto.customname) = "MeasureTimingConfiguration"];
+message ConnectivitySupport {
+    EnDcSupport en_dc_support = 1;
 }
 
-message SliceID {
-    bytes sst = 1;
-    bytes sd = 2;
+message FDDInfo {
+    FrequencyInfo ul_freq_info = 1;
+    FrequencyInfo dl_freq_info = 2;
+    TransmissionBandwidth ul_transmission_bandwidth = 3;
+    TransmissionBandwidth dl_transmission_bandwidth = 4;
 }
 
-message AmfRegion {
-    bytes amf_region_id = 1 [(gogoproto.customname) = "AmfRegionID"];
-    int32 amf_region_id_len = 2[(gogoproto.customname) = "AmfRegionIDLen"];
+message TDDInfo {
+    FrequencyInfo nr_freq_info = 1;
+    TransmissionBandwidth transmission_bandwidth = 2;
+}
+
+message FrequencyInfo {
+    uint32 nr_arfcn = 1;
+    FrequencyBandList frequency_band_list = 2;
+}
+
+message TransmissionBandwidth {
+    NrScs nr_scs = 1;
+    Nrb nrb = 2;
+}
+
+message FrequencyBandList {
+    repeated FrequencyBandItem frequency_band_items = 1;
+}
+
+message FrequencyBandItem {
+    uint32 nr_frequency_band = 1;
+}
+
+message GlobalNgRanNodeID {
+    oneof global_ng_ran_node_id {
+        GlobalGnbID global_gnb_id = 1;
+        GlobalNgEnbID global_ng_enb_id = 2;
+    }
+}
+
+message GlobalGnbID {
+    uint32 plmn_id = 1;
+    uint32 gnb_id = 2;
+    uint32 gnb_id_len = 3;
+}
+
+message GlobalNgEnbID {
+    uint32 plmn_id = 1;
+    oneof ng_enb_id {
+        uint32 macro_ng_enb_id = 2;
+        uint32 short_macro_ng_enb_id = 3;
+        uint32 long_macro_ng_enb_id = 4;
+    }
+}
+
+message TaiSupportList {
+    repeated TaiSupportItem tai_support_items = 1;
+}
+
+message TaiSupportItem {
+    uint32 tac = 1;
+    repeated XnBroadcastPlmn broadcast_plmns = 2;
+}
+
+message XnBroadcastPlmn {
+    uint32 plmn_id = 1;
+    TaiSliceSupportList tai_slice_support_list = 2;
+}
+
+message TaiSliceSupportList {
+    repeated SliceSupportItem slice_support_items = 1;
+}
+
+message SliceSupportItem {
+    SNssai s_nssai = 1;
+}
+
+message SNssai {
+    uint32 sst = 1;
+    uint32 sd = 2;
+}
+
+message AmfRegionInformation {
+    repeated GlobalAmfRegionInformationItem global_amf_region_information_items = 1;
+}
+
+message GlobalAmfRegionInformationItem {
+    uint32 plmn_id = 1;
+    uint32 amf_region_id = 2;
+}
+
+message NeighborInformationNr {
+    uint32 pci = 1;
+    NeighborCellID nr_cgi = 2;
+    uint32 tac = 3;
+    oneof nr_mode_info {
+        FDDInfo fdd_info = 4;
+        TDDInfo tdd_info = 5;
+    }
+    ConnectivitySupport connectivity_support = 6;
+    uint32 measurement_timing_configuration = 7;
 }
 
 // Each entity with an E2Cell persona is expected to be a target of one and only one "CONTROLS" relation with a node
@@ -367,8 +455,6 @@ message KPMMeasurement {
     string id = 1 [(gogoproto.customname) = "ID"];
     string name = 2;
 }
-
-
 
 message RSMNodeSlicingCapabilityItem {
     int32 max_number_of_slices_dl = 1;
@@ -509,3 +595,49 @@ message Qci {
     int32 value = 1;
 }
 
+enum NrScs {
+    SCS_UNKNOWN = 0;
+    SCS_15 = 1;
+    SCS_30 = 2;
+    SCS_50 = 3;
+    SCS_120 = 4;
+}
+
+enum Nrb {
+    NRB_UNKNOWN = 0;
+    NRB_11 = 1;
+    NRB_18 = 2;
+    NRB_24 = 3;
+    NRB_25 = 4;
+    NRB_31 = 5;
+    NRB_32 = 6;
+    NRB_38 = 7;
+    NRB_51 = 8;
+    NRB_52 = 9;
+    NRB_65 = 10;
+    NRB_66 = 11;
+    NRB_78 = 12;
+    NRB_79 = 13;
+    NRB_93 = 14;
+    NRB_106 = 15;
+    NRB_107 = 16;
+    NRB_121 = 17;
+    NRB_132 = 18;
+    NRB_133 = 19;
+    NRB_135 = 20;
+    NRB_160 = 21;
+    NRB_162 = 22;
+    NRB_189 = 23;
+    NRB_216 = 24;
+    NRB_217 = 25;
+    NRB_245 = 26;
+    NRB_264 = 27;
+    NRB_270 = 28;
+    NRB_273 = 29;
+}
+
+enum EnDcSupport {
+    EN_DC_SUPPORT_UNKNOWN = 0;
+    EN_DC_SUPPORT_SUPPORTED = 1;
+    EN_DC_SUPPORT_NOT_SUPPORTED = 2;
+}

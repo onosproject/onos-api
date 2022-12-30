@@ -204,6 +204,53 @@ class UeIdType(betterproto.Enum):
     UE_ID_TYPE_ENB_UE_S1_AP_ID = 4
 
 
+class NrScs(betterproto.Enum):
+    SCS_UNKNOWN = 0
+    SCS_15 = 1
+    SCS_30 = 2
+    SCS_50 = 3
+    SCS_120 = 4
+
+
+class Nrb(betterproto.Enum):
+    NRB_UNKNOWN = 0
+    NRB_11 = 1
+    NRB_18 = 2
+    NRB_24 = 3
+    NRB_25 = 4
+    NRB_31 = 5
+    NRB_32 = 6
+    NRB_38 = 7
+    NRB_51 = 8
+    NRB_52 = 9
+    NRB_65 = 10
+    NRB_66 = 11
+    NRB_78 = 12
+    NRB_79 = 13
+    NRB_93 = 14
+    NRB_106 = 15
+    NRB_107 = 16
+    NRB_121 = 17
+    NRB_132 = 18
+    NRB_133 = 19
+    NRB_135 = 20
+    NRB_160 = 21
+    NRB_162 = 22
+    NRB_189 = 23
+    NRB_216 = 24
+    NRB_217 = 25
+    NRB_245 = 26
+    NRB_264 = 27
+    NRB_270 = 28
+    NRB_273 = 29
+
+
+class EnDcSupport(betterproto.Enum):
+    EN_DC_SUPPORT_UNKNOWN = 0
+    EN_DC_SUPPORT_SUPPORTED = 1
+    EN_DC_SUPPORT_NOT_SUPPORTED = 2
+
+
 class InterfaceType(betterproto.Enum):
     INTERFACE_UNKNOWN = 0
     INTERFACE_E2T = 1
@@ -782,47 +829,199 @@ class E2Cell(betterproto.Message):
         7, betterproto.TYPE_STRING, betterproto.TYPE_UINT32
     )
     neighbor_cell_ids: List["NeighborCellId"] = betterproto.message_field(8)
-    plmn_id: str = betterproto.string_field(9)
-    slice_id: "SliceId" = betterproto.message_field(10)
-    sul_freq_band: int = betterproto.uint32_field(11)
-    freq_band: int = betterproto.uint32_field(12)
-    amf_region: "AmfRegion" = betterproto.message_field(13)
-    ran_ac: int = betterproto.uint32_field(14)
-    measure_timing_configuration: bytes = betterproto.bytes_field(15)
-    neighbor_cell_info: List["NeighborCellInfo"] = betterproto.message_field(16)
+    gnb_du_id: int = betterproto.uint32_field(9)
+    latest_rrc_version: int = betterproto.uint32_field(10)
+    served_plmns: List[int] = betterproto.uint32_field(11)
+    fdd_info: "FddInfo" = betterproto.message_field(12, group="nr_mode_info")
+    tdd_info: "TddInfo" = betterproto.message_field(13, group="nr_mode_info")
+    measurement_timing_configuration: int = betterproto.uint32_field(14)
+    global_ng_ran_node_id: "GlobalNgRanNodeId" = betterproto.message_field(15)
+    tai_support_list: "TaiSupportList" = betterproto.message_field(16)
+    amf_region_information: "AmfRegionInformation" = betterproto.message_field(17)
+    connectivity_support: "ConnectivitySupport" = betterproto.message_field(18)
+    neighbor_information_nrs: List["NeighborInformationNr"] = betterproto.message_field(
+        19
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class NeighborCellInfo(betterproto.Message):
-    plmn_id: str = betterproto.string_field(1)
-    cell_global_id: "CellGlobalId" = betterproto.message_field(2)
-    pci: int = betterproto.uint32_field(3)
-    arfcn: int = betterproto.uint32_field(4)
-    sul_freq_band: int = betterproto.uint32_field(5)
-    freq_band: int = betterproto.uint32_field(6)
-    ran_ac: int = betterproto.uint32_field(7)
-    measure_timing_configuration: bytes = betterproto.bytes_field(8)
+class ConnectivitySupport(betterproto.Message):
+    en_dc_support: "EnDcSupport" = betterproto.enum_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class SliceId(betterproto.Message):
-    sst: bytes = betterproto.bytes_field(1)
-    sd: bytes = betterproto.bytes_field(2)
+class FddInfo(betterproto.Message):
+    ul_freq_info: "FrequencyInfo" = betterproto.message_field(1)
+    dl_freq_info: "FrequencyInfo" = betterproto.message_field(2)
+    ul_transmission_bandwidth: "TransmissionBandwidth" = betterproto.message_field(3)
+    dl_transmission_bandwidth: "TransmissionBandwidth" = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class AmfRegion(betterproto.Message):
-    amf_region_id: bytes = betterproto.bytes_field(1)
-    amf_region_id_len: int = betterproto.int32_field(2)
+class TddInfo(betterproto.Message):
+    nr_freq_info: "FrequencyInfo" = betterproto.message_field(1)
+    transmission_bandwidth: "TransmissionBandwidth" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class FrequencyInfo(betterproto.Message):
+    nr_arfcn: int = betterproto.uint32_field(1)
+    frequency_band_list: "FrequencyBandList" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class TransmissionBandwidth(betterproto.Message):
+    nr_scs: "NrScs" = betterproto.enum_field(1)
+    nrb: "Nrb" = betterproto.enum_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class FrequencyBandList(betterproto.Message):
+    frequency_band_items: List["FrequencyBandItem"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class FrequencyBandItem(betterproto.Message):
+    nr_frequency_band: int = betterproto.uint32_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GlobalNgRanNodeId(betterproto.Message):
+    global_gnb_id: "GlobalGnbId" = betterproto.message_field(
+        1, group="global_ng_ran_node_id"
+    )
+    global_ng_enb_id: "GlobalNgEnbId" = betterproto.message_field(
+        2, group="global_ng_ran_node_id"
+    )
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GlobalGnbId(betterproto.Message):
+    plmn_id: int = betterproto.uint32_field(1)
+    gnb_id: int = betterproto.uint32_field(2)
+    gnb_id_len: int = betterproto.uint32_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GlobalNgEnbId(betterproto.Message):
+    plmn_id: int = betterproto.uint32_field(1)
+    macro_ng_enb_id: int = betterproto.uint32_field(2, group="ng_enb_id")
+    short_macro_ng_enb_id: int = betterproto.uint32_field(3, group="ng_enb_id")
+    long_macro_ng_enb_id: int = betterproto.uint32_field(4, group="ng_enb_id")
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class TaiSupportList(betterproto.Message):
+    tai_support_items: List["TaiSupportItem"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class TaiSupportItem(betterproto.Message):
+    tac: int = betterproto.uint32_field(1)
+    broadcast_plmns: List["XnBroadcastPlmn"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class XnBroadcastPlmn(betterproto.Message):
+    plmn_id: int = betterproto.uint32_field(1)
+    tai_slice_support_list: "TaiSliceSupportList" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class TaiSliceSupportList(betterproto.Message):
+    slice_support_items: List["SliceSupportItem"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SliceSupportItem(betterproto.Message):
+    s_nssai: "SNssai" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SNssai(betterproto.Message):
+    sst: int = betterproto.uint32_field(1)
+    sd: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class AmfRegionInformation(betterproto.Message):
+    global_amf_region_information_items: List[
+        "GlobalAmfRegionInformationItem"
+    ] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class GlobalAmfRegionInformationItem(betterproto.Message):
+    plmn_id: int = betterproto.uint32_field(1)
+    amf_region_id: int = betterproto.uint32_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class NeighborInformationNr(betterproto.Message):
+    pci: int = betterproto.uint32_field(1)
+    nr_cgi: "NeighborCellId" = betterproto.message_field(2)
+    tac: int = betterproto.uint32_field(3)
+    fdd_info: "FddInfo" = betterproto.message_field(4, group="nr_mode_info")
+    tdd_info: "TddInfo" = betterproto.message_field(5, group="nr_mode_info")
+    connectivity_support: "ConnectivitySupport" = betterproto.message_field(6)
+    measurement_timing_configuration: int = betterproto.uint32_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
