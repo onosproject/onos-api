@@ -6,7 +6,7 @@ syntax = "proto3";
 
 package onos.fabricsim;
 
-import "onos/fabricsim/devices.proto";
+import "onos/misc/misc.proto";
 
 // FabricSimulator provides an auxiliary API to interact with the fabric simulator.
 service FabricSimulator {
@@ -18,5 +18,5 @@ message GetIOStatsRequest {
 }
 
 message GetIOStatsResponse {
-    repeated IOStats stats = 1;
+    repeated onos.misc.IOStats stats = 1;
 }

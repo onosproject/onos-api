@@ -1,0 +1,30 @@
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.misc;
+
+// GridPosition indicates where on a grid an entity should be located; used for visualization purposes
+message GridPosition {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+// Connection contains information about a single gRPC client connection
+message Connection {
+    string from_address = 1;
+    string protocol = 2;
+    int64 time = 3;
+}
+
+// IOStats represents I/O statistics for a single device agent
+message IOStats {
+    uint32 in_bytes = 1;
+    uint32 in_messages = 2;
+    uint32 out_bytes = 3;
+    uint32 out_messages = 4;
+    uint64 first_update_time = 5;
+    uint64 last_update_time = 6;
+}

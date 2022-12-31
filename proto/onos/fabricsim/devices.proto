@@ -7,6 +7,7 @@ syntax = "proto3";
 package onos.fabricsim;
 
 import "gogoproto/gogo.proto";
+import "onos/misc/misc.proto";
 
 // Device describes a simulated switch or IPU
 message Device {
@@ -30,14 +31,14 @@ message Device {
     PipelineInfo pipeline_info = 6;
 
     // Screen coordinates
-    GridPosition pos = 7;
+    onos.misc.GridPosition pos = 7;
 
     // Current connections and total connection count
-    repeated Connection connections = 8;
+    repeated onos.misc.Connection connections = 8;
     int32 total_connections = 9;
 
     // Cumulative I/O stats for the device P4Runtime, gNMI and gNOI agent(s)
-    IOStats io_stats = 10 [(gogoproto.customname) = "IOStats"];
+    onos.misc.IOStats io_stats = 10 [(gogoproto.customname) = "IOStats"];
 }
 
 // DeviceType represents type of a device, i.e. switch, IPU, etc.
@@ -86,29 +87,6 @@ message EntitiesInfo {
     uint32 id = 1 [(gogoproto.customname) = "ID"];
     uint32 size = 2;
     string name = 3;
-}
-
-// GridPosition indicates where on a grid an entity should be located; used for visualization purposes
-message GridPosition {
-    int32 x = 1;
-    int32 y = 2;
-}
-
-// Connection contains information about a single gRPC client connection
-message Connection {
-    string from_address = 1;
-    string protocol = 2;
-    int64 time = 3;
-}
-
-// IOStats represents I/O statistics for a single device agent
-message IOStats {
-    uint32 in_bytes = 1;
-    uint32 in_messages = 2;
-    uint32 out_bytes = 3;
-    uint32 out_messages = 4;
-    uint64 first_update_time = 5;
-    uint64 last_update_time = 6;
 }
 
 // DeviceService provides means to control inventory of simulated devices (switches and IPUs) and their ports

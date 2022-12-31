@@ -55,12 +55,12 @@ class Device(betterproto.Message):
     # forwarding pipeline information
     pipeline_info: "PipelineInfo" = betterproto.message_field(6)
     # Screen coordinates
-    pos: "GridPosition" = betterproto.message_field(7)
+    pos: "_misc__.GridPosition" = betterproto.message_field(7)
     # Current connections and total connection count
-    connections: List["Connection"] = betterproto.message_field(8)
+    connections: List["_misc__.Connection"] = betterproto.message_field(8)
     total_connections: int = betterproto.int32_field(9)
     # Cumulative I/O stats for the device P4Runtime, gNMI and gNOI agent(s)
-    io_stats: "IoStats" = betterproto.message_field(10)
+    io_stats: "_misc__.IoStats" = betterproto.message_field(10)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -117,49 +117,6 @@ class EntitiesInfo(betterproto.Message):
     id: int = betterproto.uint32_field(1)
     size: int = betterproto.uint32_field(2)
     name: str = betterproto.string_field(3)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class GridPosition(betterproto.Message):
-    """
-    GridPosition indicates where on a grid an entity should be located; used
-    for visualization purposes
-    """
-
-    x: int = betterproto.int32_field(1)
-    y: int = betterproto.int32_field(2)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class Connection(betterproto.Message):
-    """
-    Connection contains information about a single gRPC client connection
-    """
-
-    from_address: str = betterproto.string_field(1)
-    protocol: str = betterproto.string_field(2)
-    time: int = betterproto.int64_field(3)
-
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-
-@dataclass(eq=False, repr=False)
-class IoStats(betterproto.Message):
-    """IOStats represents I/O statistics for a single device agent"""
-
-    in_bytes: int = betterproto.uint32_field(1)
-    in_messages: int = betterproto.uint32_field(2)
-    out_bytes: int = betterproto.uint32_field(3)
-    out_messages: int = betterproto.uint32_field(4)
-    first_update_time: int = betterproto.uint64_field(5)
-    last_update_time: int = betterproto.uint64_field(6)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -310,7 +267,7 @@ class GetIoStatsResponse(betterproto.Message):
     """Port describes a simulated device port"""
 
     # unique port id and port type
-    stats: List["IoStats"] = betterproto.message_field(1)
+    stats: List["_misc__.IoStats"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -326,7 +283,7 @@ class Host(betterproto.Message):
     # list of ports
     interfaces: List["NetworkInterface"] = betterproto.message_field(2)
     # control port for p4 and gnmi simulation
-    pos: "GridPosition" = betterproto.message_field(3)
+    pos: "_misc__.GridPosition" = betterproto.message_field(3)
     # unique chassis ID
     hosts: List["Host"] = betterproto.message_field(5)
 
@@ -382,11 +339,6 @@ class GetHostsRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostsResponse(betterproto.Message):
-    """
-    GridPosition indicates where on a grid an entity should be located; used
-    for visualization purposes
-    """
-
     hosts: List["Host"] = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -395,10 +347,6 @@ class GetHostsResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostRequest(betterproto.Message):
-    """
-    Connection contains information about a single gRPC client connection
-    """
-
     id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
@@ -407,8 +355,6 @@ class GetHostRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetHostResponse(betterproto.Message):
-    """IOStats represents I/O statistics for a single device agent"""
-
     host: "Host" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -520,11 +466,6 @@ class GetLinkRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GetLinkResponse(betterproto.Message):
-    """
-    GridPosition indicates where on a grid an entity should be located; used
-    for visualization purposes
-    """
-
     link: "Link" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -533,10 +474,6 @@ class GetLinkResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class AddLinkRequest(betterproto.Message):
-    """
-    Connection contains information about a single gRPC client connection
-    """
-
     link: "Link" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -545,8 +482,6 @@ class AddLinkRequest(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class AddLinkResponse(betterproto.Message):
-    """IOStats represents I/O statistics for a single device agent"""
-
     pass
 
     def __post_init__(self) -> None:
@@ -801,3 +736,6 @@ class LinkServiceStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.fabricsim.LinkService/RemoveLink", request, RemoveLinkResponse
         )
+
+
+from .. import misc as _misc__

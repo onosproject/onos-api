@@ -152,7 +152,7 @@ Host describes a simulated host (bare metal, VM or container)
 | id | [string](#string) |  | unique host id and host type |
 | type | [HostType](#onos-fabricsim-HostType) |  |  |
 | interfaces | [NetworkInterface](#onos-fabricsim-NetworkInterface) | repeated | network interfaces |
-| pos | [GridPosition](#onos-fabricsim-GridPosition) |  |  |
+| pos | [onos.misc.GridPosition](#onos-misc-GridPosition) |  |  |
 | hosts | [Host](#onos-fabricsim-Host) | repeated | virtual hosts being hosted by this (bare metal) host |
 
 
