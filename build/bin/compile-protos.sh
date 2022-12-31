@@ -12,6 +12,12 @@ proto_path="./proto:${GOPATH}/src/github.com/gogo/protobuf/protobuf:${GOPATH}/sr
 
 ### Documentation generation
 
+# miscellaneous
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/misc \
+    --doc_opt=markdown,misc.md \
+    proto/onos/misc/misc.proto
+
 # topo & uenib
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/topo \
@@ -137,6 +143,7 @@ go_import_paths="Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types"
 go_import_paths="${go_import_paths},Mgoogle/protobuf/empty.proto=github.com/gogo/protobuf/types"
+go_import_paths="${go_import_paths},Monos/misc/misc.proto=github.com/onosproject/onos-api/go/onos/misc"
 go_import_paths="${go_import_paths},Monos/config/device/types.proto=github.com/onosproject/onos-api/go/onos/config/device"
 go_import_paths="${go_import_paths},Monos/config/admin/admin.proto=github.com/onosproject/onos-api/go/onos/config/admin"
 go_import_paths="${go_import_paths},Monos/ransim/types/types.proto=github.com/onosproject/onos-api/go/onos/ransim/types"
@@ -147,6 +154,10 @@ go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com
 go_import_paths="${go_import_paths},Monos/config/v2/proposal.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 
+# Miscellaneous
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/misc,plugins=grpc:./go \
+    proto/onos/misc/*.proto
 
 # topo and UE-NIB
 protoc --proto_path=$proto_path \
@@ -257,6 +268,11 @@ protoc --proto_path=$proto_path \
 
 
 ## Protoset generation to allow use of grpcurl
+
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/onos-misc.protoset \
+    --include_imports \
+    proto/onos/misc/*.proto
 
 protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-topo.protoset \

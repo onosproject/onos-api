@@ -1,0 +1,19 @@
+
+”
+onos/misc/misc.proto	onos.misc"*
+GridPosition
+x (Rx
+y (Ry"_
+
+Connection!
+from_address (	RfromAddress
+protocol (	Rprotocol
+time (Rtime"Û
+IOStats
+in_bytes (RinBytes
+in_messages (R
+inMessages
+	out_bytes (RoutBytes!
+out_messages (RoutMessages*
+first_update_time (RfirstUpdateTime(
+last_update_time (RlastUpdateTimebproto3

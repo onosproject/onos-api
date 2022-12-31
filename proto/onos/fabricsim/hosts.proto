@@ -7,7 +7,7 @@ syntax = "proto3";
 package onos.fabricsim;
 
 import "gogoproto/gogo.proto";
-import "onos/fabricsim/devices.proto";
+import "onos/misc/misc.proto";
 
 // Host describes a simulated host (bare metal, VM or container)
 message Host {
@@ -17,7 +17,7 @@ message Host {
 
     // network interfaces
     repeated NetworkInterface interfaces = 2;
-    GridPosition pos = 3;
+    onos.misc.GridPosition pos = 3;
 
     // virtual hosts being hosted by this (bare metal) host
     repeated Host hosts = 5;
