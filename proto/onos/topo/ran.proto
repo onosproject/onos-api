@@ -227,17 +227,18 @@ message E2Cell {
     repeated NeighborCellID neighbor_cell_ids = 8 [(gogoproto.customname) = "NeighborCellIDs"];
     uint32 gnb_du_id = 9;
     uint32 latest_rrc_version = 10;
-    repeated uint32 served_plmns = 11;
+    uint32 plmn_id = 11;
+    repeated uint32 served_plmns = 12;
     oneof nr_mode_info {
-        FDDInfo fdd_info = 12;
-        TDDInfo tdd_info = 13;
+        FDDInfo fdd_info = 13;
+        TDDInfo tdd_info = 14;
     }
-    uint32 measurement_timing_configuration = 14;
-    GlobalNgRanNodeID global_ng_ran_node_id = 15;
-    TaiSupportList tai_support_list = 16;
-    AmfRegionInformation amf_region_information = 17;
-    ConnectivitySupport connectivity_support = 18;
-    repeated NeighborInformationNr neighbor_information_nrs = 19;
+    uint32 measurement_timing_configuration = 15;
+    GlobalNgRanNodeID global_ng_ran_node_id = 16;
+    TaiSupportList tai_support_list = 17;
+    AmfRegionInformation amf_region_information = 18;
+    ConnectivitySupport connectivity_support = 19;
+    repeated NeighborInformationNr neighbor_information_nrs = 20;
 }
 
 message ConnectivitySupport {
