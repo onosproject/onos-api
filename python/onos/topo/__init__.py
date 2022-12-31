@@ -831,16 +831,17 @@ class E2Cell(betterproto.Message):
     neighbor_cell_ids: List["NeighborCellId"] = betterproto.message_field(8)
     gnb_du_id: int = betterproto.uint32_field(9)
     latest_rrc_version: int = betterproto.uint32_field(10)
-    served_plmns: List[int] = betterproto.uint32_field(11)
-    fdd_info: "FddInfo" = betterproto.message_field(12, group="nr_mode_info")
-    tdd_info: "TddInfo" = betterproto.message_field(13, group="nr_mode_info")
-    measurement_timing_configuration: int = betterproto.uint32_field(14)
-    global_ng_ran_node_id: "GlobalNgRanNodeId" = betterproto.message_field(15)
-    tai_support_list: "TaiSupportList" = betterproto.message_field(16)
-    amf_region_information: "AmfRegionInformation" = betterproto.message_field(17)
-    connectivity_support: "ConnectivitySupport" = betterproto.message_field(18)
+    plmn_id: int = betterproto.uint32_field(11)
+    served_plmns: List[int] = betterproto.uint32_field(12)
+    fdd_info: "FddInfo" = betterproto.message_field(13, group="nr_mode_info")
+    tdd_info: "TddInfo" = betterproto.message_field(14, group="nr_mode_info")
+    measurement_timing_configuration: int = betterproto.uint32_field(15)
+    global_ng_ran_node_id: "GlobalNgRanNodeId" = betterproto.message_field(16)
+    tai_support_list: "TaiSupportList" = betterproto.message_field(17)
+    amf_region_information: "AmfRegionInformation" = betterproto.message_field(18)
+    connectivity_support: "ConnectivitySupport" = betterproto.message_field(19)
     neighbor_information_nrs: List["NeighborInformationNr"] = betterproto.message_field(
-        19
+        20
     )
 
     def __post_init__(self) -> None:
