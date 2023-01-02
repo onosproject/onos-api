@@ -900,7 +900,7 @@ class InsertIndication(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class RanParameter(betterproto.Message):
-    id: int = betterproto.int32_field(1)
+    id: int = betterproto.int64_field(1)
     name: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
