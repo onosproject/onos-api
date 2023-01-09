@@ -1,0 +1,67 @@
+// SPDX-FileCopyrightText: 2023-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.discovery;
+
+import "gogoproto/gogo.proto";
+
+// DiscoveryService allows injection of topology objects to act as seeds for the topology
+// discovery.
+service DiscoveryService {
+  // AddPod adds a new POD entity with the requisite aspects
+  rpc AddPod(AddPodRequest) returns (AddPodResponse);
+
+  // AddRack adds a new rack entity with the requisite aspects as part of a POD
+  rpc AddRack(AddRackRequest) returns (AddRackResponse);
+
+  // AddSwitch adds a new switch entity with the requisite aspects into a rack
+  rpc AddSwitch(AddSwitchRequest) returns (AddSwitchResponse);
+
+  // AddServer adds a new server entity and an associated IPU entity, both with the requisite aspects into a rack
+  rpc AddServerIPU(AddServerIPURequest) returns (AddServerIPUResponse);
+}
+
+
+message AddPodRequest {
+  string id = 1 [(gogoproto.customname) = "ID"];
+}
+
+message AddPodResponse {
+}
+
+
+message AddRackRequest {
+  string id = 1 [(gogoproto.customname) = "ID"];
+  string pod_id = 2 [(gogoproto.customname) = "PodID"];
+}
+
+message AddRackResponse {
+}
+
+
+message AddSwitchRequest {
+  string id = 1 [(gogoproto.customname) = "ID"];
+  string rack_id = 2 [(gogoproto.customname) = "RackID"];
+  string p4_endpoint = 3;
+  string gnmi_endpoint = 4;
+  string pipeline_config_id = 5 [(gogoproto.customname) = "PipelineConfigID"];
+  string chassis_config_id = 6 [(gogoproto.customname) = "ChassisConfigID"];
+}
+
+message AddSwitchResponse {
+}
+
+message AddServerIPURequest {
+  string id = 1 [(gogoproto.customname) = "ID"];
+  string rack_id = 2 [(gogoproto.customname) = "RackID"];
+  string p4_endpoint = 3;
+  string gnmi_endpoint = 4;
+  string pipeline_config_id = 5 [(gogoproto.customname) = "PipelineConfigID"];
+  string chassis_config_id = 6 [(gogoproto.customname) = "ChassisConfigID"];
+}
+
+message AddServerIPUResponse {
+}

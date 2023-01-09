@@ -28,6 +28,12 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,uenib.md \
     proto/onos/uenib/uenib.proto
 
+# discovery
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/discovery \
+    --doc_opt=markdown,discovery.md \
+    proto/onos/discovery/*.proto
+
 # provisioner
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/provisioner \
@@ -171,6 +177,11 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/stratum,plugins=grpc:./go \
     proto/onos/stratum/*.proto
+
+# discovery
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/discovery,plugins=grpc:./go \
+    proto/onos/discovery/*.proto
 
 # provisioner
 protoc --proto_path=$proto_path \
