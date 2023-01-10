@@ -196,12 +196,13 @@ func (m *AddRackResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddRackResponse proto.InternalMessageInfo
 
 type AddSwitchRequest struct {
-	ID                string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	RackID            string `protobuf:"bytes,2,opt,name=rack_id,json=rackId,proto3" json:"rack_id,omitempty"`
-	P4Endpoint        string `protobuf:"bytes,3,opt,name=p4_endpoint,json=p4Endpoint,proto3" json:"p4_endpoint,omitempty"`
-	PipelineConfigID  string `protobuf:"bytes,4,opt,name=gnmi_endpoint,json=gnmiEndpoint,proto3" json:"gnmi_endpoint,omitempty"`
-	PipelineConfigID_ string `protobuf:"bytes,5,opt,name=pipeline_config_id,json=pipelineConfigId,proto3" json:"pipeline_config_id,omitempty"`
-	ChassisConfigID   string `protobuf:"bytes,6,opt,name=chassis_config_id,json=chassisConfigId,proto3" json:"chassis_config_id,omitempty"`
+	ID               string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PodID            string `protobuf:"bytes,2,opt,name=pod_id,json=podId,proto3" json:"pod_id,omitempty"`
+	RackID           string `protobuf:"bytes,3,opt,name=rack_id,json=rackId,proto3" json:"rack_id,omitempty"`
+	P4Endpoint       string `protobuf:"bytes,4,opt,name=p4_endpoint,json=p4Endpoint,proto3" json:"p4_endpoint,omitempty"`
+	GNMIEndpoint     string `protobuf:"bytes,5,opt,name=gnmi_endpoint,json=gnmiEndpoint,proto3" json:"gnmi_endpoint,omitempty"`
+	PipelineConfigID string `protobuf:"bytes,6,opt,name=pipeline_config_id,json=pipelineConfigId,proto3" json:"pipeline_config_id,omitempty"`
+	ChassisConfigID  string `protobuf:"bytes,7,opt,name=chassis_config_id,json=chassisConfigId,proto3" json:"chassis_config_id,omitempty"`
 }
 
 func (m *AddSwitchRequest) Reset()         { *m = AddSwitchRequest{} }
@@ -244,6 +245,13 @@ func (m *AddSwitchRequest) GetID() string {
 	return ""
 }
 
+func (m *AddSwitchRequest) GetPodID() string {
+	if m != nil {
+		return m.PodID
+	}
+	return ""
+}
+
 func (m *AddSwitchRequest) GetRackID() string {
 	if m != nil {
 		return m.RackID
@@ -258,16 +266,16 @@ func (m *AddSwitchRequest) GetP4Endpoint() string {
 	return ""
 }
 
-func (m *AddSwitchRequest) GetPipelineConfigID() string {
+func (m *AddSwitchRequest) GetGNMIEndpoint() string {
 	if m != nil {
-		return m.PipelineConfigID
+		return m.GNMIEndpoint
 	}
 	return ""
 }
 
-func (m *AddSwitchRequest) GetPipelineConfigID_() string {
+func (m *AddSwitchRequest) GetPipelineConfigID() string {
 	if m != nil {
-		return m.PipelineConfigID_
+		return m.PipelineConfigID
 	}
 	return ""
 }
@@ -317,12 +325,13 @@ var xxx_messageInfo_AddSwitchResponse proto.InternalMessageInfo
 
 type AddServerIPURequest struct {
 	ID               string          `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	RackID           string          `protobuf:"bytes,2,opt,name=rack_id,json=rackId,proto3" json:"rack_id,omitempty"`
-	P4Endpoint       string          `protobuf:"bytes,3,opt,name=p4_endpoint,json=p4Endpoint,proto3" json:"p4_endpoint,omitempty"`
-	GnmiEndpoint     string          `protobuf:"bytes,4,opt,name=gnmi_endpoint,json=gnmiEndpoint,proto3" json:"gnmi_endpoint,omitempty"`
-	PipelineConfigID string          `protobuf:"bytes,5,opt,name=pipeline_config_id,json=pipelineConfigId,proto3" json:"pipeline_config_id,omitempty"`
-	ChassisConfigID  string          `protobuf:"bytes,6,opt,name=chassis_config_id,json=chassisConfigId,proto3" json:"chassis_config_id,omitempty"`
-	Links            []*InjectedLink `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
+	PodID            string          `protobuf:"bytes,2,opt,name=pod_id,json=podId,proto3" json:"pod_id,omitempty"`
+	RackID           string          `protobuf:"bytes,3,opt,name=rack_id,json=rackId,proto3" json:"rack_id,omitempty"`
+	P4Endpoint       string          `protobuf:"bytes,4,opt,name=p4_endpoint,json=p4Endpoint,proto3" json:"p4_endpoint,omitempty"`
+	GNMIEndpoint     string          `protobuf:"bytes,5,opt,name=gnmi_endpoint,json=gnmiEndpoint,proto3" json:"gnmi_endpoint,omitempty"`
+	PipelineConfigID string          `protobuf:"bytes,6,opt,name=pipeline_config_id,json=pipelineConfigId,proto3" json:"pipeline_config_id,omitempty"`
+	ChassisConfigID  string          `protobuf:"bytes,7,opt,name=chassis_config_id,json=chassisConfigId,proto3" json:"chassis_config_id,omitempty"`
+	Links            []*InjectedLink `protobuf:"bytes,8,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (m *AddServerIPURequest) Reset()         { *m = AddServerIPURequest{} }
@@ -365,6 +374,13 @@ func (m *AddServerIPURequest) GetID() string {
 	return ""
 }
 
+func (m *AddServerIPURequest) GetPodID() string {
+	if m != nil {
+		return m.PodID
+	}
+	return ""
+}
+
 func (m *AddServerIPURequest) GetRackID() string {
 	if m != nil {
 		return m.RackID
@@ -379,9 +395,9 @@ func (m *AddServerIPURequest) GetP4Endpoint() string {
 	return ""
 }
 
-func (m *AddServerIPURequest) GetGnmiEndpoint() string {
+func (m *AddServerIPURequest) GetGNMIEndpoint() string {
 	if m != nil {
-		return m.GnmiEndpoint
+		return m.GNMIEndpoint
 	}
 	return ""
 }
@@ -510,41 +526,42 @@ func init() {
 func init() { proto.RegisterFile("onos/discovery/discovery.proto", fileDescriptor_ee9a9e1db4c6208c) }
 
 var fileDescriptor_ee9a9e1db4c6208c = []byte{
-	// 538 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x54, 0xc1, 0x6e, 0xd3, 0x4c,
-	0x18, 0x4c, 0xdc, 0xc4, 0x51, 0xbe, 0xa6, 0x4d, 0xb2, 0x89, 0xaa, 0x28, 0xfa, 0x7f, 0x3b, 0x38,
-	0x48, 0xf4, 0x94, 0x4a, 0xa1, 0x17, 0x4e, 0xa8, 0x49, 0x10, 0x72, 0xc5, 0xc1, 0x32, 0xe2, 0xc0,
-	0x29, 0x0a, 0xde, 0x25, 0x5d, 0xd2, 0xee, 0x2e, 0xb6, 0x29, 0xe2, 0x2d, 0x78, 0x14, 0x1e, 0x83,
-	0x63, 0x91, 0x38, 0x70, 0xb2, 0x90, 0xf3, 0x22, 0x68, 0xd7, 0xae, 0x63, 0x57, 0x69, 0x7a, 0x43,
-	0xdc, 0x56, 0x33, 0xf3, 0xcd, 0x67, 0xcd, 0xee, 0x18, 0x0c, 0xce, 0x78, 0x70, 0x82, 0x69, 0xe0,
-	0xf1, 0x6b, 0xe2, 0x7f, 0xd9, 0x9c, 0x46, 0xc2, 0xe7, 0x21, 0x47, 0x87, 0x92, 0x1f, 0x65, 0x68,
-	0xbf, 0xbb, 0xe4, 0x4b, 0xae, 0xa8, 0x13, 0x79, 0x4a, 0x54, 0xd6, 0x13, 0x38, 0x38, 0xc3, 0xd8,
-	0xe1, 0xd8, 0x25, 0x1f, 0x3f, 0x91, 0x20, 0x44, 0x47, 0xa0, 0x51, 0xdc, 0x2b, 0x0f, 0xca, 0xc7,
-	0xf5, 0x89, 0x1e, 0x47, 0xa6, 0x66, 0xcf, 0x5c, 0x8d, 0x62, 0xab, 0x05, 0x87, 0xb7, 0xc2, 0x40,
-	0x70, 0x16, 0x10, 0xeb, 0x5c, 0x21, 0xee, 0xc2, 0x5b, 0x3d, 0x30, 0x8b, 0x06, 0xa0, 0x0b, 0x8e,
-	0xe7, 0x14, 0xf7, 0x34, 0xc5, 0xd5, 0xe3, 0xc8, 0xac, 0x3a, 0x1c, 0xdb, 0x33, 0xb7, 0x2a, 0x38,
-	0xb6, 0xb1, 0xd5, 0x86, 0x66, 0xe6, 0x95, 0xda, 0x7f, 0xd3, 0xa0, 0x75, 0x86, 0xf1, 0xeb, 0xcf,
-	0x34, 0xf4, 0x2e, 0x1e, 0xda, 0x30, 0x84, 0x9a, 0xbf, 0xf0, 0x56, 0x9b, 0x15, 0x10, 0x47, 0xa6,
-	0x2e, 0xfd, 0xec, 0x99, 0xab, 0x4b, 0xca, 0xc6, 0xc8, 0x84, 0x7d, 0x71, 0x3a, 0x27, 0x0c, 0x0b,
-	0x4e, 0x59, 0xd8, 0xdb, 0x93, 0x42, 0x17, 0xc4, 0xe9, 0x8b, 0x14, 0x41, 0xcf, 0xe0, 0x60, 0xc9,
-	0xae, 0xe8, 0x46, 0x52, 0x51, 0x5e, 0xdd, 0x38, 0x32, 0x5b, 0x0e, 0x15, 0xe4, 0x92, 0x32, 0x32,
-	0xe5, 0xec, 0x3d, 0x5d, 0xda, 0x33, 0xb7, 0x21, 0xa5, 0xd9, 0xe8, 0x04, 0x90, 0x48, 0x15, 0x73,
-	0x4f, 0x49, 0xe4, 0xb7, 0x54, 0x77, 0xcc, 0xb7, 0x44, 0x11, 0xc1, 0xe8, 0x39, 0xb4, 0xbd, 0x8b,
-	0x45, 0x10, 0xd0, 0x20, 0x67, 0xa1, 0x2b, 0x8b, 0x4e, 0x1c, 0x99, 0xcd, 0x69, 0x42, 0x66, 0x0e,
-	0x4d, 0xaf, 0x00, 0x60, 0xab, 0x03, 0xed, 0x5c, 0x62, 0x69, 0x8e, 0x3f, 0x34, 0xe8, 0x48, 0x94,
-	0xf8, 0xd7, 0xc4, 0xb7, 0x9d, 0x37, 0x7f, 0x27, 0xca, 0xe1, 0xd6, 0x28, 0xff, 0xc1, 0xd0, 0xd0,
-	0x18, 0xaa, 0x97, 0x94, 0xad, 0x82, 0x5e, 0x6d, 0xb0, 0x77, 0xbc, 0x3f, 0xfe, 0x6f, 0x54, 0xec,
-	0xcd, 0xc8, 0x66, 0x1f, 0x88, 0x17, 0x12, 0xfc, 0x8a, 0xb2, 0x95, 0x9b, 0x48, 0xad, 0x29, 0x34,
-	0xf2, 0x30, 0x42, 0x50, 0x11, 0xdc, 0x0f, 0x55, 0x9a, 0x15, 0x57, 0x9d, 0x65, 0x44, 0x3e, 0xb9,
-	0xe2, 0x21, 0x99, 0x2b, 0x4a, 0x4b, 0x22, 0x4a, 0x20, 0x87, 0xfb, 0xa1, 0x75, 0x04, 0xdd, 0xe2,
-	0xbd, 0x24, 0x17, 0x36, 0xfe, 0xa9, 0x41, 0x6b, 0x76, 0xbb, 0x5e, 0xd2, 0xd4, 0x23, 0xe8, 0x25,
-	0xe8, 0x49, 0xfd, 0xd0, 0xff, 0x77, 0x3f, 0xb0, 0xd0, 0xdf, 0xbe, 0x71, 0x1f, 0x9d, 0xb8, 0xa3,
-	0x73, 0xa8, 0xa5, 0x4d, 0x43, 0xdb, 0xa4, 0xb9, 0x3a, 0xf7, 0xcd, 0x7b, 0xf9, 0xd4, 0xcb, 0x81,
-	0x7a, 0xf6, 0xde, 0xd0, 0x60, 0x8b, 0xba, 0x50, 0xde, 0xfe, 0xa3, 0x1d, 0x8a, 0xd4, 0xf1, 0x2d,
-	0x34, 0xf2, 0x99, 0xa0, 0xe1, 0xb6, 0x91, 0x3b, 0x2f, 0xb9, 0xff, 0x78, 0xb7, 0x28, 0xb1, 0x9e,
-	0xf4, 0xbe, 0xc7, 0x46, 0xf9, 0x26, 0x36, 0xca, 0xbf, 0x63, 0xa3, 0xfc, 0x75, 0x6d, 0x94, 0x6e,
-	0xd6, 0x46, 0xe9, 0xd7, 0xda, 0x28, 0xbd, 0xd3, 0xd5, 0xaf, 0xf0, 0xe9, 0x9f, 0x00, 0x00, 0x00,
-	0xff, 0xff, 0x3e, 0xd0, 0x5b, 0x8f, 0x52, 0x05, 0x00, 0x00,
+	// 547 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x94, 0x41, 0x6f, 0xd3, 0x30,
+	0x14, 0xc7, 0xdb, 0xb4, 0x4d, 0xe9, 0x5b, 0xb7, 0xa6, 0x6e, 0x35, 0x55, 0x15, 0x24, 0x25, 0x43,
+	0x62, 0xa7, 0x4e, 0x2a, 0xe3, 0x8c, 0xd6, 0x16, 0x4d, 0x99, 0x00, 0x45, 0x41, 0x1c, 0x38, 0x55,
+	0x25, 0x36, 0x9d, 0xe9, 0x66, 0x9b, 0x24, 0x0c, 0xf1, 0x01, 0xb8, 0xf3, 0xb1, 0x38, 0xa1, 0x1d,
+	0x38, 0x70, 0x8a, 0x50, 0xfa, 0x45, 0x90, 0x9d, 0xb4, 0x6b, 0xa6, 0x6e, 0x1c, 0x76, 0xdd, 0xcd,
+	0xfa, 0xff, 0x7f, 0xef, 0x6f, 0xeb, 0xd9, 0x7e, 0x60, 0x72, 0xc6, 0xc3, 0x03, 0x4c, 0x43, 0x9f,
+	0x5f, 0x90, 0xe0, 0xdb, 0xd5, 0xaa, 0x2f, 0x02, 0x1e, 0x71, 0xb4, 0x23, 0xfd, 0xfe, 0x4a, 0xed,
+	0xb6, 0x67, 0x7c, 0xc6, 0x95, 0x75, 0x20, 0x57, 0x29, 0x65, 0x3f, 0x85, 0xed, 0x23, 0x8c, 0x5d,
+	0x8e, 0x3d, 0xf2, 0xf9, 0x0b, 0x09, 0x23, 0xb4, 0x0b, 0x1a, 0xc5, 0x9d, 0x62, 0xaf, 0xb8, 0x5f,
+	0x1b, 0xea, 0x49, 0x6c, 0x69, 0xce, 0xd8, 0xd3, 0x28, 0xb6, 0x0d, 0xd8, 0x59, 0x82, 0xa1, 0xe0,
+	0x2c, 0x24, 0xf6, 0x89, 0x52, 0xbc, 0xa9, 0x3f, 0xff, 0x4f, 0x2d, 0xea, 0x81, 0x2e, 0x38, 0x9e,
+	0x50, 0xdc, 0xd1, 0x94, 0x57, 0x4b, 0x62, 0xab, 0xe2, 0x72, 0xec, 0x8c, 0xbd, 0x8a, 0xe0, 0xd8,
+	0xc1, 0x76, 0x13, 0x1a, 0xab, 0xac, 0x2c, 0xfe, 0x97, 0x06, 0xc6, 0x11, 0xc6, 0x6f, 0xbf, 0xd2,
+	0xc8, 0x3f, 0xbd, 0xf3, 0x0e, 0x68, 0x0f, 0xaa, 0xc1, 0xd4, 0x9f, 0x4b, 0xa4, 0xa4, 0x10, 0x48,
+	0x62, 0x4b, 0x97, 0x3b, 0x3a, 0x63, 0x4f, 0x97, 0x96, 0x83, 0x91, 0x05, 0x5b, 0xe2, 0x70, 0x42,
+	0x18, 0x16, 0x9c, 0xb2, 0xa8, 0x53, 0x96, 0xa0, 0x07, 0xe2, 0xf0, 0x65, 0xa6, 0xa0, 0xe7, 0xb0,
+	0x3d, 0x63, 0xe7, 0xf4, 0x0a, 0xa9, 0xa8, 0x2c, 0x23, 0x89, 0xad, 0xfa, 0xf1, 0x9b, 0xd7, 0xce,
+	0x12, 0xf4, 0xea, 0x12, 0x5b, 0x95, 0x0d, 0x01, 0x09, 0x2a, 0xc8, 0x19, 0x65, 0x64, 0xe2, 0x73,
+	0xf6, 0x91, 0xce, 0xe4, 0x39, 0x74, 0x55, 0xdb, 0x4e, 0x62, 0xcb, 0x70, 0x33, 0x77, 0xa4, 0x4c,
+	0x67, 0xec, 0x19, 0x22, 0xaf, 0x60, 0xf4, 0x02, 0x9a, 0xfe, 0xe9, 0x34, 0x0c, 0x69, 0xb8, 0x16,
+	0x51, 0x55, 0x11, 0xad, 0x24, 0xb6, 0x1a, 0xa3, 0xd4, 0x5c, 0x25, 0x34, 0xfc, 0x9c, 0x80, 0xed,
+	0x16, 0x34, 0xd7, 0xfa, 0x99, 0x75, 0xf9, 0x7b, 0x09, 0x5a, 0x52, 0x25, 0xc1, 0x05, 0x09, 0x1c,
+	0xf7, 0xdd, 0x7d, 0xa3, 0xef, 0xdc, 0x68, 0x34, 0x80, 0xca, 0x19, 0x65, 0xf3, 0xb0, 0xf3, 0xa0,
+	0x57, 0xda, 0xdf, 0x1a, 0x3c, 0xec, 0xe7, 0x7f, 0x62, 0xdf, 0x61, 0x9f, 0x88, 0x1f, 0x11, 0xfc,
+	0x8a, 0xb2, 0xb9, 0x97, 0xa2, 0xf6, 0x08, 0xea, 0xeb, 0x32, 0x42, 0x50, 0x16, 0x3c, 0x88, 0xd4,
+	0x0d, 0x94, 0x3d, 0xb5, 0x96, 0x4d, 0x0b, 0xc8, 0x39, 0x8f, 0xc8, 0x44, 0x59, 0x5a, 0xda, 0xb4,
+	0x54, 0x72, 0x79, 0x10, 0xd9, 0xbb, 0xd0, 0xce, 0xdf, 0x65, 0x7a, 0xc9, 0x83, 0xdf, 0x1a, 0x18,
+	0xe3, 0xe5, 0xf6, 0xd2, 0xa6, 0x3e, 0x41, 0xc7, 0xa0, 0xa7, 0x1f, 0x1a, 0x3d, 0xba, 0x7e, 0xc0,
+	0xdc, 0x44, 0xe8, 0x9a, 0x37, 0xd9, 0x69, 0x3a, 0x3a, 0x81, 0x6a, 0xf6, 0x77, 0xd1, 0x26, 0x74,
+	0x6d, 0x40, 0x74, 0xad, 0x1b, 0xfd, 0x2c, 0xcb, 0x85, 0xda, 0xea, 0x8d, 0xa2, 0xde, 0x06, 0x3a,
+	0x37, 0x0e, 0xba, 0x8f, 0x6f, 0x21, 0xb2, 0xc4, 0xf7, 0x50, 0x5f, 0xef, 0x09, 0xda, 0xdb, 0x54,
+	0x72, 0xed, 0xf5, 0x77, 0x9f, 0xdc, 0x0e, 0xa5, 0xd1, 0xc3, 0xce, 0xcf, 0xc4, 0x2c, 0x5e, 0x26,
+	0x66, 0xf1, 0x6f, 0x62, 0x16, 0x7f, 0x2c, 0xcc, 0xc2, 0xe5, 0xc2, 0x2c, 0xfc, 0x59, 0x98, 0x85,
+	0x0f, 0xba, 0x1a, 0xae, 0xcf, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x5b, 0x8b, 0x0f, 0xc2, 0xa4,
+	0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -881,33 +898,40 @@ func (m *AddSwitchRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.ChassisConfigID)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.ChassisConfigID)))
 		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.PipelineConfigID) > 0 {
+		i -= len(m.PipelineConfigID)
+		copy(dAtA[i:], m.PipelineConfigID)
+		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.PipelineConfigID)))
+		i--
 		dAtA[i] = 0x32
 	}
-	if len(m.PipelineConfigID) > 0 {
-		i -= len(m.PipelineConfigID)
-		copy(dAtA[i:], m.PipelineConfigID)
-		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.PipelineConfigID)))
+	if len(m.GNMIEndpoint) > 0 {
+		i -= len(m.GNMIEndpoint)
+		copy(dAtA[i:], m.GNMIEndpoint)
+		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.GNMIEndpoint)))
 		i--
 		dAtA[i] = 0x2a
-	}
-	if len(m.PipelineConfigID) > 0 {
-		i -= len(m.PipelineConfigID)
-		copy(dAtA[i:], m.PipelineConfigID)
-		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.PipelineConfigID)))
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.P4Endpoint) > 0 {
 		i -= len(m.P4Endpoint)
 		copy(dAtA[i:], m.P4Endpoint)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.P4Endpoint)))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x22
 	}
 	if len(m.RackID) > 0 {
 		i -= len(m.RackID)
 		copy(dAtA[i:], m.RackID)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.RackID)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.PodID) > 0 {
+		i -= len(m.PodID)
+		copy(dAtA[i:], m.PodID)
+		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.PodID)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -975,7 +999,7 @@ func (m *AddServerIPURequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				i = encodeVarintDiscovery(dAtA, i, uint64(size))
 			}
 			i--
-			dAtA[i] = 0x3a
+			dAtA[i] = 0x42
 		}
 	}
 	if len(m.ChassisConfigID) > 0 {
@@ -983,33 +1007,40 @@ func (m *AddServerIPURequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.ChassisConfigID)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.ChassisConfigID)))
 		i--
-		dAtA[i] = 0x32
+		dAtA[i] = 0x3a
 	}
 	if len(m.PipelineConfigID) > 0 {
 		i -= len(m.PipelineConfigID)
 		copy(dAtA[i:], m.PipelineConfigID)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.PipelineConfigID)))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x32
 	}
-	if len(m.GnmiEndpoint) > 0 {
-		i -= len(m.GnmiEndpoint)
-		copy(dAtA[i:], m.GnmiEndpoint)
-		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.GnmiEndpoint)))
+	if len(m.GNMIEndpoint) > 0 {
+		i -= len(m.GNMIEndpoint)
+		copy(dAtA[i:], m.GNMIEndpoint)
+		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.GNMIEndpoint)))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x2a
 	}
 	if len(m.P4Endpoint) > 0 {
 		i -= len(m.P4Endpoint)
 		copy(dAtA[i:], m.P4Endpoint)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.P4Endpoint)))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x22
 	}
 	if len(m.RackID) > 0 {
 		i -= len(m.RackID)
 		copy(dAtA[i:], m.RackID)
 		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.RackID)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.PodID) > 0 {
+		i -= len(m.PodID)
+		copy(dAtA[i:], m.PodID)
+		i = encodeVarintDiscovery(dAtA, i, uint64(len(m.PodID)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -1150,6 +1181,10 @@ func (m *AddSwitchRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
 	}
+	l = len(m.PodID)
+	if l > 0 {
+		n += 1 + l + sovDiscovery(uint64(l))
+	}
 	l = len(m.RackID)
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
@@ -1158,7 +1193,7 @@ func (m *AddSwitchRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
 	}
-	l = len(m.PipelineConfigID)
+	l = len(m.GNMIEndpoint)
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
 	}
@@ -1192,6 +1227,10 @@ func (m *AddServerIPURequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
 	}
+	l = len(m.PodID)
+	if l > 0 {
+		n += 1 + l + sovDiscovery(uint64(l))
+	}
 	l = len(m.RackID)
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
@@ -1200,7 +1239,7 @@ func (m *AddServerIPURequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
 	}
-	l = len(m.GnmiEndpoint)
+	l = len(m.GNMIEndpoint)
 	if l > 0 {
 		n += 1 + l + sovDiscovery(uint64(l))
 	}
@@ -1611,6 +1650,38 @@ func (m *AddSwitchRequest) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PodID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDiscovery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDiscovery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDiscovery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PodID = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RackID", wireType)
 			}
 			var stringLen uint64
@@ -1641,7 +1712,7 @@ func (m *AddSwitchRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.RackID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field P4Endpoint", wireType)
 			}
@@ -1673,40 +1744,40 @@ func (m *AddSwitchRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.P4Endpoint = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PipelineConfigID", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowDiscovery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthDiscovery
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthDiscovery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.PipelineConfigID = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field GNMIEndpoint", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDiscovery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDiscovery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDiscovery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.GNMIEndpoint = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PipelineConfigID", wireType)
 			}
 			var stringLen uint64
@@ -1737,7 +1808,7 @@ func (m *AddSwitchRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.PipelineConfigID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 6:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ChassisConfigID", wireType)
 			}
@@ -1903,6 +1974,38 @@ func (m *AddServerIPURequest) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PodID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowDiscovery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthDiscovery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthDiscovery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PodID = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RackID", wireType)
 			}
 			var stringLen uint64
@@ -1933,7 +2036,7 @@ func (m *AddServerIPURequest) Unmarshal(dAtA []byte) error {
 			}
 			m.RackID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field P4Endpoint", wireType)
 			}
@@ -1965,9 +2068,9 @@ func (m *AddServerIPURequest) Unmarshal(dAtA []byte) error {
 			}
 			m.P4Endpoint = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GnmiEndpoint", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GNMIEndpoint", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1995,9 +2098,9 @@ func (m *AddServerIPURequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.GnmiEndpoint = string(dAtA[iNdEx:postIndex])
+			m.GNMIEndpoint = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PipelineConfigID", wireType)
 			}
@@ -2029,7 +2132,7 @@ func (m *AddServerIPURequest) Unmarshal(dAtA []byte) error {
 			}
 			m.PipelineConfigID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 6:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ChassisConfigID", wireType)
 			}
@@ -2061,7 +2164,7 @@ func (m *AddServerIPURequest) Unmarshal(dAtA []byte) error {
 			}
 			m.ChassisConfigID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 7:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Links", wireType)
 			}

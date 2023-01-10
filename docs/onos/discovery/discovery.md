@@ -87,6 +87,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
+| pod_id | [string](#string) |  |  |
 | rack_id | [string](#string) |  |  |
 | p4_endpoint | [string](#string) |  |  |
 | gnmi_endpoint | [string](#string) |  |  |
@@ -118,6 +119,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
+| pod_id | [string](#string) |  |  |
 | rack_id | [string](#string) |  |  |
 | p4_endpoint | [string](#string) |  |  |
 | gnmi_endpoint | [string](#string) |  |  |

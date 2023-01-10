@@ -26,7 +26,7 @@ const NullID = ""
 // Revision is an object revision
 type Revision uint64
 
-// Entity and Relation Kinds
+// DEPRECATED Entity and Relation Kinds
 const (
 	// Relations
 	CONTROLS  = "controls"
@@ -46,22 +46,27 @@ const (
 
 // TODO UPPERCASE entity kinds and relations should be replaced gradually with CamelCase ones
 const (
-	TerminatesKind = "terminates"
-	OriginatesKind = "originates"
 	ControlsKind   = "controls"
 	ContainsKind   = "contains"
+	HasKind        = "has"
+	TerminatesKind = "terminates"
+	OriginatesKind = "originates"
 	NeighborsKind  = "neighbors"
 	ConnectionKind = "connection"
 
 	// Fabric Entity kinds
+	PodKind          = "pod"
+	RackKind         = "rack"
 	NetworkLayerKind = "network-layer"
 	SwitchKind       = "switch"
+	ServerKind       = "server"
+	IPUKind          = "ipu"
+	HostKind         = "host"
 	RouterKind       = "router"
 	InterfaceKind    = "interface"
 	LinkKind         = "link"
 	ControllerKind   = "controller"
 	ServiceKind      = "service"
-	HostKind         = "host"
 
 	// onos-config entity
 	OnosConfigKind = "onos-config"
@@ -172,4 +177,17 @@ func (obj *Object) SetAspectBytes(aspectType string, jsonValue []byte) error {
 	}
 	obj.Aspects[aspectType] = any
 	return nil
+}
+
+// ToAny provides a convenience utility to convert an aspect message to protobuf types.Any
+func ToAny(value proto.Message) *types.Any {
+	jm := jsonpb.Marshaler{}
+	writer := bytes.Buffer{}
+	if err := jm.Marshal(&writer, value); err != nil {
+		return nil
+	}
+	return &types.Any{
+		TypeUrl: proto.MessageName(value),
+		Value:   writer.Bytes(),
+	}
 }
