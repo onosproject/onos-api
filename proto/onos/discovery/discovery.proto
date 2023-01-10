@@ -20,10 +20,9 @@ service DiscoveryService {
   // AddSwitch adds a new switch entity with the requisite aspects into a rack
   rpc AddSwitch(AddSwitchRequest) returns (AddSwitchResponse);
 
-  // AddServer adds a new server entity and an associated IPU entity, both with the requisite aspects into a rack
+  // AddServerIPU adds a new server entity and an associated IPU entity, both with the requisite aspects into a rack
   rpc AddServerIPU(AddServerIPURequest) returns (AddServerIPUResponse);
 }
-
 
 message AddPodRequest {
   string id = 1 [(gogoproto.customname) = "ID"];
@@ -31,7 +30,6 @@ message AddPodRequest {
 
 message AddPodResponse {
 }
-
 
 message AddRackRequest {
   string id = 1 [(gogoproto.customname) = "ID"];
@@ -41,12 +39,11 @@ message AddRackRequest {
 message AddRackResponse {
 }
 
-
 message AddSwitchRequest {
   string id = 1 [(gogoproto.customname) = "ID"];
   string rack_id = 2 [(gogoproto.customname) = "RackID"];
   string p4_endpoint = 3;
-  string gnmi_endpoint = 4;
+  string gnmi_endpoint = 4  [(gogoproto.customname) = "PipelineConfigID"];
   string pipeline_config_id = 5 [(gogoproto.customname) = "PipelineConfigID"];
   string chassis_config_id = 6 [(gogoproto.customname) = "ChassisConfigID"];
 }
@@ -61,6 +58,12 @@ message AddServerIPURequest {
   string gnmi_endpoint = 4;
   string pipeline_config_id = 5 [(gogoproto.customname) = "PipelineConfigID"];
   string chassis_config_id = 6 [(gogoproto.customname) = "ChassisConfigID"];
+  repeated InjectedLink links = 7; // Provisional feature used to inject links until dynamic discovery is available
+}
+
+message InjectedLink {
+  uint64 port = 1;
+  string remote_port = 2;
 }
 
 message AddServerIPUResponse {

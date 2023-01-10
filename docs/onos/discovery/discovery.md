@@ -12,6 +12,7 @@
     - [AddServerIPUResponse](#onos-discovery-AddServerIPUResponse)
     - [AddSwitchRequest](#onos-discovery-AddSwitchRequest)
     - [AddSwitchResponse](#onos-discovery-AddSwitchResponse)
+    - [InjectedLink](#onos-discovery-InjectedLink)
   
     - [DiscoveryService](#onos-discovery-DiscoveryService)
   
@@ -91,6 +92,7 @@
 | gnmi_endpoint | [string](#string) |  |  |
 | pipeline_config_id | [string](#string) |  |  |
 | chassis_config_id | [string](#string) |  |  |
+| links | [InjectedLink](#onos-discovery-InjectedLink) | repeated | Provisional feature used to inject links until dynamic discovery is available |
 
 
 
@@ -136,6 +138,22 @@
 
 
 
+
+<a name="onos-discovery-InjectedLink"></a>
+
+### InjectedLink
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| port | [uint64](#uint64) |  |  |
+| remote_port | [string](#string) |  |  |
+
+
+
+
+
  
 
  
@@ -154,7 +172,7 @@ discovery.
 | AddPod | [AddPodRequest](#onos-discovery-AddPodRequest) | [AddPodResponse](#onos-discovery-AddPodResponse) | AddPod adds a new POD entity with the requisite aspects |
 | AddRack | [AddRackRequest](#onos-discovery-AddRackRequest) | [AddRackResponse](#onos-discovery-AddRackResponse) | AddRack adds a new rack entity with the requisite aspects as part of a POD |
 | AddSwitch | [AddSwitchRequest](#onos-discovery-AddSwitchRequest) | [AddSwitchResponse](#onos-discovery-AddSwitchResponse) | AddSwitch adds a new switch entity with the requisite aspects into a rack |
-| AddServerIPU | [AddServerIPURequest](#onos-discovery-AddServerIPURequest) | [AddServerIPUResponse](#onos-discovery-AddServerIPUResponse) | AddServer adds a new server entity and an associated IPU entity, both with the requisite aspects into a rack |
+| AddServerIPU | [AddServerIPURequest](#onos-discovery-AddServerIPURequest) | [AddServerIPUResponse](#onos-discovery-AddServerIPUResponse) | AddServerIPU adds a new server entity and an associated IPU entity, both with the requisite aspects into a rack |
 
  
 

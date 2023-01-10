@@ -2,6 +2,7 @@
 # sources: onos/discovery/discovery.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
+from typing import List
 
 import betterproto
 import grpclib
@@ -69,6 +70,16 @@ class AddServerIpuRequest(betterproto.Message):
     gnmi_endpoint: str = betterproto.string_field(4)
     pipeline_config_id: str = betterproto.string_field(5)
     chassis_config_id: str = betterproto.string_field(6)
+    links: List["InjectedLink"] = betterproto.message_field(7)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class InjectedLink(betterproto.Message):
+    port: int = betterproto.uint64_field(1)
+    remote_port: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -141,8 +152,8 @@ class DiscoveryServiceStub(betterproto.ServiceStub):
 
     async def add_server_ipu(self) -> "AddServerIpuResponse":
         """
-        AddServer adds a new server entity and an associated IPU entity, both
-        with the requisite aspects into a rack
+        AddServerIPU adds a new server entity and an associated IPU entity,
+        both with the requisite aspects into a rack
         """
 
         request = AddServerIpuRequest()
