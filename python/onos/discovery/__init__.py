@@ -44,11 +44,12 @@ class AddRackResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class AddSwitchRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
-    rack_id: str = betterproto.string_field(2)
-    p4_endpoint: str = betterproto.string_field(3)
-    gnmi_endpoint: str = betterproto.string_field(4)
-    pipeline_config_id: str = betterproto.string_field(5)
-    chassis_config_id: str = betterproto.string_field(6)
+    pod_id: str = betterproto.string_field(2)
+    rack_id: str = betterproto.string_field(3)
+    p4_endpoint: str = betterproto.string_field(4)
+    gnmi_endpoint: str = betterproto.string_field(5)
+    pipeline_config_id: str = betterproto.string_field(6)
+    chassis_config_id: str = betterproto.string_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -65,12 +66,13 @@ class AddSwitchResponse(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class AddServerIpuRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
-    rack_id: str = betterproto.string_field(2)
-    p4_endpoint: str = betterproto.string_field(3)
-    gnmi_endpoint: str = betterproto.string_field(4)
-    pipeline_config_id: str = betterproto.string_field(5)
-    chassis_config_id: str = betterproto.string_field(6)
-    links: List["InjectedLink"] = betterproto.message_field(7)
+    pod_id: str = betterproto.string_field(2)
+    rack_id: str = betterproto.string_field(3)
+    p4_endpoint: str = betterproto.string_field(4)
+    gnmi_endpoint: str = betterproto.string_field(5)
+    pipeline_config_id: str = betterproto.string_field(6)
+    chassis_config_id: str = betterproto.string_field(7)
+    links: List["InjectedLink"] = betterproto.message_field(8)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -127,6 +129,7 @@ class DiscoveryServiceStub(betterproto.ServiceStub):
         self,
         *,
         id: str = "",
+        pod_id: str = "",
         rack_id: str = "",
         p4_endpoint: str = "",
         gnmi_endpoint: str = "",
@@ -140,6 +143,7 @@ class DiscoveryServiceStub(betterproto.ServiceStub):
 
         request = AddSwitchRequest()
         request.id = id
+        request.pod_id = pod_id
         request.rack_id = rack_id
         request.p4_endpoint = p4_endpoint
         request.gnmi_endpoint = gnmi_endpoint

@@ -295,6 +295,11 @@ protoc --proto_path=$proto_path \
     proto/onos/uenib/*.proto
 
 protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/discovery.protoset \
+    --include_imports \
+    proto/onos/discovery/*.proto
+
+protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/provisioner.protoset \
     --include_imports \
     proto/onos/provisioner/*.proto
