@@ -7,7 +7,6 @@ package topo
 import (
 	"bytes"
 	"fmt"
-
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/types"
@@ -63,6 +62,7 @@ const (
 	IPUKind          = "ipu"
 	HostKind         = "host"
 	RouterKind       = "router"
+	PortKind         = "port"
 	InterfaceKind    = "interface"
 	LinkKind         = "link"
 	ControllerKind   = "controller"
@@ -111,6 +111,43 @@ func RelationID(srcID ID, relationKind ID, tgtID ID) ID {
 // the same two objects.
 func MultiRelationID(srcID ID, relationKind ID, tgtID ID, discriminant uint8) ID {
 	return ID(fmt.Sprintf("%s-%s-%s-%d", srcID, relationKind, tgtID, discriminant))
+}
+
+// NewEntity allocates a new topology entity using the specified ID and kind.
+func NewEntity(id ID, kind ID, aspects ...proto.Message) *Object {
+	return &Object{ID: id, Type: Object_ENTITY, Obj: &Object_Entity{Entity: &Entity{KindID: kind}}}
+}
+
+// NewRelation allocates a new topology relation using the specified source, target, and kind.
+func NewRelation(source ID, target ID, kind ID, aspects ...proto.Message) *Object {
+	return &Object{
+		ID:   RelationID(source, kind, target),
+		Type: Object_RELATION,
+		Obj:  &Object_Relation{Relation: &Relation{SrcEntityID: source, TgtEntityID: target, KindID: kind}},
+	}
+}
+
+// WithAspects applies the given aspects to the object.
+func (obj *Object) WithAspects(aspects ...proto.Message) (*Object, error) {
+	for _, aspect := range aspects {
+		if err := obj.SetAspect(aspect); err != nil {
+			return obj, err
+		}
+	}
+	return obj, nil
+}
+
+// ToAny provides a convenience utility to convert an aspect message to protobuf types.Any
+func ToAny(value proto.Message) *types.Any {
+	jm := jsonpb.Marshaler{}
+	writer := bytes.Buffer{}
+	if err := jm.Marshal(&writer, value); err != nil {
+		return nil
+	}
+	return &types.Any{
+		TypeUrl: proto.MessageName(value),
+		Value:   writer.Bytes(),
+	}
 }
 
 // GetAspect retrieves the specified aspect value from the given object.
@@ -177,17 +214,4 @@ func (obj *Object) SetAspectBytes(aspectType string, jsonValue []byte) error {
 	}
 	obj.Aspects[aspectType] = any
 	return nil
-}
-
-// ToAny provides a convenience utility to convert an aspect message to protobuf types.Any
-func ToAny(value proto.Message) *types.Any {
-	jm := jsonpb.Marshaler{}
-	writer := bytes.Buffer{}
-	if err := jm.Marshal(&writer, value); err != nil {
-		return nil
-	}
-	return &types.Any{
-		TypeUrl: proto.MessageName(value),
-		Value:   writer.Bytes(),
-	}
 }

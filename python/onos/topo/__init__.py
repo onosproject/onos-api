@@ -510,6 +510,20 @@ class Link(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class Port(betterproto.Message):
+    index: int = betterproto.uint32_field(1)
+    number: int = betterproto.uint32_field(2)
+    display_name: str = betterproto.string_field(3)
+    enabled: bool = betterproto.bool_field(4)
+    speed: str = betterproto.string_field(5)
+    status: str = betterproto.string_field(6)
+    last_change: int = betterproto.uint64_field(7)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class PhyInterface(betterproto.Message):
     display_name: str = betterproto.string_field(1)
     speed: str = betterproto.string_field(2)
