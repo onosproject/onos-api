@@ -67,9 +67,22 @@ message Router {
 
 // Link link aspect; represents a link between two physical interfaces
 message Link {
-  IPAddress source_ip = 1 [(gogoproto.customname) = "SourceIP"];;
+  IPAddress source_ip = 1 [(gogoproto.customname) = "SourceIP"];
   IPAddress dest_ip = 2 [(gogoproto.customname) = "DestinationIP"];
 }
+
+// Port is an aspect for port entities carrying the basic port information
+message Port {
+  uint32 index = 1;
+  uint32 number = 2;
+  string display_name = 3;
+  bool enabled = 4;
+  string speed = 5;
+  string status = 6;
+  uint64 last_change = 7;
+}
+
+// TODO: Revisit and prune the aspects and messages below
 
 // PhyInterface  aspect; an aspect to represent a physical switch interface
 message PhyInterface {
@@ -85,8 +98,6 @@ message PhyInterface {
   bool  auto_negotiate = 10;
   IPAddress ip = 11;
 }
-
-
 
 // Controller aspect; represents an instance of the controller deployment
 message ControllerInfo {
