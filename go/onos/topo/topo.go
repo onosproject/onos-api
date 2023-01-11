@@ -63,6 +63,7 @@ const (
 	IPUKind          = "ipu"
 	HostKind         = "host"
 	RouterKind       = "router"
+	PortKind         = "port"
 	InterfaceKind    = "interface"
 	LinkKind         = "link"
 	ControllerKind   = "controller"
