@@ -27,6 +27,28 @@ var _ = time.Kitchen
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+type NetworkLayer_Type int32
+
+const (
+	NetworkLayer_UNDERLAY NetworkLayer_Type = 0
+)
+
+var NetworkLayer_Type_name = map[int32]string{
+	0: "UNDERLAY",
+}
+
+var NetworkLayer_Type_value = map[string]int32{
+	"UNDERLAY": 0,
+}
+
+func (x NetworkLayer_Type) String() string {
+	return proto.EnumName(NetworkLayer_Type_name, int32(x))
+}
+
+func (NetworkLayer_Type) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{6, 0}
+}
+
 type IPAddress_Type int32
 
 const (
@@ -49,29 +71,7 @@ func (x IPAddress_Type) String() string {
 }
 
 func (IPAddress_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{1, 0}
-}
-
-type NetworkLayer_Type int32
-
-const (
-	NetworkLayer_UNDERLAY NetworkLayer_Type = 0
-)
-
-var NetworkLayer_Type_name = map[int32]string{
-	0: "UNDERLAY",
-}
-
-var NetworkLayer_Type_value = map[string]int32{
-	"UNDERLAY": 0,
-}
-
-func (x NetworkLayer_Type) String() string {
-	return proto.EnumName(NetworkLayer_Type_name, int32(x))
-}
-
-func (NetworkLayer_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{4, 0}
+	return fileDescriptor_705cdab724be9631, []int{9, 0}
 }
 
 type ControllerInfo_Type int32
@@ -93,7 +93,7 @@ func (x ControllerInfo_Type) String() string {
 }
 
 func (ControllerInfo_Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{10, 0}
+	return fileDescriptor_705cdab724be9631, []int{12, 0}
 }
 
 // ConfigurationAction
@@ -137,7 +137,7 @@ func (x P4PipelineInfo_ConfigurationAction) String() string {
 }
 
 func (P4PipelineInfo_ConfigurationAction) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{13, 0}
+	return fileDescriptor_705cdab724be9631, []int{15, 0}
 }
 
 // Endpoint is a pair of an IP Address or DNS name and a TCP port number
@@ -193,24 +193,25 @@ func (m *Endpoint) GetPort() uint32 {
 	return 0
 }
 
-// IPAddress defines an IPv4 or IPv6 address
-type IPAddress struct {
-	Type IPAddress_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.IPAddress_Type" json:"type,omitempty"`
-	IP   string         `protobuf:"bytes,2,opt,name=ip,proto3" json:"ip,omitempty"`
+// StratumAgents is an aspect carrying information required to interact with a Stratum device agents
+type StratumAgents struct {
+	P4RTEndpoint *Endpoint `protobuf:"bytes,1,opt,name=p4rt_endpoint,json=p4rtEndpoint,proto3" json:"p4rt_endpoint,omitempty"`
+	GNMIEndpoint *Endpoint `protobuf:"bytes,2,opt,name=gnmi_endpoint,json=gnmiEndpoint,proto3" json:"gnmi_endpoint,omitempty"`
+	DeviceID     uint64    `protobuf:"varint,3,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
 }
 
-func (m *IPAddress) Reset()         { *m = IPAddress{} }
-func (m *IPAddress) String() string { return proto.CompactTextString(m) }
-func (*IPAddress) ProtoMessage()    {}
-func (*IPAddress) Descriptor() ([]byte, []int) {
+func (m *StratumAgents) Reset()         { *m = StratumAgents{} }
+func (m *StratumAgents) String() string { return proto.CompactTextString(m) }
+func (*StratumAgents) ProtoMessage()    {}
+func (*StratumAgents) Descriptor() ([]byte, []int) {
 	return fileDescriptor_705cdab724be9631, []int{1}
 }
-func (m *IPAddress) XXX_Unmarshal(b []byte) error {
+func (m *StratumAgents) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *IPAddress) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *StratumAgents) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_IPAddress.Marshal(b, m, deterministic)
+		return xxx_messageInfo_StratumAgents.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -220,102 +221,58 @@ func (m *IPAddress) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *IPAddress) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_IPAddress.Merge(m, src)
+func (m *StratumAgents) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StratumAgents.Merge(m, src)
 }
-func (m *IPAddress) XXX_Size() int {
+func (m *StratumAgents) XXX_Size() int {
 	return m.Size()
 }
-func (m *IPAddress) XXX_DiscardUnknown() {
-	xxx_messageInfo_IPAddress.DiscardUnknown(m)
+func (m *StratumAgents) XXX_DiscardUnknown() {
+	xxx_messageInfo_StratumAgents.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_IPAddress proto.InternalMessageInfo
+var xxx_messageInfo_StratumAgents proto.InternalMessageInfo
 
-func (m *IPAddress) GetType() IPAddress_Type {
+func (m *StratumAgents) GetP4RTEndpoint() *Endpoint {
 	if m != nil {
-		return m.Type
-	}
-	return IPAddress_IPV4
-}
-
-func (m *IPAddress) GetIP() string {
-	if m != nil {
-		return m.IP
-	}
-	return ""
-}
-
-// P4RuntimeServer is an entity aspect tracking P4Runtime server contact details
-type P4RuntimeServer struct {
-	Endpoint *Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
-	DeviceID uint64    `protobuf:"varint,3,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
-}
-
-func (m *P4RuntimeServer) Reset()         { *m = P4RuntimeServer{} }
-func (m *P4RuntimeServer) String() string { return proto.CompactTextString(m) }
-func (*P4RuntimeServer) ProtoMessage()    {}
-func (*P4RuntimeServer) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{2}
-}
-func (m *P4RuntimeServer) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *P4RuntimeServer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_P4RuntimeServer.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *P4RuntimeServer) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_P4RuntimeServer.Merge(m, src)
-}
-func (m *P4RuntimeServer) XXX_Size() int {
-	return m.Size()
-}
-func (m *P4RuntimeServer) XXX_DiscardUnknown() {
-	xxx_messageInfo_P4RuntimeServer.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_P4RuntimeServer proto.InternalMessageInfo
-
-func (m *P4RuntimeServer) GetEndpoint() *Endpoint {
-	if m != nil {
-		return m.Endpoint
+		return m.P4RTEndpoint
 	}
 	return nil
 }
 
-func (m *P4RuntimeServer) GetDeviceID() uint64 {
+func (m *StratumAgents) GetGNMIEndpoint() *Endpoint {
+	if m != nil {
+		return m.GNMIEndpoint
+	}
+	return nil
+}
+
+func (m *StratumAgents) GetDeviceID() uint64 {
 	if m != nil {
 		return m.DeviceID
 	}
 	return 0
 }
 
-// GNMIServer is an entity aspect tracking gNMI server contact details
-type GNMIServer struct {
-	Endpoint *Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+// LocalAgents is an aspect carrying information required to interact with various Stratum device local agents
+type LocalAgents struct {
+	LinkAgentEndpoint *Endpoint `protobuf:"bytes,1,opt,name=link_agent_endpoint,json=linkAgentEndpoint,proto3" json:"link_agent_endpoint,omitempty"`
+	HostAgentEndpoint *Endpoint `protobuf:"bytes,2,opt,name=host_agent_endpoint,json=hostAgentEndpoint,proto3" json:"host_agent_endpoint,omitempty"`
+	NATAgentEndpoint  *Endpoint `protobuf:"bytes,3,opt,name=nat_agent_endpoint,json=natAgentEndpoint,proto3" json:"nat_agent_endpoint,omitempty"`
 }
 
-func (m *GNMIServer) Reset()         { *m = GNMIServer{} }
-func (m *GNMIServer) String() string { return proto.CompactTextString(m) }
-func (*GNMIServer) ProtoMessage()    {}
-func (*GNMIServer) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{3}
+func (m *LocalAgents) Reset()         { *m = LocalAgents{} }
+func (m *LocalAgents) String() string { return proto.CompactTextString(m) }
+func (*LocalAgents) ProtoMessage()    {}
+func (*LocalAgents) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{2}
 }
-func (m *GNMIServer) XXX_Unmarshal(b []byte) error {
+func (m *LocalAgents) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GNMIServer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *LocalAgents) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GNMIServer.Marshal(b, m, deterministic)
+		return xxx_messageInfo_LocalAgents.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -325,249 +282,35 @@ func (m *GNMIServer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *GNMIServer) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GNMIServer.Merge(m, src)
+func (m *LocalAgents) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LocalAgents.Merge(m, src)
 }
-func (m *GNMIServer) XXX_Size() int {
+func (m *LocalAgents) XXX_Size() int {
 	return m.Size()
 }
-func (m *GNMIServer) XXX_DiscardUnknown() {
-	xxx_messageInfo_GNMIServer.DiscardUnknown(m)
+func (m *LocalAgents) XXX_DiscardUnknown() {
+	xxx_messageInfo_LocalAgents.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GNMIServer proto.InternalMessageInfo
+var xxx_messageInfo_LocalAgents proto.InternalMessageInfo
 
-func (m *GNMIServer) GetEndpoint() *Endpoint {
+func (m *LocalAgents) GetLinkAgentEndpoint() *Endpoint {
 	if m != nil {
-		return m.Endpoint
+		return m.LinkAgentEndpoint
 	}
 	return nil
 }
 
-// NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
-type NetworkLayer struct {
-	Type        NetworkLayer_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.NetworkLayer_Type" json:"type,omitempty"`
-	DisplayName string            `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-}
-
-func (m *NetworkLayer) Reset()         { *m = NetworkLayer{} }
-func (m *NetworkLayer) String() string { return proto.CompactTextString(m) }
-func (*NetworkLayer) ProtoMessage()    {}
-func (*NetworkLayer) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{4}
-}
-func (m *NetworkLayer) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *NetworkLayer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_NetworkLayer.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *NetworkLayer) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NetworkLayer.Merge(m, src)
-}
-func (m *NetworkLayer) XXX_Size() int {
-	return m.Size()
-}
-func (m *NetworkLayer) XXX_DiscardUnknown() {
-	xxx_messageInfo_NetworkLayer.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_NetworkLayer proto.InternalMessageInfo
-
-func (m *NetworkLayer) GetType() NetworkLayer_Type {
+func (m *LocalAgents) GetHostAgentEndpoint() *Endpoint {
 	if m != nil {
-		return m.Type
-	}
-	return NetworkLayer_UNDERLAY
-}
-
-func (m *NetworkLayer) GetDisplayName() string {
-	if m != nil {
-		return m.DisplayName
-	}
-	return ""
-}
-
-// Switch aspect; aspect for a SWITCH entity
-type Switch struct {
-	ModelID            string    `protobuf:"bytes,1,opt,name=model_id,json=modelId,proto3" json:"model_id,omitempty"`
-	Role               string    `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
-	ManagementEndpoint *Endpoint `protobuf:"bytes,4,opt,name=management_endpoint,json=managementEndpoint,proto3" json:"management_endpoint,omitempty"`
-}
-
-func (m *Switch) Reset()         { *m = Switch{} }
-func (m *Switch) String() string { return proto.CompactTextString(m) }
-func (*Switch) ProtoMessage()    {}
-func (*Switch) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{5}
-}
-func (m *Switch) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Switch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Switch.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Switch) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Switch.Merge(m, src)
-}
-func (m *Switch) XXX_Size() int {
-	return m.Size()
-}
-func (m *Switch) XXX_DiscardUnknown() {
-	xxx_messageInfo_Switch.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Switch proto.InternalMessageInfo
-
-func (m *Switch) GetModelID() string {
-	if m != nil {
-		return m.ModelID
-	}
-	return ""
-}
-
-func (m *Switch) GetRole() string {
-	if m != nil {
-		return m.Role
-	}
-	return ""
-}
-
-func (m *Switch) GetManagementEndpoint() *Endpoint {
-	if m != nil {
-		return m.ManagementEndpoint
+		return m.HostAgentEndpoint
 	}
 	return nil
 }
 
-// Router aspect; aspect of a ROUTER entity (Layer 3)
-type Router struct {
-	ModelId            string    `protobuf:"bytes,1,opt,name=model_id,json=modelId,proto3" json:"model_id,omitempty"`
-	Role               string    `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
-	ManagementEndpoint *Endpoint `protobuf:"bytes,3,opt,name=management_endpoint,json=managementEndpoint,proto3" json:"management_endpoint,omitempty"`
-}
-
-func (m *Router) Reset()         { *m = Router{} }
-func (m *Router) String() string { return proto.CompactTextString(m) }
-func (*Router) ProtoMessage()    {}
-func (*Router) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{6}
-}
-func (m *Router) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Router) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Router.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Router) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Router.Merge(m, src)
-}
-func (m *Router) XXX_Size() int {
-	return m.Size()
-}
-func (m *Router) XXX_DiscardUnknown() {
-	xxx_messageInfo_Router.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Router proto.InternalMessageInfo
-
-func (m *Router) GetModelId() string {
+func (m *LocalAgents) GetNATAgentEndpoint() *Endpoint {
 	if m != nil {
-		return m.ModelId
-	}
-	return ""
-}
-
-func (m *Router) GetRole() string {
-	if m != nil {
-		return m.Role
-	}
-	return ""
-}
-
-func (m *Router) GetManagementEndpoint() *Endpoint {
-	if m != nil {
-		return m.ManagementEndpoint
-	}
-	return nil
-}
-
-// Link link aspect; represents a link between two physical interfaces
-type Link struct {
-	SourceIP      *IPAddress `protobuf:"bytes,1,opt,name=source_ip,json=sourceIp,proto3" json:"source_ip,omitempty"`
-	DestinationIP *IPAddress `protobuf:"bytes,2,opt,name=dest_ip,json=destIp,proto3" json:"dest_ip,omitempty"`
-}
-
-func (m *Link) Reset()         { *m = Link{} }
-func (m *Link) String() string { return proto.CompactTextString(m) }
-func (*Link) ProtoMessage()    {}
-func (*Link) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{7}
-}
-func (m *Link) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Link) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Link.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Link) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Link.Merge(m, src)
-}
-func (m *Link) XXX_Size() int {
-	return m.Size()
-}
-func (m *Link) XXX_DiscardUnknown() {
-	xxx_messageInfo_Link.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Link proto.InternalMessageInfo
-
-func (m *Link) GetSourceIP() *IPAddress {
-	if m != nil {
-		return m.SourceIP
-	}
-	return nil
-}
-
-func (m *Link) GetDestinationIP() *IPAddress {
-	if m != nil {
-		return m.DestinationIP
+		return m.NATAgentEndpoint
 	}
 	return nil
 }
@@ -587,7 +330,7 @@ func (m *Port) Reset()         { *m = Port{} }
 func (m *Port) String() string { return proto.CompactTextString(m) }
 func (*Port) ProtoMessage()    {}
 func (*Port) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{8}
+	return fileDescriptor_705cdab724be9631, []int{3}
 }
 func (m *Port) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -665,6 +408,385 @@ func (m *Port) GetLastChange() uint64 {
 	return 0
 }
 
+// DEPRECATED: P4RuntimeServer is an entity aspect tracking P4Runtime server contact details
+type P4RuntimeServer struct {
+	Endpoint *Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	DeviceID uint64    `protobuf:"varint,3,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
+}
+
+func (m *P4RuntimeServer) Reset()         { *m = P4RuntimeServer{} }
+func (m *P4RuntimeServer) String() string { return proto.CompactTextString(m) }
+func (*P4RuntimeServer) ProtoMessage()    {}
+func (*P4RuntimeServer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{4}
+}
+func (m *P4RuntimeServer) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *P4RuntimeServer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_P4RuntimeServer.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *P4RuntimeServer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_P4RuntimeServer.Merge(m, src)
+}
+func (m *P4RuntimeServer) XXX_Size() int {
+	return m.Size()
+}
+func (m *P4RuntimeServer) XXX_DiscardUnknown() {
+	xxx_messageInfo_P4RuntimeServer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_P4RuntimeServer proto.InternalMessageInfo
+
+func (m *P4RuntimeServer) GetEndpoint() *Endpoint {
+	if m != nil {
+		return m.Endpoint
+	}
+	return nil
+}
+
+func (m *P4RuntimeServer) GetDeviceID() uint64 {
+	if m != nil {
+		return m.DeviceID
+	}
+	return 0
+}
+
+// DEPRECATED: GNMIServer is an entity aspect tracking gNMI server contact details
+type GNMIServer struct {
+	Endpoint *Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+}
+
+func (m *GNMIServer) Reset()         { *m = GNMIServer{} }
+func (m *GNMIServer) String() string { return proto.CompactTextString(m) }
+func (*GNMIServer) ProtoMessage()    {}
+func (*GNMIServer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{5}
+}
+func (m *GNMIServer) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GNMIServer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GNMIServer.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GNMIServer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GNMIServer.Merge(m, src)
+}
+func (m *GNMIServer) XXX_Size() int {
+	return m.Size()
+}
+func (m *GNMIServer) XXX_DiscardUnknown() {
+	xxx_messageInfo_GNMIServer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GNMIServer proto.InternalMessageInfo
+
+func (m *GNMIServer) GetEndpoint() *Endpoint {
+	if m != nil {
+		return m.Endpoint
+	}
+	return nil
+}
+
+// NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
+type NetworkLayer struct {
+	Type        NetworkLayer_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.NetworkLayer_Type" json:"type,omitempty"`
+	DisplayName string            `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+}
+
+func (m *NetworkLayer) Reset()         { *m = NetworkLayer{} }
+func (m *NetworkLayer) String() string { return proto.CompactTextString(m) }
+func (*NetworkLayer) ProtoMessage()    {}
+func (*NetworkLayer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{6}
+}
+func (m *NetworkLayer) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NetworkLayer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NetworkLayer.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NetworkLayer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NetworkLayer.Merge(m, src)
+}
+func (m *NetworkLayer) XXX_Size() int {
+	return m.Size()
+}
+func (m *NetworkLayer) XXX_DiscardUnknown() {
+	xxx_messageInfo_NetworkLayer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NetworkLayer proto.InternalMessageInfo
+
+func (m *NetworkLayer) GetType() NetworkLayer_Type {
+	if m != nil {
+		return m.Type
+	}
+	return NetworkLayer_UNDERLAY
+}
+
+func (m *NetworkLayer) GetDisplayName() string {
+	if m != nil {
+		return m.DisplayName
+	}
+	return ""
+}
+
+// Switch aspect; aspect for a SWITCH entity
+type Switch struct {
+	ModelID            string    `protobuf:"bytes,1,opt,name=model_id,json=modelId,proto3" json:"model_id,omitempty"`
+	Role               string    `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	ManagementEndpoint *Endpoint `protobuf:"bytes,4,opt,name=management_endpoint,json=managementEndpoint,proto3" json:"management_endpoint,omitempty"`
+}
+
+func (m *Switch) Reset()         { *m = Switch{} }
+func (m *Switch) String() string { return proto.CompactTextString(m) }
+func (*Switch) ProtoMessage()    {}
+func (*Switch) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{7}
+}
+func (m *Switch) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Switch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Switch.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Switch) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Switch.Merge(m, src)
+}
+func (m *Switch) XXX_Size() int {
+	return m.Size()
+}
+func (m *Switch) XXX_DiscardUnknown() {
+	xxx_messageInfo_Switch.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Switch proto.InternalMessageInfo
+
+func (m *Switch) GetModelID() string {
+	if m != nil {
+		return m.ModelID
+	}
+	return ""
+}
+
+func (m *Switch) GetRole() string {
+	if m != nil {
+		return m.Role
+	}
+	return ""
+}
+
+func (m *Switch) GetManagementEndpoint() *Endpoint {
+	if m != nil {
+		return m.ManagementEndpoint
+	}
+	return nil
+}
+
+// Router aspect; aspect of a ROUTER entity (Layer 3)
+type Router struct {
+	ModelId            string    `protobuf:"bytes,1,opt,name=model_id,json=modelId,proto3" json:"model_id,omitempty"`
+	Role               string    `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	ManagementEndpoint *Endpoint `protobuf:"bytes,3,opt,name=management_endpoint,json=managementEndpoint,proto3" json:"management_endpoint,omitempty"`
+}
+
+func (m *Router) Reset()         { *m = Router{} }
+func (m *Router) String() string { return proto.CompactTextString(m) }
+func (*Router) ProtoMessage()    {}
+func (*Router) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{8}
+}
+func (m *Router) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Router) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Router.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Router) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Router.Merge(m, src)
+}
+func (m *Router) XXX_Size() int {
+	return m.Size()
+}
+func (m *Router) XXX_DiscardUnknown() {
+	xxx_messageInfo_Router.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Router proto.InternalMessageInfo
+
+func (m *Router) GetModelId() string {
+	if m != nil {
+		return m.ModelId
+	}
+	return ""
+}
+
+func (m *Router) GetRole() string {
+	if m != nil {
+		return m.Role
+	}
+	return ""
+}
+
+func (m *Router) GetManagementEndpoint() *Endpoint {
+	if m != nil {
+		return m.ManagementEndpoint
+	}
+	return nil
+}
+
+// IPAddress defines an IPv4 or IPv6 address
+type IPAddress struct {
+	Type IPAddress_Type `protobuf:"varint,1,opt,name=type,proto3,enum=onos.topo.IPAddress_Type" json:"type,omitempty"`
+	IP   string         `protobuf:"bytes,2,opt,name=ip,proto3" json:"ip,omitempty"`
+}
+
+func (m *IPAddress) Reset()         { *m = IPAddress{} }
+func (m *IPAddress) String() string { return proto.CompactTextString(m) }
+func (*IPAddress) ProtoMessage()    {}
+func (*IPAddress) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{9}
+}
+func (m *IPAddress) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *IPAddress) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_IPAddress.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *IPAddress) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IPAddress.Merge(m, src)
+}
+func (m *IPAddress) XXX_Size() int {
+	return m.Size()
+}
+func (m *IPAddress) XXX_DiscardUnknown() {
+	xxx_messageInfo_IPAddress.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_IPAddress proto.InternalMessageInfo
+
+func (m *IPAddress) GetType() IPAddress_Type {
+	if m != nil {
+		return m.Type
+	}
+	return IPAddress_IPV4
+}
+
+func (m *IPAddress) GetIP() string {
+	if m != nil {
+		return m.IP
+	}
+	return ""
+}
+
+// LogicalLink link aspect; represents a link between two physical interfaces
+type LogicalLink struct {
+	SourceIP      *IPAddress `protobuf:"bytes,1,opt,name=source_ip,json=sourceIp,proto3" json:"source_ip,omitempty"`
+	DestinationIP *IPAddress `protobuf:"bytes,2,opt,name=dest_ip,json=destIp,proto3" json:"dest_ip,omitempty"`
+}
+
+func (m *LogicalLink) Reset()         { *m = LogicalLink{} }
+func (m *LogicalLink) String() string { return proto.CompactTextString(m) }
+func (*LogicalLink) ProtoMessage()    {}
+func (*LogicalLink) Descriptor() ([]byte, []int) {
+	return fileDescriptor_705cdab724be9631, []int{10}
+}
+func (m *LogicalLink) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *LogicalLink) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_LogicalLink.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *LogicalLink) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LogicalLink.Merge(m, src)
+}
+func (m *LogicalLink) XXX_Size() int {
+	return m.Size()
+}
+func (m *LogicalLink) XXX_DiscardUnknown() {
+	xxx_messageInfo_LogicalLink.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_LogicalLink proto.InternalMessageInfo
+
+func (m *LogicalLink) GetSourceIP() *IPAddress {
+	if m != nil {
+		return m.SourceIP
+	}
+	return nil
+}
+
+func (m *LogicalLink) GetDestinationIP() *IPAddress {
+	if m != nil {
+		return m.DestinationIP
+	}
+	return nil
+}
+
 // PhyInterface  aspect; an aspect to represent a physical switch interface
 type PhyInterface struct {
 	DisplayName     string     `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
@@ -684,7 +806,7 @@ func (m *PhyInterface) Reset()         { *m = PhyInterface{} }
 func (m *PhyInterface) String() string { return proto.CompactTextString(m) }
 func (*PhyInterface) ProtoMessage()    {}
 func (*PhyInterface) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{9}
+	return fileDescriptor_705cdab724be9631, []int{11}
 }
 func (m *PhyInterface) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -803,7 +925,7 @@ func (m *ControllerInfo) Reset()         { *m = ControllerInfo{} }
 func (m *ControllerInfo) String() string { return proto.CompactTextString(m) }
 func (*ControllerInfo) ProtoMessage()    {}
 func (*ControllerInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{10}
+	return fileDescriptor_705cdab724be9631, []int{12}
 }
 func (m *ControllerInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -876,7 +998,7 @@ func (m *ControllerRole) Reset()         { *m = ControllerRole{} }
 func (m *ControllerRole) String() string { return proto.CompactTextString(m) }
 func (*ControllerRole) ProtoMessage()    {}
 func (*ControllerRole) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{11}
+	return fileDescriptor_705cdab724be9631, []int{13}
 }
 func (m *ControllerRole) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -919,7 +1041,7 @@ func (m *ControllerRole) GetConfig() *types.Any {
 	return nil
 }
 
-// P4RTServerInfo aspect; specifies the control end point in a programmable device
+// DEPRECATED: P4RTServerInfo aspect; specifies the control end point in a programmable device
 type P4RTServerInfo struct {
 	ControlEndpoint *Endpoint         `protobuf:"bytes,1,opt,name=control_endpoint,json=controlEndpoint,proto3" json:"control_endpoint,omitempty"`
 	Timeout         *time.Duration    `protobuf:"bytes,2,opt,name=timeout,proto3,stdduration" json:"timeout,omitempty"`
@@ -931,7 +1053,7 @@ func (m *P4RTServerInfo) Reset()         { *m = P4RTServerInfo{} }
 func (m *P4RTServerInfo) String() string { return proto.CompactTextString(m) }
 func (*P4RTServerInfo) ProtoMessage()    {}
 func (*P4RTServerInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{12}
+	return fileDescriptor_705cdab724be9631, []int{14}
 }
 func (m *P4RTServerInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -988,7 +1110,7 @@ func (m *P4RTServerInfo) GetPipelines() []*P4PipelineInfo {
 	return nil
 }
 
-// P4PipelineInfo p4 pipeline information
+// DEPRECATED: P4PipelineInfo p4 pipeline information
 type P4PipelineInfo struct {
 	Name                string                             `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Version             string                             `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
@@ -1000,7 +1122,7 @@ func (m *P4PipelineInfo) Reset()         { *m = P4PipelineInfo{} }
 func (m *P4PipelineInfo) String() string { return proto.CompactTextString(m) }
 func (*P4PipelineInfo) ProtoMessage()    {}
 func (*P4PipelineInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{13}
+	return fileDescriptor_705cdab724be9631, []int{15}
 }
 func (m *P4PipelineInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1057,7 +1179,7 @@ func (m *P4PipelineInfo) GetConfigurationAction() P4PipelineInfo_ConfigurationAc
 	return P4PipelineInfo_UNSPECIFIED
 }
 
-// P4RTMastershipState mastership state for the P4runtime targets
+// DEPRECATED: P4RTMastershipState mastership state for the P4runtime targets
 type P4RTMastershipState struct {
 	Term         uint64 `protobuf:"varint,1,opt,name=term,proto3" json:"term,omitempty"`
 	ConnectionID string `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
@@ -1068,7 +1190,7 @@ func (m *P4RTMastershipState) Reset()         { *m = P4RTMastershipState{} }
 func (m *P4RTMastershipState) String() string { return proto.CompactTextString(m) }
 func (*P4RTMastershipState) ProtoMessage()    {}
 func (*P4RTMastershipState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{14}
+	return fileDescriptor_705cdab724be9631, []int{16}
 }
 func (m *P4RTMastershipState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1118,7 +1240,7 @@ func (m *P4RTMastershipState) GetRole() string {
 	return ""
 }
 
-// Service service entity which will be used to store mastership state for an application
+// DEPRECATED: Service service entity which will be used to store mastership state for an application
 type Service struct {
 	TargetID        string               `protobuf:"bytes,1,opt,name=target_id,json=targetId,proto3" json:"target_id,omitempty"`
 	Mastershipstate *P4RTMastershipState `protobuf:"bytes,2,opt,name=mastershipstate,proto3" json:"mastershipstate,omitempty"`
@@ -1128,7 +1250,7 @@ func (m *Service) Reset()         { *m = Service{} }
 func (m *Service) String() string { return proto.CompactTextString(m) }
 func (*Service) ProtoMessage()    {}
 func (*Service) Descriptor() ([]byte, []int) {
-	return fileDescriptor_705cdab724be9631, []int{15}
+	return fileDescriptor_705cdab724be9631, []int{17}
 }
 func (m *Service) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1172,19 +1294,21 @@ func (m *Service) GetMastershipstate() *P4RTMastershipState {
 }
 
 func init() {
-	proto.RegisterEnum("onos.topo.IPAddress_Type", IPAddress_Type_name, IPAddress_Type_value)
 	proto.RegisterEnum("onos.topo.NetworkLayer_Type", NetworkLayer_Type_name, NetworkLayer_Type_value)
+	proto.RegisterEnum("onos.topo.IPAddress_Type", IPAddress_Type_name, IPAddress_Type_value)
 	proto.RegisterEnum("onos.topo.ControllerInfo_Type", ControllerInfo_Type_name, ControllerInfo_Type_value)
 	proto.RegisterEnum("onos.topo.P4PipelineInfo_ConfigurationAction", P4PipelineInfo_ConfigurationAction_name, P4PipelineInfo_ConfigurationAction_value)
 	proto.RegisterType((*Endpoint)(nil), "onos.topo.Endpoint")
-	proto.RegisterType((*IPAddress)(nil), "onos.topo.IPAddress")
+	proto.RegisterType((*StratumAgents)(nil), "onos.topo.StratumAgents")
+	proto.RegisterType((*LocalAgents)(nil), "onos.topo.LocalAgents")
+	proto.RegisterType((*Port)(nil), "onos.topo.Port")
 	proto.RegisterType((*P4RuntimeServer)(nil), "onos.topo.P4RuntimeServer")
 	proto.RegisterType((*GNMIServer)(nil), "onos.topo.gNMIServer")
 	proto.RegisterType((*NetworkLayer)(nil), "onos.topo.NetworkLayer")
 	proto.RegisterType((*Switch)(nil), "onos.topo.Switch")
 	proto.RegisterType((*Router)(nil), "onos.topo.Router")
-	proto.RegisterType((*Link)(nil), "onos.topo.Link")
-	proto.RegisterType((*Port)(nil), "onos.topo.Port")
+	proto.RegisterType((*IPAddress)(nil), "onos.topo.IPAddress")
+	proto.RegisterType((*LogicalLink)(nil), "onos.topo.LogicalLink")
 	proto.RegisterType((*PhyInterface)(nil), "onos.topo.PhyInterface")
 	proto.RegisterType((*ControllerInfo)(nil), "onos.topo.ControllerInfo")
 	proto.RegisterType((*ControllerRole)(nil), "onos.topo.ControllerRole")
@@ -1197,85 +1321,94 @@ func init() {
 func init() { proto.RegisterFile("onos/topo/fabric.proto", fileDescriptor_705cdab724be9631) }
 
 var fileDescriptor_705cdab724be9631 = []byte{
-	// 1247 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0xcb, 0x6f, 0x1b, 0x45,
-	0x18, 0xf7, 0xda, 0x5b, 0x3f, 0x3e, 0xdb, 0x89, 0x3b, 0x49, 0x2b, 0x37, 0x42, 0x76, 0x58, 0x51,
-	0xd4, 0x4a, 0xd4, 0x41, 0x21, 0xbc, 0x0e, 0x3c, 0x12, 0xdb, 0x15, 0x2b, 0x25, 0xee, 0x6a, 0x92,
-	0x56, 0xea, 0x69, 0x99, 0xec, 0x8e, 0xed, 0x55, 0xed, 0x99, 0xd5, 0xec, 0xb8, 0xc5, 0x07, 0x38,
-	0x20, 0x0e, 0xc0, 0x89, 0x23, 0x7f, 0x0e, 0x47, 0x24, 0x2e, 0x3d, 0x72, 0x0a, 0xc8, 0xfd, 0x03,
-	0xf8, 0x17, 0xd0, 0xcc, 0xee, 0x3a, 0xeb, 0x3c, 0x10, 0xed, 0xc9, 0xf3, 0xfd, 0xbe, 0xdf, 0xb7,
-	0xf3, 0xbd, 0xc7, 0x70, 0x9b, 0x33, 0x1e, 0xed, 0x48, 0x1e, 0xf2, 0x9d, 0x21, 0x39, 0x15, 0x81,
-	0xd7, 0x09, 0x05, 0x97, 0x1c, 0x55, 0x14, 0xde, 0x51, 0xf8, 0xd6, 0xe6, 0x88, 0x8f, 0xb8, 0x46,
-	0x77, 0xd4, 0x29, 0x26, 0x6c, 0xb5, 0x46, 0x9c, 0x8f, 0x26, 0x74, 0x47, 0x4b, 0xa7, 0xb3, 0xe1,
-	0x8e, 0x3f, 0x13, 0x44, 0x06, 0x9c, 0x25, 0xfa, 0x3b, 0x17, 0xf5, 0x84, 0xcd, 0x63, 0x95, 0xf5,
-	0x09, 0x94, 0xfb, 0xcc, 0x0f, 0x79, 0xc0, 0x24, 0x6a, 0x42, 0x89, 0xf8, 0xbe, 0xa0, 0x51, 0xd4,
-	0x34, 0xb6, 0x8d, 0x7b, 0x15, 0x9c, 0x8a, 0x08, 0x81, 0x19, 0x72, 0x21, 0x9b, 0xf9, 0x6d, 0xe3,
-	0x5e, 0x1d, 0xeb, 0xb3, 0xc5, 0xa0, 0x62, 0x3b, 0xfb, 0x09, 0xe1, 0x01, 0x98, 0x72, 0x1e, 0x52,
-	0x6d, 0xb7, 0xb6, 0x7b, 0xa7, 0xb3, 0xf4, 0xb8, 0xb3, 0xe4, 0x74, 0x4e, 0xe6, 0x21, 0xc5, 0x9a,
-	0x86, 0x6e, 0x43, 0x3e, 0x08, 0xf5, 0xd7, 0x2a, 0x07, 0xc5, 0xc5, 0x59, 0x3b, 0x6f, 0x3b, 0x38,
-	0x1f, 0x84, 0xd6, 0x16, 0x98, 0x8a, 0x85, 0xca, 0x60, 0xda, 0xce, 0x93, 0xbd, 0x46, 0x2e, 0x39,
-	0x7d, 0xd4, 0x30, 0xac, 0x29, 0xac, 0x3b, 0x7b, 0x78, 0xc6, 0x64, 0x30, 0xa5, 0xc7, 0x54, 0x3c,
-	0xa7, 0x02, 0xed, 0x40, 0x99, 0x26, 0xce, 0xeb, 0x9b, 0xab, 0xbb, 0x1b, 0x99, 0x9b, 0xd3, 0xb8,
-	0xf0, 0x92, 0x84, 0xee, 0x43, 0xc5, 0xa7, 0xcf, 0x03, 0x8f, 0xba, 0x81, 0xdf, 0x2c, 0x6c, 0x1b,
-	0xf7, 0xcc, 0x83, 0xda, 0xe2, 0xac, 0x5d, 0xee, 0x69, 0xd0, 0xee, 0xe1, 0x72, 0xac, 0xb6, 0x7d,
-	0xeb, 0x33, 0x80, 0xd1, 0xe0, 0xc8, 0x7e, 0xc3, 0x9b, 0xac, 0x39, 0xd4, 0x06, 0x54, 0xbe, 0xe0,
-	0xe2, 0xd9, 0x21, 0x99, 0x53, 0x81, 0xde, 0x5f, 0x49, 0xd0, 0x5b, 0x19, 0xe3, 0x2c, 0x2d, 0x9b,
-	0xa3, 0xb7, 0xa1, 0xe6, 0x07, 0x51, 0x38, 0x21, 0x73, 0x97, 0x91, 0x29, 0x8d, 0xb3, 0x85, 0xab,
-	0x09, 0x36, 0x20, 0x53, 0x6a, 0x6d, 0x26, 0xe9, 0xaa, 0x41, 0xf9, 0xf1, 0xa0, 0xd7, 0xc7, 0x87,
-	0xfb, 0x4f, 0x1b, 0x39, 0xeb, 0x67, 0x03, 0x8a, 0xc7, 0x2f, 0x02, 0xe9, 0x8d, 0xd1, 0xbb, 0x50,
-	0x9e, 0x72, 0x9f, 0x4e, 0x54, 0xb8, 0xba, 0xa4, 0x07, 0xd5, 0xc5, 0x59, 0xbb, 0x74, 0xa4, 0x30,
-	0xbb, 0x87, 0x4b, 0x5a, 0x69, 0xfb, 0xaa, 0xbe, 0x82, 0x4f, 0xd2, 0x3b, 0xf4, 0x19, 0xf5, 0x60,
-	0x63, 0x4a, 0x18, 0x19, 0xd1, 0x29, 0x65, 0xd2, 0x5d, 0x46, 0x6f, 0x5e, 0x1f, 0x3d, 0x3a, 0xe7,
-	0xa7, 0x98, 0xf5, 0x2d, 0x14, 0x31, 0x9f, 0x49, 0x2a, 0xd0, 0x9d, 0x8b, 0xbe, 0xbc, 0xd1, 0xf5,
-	0x85, 0xd7, 0xbb, 0xfe, 0x27, 0x03, 0xcc, 0xc3, 0x80, 0x3d, 0x43, 0x5f, 0x40, 0x25, 0xe2, 0x33,
-	0xa1, 0x2a, 0x1f, 0x26, 0x15, 0xdc, 0xbc, 0xaa, 0x4b, 0xe3, 0x7e, 0x38, 0xd6, 0x54, 0xdb, 0xc1,
-	0xe5, 0xd8, 0xc8, 0x0e, 0xd1, 0x97, 0x50, 0xf2, 0x69, 0x24, 0xdd, 0xa4, 0x6f, 0xaf, 0x33, 0xbf,
-	0xb9, 0x38, 0x6b, 0xd7, 0x7b, 0x34, 0x92, 0x01, 0xd3, 0x13, 0x68, 0x3b, 0xb8, 0xa8, 0xec, 0xec,
-	0xd0, 0xfa, 0xcd, 0x00, 0xd3, 0xe1, 0x42, 0xa2, 0x4d, 0xb8, 0x11, 0x30, 0x9f, 0x7e, 0xa3, 0xfd,
-	0xa8, 0xe3, 0x58, 0x40, 0xb7, 0xa1, 0xc8, 0x66, 0xd3, 0x53, 0x2a, 0x92, 0x29, 0x4b, 0xa4, 0x4b,
-	0x7d, 0x50, 0xb8, 0xd4, 0x07, 0x6a, 0x70, 0x29, 0x23, 0xa7, 0x13, 0xea, 0xeb, 0xf2, 0x94, 0x71,
-	0x2a, 0xaa, 0xab, 0xa2, 0x90, 0x52, 0xbf, 0x79, 0x43, 0x5b, 0xc5, 0x82, 0xba, 0x2a, 0x92, 0x44,
-	0xce, 0xa2, 0x66, 0x51, 0xc3, 0x89, 0x84, 0xda, 0x50, 0x9d, 0x90, 0x48, 0xba, 0xde, 0x98, 0xb0,
-	0x11, 0x6d, 0x96, 0xd4, 0x80, 0x60, 0x50, 0x50, 0x57, 0x23, 0xd6, 0x8f, 0x05, 0xa8, 0x39, 0xe3,
-	0xb9, 0xcd, 0x24, 0x15, 0x43, 0xe2, 0x5d, 0x6e, 0x52, 0xe3, 0xb2, 0x73, 0x4b, 0x17, 0xf2, 0x59,
-	0x17, 0xda, 0x50, 0x55, 0x5b, 0xc4, 0x4d, 0x42, 0x2e, 0xe8, 0x90, 0x41, 0x41, 0x83, 0x38, 0xec,
-	0xbb, 0xb0, 0xa6, 0xdc, 0x60, 0x74, 0x92, 0x72, 0x4c, 0xcd, 0xa9, 0x27, 0x68, 0x42, 0xbb, 0x0f,
-	0x15, 0x49, 0xc4, 0x88, 0x4a, 0xd5, 0x56, 0x3a, 0xc8, 0xb8, 0x82, 0x27, 0x1a, 0x54, 0x13, 0x1d,
-	0xab, 0x6d, 0x3f, 0x9b, 0xa5, 0xe2, 0x6a, 0x96, 0xee, 0x43, 0x63, 0x4c, 0xc9, 0x44, 0x8e, 0xdd,
-	0x80, 0xf9, 0x81, 0x47, 0x24, 0x17, 0x3a, 0xf8, 0x0a, 0x5e, 0x8f, 0x71, 0x3b, 0x85, 0x55, 0x17,
-	0x07, 0x43, 0x37, 0x2e, 0x5f, 0x59, 0x3b, 0x54, 0x0a, 0x86, 0xb6, 0x2e, 0x60, 0x1b, 0xaa, 0x53,
-	0xe2, 0xb9, 0xe9, 0x0a, 0xad, 0xe8, 0x0f, 0xc0, 0x94, 0x78, 0xe9, 0x92, 0xbc, 0x0b, 0x6b, 0x64,
-	0x26, 0xb9, 0xcb, 0xe8, 0x88, 0xcb, 0x80, 0x48, 0xda, 0x04, 0xed, 0x47, 0x5d, 0xa1, 0x83, 0x14,
-	0x44, 0xef, 0xe8, 0xe5, 0x58, 0xbd, 0xbe, 0xc9, 0xf4, 0xaa, 0xfc, 0x3e, 0x0f, 0x6b, 0x5d, 0xce,
-	0xa4, 0xe0, 0x93, 0x09, 0x15, 0x36, 0x1b, 0x72, 0xb4, 0xbb, 0xb2, 0x63, 0x5a, 0x19, 0xd3, 0x55,
-	0x62, 0x76, 0xcb, 0x3c, 0xc8, 0x8c, 0x5e, 0x75, 0x65, 0x71, 0x9f, 0xdb, 0x60, 0x3e, 0xa1, 0xc9,
-	0x54, 0x7e, 0x0e, 0x0d, 0x2f, 0xc6, 0xff, 0xd7, 0x48, 0xae, 0x27, 0xe4, 0xe5, 0x13, 0xb3, 0x05,
-	0xe5, 0x59, 0x44, 0x85, 0xee, 0x15, 0x53, 0x27, 0x68, 0x29, 0x2b, 0x5d, 0x48, 0xa2, 0xe8, 0x05,
-	0x17, 0x69, 0xbb, 0x2e, 0x65, 0xeb, 0x56, 0xb2, 0xe9, 0xea, 0x50, 0x71, 0xf6, 0xf0, 0xe3, 0xc1,
-	0x89, 0x7d, 0xd4, 0x6f, 0xe4, 0x2c, 0x9c, 0xcd, 0x81, 0x72, 0x53, 0xad, 0x92, 0x4c, 0x23, 0xea,
-	0x33, 0x7a, 0x0f, 0x8a, 0x1e, 0x67, 0xc3, 0x60, 0xb4, 0x9c, 0xdc, 0xf8, 0x3d, 0xec, 0xa4, 0xef,
-	0x61, 0x67, 0x9f, 0xcd, 0x71, 0xc2, 0xb1, 0xfe, 0x31, 0x60, 0xcd, 0xd9, 0xc3, 0x27, 0xf1, 0xe6,
-	0xd7, 0x89, 0xbd, 0x2a, 0x6a, 0xe3, 0x35, 0xa2, 0xfe, 0x14, 0x4a, 0xea, 0xd5, 0xe2, 0x33, 0xb9,
-	0xcc, 0xf3, 0x45, 0x0f, 0x7a, 0xc9, 0x8b, 0x7d, 0x60, 0xfe, 0xfa, 0x57, 0xdb, 0xc0, 0x29, 0xff,
-	0x35, 0x5e, 0x2c, 0xf4, 0x31, 0x54, 0xc2, 0x20, 0xa4, 0x93, 0x80, 0xd1, 0xa8, 0x69, 0x6e, 0x17,
-	0x2e, 0xd4, 0xd3, 0xd9, 0x73, 0x12, 0xad, 0x8a, 0x09, 0x9f, 0x73, 0xad, 0x3f, 0xf2, 0x2a, 0xe2,
-	0xac, 0xf6, 0xca, 0x34, 0x36, 0xa1, 0xf4, 0x9c, 0x8a, 0x28, 0xe0, 0x2c, 0x19, 0xe5, 0x54, 0x44,
-	0x16, 0xd4, 0x88, 0xf0, 0xc6, 0x81, 0xa4, 0x9e, 0x9c, 0x89, 0x74, 0x45, 0xad, 0x60, 0xe8, 0x6b,
-	0xd8, 0x8c, 0x13, 0x9c, 0x04, 0xea, 0x12, 0x4f, 0xfd, 0xe8, 0x2e, 0x58, 0xdb, 0x7d, 0x70, 0xad,
-	0xa3, 0xaa, 0x0f, 0xcf, 0xad, 0xf6, 0xb5, 0x11, 0xde, 0xf0, 0x2e, 0x83, 0xd6, 0x0f, 0x06, 0x6c,
-	0x5c, 0x41, 0x46, 0xeb, 0x50, 0x7d, 0x3c, 0x38, 0x76, 0xfa, 0x5d, 0xfb, 0xa1, 0xdd, 0xef, 0x35,
-	0x72, 0x08, 0xa0, 0xf8, 0xa4, 0x8f, 0xed, 0x87, 0x4f, 0x1b, 0x06, 0xda, 0x80, 0xf5, 0xf8, 0xec,
-	0xee, 0x0f, 0x7a, 0xee, 0xf1, 0xfe, 0x93, 0x7e, 0x23, 0x8f, 0x6e, 0xc1, 0xcd, 0x0c, 0xd8, 0x7d,
-	0x74, 0x74, 0x64, 0x9f, 0x34, 0x0a, 0xca, 0x2e, 0x39, 0x9b, 0xa8, 0x09, 0x9b, 0xb8, 0xdf, 0x7d,
-	0x34, 0xe8, 0xda, 0x87, 0xfd, 0x2c, 0xeb, 0x86, 0x25, 0x61, 0x43, 0xb5, 0xcf, 0x11, 0x89, 0x24,
-	0x15, 0xd1, 0x38, 0x08, 0x8f, 0xa5, 0x9a, 0x6a, 0x04, 0xa6, 0xa4, 0x62, 0xaa, 0x33, 0x6a, 0x62,
-	0x7d, 0x46, 0x1f, 0x42, 0xdd, 0xe3, 0x8c, 0x51, 0xed, 0xa7, 0x2a, 0x70, 0xfc, 0x8f, 0xa8, 0xb1,
-	0x38, 0x6b, 0xd7, 0xba, 0x4b, 0x85, 0xdd, 0xc3, 0xb5, 0x73, 0x5a, 0xe6, 0xb9, 0x2c, 0x9c, 0x3f,
-	0x97, 0xd6, 0x77, 0x50, 0x52, 0x0d, 0x1b, 0x78, 0x74, 0x75, 0x25, 0x1a, 0xff, 0xb9, 0x12, 0xbf,
-	0x82, 0xf5, 0xe9, 0xd2, 0x4f, 0xf5, 0x08, 0xa4, 0x8b, 0xa0, 0xb5, 0x52, 0x8f, 0x4b, 0xd1, 0xe0,
-	0x8b, 0x66, 0x07, 0xcd, 0xdf, 0x17, 0x2d, 0xe3, 0xe5, 0xa2, 0x65, 0xfc, 0xbd, 0x68, 0x19, 0xbf,
-	0xbc, 0x6a, 0xe5, 0x5e, 0xbe, 0x6a, 0xe5, 0xfe, 0x7c, 0xd5, 0xca, 0x9d, 0x16, 0x75, 0x8f, 0x7f,
-	0xf0, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xf3, 0x8b, 0x16, 0x5c, 0xde, 0x0a, 0x00, 0x00,
+	// 1387 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0x4b, 0x6f, 0xdb, 0xc6,
+	0x13, 0x37, 0x25, 0x46, 0x8f, 0x91, 0x64, 0x2b, 0x2b, 0x27, 0x50, 0x8c, 0x3f, 0x24, 0xff, 0x89,
+	0xa6, 0x70, 0x80, 0xc6, 0x2e, 0x5c, 0xf7, 0x75, 0xe8, 0x43, 0x96, 0x94, 0x96, 0x81, 0xad, 0x08,
+	0x6b, 0x27, 0x45, 0x4e, 0xea, 0x9a, 0x5c, 0x4b, 0x44, 0xa8, 0x5d, 0x82, 0x5c, 0x25, 0xd5, 0xa1,
+	0x3d, 0x14, 0x3d, 0x14, 0x3d, 0xe5, 0xd8, 0x8f, 0xd3, 0x63, 0x81, 0x5e, 0x82, 0x9e, 0x7a, 0x72,
+	0x0b, 0xe5, 0x03, 0xb4, 0x1f, 0xa1, 0xd8, 0xe5, 0x43, 0x94, 0x65, 0xa7, 0x71, 0x4e, 0xdc, 0xf9,
+	0xed, 0xcc, 0xec, 0xcc, 0xec, 0x6f, 0x66, 0x09, 0x37, 0x39, 0xe3, 0xc1, 0x8e, 0xe0, 0x1e, 0xdf,
+	0x39, 0x25, 0x27, 0xbe, 0x63, 0x6d, 0x7b, 0x3e, 0x17, 0x1c, 0x15, 0x25, 0xbe, 0x2d, 0xf1, 0x8d,
+	0xf5, 0x21, 0x1f, 0x72, 0x85, 0xee, 0xc8, 0x55, 0xa8, 0xb0, 0xd1, 0x18, 0x72, 0x3e, 0x74, 0xe9,
+	0x8e, 0x92, 0x4e, 0x26, 0xa7, 0x3b, 0xf6, 0xc4, 0x27, 0xc2, 0xe1, 0x2c, 0xda, 0xbf, 0x75, 0x7e,
+	0x9f, 0xb0, 0x69, 0xb8, 0x65, 0x7c, 0x04, 0x85, 0x2e, 0xb3, 0x3d, 0xee, 0x30, 0x81, 0xea, 0x90,
+	0x27, 0xb6, 0xed, 0xd3, 0x20, 0xa8, 0x6b, 0x9b, 0xda, 0x56, 0x11, 0xc7, 0x22, 0x42, 0xa0, 0x7b,
+	0xdc, 0x17, 0xf5, 0xcc, 0xa6, 0xb6, 0x55, 0xc1, 0x6a, 0x6d, 0xfc, 0xae, 0x41, 0xe5, 0x48, 0xf8,
+	0x44, 0x4c, 0xc6, 0xad, 0x21, 0x65, 0x22, 0x40, 0xf7, 0xa1, 0xe2, 0xed, 0xf9, 0x62, 0x40, 0x23,
+	0x87, 0xca, 0x4b, 0x69, 0xb7, 0xb6, 0x9d, 0xc4, 0xbf, 0x1d, 0x9f, 0xb5, 0x5f, 0x9d, 0x9d, 0x35,
+	0xcb, 0xfd, 0x3d, 0x7c, 0x1c, 0x23, 0xb8, 0x2c, 0x6d, 0x93, 0x58, 0xee, 0x43, 0x65, 0xc8, 0xc6,
+	0xce, 0xdc, 0x57, 0xe6, 0x3f, 0x7c, 0x7d, 0xd1, 0x3b, 0x34, 0xe7, 0xbe, 0xa4, 0x6d, 0xe2, 0xeb,
+	0x0e, 0x14, 0x6d, 0xfa, 0xd4, 0xb1, 0xe8, 0xc0, 0xb1, 0xeb, 0xd9, 0x4d, 0x6d, 0x4b, 0xdf, 0x2f,
+	0xcf, 0xce, 0x9a, 0x85, 0x8e, 0x02, 0xcd, 0x0e, 0x2e, 0x84, 0xdb, 0xa6, 0x6d, 0xfc, 0xa3, 0x41,
+	0xe9, 0x80, 0x5b, 0xc4, 0x8d, 0x52, 0x6a, 0x43, 0xcd, 0x75, 0xd8, 0x93, 0x01, 0x91, 0xe2, 0xeb,
+	0x24, 0x86, 0xaf, 0x4b, 0x7d, 0x65, 0x9d, 0x9c, 0xdf, 0x86, 0xda, 0x88, 0x07, 0xe2, 0xbc, 0x93,
+	0xcc, 0x2b, 0x9c, 0x48, 0xfd, 0x45, 0x27, 0x5f, 0x01, 0x62, 0x64, 0xc9, 0x47, 0xf6, 0xf2, 0xaa,
+	0xac, 0xcf, 0xce, 0x9a, 0xd5, 0x5e, 0xeb, 0x78, 0xc1, 0x0d, 0xae, 0x32, 0xb2, 0xe8, 0xd8, 0xf8,
+	0x45, 0x03, 0xbd, 0xcf, 0x7d, 0x81, 0xd6, 0xe1, 0x9a, 0xc3, 0x6c, 0xfa, 0x8d, 0xca, 0xae, 0x82,
+	0x43, 0x01, 0xdd, 0x84, 0x1c, 0x9b, 0x8c, 0x4f, 0xa8, 0x1f, 0x5d, 0x7e, 0x24, 0xa1, 0xff, 0x43,
+	0xd9, 0x76, 0x02, 0xcf, 0x25, 0xd3, 0x01, 0x23, 0x63, 0xaa, 0x22, 0x29, 0xe2, 0x52, 0x84, 0xf5,
+	0xc8, 0x98, 0x4a, 0x3e, 0x51, 0x46, 0x4e, 0x5c, 0x6a, 0xd7, 0xf5, 0x4d, 0x6d, 0xab, 0x80, 0x63,
+	0x51, 0x1e, 0x15, 0x78, 0x94, 0xda, 0xf5, 0x6b, 0xca, 0x2a, 0x14, 0xe4, 0x51, 0x81, 0x20, 0x62,
+	0x12, 0xd4, 0x73, 0x0a, 0x8e, 0x24, 0xd4, 0x84, 0x92, 0x4b, 0x02, 0x31, 0xb0, 0x46, 0x84, 0x0d,
+	0x69, 0x3d, 0x2f, 0x6f, 0x10, 0x83, 0x84, 0xda, 0x0a, 0x31, 0xc6, 0xb0, 0xd6, 0xdf, 0xc3, 0x13,
+	0x26, 0x9c, 0x31, 0x3d, 0xa2, 0xfe, 0x53, 0xea, 0xa3, 0x1d, 0x28, 0xbc, 0xce, 0x6d, 0x25, 0x4a,
+	0x57, 0x21, 0xc9, 0x27, 0x00, 0xc3, 0xde, 0xa1, 0xf9, 0x86, 0x27, 0x19, 0x53, 0x28, 0xf7, 0xa8,
+	0x78, 0xc6, 0xfd, 0x27, 0x07, 0x64, 0x4a, 0x7d, 0xf4, 0x2e, 0xe8, 0x62, 0xea, 0x51, 0x65, 0xbc,
+	0xba, 0xfb, 0xbf, 0x94, 0x71, 0x5a, 0x6d, 0xfb, 0x78, 0xea, 0x51, 0xac, 0x34, 0x97, 0x6a, 0x9f,
+	0x59, 0xaa, 0xbd, 0xb1, 0x0e, 0xba, 0x34, 0x40, 0x65, 0x28, 0x3c, 0xec, 0x75, 0xba, 0xf8, 0xa0,
+	0xf5, 0xb8, 0xba, 0x62, 0xfc, 0xa4, 0x41, 0xee, 0xe8, 0x99, 0x23, 0xac, 0x11, 0x7a, 0x1b, 0x0a,
+	0x63, 0x6e, 0x53, 0x57, 0xa6, 0xab, 0xba, 0x7d, 0xbf, 0x34, 0x3b, 0x6b, 0xe6, 0x0f, 0x25, 0x66,
+	0x76, 0x70, 0x5e, 0x6d, 0x9a, 0xb6, 0x6c, 0x7d, 0x9f, 0xbb, 0xf1, 0x19, 0x6a, 0x8d, 0x3a, 0x50,
+	0x1b, 0x13, 0x46, 0x86, 0x74, 0xbc, 0x40, 0x46, 0xfd, 0xf2, 0xec, 0xd1, 0x5c, 0x3f, 0x21, 0xde,
+	0xb7, 0x90, 0xc3, 0x7c, 0x22, 0xa8, 0x8f, 0x6e, 0x9d, 0x8f, 0xe5, 0x8d, 0x8e, 0xcf, 0x5e, 0xed,
+	0x78, 0x06, 0x45, 0xb3, 0xdf, 0x8a, 0x06, 0xdc, 0xdd, 0x85, 0x3b, 0xb8, 0x95, 0xf2, 0x91, 0xe8,
+	0xa4, 0x2f, 0xe0, 0x26, 0x64, 0x1c, 0x2f, 0x8c, 0x69, 0x3f, 0x37, 0x3b, 0x6b, 0x66, 0xcc, 0x3e,
+	0xce, 0x38, 0x9e, 0xb1, 0x11, 0x55, 0xbd, 0x00, 0xba, 0xd9, 0x7f, 0xb4, 0x57, 0x5d, 0x89, 0x56,
+	0x1f, 0x54, 0x35, 0xe3, 0xb9, 0x1a, 0x2d, 0x43, 0xc7, 0x22, 0xee, 0x81, 0xc3, 0x9e, 0xa0, 0xcf,
+	0xa0, 0x18, 0xf0, 0x89, 0x2f, 0x09, 0xe7, 0x45, 0xc4, 0x59, 0xbf, 0xe8, 0xdc, 0x90, 0x86, 0x47,
+	0x4a, 0xd5, 0xec, 0xe3, 0x42, 0x68, 0x64, 0x7a, 0xe8, 0x73, 0xc8, 0xdb, 0x34, 0x10, 0x83, 0x28,
+	0x92, 0xcb, 0xcc, 0xaf, 0xcf, 0xce, 0x9a, 0x95, 0x0e, 0x0d, 0x84, 0xc3, 0xd4, 0x9b, 0x60, 0xf6,
+	0x71, 0x4e, 0xda, 0x99, 0x9e, 0xf1, 0x63, 0x16, 0xca, 0xfd, 0xd1, 0xd4, 0x64, 0x82, 0xfa, 0xa7,
+	0xc4, 0x5a, 0x26, 0x96, 0xb6, 0xdc, 0xd4, 0x49, 0xeb, 0x66, 0xd2, 0xad, 0xdb, 0x84, 0x92, 0x7c,
+	0x14, 0x06, 0xd1, 0xa8, 0xc8, 0xaa, 0x51, 0x01, 0x12, 0xea, 0x85, 0xe3, 0xe2, 0x36, 0xac, 0xca,
+	0xf6, 0x65, 0xd4, 0x8d, 0x75, 0x74, 0xa5, 0x53, 0x89, 0xd0, 0x48, 0xed, 0x0e, 0x14, 0x05, 0xf1,
+	0x87, 0x54, 0x48, 0x2a, 0xa8, 0xe1, 0x10, 0xa6, 0x7f, 0xac, 0x40, 0xd9, 0x85, 0xe1, 0xb6, 0x69,
+	0xa7, 0xa7, 0x4b, 0x6e, 0x71, 0xba, 0xdc, 0x81, 0xea, 0x88, 0x12, 0x57, 0x8c, 0x06, 0x0e, 0xb3,
+	0x1d, 0x8b, 0x08, 0xee, 0xab, 0xa1, 0x51, 0xc4, 0x6b, 0x21, 0x6e, 0xc6, 0xb0, 0x64, 0x9e, 0x73,
+	0x3a, 0x08, 0xc7, 0x5e, 0x41, 0x05, 0x94, 0x77, 0x4e, 0x4d, 0x35, 0xf8, 0x9a, 0x50, 0x1a, 0x13,
+	0x6b, 0x10, 0xbf, 0x88, 0x45, 0xe5, 0x00, 0xc6, 0xc4, 0x8a, 0x39, 0x73, 0x1b, 0x56, 0xc9, 0x44,
+	0xf0, 0x01, 0xa3, 0x43, 0x2e, 0x1c, 0x22, 0x68, 0x1d, 0x54, 0x1c, 0x15, 0x89, 0xf6, 0x62, 0x10,
+	0xbd, 0xa5, 0xb8, 0x52, 0xba, 0xfc, 0x86, 0x14, 0x73, 0xbe, 0xcf, 0xc0, 0x6a, 0x9b, 0x33, 0xe1,
+	0x73, 0xd7, 0xa5, 0xbe, 0xc9, 0x4e, 0x39, 0xda, 0x5d, 0xe0, 0x64, 0x23, 0x65, 0xba, 0xa8, 0x98,
+	0x26, 0xe6, 0xdd, 0x54, 0xbb, 0x94, 0x16, 0x78, 0x3c, 0xb7, 0xc1, 0xdc, 0xa5, 0x51, 0x27, 0x7d,
+	0x0a, 0x55, 0x2b, 0xc4, 0x5f, 0xab, 0x8d, 0xd6, 0x22, 0xe5, 0xe4, 0x51, 0xda, 0x80, 0xc2, 0x24,
+	0xa0, 0xbe, 0xe2, 0x8a, 0xae, 0x0a, 0x94, 0xc8, 0x72, 0xcf, 0x23, 0x41, 0xf0, 0x8c, 0xfb, 0xf1,
+	0x98, 0x4f, 0x64, 0xe3, 0x46, 0xd4, 0x27, 0x15, 0x28, 0xf6, 0xf7, 0xf0, 0xc3, 0xde, 0xb1, 0x79,
+	0xd8, 0xad, 0xae, 0x18, 0x38, 0x5d, 0x03, 0x19, 0xa6, 0x6c, 0xff, 0x14, 0x11, 0xd5, 0x1a, 0xbd,
+	0x03, 0x39, 0x8b, 0xb3, 0x53, 0x67, 0x98, 0xd0, 0x3e, 0xfc, 0xbd, 0xd9, 0x8e, 0x7f, 0x6f, 0xb6,
+	0x5b, 0x6c, 0x8a, 0x23, 0x1d, 0xe3, 0x6f, 0x0d, 0x56, 0xe5, 0x7f, 0x46, 0x38, 0xad, 0x55, 0x61,
+	0x2f, 0xca, 0x5a, 0xbb, 0x42, 0xd6, 0x1f, 0x43, 0x5e, 0xbe, 0x34, 0x7c, 0x22, 0x92, 0x3a, 0x9f,
+	0x8f, 0xa0, 0x13, 0xfd, 0x80, 0xed, 0xeb, 0x3f, 0xff, 0xd9, 0xd4, 0x70, 0xac, 0x7f, 0x85, 0x57,
+	0x06, 0x7d, 0x08, 0x45, 0xcf, 0xf1, 0xa8, 0xeb, 0x30, 0x1a, 0xd4, 0xf5, 0xcd, 0xec, 0xb9, 0xfb,
+	0xec, 0xef, 0xf5, 0xa3, 0x5d, 0x99, 0x13, 0x9e, 0xeb, 0x1a, 0xbf, 0x65, 0x64, 0xc6, 0xe9, 0xdd,
+	0x0b, 0xcb, 0x58, 0x87, 0xfc, 0x53, 0xea, 0x07, 0x0e, 0x67, 0x51, 0x2b, 0xc7, 0x22, 0x32, 0xa0,
+	0x4c, 0x7c, 0x6b, 0xe4, 0x08, 0x6a, 0x89, 0x89, 0x1f, 0x3f, 0xed, 0x0b, 0x18, 0xfa, 0x1a, 0xd6,
+	0xc3, 0x02, 0x47, 0x89, 0x0e, 0x88, 0x25, 0x3f, 0x8a, 0x05, 0xab, 0xbb, 0x77, 0x2f, 0x0d, 0x54,
+	0xf2, 0x70, 0x6e, 0xd5, 0x52, 0x46, 0xb8, 0x66, 0x2d, 0x83, 0xc6, 0x0f, 0x1a, 0xd4, 0x2e, 0x50,
+	0x46, 0x6b, 0x50, 0x7a, 0xd8, 0x3b, 0xea, 0x77, 0xdb, 0xe6, 0x3d, 0xb3, 0xdb, 0xa9, 0xae, 0x20,
+	0x80, 0xdc, 0xa3, 0x2e, 0x36, 0xef, 0x3d, 0xae, 0x6a, 0xa8, 0x06, 0x6b, 0xe1, 0x7a, 0xd0, 0xea,
+	0x75, 0x06, 0x47, 0xad, 0x47, 0xdd, 0x6a, 0x06, 0xdd, 0x80, 0xeb, 0x29, 0xb0, 0xfd, 0xe0, 0xf0,
+	0xd0, 0x3c, 0xae, 0x66, 0xa5, 0x5d, 0xb4, 0xd6, 0x51, 0x1d, 0xd6, 0x71, 0xb7, 0xfd, 0xa0, 0xd7,
+	0x36, 0x0f, 0xba, 0x69, 0xad, 0x6b, 0x86, 0x80, 0x9a, 0xa4, 0xcf, 0x21, 0x09, 0x04, 0xf5, 0x83,
+	0x91, 0xe3, 0x1d, 0x09, 0xd9, 0xd5, 0x08, 0x74, 0x41, 0xfd, 0xb1, 0xaa, 0xa8, 0x8e, 0xd5, 0x1a,
+	0xbd, 0x0f, 0x15, 0x8b, 0x33, 0x46, 0x55, 0x9c, 0xf2, 0x82, 0xc3, 0x07, 0x42, 0xfd, 0x9e, 0xb6,
+	0x93, 0x0d, 0xb3, 0x83, 0xcb, 0x73, 0xb5, 0xd4, 0x13, 0x97, 0x9d, 0x3f, 0x71, 0xc6, 0x77, 0x90,
+	0x97, 0x84, 0x75, 0x2c, 0xba, 0x38, 0x12, 0xb5, 0x57, 0x8e, 0xc4, 0x2f, 0x61, 0x6d, 0x9c, 0xc4,
+	0x29, 0x7f, 0x9e, 0xe2, 0x41, 0xd0, 0x58, 0xb8, 0x8f, 0xa5, 0x6c, 0xf0, 0x79, 0xb3, 0xfd, 0xfa,
+	0xaf, 0xb3, 0x86, 0xf6, 0x62, 0xd6, 0xd0, 0xfe, 0x9a, 0x35, 0xb4, 0xe7, 0x2f, 0x1b, 0x2b, 0x2f,
+	0x5e, 0x36, 0x56, 0xfe, 0x78, 0xd9, 0x58, 0x39, 0xc9, 0x29, 0x8e, 0xbf, 0xf7, 0x6f, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0x4d, 0x55, 0x77, 0xff, 0xad, 0x0c, 0x00, 0x00,
 }
 
 func (m *Endpoint) Marshal() (dAtA []byte, err error) {
@@ -1313,7 +1446,7 @@ func (m *Endpoint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *IPAddress) Marshal() (dAtA []byte, err error) {
+func (m *StratumAgents) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1323,25 +1456,170 @@ func (m *IPAddress) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *IPAddress) MarshalTo(dAtA []byte) (int, error) {
+func (m *StratumAgents) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *IPAddress) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *StratumAgents) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.IP) > 0 {
-		i -= len(m.IP)
-		copy(dAtA[i:], m.IP)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.IP)))
+	if m.DeviceID != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.DeviceID))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.GNMIEndpoint != nil {
+		{
+			size, err := m.GNMIEndpoint.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.Type != 0 {
-		i = encodeVarintFabric(dAtA, i, uint64(m.Type))
+	if m.P4RTEndpoint != nil {
+		{
+			size, err := m.P4RTEndpoint.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *LocalAgents) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *LocalAgents) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *LocalAgents) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.NATAgentEndpoint != nil {
+		{
+			size, err := m.NATAgentEndpoint.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.HostAgentEndpoint != nil {
+		{
+			size, err := m.HostAgentEndpoint.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.LinkAgentEndpoint != nil {
+		{
+			size, err := m.LinkAgentEndpoint.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintFabric(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Port) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Port) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Port) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LastChange != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.LastChange))
+		i--
+		dAtA[i] = 0x38
+	}
+	if len(m.Status) > 0 {
+		i -= len(m.Status)
+		copy(dAtA[i:], m.Status)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.Status)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.Speed) > 0 {
+		i -= len(m.Speed)
+		copy(dAtA[i:], m.Speed)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.Speed)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if m.Enabled {
+		i--
+		if m.Enabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.DisplayName) > 0 {
+		i -= len(m.DisplayName)
+		copy(dAtA[i:], m.DisplayName)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.DisplayName)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Number != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.Number))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Index != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.Index))
 		i--
 		dAtA[i] = 0x8
 	}
@@ -1556,7 +1834,7 @@ func (m *Router) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *Link) Marshal() (dAtA []byte, err error) {
+func (m *IPAddress) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1566,12 +1844,47 @@ func (m *Link) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Link) MarshalTo(dAtA []byte) (int, error) {
+func (m *IPAddress) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *Link) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *IPAddress) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.IP) > 0 {
+		i -= len(m.IP)
+		copy(dAtA[i:], m.IP)
+		i = encodeVarintFabric(dAtA, i, uint64(len(m.IP)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Type != 0 {
+		i = encodeVarintFabric(dAtA, i, uint64(m.Type))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *LogicalLink) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *LogicalLink) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *LogicalLink) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1599,75 +1912,6 @@ func (m *Link) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 		i--
 		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *Port) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Port) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Port) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.LastChange != 0 {
-		i = encodeVarintFabric(dAtA, i, uint64(m.LastChange))
-		i--
-		dAtA[i] = 0x38
-	}
-	if len(m.Status) > 0 {
-		i -= len(m.Status)
-		copy(dAtA[i:], m.Status)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.Status)))
-		i--
-		dAtA[i] = 0x32
-	}
-	if len(m.Speed) > 0 {
-		i -= len(m.Speed)
-		copy(dAtA[i:], m.Speed)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.Speed)))
-		i--
-		dAtA[i] = 0x2a
-	}
-	if m.Enabled {
-		i--
-		if m.Enabled {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x20
-	}
-	if len(m.DisplayName) > 0 {
-		i -= len(m.DisplayName)
-		copy(dAtA[i:], m.DisplayName)
-		i = encodeVarintFabric(dAtA, i, uint64(len(m.DisplayName)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if m.Number != 0 {
-		i = encodeVarintFabric(dAtA, i, uint64(m.Number))
-		i--
-		dAtA[i] = 0x10
-	}
-	if m.Index != 0 {
-		i = encodeVarintFabric(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -1925,12 +2169,12 @@ func (m *P4RTServerInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x18
 	}
 	if m.Timeout != nil {
-		n11, err11 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Timeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout):])
-		if err11 != nil {
-			return 0, err11
+		n16, err16 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Timeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Timeout):])
+		if err16 != nil {
+			return 0, err16
 		}
-		i -= n11
-		i = encodeVarintFabric(dAtA, i, uint64(n11))
+		i -= n16
+		i = encodeVarintFabric(dAtA, i, uint64(n16))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -2109,18 +2353,76 @@ func (m *Endpoint) Size() (n int) {
 	return n
 }
 
-func (m *IPAddress) Size() (n int) {
+func (m *StratumAgents) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.Type != 0 {
-		n += 1 + sovFabric(uint64(m.Type))
+	if m.P4RTEndpoint != nil {
+		l = m.P4RTEndpoint.Size()
+		n += 1 + l + sovFabric(uint64(l))
 	}
-	l = len(m.IP)
+	if m.GNMIEndpoint != nil {
+		l = m.GNMIEndpoint.Size()
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.DeviceID != 0 {
+		n += 1 + sovFabric(uint64(m.DeviceID))
+	}
+	return n
+}
+
+func (m *LocalAgents) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LinkAgentEndpoint != nil {
+		l = m.LinkAgentEndpoint.Size()
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.HostAgentEndpoint != nil {
+		l = m.HostAgentEndpoint.Size()
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.NATAgentEndpoint != nil {
+		l = m.NATAgentEndpoint.Size()
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	return n
+}
+
+func (m *Port) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Index != 0 {
+		n += 1 + sovFabric(uint64(m.Index))
+	}
+	if m.Number != 0 {
+		n += 1 + sovFabric(uint64(m.Number))
+	}
+	l = len(m.DisplayName)
 	if l > 0 {
 		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.Enabled {
+		n += 2
+	}
+	l = len(m.Speed)
+	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	l = len(m.Status)
+	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	if m.LastChange != 0 {
+		n += 1 + sovFabric(uint64(m.LastChange))
 	}
 	return n
 }
@@ -2212,7 +2514,23 @@ func (m *Router) Size() (n int) {
 	return n
 }
 
-func (m *Link) Size() (n int) {
+func (m *IPAddress) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Type != 0 {
+		n += 1 + sovFabric(uint64(m.Type))
+	}
+	l = len(m.IP)
+	if l > 0 {
+		n += 1 + l + sovFabric(uint64(l))
+	}
+	return n
+}
+
+func (m *LogicalLink) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2225,39 +2543,6 @@ func (m *Link) Size() (n int) {
 	if m.DestinationIP != nil {
 		l = m.DestinationIP.Size()
 		n += 1 + l + sovFabric(uint64(l))
-	}
-	return n
-}
-
-func (m *Port) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Index != 0 {
-		n += 1 + sovFabric(uint64(m.Index))
-	}
-	if m.Number != 0 {
-		n += 1 + sovFabric(uint64(m.Number))
-	}
-	l = len(m.DisplayName)
-	if l > 0 {
-		n += 1 + l + sovFabric(uint64(l))
-	}
-	if m.Enabled {
-		n += 2
-	}
-	l = len(m.Speed)
-	if l > 0 {
-		n += 1 + l + sovFabric(uint64(l))
-	}
-	l = len(m.Status)
-	if l > 0 {
-		n += 1 + l + sovFabric(uint64(l))
-	}
-	if m.LastChange != 0 {
-		n += 1 + sovFabric(uint64(m.LastChange))
 	}
 	return n
 }
@@ -2549,7 +2834,7 @@ func (m *Endpoint) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *IPAddress) Unmarshal(dAtA []byte) error {
+func (m *StratumAgents) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2572,17 +2857,17 @@ func (m *IPAddress) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: IPAddress: wiretype end group for non-group")
+			return fmt.Errorf("proto: StratumAgents: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: IPAddress: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: StratumAgents: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field P4RTEndpoint", wireType)
 			}
-			m.Type = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowFabric
@@ -2592,14 +2877,332 @@ func (m *IPAddress) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Type |= IPAddress_Type(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.P4RTEndpoint == nil {
+				m.P4RTEndpoint = &Endpoint{}
+			}
+			if err := m.P4RTEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field GNMIEndpoint", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.GNMIEndpoint == nil {
+				m.GNMIEndpoint = &Endpoint{}
+			}
+			if err := m.GNMIEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DeviceID", wireType)
+			}
+			m.DeviceID = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.DeviceID |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipFabric(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *LocalAgents) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowFabric
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: LocalAgents: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: LocalAgents: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LinkAgentEndpoint", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LinkAgentEndpoint == nil {
+				m.LinkAgentEndpoint = &Endpoint{}
+			}
+			if err := m.LinkAgentEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field HostAgentEndpoint", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.HostAgentEndpoint == nil {
+				m.HostAgentEndpoint = &Endpoint{}
+			}
+			if err := m.HostAgentEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NATAgentEndpoint", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.NATAgentEndpoint == nil {
+				m.NATAgentEndpoint = &Endpoint{}
+			}
+			if err := m.NATAgentEndpoint.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipFabric(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Port) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowFabric
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Port: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Port: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= uint32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Number", wireType)
+			}
+			m.Number = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Number |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IP", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field DisplayName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2627,8 +3230,111 @@ func (m *IPAddress) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.IP = string(dAtA[iNdEx:postIndex])
+			m.DisplayName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Enabled", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Enabled = bool(v != 0)
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Speed", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Speed = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Status = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastChange", wireType)
+			}
+			m.LastChange = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LastChange |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipFabric(dAtA[iNdEx:])
@@ -3242,7 +3948,7 @@ func (m *Router) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *Link) Unmarshal(dAtA []byte) error {
+func (m *IPAddress) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3265,10 +3971,111 @@ func (m *Link) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Link: wiretype end group for non-group")
+			return fmt.Errorf("proto: IPAddress: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Link: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: IPAddress: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			m.Type = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Type |= IPAddress_Type(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IP", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFabric
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthFabric
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.IP = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipFabric(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthFabric
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *LogicalLink) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowFabric
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: LogicalLink: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: LogicalLink: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -3343,229 +4150,6 @@ func (m *Link) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipFabric(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Port) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowFabric
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Port: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Port: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Number", wireType)
-			}
-			m.Number = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Number |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DisplayName", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthFabric
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.DisplayName = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Enabled", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Enabled = bool(v != 0)
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Speed", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthFabric
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Speed = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthFabric
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthFabric
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Status = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 7:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field LastChange", wireType)
-			}
-			m.LastChange = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFabric
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.LastChange |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipFabric(dAtA[iNdEx:])

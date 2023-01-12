@@ -77,13 +77,13 @@ class ServiceState(betterproto.Enum):
     CONNECTING = 3
 
 
+class NetworkLayerType(betterproto.Enum):
+    UNDERLAY = 0
+
+
 class IpAddressType(betterproto.Enum):
     IPV4 = 0
     IPV6 = 1
-
-
-class NetworkLayerType(betterproto.Enum):
-    UNDERLAY = 0
 
 
 class ControllerInfoType(betterproto.Enum):
@@ -428,11 +428,40 @@ class Endpoint(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class IpAddress(betterproto.Message):
+class StratumAgents(betterproto.Message):
     """Configurable device aspect"""
 
-    type: "IpAddressType" = betterproto.enum_field(1)
-    ip: str = betterproto.string_field(2)
+    p4_rt_endpoint: "Endpoint" = betterproto.message_field(1)
+    gnmi_endpoint: "Endpoint" = betterproto.message_field(2)
+    device_id: int = betterproto.uint64_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class LocalAgents(betterproto.Message):
+    """Aspect for tracking device mastership"""
+
+    link_agent_endpoint: "Endpoint" = betterproto.message_field(1)
+    host_agent_endpoint: "Endpoint" = betterproto.message_field(2)
+    nat_agent_endpoint: "Endpoint" = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Port(betterproto.Message):
+    """TLS connectivity aspect"""
+
+    index: int = betterproto.uint32_field(1)
+    number: int = betterproto.uint32_field(2)
+    display_name: str = betterproto.string_field(3)
+    enabled: bool = betterproto.bool_field(4)
+    speed: str = betterproto.string_field(5)
+    status: str = betterproto.string_field(6)
+    last_change: int = betterproto.uint64_field(7)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -440,7 +469,7 @@ class IpAddress(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class P4RuntimeServer(betterproto.Message):
-    """Aspect for tracking device mastership"""
+    """Aspect for ad-hoc properties"""
 
     endpoint: "Endpoint" = betterproto.message_field(1)
     device_id: int = betterproto.uint64_field(3)
@@ -451,8 +480,12 @@ class P4RuntimeServer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GNmiServer(betterproto.Message):
-    """TLS connectivity aspect"""
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
 
+    # The protocol to which state relates
     endpoint: "Endpoint" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -461,7 +494,7 @@ class GNmiServer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class NetworkLayer(betterproto.Message):
-    """Aspect for ad-hoc properties"""
+    """Protocols"""
 
     type: "NetworkLayerType" = betterproto.enum_field(1)
     display_name: str = betterproto.string_field(2)
@@ -472,16 +505,8 @@ class NetworkLayer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Switch(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
-
-    # The protocol to which state relates
     model_id: str = betterproto.string_field(1)
-    # ConnectivityState contains the L3 connectivity information
     role: str = betterproto.string_field(2)
-    # ChannelState relates to the availability of the gRPC channel
     management_endpoint: "Endpoint" = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
@@ -490,8 +515,6 @@ class Switch(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Router(betterproto.Message):
-    """Protocols"""
-
     model_id: str = betterproto.string_field(1)
     role: str = betterproto.string_field(2)
     management_endpoint: "Endpoint" = betterproto.message_field(3)
@@ -501,23 +524,18 @@ class Router(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class Link(betterproto.Message):
-    source_ip: "IpAddress" = betterproto.message_field(1)
-    dest_ip: "IpAddress" = betterproto.message_field(2)
+class IpAddress(betterproto.Message):
+    type: "IpAddressType" = betterproto.enum_field(1)
+    ip: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
 
 @dataclass(eq=False, repr=False)
-class Port(betterproto.Message):
-    index: int = betterproto.uint32_field(1)
-    number: int = betterproto.uint32_field(2)
-    display_name: str = betterproto.string_field(3)
-    enabled: bool = betterproto.bool_field(4)
-    speed: str = betterproto.string_field(5)
-    status: str = betterproto.string_field(6)
-    last_change: int = betterproto.uint64_field(7)
+class LogicalLink(betterproto.Message):
+    source_ip: "IpAddress" = betterproto.message_field(1)
+    dest_ip: "IpAddress" = betterproto.message_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()

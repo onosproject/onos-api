@@ -39,14 +39,22 @@ message AddRackRequest {
 message AddRackResponse {
 }
 
+message ManagementInfo {
+  string p4rt_endpoint = 1 [(gogoproto.customname) = "P4RTEndpoint"];
+  string gnmi_endpoint = 2 [(gogoproto.customname) = "GNMIEndpoint"];
+  string pipeline_config_id = 3 [(gogoproto.customname) = "PipelineConfigID"];
+  string chassis_config_id = 4 [(gogoproto.customname) = "ChassisConfigID"];
+  string link_agent_endpoint = 5;
+  string host_agent_endpoint = 6;
+  string nat_agent_endpoint = 7;
+  uint64 device_id = 8 [(gogoproto.customname) = "DeviceID"];
+}
+
 message AddSwitchRequest {
   string id = 1 [(gogoproto.customname) = "ID"];
   string pod_id = 2 [(gogoproto.customname) = "PodID"];
   string rack_id = 3 [(gogoproto.customname) = "RackID"];
-  string p4_endpoint = 4;
-  string gnmi_endpoint = 5  [(gogoproto.customname) = "GNMIEndpoint"];
-  string pipeline_config_id = 6 [(gogoproto.customname) = "PipelineConfigID"];
-  string chassis_config_id = 7 [(gogoproto.customname) = "ChassisConfigID"];
+  ManagementInfo management_info = 4;
 }
 
 message AddSwitchResponse {
@@ -56,11 +64,8 @@ message AddServerIPURequest {
   string id = 1 [(gogoproto.customname) = "ID"];
   string pod_id = 2 [(gogoproto.customname) = "PodID"];
   string rack_id = 3 [(gogoproto.customname) = "RackID"];
-  string p4_endpoint = 4;
-  string gnmi_endpoint = 5  [(gogoproto.customname) = "GNMIEndpoint"];
-  string pipeline_config_id = 6 [(gogoproto.customname) = "PipelineConfigID"];
-  string chassis_config_id = 7 [(gogoproto.customname) = "ChassisConfigID"];
-  repeated InjectedLink links = 8; // Provisional feature used to inject links until dynamic discovery is available
+  ManagementInfo management_info = 4;
+  repeated InjectedLink links = 5; // Provisional feature used to inject links until dynamic discovery is available
 }
 
 message InjectedLink {
