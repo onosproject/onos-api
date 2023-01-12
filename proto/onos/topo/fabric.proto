@@ -16,31 +16,48 @@ message Endpoint {
   uint32 port = 2;
 }
 
-// IPAddress defines an IPv4 or IPv6 address
-message IPAddress {
-  Type type = 1;
-  enum Type {
-    IPV4 = 0;
-    IPV6 = 1;
-  }
-  string ip = 2 [(gogoproto.customname) = "IP"];
+// StratumAgents is an aspect carrying information required to interact with a Stratum device agents
+message StratumAgents {
+  Endpoint p4rt_endpoint = 1 [(gogoproto.customname) = "P4RTEndpoint"];
+  Endpoint gnmi_endpoint = 2 [(gogoproto.customname) = "GNMIEndpoint"];
+  uint64 device_id = 3 [(gogoproto.customname) = "DeviceID"];
 }
 
-// P4RuntimeServer is an entity aspect tracking P4Runtime server contact details
+// LocalAgents is an aspect carrying information required to interact with various Stratum device local agents
+message LocalAgents {
+  Endpoint link_agent_endpoint = 1;
+  Endpoint host_agent_endpoint = 2;
+  Endpoint nat_agent_endpoint = 3 [(gogoproto.customname) = "NATAgentEndpoint"];
+}
+
+// Port is an aspect for port entities carrying the basic port information
+message Port {
+  uint32 index = 1;
+  uint32 number = 2;
+  string display_name = 3;
+  bool enabled = 4;
+  string speed = 5;
+  string status = 6;
+  uint64 last_change = 7;
+}
+
+
+// TODO: Refactor, simplify and clean-up the aspects below; move them to Underlay/VirtualNet/etc. app APIs
+// Most of the following are deprecated
+
+// DEPRECATED: P4RuntimeServer is an entity aspect tracking P4Runtime server contact details
 message P4RuntimeServer {
   Endpoint endpoint = 1;
   uint64 device_id = 3 [(gogoproto.customname) = "DeviceID"];
   // TODO: add reference to secret
 }
 
-// GNMIServer is an entity aspect tracking gNMI server contact details
+// DEPRECATED: GNMIServer is an entity aspect tracking gNMI server contact details
 message gNMIServer {
   Endpoint endpoint = 1;
   // TODO: add reference to secret
 }
 
-
-// TODO: Refactor, simplify and clean-up the aspects below; move them to Underlay/VirtualNet/etc. app APIs
 
 // NetworkLayer aspect; aspect for a NetworkLayer entity with a specific kind
 message NetworkLayer {
@@ -65,24 +82,21 @@ message Router {
   Endpoint management_endpoint = 3;
 }
 
-// Link link aspect; represents a link between two physical interfaces
-message Link {
+// IPAddress defines an IPv4 or IPv6 address
+message IPAddress {
+  Type type = 1;
+  enum Type {
+    IPV4 = 0;
+    IPV6 = 1;
+  }
+  string ip = 2 [(gogoproto.customname) = "IP"];
+}
+
+// LogicalLink link aspect; represents a link between two physical interfaces
+message LogicalLink {
   IPAddress source_ip = 1 [(gogoproto.customname) = "SourceIP"];
   IPAddress dest_ip = 2 [(gogoproto.customname) = "DestinationIP"];
 }
-
-// Port is an aspect for port entities carrying the basic port information
-message Port {
-  uint32 index = 1;
-  uint32 number = 2;
-  string display_name = 3;
-  bool enabled = 4;
-  string speed = 5;
-  string status = 6;
-  uint64 last_change = 7;
-}
-
-// TODO: Revisit and prune the aspects and messages below
 
 // PhyInterface  aspect; an aspect to represent a physical switch interface
 message PhyInterface {
@@ -117,7 +131,7 @@ message ControllerRole {
 
 }
 
-// P4RTServerInfo aspect; specifies the control end point in a programmable device
+// DEPRECATED: P4RTServerInfo aspect; specifies the control end point in a programmable device
 message P4RTServerInfo {
   Endpoint control_endpoint = 1;
   google.protobuf.Duration timeout = 2 [(gogoproto.stdduration) = true];
@@ -125,7 +139,7 @@ message P4RTServerInfo {
   repeated P4PipelineInfo pipelines = 4;
 }
 
-// P4PipelineInfo p4 pipeline information
+// DEPRECATED: P4PipelineInfo p4 pipeline information
 message P4PipelineInfo {
   string name = 1;
   string version = 2;
@@ -149,7 +163,7 @@ message P4PipelineInfo {
   }
 }
 
-// P4RTMastershipState mastership state for the P4runtime targets
+// DEPRECATED: P4RTMastershipState mastership state for the P4runtime targets
 message P4RTMastershipState {
   uint64 term = 1;
   string connection_id = 2 [(gogoproto.customname) = "ConnectionID"];
@@ -157,7 +171,7 @@ message P4RTMastershipState {
 }
 
 
-// Service service entity which will be used to store mastership state for an application
+// DEPRECATED: Service service entity which will be used to store mastership state for an application
 message Service {
     string  target_id = 1 [(gogoproto.customname) = "TargetID"];
     P4RTMastershipState mastershipstate = 2;

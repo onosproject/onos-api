@@ -2,7 +2,7 @@
 # sources: onos/discovery/discovery.proto
 # plugin: python-betterproto
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 import betterproto
 import grpclib
@@ -42,14 +42,26 @@ class AddRackResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ManagementInfo(betterproto.Message):
+    p4_rt_endpoint: str = betterproto.string_field(1)
+    gnmi_endpoint: str = betterproto.string_field(2)
+    pipeline_config_id: str = betterproto.string_field(3)
+    chassis_config_id: str = betterproto.string_field(4)
+    link_agent_endpoint: str = betterproto.string_field(5)
+    host_agent_endpoint: str = betterproto.string_field(6)
+    nat_agent_endpoint: str = betterproto.string_field(7)
+    device_id: int = betterproto.uint64_field(8)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class AddSwitchRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
     pod_id: str = betterproto.string_field(2)
     rack_id: str = betterproto.string_field(3)
-    p4_endpoint: str = betterproto.string_field(4)
-    gnmi_endpoint: str = betterproto.string_field(5)
-    pipeline_config_id: str = betterproto.string_field(6)
-    chassis_config_id: str = betterproto.string_field(7)
+    management_info: "ManagementInfo" = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -68,11 +80,8 @@ class AddServerIpuRequest(betterproto.Message):
     id: str = betterproto.string_field(1)
     pod_id: str = betterproto.string_field(2)
     rack_id: str = betterproto.string_field(3)
-    p4_endpoint: str = betterproto.string_field(4)
-    gnmi_endpoint: str = betterproto.string_field(5)
-    pipeline_config_id: str = betterproto.string_field(6)
-    chassis_config_id: str = betterproto.string_field(7)
-    links: List["InjectedLink"] = betterproto.message_field(8)
+    management_info: "ManagementInfo" = betterproto.message_field(4)
+    links: List["InjectedLink"] = betterproto.message_field(5)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -131,10 +140,7 @@ class DiscoveryServiceStub(betterproto.ServiceStub):
         id: str = "",
         pod_id: str = "",
         rack_id: str = "",
-        p4_endpoint: str = "",
-        gnmi_endpoint: str = "",
-        pipeline_config_id: str = "",
-        chassis_config_id: str = "",
+        management_info: "ManagementInfo" = None,
     ) -> "AddSwitchResponse":
         """
         AddSwitch adds a new switch entity with the requisite aspects into a
@@ -145,10 +151,8 @@ class DiscoveryServiceStub(betterproto.ServiceStub):
         request.id = id
         request.pod_id = pod_id
         request.rack_id = rack_id
-        request.p4_endpoint = p4_endpoint
-        request.gnmi_endpoint = gnmi_endpoint
-        request.pipeline_config_id = pipeline_config_id
-        request.chassis_config_id = chassis_config_id
+        if management_info is not None:
+            request.management_info = management_info
 
         return await self._unary_unary(
             "/onos.discovery.DiscoveryService/AddSwitch", request, AddSwitchResponse

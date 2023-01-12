@@ -13,6 +13,7 @@
     - [AddSwitchRequest](#onos-discovery-AddSwitchRequest)
     - [AddSwitchResponse](#onos-discovery-AddSwitchResponse)
     - [InjectedLink](#onos-discovery-InjectedLink)
+    - [ManagementInfo](#onos-discovery-ManagementInfo)
   
     - [DiscoveryService](#onos-discovery-DiscoveryService)
   
@@ -89,10 +90,7 @@
 | id | [string](#string) |  |  |
 | pod_id | [string](#string) |  |  |
 | rack_id | [string](#string) |  |  |
-| p4_endpoint | [string](#string) |  |  |
-| gnmi_endpoint | [string](#string) |  |  |
-| pipeline_config_id | [string](#string) |  |  |
-| chassis_config_id | [string](#string) |  |  |
+| management_info | [ManagementInfo](#onos-discovery-ManagementInfo) |  |  |
 | links | [InjectedLink](#onos-discovery-InjectedLink) | repeated | Provisional feature used to inject links until dynamic discovery is available |
 
 
@@ -121,10 +119,7 @@
 | id | [string](#string) |  |  |
 | pod_id | [string](#string) |  |  |
 | rack_id | [string](#string) |  |  |
-| p4_endpoint | [string](#string) |  |  |
-| gnmi_endpoint | [string](#string) |  |  |
-| pipeline_config_id | [string](#string) |  |  |
-| chassis_config_id | [string](#string) |  |  |
+| management_info | [ManagementInfo](#onos-discovery-ManagementInfo) |  |  |
 
 
 
@@ -151,6 +146,28 @@
 | ----- | ---- | ----- | ----------- |
 | port | [uint64](#uint64) |  |  |
 | remote_port | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="onos-discovery-ManagementInfo"></a>
+
+### ManagementInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| p4rt_endpoint | [string](#string) |  |  |
+| gnmi_endpoint | [string](#string) |  |  |
+| pipeline_config_id | [string](#string) |  |  |
+| chassis_config_id | [string](#string) |  |  |
+| link_agent_endpoint | [string](#string) |  |  |
+| host_agent_endpoint | [string](#string) |  |  |
+| nat_agent_endpoint | [string](#string) |  |  |
+| device_id | [uint64](#uint64) |  |  |
 
 
 
