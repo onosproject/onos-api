@@ -30,7 +30,7 @@ message LocalAgents {
   Endpoint nat_agent_endpoint = 3 [(gogoproto.customname) = "NATAgentEndpoint"];
 }
 
-// Port is an aspect for port entities carrying the basic port information
+// Port is an aspect carrying the basic port information
 message Port {
   uint32 index = 1;
   uint32 number = 2;
@@ -41,6 +41,11 @@ message Port {
   uint64 last_change = 7;
 }
 
+// Link is an aspect carrying basic link information
+message Link {
+  string status = 1;
+  uint64 last_change = 2;
+}
 
 // TODO: Refactor, simplify and clean-up the aspects below; move them to Underlay/VirtualNet/etc. app APIs
 // Most of the following are deprecated

@@ -468,10 +468,26 @@ class Port(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class P4RuntimeServer(betterproto.Message):
+class Link(betterproto.Message):
     """Aspect for ad-hoc properties"""
 
+    status: str = betterproto.string_field(1)
+    last_change: int = betterproto.uint64_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class P4RuntimeServer(betterproto.Message):
+    """
+    ProtocolState contains information related to service and connectivity to a
+    device
+    """
+
+    # The protocol to which state relates
     endpoint: "Endpoint" = betterproto.message_field(1)
+    # ConnectivityState contains the L3 connectivity information
     device_id: int = betterproto.uint64_field(3)
 
     def __post_init__(self) -> None:
@@ -480,12 +496,8 @@ class P4RuntimeServer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GNmiServer(betterproto.Message):
-    """
-    ProtocolState contains information related to service and connectivity to a
-    device
-    """
+    """Protocols"""
 
-    # The protocol to which state relates
     endpoint: "Endpoint" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
@@ -494,8 +506,6 @@ class GNmiServer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class NetworkLayer(betterproto.Message):
-    """Protocols"""
-
     type: "NetworkLayerType" = betterproto.enum_field(1)
     display_name: str = betterproto.string_field(2)
 
