@@ -187,6 +187,8 @@ class PathValue(betterproto.Message):
     value: "TypedValue" = betterproto.message_field(2)
     # 'deleted' indicates whether this is a delete
     deleted: bool = betterproto.bool_field(3)
+    # index transaction index
+    index: int = betterproto.uint64_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
