@@ -57,4 +57,7 @@ message PathValue {
 
     // 'deleted' indicates whether this is a delete
     bool deleted = 3 [(gogoproto.jsontag) = "Deleted,omitempty"];
+
+    // index transaction index
+    uint64 index = 4 [(gogoproto.casttype) = "Index"];
 }
