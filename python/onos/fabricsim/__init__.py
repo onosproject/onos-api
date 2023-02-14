@@ -253,6 +253,24 @@ class EnablePortResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ForwardPacketRequest(betterproto.Message):
+    port_id: str = betterproto.string_field(1)
+    packet: bytes = betterproto.bytes_field(2)
+    metadata: bytes = betterproto.bytes_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ForwardPacketResponse(betterproto.Message):
+    pass
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class GetIoStatsRequest(betterproto.Message):
     """Device describes a simulated switch or IPU"""
 
@@ -601,6 +619,24 @@ class DeviceServiceStub(betterproto.ServiceStub):
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/EnablePort", request, EnablePortResponse
+        )
+
+    async def forward_packet(
+        self, *, port_id: str = "", packet: bytes = b"", metadata: bytes = b""
+    ) -> "ForwardPacketResponse":
+        """
+        ForwardPacket forwards the specified packet on a given device port.
+        """
+
+        request = ForwardPacketRequest()
+        request.port_id = port_id
+        request.packet = packet
+        request.metadata = metadata
+
+        return await self._unary_unary(
+            "/onos.fabricsim.DeviceService/ForwardPacket",
+            request,
+            ForwardPacketResponse,
         )
 
 

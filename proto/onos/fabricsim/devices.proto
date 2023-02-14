@@ -114,6 +114,9 @@ service DeviceService {
 
     // EnablePort enables the specified port
     rpc EnablePort(EnablePortRequest) returns (EnablePortResponse);
+
+    // ForwardPacket forwards the specified packet on a given device port.
+    rpc ForwardPacket(ForwardPacketRequest) returns (ForwardPacketResponse);
 }
 
 message GetDevicesRequest {
@@ -180,4 +183,13 @@ message EnablePortRequest {
 }
 
 message EnablePortResponse {
+}
+
+message ForwardPacketRequest {
+    string port_id = 1  [(gogoproto.customname) = "PortID", (gogoproto.casttype) = "PortID"];
+    bytes packet = 2;
+    bytes metadata = 3; // deliberately sent as bytes to avoid coupling of the APIs
+}
+
+message ForwardPacketResponse {
 }
