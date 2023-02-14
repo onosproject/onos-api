@@ -9,11 +9,11 @@
     - [Device](#onos-fabricsim-Device)
     - [DisablePortRequest](#onos-fabricsim-DisablePortRequest)
     - [DisablePortResponse](#onos-fabricsim-DisablePortResponse)
+    - [EmitLLDPPacketRequest](#onos-fabricsim-EmitLLDPPacketRequest)
+    - [EmitLLDPPacketResponse](#onos-fabricsim-EmitLLDPPacketResponse)
     - [EnablePortRequest](#onos-fabricsim-EnablePortRequest)
     - [EnablePortResponse](#onos-fabricsim-EnablePortResponse)
     - [EntitiesInfo](#onos-fabricsim-EntitiesInfo)
-    - [ForwardPacketRequest](#onos-fabricsim-ForwardPacketRequest)
-    - [ForwardPacketResponse](#onos-fabricsim-ForwardPacketResponse)
     - [GetDeviceRequest](#onos-fabricsim-GetDeviceRequest)
     - [GetDeviceResponse](#onos-fabricsim-GetDeviceResponse)
     - [GetDevicesRequest](#onos-fabricsim-GetDevicesRequest)
@@ -118,6 +118,32 @@ Device describes a simulated switch or IPU
 
 
 
+<a name="onos-fabricsim-EmitLLDPPacketRequest"></a>
+
+### EmitLLDPPacketRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| port_id | [string](#string) |  |  |
+| packet | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="onos-fabricsim-EmitLLDPPacketResponse"></a>
+
+### EmitLLDPPacketResponse
+
+
+
+
+
+
+
 <a name="onos-fabricsim-EnablePortRequest"></a>
 
 ### EnablePortRequest
@@ -154,33 +180,6 @@ EntitiesInfo provides information about size of pipeline entities, tables, meter
 | id | [uint32](#uint32) |  |  |
 | size | [uint32](#uint32) |  |  |
 | name | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="onos-fabricsim-ForwardPacketRequest"></a>
-
-### ForwardPacketRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| port_id | [string](#string) |  |  |
-| packet | [bytes](#bytes) |  |  |
-| metadata | [bytes](#bytes) |  | deliberately sent as bytes to avoid coupling of the APIs |
-
-
-
-
-
-
-<a name="onos-fabricsim-ForwardPacketResponse"></a>
-
-### ForwardPacketResponse
-
 
 
 
@@ -405,7 +404,7 @@ DeviceService provides means to control inventory of simulated devices (switches
 | StartDevice | [StartDeviceRequest](#onos-fabricsim-StartDeviceRequest) | [StartDeviceResponse](#onos-fabricsim-StartDeviceResponse) | StartDevice starts the simulated deviceP4Runtime and gNMI services |
 | DisablePort | [DisablePortRequest](#onos-fabricsim-DisablePortRequest) | [DisablePortResponse](#onos-fabricsim-DisablePortResponse) | DisablePort disables the specified port |
 | EnablePort | [EnablePortRequest](#onos-fabricsim-EnablePortRequest) | [EnablePortResponse](#onos-fabricsim-EnablePortResponse) | EnablePort enables the specified port |
-| ForwardPacket | [ForwardPacketRequest](#onos-fabricsim-ForwardPacketRequest) | [ForwardPacketResponse](#onos-fabricsim-ForwardPacketResponse) | ForwardPacket forwards the specified packet on a given device port. |
+| EmitLLDPPacket | [EmitLLDPPacketRequest](#onos-fabricsim-EmitLLDPPacketRequest) | [EmitLLDPPacketResponse](#onos-fabricsim-EmitLLDPPacketResponse) | EmitLLDPPacket emits the specified LLDP packet on a given device port. |
 
  
 
