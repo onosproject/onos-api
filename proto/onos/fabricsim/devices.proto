@@ -115,8 +115,8 @@ service DeviceService {
     // EnablePort enables the specified port
     rpc EnablePort(EnablePortRequest) returns (EnablePortResponse);
 
-    // ForwardPacket forwards the specified packet on a given device port.
-    rpc ForwardPacket(ForwardPacketRequest) returns (ForwardPacketResponse);
+    // EmitLLDPPacket emits the specified LLDP packet on a given device port.
+    rpc EmitLLDPPacket(EmitLLDPPacketRequest) returns (EmitLLDPPacketResponse);
 }
 
 message GetDevicesRequest {
@@ -185,12 +185,12 @@ message EnablePortRequest {
 message EnablePortResponse {
 }
 
-message ForwardPacketRequest {
+message EmitLLDPPacketRequest {
     string port_id = 1  [(gogoproto.customname) = "PortID", (gogoproto.casttype) = "PortID"];
     bytes packet = 2;
     uint32 ingress_port = 3;
     uint32 role_agent_id = 4;
 }
 
-message ForwardPacketResponse {
+message EmitLLDPPacketResponse {
 }

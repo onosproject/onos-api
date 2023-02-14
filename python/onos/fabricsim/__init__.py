@@ -253,7 +253,7 @@ class EnablePortResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class ForwardPacketRequest(betterproto.Message):
+class EmitLldpPacketRequest(betterproto.Message):
     port_id: str = betterproto.string_field(1)
     packet: bytes = betterproto.bytes_field(2)
     ingress_port: int = betterproto.uint32_field(3)
@@ -264,7 +264,7 @@ class ForwardPacketRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class ForwardPacketResponse(betterproto.Message):
+class EmitLldpPacketResponse(betterproto.Message):
     pass
 
     def __post_init__(self) -> None:
@@ -622,28 +622,17 @@ class DeviceServiceStub(betterproto.ServiceStub):
             "/onos.fabricsim.DeviceService/EnablePort", request, EnablePortResponse
         )
 
-    async def forward_packet(
-        self,
-        *,
-        port_id: str = "",
-        packet: bytes = b"",
-        ingress_port: int = 0,
-        role_agent_id: int = 0,
-    ) -> "ForwardPacketResponse":
+    async def emit_lldp_packet(self) -> "EmitLldpPacketResponse":
         """
-        ForwardPacket forwards the specified packet on a given device port.
+        EmitLLDPPacket emits the specified LLDP packet on a given device port.
         """
 
-        request = ForwardPacketRequest()
-        request.port_id = port_id
-        request.packet = packet
-        request.ingress_port = ingress_port
-        request.role_agent_id = role_agent_id
+        request = EmitLldpPacketRequest()
 
         return await self._unary_unary(
-            "/onos.fabricsim.DeviceService/ForwardPacket",
+            "/onos.fabricsim.DeviceService/EmitLLDPPacket",
             request,
-            ForwardPacketResponse,
+            EmitLldpPacketResponse,
         )
 
 
