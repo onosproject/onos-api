@@ -170,7 +170,8 @@ EntitiesInfo provides information about size of pipeline entities, tables, meter
 | ----- | ---- | ----- | ----------- |
 | port_id | [string](#string) |  |  |
 | packet | [bytes](#bytes) |  |  |
-| metadata | [bytes](#bytes) |  | deliberately sent as bytes to avoid coupling of the APIs |
+| ingress_port | [uint32](#uint32) |  |  |
+| role_agent_id | [uint32](#uint32) |  |  |
 
 
 

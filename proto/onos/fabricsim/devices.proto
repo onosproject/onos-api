@@ -188,7 +188,8 @@ message EnablePortResponse {
 message ForwardPacketRequest {
     string port_id = 1  [(gogoproto.customname) = "PortID", (gogoproto.casttype) = "PortID"];
     bytes packet = 2;
-    bytes metadata = 3; // deliberately sent as bytes to avoid coupling of the APIs
+    uint32 ingress_port = 3;
+    uint32 role_agent_id = 4;
 }
 
 message ForwardPacketResponse {

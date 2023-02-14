@@ -256,7 +256,8 @@ class EnablePortResponse(betterproto.Message):
 class ForwardPacketRequest(betterproto.Message):
     port_id: str = betterproto.string_field(1)
     packet: bytes = betterproto.bytes_field(2)
-    metadata: bytes = betterproto.bytes_field(3)
+    ingress_port: int = betterproto.uint32_field(3)
+    role_agent_id: int = betterproto.uint32_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -622,7 +623,12 @@ class DeviceServiceStub(betterproto.ServiceStub):
         )
 
     async def forward_packet(
-        self, *, port_id: str = "", packet: bytes = b"", metadata: bytes = b""
+        self,
+        *,
+        port_id: str = "",
+        packet: bytes = b"",
+        ingress_port: int = 0,
+        role_agent_id: int = 0,
     ) -> "ForwardPacketResponse":
         """
         ForwardPacket forwards the specified packet on a given device port.
@@ -631,7 +637,8 @@ class DeviceServiceStub(betterproto.ServiceStub):
         request = ForwardPacketRequest()
         request.port_id = port_id
         request.packet = packet
-        request.metadata = metadata
+        request.ingress_port = ingress_port
+        request.role_agent_id = role_agent_id
 
         return await self._unary_unary(
             "/onos.fabricsim.DeviceService/ForwardPacket",
