@@ -168,6 +168,8 @@
 | host_agent_endpoint | [string](#string) |  |  |
 | nat_agent_endpoint | [string](#string) |  |  |
 | device_id | [uint64](#uint64) |  |  |
+| realm | [string](#string) |  |  |
+| role | [string](#string) |  |  |
 
 
 
