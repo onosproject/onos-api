@@ -128,8 +128,6 @@ Device describes a simulated switch or IPU
 | ----- | ---- | ----- | ----------- |
 | port_id | [string](#string) |  |  |
 | packet | [bytes](#bytes) |  |  |
-| ingress_port | [uint32](#uint32) |  |  |
-| role_agent_id | [uint32](#uint32) |  |  |
 
 
 

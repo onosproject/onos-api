@@ -188,8 +188,6 @@ message EnablePortResponse {
 message EmitLLDPPacketRequest {
     string port_id = 1  [(gogoproto.customname) = "PortID", (gogoproto.casttype) = "PortID"];
     bytes packet = 2;
-    uint32 ingress_port = 3;
-    uint32 role_agent_id = 4;
 }
 
 message EmitLLDPPacketResponse {

@@ -256,8 +256,6 @@ class EnablePortResponse(betterproto.Message):
 class EmitLldpPacketRequest(betterproto.Message):
     port_id: str = betterproto.string_field(1)
     packet: bytes = betterproto.bytes_field(2)
-    ingress_port: int = betterproto.uint32_field(3)
-    role_agent_id: int = betterproto.uint32_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
