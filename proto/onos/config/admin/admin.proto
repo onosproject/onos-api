@@ -203,7 +203,12 @@ service ModelPluginService {
     rpc GetModelInfo(ModelInfoRequest) returns (ModelInfoResponse);
 
     // ValidateConfig validates the provided configuration data against the model
-    rpc ValidateConfig(ValidateConfigRequest) returns (ValidateConfigResponse);
+    rpc ValidateConfig(ValidateConfigRequest) returns (ValidateConfigResponse) {
+      option deprecated=true;
+    };
+
+    // ValidateConfig validates the provided configuration data against the model
+    rpc ValidateConfigChunked(stream ValidateConfigChunkRequest) returns (ValidateConfigResponse);
 
     // GetPathValues produces list of typed path value entries from the specified configuration change JSON tree
     rpc GetPathValues(PathValuesRequest) returns (PathValuesResponse);
@@ -226,6 +231,11 @@ message ModelInfoResponse {
 
 // ValidateConfigRequest carries configuration data to be validated as a JSON blob
 message ValidateConfigRequest {
+    bytes json = 1;
+}
+
+// ValidateConfigRequest carries configuration data to be validated as a JSON blob
+message ValidateConfigChunkRequest {
     bytes json = 1;
 }
 
