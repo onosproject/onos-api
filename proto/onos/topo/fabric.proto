@@ -47,6 +47,13 @@ message Link {
   uint64 last_change = 2;
 }
 
+// NetworkInterface is an aspect carrying basic host information
+message NetworkInterface {
+  string mac_device_port = 1; // mac-device/port
+  IPAddress ip = 2;
+  // ToDo - add VLAN later
+}
+
 // TODO: Refactor, simplify and clean-up the aspects below; move them to Underlay/VirtualNet/etc. app APIs
 // Most of the following are deprecated
 
