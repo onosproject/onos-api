@@ -48,6 +48,8 @@ message ManagementInfo {
   string host_agent_endpoint = 6;
   string nat_agent_endpoint = 7;
   uint64 device_id = 8 [(gogoproto.customname) = "DeviceID"];
+  string realm = 9;
+  string role = 10;
 }
 
 message AddSwitchRequest {

@@ -51,6 +51,8 @@ class ManagementInfo(betterproto.Message):
     host_agent_endpoint: str = betterproto.string_field(6)
     nat_agent_endpoint: str = betterproto.string_field(7)
     device_id: int = betterproto.uint64_field(8)
+    realm: str = betterproto.string_field(9)
+    role: str = betterproto.string_field(10)
 
     def __post_init__(self) -> None:
         super().__post_init__()
