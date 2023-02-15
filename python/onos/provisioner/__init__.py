@@ -9,6 +9,27 @@ import betterproto
 import grpclib
 
 
+class ConfigStatusState(betterproto.Enum):
+    PENDING = 0
+    APPLIED = 3
+    FAILED = 4
+
+
+class FailureType(betterproto.Enum):
+    UNKNOWN = 0
+    CANCELED = 1
+    NOT_FOUND = 2
+    ALREADY_EXISTS = 3
+    UNAUTHORIZED = 4
+    FORBIDDEN = 5
+    CONFLICT = 6
+    INVALID = 7
+    UNAVAILABLE = 8
+    NOT_SUPPORTED = 9
+    TIMEOUT = 10
+    INTERNAL = 11
+
+
 @dataclass(eq=False, repr=False)
 class DeviceConfig(betterproto.Message):
     """
@@ -33,6 +54,7 @@ class PipelineConfigState(betterproto.Message):
     config_id: str = betterproto.string_field(1)
     cookie: int = betterproto.uint64_field(2)
     updated: datetime = betterproto.message_field(3)
+    status: "ConfigStatus" = betterproto.message_field(4)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -47,6 +69,29 @@ class ChassisConfigState(betterproto.Message):
 
     config_id: str = betterproto.string_field(1)
     updated: datetime = betterproto.message_field(2)
+    status: "ConfigStatus" = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ConfigStatus(betterproto.Message):
+    # 'state' config state
+    state: "ConfigStatusState" = betterproto.enum_field(1)
+    # 'failure' is the transaction failure (if any)
+    failure: "Failure" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Failure(betterproto.Message):
+    """Failure config update failure type and description"""
+
+    type: "FailureType" = betterproto.enum_field(1)
+    description: str = betterproto.string_field(2)
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -106,6 +151,8 @@ class AddConfigResponse(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class DeleteConfigRequest(betterproto.Message):
+    """Failure config update failure type and description"""
+
     config_id: str = betterproto.string_field(1)
 
     def __post_init__(self) -> None:
