@@ -5,8 +5,13 @@
 
 - [onos/provisioner/aspects.proto](#onos_provisioner_aspects-proto)
     - [ChassisConfigState](#onos-provisioner-ChassisConfigState)
+    - [ConfigStatus](#onos-provisioner-ConfigStatus)
     - [DeviceConfig](#onos-provisioner-DeviceConfig)
+    - [Failure](#onos-provisioner-Failure)
     - [PipelineConfigState](#onos-provisioner-PipelineConfigState)
+  
+    - [ConfigStatus.State](#onos-provisioner-ConfigStatus-State)
+    - [Failure.Type](#onos-provisioner-Failure-Type)
   
 - [onos/provisioner/config.proto](#onos_provisioner_config-proto)
     - [AddConfigRequest](#onos-provisioner-AddConfigRequest)
@@ -44,6 +49,23 @@ ChassisConfigState is a topology entity aspect used to indicate what chassis con
 | ----- | ---- | ----- | ----------- |
 | config_id | [string](#string) |  |  |
 | updated | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| status | [ConfigStatus](#onos-provisioner-ConfigStatus) |  |  |
+
+
+
+
+
+
+<a name="onos-provisioner-ConfigStatus"></a>
+
+### ConfigStatus
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [ConfigStatus.State](#onos-provisioner-ConfigStatus-State) |  | &#39;state&#39; config state |
+| failure | [Failure](#onos-provisioner-Failure) |  | &#39;failure&#39; is the transaction failure (if any) |
 
 
 
@@ -66,6 +88,22 @@ DeviceConfig is a topology entity aspect used to specify what pipeline and chass
 
 
 
+<a name="onos-provisioner-Failure"></a>
+
+### Failure
+Failure config update failure type and description
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [Failure.Type](#onos-provisioner-Failure-Type) |  |  |
+| description | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="onos-provisioner-PipelineConfigState"></a>
 
 ### PipelineConfigState
@@ -77,12 +115,48 @@ PipelineConfigState is a topology entity aspect used to indicate what pipeline c
 | config_id | [string](#string) |  |  |
 | cookie | [uint64](#uint64) |  |  |
 | updated | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| status | [ConfigStatus](#onos-provisioner-ConfigStatus) |  |  |
 
 
 
 
 
  
+
+
+<a name="onos-provisioner-ConfigStatus-State"></a>
+
+### ConfigStatus.State
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PENDING | 0 |  |
+| APPLIED | 3 |  |
+| FAILED | 4 |  |
+
+
+
+<a name="onos-provisioner-Failure-Type"></a>
+
+### Failure.Type
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 | UNKNOWN unknown failure |
+| CANCELED | 1 | CANCELED |
+| NOT_FOUND | 2 | NOT_FOUND |
+| ALREADY_EXISTS | 3 | ALREADY_EXISTS |
+| UNAUTHORIZED | 4 | UNAUTHORIZED |
+| FORBIDDEN | 5 | FORBIDDEN |
+| CONFLICT | 6 | CONFLICT |
+| INVALID | 7 | INVALID |
+| UNAVAILABLE | 8 | UNAVAILABLE |
+| NOT_SUPPORTED | 9 | NOT_SUPPORTED |
+| TIMEOUT | 10 | TIMEOUT |
+| INTERNAL | 11 | INTERNAL |
+
 
  
 

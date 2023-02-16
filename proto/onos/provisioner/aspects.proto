@@ -21,10 +21,59 @@ message PipelineConfigState {
   string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
   uint64 cookie = 2;
   google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  ConfigStatus status = 4 [(gogoproto.nullable) = false];
 }
 
 // ChassisConfigState is a topology entity aspect used to indicate what chassis config a device has presently applied to it
 message ChassisConfigState {
   string config_id = 1 [(gogoproto.customname) = "ConfigID", (gogoproto.casttype) = "ConfigID"];
   google.protobuf.Timestamp updated = 2 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  ConfigStatus status = 3 [(gogoproto.nullable) = false];
+
+}
+
+message ConfigStatus {
+  // 'state' config state
+  State state = 1;
+
+  // 'failure' is the transaction failure (if any)
+  Failure failure = 2;
+
+  enum State {
+    PENDING = 0;
+    APPLIED = 3;
+    FAILED = 4;
+  }
+}
+
+// Failure config update failure type and description
+message Failure {
+  Type type = 1;
+  enum Type {
+    // UNKNOWN unknown failure
+    UNKNOWN = 0;
+    // CANCELED
+    CANCELED = 1;
+    // NOT_FOUND
+    NOT_FOUND = 2;
+    // ALREADY_EXISTS
+    ALREADY_EXISTS = 3;
+    // UNAUTHORIZED
+    UNAUTHORIZED = 4;
+    // FORBIDDEN
+    FORBIDDEN = 5;
+    // CONFLICT
+    CONFLICT = 6;
+    // INVALID
+    INVALID = 7;
+    // UNAVAILABLE
+    UNAVAILABLE = 8;
+    // NOT_SUPPORTED
+    NOT_SUPPORTED = 9;
+    // TIMEOUT
+    TIMEOUT = 10;
+    // INTERNAL
+    INTERNAL = 11;
+  }
+  string description = 2;
 }

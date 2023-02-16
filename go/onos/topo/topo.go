@@ -19,6 +19,11 @@ type UUID string
 // ID represents a client-assigned unique identifier.
 type ID string
 
+// String convert ID to string
+func (id ID) String() string {
+	return string(id)
+}
+
 // NullID represents a null/empty/omitted identifier; usually an indicator for system to generate one.
 const NullID = ""
 
