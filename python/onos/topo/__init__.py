@@ -479,15 +479,26 @@ class Link(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class P4RuntimeServer(betterproto.Message):
+class NetworkInterface(betterproto.Message):
     """
     ProtocolState contains information related to service and connectivity to a
     device
     """
 
     # The protocol to which state relates
-    endpoint: "Endpoint" = betterproto.message_field(1)
+    mac_device_port: str = betterproto.string_field(1)
     # ConnectivityState contains the L3 connectivity information
+    ip: "IpAddress" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class P4RuntimeServer(betterproto.Message):
+    """Protocols"""
+
+    endpoint: "Endpoint" = betterproto.message_field(1)
     device_id: int = betterproto.uint64_field(3)
 
     def __post_init__(self) -> None:
@@ -496,8 +507,6 @@ class P4RuntimeServer(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class GNmiServer(betterproto.Message):
-    """Protocols"""
-
     endpoint: "Endpoint" = betterproto.message_field(1)
 
     def __post_init__(self) -> None:
