@@ -486,7 +486,7 @@ class NetworkInterface(betterproto.Message):
     """
 
     # The protocol to which state relates
-    mac_device_port: str = betterproto.string_field(1)
+    mac: str = betterproto.string_field(1)
     # ConnectivityState contains the L3 connectivity information
     ip: "IpAddress" = betterproto.message_field(2)
 

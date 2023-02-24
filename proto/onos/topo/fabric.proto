@@ -49,7 +49,7 @@ message Link {
 
 // NetworkInterface is an aspect carrying basic host information
 message NetworkInterface {
-  string mac_device_port = 1; // mac-device/port
+  string mac = 1; // mac-device/port
   IPAddress ip = 2;
   // ToDo - add VLAN later
 }
