@@ -47,11 +47,10 @@ message Link {
   uint64 last_change = 2;
 }
 
-// NetworkInterface is an aspect carrying basic host information
+// NetworkInterface is an aspect carrying basic network interface information
 message NetworkInterface {
-  string mac_device_port = 1; // mac-device/port
-  IPAddress ip = 2;
-  // ToDo - add VLAN later
+  string mac = 1  [(gogoproto.customname) = "MAC"];
+  IPAddress ip = 2  [(gogoproto.customname) = "IP"];
 }
 
 // TODO: Refactor, simplify and clean-up the aspects below; move them to Underlay/VirtualNet/etc. app APIs
@@ -185,7 +184,7 @@ message P4RTMastershipState {
 
 // DEPRECATED: Service service entity which will be used to store mastership state for an application
 message Service {
-    string  target_id = 1 [(gogoproto.customname) = "TargetID"];
-    P4RTMastershipState mastershipstate = 2;
+  string  target_id = 1 [(gogoproto.customname) = "TargetID"];
+  P4RTMastershipState mastershipstate = 2;
 }
 
