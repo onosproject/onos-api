@@ -207,17 +207,23 @@ service ModelPluginService {
       option deprecated=true;
     };
 
-    // ValidateConfig validates the provided configuration data against the model
-    rpc ValidateConfigChunked(stream ValidateConfigChunkRequest) returns (ValidateConfigResponse);
+    // ValidateConfigChunked validates the provided configuration data against the model
+    rpc ValidateConfigChunked(stream ValidateConfigRequestChunk) returns (ValidateConfigResponse);
 
     // GetPathValues produces list of typed path value entries from the specified configuration change JSON tree
     rpc GetPathValues(PathValuesRequest) returns (PathValuesResponse);
 
     // GetValueSelection gets a list of valid options for a leaf by applying selection rules in YANG.
+    // Replaced by GetValueSelectionChunked
+    rpc GetValueSelection(ValueSelectionRequest) returns (ValueSelectionResponse) {
+        option deprecated=true;
+    };
+
+    // GetValueSelectionChunked gets a list of valid options for a leaf by applying selection rules in YANG.
     // The selection rules should be defined as an XPath expression, as an argument
     // to a `leaf-selection` extension in the YANG model
     // (Used to support the ROC GUI)
-    rpc GetValueSelection(ValueSelectionRequest) returns (ValueSelectionResponse);
+    rpc GetValueSelectionChunked(stream ValueSelectionRequestChunk) returns (ValueSelectionResponse);
 }
 
 // ModelInfoRequest carries request for the model information
@@ -231,6 +237,13 @@ message ModelInfoResponse {
 
 // ValidateConfigRequest carries configuration data to be validated as a JSON blob
 message ValidateConfigRequest {
+    option deprecated=true;
+    bytes json = 1;
+}
+
+// ValidateConfigRequestChunk carries configuration data to be validated as a JSON blob
+// Recommended maximum size is 100kB
+message ValidateConfigRequestChunk {
     bytes json = 1;
 }
 
@@ -258,6 +271,19 @@ message PathValuesResponse {
 
 // ValueSelectionRequest carries the necessary parts to form a selection context
 message ValueSelectionRequest {
+    option deprecated=true;
+
+    // selectionPath is a configuration path to a leaf in the format:
+    // /a/b[key1=index][key2=index2]/c/d where d is a leaf node
+    string selectionPath = 1;
+
+    // configJson is a JSON tree view of the complete Configuration for a Target
+    bytes configJson = 2;
+}
+
+// ValueSelectionRequestChunk carries the necessary parts to form a selection context
+// Recommended maximum size is 100kB
+message ValueSelectionRequestChunk {
 
     // selectionPath is a configuration path to a leaf in the format:
     // /a/b[key1=index][key2=index2]/c/d where d is a leaf node
