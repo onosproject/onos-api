@@ -29,8 +29,10 @@
     - [RollbackResponse](#onos-config-admin-RollbackResponse)
     - [ValidateConfigChunkRequest](#onos-config-admin-ValidateConfigChunkRequest)
     - [ValidateConfigRequest](#onos-config-admin-ValidateConfigRequest)
+    - [ValidateConfigRequestChunk](#onos-config-admin-ValidateConfigRequestChunk)
     - [ValidateConfigResponse](#onos-config-admin-ValidateConfigResponse)
     - [ValueSelectionRequest](#onos-config-admin-ValueSelectionRequest)
+    - [ValueSelectionRequestChunk](#onos-config-admin-ValueSelectionRequestChunk)
     - [ValueSelectionResponse](#onos-config-admin-ValueSelectionResponse)
     - [WatchConfigurationsRequest](#onos-config-admin-WatchConfigurationsRequest)
     - [WatchConfigurationsResponse](#onos-config-admin-WatchConfigurationsResponse)
@@ -464,6 +466,22 @@ ValidateConfigRequest carries configuration data to be validated as a JSON blob
 
 
 
+<a name="onos-config-admin-ValidateConfigRequestChunk"></a>
+
+### ValidateConfigRequestChunk
+ValidateConfigRequestChunk carries configuration data to be validated as a JSON blob
+Recommended maximum size is 100kB
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| json | [bytes](#bytes) |  |  |
+
+
+
+
+
+
 <a name="onos-config-admin-ValidateConfigResponse"></a>
 
 ### ValidateConfigResponse
@@ -484,6 +502,23 @@ ValidateConfigResponse carries the result of the validation
 
 ### ValueSelectionRequest
 ValueSelectionRequest carries the necessary parts to form a selection context
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| selectionPath | [string](#string) |  | selectionPath is a configuration path to a leaf in the format: /a/b[key1=index][key2=index2]/c/d where d is a leaf node |
+| configJson | [bytes](#bytes) |  | configJson is a JSON tree view of the complete Configuration for a Target |
+
+
+
+
+
+
+<a name="onos-config-admin-ValueSelectionRequestChunk"></a>
+
+### ValueSelectionRequestChunk
+ValueSelectionRequestChunk carries the necessary parts to form a selection context
+Recommended maximum size is 100kB
 
 
 | Field | Type | Label | Description |
@@ -612,9 +647,10 @@ ModelPluginService is to be implemented by model plugin sidecar
 | ----------- | ------------ | ------------- | ------------|
 | GetModelInfo | [ModelInfoRequest](#onos-config-admin-ModelInfoRequest) | [ModelInfoResponse](#onos-config-admin-ModelInfoResponse) | GetModelInfo provides information about the model |
 | ValidateConfig | [ValidateConfigRequest](#onos-config-admin-ValidateConfigRequest) | [ValidateConfigResponse](#onos-config-admin-ValidateConfigResponse) | ValidateConfig validates the provided configuration data against the model |
-| ValidateConfigChunked | [ValidateConfigChunkRequest](#onos-config-admin-ValidateConfigChunkRequest) stream | [ValidateConfigResponse](#onos-config-admin-ValidateConfigResponse) | ValidateConfig validates the provided configuration data against the model |
+| ValidateConfigChunked | [ValidateConfigRequestChunk](#onos-config-admin-ValidateConfigRequestChunk) stream | [ValidateConfigResponse](#onos-config-admin-ValidateConfigResponse) | ValidateConfigChunked validates the provided configuration data against the model |
 | GetPathValues | [PathValuesRequest](#onos-config-admin-PathValuesRequest) | [PathValuesResponse](#onos-config-admin-PathValuesResponse) | GetPathValues produces list of typed path value entries from the specified configuration change JSON tree |
-| GetValueSelection | [ValueSelectionRequest](#onos-config-admin-ValueSelectionRequest) | [ValueSelectionResponse](#onos-config-admin-ValueSelectionResponse) | GetValueSelection gets a list of valid options for a leaf by applying selection rules in YANG. The selection rules should be defined as an XPath expression, as an argument to a `leaf-selection` extension in the YANG model (Used to support the ROC GUI) |
+| GetValueSelection | [ValueSelectionRequest](#onos-config-admin-ValueSelectionRequest) | [ValueSelectionResponse](#onos-config-admin-ValueSelectionResponse) | GetValueSelection gets a list of valid options for a leaf by applying selection rules in YANG. Replaced by GetValueSelectionChunked |
+| GetValueSelectionChunked | [ValueSelectionRequestChunk](#onos-config-admin-ValueSelectionRequestChunk) stream | [ValueSelectionResponse](#onos-config-admin-ValueSelectionResponse) | GetValueSelectionChunked gets a list of valid options for a leaf by applying selection rules in YANG. The selection rules should be defined as an XPath expression, as an argument to a `leaf-selection` extension in the YANG model (Used to support the ROC GUI) |
 
 
 <a name="onos-config-admin-TransactionService"></a>
