@@ -3,7 +3,7 @@
 # plugin: python-betterproto
 import warnings
 from dataclasses import dataclass
-from typing import AsyncIterator, List, Optional
+from typing import AsyncIterable, AsyncIterator, Iterable, List, Optional, Union
 
 import betterproto
 import grpclib
@@ -281,6 +281,19 @@ class ValidateConfigRequest(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ValidateConfigChunkRequest(betterproto.Message):
+    """
+    ValidateConfigRequest carries configuration data to be validated as a JSON
+    blob
+    """
+
+    json: bytes = betterproto.bytes_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class ValidateConfigResponse(betterproto.Message):
     """ValidateConfigResponse carries the result of the validation"""
 
@@ -540,6 +553,25 @@ class ModelPluginServiceStub(betterproto.ServiceStub):
         return await self._unary_unary(
             "/onos.config.admin.ModelPluginService/ValidateConfig",
             request,
+            ValidateConfigResponse,
+        )
+
+    async def validate_config_chunked(
+        self,
+        request_iterator: Union[
+            AsyncIterable["ValidateConfigChunkRequest"],
+            Iterable["ValidateConfigChunkRequest"],
+        ],
+    ) -> "ValidateConfigResponse":
+        """
+        ValidateConfig validates the provided configuration data against the
+        model
+        """
+
+        return await self._stream_unary(
+            "/onos.config.admin.ModelPluginService/ValidateConfigChunked",
+            request_iterator,
+            ValidateConfigChunkRequest,
             ValidateConfigResponse,
         )
 
