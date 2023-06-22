@@ -84,6 +84,10 @@ protoc --proto_path=$proto_path \
 
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/config/v3 \
+    --doc_opt=markdown,admin.md \
+    proto/onos/config/v3/admin.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v3 \
     --doc_opt=markdown,value.md \
     proto/onos/config/v3/value.proto
 protoc --proto_path=$proto_path \
@@ -174,6 +178,7 @@ go_import_paths="${go_import_paths},Monos/config/v2/value.proto=github.com/onosp
 go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/proposal.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"
+go_import_paths="${go_import_paths},Monos/config/v3/admin.proto=github.com/onosproject/onos-api/go/onos/config/v3"
 go_import_paths="${go_import_paths},Monos/config/v3/object.proto=github.com/onosproject/onos-api/go/onos/config/v3"
 go_import_paths="${go_import_paths},Monos/config/v3/failure.proto=github.com/onosproject/onos-api/go/onos/config/v3"
 go_import_paths="${go_import_paths},Monos/config/v3/value.proto=github.com/onosproject/onos-api/go/onos/config/v3"

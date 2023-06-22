@@ -32,32 +32,54 @@ enum ValueType {
 // TypedValue is a value represented as a byte array
 message TypedValue {
     // 'bytes' is the bytes array
-    bytes bytes = 1  [json_name="Bytes", (gogoproto.jsontag) = "Bytes,omitempty"];
+    bytes bytes = 1  [
+        json_name="Bytes",
+        (gogoproto.jsontag) = "Bytes,omitempty"
+    ];
 
     // 'type' is the value type
-    ValueType type = 2 [json_name="Type", (gogoproto.jsontag) = "Type,omitempty"];
+    ValueType type = 2 [
+        json_name="Type",
+        (gogoproto.jsontag) = "Type,omitempty"
+    ];
 
     // 'type_opts' is a set of type options
-    repeated int32 type_opts = 3  [json_name="TypeOpts", (gogoproto.jsontag) = "TypeOpts,omitempty"];
+    repeated int32 type_opts = 3  [
+        json_name="TypeOpts",
+        (gogoproto.jsontag) = "TypeOpts,omitempty"
+    ];
 }
 
 // PathValues is a set of path/value pairs
 message PathValues {
     // 'values' is a set of change values to apply
-    map<string, PathValue> values = 4;
+    map<string, PathValue> values = 4 [
+        (gogoproto.nullable) = false
+    ];
 }
 
 // PathValue is the state of a path/value in the configuration tree
 message PathValue {
     // 'path' is the path to change
-    string path = 1 [json_name="Path", (gogoproto.jsontag) = "Path,omitempty"];
+    string path = 1 [
+        json_name="Path",
+        (gogoproto.jsontag) = "Path,omitempty"
+    ];
 
     // 'value' is the change value
-    TypedValue value = 2 [(gogoproto.nullable) = false, json_name="Value", (gogoproto.jsontag) = "Value,omitempty"];
+    TypedValue value = 2 [
+        (gogoproto.nullable) = false,
+        json_name="Value",
+        (gogoproto.jsontag) = "Value,omitempty"
+    ];
 
     // 'deleted' indicates whether this is a delete
-    bool deleted = 3 [(gogoproto.jsontag) = "Deleted,omitempty"];
+    bool deleted = 3 [
+        (gogoproto.jsontag) = "Deleted,omitempty"
+    ];
 
     // index transaction index
-    uint64 index = 4 [(gogoproto.casttype) = "Index"];
+    uint64 index = 4 [
+        (gogoproto.casttype) = "Index"
+    ];
 }

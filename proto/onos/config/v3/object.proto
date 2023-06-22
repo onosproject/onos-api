@@ -40,17 +40,3 @@ message Target {
         (gogoproto.casttype) = "TargetVersion"
     ];
 }
-
-message TargetTypeVersion {
-    string type = 1 [
-        (gogoproto.casttype) = "TargetType"
-    ];
-    string version = 2 [
-        (gogoproto.casttype) = "TargetVersion"
-    ];
-}
-
-// TargetVersionOverrides carries optional mappings of targets to their model type and version overrides.
-message TargetVersionOverrides {
-    map<string, TargetTypeVersion> overrides = 1;
-}
