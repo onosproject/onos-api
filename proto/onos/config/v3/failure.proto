@@ -1,0 +1,39 @@
+// SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.config.v3;
+
+// Failure transaction failure type and description
+message Failure {
+  Type type = 1;
+  enum Type {
+    // UNKNOWN unknown failure
+    UNKNOWN = 0;
+    // CANCELED
+    CANCELED = 1;
+    // NOT_FOUND
+    NOT_FOUND = 2;
+    // ALREADY_EXISTS
+    ALREADY_EXISTS = 3;
+    // UNAUTHORIZED
+    UNAUTHORIZED = 4;
+    // FORBIDDEN
+    FORBIDDEN = 5;
+    // CONFLICT
+    CONFLICT = 6;
+    // INVALID
+    INVALID = 7;
+    // UNAVAILABLE
+    UNAVAILABLE = 8;
+    // NOT_SUPPORTED
+    NOT_SUPPORTED = 9;
+    // TIMEOUT
+    TIMEOUT = 10;
+    // INTERNAL
+    INTERNAL = 11;
+  }
+  string description = 2;
+}
