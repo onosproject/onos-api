@@ -237,8 +237,8 @@ protoc --proto_path=$proto_path \
 
 # admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
 protoc --proto_path=$proto_path \
-    --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
-    proto/onos/config/admin/*.proto
+    --gogo_out=$go_import_paths,import_path=onos/config/v3,plugins=grpc:./go \
+    proto/onos/config/v3/admin.proto
 
 # fabricsim
 protoc --proto_path=$proto_path \
