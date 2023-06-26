@@ -1,0 +1,129 @@
+// SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.config.v3;
+
+import "gogoproto/gogo.proto";
+import "onos/config/v3/object.proto";
+import "onos/config/v3/value.proto";
+import "onos/config/v3/failure.proto";
+import "google/protobuf/timestamp.proto";
+
+message TransactionID {
+    Target target = 1 [
+        (gogoproto.nullable) = false
+    ];
+    uint64 index = 2 [
+        (gogoproto.casttype) = "Index"
+    ];
+}
+
+message TransactionStrategy {
+    // 'synchronicity' indicates the transaction synchronicity level
+    Synchronicity synchronicity = 1;
+
+    enum Synchronicity {
+        ASYNCHRONOUS = 0;
+        SYNCHRONOUS = 1;
+    }
+}
+
+message Transaction {
+    ObjectMeta meta = 1 [
+        (gogoproto.embed) = true,
+        (gogoproto.nullable) = false
+    ];
+
+    // 'id' is the unique identifier of the transaction
+    TransactionID id = 2 [
+        (gogoproto.customname) = "ID",
+        (gogoproto.nullable) = false
+    ];
+
+    // 'values' is a set of changes to apply to targets
+    map<string, PathValue> values = 3 [
+        (gogoproto.nullable) = false
+    ];
+
+    // 'status' is the transaction status
+    TransactionStatus status = 4 [
+        (gogoproto.nullable) = false
+    ];
+}
+
+message TransactionStatus {
+    Phase phase = 1;
+    TransactionChangeStatus change = 2 [
+        (gogoproto.nullable) = false
+    ];
+    TransactionRollbackStatus rollback = 3 [
+        (gogoproto.nullable) = false
+    ];
+
+    enum Phase {
+        CHANGE = 0;
+        ROLLBACK = 1;
+    }
+}
+
+message TransactionPhaseStatus {
+    google.protobuf.Timestamp start = 1 [
+        (gogoproto.stdtime) = true
+    ];
+    google.protobuf.Timestamp end = 2 [
+        (gogoproto.stdtime) = true
+    ];
+    State state = 3;
+    Failure failure = 4;
+
+    enum State {
+        PENDING = 0;
+        IN_PROGRESS = 1;
+        COMPLETE = 2;
+        ABORTED = 3;
+        CANCELED = 4;
+        FAILED = 5;
+    }
+}
+
+message TransactionChangeStatus {
+    uint64 ordinal = 1 [
+        (gogoproto.casttype) = "Ordinal"
+    ];
+    TransactionPhaseStatus commit = 2;
+    TransactionPhaseStatus apply = 3;
+}
+
+message TransactionRollbackStatus {
+    uint64 ordinal = 1 [
+        (gogoproto.casttype) = "Ordinal"
+    ];
+    TransactionPhaseStatus commit = 2;
+    TransactionPhaseStatus apply = 3;
+    uint64 index = 4 [
+        (gogoproto.casttype) = "Index"
+    ];
+    map<string, PathValue> values = 5 [
+        (gogoproto.nullable) = false
+    ];
+}
+
+// TransactionEvent transaction store event
+message TransactionEvent {
+    // EventType transaction event types for transaction store
+    enum EventType {
+        UNKNOWN = 0;
+        CREATED = 1;
+        UPDATED = 2;
+        DELETED = 3;
+        REPLAYED = 4;
+    }
+
+    EventType type = 1;
+    Transaction transaction = 2 [
+        (gogoproto.nullable) = false
+    ];
+}

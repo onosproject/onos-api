@@ -1,0 +1,135 @@
+// SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.config.v3;
+
+import "gogoproto/gogo.proto";
+import "onos/config/v3/object.proto";
+import "onos/config/v3/value.proto";
+
+message ConfigurationID {
+    Target target = 1 [
+        (gogoproto.nullable) = false
+    ];
+}
+
+// Configuration represents complete desired target configuration
+message Configuration {
+    ObjectMeta meta = 1 [
+        (gogoproto.embed) = true,
+        (gogoproto.nullable) = false
+    ];
+
+    // 'id' is the unique identifier of the configuration
+    ConfigurationID id = 2 [
+        (gogoproto.customname) = "ID",
+        (gogoproto.nullable) = false
+    ];
+
+    CommittedConfiguration committed = 3 [
+        (gogoproto.nullable) = false
+    ];
+
+    AppliedConfiguration applied = 4 [
+        (gogoproto.nullable) = false
+    ];
+
+    // 'ConfigurationStatus' is the current lifecycle status of the configuration
+    ConfigurationStatus status = 5 [
+        (gogoproto.nullable) = false
+    ];
+}
+
+// ConfigurationStatus is the status of a Configuration
+message ConfigurationStatus {
+    // 'state' is the configuration state
+    State state = 1;
+
+    MastershipStatus mastership = 2;
+
+    // State is the configuration state
+    enum State {
+        UNKNOWN = 0;
+        SYNCHRONIZING = 1;
+        SYNCHRONIZED = 2;
+        PERSISTED = 3;
+    }
+}
+
+message MastershipStatus {
+    string master = 2 [
+        (gogoproto.casttype) = "NodeID"
+    ];
+
+    uint64 term = 3 [
+        (gogoproto.casttype) = "MastershipTerm"
+    ];
+}
+
+message CommittedConfiguration {
+    uint64 index = 1 [
+        (gogoproto.casttype) = "Index"
+    ];
+    uint64 ordinal = 2 [
+        (gogoproto.casttype) = "Ordinal"
+    ];
+    uint64 revision = 3 [
+        (gogoproto.casttype) = "Revision"
+    ];
+    uint64 target = 4 [
+        (gogoproto.casttype) = "Index"
+    ];
+    uint64 change = 5 [
+        (gogoproto.casttype) = "Index"
+    ];
+    map<string, PathValue> values = 6 [
+        (gogoproto.nullable) = false
+    ];
+}
+
+message AppliedConfiguration {
+    uint64 index = 1 [
+        (gogoproto.casttype) = "Index"
+    ];
+    uint64 ordinal = 2 [
+        (gogoproto.casttype) = "Ordinal"
+    ];
+    uint64 revision = 3 [
+        (gogoproto.casttype) = "Revision"
+    ];
+    uint64 target = 4 [
+        (gogoproto.casttype) = "Index"
+    ];
+    uint64 term = 5 [
+        (gogoproto.casttype) = "MastershipTerm"
+    ];
+    map<string, PathValue> values = 6 [
+        (gogoproto.nullable) = false
+    ];
+}
+
+// ConfigurationEvent configuration store event
+message ConfigurationEvent {
+    // EventType configuration event types for configuration store
+    enum EventType {
+        // UNKNOWN indicates unknown configuration store event
+        UNKNOWN = 0;
+        // CREATED indicates the configuration entry in the store is created
+        CREATED = 1;
+        // UPDATED indicates the configuration entry in the store is updated
+        UPDATED = 2;
+        // DELETED indicates the configuration entry in the store is deleted
+        DELETED = 3;
+        // REPLAYED
+        REPLAYED = 4;
+    }
+
+    // EventType configuration event type
+    EventType type = 1;
+    Configuration configuration = 2 [
+        (gogoproto.nullable) = false
+    ];
+}

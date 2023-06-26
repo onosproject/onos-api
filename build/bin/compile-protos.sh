@@ -80,6 +80,25 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,configuration.md \
     proto/onos/config/v2/configuration.proto
 
+## onos-config v3 API
+
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v3 \
+    --doc_opt=markdown,admin.md \
+    proto/onos/config/v3/admin.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v3 \
+    --doc_opt=markdown,value.md \
+    proto/onos/config/v3/value.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v3 \
+    --doc_opt=markdown,transaction.md \
+    proto/onos/config/v3/transaction.proto
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/config/v3 \
+    --doc_opt=markdown,configuration.md \
+    proto/onos/config/v3/configuration.proto
+
 
 # SD-RAN Stuff
 # e2t
@@ -159,6 +178,12 @@ go_import_paths="${go_import_paths},Monos/config/v2/value.proto=github.com/onosp
 go_import_paths="${go_import_paths},Monos/config/v2/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/proposal.proto=github.com/onosproject/onos-api/go/onos/config/v2"
 go_import_paths="${go_import_paths},Monos/config/v2/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v2"
+go_import_paths="${go_import_paths},Monos/config/v3/admin.proto=github.com/onosproject/onos-api/go/onos/config/v3"
+go_import_paths="${go_import_paths},Monos/config/v3/object.proto=github.com/onosproject/onos-api/go/onos/config/v3"
+go_import_paths="${go_import_paths},Monos/config/v3/failure.proto=github.com/onosproject/onos-api/go/onos/config/v3"
+go_import_paths="${go_import_paths},Monos/config/v3/value.proto=github.com/onosproject/onos-api/go/onos/config/v3"
+go_import_paths="${go_import_paths},Monos/config/v3/transaction.proto=github.com/onosproject/onos-api/go/onos/config/v3"
+go_import_paths="${go_import_paths},Monos/config/v3/configuration.proto=github.com/onosproject/onos-api/go/onos/config/v3"
 
 # Miscellaneous
 protoc --proto_path=$proto_path \
@@ -198,6 +223,22 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogo_out=$go_import_paths,import_path=onos/config/admin,plugins=grpc:./go \
     proto/onos/config/admin/*.proto
+
+# fabricsim
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/fabricsim,plugins=grpc:./go \
+    proto/onos/fabricsim/*.proto
+
+
+# onos-config v3 API
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/config/v3,plugins=grpc:./go \
+    proto/onos/config/v3/*.proto
+
+# admin.proto cannot be generated with fast marshaler/unmarshaler because it uses gnmi.ModelData
+protoc --proto_path=$proto_path \
+    --gogo_out=$go_import_paths,import_path=onos/config/v3,plugins=grpc:./go \
+    proto/onos/config/v3/admin.proto
 
 # fabricsim
 protoc --proto_path=$proto_path \
@@ -308,6 +349,10 @@ protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-config.protoset \
     --include_imports \
     proto/onos/config/v2/*.proto
+protoc --proto_path=$proto_path \
+    --descriptor_set_out=protoset/onos-config.protoset \
+    --include_imports \
+    proto/onos/config/v3/*.proto
 protoc --proto_path=$proto_path \
     --descriptor_set_out=protoset/onos-config-admin.protoset \
     --include_imports \

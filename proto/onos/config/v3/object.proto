@@ -1,0 +1,42 @@
+// SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.config.v3;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+message ObjectMeta {
+    string key = 1;
+    uint64 version = 2;
+    uint64 revision = 3 [
+        (gogoproto.casttype) = "Revision"
+    ];
+    google.protobuf.Timestamp created = 4 [
+        (gogoproto.stdtime) = true,
+        (gogoproto.nullable) = false
+    ];
+    google.protobuf.Timestamp updated = 5 [
+        (gogoproto.stdtime) = true,
+        (gogoproto.nullable) = false
+    ];
+    google.protobuf.Timestamp deleted = 6 [
+        (gogoproto.stdtime) = true
+    ];
+}
+
+message Target {
+    string id = 1 [
+        (gogoproto.customname) = "ID",
+        (gogoproto.casttype) = "TargetID"
+    ];
+    string type = 2 [
+        (gogoproto.casttype) = "TargetType"
+    ];
+    string version = 3 [
+        (gogoproto.casttype) = "TargetVersion"
+    ];
+}
