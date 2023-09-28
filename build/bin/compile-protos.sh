@@ -121,6 +121,12 @@ protoc --proto_path=$proto_path \
     --doc_opt=markdown,a1.md \
     proto/onos/a1t/admin/*.proto
 
+# ccc
+protoc --proto_path=$proto_path \
+    --doc_out=docs/onos/ccc \
+    --doc_opt=markdown,ccc.md \
+    proto/onos/ccc/ccc.proto
+
 # kpimon
 protoc --proto_path=$proto_path \
     --doc_out=docs/onos/kpimon \
@@ -270,6 +276,11 @@ protoc --proto_path=$proto_path \
 protoc --proto_path=$proto_path \
     --gogofaster_out=$go_import_paths,import_path=onos/o1t,plugins=grpc:./go \
     proto/onos/o1t/*.proto
+
+# ccc
+protoc --proto_path=$proto_path \
+    --gogofaster_out=$go_import_paths,import_path=onos/ccc,plugins=grpc:./go \
+    proto/onos/ccc/*.proto
 
 # kpimon
 protoc --proto_path=$proto_path \

@@ -10,6 +10,7 @@ package onos.topo;
 import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 // TODO: Deprecate! Use language specific constant definitions instead.
 // Kinds of RAN entities
@@ -372,6 +373,12 @@ message MHORanFunction {
     repeated MHOReportStyle report_styles = 2;
 }
 
+message CCCRanFunction {
+    string id = 1 [(gogoproto.customname) = "ID"];
+    repeated RanconfigurationStructure ran_structures = 2;
+    repeated CellsForRanfunctionDefinition cells_ran_definition = 3;
+}
+
 message KPMRanFunction {
     string id = 1 [(gogoproto.customname) = "ID"];
     repeated KPMReportStyle report_styles = 2;
@@ -440,11 +447,147 @@ message RANParameter {
     string name = 2;
 }
 
+message RanconfigurationStructure {
+    string name = 1;
+    repeated Attribute attribute = 2;
+}
+
+message Attribute {
+    string name = 1;
+    RICServices ric_services = 2;
+}
+
+message RICServices {
+    repeated CCCEventTriggerStyle event_trigger_styles = 1;
+    repeated CCCReportStyle report_styles = 2;
+    repeated CCCInsertStyle insert_styles = 3;
+    repeated CCCControlStyle control_styles = 4;
+    repeated CCCPolicyStyle policy_styles = 5;
+}
+
+message CellsForRanfunctionDefinition {
+    CellGlobalID cell_global_id = 1;
+    repeated CellForRanfunctionDefinition cell_function_definition = 2;
+}
+
+message CellForRanfunctionDefinition {
+    string name = 1;
+    repeated Attribute attribute = 2;
+}
+
+message CCCEventTriggerStyle {
+    string name = 1;
+    int32 type = 2;
+    int32 format_type = 3;
+}
+
+message CCCReportStyle {
+    string name = 1;
+    int32 type = 2;
+    repeated int32 event_trigger_style_for_report = 3;
+    int32 action_definition_format_type = 4;
+    int32 indication_header_format_type = 5;
+    int32 indication_message_format_type = 6;
+}
+
+message CCCInsertStyle {
+    google.protobuf.Empty value = 1;
+}
+
+message CCCControlStyle {
+    int32 type = 1;
+    string name = 2;
+    int32 control_header_format_type = 3;
+    int32 control_message_format_type = 4;
+    int32 ric_process_id_format_type = 5;
+    int32 control_outcome_format_type = 6;
+}
+
+message CCCPolicyStyle {
+    google.protobuf.Empty value = 1;
+}
+
+// enumerated from e2sm_ccc.asn1:141
+enum ResourceType {
+    RESOURCE_TYPE_PRB_UL = 0;
+    RESOURCE_TYPE_PRB_DL = 1;
+    RESOURCE_TYPE_DRB = 2;
+    RESOURCE_TYPE_RRC = 3;
+}
+
+// enumerated from e2sm_ccc.asn1:143
+enum SchedulerType {
+    CCC_SCHEDULER_TYPE_ROUND_ROBIN = 0;
+    CCC_SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1;
+    CCC_SCHEDULER_TYPE_QOS_BASED = 2;
+}
+
+// enumerated from e2sm_ccc.asn1:137
+enum ChangeType {
+    CHANGE_TYPE_NONE = 0;
+    CHANGE_TYPE_MODIFICATION = 1;
+    CHANGE_TYPE_ADDITION = 2;
+    CHANGE_TYPE_DELETION = 3;
+}
+
+// range of Integer from e2sm_common_ies.asn1:444
+message Plmnidentity {
+    bytes value = 1;
+}
+
+// range of Integer from e2sm_common_ies.asn1:460
+message Sst {
+    bytes value = 1;
+}
+
+// range of Integer from e2sm_common_ies.asn1:450
+message Sd {
+    bytes value = 1;
+}
+
+// sequence from e2sm_common_ies.asn1:454
+message SNSsai {
+    Sst sst = 1;
+    Sd sd = 2;
+}
+
+// sequence from e2sm_ccc.asn1:161
+message RrmPolicyMember {
+    Plmnidentity plmn_id = 1;
+    SNSsai snssai = 2;
+}
+
+// sequence from e2sm_ccc.asn1:167
+message RrmPolicyMemberList {
+    repeated RrmPolicyMember rrm_policy_member = 1;
+}
+
+// sequence from e2sm_ccc.asn1:229
+// {O-RRMPolicyRatio}
+message ORRmpolicyRatio {
+    ResourceType resource_type = 1;
+    SchedulerType scheduler_type = 2;
+    RrmPolicyMemberList rrm_policy_member_list = 3;
+    int32 rrm_policy_max_ratio = 4;
+    int32 rrm_policy_min_ratio = 5;
+    int32 rrm_policy_dedicated_ratio = 6;
+}
+
+message ConfigurationStructure {
+    ChangeType change_type = 1;
+    string configuration_name = 2;
+    ORRmpolicyRatio policy_ratio = 3;
+    ORRmpolicyRatio old_policy_ratio = 4;
+}
+
+message ConfigurationStructureList {
+    repeated ConfigurationStructure configuration_structure = 1;
+}
+
 message KPMReportStyle {
     string name = 1;
     int32 type = 2;
     repeated KPMMeasurement measurements = 3;
-
 }
 
 message MHOReportStyle {
