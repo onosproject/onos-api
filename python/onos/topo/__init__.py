@@ -172,6 +172,26 @@ class ComponentType(betterproto.Enum):
     CT_ENB = 4
 
 
+class ResourceType(betterproto.Enum):
+    RESOURCE_TYPE_PRB_UL = 0
+    RESOURCE_TYPE_PRB_DL = 1
+    RESOURCE_TYPE_DRB = 2
+    RESOURCE_TYPE_RRC = 3
+
+
+class SchedulerType(betterproto.Enum):
+    CCC_SCHEDULER_TYPE_ROUND_ROBIN = 0
+    CCC_SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1
+    CCC_SCHEDULER_TYPE_QOS_BASED = 2
+
+
+class ChangeType(betterproto.Enum):
+    CHANGE_TYPE_NONE = 0
+    CHANGE_TYPE_MODIFICATION = 1
+    CHANGE_TYPE_ADDITION = 2
+    CHANGE_TYPE_DELETION = 3
+
+
 class E2SmRsmCommand(betterproto.Enum):
     E2_SM_RSM_COMMAND_SLICE_CREATE = 0
     E2_SM_RSM_COMMAND_SLICE_UPDATE = 1
@@ -1115,6 +1135,18 @@ class MhoRanFunction(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class CccRanFunction(betterproto.Message):
+    id: str = betterproto.string_field(1)
+    ran_structures: List["RanconfigurationStructure"] = betterproto.message_field(2)
+    cells_ran_definition: List[
+        "CellsForRanfunctionDefinition"
+    ] = betterproto.message_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
 class KpmRanFunction(betterproto.Message):
     id: str = betterproto.string_field(1)
     report_styles: List["KpmReportStyle"] = betterproto.message_field(2)
@@ -1222,6 +1254,192 @@ class InsertIndication(betterproto.Message):
 class RanParameter(betterproto.Message):
     id: int = betterproto.int64_field(1)
     name: str = betterproto.string_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RanconfigurationStructure(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    attribute: List["Attribute"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Attribute(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    ric_services: "RicServices" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RicServices(betterproto.Message):
+    event_trigger_styles: List["CccEventTriggerStyle"] = betterproto.message_field(1)
+    report_styles: List["CccReportStyle"] = betterproto.message_field(2)
+    insert_styles: List["CccInsertStyle"] = betterproto.message_field(3)
+    control_styles: List["CccControlStyle"] = betterproto.message_field(4)
+    policy_styles: List["CccPolicyStyle"] = betterproto.message_field(5)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CellsForRanfunctionDefinition(betterproto.Message):
+    cell_global_id: "CellGlobalId" = betterproto.message_field(1)
+    cell_function_definition: List[
+        "CellForRanfunctionDefinition"
+    ] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CellForRanfunctionDefinition(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    attribute: List["Attribute"] = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CccEventTriggerStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    format_type: int = betterproto.int32_field(3)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CccReportStyle(betterproto.Message):
+    name: str = betterproto.string_field(1)
+    type: int = betterproto.int32_field(2)
+    event_trigger_style_for_report: List[int] = betterproto.int32_field(3)
+    action_definition_format_type: int = betterproto.int32_field(4)
+    indication_header_format_type: int = betterproto.int32_field(5)
+    indication_message_format_type: int = betterproto.int32_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CccInsertStyle(betterproto.Message):
+    value: "betterproto_lib_google_protobuf.Empty" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CccControlStyle(betterproto.Message):
+    type: int = betterproto.int32_field(1)
+    name: str = betterproto.string_field(2)
+    control_header_format_type: int = betterproto.int32_field(3)
+    control_message_format_type: int = betterproto.int32_field(4)
+    ric_process_id_format_type: int = betterproto.int32_field(5)
+    control_outcome_format_type: int = betterproto.int32_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class CccPolicyStyle(betterproto.Message):
+    value: "betterproto_lib_google_protobuf.Empty" = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Plmnidentity(betterproto.Message):
+    value: bytes = betterproto.bytes_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Sst(betterproto.Message):
+    value: bytes = betterproto.bytes_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class Sd(betterproto.Message):
+    value: bytes = betterproto.bytes_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class SnSsai(betterproto.Message):
+    sst: "Sst" = betterproto.message_field(1)
+    sd: "Sd" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RrmPolicyMember(betterproto.Message):
+    plmn_id: "Plmnidentity" = betterproto.message_field(1)
+    snssai: "SnSsai" = betterproto.message_field(2)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class RrmPolicyMemberList(betterproto.Message):
+    rrm_policy_member: List["RrmPolicyMember"] = betterproto.message_field(1)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class OrRmpolicyRatio(betterproto.Message):
+    resource_type: "ResourceType" = betterproto.enum_field(1)
+    scheduler_type: "SchedulerType" = betterproto.enum_field(2)
+    rrm_policy_member_list: "RrmPolicyMemberList" = betterproto.message_field(3)
+    rrm_policy_max_ratio: int = betterproto.int32_field(4)
+    rrm_policy_min_ratio: int = betterproto.int32_field(5)
+    rrm_policy_dedicated_ratio: int = betterproto.int32_field(6)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ConfigurationStructure(betterproto.Message):
+    change_type: "ChangeType" = betterproto.enum_field(1)
+    configuration_name: str = betterproto.string_field(2)
+    policy_ratio: "OrRmpolicyRatio" = betterproto.message_field(3)
+    old_policy_ratio: "OrRmpolicyRatio" = betterproto.message_field(4)
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+
+@dataclass(eq=False, repr=False)
+class ConfigurationStructureList(betterproto.Message):
+    configuration_structure: List["ConfigurationStructure"] = betterproto.message_field(
+        1
+    )
 
     def __post_init__(self) -> None:
         super().__post_init__()
