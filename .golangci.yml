@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+linters:
+  enable:
+    - gofmt
+    - revive
+    - misspell
+    - typecheck
+    - errcheck
+    - dogsled
+    - unconvert
+    - nakedret
+    - exportloopref
+run:
+  skip-dirs:
+    - modelplugin
+
+issues:
+  exclude:
+    - Error return value of `.*Close` is not checked
+    - Error return value of `.*Flush` is not checked
+    - Error return value of `.*Write` is not checked
+    - Error return value of `.*Stop` is not checked
