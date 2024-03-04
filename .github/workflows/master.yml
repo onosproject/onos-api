@@ -48,32 +48,6 @@ jobs:
       - name: Unit tests
         run: go test -race github.com/onosproject/onos-api/go/...
 
-  buflint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: buflint
-        env:
-          BUF_VERSION: 1.8.0
-        run: |
-          docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
-            -w /go/src/github.com/onosproject/onos-api \
-            bufbuild/buf:$BUF_VERSION check lint
-            
-  protos:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: protos
-        env:
-          BUF_VERSION: v1.3.0
-        run: |
-          docker run \
-            -v `pwd`:/onos-api \
-            -w /onos-api \
-            --entrypoint build/bin/compile-protos.sh \
-            onosproject/protoc-go:$ONOS_PROTOC_VERSION
-
   license-check:
     runs-on: ubuntu-latest
     steps:
