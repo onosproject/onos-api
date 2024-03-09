@@ -32,10 +32,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.19'
-      - uses: golangci/golangci-lint-action@v3.7.0
-        with:
-          version: latest
-          args: -v --config ./.golangci.yml --timeout=15m
+      - name: Lint
+        run: golangci-lint run -v --config .golangci.yml --timeout=15m
 
   unit-tests:
     runs-on: ubuntu-latest
