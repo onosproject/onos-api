@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - GHA-integration
   pull_request:
 
 jobs:
@@ -23,6 +24,9 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./go
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -31,7 +35,7 @@ jobs:
       - uses: golangci/golangci-lint-action@v6
         with:
           version: latest
-          args: -v --config .golangci.yml --timeout=15m
+          args: -v --config ../.golangci.yml --timeout=15m
 
   unit-tests:
     runs-on: ubuntu-latest
