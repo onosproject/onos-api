@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - GHA-integration
   pull_request:
 
 jobs:
@@ -24,9 +23,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./go
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
