@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+
 .PHONY: build
 
 ONOS_PROTOC_VERSION := v1.3.0
