@@ -40,3 +40,4 @@ dist/
 
 build/build-tools
 vendor
+venv
