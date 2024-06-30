@@ -12,7 +12,7 @@ GOLANG_CI_VERSION := v1.52.2
 all: build
 
 build: # @HELP compile Golang sources
-	cd go && go build ./...
+	cd go && go build ./... && gofmt -s -w .
 
 test: # @HELP run the unit tests and source code validation
 test: build lint license

@@ -34,8 +34,8 @@ const (
 	testPrecision0 = uint8(0)
 )
 const (
-	testFloatNeg = -3.4E+38
-	testFloatPos = 3.4E+38
+	testFloatNeg = -3.4e+38
+	testFloatPos = 3.4e+38
 )
 const (
 	testStringBytes    = "onos rocks!"

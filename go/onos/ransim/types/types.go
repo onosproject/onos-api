@@ -24,8 +24,9 @@ type CellID uint16
 
 // NodeID is a general abstraction of a global E2 node identifier.
 // It holds appropriately bit-shifted concatenation of either:
-//		- [PLMNID + GnbID] or
-//		- [PLMNID + EnbID]
+//   - [PLMNID + GnbID] or
+//   - [PLMNID + EnbID]
+//
 // To extract the corresponding components, application must use the
 // appropriate 4G or 5G method provided below.
 type NodeID uint64
