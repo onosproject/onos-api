@@ -78,16 +78,16 @@ func (ue *UE) SetAspect(value proto.Message) error {
 	}
 	ue.Aspects[proto.MessageName(value)] = &types.Any{
 		TypeUrl: proto.MessageName(value),
-		Value: writer.Bytes(),
+		Value:   writer.Bytes(),
 	}
 	return nil
 }
 
 // SetAspectBytes applies the specified aspect as raw JSON bytes to the given UE.
 func (ue *UE) SetAspectBytes(aspectType string, jsonValue []byte) error {
-	any := &types.Any {
+	any := &types.Any{
 		TypeUrl: aspectType,
-		Value: jsonValue,
+		Value:   jsonValue,
 	}
 	if ue.Aspects == nil {
 		ue.Aspects = make(map[string]*types.Any)

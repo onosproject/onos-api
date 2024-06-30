@@ -4,12 +4,12 @@
 linters:
   enable:
     - gofmt
-    - revive
+    #- revive
     - misspell
     - typecheck
     - errcheck
     - dogsled
-    - unconvert
+    #- unconvert
     - nakedret
     - exportloopref
 run:

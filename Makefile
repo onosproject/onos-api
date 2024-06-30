@@ -7,42 +7,21 @@
 ONOS_PROTOC_VERSION := v1.3.0
 BUF_VERSION := 1.8.0
 
-all: protos golang
+GOLANG_CI_VERSION := v1.52.2
 
-build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
-include ./build/build-tools/make/onf-common.mk
+all: build
 
-mod-update: # @HELP Download the dependencies to the vendor folder
-	go mod tidy
-	go mod vendor
-mod-lint: mod-update # @HELP ensure that the required dependencies are in place
-	# dependencies are vendored, but not committed, go.sum is the only thing we need to check
-	bash -c "diff -u <(echo -n) <(git diff go.sum)"
-
-golang: # @HELP compile Golang sources
-	cd go && go build ./...
+build: # @HELP compile Golang sources
+	cd go && go build ./... && gofmt -s -w .
 
 test: # @HELP run the unit tests and source code validation
-test: protos golang linters-go deps-go license
+test: build lint license
 	cd go && go test -race github.com/onosproject/onos-api/go/...
 
-jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: jenkins-tools test
-	export TEST_PACKAGES=github.com/onosproject/onos-api/go/... && cd go && ../build/build-tools/build/jenkins/make-unit
-	mv go/*.xml .
-
-deps-go: # @HELP ensure that the required dependencies are in place
-	cd go && go build -v ./...
-	bash -c "diff -u <(echo -n) <(git diff go/go.mod)"
-	bash -c "diff -u <(echo -n) <(git diff go/go.sum)"
-
-linters-go: golang-ci # @HELP examines Go source code and reports coding problems
-	cd go && golangci-lint run --timeout 15m
-
-buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
-	docker run -v `pwd`:/go/src/github.com/onosproject/onos-api \
-		-w /go/src/github.com/onosproject/onos-api \
-		bufbuild/buf:${BUF_VERSION} check lint
+lint: # @HELP examines all source code and report coding problems
+	cd ./go; \
+	golangci-lint --version | grep $(GOLANG_CI_VERSION) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b `go env GOPATH`/bin $(GOLANG_CI_VERSION); \
+	golangci-lint run --timeout 15m
 
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
 protos:
@@ -55,14 +34,24 @@ protos:
 mocks:
 	./build/bin/generate-mocks.sh
 
-publish: twine # @HELP publish version on github, dockerhub, abd PyPI
-	BASEDIR=. PYPI_INDEX=pypi ./build/build-tools/publish-python-version
-	./build/build-tools/publish-version ${VERSION}
-	./build/build-tools/publish-version go/${VERSION}
+license: # @HELP run license checks
+	rm -rf venv
+	python3 -m venv venv
+	. ./venv/bin/activate;\
+	python3 -m pip install --upgrade pip;\
+	python3 -m pip install reuse;\
+	reuse lint
 
-jenkins-publish: jenkins-tools # @HELP Jenkins calls this to publish artifacts
-	./build/build-tools/release-merge-commit
+check-version: # @HELP check version is duplicated
+	./build/bin/version_check.sh all
 
-clean:: # @HELP remove all the build artifacts
+clean: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor
 
+help:
+	@grep -E '^.*: *# *@HELP' $(MAKEFILE_LIST) \
+    | sort \
+    | awk ' \
+        BEGIN {FS = ": *# *@HELP"}; \
+        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
+    '

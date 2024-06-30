@@ -20,6 +20,7 @@ type Type string
 
 // Role is a device role
 type Role string
+
 // Version is a device version
 type Version string
 
