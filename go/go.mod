@@ -6,7 +6,7 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.3
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.6.0
 	github.com/openconfig/gnmi v0.9.1
 	github.com/stretchr/testify v1.8.2
 	google.golang.org/grpc v1.54.0
