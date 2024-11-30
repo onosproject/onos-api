@@ -1,0 +1,87 @@
+// SPDX-FileCopyrightText: 2023-present Intel Corporation
+//
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package onos.ccc;
+
+service Ccc {
+  // Slice management
+  rpc UpdateSlice (UpdateSliceRequest) returns (UpdateSliceResponse);
+}
+
+// enumerated from e2sm_ccc.asn1:141
+enum ResourceType {
+  RESOURCE_TYPE_PRB_UL = 0;
+  RESOURCE_TYPE_PRB_DL = 1;
+  RESOURCE_TYPE_DRB = 2;
+  RESOURCE_TYPE_RRC = 3;
+}
+
+// enumerated from e2sm_ccc.asn1:143
+enum SchedulerType {
+  SCHEDULER_TYPE_ROUND_ROBIN = 0;
+  SCHEDULER_TYPE_PROPORTIONALLY_FAIR = 1;
+  SCHEDULER_TYPE_QOS_BASED = 2;
+};
+
+// range of Integer from e2sm_common_ies.asn1:444
+message Plmnidentity {
+  bytes value = 1;
+};
+
+// range of Integer from e2sm_common_ies.asn1:450
+message Sd {
+  bytes value = 1;
+};
+
+// sequence from e2sm_common_ies.asn1:454
+message SNSsai {
+  Sst sst = 1;
+  Sd sd = 2;
+};
+
+// range of Integer from e2sm_common_ies.asn1:460
+message Sst {
+  bytes value = 1;
+};
+
+// sequence from e2sm_ccc.asn1:161
+message RrmPolicyMember {
+  Plmnidentity plmn_id = 1;
+  SNSsai snssai = 2;
+};
+
+// sequence from e2sm_ccc.asn1:167
+message RrmPolicyMemberList {
+  repeated RrmPolicyMember rrm_policy_member = 1;
+};
+
+// sequence from e2sm_ccc.asn1:229
+// {O-RRMPolicyRatio}
+message ORRmpolicyRatio {
+  ResourceType resource_type = 1;
+  SchedulerType scheduler_type = 2;
+  RrmPolicyMemberList rrm_policy_member_list = 3;
+  int32 rrm_policy_max_ratio = 4;
+  int32 rrm_policy_min_ratio = 5;
+  int32 rrm_policy_dedicated_ratio = 6;
+};
+
+// =====================
+// Non-standard messages
+
+message Ack {
+  bool success = 1;
+  string cause = 2;
+}
+
+message UpdateSliceRequest {
+  string e2_node_id = 1;
+  ORRmpolicyRatio rrm_policy_ratio = 2;
+}
+
+message UpdateSliceResponse {
+  Ack ack = 1;
+}
